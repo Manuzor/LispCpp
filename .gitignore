@@ -1,0 +1,15 @@
+# Ignored directories
+output/*
+temp/*
+
+ipch
+
+# Ignored file types
+*.obj
+*.exe
+*.dll
+*.o
+*.ilk
+*.exp
+*.*sdf
+*.suo
