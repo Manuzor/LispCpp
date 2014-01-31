@@ -4,11 +4,11 @@
 lcpp::Reader::
 Reader()
 {
-	printf("Created reader.\n");
+    printf("Created reader.\n");
 }
 
 lcpp::Reader::
 ~Reader()
 {
-	printf("Destroyed reader.\n");
+    printf("Destroyed reader.\n");
 }

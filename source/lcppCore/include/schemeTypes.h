@@ -2,50 +2,55 @@
 
 namespace lcpp
 {
-	class SchemeNil;
-	class SchemeBool;
-	class SchemeCons;
+    class SchemeNil;
+    class SchemeBool;
+    class SchemeCons;
 
-	class SchemeObject
-	{
-	public:
-		virtual ~SchemeObject() = 0 {}
-	};
+    class SchemeObject
+    {
+    public:
+        virtual ~SchemeObject() = 0 {}
+    };
 
-	class SchemeNil :
-		public SchemeObject
-	{
-	public:
-		inline virtual ~SchemeNil(){}
+    class SchemeNil :
+        public SchemeObject
+    {
+    public:
+        inline virtual ~SchemeNil(){}
 
-		const SchemeBool& operator==(const SchemeObject& obj) const;
-	} g_nil;
+        const SchemeBool& operator==(const SchemeObject& obj) const;
+    } g_nil;
 
-	class SchemeBool
-	{
-	public:
-		inline SchemeBool(){}
-		inline virtual ~SchemeBool(){}
+    class SchemeBool
+    {
+    public:
+        inline SchemeBool(){}
+        inline virtual ~SchemeBool(){}
 
-		inline static const SchemeBool& create(bool value)
-		{
-			return value ? g_true : g_false;
-		}
-	} const g_true, const g_false;
+        static const SchemeBool& create(bool value);
+    };
 
-	class SchemeCons :
-		public SchemeObject
-	{
-	public:
-		inline SchemeCons(const SchemeObject& car, const SchemeObject& cdr = g_nil)
-		: m_car(car),
-		m_cdr(cdr)
-		{}
-		inline virtual ~SchemeCons(){  }
 
-	private:
+    class SchemeCons :
+        public SchemeObject
+    {
+    public:
+        inline SchemeCons(const SchemeObject& car, const SchemeObject& cdr = g_nil) :
+            m_car(car),
+            m_cdr(cdr)
+        {}
+        inline virtual ~SchemeCons(){  }
 
-		const SchemeObject& m_car;
-		const SchemeObject& m_cdr;
-	};
+    private:
+
+        const SchemeObject& m_car;
+        const SchemeObject& m_cdr;
+    };
+
+    namespace constants
+    {
+        const SchemeNil Nil;
+        const SchemeBool True;
+        const SchemeBool False;
+    }
 }

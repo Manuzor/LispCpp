@@ -2,13 +2,13 @@
 
 namespace lcpp
 {
-	class LCPP_CORE_API Reader
-	{
-	public:
-		Reader();
-		~Reader();
+    class LCPP_CORE_API Reader
+    {
+    public:
+        Reader();
+        ~Reader();
 
-	private:
+    private:
 
-	};
+    };
 }
