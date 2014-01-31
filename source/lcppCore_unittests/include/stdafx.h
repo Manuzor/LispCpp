@@ -11,3 +11,5 @@
 #include "CppUnitTest.h"
 
 #include <tchar.h>
+
+#include "lcppCore.h"

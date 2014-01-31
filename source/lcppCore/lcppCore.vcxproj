@@ -142,14 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="allocator.h" />
+    <ClInclude Include="include\allocator.h" />
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\lcppCore.h" />
     <ClInclude Include="include\reader.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="schemeTypes.h" />
+    <ClInclude Include="include\schemeTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\schemeTypes.cpp" />
     <ClCompile Include="src\reader.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

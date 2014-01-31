@@ -1,15 +1,19 @@
 #include "stdafx.h"
-#include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace lcppCore_unittests
+namespace lcpp
 {		
-	TEST_CLASS(UnitTest1)
+	TEST_CLASS(SchemeNil)
 	{
 	public:
-		
-		TEST_METHOD(TestMethod1)
+
+		TEST_METHOD(Test1)
+		{
+			Assert::AreEqual(g_nil, g_nil, _T("Scheme nil must equal itself!"));
+		}
+
+		TEST_METHOD(Test2)
 		{
 			// TODO: Your test code here
 			Assert::Fail(_T("Not implemented!"));
