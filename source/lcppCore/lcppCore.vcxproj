@@ -142,10 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="allocator.h" />
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\lcppCore.h" />
     <ClInclude Include="include\reader.h" />
     <ClInclude Include="include\stdafx.h" />
+    <ClInclude Include="schemeTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\reader.cpp" />
