@@ -13,3 +13,5 @@
 #include <tchar.h>
 
 #include "lcppCore.h"
+
+#include "toString.h"

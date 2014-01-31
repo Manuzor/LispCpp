@@ -166,6 +166,7 @@
     <ClCompile Include="src\types.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="toString.h" />
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

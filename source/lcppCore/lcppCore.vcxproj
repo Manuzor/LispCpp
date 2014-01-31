@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="include\allocator.h" />
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\lcppCore.h" />
