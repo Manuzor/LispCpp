@@ -5,16 +5,23 @@ const lcpp::SchemeNil g_nil;
 const lcpp::SchemeBool g_true;
 const lcpp::SchemeBool g_false;
 
+
+#pragma region Void
+const lcpp::SchemeBool& lcpp::SchemeVoid::operator==(const SchemeObject& obj) const
+{
+    return SchemeBool::create(&obj == this);
+}
+#pragma endregion
+
 #pragma region Nil
 const lcpp::SchemeBool& lcpp::SchemeNil::operator==(const lcpp::SchemeObject& obj) const
 {
-    bool res = &obj == this;
     return SchemeBool::create(&obj == this);
 }
 
 lcpp::String lcpp::SchemeNil::toString() const
 {
-    return _T("#v");
+    return _T("#n");
 }
 
 #pragma endregion

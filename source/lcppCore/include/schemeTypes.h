@@ -12,6 +12,27 @@ namespace lcpp
         virtual String toString() const = 0;
     };
 
+
+#pragma region Void
+    class LCPP_CORE_API SchemeVoid :
+        public SchemeObject
+    {
+    public:
+        inline SchemeVoid(){}
+        inline virtual ~SchemeVoid(){}
+
+        virtual const SchemeBool& operator==(const SchemeObject& obj) const;
+        inline virtual String toString() const override
+        {
+            return _T("#v");
+        }
+
+    private:
+        inline SchemeVoid(const SchemeVoid&){}
+        inline void operator=(const SchemeVoid&){}
+    };
+#pragma endregion
+
 #pragma region Nil
     class LCPP_CORE_API SchemeNil :
         public SchemeObject
@@ -53,6 +74,14 @@ namespace lcpp
     const SchemeBool g_false;
 #pragma endregion
 
+    class SchemeNumber :
+        public SchemeObject
+    {
+    public:
+    	inline SchemeNumber(){}
+    	inline virtual ~SchemeNumber(){}
+    };
+
 #pragma region Cons
     class LCPP_CORE_API SchemeCons :
         public SchemeObject
@@ -83,5 +112,10 @@ namespace lcpp
         const SchemeObject* m_cdr;
     };
 #pragma endregion
+    
+    String toString(const char* str)
+    {
+        return _T("");
+    }
 
 }

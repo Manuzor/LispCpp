@@ -18,7 +18,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\types.cpp">
+    <ClCompile Include="src\schemeTypes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
