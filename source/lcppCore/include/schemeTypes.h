@@ -42,7 +42,7 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class SchemeObject
+    class LCPP_CORE_API SchemeObject
     {
     public:
 
@@ -55,7 +55,7 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class SchemeVoid :
+    class LCPP_CORE_API SchemeVoid :
         public SchemeObject
     {
     public:
@@ -70,13 +70,10 @@ namespace lcpp
     private:
         DISALLOW_COPY_AND_ASSIGNMENT(SchemeVoid);
     };
-    //const SchemeVoid g_void;
-    ezStatic<const SchemeVoid> g_void;
-    #define SCHEME_VOID g_void.GetStatic()
 
     //////////////////////////////////////////////////////////////////////////
 
-    class SchemeBool :
+    class LCPP_CORE_API SchemeBool :
         public SchemeObject
     {
     public:
@@ -95,10 +92,6 @@ namespace lcpp
     private:
         DISALLOW_COPY_AND_ASSIGNMENT(SchemeBool);
     };
-    ezStatic<const SchemeBool> g_true;
-    ezStatic<const SchemeBool> g_false;
-    #define SCHEME_TRUE g_true.GetStatic()
-    #define SCHEME_FALSE g_false.GetStatic()
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -147,7 +140,7 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class SchemeNil :
+    class LCPP_CORE_API SchemeNil :
         public SchemeObject
     {
     public:
@@ -162,8 +155,23 @@ namespace lcpp
     private:
         DISALLOW_COPY_AND_ASSIGNMENT(SchemeNil);
     };
-    ezStatic<const SchemeNil> g_nil;
-    #define SCHEME_NIL g_nil.GetStatic()
+
+    //////////////////////////////////////////////////////////////////////////
+
+    // namespace for all singletons such as bool types and void.
+    namespace singletons
+    {
+        extern ezStatic<const SchemeVoid> g_void;
+        extern ezStatic<const SchemeBool> g_true;
+        extern ezStatic<const SchemeBool> g_false;
+        extern ezStatic<const SchemeNil> g_nil;
+    };
+
+    // Easy access macros for all singleton instances
+    #define SCHEME_VOID  ::lcpp::singletons::g_void.GetStatic()
+    #define SCHEME_NIL   ::lcpp::singletons::g_nil.GetStatic()
+    #define SCHEME_TRUE  ::lcpp::singletons::g_true.GetStatic()
+    #define SCHEME_FALSE ::lcpp::singletons::g_false.GetStatic()
 
 #include "implementation/schemeTypes_inl.h"
 }

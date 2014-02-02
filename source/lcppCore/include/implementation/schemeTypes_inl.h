@@ -117,9 +117,14 @@ SchemeCons::~SchemeCons()
 
 inline
 const SchemeBool&
-SchemeCons::operator==( const SchemeObject& obj ) const
+SchemeCons::operator==(const SchemeObject& obj) const
 {
-    return SCHEME_FALSE;
+    if (!obj.is(SchemeType::Cons))
+    {
+        return SCHEME_FALSE;
+    }
+    const auto& other = static_cast<const SchemeCons&>(obj);
+    return SchemeBool::create(car() == other.car() && cdr() == other.cdr());
 }
 
 inline
@@ -127,13 +132,7 @@ ezString
 SchemeCons::toString() const
 {
     ezStringBuilder builder;
-    builder.AppendFormat("(%s", m_car->toString().GetData());
-
-    if (m_cdr->is(SchemeType::Cons))
-    {
-    }
-
-    builder.Append(")");
+    builder.AppendFormat("(%s %s)", m_car->toString().GetData(), m_cdr->toString().GetData());
     return builder.GetData();
 }
 
