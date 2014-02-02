@@ -30,7 +30,7 @@
     <ClInclude Include="include\allocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="exceptions.h">
+    <ClInclude Include="include\exceptions\exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -43,5 +43,10 @@
       <UniqueIdentifier>{031181fa-f0e4-4da8-972c-ec01060d34ac}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\implementation\schemeTypes_inl.h">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

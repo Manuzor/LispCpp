@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "reader.h"
 
+#include "exceptions/exceptions.h"
+
 lcpp::Reader::
 Reader()
 {

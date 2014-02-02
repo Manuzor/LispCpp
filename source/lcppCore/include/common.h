@@ -1,7 +1,4 @@
 #pragma once
-#include <tchar.h>
-#include <string>
-#include <sstream>
 
 #ifdef LCPP_CORE_EXPORT
 #define LCPP_CORE_API __declspec(dllexport)
@@ -9,8 +6,11 @@
 #define LCPP_CORE_API __declspec(dllimport)
 #endif // LCPP_CORE_EXPORT
 
-namespace lcpp
-{
-    typedef std::wstring String;
-    typedef std::wstringstream StringStream;
-}
+// ezEngine stuff
+#include <Foundation/Basics/IncludeAll.cpp>
+
+#include "exceptions/exceptions.h"
+
+#define DISALLOW_COPY_AND_ASSIGNMENT(type) private:\
+    type(const type&);\
+    void operator=(const type&)

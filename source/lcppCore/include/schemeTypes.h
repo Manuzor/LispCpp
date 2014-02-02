@@ -2,120 +2,168 @@
 
 namespace lcpp
 {
+    class SchemeObject;
     class SchemeBool;
+    class SchemeNil;
+
+    //////////////////////////////////////////////////////////////////////////
+
+    struct SchemeType
+    {
+        enum Enum
+        {
+            Object,
+            Void,
+            Nil,
+            Bool,
+            Cons,
+            Number,
+            String
+        };
+
+        template<typename T>
+        inline static SchemeType::Enum of(const T& instance)
+        {
+            return T::Type;
+        }
+
+        template<>
+        inline static SchemeType::Enum of<SchemeObject>(const SchemeObject& instance)
+        {
+            return SchemeType::Object;
+        }
+
+    private:
+        DISALLOW_COPY_AND_ASSIGNMENT(SchemeType);
+        SchemeType();
+    };
+
+    #define SCHEME_TYPE_DECLARATION(type) static const SchemeType::Enum Type = SchemeType::type;
+
+    //////////////////////////////////////////////////////////////////////////
 
     class SchemeObject
     {
     public:
+
         virtual ~SchemeObject() = 0 {}
         virtual const SchemeBool& operator==(const SchemeObject& other) const = 0;
-        virtual String toString() const = 0;
+        virtual ezString toString() const = 0;
+
+        virtual const SchemeBool& is(SchemeType::Enum type) const;
     };
 
+    //////////////////////////////////////////////////////////////////////////
 
-#pragma region Void
-    class LCPP_CORE_API SchemeVoid :
+    class SchemeVoid :
         public SchemeObject
     {
     public:
-        inline SchemeVoid(){}
-        inline virtual ~SchemeVoid(){}
+        SCHEME_TYPE_DECLARATION(Void);
 
-        virtual const SchemeBool& operator==(const SchemeObject& obj) const;
-        inline virtual String toString() const override
-        {
-            return _T("#v");
-        }
+        SchemeVoid();
+        virtual ~SchemeVoid();
+
+        virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
+        virtual ezString toString() const override;
 
     private:
-        inline SchemeVoid(const SchemeVoid&){}
-        inline void operator=(const SchemeVoid&){}
+        DISALLOW_COPY_AND_ASSIGNMENT(SchemeVoid);
     };
-#pragma endregion
+    //const SchemeVoid g_void;
+    ezStatic<const SchemeVoid> g_void;
+    #define SCHEME_VOID g_void.GetStatic()
 
-#pragma region Nil
-    class LCPP_CORE_API SchemeNil :
+    //////////////////////////////////////////////////////////////////////////
+
+    class SchemeBool :
         public SchemeObject
     {
     public:
-        inline SchemeNil(){}
-        inline virtual ~SchemeNil(){}
+        SCHEME_TYPE_DECLARATION(Bool);
 
-        virtual const SchemeBool& operator==(const SchemeObject& obj) const;
-        virtual String toString() const override;
-
-    private:
-        inline SchemeNil(const SchemeNil&){}
-        inline void operator=(const SchemeNil&){}
-    };
-    const SchemeNil g_nil;
-#pragma endregion
-
-#pragma region Bool
-    class LCPP_CORE_API SchemeBool :
-        public SchemeObject
-    {
-    public:
-        inline SchemeBool(){}
-        inline virtual ~SchemeBool(){}
+        SchemeBool();
+        virtual ~SchemeBool();
 
         static const SchemeBool& create(bool value);
 
-        virtual const SchemeBool& operator==(const SchemeObject& obj) const;
-        virtual String toString() const override;
+        virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
+        virtual ezString toString() const override;
 
         operator bool() const;
 
     private:
-        inline SchemeBool(const SchemeBool&){}
-        inline void operator=(const SchemeBool&){}
+        DISALLOW_COPY_AND_ASSIGNMENT(SchemeBool);
     };
-    const SchemeBool g_true;
-    const SchemeBool g_false;
-#pragma endregion
+    ezStatic<const SchemeBool> g_true;
+    ezStatic<const SchemeBool> g_false;
+    #define SCHEME_TRUE g_true.GetStatic()
+    #define SCHEME_FALSE g_false.GetStatic()
 
+    //////////////////////////////////////////////////////////////////////////
+
+    template<typename NUMBER_TYPE>
     class SchemeNumber :
         public SchemeObject
     {
     public:
-    	inline SchemeNumber(){}
-    	inline virtual ~SchemeNumber(){}
+        SCHEME_TYPE_DECLARATION(Number);
+
+        SchemeNumber(NUMBER_TYPE value);
+        virtual ~SchemeNumber();
+
+        inline NUMBER_TYPE value() const { return m_value; }
+        inline void value(NUMBER_TYPE value) const { m_value = value; }
+
+    private:
+
+        NUMBER_TYPE m_value;
     };
 
-#pragma region Cons
-    class LCPP_CORE_API SchemeCons :
+    //////////////////////////////////////////////////////////////////////////
+
+    class SchemeCons :
         public SchemeObject
     {
     public:
-        inline SchemeCons(const SchemeObject& car, const SchemeObject& cdr = g_nil) :
-            m_car(&car),
-            m_cdr(&cdr)
-        {}
-        inline virtual ~SchemeCons(){}
+        SCHEME_TYPE_DECLARATION(Cons);
+
+        SchemeCons(const SchemeObject& car, const SchemeObject& cdr);
+        virtual ~SchemeCons();
 
         virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
-        inline virtual String toString() const override
-        {
-            StringStream stream;
-            stream << _T("(") << m_car->toString() << _T(" . ") << m_cdr->toString() << _T(")");
-            return stream.str();
-        }
+        virtual ezString toString() const override;
 
-        const SchemeObject& car() const { return *m_car; }
-        void car(const SchemeObject& value){ m_car = &value; }
-        const SchemeObject& cdr() const { return *m_cdr; }
-        void cdr(const SchemeObject& value){ m_cdr = &value; }
+        inline const SchemeObject& car() const { return *m_car; }
+        inline void car(const SchemeObject& value){ m_car = &value; }
+        inline const SchemeObject& cdr() const { return *m_cdr; }
+        inline void cdr(const SchemeObject& value){ m_cdr = &value; }
 
     private:
 
         const SchemeObject* m_car;
         const SchemeObject* m_cdr;
     };
-#pragma endregion
-    
-    String toString(const char* str)
-    {
-        return _T("");
-    }
 
+    //////////////////////////////////////////////////////////////////////////
+
+    class SchemeNil :
+        public SchemeObject
+    {
+    public:
+        SCHEME_TYPE_DECLARATION(Nil);
+
+        SchemeNil();
+        virtual ~SchemeNil();
+
+        virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
+        virtual ezString toString() const override;
+
+    private:
+        DISALLOW_COPY_AND_ASSIGNMENT(SchemeNil);
+    };
+    ezStatic<const SchemeNil> g_nil;
+    #define SCHEME_NIL g_nil.GetStatic()
+
+#include "implementation/schemeTypes_inl.h"
 }

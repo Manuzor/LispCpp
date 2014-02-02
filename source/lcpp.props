@@ -5,6 +5,7 @@
     <OutRoot>$(SolutionDir)../output/</OutRoot>
     <TempRoot>$(SolutionDir)../temp/</TempRoot>
     <CoreSourceDir>$(SolutionDir)lcppCore/</CoreSourceDir>
+    <ThirdpartyRoot>$(SolutionDir)../thirdparty/</ThirdpartyRoot>
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>$(OutRoot)/bin$(PlatformArchitecture)/</OutDir>
@@ -13,11 +14,12 @@
   <ItemDefinitionGroup>
     <Link />
     <ClCompile>
-      <AdditionalIncludeDirectories>$(CoreSourceDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(CoreSourceDir)include;$(ThirdpartyRoot)ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OutRoot)lib$(PlatformArchitecture)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lcppCore$(ConfigurationSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ezFoundation.lib;ezThirdParty.lib;lcppCore$(ConfigurationSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -30,6 +32,9 @@
     </BuildMacro>
     <BuildMacro Include="CoreSourceDir">
       <Value>$(CoreSourceDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ThirdpartyRoot">
+      <Value>$(ThirdpartyRoot)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
