@@ -7,6 +7,7 @@ SchemeObject::is(SchemeType::Enum type) const
 }
 
 //////////////////////////////////////////////////////////////////////////
+SCHEME_TYPE_DEFINITION(SchemeVoid);
 
 inline
 SchemeVoid::SchemeVoid()
@@ -33,6 +34,7 @@ SchemeVoid::toString() const
 }
 
 //////////////////////////////////////////////////////////////////////////
+SCHEME_TYPE_DEFINITION(SchemeBool);
 
 inline
 SchemeBool::SchemeBool()
@@ -85,6 +87,7 @@ bool() const
 }
 
 //////////////////////////////////////////////////////////////////////////
+SCHEME_TYPE_DEFINITION_TPL1(SchemeNumber, NUMBER_TYPE);
 
 template<typename NUMBER_TYPE>
 inline
@@ -100,6 +103,7 @@ SchemeNumber<NUMBER_TYPE>::~SchemeNumber()
 }
 
 //////////////////////////////////////////////////////////////////////////
+SCHEME_TYPE_DEFINITION(SchemeCons);
 
 inline
 SchemeCons::SchemeCons(const SchemeObject& car, const SchemeObject& cdr) :
@@ -137,6 +141,7 @@ SchemeCons::toString() const
 }
 
 //////////////////////////////////////////////////////////////////////////
+SCHEME_TYPE_DEFINITION(SchemeNil);
 
 inline
 SchemeNil::SchemeNil()

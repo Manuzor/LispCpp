@@ -38,7 +38,10 @@ namespace lcpp
         SchemeType();
     };
 
-    #define SCHEME_TYPE_DECLARATION(type) static const SchemeType::Enum Type = SchemeType::type;
+    #define SCHEME_TYPE_DECLARATION(typeValue) static const ::lcpp::SchemeType::Enum Type = ::lcpp::SchemeType::typeValue;\
+        virtual const ::lcpp::SchemeBool& is(::lcpp::SchemeType::Enum type) const override;
+    #define SCHEME_TYPE_DEFINITION(classname) inline const ::lcpp::SchemeBool& ::lcpp::classname::is(::lcpp::SchemeType::Enum type) const { return ::lcpp::SchemeBool::create(type == ::lcpp::classname::Type); }
+    #define SCHEME_TYPE_DEFINITION_TPL1(classname, classtypename) template<typename classtypename> inline const ::lcpp::SchemeBool& ::lcpp::classname<classtypename>::is(::lcpp::SchemeType::Enum type) const { return ::lcpp::SchemeBool::create(type == ::lcpp::classname<classtypename>::Type); }
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -161,10 +164,10 @@ namespace lcpp
     // namespace for all singletons such as bool types and void.
     namespace singletons
     {
-        extern ezStatic<const SchemeVoid> g_void;
-        extern ezStatic<const SchemeBool> g_true;
-        extern ezStatic<const SchemeBool> g_false;
-        extern ezStatic<const SchemeNil> g_nil;
+        const ezStatic<SchemeVoid> g_void;
+        const ezStatic<SchemeNil> g_nil;
+        const ezStatic<SchemeBool> g_true;
+        const ezStatic<SchemeBool> g_false;
     };
 
     // Easy access macros for all singleton instances

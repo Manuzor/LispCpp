@@ -4,9 +4,36 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace lcpp
 {
+    TEST_MODULE_INITIALIZE(SchemeTypeTests_Initialize)
+    {
+        ezStartup::StartupCore();
+    }
+
+    TEST_MODULE_CLEANUP(SchemeTypeTests_Cleanup)
+    {
+        ezStartup::ShutdownBase();
+    }
+
+    TEST_CLASS(Test_SchemeType)
+    {
+    public:
+        TEST_METHOD(of)
+        {
+            Assert::IsTrue(SchemeType::of(SCHEME_VOID) == SchemeType::Void, L"SchemeType::of returns the type for SCHEME_VOID!");
+            Assert::IsTrue(SchemeType::of(SCHEME_NIL) == SchemeType::Nil, L"SchemeType::of returns the type for SCHEME_NIL!");
+            Assert::IsTrue(SchemeType::of(SCHEME_TRUE) == SchemeType::Bool, L"SchemeType::of returns the type for SCHEME_TRUE!");
+            Assert::IsTrue(SchemeType::of(SCHEME_FALSE) == SchemeType::Bool, L"SchemeType::of returns the type for SCHEME_FALSE!");
+        }
+    };
+
     TEST_CLASS(Test_SchemeNil)
     {
     public:
+
+        TEST_METHOD(Type)
+        {
+            Assert::IsTrue(SCHEME_NIL.is(SchemeType::Nil), L"Wrong type declaration for SCHEME_NIL!");
+        }
 
         TEST_METHOD(Equality)
         {
@@ -17,6 +44,11 @@ namespace lcpp
             Assert::AreNotSame<SchemeObject>(SCHEME_NIL, SCHEME_FALSE, L"Scheme nil and scheme false must not be same instance!");
             Assert::AreNotSame<SchemeObject>(SCHEME_TRUE, SCHEME_NIL, L"Scheme nil and scheme true must not be same instance!");
             Assert::AreNotSame<SchemeObject>(SCHEME_FALSE, SCHEME_NIL, L"Scheme nil and scheme false must not be same instance!");
+
+            Assert::AreEqual<SchemeObject>(SCHEME_NIL, SCHEME_TRUE, L"Wrong result for equality operator!");
+            Assert::AreEqual<SchemeObject>(SCHEME_NIL, SCHEME_FALSE, L"Wrong result for equality operator!");
+            Assert::AreEqual<SchemeObject>(SCHEME_NIL, SCHEME_VOID, L"Wrong result for equality operator!");
+            Assert::AreEqual<SchemeObject>(SCHEME_NIL, SCHEME_TRUE, L"Wrong result for equality operator!");
         }
 
         TEST_METHOD(toString)
@@ -28,6 +60,12 @@ namespace lcpp
     TEST_CLASS(Test_SchemeBool)
     {
     public:
+
+        TEST_METHOD(Type)
+        {
+            Assert::IsTrue(SCHEME_TRUE.is(SchemeType::Bool), L"Wrong type declaration for SCHEME_TRUE!");
+            Assert::IsTrue(SCHEME_FALSE.is(SchemeType::Bool), L"Wrong type declaration for SCHEME_FALSE!");
+        }
 
         TEST_METHOD(Equality)
         {
