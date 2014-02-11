@@ -12,6 +12,6 @@
 
 #include <tchar.h>
 
-#include "lcppCore.h"
+#include "lcpp/api.h"
 
 #include "toString.h"

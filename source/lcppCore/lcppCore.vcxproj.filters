@@ -1,36 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\reader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\schemeTypes.cpp">
+    <ClCompile Include="src\core\reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\schemeTypes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\common.h">
+    <ClInclude Include="include\lcpp\exceptions\exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\lcppCore.h">
+    <ClInclude Include="include\lcpp\foundation\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\reader.h">
+    <ClInclude Include="include\lcpp\foundation\allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lcpp\foundation\newdelete.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lcpp\core\reader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lcpp\core\schemeTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\schemeTypes.h">
+    <ClInclude Include="include\lcpp\api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\allocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\exceptions\exceptions.h">
+    <ClInclude Include="include\lcpp\api_inl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,7 +54,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\implementation\schemeTypes_inl.h">
+    <None Include="include\lcpp\core\implementation\schemeTypes_inl.h">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

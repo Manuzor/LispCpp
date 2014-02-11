@@ -142,17 +142,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\exceptions\exceptions.h" />
-    <ClInclude Include="include\allocator.h" />
-    <ClInclude Include="include\common.h" />
-    <ClInclude Include="include\lcppCore.h" />
-    <ClInclude Include="include\reader.h" />
+    <ClInclude Include="include\lcpp\api_inl.h" />
+    <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
+    <ClInclude Include="include\lcpp\foundation\allocator.h" />
+    <ClInclude Include="include\lcpp\foundation\common.h" />
+    <ClInclude Include="include\lcpp\api.h" />
+    <ClInclude Include="include\lcpp\foundation\newdelete.h" />
+    <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
+    <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\schemeTypes.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\schemeTypes.cpp" />
-    <ClCompile Include="src\reader.cpp" />
+    <ClCompile Include="src\core\schemeTypes.cpp" />
+    <ClCompile Include="src\core\reader.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -161,7 +164,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\implementation\schemeTypes_inl.h" />
+    <None Include="include\lcpp\core\implementation\schemeTypes_inl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

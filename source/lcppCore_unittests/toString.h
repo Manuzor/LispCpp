@@ -23,4 +23,20 @@ namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
         return result.GetData();
     }
 
+    template<>
+    static std::wstring ToString<lcpp::SchemeType::Enum>(const lcpp::SchemeType::Enum& value)
+    {
+        switch (value)
+        {
+        case lcpp::SchemeType::Object: return L"Object";
+        case lcpp::SchemeType::Void:   return L"Void";
+        case lcpp::SchemeType::Nil:    return L"Nil";
+        case lcpp::SchemeType::Bool:   return L"Bool";
+        case lcpp::SchemeType::Cons:   return L"Cons";
+        case lcpp::SchemeType::Number: return L"Number";
+        case lcpp::SchemeType::String: return L"String";
+        default: return L"<INVALID>";
+        }
+    }
+
 }}}
