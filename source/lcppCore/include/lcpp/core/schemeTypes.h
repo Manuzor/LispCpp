@@ -8,6 +8,10 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
+    const SchemeBool& convert(bool value);
+
+    //////////////////////////////////////////////////////////////////////////
+
     struct SchemeType
     {
         enum Enum
@@ -21,27 +25,11 @@ namespace lcpp
             String
         };
 
-        template<typename T>
-        inline static SchemeType::Enum of(const T& instance)
-        {
-            return T::Type;
-        }
-
-        template<>
-        inline static SchemeType::Enum of<SchemeObject>(const SchemeObject& instance)
-        {
-            return SchemeType::Object;
-        }
-
-    private:
-        DISALLOW_COPY_AND_ASSIGNMENT(SchemeType);
-        SchemeType();
+        LCPP_DISALLOW_CONSTRUCTION(SchemeType);
     };
 
-    #define SCHEME_TYPE_DECLARATION(typeValue) static const ::lcpp::SchemeType::Enum Type = ::lcpp::SchemeType::typeValue;\
-        virtual const ::lcpp::SchemeBool& is(::lcpp::SchemeType::Enum type) const override;
-    #define SCHEME_TYPE_DEFINITION(classname) inline const ::lcpp::SchemeBool& ::lcpp::classname::is(::lcpp::SchemeType::Enum type) const { return ::lcpp::SchemeBool::create(type == ::lcpp::classname::Type); }
-    #define SCHEME_TYPE_DEFINITION_TPL1(classname, classtypename) template<typename classtypename> inline const ::lcpp::SchemeBool& ::lcpp::classname<classtypename>::is(::lcpp::SchemeType::Enum type) const { return ::lcpp::SchemeBool::create(type == ::lcpp::classname<classtypename>::Type); }
+#define SCHEME_TYPE_DECLARATION(typeValue) virtual ::lcpp::SchemeType::Enum type() const override { return ::lcpp::SchemeType::typeValue; }\
+    virtual const ::lcpp::SchemeBool& is(::lcpp::SchemeType::Enum type) const override { return convert(type == ::lcpp::SchemeType::typeValue); }
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -53,7 +41,8 @@ namespace lcpp
         virtual const SchemeBool& operator==(const SchemeObject& other) const = 0;
         virtual ezString toString() const = 0;
 
-        virtual const SchemeBool& is(SchemeType::Enum type) const;
+        virtual SchemeType::Enum type() const { return SchemeType::Object; }
+        virtual const SchemeBool& is(SchemeType::Enum type) const { return convert(type == SchemeType::Object); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -71,7 +60,7 @@ namespace lcpp
         virtual ezString toString() const override;
 
     private:
-        DISALLOW_COPY_AND_ASSIGNMENT(SchemeVoid);
+        EZ_DISALLOW_COPY_AND_ASSIGN(SchemeVoid);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -85,15 +74,13 @@ namespace lcpp
         SchemeBool();
         virtual ~SchemeBool();
 
-        static const SchemeBool& create(bool value);
-
         virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
         virtual ezString toString() const override;
 
         operator bool() const;
 
     private:
-        DISALLOW_COPY_AND_ASSIGNMENT(SchemeBool);
+        EZ_DISALLOW_COPY_AND_ASSIGN(SchemeBool);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -105,8 +92,8 @@ namespace lcpp
     public:
         SCHEME_TYPE_DECLARATION(Number);
 
-        SchemeNumber(NUMBER_TYPE value);
-        virtual ~SchemeNumber();
+        inline SchemeNumber(NUMBER_TYPE value);
+        inline virtual ~SchemeNumber();
 
         inline NUMBER_TYPE value() const { return m_value; }
         inline void value(NUMBER_TYPE value) const { m_value = value; }
@@ -116,9 +103,13 @@ namespace lcpp
         NUMBER_TYPE m_value;
     };
 
+    typedef SchemeNumber<ezInt32> SchemeInt;
+    typedef SchemeNumber<ezUInt32> SchemeUInt;
+    typedef SchemeNumber<float> SchemeFloat;
+
     //////////////////////////////////////////////////////////////////////////
 
-    class SchemeCons :
+    class LCPP_CORE_API SchemeCons :
         public SchemeObject
     {
     public:
@@ -156,7 +147,7 @@ namespace lcpp
         virtual ezString toString() const override;
 
     private:
-        DISALLOW_COPY_AND_ASSIGNMENT(SchemeNil);
+        EZ_DISALLOW_COPY_AND_ASSIGN(SchemeNil);
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -164,10 +155,10 @@ namespace lcpp
     // namespace for all singletons such as bool types and void.
     namespace singletons
     {
-        const ezStatic<SchemeVoid> g_void;
-        const ezStatic<SchemeNil> g_nil;
-        const ezStatic<SchemeBool> g_true;
-        const ezStatic<SchemeBool> g_false;
+        extern LCPP_CORE_API const ezStatic<SchemeVoid> g_void;
+        extern LCPP_CORE_API const ezStatic<SchemeNil> g_nil;
+        extern LCPP_CORE_API const ezStatic<SchemeBool> g_true;
+        extern LCPP_CORE_API const ezStatic<SchemeBool> g_false;
     };
 
     // Easy access macros for all singleton instances
@@ -176,5 +167,5 @@ namespace lcpp
     #define SCHEME_TRUE  ::lcpp::singletons::g_true.GetStatic()
     #define SCHEME_FALSE ::lcpp::singletons::g_false.GetStatic()
 
-#include "implementation/schemeTypes_inl.h"
+#include "lcpp/core/implementation/schemeTypes_inl.h"
 }

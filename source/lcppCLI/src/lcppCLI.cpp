@@ -4,58 +4,69 @@
 #include "stdafx.h"
 #include <functional>
 
-class State;
-
-struct Id
+namespace lcpp
 {
-    size_t value;
-    Id(size_t value) : value(value){}
-};
+    class State;
 
-class State
-{
-    ezString m_name;
-public:
-    typedef std::function<void(const State&, const State&)> TransitionCallback;
+    struct Id
+    {
+        size_t value;
+        Id(size_t value) : value(value){}
+    };
 
-    State(const ezString& name) : m_name(name) {}
+    class State
+    {
+        ezString m_name;
+    public:
+        typedef std::function<void(const State&, const State&)> TransitionCallback;
 
-    Id registerCallback(TransitionCallback callback){ return Id(0); }
-    void unregisterCallback(Id id){}
+        State(const ezString& name) : m_name(name) {}
 
-    ezString name() const { return m_name; }
-    void name( ezString value ) { m_name = value; }
-};
+        Id registerCallback(TransitionCallback callback){ m_callbacks.PushBack(callback); return Id(m_callbacks.GetCount() - 1); }
+        void unregisterCallback(Id id){ /* TODO: Implement me. */ }
 
-struct StateMachineCInfo
-{
-    ezMap<ezString, State*> m_states;
-    void addTransition(State* from, State* to) {  }
-};
+        ezString name() const { return m_name; }
+        void name( ezString value ) { m_name = value; }
 
-class StateMachine
-{
-    ezMap<ezString, State*> m_states;
-public:
-    StateMachine(const StateMachineCInfo& cinfo) {}
+    private:
+        ezDynamicArray<TransitionCallback> m_callbacks;
+    };
 
-    bool startTransition(const ezString& from, const ezString& to){ return true; }
-};
+    struct StateMachineCInfo
+    {
+        ezMap<ezString, State*> m_states;
+        ezResult addTransition(const ezString& from, const ezString& to) { return EZ_SUCCESS; }
+
+        StateMachineCInfo()
+        {
+        }
+    };
+
+    class StateMachine
+    {
+        ezMap<ezString, State*> m_states;
+    public:
+        StateMachine(const StateMachineCInfo& cinfo) {}
+
+        bool startTransition(const ezString& from, const ezString& to){ return true; }
+    };
+
+    void entryFunction()
+    {
+        //StateMachineCInfo info;
+        //info.addTransition(new State("a"), new State("b"));
+        //info.addTransition(new State("b"), new State("c"));
+        //
+        //StateMachine sm(info);
+        //sm.startTransition("a", "b");
+    } 
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    using namespace lcpp;
-
     ezStartup::StartupCore();
 
-    //StateMachineCInfo info;
-    //info.addTransition(new State("a"), new State("b"));
-    //info.addTransition(new State("b"), new State("c"));
-    //
-    //StateMachine sm(info);
-    //sm.startTransition("a", "b");
-
-    auto* smCinfo = new StateMachineCInfo();
+    lcpp::entryFunction();
 
     ezStartup::ShutdownBase();
 

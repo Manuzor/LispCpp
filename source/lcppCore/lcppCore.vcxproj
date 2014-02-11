@@ -18,6 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\lcpp\api.h" />
+    <ClInclude Include="include\lcpp\api_inl.h" />
+    <ClInclude Include="include\lcpp\core\implementation\schemeTypes_inl.h" />
+    <ClInclude Include="include\lcpp\core\reader.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes.h" />
+    <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
+    <ClInclude Include="include\lcpp\foundation\common.h" />
+    <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
+    <ClInclude Include="include\lcpp\foundation\newdelete.h" />
+    <ClInclude Include="include\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\lcpp\reader.cpp" />
+    <ClCompile Include="src\lcpp\schemeTypes.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -141,31 +163,6 @@
       <ImportLibrary>$(OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="include\lcpp\api_inl.h" />
-    <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
-    <ClInclude Include="include\lcpp\foundation\allocator.h" />
-    <ClInclude Include="include\lcpp\foundation\common.h" />
-    <ClInclude Include="include\lcpp\api.h" />
-    <ClInclude Include="include\lcpp\foundation\newdelete.h" />
-    <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
-    <ClInclude Include="include\lcpp\core\reader.h" />
-    <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\core\schemeTypes.cpp" />
-    <ClCompile Include="src\core\reader.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="include\lcpp\core\implementation\schemeTypes_inl.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

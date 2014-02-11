@@ -1,17 +1,20 @@
 inline
 const SchemeBool&
-SchemeObject::is(SchemeType::Enum type) const
+lcpp::convert( bool value )
 {
-    bool result = SchemeType::of(*this) == type;
-    return SchemeBool::create(result);
+    return value ? SCHEME_TRUE : SCHEME_FALSE;
 }
 
 //////////////////////////////////////////////////////////////////////////
-SCHEME_TYPE_DEFINITION(SchemeVoid);
 
 inline
 SchemeVoid::SchemeVoid()
 {
+#ifdef _DEBUG
+    static ezUInt8 s_instances = 0U;
+    EZ_ASSERT(s_instances < 1, "Instantiating SchemeVoid more than once is not allowed!");
+    ++s_instances;
+#endif // _DEBUG
 }
 
 inline
@@ -21,9 +24,9 @@ SchemeVoid::~SchemeVoid()
 
 inline
 const SchemeBool&
-SchemeVoid::operator==(const SchemeObject& obj) const
+SchemeVoid::operator ==(const SchemeObject& obj) const
 {
-    return SchemeBool::create(&obj == this);
+    return convert(&obj == this); // identity
 }
 
 inline
@@ -34,11 +37,15 @@ SchemeVoid::toString() const
 }
 
 //////////////////////////////////////////////////////////////////////////
-SCHEME_TYPE_DEFINITION(SchemeBool);
 
 inline
 SchemeBool::SchemeBool()
 {
+#ifdef _DEBUG
+    static ezUInt8 s_instances = 0U;
+    EZ_ASSERT(s_instances < 2, "Instantiating SchemeBool more than 2 times is not allowed!");
+    ++s_instances;
+#endif // _DEBUG
 }
 
 inline
@@ -48,46 +55,27 @@ SchemeBool::~SchemeBool()
 
 inline
 const SchemeBool&
-SchemeBool::create( bool value )
+SchemeBool::operator ==( const SchemeObject& obj ) const
 {
-    return value ? SCHEME_TRUE : SCHEME_FALSE;
-}
-
-inline
-const SchemeBool&
-SchemeBool::operator==( const SchemeObject& obj ) const
-{
-    return SCHEME_FALSE;
+    return convert(this == &obj); // identity
 }
 
 inline
 ezString
 SchemeBool::toString() const
 {
-    if (this == &SCHEME_TRUE)
-    {
-        return "#t";
-    }
-    else if (this == &SCHEME_TRUE)
-    {
-        return "#f";
-    }
-    else
-    {
-        throw exceptions::InvalidOperation("There cannot be another instance of SchemeBool besides g_true and g_false!");
-    }
+    EZ_ASSERT(this == &SCHEME_TRUE || this == &SCHEME_FALSE, "There cannot be another instance of SchemeBool other that SCHEME_TRUE and SCHEME_FALSE!");
+    return this == &SCHEME_TRUE ? "#t" : "#f";
 }
 
 inline
-SchemeBool::operator
-bool() const
+SchemeBool::operator bool() const
 {
     EZ_ASSERT(this == &SCHEME_TRUE || this == &SCHEME_FALSE, "There cannot be another instance of SchemeBool other that SCHEME_TRUE and SCHEME_FALSE!");
-    return &SCHEME_TRUE == this;
+    return this == &SCHEME_TRUE;
 }
 
 //////////////////////////////////////////////////////////////////////////
-SCHEME_TYPE_DEFINITION_TPL1(SchemeNumber, NUMBER_TYPE);
 
 template<typename NUMBER_TYPE>
 inline
@@ -103,7 +91,6 @@ SchemeNumber<NUMBER_TYPE>::~SchemeNumber()
 }
 
 //////////////////////////////////////////////////////////////////////////
-SCHEME_TYPE_DEFINITION(SchemeCons);
 
 inline
 SchemeCons::SchemeCons(const SchemeObject& car, const SchemeObject& cdr) :
@@ -121,14 +108,14 @@ SchemeCons::~SchemeCons()
 
 inline
 const SchemeBool&
-SchemeCons::operator==(const SchemeObject& obj) const
+SchemeCons::operator ==(const SchemeObject& obj) const
 {
     if (!obj.is(SchemeType::Cons))
     {
         return SCHEME_FALSE;
     }
     const auto& other = static_cast<const SchemeCons&>(obj);
-    return SchemeBool::create(car() == other.car() && cdr() == other.cdr());
+    return convert(car() == other.car() && cdr() == other.cdr());
 }
 
 inline
@@ -141,11 +128,15 @@ SchemeCons::toString() const
 }
 
 //////////////////////////////////////////////////////////////////////////
-SCHEME_TYPE_DEFINITION(SchemeNil);
 
 inline
 SchemeNil::SchemeNil()
 {
+#ifdef _DEBUG
+    static ezUInt8 s_instances = 0U;
+    EZ_ASSERT(s_instances < 1, "Instantiating SchemeNil more than once is not allowed!");
+    ++s_instances;
+#endif // _DEBUG
 }
 
 inline
@@ -155,9 +146,9 @@ SchemeNil::~SchemeNil()
 
 inline
 const SchemeBool&
-SchemeNil::operator==(const SchemeObject& obj) const
+SchemeNil::operator ==(const SchemeObject& obj) const
 {
-    return SchemeBool::create(&obj == this); // identity
+    return convert(&obj == this); // identity
 }
 inline
 ezString

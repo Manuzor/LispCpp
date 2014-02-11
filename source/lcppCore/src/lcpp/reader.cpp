@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "reader.h"
+#include "lcpp/core/reader.h"
 
-#include "exceptions/exceptions.h"
+#include "lcpp/exceptions/exceptions.h"
 
 lcpp::Reader::
 Reader()

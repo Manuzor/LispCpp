@@ -6,20 +6,20 @@ namespace lcpp { namespace exceptions {
         public std::exception
     {
     public:
-        inline ExceptionBase(const char* message = nullptr, const char* file = nullptr, ezInt32 line = -1) :
+        inline ExceptionBase(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = 0) :
             m_message(message),
             m_file(file),
             m_line(line)
         {}
 
-        virtual ~ExceptionBase() = 0 {}
-        const char* file() const { return m_file; }
-        const ezInt32 line() const { return m_line; }
-        const char* message() const { return m_message; }
+        inline virtual ~ExceptionBase() = 0 {}
+        inline const char* file() const { return m_file; }
+        inline const ezUInt32 line() const { return m_line; }
+        inline const char* message() const { return m_message; }
 
     protected:
         const char* m_file;
-        ezInt32 m_line;
+        ezUInt32 m_line;
         const char* m_message;
     private:
     };
@@ -28,35 +28,33 @@ namespace lcpp { namespace exceptions {
         public ExceptionBase
     {
     public:
-        inline NotImplemented(const char* message = nullptr, const char* file = nullptr, ezInt32 line = -1) :
+        inline NotImplemented(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Not implemented!", file, line)
         {}
 
-        virtual ~NotImplemented() {}
+        inline virtual ~NotImplemented() {}
     };
 
     class InvalidSyntax :
         public ExceptionBase
     {
     public:
-        inline InvalidSyntax(const char* message = nullptr, const char* file = nullptr, ezInt32 line = -1) :
+        inline InvalidSyntax(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Invalid syntax!", file, line)
         {}
 
-        virtual ~InvalidSyntax() {}
+        inline virtual ~InvalidSyntax() {}
     };
-
-
 
     class InvalidOperation :
         public ExceptionBase
     {
     public:
-        inline InvalidOperation(const char* message = nullptr, const char* file = nullptr, ezInt32 line = -1) :
+        inline InvalidOperation(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Invalid operation!", file, line)
         {}
 
-        virtual ~InvalidOperation() {}
+        inline virtual ~InvalidOperation() {}
     };
 
 }}
