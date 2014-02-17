@@ -94,4 +94,12 @@ namespace lcpp { namespace unittests {
             Assert::IsFalse(SCHEME_FALSE != SCHEME_FALSE, L"SCHEME_FALSE != SCHEME_FALSE does not evaluate to a boolean alse!");
         }
     };
+
+    TEST_CLASS(SchemeNumberTests)
+    {
+        TEST_METHOD(Construction)
+        {
+            SchemeInt schemeNumber = 1;
+        }
+    };
 }}

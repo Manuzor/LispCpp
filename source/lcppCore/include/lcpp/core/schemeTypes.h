@@ -85,27 +85,34 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    template<typename NUMBER_TYPE>
-    class SchemeNumber :
+    template<typename T>
+    class SchemeNumber_t :
         public SchemeObject
     {
     public:
         SCHEME_TYPE_DECLARATION(Number);
 
-        inline SchemeNumber(NUMBER_TYPE value);
-        inline virtual ~SchemeNumber();
+        typedef T type_t;
 
-        inline NUMBER_TYPE value() const { return m_value; }
-        inline void value(NUMBER_TYPE value) const { m_value = value; }
+        inline SchemeNumber_t(type_t value);
+        inline virtual ~SchemeNumber_t();
+
+        virtual const SchemeBool& operator ==(const SchemeObject& obj) const override;
+        virtual ezString toString() const override;
+
+        const SchemeBool& operator ==(const SchemeNumber_t<type_t>& other) const;
+
+        inline type_t value() const { return m_value; }
+        inline void value(type_t value) const { m_value = value; }
 
     private:
 
-        NUMBER_TYPE m_value;
+        type_t m_value;
     };
 
-    typedef SchemeNumber<ezInt32> SchemeInt;
-    typedef SchemeNumber<ezUInt32> SchemeUInt;
-    typedef SchemeNumber<float> SchemeFloat;
+    typedef SchemeNumber_t<ezInt32> SchemeInt;
+    typedef SchemeNumber_t<ezUInt32> SchemeUInt;
+    typedef SchemeNumber_t<float> SchemeFloat;
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -167,5 +174,6 @@ namespace lcpp
     #define SCHEME_TRUE  ::lcpp::singletons::g_true
     #define SCHEME_FALSE ::lcpp::singletons::g_false
 
-#include "lcpp/core/implementation/schemeTypes_inl.h"
 }
+
+#include "lcpp/core/implementation/schemeTypes_inl.h"

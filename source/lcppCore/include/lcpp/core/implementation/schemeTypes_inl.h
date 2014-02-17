@@ -1,5 +1,5 @@
 inline
-const SchemeBool&
+const lcpp::SchemeBool&
 lcpp::convert( bool value )
 {
     return value ? SCHEME_TRUE : SCHEME_FALSE;
@@ -8,7 +8,7 @@ lcpp::convert( bool value )
 //////////////////////////////////////////////////////////////////////////
 
 inline
-SchemeVoid::SchemeVoid()
+lcpp::SchemeVoid::SchemeVoid()
 {
 #ifdef _DEBUG
     static ezUInt8 s_instances = 0U;
@@ -18,20 +18,20 @@ SchemeVoid::SchemeVoid()
 }
 
 inline
-SchemeVoid::~SchemeVoid()
+lcpp::SchemeVoid::~SchemeVoid()
 {
 }
 
 inline
-const SchemeBool&
-SchemeVoid::operator ==(const SchemeObject& obj) const
+const lcpp::SchemeBool&
+lcpp::SchemeVoid::operator ==(const SchemeObject& obj) const
 {
     return convert(&obj == this); // identity
 }
 
 inline
 ezString
-SchemeVoid::toString() const
+lcpp::SchemeVoid::toString() const
 {
     return "#v";
 }
@@ -39,7 +39,7 @@ SchemeVoid::toString() const
 //////////////////////////////////////////////////////////////////////////
 
 inline
-SchemeBool::SchemeBool()
+lcpp::SchemeBool::SchemeBool()
 {
 #ifdef _DEBUG
     static ezUInt8 s_instances = 0U;
@@ -49,27 +49,27 @@ SchemeBool::SchemeBool()
 }
 
 inline
-SchemeBool::~SchemeBool()
+lcpp::SchemeBool::~SchemeBool()
 {
 }
 
 inline
-const SchemeBool&
-SchemeBool::operator ==( const SchemeObject& obj ) const
+const lcpp::SchemeBool&
+lcpp::SchemeBool::operator ==( const SchemeObject& obj ) const
 {
     return convert(this == &obj); // identity
 }
 
 inline
 ezString
-SchemeBool::toString() const
+lcpp::SchemeBool::toString() const
 {
     EZ_ASSERT(this == &SCHEME_TRUE || this == &SCHEME_FALSE, "There cannot be another instance of SchemeBool other that SCHEME_TRUE and SCHEME_FALSE!");
     return this == &SCHEME_TRUE ? "#t" : "#f";
 }
 
 inline
-SchemeBool::operator bool() const
+lcpp::SchemeBool::operator bool() const
 {
     EZ_ASSERT(this == &SCHEME_TRUE || this == &SCHEME_FALSE, "There cannot be another instance of SchemeBool other that SCHEME_TRUE and SCHEME_FALSE!");
     return this == &SCHEME_TRUE;
@@ -79,21 +79,50 @@ SchemeBool::operator bool() const
 
 template<typename NUMBER_TYPE>
 inline
-SchemeNumber<NUMBER_TYPE>::SchemeNumber(NUMBER_TYPE value) :
+lcpp::SchemeNumber_t<NUMBER_TYPE>::SchemeNumber_t(NUMBER_TYPE value) :
     m_value(value)
 {
 }
 
 template<typename NUMBER_TYPE>
 inline
-SchemeNumber<NUMBER_TYPE>::~SchemeNumber()
+lcpp::SchemeNumber_t<NUMBER_TYPE>::~SchemeNumber_t()
 {
+}
+
+template<typename NUMBER_TYPE>
+inline
+const lcpp::SchemeBool&
+lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
+{
+    if (obj.is(SchemeType::Number))
+    {
+        return convert(*this == static_cast<const SchemeNumber_t<NUMBER_TYPE>&>(obj));
+    }
+    return SCHEME_FALSE;
+}
+
+template<typename NUMBER_TYPE>
+inline
+ezString
+lcpp::SchemeNumber_t<NUMBER_TYPE>::toString() const
+{
+    EZ_ASSERT(false, "Not Implemented!");
+    return "";
+}
+
+template<typename NUMBER_TYPE>
+inline
+const lcpp::SchemeBool&
+lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeNumber_t<NUMBER_TYPE>& other) const
+{
+    return convert(m_value == other.m_value);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 inline
-SchemeCons::SchemeCons(const SchemeObject& car, const SchemeObject& cdr) :
+lcpp::SchemeCons::SchemeCons(const SchemeObject& car, const SchemeObject& cdr) :
     m_car(&car),
     m_cdr(&cdr)
 {
@@ -102,13 +131,13 @@ SchemeCons::SchemeCons(const SchemeObject& car, const SchemeObject& cdr) :
 }
 
 inline
-SchemeCons::~SchemeCons()
+lcpp::SchemeCons::~SchemeCons()
 {
 }
 
 inline
-const SchemeBool&
-SchemeCons::operator ==(const SchemeObject& obj) const
+const lcpp::SchemeBool&
+lcpp::SchemeCons::operator ==(const SchemeObject& obj) const
 {
     if (!obj.is(SchemeType::Cons))
     {
@@ -120,7 +149,7 @@ SchemeCons::operator ==(const SchemeObject& obj) const
 
 inline
 ezString
-SchemeCons::toString() const
+lcpp::SchemeCons::toString() const
 {
     ezStringBuilder builder;
     builder.AppendFormat("(%s %s)", m_car->toString().GetData(), m_cdr->toString().GetData());
@@ -130,7 +159,7 @@ SchemeCons::toString() const
 //////////////////////////////////////////////////////////////////////////
 
 inline
-SchemeNil::SchemeNil()
+lcpp::SchemeNil::SchemeNil()
 {
 #ifdef _DEBUG
     static ezUInt8 s_instances = 0U;
@@ -140,19 +169,19 @@ SchemeNil::SchemeNil()
 }
 
 inline
-SchemeNil::~SchemeNil()
+lcpp::SchemeNil::~SchemeNil()
 {
 }
 
 inline
-const SchemeBool&
-SchemeNil::operator ==(const SchemeObject& obj) const
+const lcpp::SchemeBool&
+lcpp::SchemeNil::operator ==(const SchemeObject& obj) const
 {
     return convert(&obj == this); // identity
 }
 inline
 ezString
-SchemeNil::toString() const
+lcpp::SchemeNil::toString() const
 {
     return "()";
 }
