@@ -58,6 +58,9 @@ public:
   class Iterator : public ConstIterator
   {
   public:
+    // this is required to pull in the const version of this function
+    using ConstIterator::Value;
+
     /// \brief Returns the 'value' of the element that this iterator points to.
     ValueType& Value(); // [tested]
 
@@ -69,10 +72,10 @@ public:
 
 protected:
   /// \brief Creates an empty hashtable. Does not allocate any data yet.
-  ezHashTableBase(ezIAllocator* pAllocator); // [tested]
+  ezHashTableBase(ezAllocatorBase* pAllocator); // [tested]
   
   /// \brief Creates a copy of the given hashtable.
-  ezHashTableBase(const ezHashTableBase<KeyType, ValueType, Hasher>& rhs, ezIAllocator* pAllocator); // [tested]
+  ezHashTableBase(const ezHashTableBase<KeyType, ValueType, Hasher>& rhs, ezAllocatorBase* pAllocator); // [tested]
 
   /// \brief Destructor.
   ~ezHashTableBase(); // [tested]
@@ -88,7 +91,7 @@ public:
    /// \brief Compares this table to another table.
   bool operator!= (const ezHashTableBase<KeyType, ValueType, Hasher>& rhs) const; // [tested]
 
-  /// \brief Expands the hashtable by over-allocated the internal storage so that the load factor is lower or equal to 60% when inserting the given number of entries.
+  /// \brief Expands the hashtable by over-allocating the internal storage so that the load factor is lower or equal to 60% when inserting the given number of entries.
   void Reserve(ezUInt32 uiCapacity); // [tested]
 
   /// \brief Tries to compact the hashtable to avoid wasting memory.
@@ -133,7 +136,7 @@ public:
   ConstIterator GetIterator() const; // [tested]
 
   /// \brief Returns the allocator that is used by this instance.
-  ezIAllocator* GetAllocator() const;
+  ezAllocatorBase* GetAllocator() const;
 
 private:
 
@@ -149,7 +152,7 @@ private:
   ezUInt32 m_uiCount;
   ezUInt32 m_uiCapacity;
   
-  ezIAllocator* m_pAllocator;
+  ezAllocatorBase* m_pAllocator;
 
   enum 
   { 
@@ -181,7 +184,7 @@ class ezHashTable : public ezHashTableBase<KeyType, ValueType, Hasher>
 {
 public:
   ezHashTable();
-  ezHashTable(ezIAllocator* pAllocator);
+  ezHashTable(ezAllocatorBase* pAllocator);
 
   ezHashTable(const ezHashTable<KeyType, ValueType, Hasher, AllocatorWrapper>& other);
   ezHashTable(const ezHashTableBase<KeyType, ValueType, Hasher>& other);
@@ -191,3 +194,4 @@ public:
 };
 
 #include <Foundation/Containers/Implementation/HashTable_inl.h>
+

@@ -47,6 +47,12 @@ bool ezBoundingSphereTemplate<Type>::IsValid() const
 }
 
 template<typename Type>
+bool ezBoundingSphereTemplate<Type>::IsNaN() const
+{
+  return (m_vCenter.IsNaN() || ezMath::IsNaN(m_fRadius));
+}
+
+template<typename Type>
 EZ_FORCE_INLINE void ezBoundingSphereTemplate<Type>::SetElements(const ezVec3Template<Type>& vCenter, Type fRadius)
 {
   m_vCenter = vCenter;
@@ -118,6 +124,8 @@ EZ_FORCE_INLINE void ezBoundingSphereTemplate<Type>::ScaleFromCenter(Type fScale
   EZ_ASSERT(fScale >= 0.0f, "Cannot invert the sphere.");
 
   m_fRadius *= fScale;
+
+  EZ_NAN_ASSERT(this);
 }
 
 template<typename Type>
@@ -140,7 +148,7 @@ void ezBoundingSphereTemplate<Type>::TransformFromOrigin (const ezMat4Template<T
   m_vCenter = mTransform.TransformPosition (m_vCenter);
 
   const ezVec3Template<Type> Scale = mTransform.GetScalingFactors ();
-  m_fRadius *= ezMath::Max (Scale.x, Scale.y, Scale.z);
+  m_fRadius *= ezMath::Max(Scale.x, Scale.y, Scale.z);
 }
 
 template<typename Type>
@@ -149,7 +157,7 @@ void ezBoundingSphereTemplate<Type>::TransformFromCenter (const ezMat4Template<T
   m_vCenter += mTransform.GetTranslationVector();
 
   const ezVec3Template<Type> Scale = mTransform.GetScalingFactors ();
-  m_fRadius *= ezMath::Max (Scale.x, Scale.y, Scale.z);
+  m_fRadius *= ezMath::Max(Scale.x, Scale.y, Scale.z);
 }
 
 template<typename Type>

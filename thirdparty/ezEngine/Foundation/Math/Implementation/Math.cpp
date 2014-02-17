@@ -52,3 +52,7 @@ ezInt32 ezMath::PowerOfTwo_Ceil(ezUInt32 npot)
 
 
 
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Math_Implementation_Math);
+

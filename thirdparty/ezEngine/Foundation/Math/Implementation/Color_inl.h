@@ -26,19 +26,27 @@ EZ_FORCE_INLINE ezColor::ezColor(const ezVec4Template<Type>& v) :
 template<typename Type>
 EZ_FORCE_INLINE ezColor::operator ezVec4Template<Type> () const
 {
+  EZ_NAN_ASSERT(this);
+
   return ezVec4Template<Type>(static_cast<Type>(r), static_cast<Type>(g), static_cast<Type>(b), static_cast<Type>(a));
 }
 
 template<typename Type>
 EZ_FORCE_INLINE ezVec3Template<Type> ezColor::GetRGB() const
 {
-  return ezVec3Template<Type>(static_cast<Type>(r), static_cast<Type>(g), static_cast<Type>(b));
+  ezVec3Template<Type> v(static_cast<Type>(r), static_cast<Type>(g), static_cast<Type>(b));
+
+  EZ_NAN_ASSERT(&v);
+  return v;
 }
 
 template<typename Type>
 EZ_FORCE_INLINE ezVec3Template<Type> ezColor::GetBGR() const
 {
-  return ezVec3Template<Type>(static_cast<Type>(b), static_cast<Type>(g), static_cast<Type>(r));
+  ezVec3Template<Type> v(static_cast<Type>(b), static_cast<Type>(g), static_cast<Type>(r));
+
+  EZ_NAN_ASSERT(&v);
+  return v;
 }
 
 template<typename Type>
@@ -61,6 +69,8 @@ EZ_FORCE_INLINE void ezColor::SetBGR(const ezVec3Template<Type>& bgr)
 
 EZ_FORCE_INLINE bool ezColor::IsNormalized() const
 {
+  EZ_NAN_ASSERT(this);
+
   return r <= 1.0f && g <= 1.0f && b <= 1.0f && a <= 1.0f &&
     r >= 0.0f && g >= 0.0f && b >= 0.0f && a >= 0.0f; 
 }
@@ -153,6 +163,8 @@ EZ_FORCE_INLINE float ezColor::GetLuminance() const
 
 EZ_FORCE_INLINE ezColor ezColor::GetInvertedColor() const
 {
+  EZ_NAN_ASSERT(this);
+
   return ezColor(1.0f - r, 1.0f - g, 1.0f - b, 1.0f - a);
 }
 
@@ -172,6 +184,17 @@ inline ezColor ezColor::ConvertSRGBToLinear() const
     g <= 0.04045f ? (g / 12.92f) : (ezMath::Pow((g + 0.055f) / 1.055f, 2.4f)),
     b <= 0.04045f ? (b / 12.92f) : (ezMath::Pow((b + 0.055f) / 1.055f, 2.4f)),
     a);
+}
+
+inline ezColor ezColor::GetComplementaryColor() const
+{
+  ezVec3 HSV = ConvertToHSV<float>();
+
+  ezColor Shifted;
+  Shifted.FromHSV(ezMath::Mod(HSV.x + 180.0f, 360.0f), HSV.y, HSV.z);
+  Shifted.a = a;
+
+  return Shifted;
 }
 
 // *****************
@@ -206,20 +229,26 @@ inline bool ezColor::IsValid() const
 
 // *****************
 
-EZ_FORCE_INLINE void ezColor::operator+= (const ezColor& cc)
+EZ_FORCE_INLINE void ezColor::operator+= (const ezColor& rhs)
 {
-  r += cc.r;
-  g += cc.g;
-  b += cc.b;
-  a += cc.a;
+  EZ_NAN_ASSERT(this);
+  EZ_NAN_ASSERT(&rhs);
+
+  r += rhs.r;
+  g += rhs.g;
+  b += rhs.b;
+  a += rhs.a;
 }
 
-EZ_FORCE_INLINE void ezColor::operator-= (const ezColor& cc)
+EZ_FORCE_INLINE void ezColor::operator-= (const ezColor& rhs)
 {
-  r -= cc.r;
-  g -= cc.g;
-  b -= cc.b;
-  a -= cc.a;
+  EZ_NAN_ASSERT(this);
+  EZ_NAN_ASSERT(&rhs);
+
+  r -= rhs.r;
+  g -= rhs.g;
+  b -= rhs.b;
+  a -= rhs.a;
 }
 
 EZ_FORCE_INLINE void ezColor::operator*= (float f)
@@ -228,6 +257,8 @@ EZ_FORCE_INLINE void ezColor::operator*= (float f)
   g *= f;
   b *= f;
   a *= f;
+
+  EZ_NAN_ASSERT(this);
 }
 
 EZ_FORCE_INLINE void ezColor::operator/= (float f)
@@ -237,15 +268,23 @@ EZ_FORCE_INLINE void ezColor::operator/= (float f)
   g *= f_inv;
   b *= f_inv;
   a *= f_inv;
+
+  EZ_NAN_ASSERT(this);
 }
 
 EZ_FORCE_INLINE bool ezColor::IsIdentical(const ezColor& rhs) const
 {
+  EZ_NAN_ASSERT(this);
+  EZ_NAN_ASSERT(&rhs);
+
   return r == rhs.r && g == rhs.g && b == rhs.b && a == rhs.a;
 }
 
 inline bool ezColor::IsEqual(const ezColor& rhs, float fEpsilon) const
 {
+  EZ_NAN_ASSERT(this);
+  EZ_NAN_ASSERT(&rhs);
+
   return (ezMath::IsEqual(r, rhs.r, fEpsilon) && 
           ezMath::IsEqual(g, rhs.g, fEpsilon) && 
           ezMath::IsEqual(b, rhs.b, fEpsilon) &&
@@ -255,29 +294,41 @@ inline bool ezColor::IsEqual(const ezColor& rhs, float fEpsilon) const
 
 EZ_FORCE_INLINE const ezColor operator+ (const ezColor& c1, const ezColor& c2)
 {
+  EZ_NAN_ASSERT(&c1);
+  EZ_NAN_ASSERT(&c2);
+
   return ezColor(c1.r + c2.r, c1.g + c2.g, c1.b + c2.b, c1.a + c2.a);
 }
 
 EZ_FORCE_INLINE const ezColor operator- (const ezColor& c1, const ezColor& c2)
 {
+  EZ_NAN_ASSERT(&c1);
+  EZ_NAN_ASSERT(&c2);
+
   return ezColor(c1.r - c2.r, c1.g - c2.g, c1.b - c2.b, c1.a - c2.a);
 }
 
 template<typename Type>
 EZ_FORCE_INLINE const ezColor operator* (Type f, const ezColor& c)
 {
+  EZ_NAN_ASSERT(&c);
+
   return ezColor(c.r * f, c.g * f, c.b * f, c.a * f);
 }
 
 template<typename Type>
 EZ_FORCE_INLINE const ezColor operator* (const ezColor& c, Type f)
 {
+  EZ_NAN_ASSERT(&c);
+
   return ezColor(c.r * f, c.g * f, c.b * f, c.a * f);
 }
 
 template<typename Type>
 EZ_FORCE_INLINE const ezColor operator/ (const ezColor& c, Type f)
 {
+  EZ_NAN_ASSERT(&c);
+
   float f_inv = 1.0f / f;
   return ezColor(c.r * f_inv, c.g * f_inv, c.b * f_inv, c.a * f_inv);
 }

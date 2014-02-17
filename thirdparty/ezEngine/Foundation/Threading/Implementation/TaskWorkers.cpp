@@ -24,8 +24,8 @@ static const char* GenerateThreadName(ezWorkerThreadType::Enum ThreadType, ezUIn
     else
       sTemp = "Resource Loading";
     break;
-  default:
-    /// \todo: not reached macro
+  case ezWorkerThreadType::ENUM_COUNT:
+    EZ_REPORT_FAILURE("Invalid Thread Type");
     break;
   }
 
@@ -37,6 +37,9 @@ ezTaskWorkerThread::ezTaskWorkerThread(ezWorkerThreadType::Enum ThreadType, ezUI
   m_bActive = true;
   m_WorkerType = ThreadType;
   m_uiWorkerThreadNumber = iThreadNumber;
+
+  m_bExecutingTask = false;
+  m_ThreadUtilization = 0.0;
 }
 
 bool ezTaskSystem::IsLoadingThread()
@@ -155,15 +158,51 @@ ezUInt32 ezTaskWorkerThread::Run()
 
   EZ_ASSERT(m_WorkerType < ezWorkerThreadType::ENUM_COUNT, "Worker Thread Typs is invalid: %i", m_WorkerType);
 
+  m_bExecutingTask = false;
+
   while (m_bActive)
   {
+    if (!m_bExecutingTask)
+    {
+      m_bExecutingTask = true;
+      m_StartedWorking = ezTime::Now();
+    }
+
     if (!ezTaskSystem::ExecuteTask(FirstPriority, LastPriority))
     {
       // if no work is currently available, wait for the signal that new work has been added
 
+      m_ThreadActiveTime += ezTime::Now() - m_StartedWorking;
+      m_bExecutingTask = false;
       ezTaskSystem::s_TasksAvailableSignal[m_WorkerType].WaitForSignal();
     }
   }
 
   return 0;
 }
+
+void ezTaskWorkerThread::ComputeThreadUtilization(ezTime TimePassed)
+{
+  const ezTime tActive = GetAndResetThreadActiveTime();
+
+  m_ThreadUtilization = tActive.GetSeconds() / TimePassed.GetSeconds();
+}
+
+ezTime ezTaskWorkerThread::GetAndResetThreadActiveTime()
+{
+  ezTime tActive = m_ThreadActiveTime;
+  m_ThreadActiveTime = ezTime::Seconds(0.0);
+
+  if (m_bExecutingTask)
+  {
+    const ezTime tNow = ezTime::Now();
+    tActive += tNow - m_StartedWorking;
+    m_StartedWorking = tNow;
+  }
+
+  return tActive;
+}
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Threading_Implementation_TaskWorkers);
+

@@ -4,30 +4,27 @@
 
 namespace ezMemoryPolicies
 {
-  /// \brief Aligned Heap memory allocation policy. Only supports one alignment for all allocations.
+  /// \brief Aligned Heap memory allocation policy.
   ///
   /// \see ezAllocator
-  template <size_t uiAlignment>
   class ezAlignedHeapAllocation
   {
   public:
-    ezAlignedHeapAllocation(ezIAllocator* pParent);
-    ~ezAlignedHeapAllocation();
+    EZ_FORCE_INLINE ezAlignedHeapAllocation(ezAllocatorBase* pParent) { }
+    EZ_FORCE_INLINE ~ezAlignedHeapAllocation() { }
     
     void* Allocate(size_t uiSize, size_t uiAlign);
     void Deallocate(void* ptr);
     
-    size_t AllocatedSize(const void* ptr);
-    size_t UsedMemorySize(const void* ptr);
-    
-    EZ_FORCE_INLINE ezIAllocator* GetParent() const { return NULL; }
+    EZ_FORCE_INLINE ezAllocatorBase* GetParent() const { return NULL; }
   };
 
   #if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
     #include <Foundation/Memory/Policies/Win/AlignedHeapAllocation_win.h>
-  #elif EZ_ENABLED(EZ_PLATFORM_OSX)
+  #elif EZ_ENABLED(EZ_PLATFORM_OSX) || EZ_ENABLED(EZ_PLATFORM_LINUX)
     #include <Foundation/Memory/Policies/Posix/AlignedHeapAllocation_posix.h>
   #else
     #error "ezAlignedHeapAllocation is not implemented on current platform"
   #endif
 }
+

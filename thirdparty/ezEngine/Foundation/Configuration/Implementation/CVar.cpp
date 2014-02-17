@@ -50,8 +50,8 @@ EZ_BEGIN_SUBSYSTEM_DECLARATION(Foundation, CVars)
 EZ_END_SUBSYSTEM_DECLARATION
 
 
-ezHybridString<32, ezStaticAllocatorWrapper> ezCVar::s_StorageFolder;
-ezEvent<const ezCVar::CVarEvent&, ezNoMutex, ezStaticAllocatorWrapper> ezCVar::s_AllCVarEvents;
+ezString ezCVar::s_StorageFolder;
+ezEvent<const ezCVar::CVarEvent&> ezCVar::s_AllCVarEvents;
 
 void ezCVar::AssignSubSystemPlugin(const char* szPluginName)
 {
@@ -423,4 +423,8 @@ void ezCVar::LoadCVars(bool bOnlyNewOnes, bool bSetAsCurrentValue)
 
 
 
+
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Configuration_Implementation_CVar);
 

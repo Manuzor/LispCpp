@@ -5,7 +5,7 @@
 
 #define EZ_THREADLOCALSTORAGE_POSIX_INL_H_INCLUDED
 
-// Thread local storage implementation for Windows
+// Thread local storage implementation for Posix API enabled platforms
 
 void ezThreadLocalStorage::Initialize()
 {
@@ -40,3 +40,4 @@ ezThreadLocalPointerTable* ezThreadLocalStorage::GetPerThreadPointerTable()
   
   return reinterpret_cast<ezThreadLocalPointerTable*>(pthread_getspecific(g_ThreadLocalManagmentTableKey));
 }
+

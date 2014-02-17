@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Foundation/Basics.h>
+#include <Foundation/Utilities/EnumerableClass.h>
 
 /// \brief Describes the different stages during startup and shutdown
 struct ezStartupStage
@@ -94,3 +95,4 @@ private:
 };
 
 #include <Foundation/Configuration/StaticSubSystem.h>
+

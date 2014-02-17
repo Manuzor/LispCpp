@@ -86,3 +86,7 @@ void ezExtendedJSONWriter::WriteTime(ezTime value)
   WriteBinaryData("time", &value, sizeof(value), s.GetData());
 }
 
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_IO_Implementation_ExtendedJSONWriter);
+

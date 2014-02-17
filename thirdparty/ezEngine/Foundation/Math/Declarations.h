@@ -4,6 +4,11 @@
 
 #include <Foundation/Basics.h>
 
+#if EZ_ENABLED(EZ_MATH_CHECK_FOR_NAN)
+  #define EZ_NAN_ASSERT(obj) (obj)->AssertNotNaN();
+#else
+  #define EZ_NAN_ASSERT(obj)
+#endif
 
 /// \brief Simple helper union to store ints and floats to modify their bit patterns.
 union ezIntFloatUnion
@@ -69,13 +74,16 @@ class ezVec3Template;
 
 typedef ezVec3Template<float> ezVec3;
 typedef ezVec3Template<double> ezVec3d;
+typedef ezVec3Template<ezInt32> ezVec3I32;
+typedef ezVec3Template<ezUInt32> ezVec3U32;
 
 template<typename Type>
 class ezVec4Template;
 
 typedef ezVec4Template<float> ezVec4;
 typedef ezVec4Template<double> ezVec4d;
-
+typedef ezVec4Template<ezInt32> ezVec4I32;
+typedef ezVec4Template<ezUInt32> ezVec4U32;
 
 template<typename Type>
 class ezMat3Template;
@@ -106,6 +114,7 @@ class ezBoundingBoxTemplate;
 
 typedef ezBoundingBoxTemplate<float> ezBoundingBox;
 typedef ezBoundingBoxTemplate<double> ezBoundingBoxd;
+typedef ezBoundingBoxTemplate<ezUInt32> ezBoundingBoxu32;
 
 template<typename Type>
 class ezBoundingSphereTemplate;
@@ -115,3 +124,4 @@ typedef ezBoundingSphereTemplate<double> ezBoundingSphered;
 
 template<ezUInt8 DecimalBits>
 class ezFixedPoint;
+

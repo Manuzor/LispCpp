@@ -23,17 +23,22 @@ void ezStats::RemoveStat(const char* szStatName)
 
 void ezStats::SetStat(const char* szStatName, const char* szValue)
 {
-  ezString& sValue = s_Stats[szStatName];
-  
-  if (sValue == szValue)
+  bool bExisted = false;
+  auto it = s_Stats.FindOrAdd(szStatName, &bExisted);
+
+  if (it.Value() == szValue)
     return;
 
-  sValue = szValue;
+  it.Value() = szValue;
 
   StatsEventData e;
-  e.m_EventType = StatsEventData::Set;
+  e.m_EventType = bExisted ? StatsEventData::Set : StatsEventData::Add;
   e.m_szStatName = szStatName;
   e.m_szNewStatValue = szValue;
 
   s_StatsEvents.Broadcast(e);
 }
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Utilities_Implementation_Stats);
+

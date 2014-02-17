@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Foundation/Basics.h>
+#include <Foundation/Communication/Event.h>
 #include <Foundation/Containers/Map.h>
 #include <Foundation/Strings/String.h>
-#include <Foundation/Communication/Event.h>
 
 /// \brief This class holds a simple map that maps strings (keys) to strings (values), which represent certain stats.
 ///
@@ -13,7 +13,7 @@
 class EZ_FOUNDATION_DLL ezStats
 {
 public:
-  typedef ezMap<ezString, ezString, ezCompareHelper<ezString>, ezStaticAllocatorWrapper> MapType;
+  typedef ezMap<ezString, ezString> MapType;
 
   /// \brief Removes the stat with the given name.
   ///
@@ -40,7 +40,8 @@ public:
     /// \brief Which type of event this is.
     enum EventType
     {
-      Set,    ///< A variable has been added or changed.
+      Add,    ///< A variable has been set for the first time.
+      Set,    ///< A variable has been changed.
       Remove  ///< A variable that existed has been removed.
     };
 
@@ -49,7 +50,7 @@ public:
     const char* m_szNewStatValue;
   };
 
-  typedef ezEvent<const StatsEventData&, ezMutex, ezStaticAllocatorWrapper> ezEventStats;
+  typedef ezEvent<const StatsEventData&, ezMutex> ezEventStats;
 
   /// \brief Adds an event handler that is called every time a stat is changed.
   static void AddEventHandler(ezEventStats::Handler handler)    { s_StatsEvents.AddEventHandler    (handler); }

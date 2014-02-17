@@ -55,8 +55,15 @@ public:
   bool operator== (ezResultEnum cmp) const { return e == cmp; }
   bool operator!= (ezResultEnum cmp) const { return e != cmp; }
 
+  bool IsSuccess() const { return e == EZ_SUCCESS; }
+
 private:
   ezResultEnum e;
+};
+
+/// \brief Dummy type to pass to templates and macros that expect a base type for a class that has no base.
+class ezNoBase
+{
 };
 
 /// \brief Alignment helper. Derive from this struct if alignment is depending on a template parameter.

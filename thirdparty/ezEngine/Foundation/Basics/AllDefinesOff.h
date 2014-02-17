@@ -56,9 +56,13 @@
 #define EZ_SUPPORTS_DYNAMIC_PLUGINS EZ_OFF
 
 // Allocators
-#define EZ_USE_TRACE_ALLOCATOR EZ_OFF
+#define EZ_USE_ALLOCATION_STACK_TRACING EZ_OFF
 
 
 // Other Features
 #define EZ_USE_PROFILING EZ_OFF
 #define EZ_USE_PROFILING_GPA EZ_OFF
+
+
+// Math Debug Checks
+#define EZ_MATH_CHECK_FOR_NAN EZ_OFF

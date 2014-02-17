@@ -79,3 +79,7 @@ ezDateTime::ezDateTime(ezTimestamp timestamp)
   #error "Time functions are not implemented on current platform"
 #endif
 
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Time_Implementation_Timestamp);
+

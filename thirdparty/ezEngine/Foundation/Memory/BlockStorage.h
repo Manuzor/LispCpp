@@ -38,7 +38,7 @@ public:
     bool operator==(const Entry& rhs) const;
   };
 
-  ezBlockStorage(ezLargeBlockAllocator* pBlockAllocator, ezIAllocator* pAllocator); 
+  ezBlockStorage(ezLargeBlockAllocator* pBlockAllocator, ezAllocatorBase* pAllocator); 
   ~ezBlockStorage();
   
   Entry Create();
@@ -54,3 +54,4 @@ private:
 };
 
 #include <Foundation/Memory/Implementation/BlockStorage_inl.h>
+

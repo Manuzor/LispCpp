@@ -173,3 +173,7 @@ void ezVariant::CopyFrom(const ezVariant& other)
     DispatchTo(copyFunc, GetType());
   }
 }
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Basics_Types_Implementation_Variant);
+

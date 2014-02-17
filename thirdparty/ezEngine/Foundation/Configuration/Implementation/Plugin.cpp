@@ -9,7 +9,7 @@
 
 #if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
   #include <Foundation/Configuration/Implementation/Win/Plugin_Win.h>
-#elif EZ_ENABLED(EZ_PLATFORM_OSX)
+#elif EZ_ENABLED(EZ_PLATFORM_OSX) || EZ_ENABLED(EZ_PLATFORM_LINUX)
   #include <Foundation/Configuration/Implementation/Posix/Plugin_Posix.h>
 #else
   #error "Plugins not implemented on this Platform."
@@ -36,9 +36,9 @@ struct PluginData
   ezInt32 m_iReferenceCount;
 };
 
-static ezMap<ezString, PluginData, ezCompareHelper<ezString>, ezStaticAllocatorWrapper> g_LoadedPlugins;
+static ezMap<ezString, PluginData> g_LoadedPlugins;
 ezInt32 ezPlugin::s_iPluginChangeRecursionCounter = 0;
-ezEvent<const ezPlugin::PluginEvent&, ezNoMutex, ezStaticAllocatorWrapper> ezPlugin::s_PluginEvents;
+ezEvent<const ezPlugin::PluginEvent&> ezPlugin::s_PluginEvents;
 
 
 ezPlugin::ezPlugin(bool bIsReloadable, OnPluginLoadedFunction OnLoadPlugin, OnPluginUnloadedFunction OnUnloadPlugin, const char* szPluginDependency1, const char* szPluginDependency2, const char* szPluginDependency3, const char* szPluginDependency4, const char* szPluginDependency5)
@@ -201,6 +201,10 @@ ezResult ezPlugin::LoadPluginInternal(const char* szPluginFile, bool bLoadCopy, 
       g_LoadedPlugins.Erase(sNewPlugin.GetData());
       return EZ_FAILURE;
     }
+  }
+  else
+  {
+    sNewPlugin = sOldPlugin;
   }
 
   BeginPluginChanges();
@@ -521,3 +525,7 @@ ezResult ezPlugin::ReloadPlugins(bool bForceReload)
 
   return res;
 }
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Configuration_Implementation_Plugin);
+

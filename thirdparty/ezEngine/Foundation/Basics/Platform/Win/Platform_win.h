@@ -23,15 +23,12 @@
 #include <Rpc.h>
 
 #include <crtdbg.h>
-#include <DbgHelp.h>
 
 #include <malloc.h>
 
 // unset windows macros
 #undef min
 #undef max
-#undef near
-#undef far
 #undef GetObject
 #undef GetCommandLine
 #undef ERROR
@@ -144,3 +141,4 @@
 
 #undef EZ_PLATFORM_LITTLE_ENDIAN
 #define EZ_PLATFORM_LITTLE_ENDIAN EZ_ON
+

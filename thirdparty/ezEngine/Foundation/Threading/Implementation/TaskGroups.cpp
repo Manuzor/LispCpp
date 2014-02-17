@@ -275,3 +275,7 @@ ezResult ezTaskSystem::CancelGroup(ezTaskGroupID Group, ezOnTaskRunning::Enum On
 
   return res;
 }
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Threading_Implementation_TaskGroups);
+

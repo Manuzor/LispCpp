@@ -119,6 +119,9 @@ public:
   /// it is a good idea to just use the default settings.
   static void SetWorkThreadCount(ezInt8 iShortTasks = -1, ezInt8 iLongTasks = -1);
 
+  /// \brief Returns the number of threads that are allocated to work on the given type of task.
+  static ezUInt32 GetWorkerThreadCount(ezWorkerThreadType::Enum Type) { return s_WorkerThreads[Type].GetCount(); }
+
   /// \brief A helper function to insert a single task into the system and start it right away. Returns ID of the Group into which the task has been put.
   static ezTaskGroupID StartSingleTask(ezTask* pTask, ezTaskPriority::Enum Priority);
 
@@ -218,6 +221,9 @@ public:
   /// \brief Returns true when the thread that this function is executed on is the file loading thread.
   static bool IsLoadingThread();
 
+  /// \brief Returns the utilization (0.0 to 1.0) of the given thread. Note: This will only be valid, if FinishFrameTasks() is called once per frame.
+  static double GetThreadUtilization(ezWorkerThreadType::Enum Type, ezUInt32 iThread) { return s_WorkerThreads[Type][iThread]->m_ThreadUtilization; }
+
 private:
   EZ_MAKE_SUBSYSTEM_STARTUP_FRIEND(Foundation, TaskSystem);
   friend class ezTaskWorkerThread;
@@ -233,7 +239,7 @@ private:
   };
 
   // The arrays of all the active worker threads.
-  static ezDynamicArray<ezTaskWorkerThread*, ezStaticAllocatorWrapper> s_WorkerThreads[ezWorkerThreadType::ENUM_COUNT];
+  static ezDynamicArray<ezTaskWorkerThread*> s_WorkerThreads[ezWorkerThreadType::ENUM_COUNT];
 
   // Checks that group are valid for configuration.
   static void DebugCheckTaskGroup(ezTaskGroupID Group);
@@ -272,10 +278,10 @@ private:
   static ezMutex s_TaskSystemMutex;
 
   // The deque can grow without relocating existing data, therefore the ezTaskGroupID's can store pointers directly to the data
-  static ezDeque<ezTaskGroup, ezStaticAllocatorWrapper> s_TaskGroups;
+  static ezDeque<ezTaskGroup> s_TaskGroups;
 
   // The lists of all scheduled tasks, for each priority.
-  static ezList<TaskData, ezStaticAllocatorWrapper> s_Tasks[ezTaskPriority::ENUM_COUNT];
+  static ezList<TaskData> s_Tasks[ezTaskPriority::ENUM_COUNT];
 
   // Thread signals to wake up a worker thread of the proper type, whenever new work becomes available.
   static ezThreadSignal s_TasksAvailableSignal[ezWorkerThreadType::ENUM_COUNT];
@@ -288,5 +294,6 @@ private:
   static ezProfilingId s_ProfileMainThreadTasks;
   static ezProfilingId s_ProfileSomeFrameTasks;
 };
+
 
 

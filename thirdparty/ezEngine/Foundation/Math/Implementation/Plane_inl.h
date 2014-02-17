@@ -197,6 +197,11 @@ bool ezPlaneTemplate<Type>::IsValid() const
   return ezMath::IsFinite(m_fNegDistance) && m_vNormal.IsNormalized(ezMath::BasicType<Type>::DefaultEpsilon());
 }
 
+template<typename Type>
+bool ezPlaneTemplate<Type>::IsNaN() const
+{
+  return ezMath::IsNaN(m_fNegDistance) || m_vNormal.IsNaN();
+}
 
 
 /*! The given vertices can be partially equal or lie on the same line. The algorithm will try to find 3 vertices, that
@@ -265,12 +270,12 @@ ezResult ezPlaneTemplate<Type>::FindSupportPoints (const ezVec3Template<Type>* c
 }
 
 template<typename Type>
-ezPositionOnPlane::Enum ezPlaneTemplate<Type>::GetObjectPosition (const ezVec3Template<Type>* const vPoints, int iVertices) const
+ezPositionOnPlane::Enum ezPlaneTemplate<Type>::GetObjectPosition (const ezVec3Template<Type>* const vPoints, ezUInt32 iVertices) const
 {
   bool bFront = false;
   bool bBack = false;
 
-  for (ezInt32 i = 0; i < iVertices; ++i)
+  for (ezUInt32 i = 0; i < iVertices; ++i)
   {
     switch (GetPointPosition (vPoints[i]))
     {
@@ -294,12 +299,12 @@ ezPositionOnPlane::Enum ezPlaneTemplate<Type>::GetObjectPosition (const ezVec3Te
 }
 
 template<typename Type>
-ezPositionOnPlane::Enum ezPlaneTemplate<Type>::GetObjectPosition (const ezVec3Template<Type>* const vPoints, int iVertices, Type fPlaneHalfWidth) const
+ezPositionOnPlane::Enum ezPlaneTemplate<Type>::GetObjectPosition (const ezVec3Template<Type>* const vPoints, ezUInt32 iVertices, Type fPlaneHalfWidth) const
 {
   bool bFront = false;
   bool bBack = false;
 
-  for (ezInt32 i = 0; i < iVertices; ++i)
+  for (ezUInt32 i = 0; i < iVertices; ++i)
   {
     switch (GetPointPosition (vPoints[i], fPlaneHalfWidth))
     {
@@ -457,3 +462,4 @@ ezResult ezPlaneTemplate<Type>::GetPlanesIntersectionPoint(const ezPlaneTemplate
 }
 
 #include <Foundation/Math/Implementation/AllClasses_inl.h>
+

@@ -85,7 +85,7 @@ EZ_FORCE_INLINE V& ezHashTableBase<K, V, H>::Iterator::Value()
 // ***** ezHashTableBase *****
 
 template <typename K, typename V, typename H>
-ezHashTableBase<K, V, H>::ezHashTableBase(ezIAllocator* pAllocator)
+ezHashTableBase<K, V, H>::ezHashTableBase(ezAllocatorBase* pAllocator)
 {
   m_pEntries = NULL;
   m_pEntryFlags = NULL;
@@ -95,7 +95,7 @@ ezHashTableBase<K, V, H>::ezHashTableBase(ezIAllocator* pAllocator)
 }
 
 template <typename K, typename V, typename H>
-ezHashTableBase<K, V, H>::ezHashTableBase(const ezHashTableBase<K, V, H>& other, ezIAllocator* pAllocator)
+ezHashTableBase<K, V, H>::ezHashTableBase(const ezHashTableBase<K, V, H>& other, ezAllocatorBase* pAllocator)
 {
   m_pEntries = NULL;
   m_pEntryFlags = NULL;
@@ -228,7 +228,9 @@ bool ezHashTableBase<K, V, H>::Insert(const K& key, const V& value, V* out_oldVa
   ezUInt32 uiIndex = H::Hash(key) % m_uiCapacity;
   ezUInt32 uiDeletedIndex = ezInvalidIndex;
 
-  while (!IsFreeEntry(uiIndex))
+  /// \todo optimize this by getting rid of the marking deleted entries
+  ezUInt32 uiCounter = 0;
+  while (!IsFreeEntry(uiIndex) && uiCounter < m_uiCapacity)
   {
     if (IsDeletedEntry(uiIndex))
     {
@@ -244,6 +246,7 @@ bool ezHashTableBase<K, V, H>::Insert(const K& key, const V& value, V* out_oldVa
       return true;
     }
     uiIndex = (uiIndex + 1) % m_uiCapacity;
+    ++uiCounter;
   }
   
   // new entry
@@ -347,7 +350,7 @@ EZ_FORCE_INLINE typename ezHashTableBase<K, V, H>::ConstIterator ezHashTableBase
 }
 
 template <typename K, typename V, typename H>
-EZ_FORCE_INLINE ezIAllocator* ezHashTableBase<K, V, H>::GetAllocator() const
+EZ_FORCE_INLINE ezAllocatorBase* ezHashTableBase<K, V, H>::GetAllocator() const
 {
   return m_pAllocator;
 }
@@ -394,13 +397,15 @@ inline ezUInt32 ezHashTableBase<K, V, H>::FindEntry(ezUInt32 uiHash, const K& ke
 {
   if (m_uiCapacity > 0)
   {
-    ezUInt32 uiIndex = uiHash % m_uiCapacity;  
-    while (!IsFreeEntry(uiIndex))
+    ezUInt32 uiIndex = uiHash % m_uiCapacity;
+    ezUInt32 uiCounter = 0;
+    while (!IsFreeEntry(uiIndex) && uiCounter < m_uiCapacity)
     {
       if (IsValidEntry(uiIndex) && m_pEntries[uiIndex].key == key)
         return uiIndex;
 
       uiIndex = (uiIndex + 1) % m_uiCapacity;
+      ++uiCounter;
     }
   }
   // not found
@@ -486,7 +491,7 @@ ezHashTable<K, V, H, A>::ezHashTable() : ezHashTableBase<K, V, H>(A::GetAllocato
 }
 
 template <typename K, typename V, typename H, typename A>
-ezHashTable<K, V, H, A>::ezHashTable(ezIAllocator* pAllocator) : ezHashTableBase<K, V, H>(pAllocator)
+ezHashTable<K, V, H, A>::ezHashTable(ezAllocatorBase* pAllocator) : ezHashTableBase<K, V, H>(pAllocator)
 {
 }
 

@@ -33,6 +33,13 @@ public:
 
   // no copy-constructor and operator= since the default-generated ones will be faster
 
+#if EZ_ENABLED(EZ_MATH_CHECK_FOR_NAN)
+  void AssertNotNaN() const
+  {
+    EZ_ASSERT(!IsNaN(), "This object contains NaN values. This can happen when you forgot to initialize it before using it. Please check that all code-paths properly initialize this object.");
+  }
+#endif
+
   // *** Conversion Operators/Functions ***
 public:
 
@@ -71,13 +78,13 @@ public:
 
   /// \brief Converts color part to HSV and returns as ezVec3.
   /// Using this function on non-normalized colors will lead to invalid results.
-  /// Hue value is given by an angle in degree (0°-360°)
+  /// Hue value is given by an angle in degree (0 degree - 360 degree)
   /// \see ezColor32f::IsNormalized
   template<typename Type>
   ezVec3Template<Type> ConvertToHSV() const; // [tested]
 
   /// \brief Sets rgb value converting a HSV color.
-  /// \param hue  Hue in degree (0°-360°).
+  /// \param hue  Hue in degree (0 degree - 360 degree).
   /// \param sat  Saturation from 0-1
   /// \param val  Value from 0-1
   template<typename Type>
@@ -106,6 +113,9 @@ public:
 
   /// Converts color from sRGB to linear space. Will not touch alpha.
   ezColor ConvertSRGBToLinear() const;
+
+  /// Calculates the complementary color for this color (hue shifted by 180 degrees), complementary color will have the same alpha.
+  ezColor GetComplementaryColor() const;
 
   /// \todo Add nifty interpolation functions: InterpolateLinearInHSV, InterpolateLinearInRGB
 
@@ -179,3 +189,4 @@ bool operator== (const ezColor& c1, const ezColor& c2); // [tested]
 bool operator!= (const ezColor& c1, const ezColor& c2); // [tested]
 
 #include <Foundation/Math/Implementation/Color_inl.h>
+

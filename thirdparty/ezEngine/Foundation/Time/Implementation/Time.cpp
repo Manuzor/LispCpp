@@ -9,12 +9,7 @@ EZ_BEGIN_SUBSYSTEM_DECLARATION(Foundation, Time)
 
   ON_BASE_STARTUP
   {
-    ezSystemTime::Initialize();
-  }
-
-  ON_BASE_SHUTDOWN
-  {
-    ezSystemTime::Shutdown();
+    ezTime::Initialize();
   }
 
 EZ_END_SUBSYSTEM_DECLARATION
@@ -29,4 +24,8 @@ EZ_END_SUBSYSTEM_DECLARATION
 #else
   #error "Time functions are not implemented on current platform"
 #endif
+
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Time_Implementation_Time);
 

@@ -74,17 +74,19 @@
 #include <Foundation/Math/Angle.h>
 
 #include <Foundation/Memory/Allocator.h>
+#include <Foundation/Memory/AllocatorBase.h>
 #include <Foundation/Memory/AllocatorWrapper.h>
 #include <Foundation/Memory/BlockStorage.h>
 #include <Foundation/Memory/CommonAllocators.h>
 #include <Foundation/Memory/EndianHelper.h>
-#include <Foundation/Memory/IAllocator.h>
+#include <Foundation/Memory/LargeBlockAllocator.h>
+#include <Foundation/Memory/MemoryTracker.h>
 #include <Foundation/Memory/MemoryUtils.h>
+#include <Foundation/Memory/PageAllocator.h>
 #include <Foundation/Memory/Policies/AlignedAllocation.h>
 #include <Foundation/Memory/Policies/AlignedHeapAllocation.h>
 #include <Foundation/Memory/Policies/HeapAllocation.h>
 #include <Foundation/Memory/Policies/ProxyAllocation.h>
-#include <Foundation/Memory/Policies/Tracking.h>
 
 #include <Foundation/Profiling/Profiling.h>
 
@@ -114,6 +116,7 @@
 #include <Foundation/Utilities/CommandLineUtils.h>
 #include <Foundation/Utilities/ConversionUtils.h>
 #include <Foundation/Utilities/EnumerableClass.h>
+#include <Foundation/Utilities/GraphicsUtils.h>
 #include <Foundation/Utilities/StackTracer.h>
 #include <Foundation/Utilities/Stats.h>
 
@@ -121,4 +124,10 @@
 
 
 
+
+
+
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Basics_IncludeAll);
 

@@ -49,6 +49,13 @@ public:
   /// \brief Creates a transformation matrix from a rotation and a translation.
   ezMat4Template(const ezMat3Template<Type>& Rotation, const ezVec3Template<Type>& vTranslation); // [tested]
 
+#if EZ_ENABLED(EZ_MATH_CHECK_FOR_NAN)
+  void AssertNotNaN() const
+  {
+    EZ_ASSERT(!IsNaN(), "This object contains NaN values. This can happen when you forgot to initialize it before using it. Please check that all code-paths properly initialize this object.");
+  }
+#endif
+
   /// \brief Copies 16 values from pData into the matrix. Can handle the data in row-major or column-major order.
   ///
   /// \param pData
@@ -97,7 +104,7 @@ public:
   /// \brief Sets this matrix to be a rotation matrix around the given axis.
   void SetRotationMatrix(const ezVec3Template<Type>& vAxis, ezAngle angle); // [tested]
 
-  /// \brief Creates a perspective projection matrix.
+  /// \brief Creates a perspective projection matrix with Left = -fViewWidth/2, Right = +fViewWidth/2, Bottom = -fViewHeight/2, Top = +fViewHeight/2.
   void SetPerspectiveProjectionMatrix(Type fViewWidth, Type fViewHeight, Type fNearZ, Type fFarZ, ezProjectionDepthRange::Enum DepthRange);
 
   /// \brief Creates a perspective projection matrix.
@@ -111,7 +118,7 @@ public:
   /// \param fFieldOfViewY    Vertical field of view.
   void SetPerspectiveProjectionMatrixFromFovY(ezAngle fieldOfViewY, Type fAspectRatioWidthDivHeight, Type fNearZ, Type fFarZ, ezProjectionDepthRange::Enum DepthRange);
 
-  /// \brief Creates an orthographic projection matrix.
+  /// \brief Creates an orthographic projection matrix with Left = -fViewWidth/2, Right = +fViewWidth/2, Bottom = -fViewHeight/2, Top = +fViewHeight/2.
   void SetOrthographicProjectionMatrix(Type fViewWidth, Type fViewHeight, Type fNearZ, Type fFarZ, ezProjectionDepthRange::Enum DepthRange);
 
   /// \brief Creates an orthographic projection matrix.
@@ -153,6 +160,8 @@ public:
   /// \brief Checks whether all components are finite numbers.
   bool IsValid() const; // [tested]
 
+  /// \brief Checks whether any component is NaN.
+  bool IsNaN() const; // [tested]
 
 // *** Special Accessors ***
 public:

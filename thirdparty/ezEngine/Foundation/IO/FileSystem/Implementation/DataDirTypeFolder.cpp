@@ -181,3 +181,7 @@ namespace ezDataDirectory
 
 }
 
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_IO_FileSystem_Implementation_DataDirTypeFolder);
+

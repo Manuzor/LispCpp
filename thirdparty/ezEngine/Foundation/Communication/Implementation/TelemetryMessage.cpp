@@ -36,3 +36,7 @@ ezTelemetryMessage::~ezTelemetryMessage()
   m_Writer.SetStorage(NULL);
 }
 
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Communication_Implementation_TelemetryMessage);
+

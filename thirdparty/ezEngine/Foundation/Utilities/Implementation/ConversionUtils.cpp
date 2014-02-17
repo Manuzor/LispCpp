@@ -479,3 +479,7 @@ ezString ToString(const ezMat4& value)
 }
 
 } // namespace ezConvertionUtils
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Utilities_Implementation_ConversionUtils);
+

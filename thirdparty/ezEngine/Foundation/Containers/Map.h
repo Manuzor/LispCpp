@@ -84,6 +84,9 @@ public:
   /// \brief Forward Iterator to iterate over all elements in sorted order.
   struct Iterator : public ConstIterator
   {
+    // this is required to pull in the const version of this function
+    using ConstIterator::Value;
+
     EZ_DECLARE_POD_TYPE();
 
     /// \brief Constructs an invalid iterator.
@@ -101,10 +104,10 @@ public:
 protected:
 
   /// \brief Initializes the map to be empty.
-  ezMapBase(ezIAllocator* pAllocator); // [tested]
+  ezMapBase(ezAllocatorBase* pAllocator); // [tested]
 
   /// \brief Copies all key/value pairs from the given map into this one.
-  ezMapBase(const ezMapBase<KeyType, ValueType, Comparer>& cc, ezIAllocator* pAllocator); // [tested]
+  ezMapBase(const ezMapBase<KeyType, ValueType, Comparer>& cc, ezAllocatorBase* pAllocator); // [tested]
 
   /// \brief Destroys all elements from the map.
   ~ezMapBase(); // [tested]
@@ -143,6 +146,9 @@ public:
   /// \brief Erases the key/value pair at the given Iterator. O(1) operation(nearly).
   Iterator Erase(const Iterator& pos); // [tested]
 
+  /// \brief Searches for the given key and returns an iterator to it. If it did not exist yet, it is default-created. \a bExisted is set to true, if the key was found, false if it needed to be created.
+  Iterator FindOrAdd(const KeyType& key, bool* bExisted = NULL); // [tested]
+
   /// \brief Allows read/write access to the value stored under the given key. If there is no such key, a new element is default-constructed.
   ValueType& operator[](const KeyType& key); // [tested]
 
@@ -165,7 +171,7 @@ public:
   ConstIterator UpperBound(const KeyType& key) const; // [tested]
 
   /// \brief Returns the allocator that is used by this instance.
-  ezIAllocator* GetAllocator() const { return m_Elements.GetAllocator(); }
+  ezAllocatorBase* GetAllocator() const { return m_Elements.GetAllocator(); }
 
 private:
   Node* Internal_Find(const KeyType& key) const;
@@ -217,7 +223,7 @@ class ezMap : public ezMapBase<KeyType, ValueType, Comparer>
 {
 public:
   ezMap();
-  ezMap(ezIAllocator* pAllocator);
+  ezMap(ezAllocatorBase* pAllocator);
 
   ezMap(const ezMap<KeyType, ValueType, Comparer, AllocatorWrapper>& other);
   ezMap(const ezMapBase<KeyType, ValueType, Comparer>& other);

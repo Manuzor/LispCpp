@@ -63,9 +63,21 @@ void ezSystemInformation::Initialize()
   GlobalMemoryStatusEx(&memStatus);
 
   s_SystemInformation.m_uiInstalledMainMemory = memStatus.ullTotalPhys;
-
-
   s_SystemInformation.m_b64BitOS = Is64BitWindows();
-
   s_SystemInformation.m_szPlatformName = "Windows";
+
+#if defined BUILDSYSTEM_CONFIGURATION
+  s_SystemInformation.m_szBuildConfiguration = BUILDSYSTEM_CONFIGURATION;
+#else
+  s_SystemInformation.m_szBuildConfiguration = "undefined";
+#endif
+
+  //  Get host name
+  DWORD bufCharCount = sizeof(s_SystemInformation.m_sHostName);
+  if (!GetComputerName(s_SystemInformation.m_sHostName, &bufCharCount))
+  {
+    strcpy(s_SystemInformation.m_sHostName, "");
+  }
+
 }
+

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Core/Basics.h>
 #include <Foundation/IO/MemoryStream.h>
 
 class EZ_FOUNDATION_DLL ezTelemetryMessage
@@ -30,3 +29,4 @@ private:
   ezMemoryStreamReader m_Reader;
   ezMemoryStreamWriter m_Writer;
 };
+

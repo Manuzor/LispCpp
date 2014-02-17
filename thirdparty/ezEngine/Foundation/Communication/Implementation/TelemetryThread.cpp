@@ -24,7 +24,7 @@ private:
       // Send a Ping every once in a while
       if (ezTelemetry::s_ConnectionMode == ezTelemetry::Client)
       {
-        ezTime tNow = ezSystemTime::Now();
+        ezTime tNow = ezTime::Now();
 
         if (tNow - LastPing > ezTime::Milliseconds(500))
         {
@@ -70,4 +70,8 @@ void ezTelemetry::StopTelemetryThread()
   }
 }
 
+
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Communication_Implementation_TelemetryThread);
 

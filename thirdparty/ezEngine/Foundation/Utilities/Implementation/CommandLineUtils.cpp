@@ -44,9 +44,9 @@ void ezCommandLineUtils::SetCommandLine()
 }
 
 #elif EZ_ENABLED(EZ_PLATFORM_OSX)
-
   // Not implemented on OSX.
-
+#elif EZ_ENABLED(EZ_PLATFORM_LINUX)
+  // Not implemented on Linux.
 #else
   #error "ezCommandLineUtils::SetCommandLine(): Abstraction missing."
 #endif
@@ -180,4 +180,8 @@ double ezCommandLineUtils::GetFloatOption(const char* szOption, double fDefault,
 
   return fRes;
 }
+
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Utilities_Implementation_CommandLineUtils);
 

@@ -492,3 +492,7 @@ void ezStartup::ReinitToCurrentState()
 }
 
 
+
+
+EZ_STATICLINK_FILE(Foundation, Foundation_Configuration_Implementation_Startup);
+
