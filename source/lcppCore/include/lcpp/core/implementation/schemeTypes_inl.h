@@ -107,8 +107,20 @@ inline
 ezString
 lcpp::SchemeNumber_t<NUMBER_TYPE>::toString() const
 {
-    EZ_ASSERT(false, "Not Implemented!");
-    return "";
+    static const size_t bufferSize = 128;
+    static const char* formatString = "%f";
+
+    char* buffer = char[bufferSize];
+    auto size = ezStringUtils::snprintf(buffer, bufferSize, formatString, m_value);
+    EZ_ASSERT(size > -1, "Something went wrong with string formatting! Check the buffer for a possible error message");
+    if (size > bufferSize)
+    {
+        buffer = alloca(size);
+        size = ezStringUtils::snprintf(buffer, size, formatString, m_value);
+        EZ_ASSERT(size > -1, "Something went wrong with string formatting! Check the buffer for a possible error message");
+    }
+
+    return buffer;
 }
 
 template<typename NUMBER_TYPE>
