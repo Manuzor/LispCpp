@@ -99,8 +99,75 @@ namespace lcpp { namespace unittests {
     {
         TEST_METHOD(Construction)
         {
-            SchemeInt schemeNumber1 = 1;
-            SchemeInt schemeNumber2(2);
+            union
+            {
+                ezUInt32 i;
+                float f;
+            } test;
+
+            // SchemeInt
+            { // 1
+                SchemeInt int1 = 1;
+                Assert::AreEqual(int1.value(), 1);
+            }
+            { // 2
+                SchemeInt int2(2);
+                Assert::AreEqual(int2.value(), 2);
+            }
+            { // min
+                SchemeInt intMin(-0xFFFF);
+                Assert::IsTrue(intMin.value() < 0);
+                Assert::AreEqual(intMin.value(), -0xFFFF);
+            }
+            { // max
+                SchemeInt intMax(0xFFFF);
+                Assert::IsTrue(intMax.value() > 0);
+                Assert::AreEqual(intMax.value(), 0xFFFF);
+            }
+
+            // SchemeUInt
+            { // 1
+                SchemeUInt uint1 = 1;
+                Assert::AreEqual(uint1.value(), 1U);
+            }
+            { // 2
+                SchemeUInt uint2(2);
+                Assert::AreEqual(uint2.value(), 2U);
+            }
+            { // min
+                SchemeUInt uintMin(0U);
+                Assert::AreEqual(uintMin.value(), 0U);
+            }
+            { // max
+                SchemeUInt uintMax(0xFFFFFFFFU);
+                Assert::AreEqual(uintMax.value(), 0xFFFFFFFFU);
+                Assert::AreEqual(uintMax.value(), static_cast<ezUInt32>(-1));
+            }
+
+            // SchemeFloat
+            { // 1.0f
+                SchemeFloat float1_0 = 1.0f;
+                Assert::AreEqual(float1_0.value(), 1.0f);
+            }
+            { // 2.0f
+                SchemeFloat float2_0(2.0f);
+                Assert::AreEqual(float2_0.value(), 2.0f);
+            }
+            { // min
+                SchemeFloat floatMin(0.0001f);
+                Assert::AreEqual(floatMin.value(), 0.0001f);
+            }
+            { // max
+                SchemeFloat floatMax(1337.0f);
+                Assert::AreEqual(floatMax.value(), 1337.0f);
+            }
+            { // first 255 numbers
+                for (test.i = 0; test.i < 0xFF; test.i++)
+                {
+                    SchemeFloat sf = test.f;
+                    Assert::AreEqual(sf.value(), test.f);
+                }
+            }
         }
 
         TEST_METHOD(ToString)
