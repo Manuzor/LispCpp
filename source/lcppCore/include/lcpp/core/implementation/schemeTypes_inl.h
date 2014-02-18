@@ -105,19 +105,19 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 template<typename NUMBER_TYPE>
 inline
 ezString
-lcpp::SchemeNumber_t<NUMBER_TYPE>::toString() const
+lcpp::SchemeNumber_t<NUMBER_TYPE>::toString(const char* formatString) const
 {
     static const size_t bufferSize = 128;
-    static const char* formatString = "%f";
 
-    char* buffer = char[bufferSize];
+    char buffer[bufferSize];
     auto size = ezStringUtils::snprintf(buffer, bufferSize, formatString, m_value);
     EZ_ASSERT(size > -1, "Something went wrong with string formatting! Check the buffer for a possible error message");
     if (size > bufferSize)
     {
-        buffer = alloca(size);
-        size = ezStringUtils::snprintf(buffer, size, formatString, m_value);
+        char* dynBuffer = static_cast<char*>(alloca(size));
+        size = ezStringUtils::snprintf(dynBuffer, size, formatString, m_value);
         EZ_ASSERT(size > -1, "Something went wrong with string formatting! Check the buffer for a possible error message");
+        return dynBuffer;
     }
 
     return buffer;
@@ -129,6 +129,27 @@ const lcpp::SchemeBool&
 lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeNumber_t<NUMBER_TYPE>& other) const
 {
     return convert(m_value == other.m_value);
+}
+
+inline
+ezString
+lcpp::SchemeInt::toString() const
+{
+    return base_t::toString("%d");
+}
+
+inline
+ezString
+lcpp::SchemeUInt::toString() const
+{
+    return base_t::toString("%u");
+}
+
+inline
+ezString
+lcpp::SchemeFloat::toString() const
+{
+    return base_t::toString("%f");
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,7 @@ namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
     template<>
     static std::wstring ToString<lcpp::SchemeType::Enum>(const lcpp::SchemeType::Enum& value)
     {
+        static_assert(lcpp::SchemeType::NUM_ELEMENTS == 7, "Keep this method in sync with lcpp::SchemeType::Enum!");
         switch (value)
         {
         case lcpp::SchemeType::Object: return L"Object";

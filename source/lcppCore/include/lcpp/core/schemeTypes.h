@@ -16,13 +16,17 @@ namespace lcpp
     {
         enum Enum
         {
+            INVALID = -1,
+
             Object,
             Void,
             Nil,
             Bool,
             Cons,
             Number,
-            String
+            String,
+
+            NUM_ELEMENTS
         };
 
         LCPP_DISALLOW_CONSTRUCTION(SchemeType);
@@ -93,30 +97,51 @@ namespace lcpp
         SCHEME_TYPE_DECLARATION(Number);
 
         typedef T type_t;
+        typedef SchemeNumber_t<type_t> base_t;
 
         inline SchemeNumber_t(type_t value);
         inline virtual ~SchemeNumber_t();
 
         virtual const SchemeBool& operator ==(const SchemeObject& obj) const override;
-        virtual ezString toString() const override;
 
         const SchemeBool& operator ==(const SchemeNumber_t<type_t>& other) const;
 
         inline type_t value() const { return m_value; }
         inline void value(type_t value) const { m_value = value; }
 
+        /// \brief Uses the specified format string to format this number. Use at your own risk!
+        ezString toString(const char* format) const;
     private:
-
         type_t m_value;
     };
 
-    typedef SchemeNumber_t<ezInt32> SchemeInt;
-    typedef SchemeNumber_t<ezUInt32> SchemeUInt;
-    typedef SchemeNumber_t<float> SchemeFloat;
+    class SchemeInt :
+        public SchemeNumber_t<ezInt32>
+    {
+    public:
+        inline SchemeInt(ezInt32 value) : base_t(value) {}
+        virtual ezString toString() const override;
+    };
+
+    class SchemeUInt :
+        public SchemeNumber_t<ezUInt32>
+    {
+    public:
+        inline SchemeUInt(type_t value) : base_t(value) {}
+        virtual ezString toString() const override;
+    };
+
+    class SchemeFloat :
+        public SchemeNumber_t<float>
+    {
+    public:
+        inline SchemeFloat(type_t value) : base_t(value) {}
+        virtual ezString toString() const override;
+    };
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API SchemeCons :
+    class SchemeCons :
         public SchemeObject
     {
     public:

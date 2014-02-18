@@ -99,7 +99,30 @@ namespace lcpp { namespace unittests {
     {
         TEST_METHOD(Construction)
         {
-            SchemeInt schemeNumber = 1;
+            SchemeInt schemeNumber1 = 1;
+            SchemeInt schemeNumber2(2);
+        }
+
+        TEST_METHOD(ToString)
+        {
+            // SchemeInt
+            {
+                SchemeInt int1 = 1;
+                Assert::IsTrue(int1.toString().IsEqual("1"), L"SchemeInt::toString is broken!");
+            }
+
+            // SchemeUInt
+            {
+                SchemeUInt uint1 = 1;
+                Assert::IsTrue(uint1.toString().IsEqual("1"), L"SchemeUInt::toString is broken!");
+            }
+
+            // SchemeFloat
+            {
+                SchemeFloat float1 = 1.0f;
+                Assert::IsTrue(float1.toString().IsEqual("1.000000"), L"SchemeFloat::toString is broken!");
+                Assert::IsTrue(float1.toString("%3.f").IsEqual("1.000000"), L"SchemeNumber_t<float>::toString is broken!");
+            }
         }
     };
 }}
