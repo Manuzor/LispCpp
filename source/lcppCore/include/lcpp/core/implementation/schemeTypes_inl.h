@@ -107,7 +107,7 @@ inline
 ezString
 lcpp::SchemeNumber_t<NUMBER_TYPE>::toString(const char* formatString) const
 {
-    static const size_t bufferSize = 128;
+    static const size_t bufferSize = 32;
 
     char buffer[bufferSize];
     auto size = ezStringUtils::snprintf(buffer, bufferSize, formatString, m_value);
