@@ -133,14 +133,14 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeNumber_t<NUMBER_TYPE>
 
 inline
 ezString
-lcpp::SchemeInt::toString() const
+lcpp::SchemeInt32::toString() const
 {
     return base_t::toString("%d");
 }
 
 inline
 ezString
-lcpp::SchemeUInt::toString() const
+lcpp::SchemeUInt32::toString() const
 {
     return base_t::toString("%u");
 }

@@ -115,19 +115,19 @@ namespace lcpp
         type_t m_value;
     };
 
-    class SchemeInt :
+    class SchemeInt32 :
         public SchemeNumber_t<ezInt32>
     {
     public:
-        inline SchemeInt(ezInt32 value) : base_t(value) {}
+        inline SchemeInt32(ezInt32 value) : base_t(value) {}
         virtual ezString toString() const override;
     };
 
-    class SchemeUInt :
+    class SchemeUInt32 :
         public SchemeNumber_t<ezUInt32>
     {
     public:
-        inline SchemeUInt(type_t value) : base_t(value) {}
+        inline SchemeUInt32(type_t value) : base_t(value) {}
         virtual ezString toString() const override;
     };
 
