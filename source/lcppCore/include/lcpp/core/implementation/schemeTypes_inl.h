@@ -147,6 +147,20 @@ lcpp::SchemeUInt32::toString() const
 
 inline
 ezString
+lcpp::SchemeInt64::toString() const
+{
+    return base_t::toString("%dll");
+}
+
+inline
+ezString
+lcpp::SchemeUInt64::toString() const
+{
+    return base_t::toString("%ull");
+}
+
+inline
+ezString
 lcpp::SchemeFloat::toString() const
 {
     return base_t::toString("%f");
