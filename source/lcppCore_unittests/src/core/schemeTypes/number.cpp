@@ -93,9 +93,14 @@ namespace lcpp { namespace unittests {
                 Assert::IsTrue(str.IsEqual("1337"), L"SchemeInt32::toString is broken!");
             }
             {
-                SchemeInt32 intMax = 0xFFFF;
+                SchemeInt32 intMax = std::numeric_limits<SchemeInt32::number_t>::max();
                 ezString str = intMax.toString();
-                Assert::IsTrue(str.IsEqual("65535"), L"SchemeInt32::toString is broken!");
+                Assert::IsTrue(str.IsEqual("2147483647"), L"SchemeInt32::toString is broken!");
+            }
+            {
+                SchemeInt32 intMin = std::numeric_limits<SchemeInt32::number_t>::min();
+                ezString str = intMin.toString();
+                Assert::IsTrue(str.IsEqual("-2147483648"), L"SchemeInt32::toString is broken!");
             }
 
             // SchemeUInt32
@@ -110,9 +115,14 @@ namespace lcpp { namespace unittests {
                 Assert::IsTrue(str.IsEqual("1337"), L"SchemeInt32::toString is broken!");
             }
             {
-                SchemeUInt32 uintMax = 0xFFFFFFFF;
+                SchemeUInt32 uintMax = std::numeric_limits<SchemeUInt32::number_t>::max();
                 ezString str = uintMax.toString();
                 Assert::IsTrue(str.IsEqual("4294967295"), L"SchemeInt32::toString is broken!");
+            }
+            {
+                SchemeUInt32 uintMin = std::numeric_limits<SchemeUInt32::number_t>::min();
+                ezString str = uintMin.toString();
+                Assert::IsTrue(str.IsEqual("0"), L"SchemeInt32::toString is broken!");
             }
 
             // SchemeFloat
@@ -120,15 +130,41 @@ namespace lcpp { namespace unittests {
                 SchemeFloat float1 = 1.0f;
                 ezString str = float1.toString();
                 Assert::IsTrue(str.IsEqual("1"), L"SchemeFloat::toString is broken!");
-
-                //TODO: For some reason, the following line does not compile. Find out why!
-                //Assert::IsTrue(float1.toString("%3.f").IsEqual("1.000000"), L"SchemeNumber_t<float>::toString is broken!");
             }
             {
                 SchemeFloat float1 = 1.1f;
                 ezString str = float1.toString();
                 Assert::IsTrue(str.IsEqual("1.1"), L"SchemeFloat::toString is broken!");
             }
+        }
+
+        TEST_METHOD(Operator_Assign)
+        {
+            SchemeInt32::type_t& theInteger = SchemeInt32(1);
+
+            theInteger = 2;
+
+            Assert::AreEqual(theInteger.value(), 2, L"Assignment operator of SchemeNumber_t broken!");
+        }
+
+        TEST_METHOD(Operator_Add)
+        {
+            SchemeInt32::type_t& theInteger = SchemeInt32(1);
+            SchemeInt32::type_t& otherInteger = SchemeInt32(3);
+
+            Assert::AreEqual((theInteger + otherInteger).value(), 1 + 3, L"Adding two SchemeNumber_t instances does not work!");
+
+            Assert::AreEqual((theInteger + 2).value(), 1 + 2, L"operator+ of SchemeNumber_t broken!");
+
+            theInteger += 2;
+            Assert::AreEqual(theInteger.value(), 1 + 2, L"operator+= of SchemeNumber_t broken!");
+
+            theInteger += 2.4f;
+            Assert::AreEqual(theInteger.value(), 1 + 2 + 2, L"operator+= of SchemeNumber_t broken!");
+
+            theInteger += 2.6f;
+            Assert::AreEqual(theInteger.value(), 1 + 2 + 2 + 2, L"operator+= of SchemeNumber_t broken!");
+
         }
     };
 

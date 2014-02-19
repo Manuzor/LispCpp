@@ -96,64 +96,81 @@ namespace lcpp
     public:
         SCHEME_TYPE_DECLARATION(Number);
 
-        typedef T type_t;
-        typedef SchemeNumber_t<type_t> base_t;
+        typedef T number_t;
+        typedef SchemeNumber_t<number_t> type_t;
 
-        inline SchemeNumber_t(type_t value);
+        inline SchemeNumber_t(number_t value);
         inline virtual ~SchemeNumber_t();
 
         virtual const SchemeBool& operator ==(const SchemeObject& obj) const override;
 
-        const SchemeBool& operator ==(const SchemeNumber_t<type_t>& other) const;
+        const SchemeBool& operator ==(const type_t& other) const;
 
-        inline type_t value() const { return m_value; }
-        inline void value(type_t value) const { m_value = value; }
+        inline number_t value() const { return m_value; }
+        inline void value(number_t value) const { m_value = value; }
 
-        /// \brief Uses the specified format string to format this number. Use at your own risk!
-        ezString toString(const char* format) const;
+        virtual ezString toString() const override;
+
+        // Other operators
+        //TODO: Move these to the _inl file.
+        template<typename T>
+        inline void operator =(SchemeNumber_t<T> rhs)
+        {
+            m_value = (number_t)rhs.m_value;
+        }
+
+        template<typename T>
+        inline void operator =(T rhs)
+        {
+            m_value = (number_t)rhs;
+        }
+
+        template<typename T>
+        inline type_t operator +(SchemeNumber_t<T> rhs)
+        {
+            return type_t(m_value + (number_t)rhs.m_value);
+        }
+
+        template<typename T>
+        inline type_t operator +(T rhs)
+        {
+            return type_t(m_value + (number_t)rhs);
+        }
+
+        template<typename T>
+        inline void operator +=(SchemeNumber_t<T> rhs)
+        {
+            m_value += (number_t)rhs.m_value;
+        }
+
+        template<typename T>
+        inline void operator +=(T rhs)
+        {
+            m_value += (number_t)rhs;
+        }
+
     private:
-        type_t m_value;
+        number_t m_value;
     };
 
-    class SchemeInt32 :
-        public SchemeNumber_t<ezInt32>
-    {
-    public:
-        inline SchemeInt32(type_t value) : base_t(value) {}
-        virtual ezString toString() const override;
-    };
+    typedef SchemeNumber_t<ezInt8> SchemeInt8;
+    typedef SchemeNumber_t<ezInt8> SchemeUInt8;
 
-    class SchemeUInt32 :
-        public SchemeNumber_t<ezUInt32>
-    {
-    public:
-        inline SchemeUInt32(type_t value) : base_t(value) {}
-        virtual ezString toString() const override;
-    };
+    typedef SchemeNumber_t<ezInt16> SchemeInt16;
+    typedef SchemeNumber_t<ezUInt16> SchemeUInt16;
 
-    class SchemeInt64 :
-        public SchemeNumber_t<ezInt64>
-    {
-    public:
-        inline SchemeInt64(type_t value) : base_t(value) {}
-        virtual ezString toString() const override;
-    };
+    typedef SchemeNumber_t<ezInt32> SchemeInt32;
+    typedef SchemeNumber_t<ezUInt32> SchemeUInt32;
 
-    class SchemeUInt64 :
-        public SchemeNumber_t<ezUInt64>
-    {
-    public:
-        inline SchemeUInt64(type_t value) : base_t(value) {}
-        virtual ezString toString() const override;
-    };
+    typedef SchemeNumber_t<ezInt64> SchemeInt64;
+    typedef SchemeNumber_t<ezUInt64> SchemeUInt64;
 
-    class SchemeFloat :
-        public SchemeNumber_t<float>
-    {
-    public:
-        inline SchemeFloat(type_t value) : base_t(value) {}
-        virtual ezString toString() const override;
-    };
+    typedef SchemeNumber_t<float> SchemeFloat;
+    typedef SchemeNumber_t<double> SchemeDouble;
+
+    // TODO: Implement a struct, that can represent any possible number.
+    // Can represent any possible number, but is slower and needs more memory than the other POD types.
+    //typedef SchemeNumber_t<number> SchemeNumber;
 
     //////////////////////////////////////////////////////////////////////////
 

@@ -1,3 +1,5 @@
+#include "lcpp/foundation/stringUtil.h"
+
 inline
 const lcpp::SchemeBool&
 lcpp::convert( bool value )
@@ -79,7 +81,7 @@ lcpp::SchemeBool::operator bool() const
 
 template<typename NUMBER_TYPE>
 inline
-lcpp::SchemeNumber_t<NUMBER_TYPE>::SchemeNumber_t(NUMBER_TYPE value) :
+lcpp::SchemeNumber_t<NUMBER_TYPE>::SchemeNumber_t(number_t value) :
     m_value(value)
 {
 }
@@ -97,7 +99,7 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 {
     if (obj.is(SchemeType::Number))
     {
-        return convert(*this == static_cast<const SchemeNumber_t<NUMBER_TYPE>&>(obj));
+        return convert(*this == static_cast<const type_t&>(obj));
     }
     return SCHEME_FALSE;
 }
@@ -105,65 +107,17 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 template<typename NUMBER_TYPE>
 inline
 ezString
-lcpp::SchemeNumber_t<NUMBER_TYPE>::toString(const char* formatString) const
+lcpp::SchemeNumber_t<NUMBER_TYPE>::toString() const
 {
-    static const size_t bufferSize = 32;
-
-    char buffer[bufferSize];
-    auto size = ezStringUtils::snprintf(buffer, bufferSize, formatString, m_value);
-    EZ_ASSERT(size > -1, "Something went wrong with string formatting! Check the buffer for a possible error message");
-    if (size > bufferSize)
-    {
-        char* dynBuffer = static_cast<char*>(alloca(size));
-        size = ezStringUtils::snprintf(dynBuffer, size, formatString, m_value);
-        EZ_ASSERT(size > -1, "Something went wrong with string formatting! Check the buffer for a possible error message");
-        return dynBuffer;
-    }
-
-    return buffer;
+    return ::lcpp::toString(m_value);
 }
 
 template<typename NUMBER_TYPE>
 inline
 const lcpp::SchemeBool&
-lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeNumber_t<NUMBER_TYPE>& other) const
+lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const type_t& other) const
 {
     return convert(m_value == other.m_value);
-}
-
-inline
-ezString
-lcpp::SchemeInt32::toString() const
-{
-    return base_t::toString("%d");
-}
-
-inline
-ezString
-lcpp::SchemeUInt32::toString() const
-{
-    return base_t::toString("%u");
-}
-
-inline
-ezString
-lcpp::SchemeInt64::toString() const
-{
-    return base_t::toString("%dll");
-}
-
-inline
-ezString
-lcpp::SchemeUInt64::toString() const
-{
-    return base_t::toString("%ull");
-}
-
-inline
-ezString
-lcpp::SchemeFloat::toString() const
-{
-    return base_t::toString("%f");
 }
 
 //////////////////////////////////////////////////////////////////////////

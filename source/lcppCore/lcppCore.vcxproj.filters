@@ -41,6 +41,9 @@
     <ClInclude Include="include\lcpp\api_inl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\lcpp\foundation\stringUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">

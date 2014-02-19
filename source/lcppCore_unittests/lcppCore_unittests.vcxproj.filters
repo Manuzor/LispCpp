@@ -18,22 +18,25 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\schemeTypes\basics.cpp">
+    <ClCompile Include="src\setup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\schemeTypes\bool.cpp">
+    <ClCompile Include="src\core\schemeTypes\basics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\schemeTypes\cons.cpp">
+    <ClCompile Include="src\core\schemeTypes\bool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\schemeTypes\nil.cpp">
+    <ClCompile Include="src\core\schemeTypes\cons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\schemeTypes\number.cpp">
+    <ClCompile Include="src\core\schemeTypes\nil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\unittestModule.cpp">
+    <ClCompile Include="src\core\schemeTypes\number.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\foundation\stringUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

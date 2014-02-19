@@ -28,6 +28,7 @@
     <ClInclude Include="include\lcpp\foundation\common.h" />
     <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
     <ClInclude Include="include\lcpp\foundation\newdelete.h" />
+    <ClInclude Include="include\lcpp\foundation\stringUtil.h" />
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

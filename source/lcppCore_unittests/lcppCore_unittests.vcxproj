@@ -157,12 +157,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\unittestModule.cpp" />
-    <ClCompile Include="src\schemeTypes\basics.cpp" />
-    <ClCompile Include="src\schemeTypes\bool.cpp" />
-    <ClCompile Include="src\schemeTypes\cons.cpp" />
-    <ClCompile Include="src\schemeTypes\nil.cpp" />
-    <ClCompile Include="src\schemeTypes\number.cpp" />
+    <ClCompile Include="src\foundation\stringUtil.cpp" />
+    <ClCompile Include="src\setup.cpp" />
+    <ClCompile Include="src\core\schemeTypes\basics.cpp" />
+    <ClCompile Include="src\core\schemeTypes\bool.cpp" />
+    <ClCompile Include="src\core\schemeTypes\cons.cpp" />
+    <ClCompile Include="src\core\schemeTypes\nil.cpp" />
+    <ClCompile Include="src\core\schemeTypes\number.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
