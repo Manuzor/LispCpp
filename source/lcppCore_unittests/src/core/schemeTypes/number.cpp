@@ -166,6 +166,8 @@ namespace lcpp { namespace unittests {
             Assert::AreEqual(theInteger.value(), 1 + 2 + 2 + 2, L"operator+= of SchemeNumber_t broken!");
 
         }
+
+        // TODO: More tests for the operators.
     };
 
 }}

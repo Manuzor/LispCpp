@@ -112,41 +112,170 @@ namespace lcpp
         virtual ezString toString() const override;
 
         // Other operators
-        //TODO: Move these to the _inl file.
+        // Note: I cannot move these to the _inl file due to a compiler bug...
+
+        // =
+        //////////////////////////////////////////////////////////////////////////
         template<typename T>
-        inline void operator =(SchemeNumber_t<T> rhs)
+        inline type_t& operator =(const SchemeNumber_t<T>& rhs)
         {
             m_value = (number_t)rhs.m_value;
+            return *this;
         }
 
         template<typename T>
-        inline void operator =(T rhs)
+        inline type_t& operator =(T rhs)
         {
             m_value = (number_t)rhs;
+            return *this;
         }
 
+        // + += ++
+        //////////////////////////////////////////////////////////////////////////
+
         template<typename T>
-        inline type_t operator +(SchemeNumber_t<T> rhs)
+        inline type_t operator +(const SchemeNumber_t<T>& rhs) const
         {
             return type_t(m_value + (number_t)rhs.m_value);
         }
 
         template<typename T>
-        inline type_t operator +(T rhs)
+        inline type_t operator +(T rhs) const
         {
             return type_t(m_value + (number_t)rhs);
         }
 
         template<typename T>
-        inline void operator +=(SchemeNumber_t<T> rhs)
+        inline type_t operator +=(const SchemeNumber_t<T>& rhs)
         {
             m_value += (number_t)rhs.m_value;
+            return *this;
         }
 
         template<typename T>
-        inline void operator +=(T rhs)
+        inline type_t operator +=(T rhs)
         {
             m_value += (number_t)rhs;
+            return *this;
+        }
+
+        // prefix
+        inline type_t& operator ++()
+        {
+            m_value++;
+            return *this;
+        }
+
+        // postfix
+        template<typename T>
+        inline type_t operator ++(T)
+        {
+            type_t ret(*this);
+            operator++();
+            return ret;
+        }
+
+        // - -= --
+        //////////////////////////////////////////////////////////////////////////
+
+        template<typename T>
+        inline type_t operator -(const SchemeNumber_t<T>& rhs) const
+        {
+            return type_t(m_value - (number_t)rhs.m_value);
+        }
+
+        template<typename T>
+        inline type_t operator -(T rhs) const
+        {
+            return type_t(m_value - (number_t)rhs);
+        }
+
+        template<typename T>
+        inline type_t operator -=(const SchemeNumber_t<T>& rhs)
+        {
+            m_value -= (number_t)rhs.m_value;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator -=(T rhs)
+        {
+            m_value -= (number_t)rhs;
+            return *this;
+        }
+
+        // prefix
+        inline type_t& operator --()
+        {
+            m_value--;
+            return *this;
+        }
+
+        // postfix
+        template<typename T>
+        inline type_t operator --(T)
+        {
+            type_t ret(*this);
+            operator--();
+            return ret;
+        }
+
+        // * *=
+        //////////////////////////////////////////////////////////////////////////
+
+        template<typename T>
+        inline type_t operator *(const SchemeNumber_t<T>& rhs) const
+        {
+            return type_t(m_value * (number_t)rhs.m_value);
+        }
+
+        template<typename T>
+        inline type_t operator *(T rhs) const
+        {
+            return type_t(m_value * (number_t)rhs);
+        }
+
+        template<typename T>
+        inline type_t operator *=(const SchemeNumber_t<T>& rhs)
+        {
+            m_value *= (number_t)rhs.m_value;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator *=(T rhs)
+        {
+            m_value *= (number_t)rhs;
+            return *this;
+        }
+
+        // / /=
+        //////////////////////////////////////////////////////////////////////////
+
+        template<typename T>
+        inline type_t operator /(const SchemeNumber_t<T>& rhs) const
+        {
+            return type_t(m_value / (number_t)rhs.m_value);
+        }
+
+        template<typename T>
+        inline type_t operator /(T rhs) const
+        {
+            return type_t(m_value / (number_t)rhs);
+        }
+
+        template<typename T>
+        inline type_t operator /=(const SchemeNumber_t<T>& rhs)
+        {
+            m_value /= (number_t)rhs.m_value;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator /=(T rhs)
+        {
+            m_value /= (number_t)rhs;
+            return *this;
         }
 
     private:
@@ -167,10 +296,6 @@ namespace lcpp
 
     typedef SchemeNumber_t<float> SchemeFloat;
     typedef SchemeNumber_t<double> SchemeDouble;
-
-    // TODO: Implement a struct, that can represent any possible number.
-    // Can represent any possible number, but is slower and needs more memory than the other POD types.
-    //typedef SchemeNumber_t<number> SchemeNumber;
 
     //////////////////////////////////////////////////////////////////////////
 
