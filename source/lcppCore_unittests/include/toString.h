@@ -1,27 +1,32 @@
 #pragma once
+#define LCPP_UNITTESTS_FRAMEWORK_TOSTRING(typeName) namespace Microsoft {\
+namespace VisualStudio {\
+namespace CppUnitTestFramework { \
+    template<>                                                    \
+    static std::wstring ToString<typeName>(const typeName& value) \
+    {                                                             \
+        ezStringWChar result = value.toString().GetData();        \
+        return result.GetData();                                  \
+    }                                                             \
+}}}
+
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeObject);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeVoid);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeBool);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeNil);
+
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt8);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt8);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt16);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt16);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt32);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt32);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt64);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt64);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeFloat);
+LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeDouble);
 
 namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
-
-    template<>
-    static std::wstring ToString<lcpp::SchemeObject>(const lcpp::SchemeObject& value)
-    {
-        ezStringWChar result = value.toString().GetData();
-        return result.GetData();
-    }
-
-    template<>
-    static std::wstring ToString<lcpp::SchemeNil>(const lcpp::SchemeNil& value)
-    {
-        ezStringWChar result = value.toString().GetData();
-        return result.GetData();
-    }
-
-    template<>
-    static std::wstring ToString<lcpp::SchemeBool>(const lcpp::SchemeBool& value)
-    {
-        ezStringWChar result = value.toString().GetData();
-        return result.GetData();
-    }
 
     template<>
     static std::wstring ToString<lcpp::SchemeType::Enum>(const lcpp::SchemeType::Enum& value)
@@ -39,5 +44,7 @@ namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
         default: return L"<INVALID>";
         }
     }
+
+// TODO: More here
 
 }}}

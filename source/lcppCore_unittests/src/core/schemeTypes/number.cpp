@@ -141,37 +141,74 @@ namespace lcpp { namespace unittests {
         TEST_METHOD(Conversion)
         {
             SchemeInt32 theInt = 42;
-            Assert::AreEqual(ezInt32(theInt), ezInt32(42), L"Conversion does not work!");
+            Assert::AreEqual(ezInt32(theInt), ezInt32(42), L"Explicit conversion does not work!");
             Assert::AreEqual<ezInt32>(theInt, 42, L"Implicit conversion does not work!");
         }
 
         TEST_METHOD(Operator_Assign)
         {
-            SchemeInt32 theInteger = 1;
+            SchemeInt32 first = 1;
+            SchemeInt32 second = 2;
+            SchemeDouble third = 3.1415;
 
-            theInteger = 2;
+            first = 3;
+            Assert::AreEqual<SchemeInt32::number_t>(first, 3, L"Assignment operator of SchemeNumber_t broken!");
 
-            Assert::AreEqual(theInteger.value(), 2, L"Assignment operator of SchemeNumber_t broken!");
+            first = 7.123;
+            Assert::AreEqual<SchemeInt32::number_t>(first, 7, L"Failed to assign a float to a SchemeInt32!");
+
+            first = second;
+            Assert::AreEqual(first, second, L"Failed to assign a SchemeInt32 to a SchemeInt32!");
+
+            first = third;
+            Assert::AreEqual<SchemeInt32::number_t>(first, third, L"Failed to assign a SchemeDouble to a SchemeInt32!");
         }
 
         TEST_METHOD(Operator_Add)
         {
-            SchemeInt32::type_t& theInteger = SchemeInt32(1);
-            SchemeInt32::type_t& otherInteger = SchemeInt32(3);
+            SchemeInt32 first = 1;
+            SchemeInt32 second = 2;
+            SchemeDouble third = 3.1415;
 
-            Assert::AreEqual((theInteger + otherInteger).value(), 1 + 3, L"Adding two SchemeNumber_t instances does not work!");
+            // Add SchemeInt32 and ezInt32 (signed int)
+            Assert::AreEqual<SchemeInt32::number_t>(first + 1, 2, L"Failed to add int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
 
-            Assert::AreEqual((theInteger + 2).value(), 1 + 2, L"operator+ of SchemeNumber_t broken!");
+            // Add SchemeInt32 and SchemeInt32
+            Assert::AreEqual<SchemeInt32::number_t>(first + second, 3, L"Failed to add int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
 
-            theInteger += 2;
-            Assert::AreEqual(theInteger.value(), 1 + 2, L"operator+= of SchemeNumber_t broken!");
+            // Add SchemeInt32 and SchemeDouble
+            Assert::AreEqual<SchemeInt32::number_t>(first + third, 4, L"Failed to add int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
+        }
 
-            theInteger += 2.4f;
-            Assert::AreEqual(theInteger.value(), 1 + 2 + 2, L"operator+= of SchemeNumber_t broken!");
+        TEST_METHOD(Operator_AddAndAssign)
+        {
+            // Assign another number
+            {
+                SchemeInt32 first = 1;
+                first += 1;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Cannot add and assign int!");
+            }
 
-            theInteger += 2.6f;
-            Assert::AreEqual(theInteger.value(), 1 + 2 + 2 + 2, L"operator+= of SchemeNumber_t broken!");
+            // Assign another scheme number of same type
+            {
+                SchemeInt32 first = 1;
+                SchemeInt32 second = 2;
 
+                first += second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 3, L"Cannot add another SchemeInt32!");
+            }
+
+            // Assign another scheme number of different type
+            {
+                SchemeInt32 first = 1;
+                SchemeDouble second = 3.1415;
+
+                first += second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 4, L"Cannot add and assign another scheme number of different type!");
+            }
         }
 
         // TODO: More tests for the operators.

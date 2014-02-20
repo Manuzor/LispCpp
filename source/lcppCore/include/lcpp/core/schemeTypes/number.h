@@ -38,12 +38,6 @@ namespace lcpp
 
         // =
         //////////////////////////////////////////////////////////////////////////
-        template<typename T>
-        inline type_t& operator =(const SchemeNumber_t<T>& rhs)
-        {
-            m_value = (number_t)rhs.m_value;
-            return *this;
-        }
 
         template<typename T>
         inline type_t& operator =(T rhs)
@@ -56,22 +50,9 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline type_t operator +(const SchemeNumber_t<T>& rhs) const
-        {
-            return type_t(m_value + (number_t)rhs.m_value);
-        }
-
-        template<typename T>
         inline type_t operator +(T rhs) const
         {
             return type_t(m_value + (number_t)rhs);
-        }
-
-        template<typename T>
-        inline type_t operator +=(const SchemeNumber_t<T>& rhs)
-        {
-            m_value += (number_t)rhs.m_value;
-            return *this;
         }
 
         template<typename T>
@@ -205,7 +186,7 @@ namespace lcpp
     };
 
     typedef SchemeNumber_t<ezInt8> SchemeInt8;
-    typedef SchemeNumber_t<ezInt8> SchemeUInt8;
+    typedef SchemeNumber_t<ezUInt8> SchemeUInt8;
 
     typedef SchemeNumber_t<ezInt16> SchemeInt16;
     typedef SchemeNumber_t<ezUInt16> SchemeUInt16;
