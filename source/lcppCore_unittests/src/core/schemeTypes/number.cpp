@@ -138,9 +138,16 @@ namespace lcpp { namespace unittests {
             }
         }
 
+        TEST_METHOD(Conversion)
+        {
+            SchemeInt32 theInt = 42;
+            Assert::AreEqual(ezInt32(theInt), ezInt32(42), L"Conversion does not work!");
+            Assert::AreEqual<ezInt32>(theInt, 42, L"Implicit conversion does not work!");
+        }
+
         TEST_METHOD(Operator_Assign)
         {
-            SchemeInt32::type_t& theInteger = SchemeInt32(1);
+            SchemeInt32 theInteger = 1;
 
             theInteger = 2;
 

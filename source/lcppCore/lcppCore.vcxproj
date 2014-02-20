@@ -21,9 +21,23 @@
   <ItemGroup>
     <ClInclude Include="include\lcpp\api.h" />
     <ClInclude Include="include\lcpp\api_inl.h" />
-    <ClInclude Include="include\lcpp\core\implementation\schemeTypes_inl.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\lcpp\core\schemeTypes.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\bool.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\cons.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\conversion.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\bool_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\cons_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\conversion_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\nil_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\number_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\void_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\nil.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\number.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\object.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\singletons.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\type.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypes\void.h" />
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
     <ClInclude Include="include\lcpp\foundation\common.h" />
     <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
