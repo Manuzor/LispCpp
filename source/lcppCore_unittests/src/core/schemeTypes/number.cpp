@@ -169,6 +169,7 @@ namespace lcpp { namespace unittests {
             SchemeInt32 first = 1;
             SchemeInt32 second = 2;
             SchemeDouble third = 3.1415;
+            SchemeFloat fourth = 3.6f;
 
             // Add SchemeInt32 and ezInt32 (signed int)
             Assert::AreEqual<SchemeInt32::number_t>(first + 1, 2, L"Failed to add int!");
@@ -177,10 +178,16 @@ namespace lcpp { namespace unittests {
             // Add SchemeInt32 and SchemeInt32
             Assert::AreEqual<SchemeInt32::number_t>(first + second, 3, L"Failed to add int!");
             Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::number_t>(second, 2, L"Operator + must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeDouble
             Assert::AreEqual<SchemeInt32::number_t>(first + third, 4, L"Failed to add int!");
             Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeDouble::number_t>(third, 3.1415, L"Operator + must not have sideeffects!");
+
+            Assert::AreEqual<SchemeInt32::number_t>(second + fourth, 5, L"Failed to properly add a SchemeFloat to a SchemeInt32!");
+            Assert::AreEqual<SchemeInt32::number_t>(second, 2, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeFloat::number_t>(fourth, 3.6f, L"Operator + must not have sideeffects!");
         }
 
         TEST_METHOD(Operator_AddAndAssign)
@@ -208,6 +215,113 @@ namespace lcpp { namespace unittests {
 
                 first += second;
                 Assert::AreEqual<SchemeInt32::number_t>(first, 4, L"Cannot add and assign another scheme number of different type!");
+            }
+        }
+
+        TEST_METHOD(Operator_Subtract)
+        {
+            SchemeInt32 first = 1;
+            SchemeInt32 second = 2;
+            SchemeDouble third = 3.1415;
+
+            // Add SchemeInt32 and ezInt32 (signed int)
+            Assert::AreEqual<SchemeInt32::number_t>(first - 1, 0, L"Failed to subtract int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator - must not have sideeffects!");
+
+            // Add SchemeInt32 and SchemeInt32
+            Assert::AreEqual<SchemeInt32::number_t>(first - second, -1, L"Failed to subtract int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator - must not have sideeffects!");
+
+            // Add SchemeInt32 and SchemeDouble
+            Assert::AreEqual<SchemeInt32::number_t>(first - third, -2, L"Failed to subtract int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator - must not have sideeffects!");
+        }
+
+        TEST_METHOD(Operator_SubtractAndAssign)
+        {
+            // Assign another number
+            {
+                SchemeInt32 first = 1;
+                first -= 1;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 0, L"Cannot subtract and assign int!");
+            }
+
+            // Assign another scheme number of same type
+            {
+                SchemeInt32 first = 1;
+                SchemeInt32 second = 2;
+
+                first -= second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, -1, L"Cannot subtract another SchemeInt32!");
+            }
+
+            // Assign another scheme number of different type
+            {
+                SchemeInt32 first = 1;
+                SchemeDouble second = 3.1415;
+
+                first -= second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, -2, L"Cannot subtract and assign another scheme number of different type!");
+            }
+        }
+
+
+        TEST_METHOD(Operator_Multiply)
+        {
+            SchemeInt32 first = 2;
+            SchemeInt32 second = 3;
+            SchemeDouble third = 4.1415;
+            SchemeFloat fourth = 3.6f;
+
+            // Add SchemeInt32 and ezInt32 (signed int)
+            Assert::AreEqual<SchemeInt32::number_t>(first * 1, 2, L"Failed to multiply with int!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Operator * must not have sideeffects!");
+
+            // Add SchemeInt32 and SchemeInt32
+            Assert::AreEqual<SchemeInt32::number_t>(first * second, 6, L"Failed to multiply with SchemeInt32!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::number_t>(second, 3, L"Operator * must not have sideeffects!");
+
+            // Add SchemeInt32 and SchemeDouble
+            Assert::AreEqual<SchemeInt32::number_t>(first * third, 8, L"Failed to multiply SchemeInt32 with SchemeDouble!");
+            Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeDouble::number_t>(third, 4.1415, L"Operator * must not have sideeffects!");
+
+            Assert::AreEqual<SchemeInt32::number_t>(fourth * fourth, 12, L"Failed to multiply SchemeInt32 with SchemeDouble!");
+        }
+
+        TEST_METHOD(Operator_MultiplyAndAssign)
+        {
+            // Assign another number
+            {
+                SchemeInt32 first = 2;
+                first *= 2;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 4, L"Cannot multiply with and assign int!");
+            }
+
+            // Assign another scheme number of same type
+            {
+                SchemeInt32 first = 2;
+                SchemeInt32 second = 3;
+
+                first *= second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 6, L"Cannot add another SchemeInt32!");
+            }
+
+            // Assign another scheme number of different type
+            {
+                SchemeInt32 first = 2;
+                SchemeDouble second = 3.1415;
+
+                first *= second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 6, L"Cannot add and assign another scheme number of different type!");
+            }
+            {
+                SchemeInt32 first = 2;
+                SchemeDouble second = 3.6;
+
+                first *= second;
+                Assert::AreEqual<SchemeInt32::number_t>(first, 7, L"Cannot add and assign a SchemeFloat or SchemeDouble without truncation!");
             }
         }
 

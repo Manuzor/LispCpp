@@ -50,15 +50,28 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline type_t operator +(T rhs) const
+        inline T operator +(T rhs) const
         {
-            return type_t(m_value + (number_t)rhs);
+            return m_value + rhs;
+        }
+
+        template<typename T>
+        inline T operator +(SchemeNumber_t<T> rhs) const
+        {
+            return m_value + (T)rhs;
         }
 
         template<typename T>
         inline type_t operator +=(T rhs)
         {
-            m_value += (number_t)rhs;
+            m_value = m_value + rhs;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator +=(SchemeNumber_t<T> rhs)
+        {
+            m_value = m_value + (T)rhs;
             return *this;
         }
 
@@ -82,28 +95,28 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline type_t operator -(const SchemeNumber_t<T>& rhs) const
+        inline T operator -(T rhs) const
         {
-            return type_t(m_value - (number_t)rhs.m_value);
+            return m_value - rhs;
         }
 
         template<typename T>
-        inline type_t operator -(T rhs) const
+        inline T operator -(SchemeNumber_t<T> rhs) const
         {
-            return type_t(m_value - (number_t)rhs);
-        }
-
-        template<typename T>
-        inline type_t operator -=(const SchemeNumber_t<T>& rhs)
-        {
-            m_value -= (number_t)rhs.m_value;
-            return *this;
+            return m_value - (T)rhs;
         }
 
         template<typename T>
         inline type_t operator -=(T rhs)
         {
-            m_value -= (number_t)rhs;
+            m_value = m_value - rhs;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator -=(SchemeNumber_t<T> rhs)
+        {
+            m_value = m_value - (T)rhs;
             return *this;
         }
 
@@ -127,28 +140,28 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline type_t operator *(const SchemeNumber_t<T>& rhs) const
+        inline T operator *(T rhs) const
         {
-            return type_t(m_value * (number_t)rhs.m_value);
+            return m_value * rhs;
         }
 
         template<typename T>
-        inline type_t operator *(T rhs) const
+        inline T operator *(SchemeNumber_t<T> rhs) const
         {
-            return type_t(m_value * (number_t)rhs);
-        }
-
-        template<typename T>
-        inline type_t operator *=(const SchemeNumber_t<T>& rhs)
-        {
-            m_value *= (number_t)rhs.m_value;
-            return *this;
+            return m_value * (T)rhs;
         }
 
         template<typename T>
         inline type_t operator *=(T rhs)
         {
-            m_value *= (number_t)rhs;
+            m_value = m_value * rhs;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator *=(SchemeNumber_t<T> rhs)
+        {
+            m_value = m_value * (T)rhs;
             return *this;
         }
 
@@ -156,28 +169,28 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline type_t operator /(const SchemeNumber_t<T>& rhs) const
+        inline T operator /(T rhs) const
         {
-            return type_t(m_value / (number_t)rhs.m_value);
+            return m_value / rhs;
         }
 
         template<typename T>
-        inline type_t operator /(T rhs) const
+        inline T operator /(SchemeNumber_t<T> rhs) const
         {
-            return type_t(m_value / (number_t)rhs);
-        }
-
-        template<typename T>
-        inline type_t operator /=(const SchemeNumber_t<T>& rhs)
-        {
-            m_value /= (number_t)rhs.m_value;
-            return *this;
+            return m_value / (T)rhs;
         }
 
         template<typename T>
         inline type_t operator /=(T rhs)
         {
-            m_value /= (number_t)rhs;
+            m_value = m_value / rhs;
+            return *this;
+        }
+
+        template<typename T>
+        inline type_t operator /=(SchemeNumber_t<T> rhs)
+        {
+            m_value = m_value / (T)rhs;
             return *this;
         }
 
