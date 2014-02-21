@@ -12,6 +12,7 @@ namespace lcpp
             Void,
             Nil,
             Bool,
+            Symbol,
             Cons,
             Number,
             String,

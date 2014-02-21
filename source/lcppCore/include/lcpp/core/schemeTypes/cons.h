@@ -9,16 +9,29 @@ namespace lcpp
     public:
         SCHEME_TYPE_DECLARATION(Cons);
 
+        SchemeCons();
+        SchemeCons(const SchemeObject& car);
         SchemeCons(const SchemeObject& car, const SchemeObject& cdr);
+
+        SchemeCons(const SchemeCons& copy);
+        void operator =(SchemeCons copyAssign);
+
+        SchemeCons(SchemeCons&& toMove);
+
         virtual ~SchemeCons();
 
         virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
         virtual ezString toString() const override;
 
-        inline const SchemeObject& car() const { return *m_car; }
-        inline void car(const SchemeObject& value){ m_car = &value; }
-        inline const SchemeObject& cdr() const { return *m_cdr; }
-        inline void cdr(const SchemeObject& value){ m_cdr = &value; }
+        /// \brief get car
+        const SchemeObject& car() const;
+        /// \brief set car
+        void car(const SchemeObject& value);
+        
+        /// \brief get cdr
+        const SchemeObject& cdr() const;
+        /// \brief set cdr
+        void cdr(const SchemeObject& value);
 
     private:
 

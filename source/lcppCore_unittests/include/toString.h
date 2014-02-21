@@ -31,13 +31,14 @@ namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
     template<>
     static std::wstring ToString<lcpp::SchemeType::Enum>(const lcpp::SchemeType::Enum& value)
     {
-        static_assert(lcpp::SchemeType::NUM_ELEMENTS == 7, "Keep this method in sync with lcpp::SchemeType::Enum!");
+        static_assert(lcpp::SchemeType::NUM_ELEMENTS == 8, "Keep this method in sync with lcpp::SchemeType::Enum!");
         switch (value)
         {
         case lcpp::SchemeType::Object: return L"Object";
         case lcpp::SchemeType::Void:   return L"Void";
         case lcpp::SchemeType::Nil:    return L"Nil";
         case lcpp::SchemeType::Bool:   return L"Bool";
+        case lcpp::SchemeType::Symbol: return L"Symbol";
         case lcpp::SchemeType::Cons:   return L"Cons";
         case lcpp::SchemeType::Number: return L"Number";
         case lcpp::SchemeType::String: return L"String";
