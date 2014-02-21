@@ -8,7 +8,7 @@ namespace lcpp
         public SchemeObject
     {
     public:
-        SCHEME_TYPE_DECLARATION(Number);
+        LCPP_SCHEME_TYPE_DECLARATION(Number);
 
         typedef NUMBER_TYPE number_t;
         typedef SchemeNumber_t<number_t> type_t;

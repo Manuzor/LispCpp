@@ -7,7 +7,7 @@ namespace lcpp
         public SchemeObject
     {
     public:
-        SCHEME_TYPE_DECLARATION(Bool);
+        LCPP_SCHEME_TYPE_DECLARATION(Bool);
 
         SchemeBool();
         virtual ~SchemeBool();

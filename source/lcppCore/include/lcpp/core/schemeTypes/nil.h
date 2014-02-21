@@ -7,7 +7,7 @@ namespace lcpp
         public SchemeObject
     {
     public:
-        SCHEME_TYPE_DECLARATION(Nil);
+        LCPP_SCHEME_TYPE_DECLARATION(Nil);
 
         SchemeNil();
         virtual ~SchemeNil();

@@ -7,7 +7,7 @@ namespace lcpp
         public SchemeObject
     {
     public:
-        SCHEME_TYPE_DECLARATION(Cons);
+        LCPP_SCHEME_TYPE_DECLARATION(Cons);
 
         SchemeCons();
         SchemeCons(const SchemeObject& car);

@@ -7,7 +7,7 @@ namespace lcpp
         public SchemeObject
     {
     public:
-        SCHEME_TYPE_DECLARATION(Void);
+        LCPP_SCHEME_TYPE_DECLARATION(Void);
 
         SchemeVoid();
         virtual ~SchemeVoid();
