@@ -62,14 +62,38 @@ namespace lcpp
     } 
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+//int _tmain(int argc, _TCHAR* argv[])
+//{
+//    ezStartup::StartupCore();
+//
+//    lcpp::entryFunction();
+//
+//    ezStartup::ShutdownBase();
+//
+//    return 0;
+//}
+
+int main(int argc, const char* argv[])
 {
-    ezStartup::StartupCore();
+    sf::Window window(sf::VideoMode(800, 600), "My First SFML Application");
+    sf::Event evt;
 
-    lcpp::entryFunction();
+    while (window.isOpen())
+    {
+        while (window.pollEvent(evt))
+        {
+            switch (evt.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            default:
+                break;
+            }
+        }
 
-    ezStartup::ShutdownBase();
-
+        window.setActive();
+        window.display();
+    }
     return 0;
 }
-

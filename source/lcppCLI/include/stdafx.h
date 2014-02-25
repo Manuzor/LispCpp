@@ -11,3 +11,15 @@
 #include <tchar.h>
 
 #include "lcpp/api.h"
+
+// SFML
+//////////////////////////////////////////////////////////////////////////
+#include "SFML/Config.hpp"
+#include "SFML/System.hpp"
+#include "SFML/Window.hpp"
+#include "SFML/Audio.hpp"
+#include "SFML/Graphics.hpp"
+#include "SFML/Network.hpp"
+
+// Uncomment to access OpenGL functionality
+#include "SFML/OpenGL.hpp"
