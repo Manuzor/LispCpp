@@ -13,7 +13,8 @@ int main(int argc, const char* argv[])
     sf::Font font;
 
     static const size_t numLines = 16;
-    ezHybridArray<sf::Text, numLines> lines;
+    ezDynamicArray<sf::Text> lines;
+    lines.Reserve(numLines);
     lines.SetCount(numLines);
 
     sf::Text info;
