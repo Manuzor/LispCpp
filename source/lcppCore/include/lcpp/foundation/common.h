@@ -8,6 +8,7 @@
 
 // ezEngine stuff
 #include <Foundation/Basics/IncludeAll.cpp>
+#include "lcpp/foundation/rangeUtils.h"
 
 #include "lcpp/foundation/newdelete.h"
 
@@ -22,3 +23,4 @@
 #include "lcpp/exceptions/exceptions.h"
 
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
+

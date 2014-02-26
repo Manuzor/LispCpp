@@ -95,7 +95,7 @@ int main(int argc, const char* argv[])
     sf::RenderWindow window(sf::VideoMode(800, 600), "My First SFML Application");
     sf::Font font;
 
-    static const size_t numLines = 10;
+    static const size_t numLines = 16;
     ezHybridArray<sf::Text, numLines> lines;
     lines.SetCount(numLines);
 
@@ -103,7 +103,7 @@ int main(int argc, const char* argv[])
     info.setFont(font);
     info.setCharacterSize(20);
     info.setColor(sf::Color(200, 200, 200, 255));
-    info.setPosition(10, window.getSize().y - info.getCharacterSize() - 5);
+    info.setPosition(10, window.getSize().y - info.getCharacterSize() - 5.0f);
 
     const size_t startSize = 11;
     const size_t step = 2;
@@ -116,7 +116,7 @@ int main(int argc, const char* argv[])
 
     std::function<float(size_t)> calcPosY = [&](size_t index) -> float
     {
-        if (index == 0) return spacing;
+        if (index == 0) return float(spacing);
         const auto characterSize = startSize + index * step;
         return characterSize + spacing + calcPosY(index - 1);
     };
@@ -174,10 +174,11 @@ int main(int argc, const char* argv[])
         // clear, then render stuff
         window.clear();
 
-        for (size_t i = 0; i < lines.GetCount(); i++)
+        //for (size_t i = 0; i < lines.GetCount(); i++)
+        //{
+        //    auto& text = lines[i];
+        for(auto& text : lines)
         {
-            auto& text = lines[i];
-
             ezStringBuilder tempBuilder;
 
             tempBuilder.AppendFormat("%u: %s", text.getCharacterSize(), builder.GetData());

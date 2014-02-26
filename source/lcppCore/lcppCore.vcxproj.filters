@@ -86,15 +86,21 @@
     <ClInclude Include="include\lcpp\core\schemeTypes\singletons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\lcpp\foundation\rangeUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\lcpp\foundation\implementation\rangeUtils_inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lcpp\reader.cpp">
+    <ClCompile Include="src\lcpp\schemeTypes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lcpp\schemeTypes.cpp">
+    <ClCompile Include="src\lcpp\core\reader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

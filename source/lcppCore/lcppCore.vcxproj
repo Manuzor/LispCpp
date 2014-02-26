@@ -41,12 +41,14 @@
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
     <ClInclude Include="include\lcpp\foundation\common.h" />
     <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
+    <ClInclude Include="include\lcpp\foundation\implementation\rangeUtils_inl.h" />
     <ClInclude Include="include\lcpp\foundation\newdelete.h" />
+    <ClInclude Include="include\lcpp\foundation\rangeUtils.h" />
     <ClInclude Include="include\lcpp\foundation\stringUtil.h" />
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\lcpp\reader.cpp" />
+    <ClCompile Include="src\lcpp\core\reader.cpp" />
     <ClCompile Include="src\lcpp\schemeTypes.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

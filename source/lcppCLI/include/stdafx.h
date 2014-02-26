@@ -22,4 +22,4 @@
 #include "SFML/Network.hpp"
 
 // Uncomment to access OpenGL functionality
-#include "SFML/OpenGL.hpp"
+//#include "SFML/OpenGL.hpp"
