@@ -3,6 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <ConfigurationSuffix>_d</ConfigurationSuffix>
+    <SfmlDebugSuffix>-d</SfmlDebugSuffix>
   </PropertyGroup>
   <PropertyGroup>
     <TargetName>$(ProjectName)_d</TargetName>
@@ -11,6 +12,9 @@
   <ItemGroup>
     <BuildMacro Include="ConfigurationSuffix">
       <Value>$(ConfigurationSuffix)</Value>
+    </BuildMacro>
+    <BuildMacro Include="SfmlDebugSuffix">
+      <Value>$(SfmlDebugSuffix)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

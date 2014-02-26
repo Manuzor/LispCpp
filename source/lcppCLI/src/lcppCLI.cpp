@@ -73,10 +73,67 @@ namespace lcpp
 //    return 0;
 //}
 
+namespace
+{
+    template<typename T>
+    class ScopeExit
+    {
+        T m_f;
+    public:
+        ScopeExit(const T& executableObject) : m_f(executableObject)
+        {}
+
+        ~ScopeExit() { m_f(); }
+    };
+}
+
 int main(int argc, const char* argv[])
 {
-    sf::Window window(sf::VideoMode(800, 600), "My First SFML Application");
+    ezStartup::StartupCore();
+    ScopeExit<std::function<void()>> shutdown([](){ ezStartup::ShutdownBase(); });
+
+    sf::RenderWindow window(sf::VideoMode(800, 600), "My First SFML Application");
+    sf::Font font;
+
+    static const size_t numLines = 10;
+    ezHybridArray<sf::Text, numLines> lines;
+    lines.SetCount(numLines);
+
+    sf::Text info;
+    info.setFont(font);
+    info.setCharacterSize(20);
+    info.setColor(sf::Color(200, 200, 200, 255));
+    info.setPosition(10, window.getSize().y - info.getCharacterSize() - 5);
+
+    const size_t startSize = 11;
+    const size_t step = 2;
+    const size_t spacing = 5;
+
+    if (!font.loadFromFile("../../data/fonts/consola.ttf"))
+    {
+        return -1;
+    }
+
+    std::function<float(size_t)> calcPosY = [&](size_t index) -> float
+    {
+        if (index == 0) return spacing;
+        const auto characterSize = startSize + index * step;
+        return characterSize + spacing + calcPosY(index - 1);
+    };
+
+    for (size_t i = 0; i < lines.GetCount(); i++)
+    {
+        auto& text = lines[i];
+
+        text.setFont(font);
+        text.setCharacterSize(startSize + i * step);
+        text.setColor(sf::Color::White);
+        text.setPosition(10.0f, calcPosY(i));
+    }
+
     sf::Event evt;
+
+    ezStringBuilder builder;
 
     while (window.isOpen())
     {
@@ -87,12 +144,51 @@ int main(int argc, const char* argv[])
             case sf::Event::Closed:
                 window.close();
                 break;
+            case sf::Event::TextEntered:
+                if (evt.text.unicode == '\b')
+                {
+                    builder.Shrink(0, 1);
+                }
+                else
+                {
+                    builder.Append(evt.text.unicode);
+                }
+                break;
+            case sf::Event::KeyPressed:
+                switch (evt.key.code)
+                {
+                case sf::Keyboard::Escape:
+                    window.close();
+                    break;
+                case sf::Keyboard::Return:
+                    info.setString("Return pressed!");
+                    break;
+                default:
+                    break;
+                }
             default:
                 break;
             }
         }
 
-        window.setActive();
+        // clear, then render stuff
+        window.clear();
+
+        for (size_t i = 0; i < lines.GetCount(); i++)
+        {
+            auto& text = lines[i];
+
+            ezStringBuilder tempBuilder;
+
+            tempBuilder.AppendFormat("%u: %s", text.getCharacterSize(), builder.GetData());
+
+            text.setString(tempBuilder.GetData());
+            window.draw(text);
+        }
+
+        window.draw(info);
+
+        // now display
         window.display();
     }
     return 0;
