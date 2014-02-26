@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <exception>
 #include <limits>
+#include <functional>
 
 #include <windows.h>
 

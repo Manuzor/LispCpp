@@ -24,3 +24,22 @@
 
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 
+namespace
+{
+    template<typename T>
+    class ScopeExit_tpl
+    {
+    public:
+        T m_onExitFunction;
+        ScopeExit_tpl() : m_onExitFunction(nullptr) {}
+        ~ScopeExit_tpl() { m_onExitFunction(); }
+    };
+}
+
+// Executes code when the current scope exits. Use within a scope only!
+// Example:
+// LCPP_SCOPE_EXIT
+// {
+//     printf("You will always see me when the current scope exits!\n");
+// }; // <- mind the semicolon!
+#define LCPP_SCOPE_EXIT ScopeExit_tpl<std::function<void()>> scopeExit_##__LINE__; scopeExit_##__LINE__.m_onExitFunction = [&]()
