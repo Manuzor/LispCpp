@@ -99,6 +99,9 @@
       <AdditionalLibraryDirectories>$(SFML_API)/$(PlatformArchitecture)/SFML-2.1/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio$(SfmlDebugSuffix).lib;sfml-graphics$(SfmlDebugSuffix).lib;sfml-main$(SfmlDebugSuffix).lib;sfml-network$(SfmlDebugSuffix).lib;sfml-system$(SfmlDebugSuffix).lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)\scripts\postBuild.bat "$(OutDir)" "$(PlatformArchitecture)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,6 +118,9 @@
       <AdditionalLibraryDirectories>$(SFML_API)/$(PlatformArchitecture)/SFML-2.1/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio$(SfmlDebugSuffix).lib;sfml-graphics$(SfmlDebugSuffix).lib;sfml-main$(SfmlDebugSuffix).lib;sfml-network$(SfmlDebugSuffix).lib;sfml-system$(SfmlDebugSuffix).lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)\scripts\postBuild.bat "$(OutDir)" "$(PlatformArchitecture)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -135,6 +141,9 @@
       <AdditionalLibraryDirectories>$(SFML_API)/$(PlatformArchitecture)/SFML-2.1/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio$(SfmlDebugSuffix).lib;sfml-graphics$(SfmlDebugSuffix).lib;sfml-main$(SfmlDebugSuffix).lib;sfml-network$(SfmlDebugSuffix).lib;sfml-system$(SfmlDebugSuffix).lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)\scripts\postBuild.bat "$(OutDir)" "$(PlatformArchitecture)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,6 +164,9 @@
       <AdditionalLibraryDirectories>$(SFML_API)/$(PlatformArchitecture)/SFML-2.1/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio$(SfmlDebugSuffix).lib;sfml-graphics$(SfmlDebugSuffix).lib;sfml-main$(SfmlDebugSuffix).lib;sfml-network$(SfmlDebugSuffix).lib;sfml-system$(SfmlDebugSuffix).lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>$(ProjectDir)\scripts\postBuild.bat "$(OutDir)" "$(PlatformArchitecture)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\stdafx.h" />

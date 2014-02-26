@@ -91,9 +91,6 @@ int main(int argc, const char* argv[])
         // clear, then render stuff
         window.clear();
 
-        //for (size_t i = 0; i < lines.GetCount(); i++)
-        //{
-        //    auto& text = lines[i];
         for(auto& text : lines)
         {
             ezStringBuilder tempBuilder;
