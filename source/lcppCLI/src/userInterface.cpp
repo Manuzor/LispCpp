@@ -2,6 +2,53 @@
 #include "userInterface.h"
 #include "exceptions.h"
 
+void lcpp::UserInterface::initialize(const CInfo& cinfo)
+{
+    m_Window.create(cinfo.videoMode, cinfo.windowTitle);
+
+    m_windowClearColor = cinfo.windowClearColor;
+
+    if (!m_mainFont.loadFromFile(cinfo.fontInfo.file))
+    {
+        throw exceptions::InitializationFailed("Failed to load font from file!");
+    }
+
+    m_mainFontSize = cinfo.fontInfo.size;
+    m_mainFontColor = cinfo.fontInfo.color;
+
+    m_eventHandlers[sf::Event::Closed] = [&](const sf::Event& evt)
+    {
+        m_keepRunning = false;
+    };
+
+    m_eventHandlers[sf::Event::TextEntered] = [&](const sf::Event& evt)
+    {
+        if (evt.text.unicode == '\b')
+        {
+            m_inputText.Shrink(0, 1);
+        }
+        else if(evt.text.unicode > 20 && evt.text.unicode < 255) //TODO: only ASCII for now
+        {
+            m_inputText.Append(evt.text.unicode);
+        }
+    };
+
+    m_eventHandlers[sf::Event::KeyPressed] = [&](const sf::Event& evt)
+    {
+        switch (evt.key.code)
+        {
+        case sf::Keyboard::Escape:
+            stop();
+            break;
+        case sf::Keyboard::Return:
+            m_info.setString("Return pressed!");
+            break;
+        default:
+            break;
+        }
+    };
+}
+
 void lcpp::UserInterface::shutdown()
 {
 
@@ -9,108 +56,83 @@ void lcpp::UserInterface::shutdown()
 
 void lcpp::UserInterface::run()
 {
+    sf::Clock clock;
+    while (m_keepRunning)
+    {
+        update(clock.restart());
+        draw();
+    }
+
+    m_Window.close();
+}
+
+void lcpp::UserInterface::update(sf::Time elapsedTime)
+{
+    sf::Event evt;
+    while (m_Window.pollEvent(evt))
+    {
+        auto& eventHandler = m_eventHandlers[evt.type];
+        if (eventHandler) eventHandler(evt);
+    }
+
+    buildText();
+}
+
+void lcpp::UserInterface::buildText()
+{
+    for(auto& text : m_lines)
+    {
+        ezStringBuilder tempBuilder;
+
+        tempBuilder.AppendFormat("%u: %s", text.getCharacterSize(), m_inputText.GetData());
+
+        text.setString(tempBuilder.GetData());
+    }
+}
+
+void lcpp::UserInterface::draw()
+{
+    m_Window.clear(m_windowClearColor);
+    //////////////////////////////////////////////////////////////////////////
+
+    for (auto& line : m_lines)
+    {
+        m_Window.draw(line);
+    }
+
+    m_Window.draw(m_info);
+
+    //////////////////////////////////////////////////////////////////////////
+    m_Window.display();
+}
+
+void lcpp::UserInterface::handleEvents()
+{
 
 }
 
-void lcpp::UserInterface::initialize()
+size_t lcpp::UserInterface::calcNumLines()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My First SFML Application");
-    sf::Font font;
+    //TODO: Implement me.
+    return 1;
+}
 
-    static const size_t numLines = 16;
-    ezDynamicArray<sf::Text> lines;
-    lines.Reserve(numLines);
-    lines.SetCount(numLines);
+void lcpp::UserInterface::setupLines()
+{
+    const size_t spacing = m_mainFont.getLineSpacing(m_mainFontSize);
+    const size_t numLines = calcNumLines();
 
-    sf::Text info;
-    info.setFont(font);
-    info.setCharacterSize(20);
-    info.setColor(sf::Color(200, 200, 200, 255));
-    info.setPosition(10, window.getSize().y - info.getCharacterSize() - 5.0f);
+    m_lines.Clear();
+    m_lines.Reserve(numLines);
+    m_lines.SetCount(numLines);
 
-    const size_t startSize = 11;
-    const size_t step = 2;
-    const size_t spacing = 5;
-
-    if (!font.loadFromFile("../../data/fonts/consola.ttf"))
+    for (size_t i = 0; i < m_lines.GetCount(); i++)
     {
-        throw exceptions::InitializationFailed("Failed to load font!");
+        auto& text = m_lines[i];
+
+        text.setFont(m_mainFont);
+        text.setCharacterSize(m_mainFontSize);
+        text.setColor(m_mainFontColor);
+        text.setPosition(10.0f, 10.0f + (i * spacing) + (i * m_mainFontSize));
     }
-
-    std::function<float(size_t)> calcPosY = [&](size_t index) -> float
-    {
-        if (index == 0) return float(spacing);
-        const auto characterSize = startSize + index * step;
-        return characterSize + spacing + calcPosY(index - 1);
-    };
-
-    for (size_t i = 0; i < lines.GetCount(); i++)
-    {
-        auto& text = lines[i];
-
-        text.setFont(font);
-        text.setCharacterSize(startSize + i * step);
-        text.setColor(sf::Color::White);
-        text.setPosition(10.0f, calcPosY(i));
-    }
-
-    sf::Event evt;
-
-    ezStringBuilder builder;
-
-    while (window.isOpen())
-    {
-        while (window.pollEvent(evt))
-        {
-            switch (evt.type)
-            {
-            case sf::Event::Closed:
-                window.close();
-                break;
-            case sf::Event::TextEntered:
-                if (evt.text.unicode == '\b')
-                {
-                    builder.Shrink(0, 1);
-                }
-                else
-                {
-                    builder.Append(evt.text.unicode);
-                }
-                break;
-            case sf::Event::KeyPressed:
-                switch (evt.key.code)
-                {
-                case sf::Keyboard::Escape:
-                    window.close();
-                    break;
-                case sf::Keyboard::Return:
-                    info.setString("Return pressed!");
-                    break;
-                default:
-                    break;
-                }
-            default:
-                break;
-            }
-        }
-
-        // clear, then render stuff
-        window.clear();
-
-        for(auto& text : lines)
-        {
-            ezStringBuilder tempBuilder;
-
-            tempBuilder.AppendFormat("%u: %s", text.getCharacterSize(), builder.GetData());
-
-            text.setString(tempBuilder.GetData());
-            window.draw(text);
-        }
-
-        window.draw(info);
-
-        // now display
-        window.display();
-    }
-
 }

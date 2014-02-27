@@ -62,7 +62,8 @@ void run()
     // Initialize
     {
         EZ_LOG_BLOCK("Initializing user interface.");
-        ui.initialize();
+        lcpp::UserInterface::CInfo cinfo;
+        ui.initialize(cinfo);
     }
 
     // Run
@@ -92,16 +93,22 @@ int main(int argc, const char* argv[])
     {
         run();
     }
-    catch (lcpp::exceptions::ExceptionBase e)
+    catch (lcpp::exceptions::ExceptionBase& e)
     {
         ezLog::Error(e.message());
-    	return -1;
+        return -1;
     }
-    catch (std::exception e)
+    catch (std::exception& e)
     {
         EZ_ASSERT(false, "Uncaught std::exception!");
         ezLog::Error(e.what());
         return -2;
+    }
+    catch(...)
+    {
+        EZ_ASSERT(false, "Something was thrown and it was not caught!");
+        ezLog::Error("Something was thrown and it was not caught!");
+        return -3;
     }
 
     return 0;
