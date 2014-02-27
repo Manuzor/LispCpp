@@ -169,9 +169,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\common.h" />
+    <ClInclude Include="include\exceptions.h" />
     <ClInclude Include="include\stdafx.h" />
+    <ClInclude Include="include\userInterface.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\userInterface.cpp" />
     <ClCompile Include="src\lcppCLI.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

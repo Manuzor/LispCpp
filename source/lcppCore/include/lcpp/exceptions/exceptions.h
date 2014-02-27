@@ -12,7 +12,6 @@ namespace lcpp { namespace exceptions {
             m_line(line)
         {}
 
-        inline virtual ~ExceptionBase() = 0 {}
         inline const char* file() const { return m_file; }
         inline const ezUInt32 line() const { return m_line; }
         inline const char* message() const { return m_message; }
@@ -31,8 +30,6 @@ namespace lcpp { namespace exceptions {
         inline NotImplemented(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Not implemented!", file, line)
         {}
-
-        inline virtual ~NotImplemented() {}
     };
 
     class InvalidSyntax :
@@ -42,8 +39,6 @@ namespace lcpp { namespace exceptions {
         inline InvalidSyntax(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Invalid syntax!", file, line)
         {}
-
-        inline virtual ~InvalidSyntax() {}
     };
 
     class InvalidOperation :
@@ -53,8 +48,6 @@ namespace lcpp { namespace exceptions {
         inline InvalidOperation(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Invalid operation!", file, line)
         {}
-
-        inline virtual ~InvalidOperation() {}
     };
 
 }}

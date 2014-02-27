@@ -42,4 +42,4 @@ namespace
 // {
 //     printf("You will always see me when the current scope exits!\n");
 // }; // <- mind the semicolon!
-#define LCPP_SCOPE_EXIT ScopeExit_tpl<std::function<void()>> scopeExit_##__LINE__; scopeExit_##__LINE__.m_onExitFunction = [&]()
+#define LCPP_SCOPE_EXIT ScopeExit_tpl<std::function<void()>> EZ_CONCAT(scopeExit, EZ_SOURCE_LINE) ; EZ_CONCAT(scopeExit, EZ_SOURCE_LINE).m_onExitFunction = [&]()

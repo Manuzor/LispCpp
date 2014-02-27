@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <tchar.h>
+#include <functional>
 
 #include "lcpp/api.h"
 
@@ -23,3 +24,7 @@
 
 // Uncomment to access OpenGL functionality
 //#include "SFML/OpenGL.hpp"
+
+// Custom stuff that will not change frequently
+//////////////////////////////////////////////////////////////////////////
+#include "common.h"

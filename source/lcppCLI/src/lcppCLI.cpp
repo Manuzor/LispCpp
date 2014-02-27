@@ -3,109 +3,106 @@
 
 #include "stdafx.h"
 #include <functional>
+#include "userInterface.h"
+#include "exceptions.h"
+
+namespace lcpp
+{
+    class LoggingSystem
+    {
+        ezStringBuilder m_absoluteLogFilesDir;
+        ezLogWriter::HTML m_htmlLog;
+    public:
+        LoggingSystem(const char* logFilesDirectory) :
+            m_absoluteLogFilesDir(logFilesDirectory)
+        {
+            m_absoluteLogFilesDir.MakeAbsolutePath(ezOSFile::GetApplicationDirectory());
+        }
+
+        void initialize()
+        {
+            // set up console and visual studio loggers.
+            ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
+            ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
+
+
+            // set up html file log.
+            ezOSFile::CreateDirectoryStructure(m_absoluteLogFilesDir.GetData());
+
+            ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
+            ezFileSystem::AddDataDirectory(m_absoluteLogFilesDir.GetData(), ezFileSystem::AllowWrites, "loggingDirectory");
+
+            ezGlobalLog::AddLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, &m_htmlLog));
+
+            m_absoluteLogFilesDir.AppendPath(g_ApplicationTitleShort);
+            m_absoluteLogFilesDir.Append(".log.html");
+            m_htmlLog.BeginLog(m_absoluteLogFilesDir.GetData(), g_ApplicationTitle);
+        }
+
+        void shutdown()
+        {
+            ezGlobalLog::RemoveLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, &m_htmlLog));
+            ezGlobalLog::RemoveLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
+            ezGlobalLog::RemoveLogWriter(ezLogWriter::Console::LogMessageHandler);
+
+            m_htmlLog.EndLog();
+
+            ezFileSystem::RemoveDataDirectoryGroup("loggingDirectory");
+            ezFileSystem::ClearAllDataDirectoryFactories(); //TODO: Check if this is ok to be here.
+        }
+
+        EZ_DISALLOW_COPY_AND_ASSIGN(LoggingSystem);
+    };
+}
+
+void run()
+{
+    lcpp::UserInterface ui;
+
+    // Initialize
+    {
+        EZ_LOG_BLOCK("Initializing user interface.");
+        ui.initialize();
+    }
+
+    // Run
+    ui.run();
+
+    // Shutdown.
+    {
+        EZ_LOG_BLOCK("Shutting down user interface.");
+        ui.shutdown();
+    }
+}
 
 int main(int argc, const char* argv[])
 {
     ezStartup::StartupCore();
     LCPP_SCOPE_EXIT { ezStartup::ShutdownBase(); };
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My First SFML Application");
-    sf::Font font;
+    lcpp::LoggingSystem loggingSystem("./log/");
+    loggingSystem.initialize();
+    LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
 
-    static const size_t numLines = 16;
-    ezDynamicArray<sf::Text> lines;
-    lines.Reserve(numLines);
-    lines.SetCount(numLines);
+    EZ_LOG_BLOCK("ezEngine running.");
 
-    sf::Text info;
-    info.setFont(font);
-    info.setCharacterSize(20);
-    info.setColor(sf::Color(200, 200, 200, 255));
-    info.setPosition(10, window.getSize().y - info.getCharacterSize() - 5.0f);
+    ezStartup::PrintAllSubsystems();
 
-    const size_t startSize = 11;
-    const size_t step = 2;
-    const size_t spacing = 5;
-
-    if (!font.loadFromFile("../../data/fonts/consola.ttf"))
+    try
     {
-        return -1;
+        run();
+    }
+    catch (lcpp::exceptions::ExceptionBase e)
+    {
+        ezLog::Error(e.message());
+    	return -1;
+    }
+    catch (std::exception e)
+    {
+        EZ_ASSERT(false, "Uncaught std::exception!");
+        ezLog::Error(e.what());
+        return -2;
     }
 
-    std::function<float(size_t)> calcPosY = [&](size_t index) -> float
-    {
-        if (index == 0) return float(spacing);
-        const auto characterSize = startSize + index * step;
-        return characterSize + spacing + calcPosY(index - 1);
-    };
-
-    for (size_t i = 0; i < lines.GetCount(); i++)
-    {
-        auto& text = lines[i];
-
-        text.setFont(font);
-        text.setCharacterSize(startSize + i * step);
-        text.setColor(sf::Color::White);
-        text.setPosition(10.0f, calcPosY(i));
-    }
-
-    sf::Event evt;
-
-    ezStringBuilder builder;
-
-    while (window.isOpen())
-    {
-        while (window.pollEvent(evt))
-        {
-            switch (evt.type)
-            {
-            case sf::Event::Closed:
-                window.close();
-                break;
-            case sf::Event::TextEntered:
-                if (evt.text.unicode == '\b')
-                {
-                    builder.Shrink(0, 1);
-                }
-                else
-                {
-                    builder.Append(evt.text.unicode);
-                }
-                break;
-            case sf::Event::KeyPressed:
-                switch (evt.key.code)
-                {
-                case sf::Keyboard::Escape:
-                    window.close();
-                    break;
-                case sf::Keyboard::Return:
-                    info.setString("Return pressed!");
-                    break;
-                default:
-                    break;
-                }
-            default:
-                break;
-            }
-        }
-
-        // clear, then render stuff
-        window.clear();
-
-        for(auto& text : lines)
-        {
-            ezStringBuilder tempBuilder;
-
-            tempBuilder.AppendFormat("%u: %s", text.getCharacterSize(), builder.GetData());
-
-            text.setString(tempBuilder.GetData());
-            window.draw(text);
-        }
-
-        window.draw(info);
-
-        // now display
-        window.display();
-    }
     return 0;
 }
