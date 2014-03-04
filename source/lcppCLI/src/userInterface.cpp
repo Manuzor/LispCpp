@@ -23,6 +23,7 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
 
     m_eventHandlers[sf::Event::TextEntered] = [&](const sf::Event& evt)
     {
+        ezLog::Info("Entered: %c", evt.text.unicode);
         if (evt.text.unicode == '\b')
         {
             m_inputText.Shrink(0, 1);
@@ -47,6 +48,8 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
             break;
         }
     };
+
+    setupLines();
 }
 
 void lcpp::UserInterface::shutdown()
@@ -106,15 +109,10 @@ void lcpp::UserInterface::draw()
     m_Window.display();
 }
 
-void lcpp::UserInterface::handleEvents()
-{
-
-}
-
 size_t lcpp::UserInterface::calcNumLines()
 {
     //TODO: Implement me.
-    return 1;
+    return 2;
 }
 
 void lcpp::UserInterface::setupLines()

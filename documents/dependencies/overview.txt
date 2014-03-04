@@ -1,0 +1,9 @@
+The following is a list of dependencies used for building the lcpp projects. The given versions next to the library names are the ones used by the developer(s) at the time of this writing.
+
+ezEngine:
+  Version used: rev-380
+  Check the file ezEngine.txt for more details.
+
+SFML - Simple and Fast Media Library:
+  Version used: v2.1
+  Check the file sfml.txt for more details.

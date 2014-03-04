@@ -1,0 +1,11 @@
+Define an environment variable called SFML_API that points to the SFML sdk/api. It is assumed that the directory structure looks like this:
+
+for the 64 bit version:
+$SFML_API/64/bin
+$SFML_API/64/lib
+$SFML_API/64/...
+
+for the 32 bit version:
+$SFML_API/32/bin
+$SFML_API/32/lib
+$SFML_API/32/...

@@ -81,7 +81,7 @@ int main(int argc, const char* argv[])
     ezStartup::StartupCore();
     LCPP_SCOPE_EXIT { ezStartup::ShutdownBase(); };
 
-    lcpp::LoggingSystem loggingSystem("./log/");
+    lcpp::LoggingSystem loggingSystem("log/");
     loggingSystem.initialize();
     LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
 
@@ -108,7 +108,7 @@ int main(int argc, const char* argv[])
     {
         EZ_ASSERT(false, "Something was thrown and it was not caught!");
         ezLog::Error("Something was thrown and it was not caught!");
-        return -3;
+        return -4;
     }
 
     return 0;

@@ -69,8 +69,6 @@ namespace lcpp
         EventHandler m_eventHandlers[sf::Event::Count];
         bool m_keepRunning;
 
-        void handleEvents();
-
         size_t calcNumLines();
         void setupLines();
 
