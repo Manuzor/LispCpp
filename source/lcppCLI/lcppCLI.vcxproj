@@ -193,14 +193,14 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\common.h" />
-    <ClInclude Include="include\exceptions.h" />
+    <ClInclude Include="include\lcpp\cli\common.h" />
+    <ClInclude Include="include\lcpp\cli\exceptions.h" />
     <ClInclude Include="include\stdafx.h" />
-    <ClInclude Include="include\userInterface.h" />
+    <ClInclude Include="include\lcpp\cli\gui\userInterface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\userInterface.cpp" />
-    <ClCompile Include="src\lcppCLI.cpp" />
+    <ClCompile Include="src\lcpp\cli\gui\userInterface.cpp" />
+    <ClCompile Include="src\lcpp\cli\lcppCLI.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

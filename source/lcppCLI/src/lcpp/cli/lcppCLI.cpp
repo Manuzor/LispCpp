@@ -3,8 +3,8 @@
 
 #include "stdafx.h"
 #include <functional>
-#include "userInterface.h"
-#include "exceptions.h"
+#include "lcpp/cli/gui/userInterface.h"
+#include "lcpp/cli/exceptions.h"
 
 namespace lcpp
 {

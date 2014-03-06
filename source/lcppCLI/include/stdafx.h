@@ -27,4 +27,4 @@
 
 // Custom stuff that will not change frequently
 //////////////////////////////////////////////////////////////////////////
-#include "common.h"
+#include "lcpp/cli/common.h"

@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "userInterface.h"
-#include "exceptions.h"
+#include "lcpp/cli/gui/userInterface.h"
+#include "lcpp/cli/exceptions.h"
 
 void lcpp::UserInterface::initialize(const CInfo& cinfo)
 {
