@@ -1,62 +1,32 @@
 #pragma once
 
 #include "lcpp/gui/fontInfo.h"
+#include "lcpp/gui/text.h"
 
 namespace lcpp
 {
     class Console : public sf::Drawable
     {
-        struct TextData
-        {
-
-        };
     public:
         struct CInfo
         {
             FontInfo mainFontInfo;
+            sf::FloatRect bounds;
 
             CInfo() :
-                mainFontInfo()
+                mainFontInfo(),
+                bounds()
             {
             }
-        };
-
-        class Text
-        {
-            bool m_isModified;
-            ezStringBuilder m_builder;
-        public:
-            inline Text() : m_isModified(false), m_builder() {}
-            inline ~Text() { m_builder.Clear(); }
-
-            void append(ezUInt32 unicodeChar);
-            void append(const char* cstring);
-            void append(const ezString& str);
-            void appendFormat(const char* format, ...);
-
-            void prepend(ezUInt32 unicodeChar);
-            void prepend(const char* cstring);
-            void prepend(const ezString& str);
-            void prependFormat(const char* format, ...);
-
-            void shrink(ezUInt32 shrinkCharsFront, ezUInt32 shrinkCharsBack);
-
-            inline void clear(){ m_builder.Clear(); }
-
-            inline const char* data(){ return m_builder.GetData(); }
-
-            inline void markModified(){ m_isModified = true; }
-            inline void unmarkModified(){ m_isModified = false; }
-            inline bool isModified(){ return m_isModified; }
         };
 
     private:
         sf::Font m_mainFont;
         FontInfo m_mainFontInfo;
 
-        Console::Text m_textData;
-        Console::Text m_inputData;
-        Console::Text m_infoData;
+        Text m_textData;
+        Text m_inputData;
+        Text m_infoData;
 
         ezDynamicArray<sf::Text> m_textLines;
         sf::Text m_input;

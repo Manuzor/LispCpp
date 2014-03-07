@@ -197,11 +197,13 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
     <ClInclude Include="include\lcpp\cli\exceptions.h" />
     <ClInclude Include="include\lcpp\gui\console.h" />
     <ClInclude Include="include\lcpp\gui\fontInfo.h" />
+    <ClInclude Include="include\lcpp\gui\text.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\lcpp\gui\userInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lcpp\gui\console.cpp" />
+    <ClCompile Include="src\lcpp\gui\text.cpp" />
     <ClCompile Include="src\lcpp\gui\userInterface.cpp" />
     <ClCompile Include="src\lcpp\cli\lcppCLI.cpp" />
     <ClCompile Include="src\stdafx.cpp">
