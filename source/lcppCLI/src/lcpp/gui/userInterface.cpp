@@ -12,15 +12,22 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
 
     m_windowClearColor = cinfo.windowClearColor;
 
+    // Initialize the console
+    //////////////////////////////////////////////////////////////////////////
     {
         Console::CInfo consoleCInfo;
-        m_console = new Console();
-        if (!m_console->initialize(consoleCInfo))
-        {
-            throw exceptions::InitializationFailed("Failed to initialize console!");
-        }
+        m_console = new Console(consoleCInfo);
     }
 
+    if (!m_console->initialize())
+    {
+        throw exceptions::InitializationFailed("Failed to initialize console!");
+    }
+
+    registerUpdateCallback([&](sf::Time elapsedTime){ m_console->update(elapsedTime); });
+
+    // Register default event handlers
+    //////////////////////////////////////////////////////////////////////////
     m_eventHandlers[sf::Event::Closed] = [&](const sf::Event& evt)
     {
         m_keepRunning = false;
@@ -31,11 +38,11 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
         ezLog::Info("Entered: %c", evt.text.unicode);
         if (evt.text.unicode == '\b')
         {
-            m_inputText.Shrink(0, 1);
+            m_console->inputText().shrink(0, 1); // Remove the last character
         }
         else if(evt.text.unicode > 20 && evt.text.unicode < 255) //TODO: only ASCII for now
         {
-            m_inputText.Append(evt.text.unicode);
+            m_console->inputText().append(evt.text.unicode);
         }
     };
 
@@ -47,8 +54,9 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
             stop();
             break;
         case sf::Keyboard::Return:
-            //TODO: implement the following!
-            //m_console->status().setString("Return pressed!");
+            m_console->infoText().clear();
+            m_console->infoText().append("Return pressed!");
+            m_console->inputText().append('\n');
             break;
         default:
             break;
@@ -58,7 +66,11 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
 
 void lcpp::UserInterface::shutdown()
 {
-    LCPP_DELETE(m_console);
+    if (m_console)
+    {
+        m_console->shutdown();
+        LCPP_DELETE(m_console);
+    }
 }
 
 void lcpp::UserInterface::run()
