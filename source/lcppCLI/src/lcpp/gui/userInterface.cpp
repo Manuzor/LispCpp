@@ -1,6 +1,10 @@
 #include "stdafx.h"
-#include "lcpp/cli/gui/userInterface.h"
+
 #include "lcpp/cli/exceptions.h"
+
+#include "lcpp/gui/userInterface.h"
+#include "lcpp/gui/console.h"
+
 
 void lcpp::UserInterface::initialize(const CInfo& cinfo)
 {
@@ -8,13 +12,14 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
 
     m_windowClearColor = cinfo.windowClearColor;
 
-    if (!m_mainFont.loadFromFile(cinfo.fontInfo.file))
     {
-        throw exceptions::InitializationFailed("Failed to load font from file!");
+        Console::CInfo consoleCInfo;
+        m_console = new Console();
+        if (!m_console->initialize(consoleCInfo))
+        {
+            throw exceptions::InitializationFailed("Failed to initialize console!");
+        }
     }
-
-    m_mainFontSize = cinfo.fontInfo.size;
-    m_mainFontColor = cinfo.fontInfo.color;
 
     m_eventHandlers[sf::Event::Closed] = [&](const sf::Event& evt)
     {
@@ -42,19 +47,18 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
             stop();
             break;
         case sf::Keyboard::Return:
-            m_info.setString("Return pressed!");
+            //TODO: implement the following!
+            //m_console->status().setString("Return pressed!");
             break;
         default:
             break;
         }
     };
-
-    setupLines();
 }
 
 void lcpp::UserInterface::shutdown()
 {
-
+    LCPP_DELETE(m_console);
 }
 
 void lcpp::UserInterface::run()
@@ -78,18 +82,10 @@ void lcpp::UserInterface::update(sf::Time elapsedTime)
         if (eventHandler) eventHandler(evt);
     }
 
-    buildText();
-}
-
-void lcpp::UserInterface::buildText()
-{
-    for(auto& text : m_lines)
+    for (auto& callback : m_updateCallbacks)
     {
-        ezStringBuilder tempBuilder;
-
-        tempBuilder.AppendFormat("%u: %s", text.getCharacterSize(), m_inputText.GetData());
-
-        text.setString(tempBuilder.GetData());
+        if (callback)
+            callback(elapsedTime);
     }
 }
 
@@ -98,39 +94,28 @@ void lcpp::UserInterface::draw()
     m_Window.clear(m_windowClearColor);
     //////////////////////////////////////////////////////////////////////////
 
-    for (auto& line : m_lines)
-    {
-        m_Window.draw(line);
-    }
-
-    m_Window.draw(m_info);
+    m_Window.draw(*m_console);
 
     //////////////////////////////////////////////////////////////////////////
     m_Window.display();
 }
 
-size_t lcpp::UserInterface::calcNumLines()
+lcpp::UserInterface::CallbackId lcpp::UserInterface::registerUpdateCallback( UpdateCallback callback )
 {
-    //TODO: Implement me.
-    return 2;
+    for (ezUInt32 i = 0; i < m_updateCallbacks.GetCount(); ++i)
+    {
+        if (!m_updateCallbacks[i])
+        {
+            m_updateCallbacks[i] = callback;
+            return CallbackId(i);
+        }
+    }
+    m_updateCallbacks.PushBack(callback);
+    return CallbackId(m_updateCallbacks.GetCount() - 1);
 }
 
-void lcpp::UserInterface::setupLines()
+void lcpp::UserInterface::unregisterUpdateCallback( CallbackId id )
 {
-    const size_t spacing = m_mainFont.getLineSpacing(m_mainFontSize);
-    const size_t numLines = calcNumLines();
-
-    m_lines.Clear();
-    m_lines.Reserve(numLines);
-    m_lines.SetCount(numLines);
-
-    for (size_t i = 0; i < m_lines.GetCount(); i++)
-    {
-        auto& text = m_lines[i];
-
-        text.setFont(m_mainFont);
-        text.setCharacterSize(m_mainFontSize);
-        text.setColor(m_mainFontColor);
-        text.setPosition(10.0f, 10.0f + (i * spacing) + (i * m_mainFontSize));
-    }
+    //TODO: check for valid id
+    m_updateCallbacks[id.id] = nullptr;
 }

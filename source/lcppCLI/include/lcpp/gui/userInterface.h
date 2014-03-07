@@ -1,25 +1,16 @@
 #pragma once
 
+#include "lcpp/gui/fontInfo.h"
+
 namespace lcpp
 {
-    struct FontInfo
-    {
-        const char* file;
-        sf::Uint32 size;
-        sf::Color color;
-
-        FontInfo() :
-            file("../../data/fonts/consola.ttf"),
-            size(17),
-            color(sf::Color::White)
-        {
-
-        }
-    };
+    class Console;
 
     class UserInterface
     {
     public:
+        typedef std::function<void(sf::Time)> UpdateCallback;
+
         struct CInfo
         {
             sf::VideoMode videoMode;
@@ -28,27 +19,30 @@ namespace lcpp
             sf::Color windowClearColor;
 
             CInfo() :
-                videoMode(800, 600),
+                videoMode(800, 600, 32),
                 windowTitle(g_ApplicationTitle),
                 fontInfo(),
                 windowClearColor(0, 0, 0)
             {
             }
         };
+
+        struct CallbackId
+        {
+            ezUInt32 id;
+            CallbackId(ezUInt32 id) : id(id) {}
+        };
     private:
         sf::RenderWindow m_Window;
-        sf::Font m_mainFont;
-        sf::Uint32 m_mainFontSize;
-        sf::Color m_mainFontColor;
         sf::Color m_windowClearColor;
 
-        ezDynamicArray<sf::Text> m_lines;
-        sf::Text m_info;
+        Console* m_console;
 
-        ezStringBuilder m_text;
         ezStringBuilder m_inputText;
+
+        ezDynamicArray<UpdateCallback> m_updateCallbacks;
     public:
-        UserInterface(){}
+        UserInterface() : m_console(nullptr) {}
         ~UserInterface(){}
 
         void initialize(const CInfo& cinfo);
@@ -58,19 +52,19 @@ namespace lcpp
 
         void stop() { m_keepRunning = false; };
 
+        CallbackId registerUpdateCallback(UpdateCallback callback);
+        void unregisterUpdateCallback(CallbackId id);
+
     protected:
 
         void update(sf::Time elapsedTime);
-        void buildText();
         void draw();
 
     private:
         typedef std::function<void(const sf::Event& event)> EventHandler;
+
         EventHandler m_eventHandlers[sf::Event::Count];
         bool m_keepRunning;
-
-        size_t calcNumLines();
-        void setupLines();
 
     };
 }
