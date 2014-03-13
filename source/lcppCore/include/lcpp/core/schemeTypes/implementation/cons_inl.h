@@ -52,15 +52,22 @@ lcpp::SchemeCons::SchemeCons(SchemeCons&& toMove) :
 }
 
 inline
-const lcpp::SchemeBool&
+bool
 lcpp::SchemeCons::operator ==(const SchemeObject& obj) const
 {
-    if (!obj.is(SchemeType::Cons))
+    if (obj.is(SchemeType::Cons))
     {
-        return SCHEME_FALSE;
+        return static_cast<const SchemeCons&>(obj) == *this;
     }
-    const auto& other = static_cast<const SchemeCons&>(obj);
-    return convert(car() == other.car() && cdr() == other.cdr());
+    return false;
+}
+
+inline
+bool
+lcpp::SchemeCons::operator ==(const SchemeCons& rhs) const
+{
+   return car() == rhs.car()
+       && cdr() == rhs.cdr();
 }
 
 inline

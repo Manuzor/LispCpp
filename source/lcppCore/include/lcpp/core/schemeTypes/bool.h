@@ -9,15 +9,21 @@ namespace lcpp
     public:
         LCPP_SCHEME_TYPE_DECLARATION(Bool);
 
-        SchemeBool();
+        SchemeBool(bool value);
         virtual ~SchemeBool();
 
-        virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
+        virtual bool operator==(const SchemeObject& obj) const override;
         virtual ezString toString() const override;
+
+        bool operator ==(const SchemeBool& rhs) const;
 
         operator bool() const;
 
     private:
-        EZ_DISALLOW_COPY_AND_ASSIGN(SchemeBool);
+        const bool m_value;
     };
+
+#define SCHEME_TRUE ::lcpp::SchemeBool(true)
+#define SCHEME_FALSE ::lcpp::SchemeBool(false)
+
 }

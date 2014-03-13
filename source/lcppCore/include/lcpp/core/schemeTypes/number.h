@@ -16,9 +16,9 @@ namespace lcpp
         SchemeNumber_t(number_t value);
         virtual ~SchemeNumber_t();
 
-        virtual const SchemeBool& operator ==(const SchemeObject& obj) const override;
+        virtual bool operator ==(const SchemeObject& obj) const override;
 
-        const SchemeBool& operator ==(const type_t& other) const;
+        bool operator ==(const type_t& other) const;
 
         number_t value() const;
         void value(number_t value);

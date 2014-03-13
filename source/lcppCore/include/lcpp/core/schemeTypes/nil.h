@@ -12,10 +12,7 @@ namespace lcpp
         SchemeNil();
         virtual ~SchemeNil();
 
-        virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
+        virtual bool operator==(const SchemeObject& obj) const override;
         virtual ezString toString() const override;
-
-    private:
-        EZ_DISALLOW_COPY_AND_ASSIGN(SchemeNil);
     };
 }

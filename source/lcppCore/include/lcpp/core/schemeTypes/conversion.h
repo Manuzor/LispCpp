@@ -2,7 +2,5 @@
 
 namespace lcpp
 {
-    class SchemeBool;
-
-    const SchemeBool& convert(bool value);
+    // Unused at the moment.
 }

@@ -17,14 +17,17 @@ namespace lcpp { namespace unittests {
 
             // Only car given
             {
-                SchemeCons cons(SCHEME_TRUE);
+                SchemeBool t(SCHEME_TRUE);
+                SchemeCons cons(t);
                 Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_TRUE,L"");
                 Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_NIL,L"");
             }
 
             // Car and cdr explicitly given
             {
-                SchemeCons cons(SCHEME_TRUE, SCHEME_FALSE);
+                SchemeBool t(SCHEME_TRUE);
+                SchemeBool f(SCHEME_FALSE);
+                SchemeCons cons(t, f);
                 Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_TRUE,L"");
                 Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_FALSE,L"");
             }
@@ -33,7 +36,9 @@ namespace lcpp { namespace unittests {
         TEST_METHOD(CopyCtorAndCopyAssign)
         {
             {
-                SchemeCons first(SCHEME_TRUE);
+                SchemeBool t(SCHEME_TRUE);
+
+                SchemeCons first(t);
                 SchemeCons second = first;
                 Assert::AreEqual<SchemeObject>(first.car(), SCHEME_TRUE);
                 Assert::AreEqual<SchemeObject>(second.car(), SCHEME_TRUE, L"");

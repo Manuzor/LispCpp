@@ -10,7 +10,7 @@ namespace lcpp
         LCPP_SCHEME_TYPE_DECLARATION(Cons);
 
         SchemeCons();
-        SchemeCons(const SchemeObject& car);
+        explicit SchemeCons(const SchemeObject& car);
         SchemeCons(const SchemeObject& car, const SchemeObject& cdr);
 
         SchemeCons(const SchemeCons& copy);
@@ -20,7 +20,9 @@ namespace lcpp
 
         virtual ~SchemeCons();
 
-        virtual const SchemeBool& operator==(const SchemeObject& obj) const override;
+        virtual bool operator==(const SchemeObject& obj) const override;
+        bool operator==(const SchemeCons& rhs) const;
+
         virtual ezString toString() const override;
 
         /// \brief get car

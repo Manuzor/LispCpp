@@ -15,22 +15,22 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::~SchemeNumber_t()
 
 template<typename NUMBER_TYPE>
 inline
-const lcpp::SchemeBool&
+bool
 lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 {
     if (obj.is(SchemeType::Number))
     {
-        return convert(*this == static_cast<const type_t&>(obj));
+        return *this == static_cast<const type_t&>(obj); // Call the specialized operator ==
     }
-    return SCHEME_FALSE;
+    return false;
 }
 
 template<typename NUMBER_TYPE>
 inline
-const lcpp::SchemeBool&
+bool
 lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const type_t& other) const
 {
-    return convert(m_value == other.m_value);
+    return m_value == other.m_value;
 }
 
 template<typename T>
