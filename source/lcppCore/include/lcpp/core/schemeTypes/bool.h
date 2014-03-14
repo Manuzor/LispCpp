@@ -28,9 +28,9 @@ namespace lcpp
     template<>
     struct SchemeTypeInfo<SchemeBool>
     {
-        static size_t size() { return sizeof(SchemeBool); }
-        static SchemeType::Enum type() { return SchemeType::Bool; }
-        static const char* name() { return "SchemeBool"; }
+        inline static size_t size() { return sizeof(SchemeBool); }
+        inline static SchemeType::Enum type() { return SchemeType::Bool; }
+        inline static const char* name() { return "SchemeBool"; }
     };
 
 #define SCHEME_TRUE (::lcpp::SchemeBool::trueInstance())

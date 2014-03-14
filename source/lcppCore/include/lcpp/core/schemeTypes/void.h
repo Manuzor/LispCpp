@@ -20,9 +20,9 @@ namespace lcpp
     template<>
     struct SchemeTypeInfo<SchemeVoid>
     {
-        static size_t size() { return sizeof(SchemeVoid); }
-        static SchemeType::Enum type() { return SchemeType::Void; }
-        static const char* name() { return "SchemeVoid"; }
+        inline static size_t size() { return sizeof(SchemeVoid); }
+        inline static SchemeType::Enum type() { return SchemeType::Void; }
+        inline static const char* name() { return "SchemeVoid"; }
     };
 
 #define SCHEME_VOID (::lcpp::SchemeVoid::instance())

@@ -23,6 +23,8 @@ namespace lcpp
         LCPP_DISALLOW_CONSTRUCTION(SchemeType);
     };
 
+    /// \brief Class that provides information about scheme types statically.
+    /// \remark You have to specialize this template for all your scheme types!
     template<typename T>
     struct SchemeTypeInfo
     {

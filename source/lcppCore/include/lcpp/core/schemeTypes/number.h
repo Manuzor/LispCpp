@@ -216,8 +216,8 @@ namespace lcpp
     template<typename T>
     struct SchemeTypeInfo< SchemeNumber_t<T> >
     {
-        static size_t size() { return sizeof(SchemeNumber_t<T>); }
-        static SchemeType::Enum type() { return SchemeType::Number; }
-        static const char* name() { return "SchemeNumber"; }
+        inline static size_t size() { return sizeof(SchemeNumber_t<T>); }
+        inline static SchemeType::Enum type() { return SchemeType::Number; }
+        inline static const char* name() { return "SchemeNumber"; }
     };
 }

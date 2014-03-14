@@ -45,8 +45,8 @@ namespace lcpp
     template<>
     struct SchemeTypeInfo<SchemeCons>
     {
-        static size_t size() { return sizeof(SchemeCons); }
-        static SchemeType::Enum type() { return SchemeType::Cons; }
-        static const char* name() { return "SchemeCons"; }
+        inline static size_t size() { return sizeof(SchemeCons); }
+        inline static SchemeType::Enum type() { return SchemeType::Cons; }
+        inline static const char* name() { return "SchemeCons"; }
     };
 }

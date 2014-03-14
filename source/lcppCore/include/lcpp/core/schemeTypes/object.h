@@ -26,6 +26,8 @@ namespace lcpp
 
         virtual size_t size() const = 0;
         virtual size_t alignment() const = 0;
+
+        virtual const char* name() const = 0;
     };
 
     template<>
@@ -50,5 +52,7 @@ namespace lcpp
 
         virtual size_t size() const override { return sizeof(Derived); }
         virtual size_t alignment() const override { return EZ_ALIGNMENT_OF(Derived); }
+
+        virtual const char* name() const override { return SchemeTypeInfo<Derived>::name(); }
     };
 }

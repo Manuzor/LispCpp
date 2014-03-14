@@ -20,9 +20,9 @@ namespace lcpp
     template<>
     struct SchemeTypeInfo<SchemeNil>
     {
-        static size_t size() { return sizeof(SchemeNil); }
-        static SchemeType::Enum type() { return SchemeType::Nil; }
-        static const char* name() { return "SchemeNil"; }
+        inline static size_t size() { return sizeof(SchemeNil); }
+        inline static SchemeType::Enum type() { return SchemeType::Nil; }
+        inline static const char* name() { return "SchemeNil"; }
     };
 
 #define SCHEME_NIL (::lcpp::SchemeNil::instance())
