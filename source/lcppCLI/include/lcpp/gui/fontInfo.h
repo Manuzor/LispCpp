@@ -11,7 +11,7 @@ namespace lcpp
         FontInfo() :
             file("../../data/fonts/consola.ttf"), // Default font
             size(17),
-            color(sf::Color::White)
+            color(sf::Color::Red)
         {
         }
     };

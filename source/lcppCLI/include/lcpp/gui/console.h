@@ -24,17 +24,14 @@ namespace lcpp
         sf::Font m_mainFont;
         FontInfo m_mainFontInfo;
 
-        Text m_textData;
-        Text m_inputData;
-        Text m_infoData;
+        Text m_input;
 
-        ezDynamicArray<sf::Text> m_textLines;
-        sf::Text m_input;
-        sf::Text m_info;
+        sf::FloatRect m_bounds;
 
     public:
         Console(const CInfo& cinfo) :
-            m_mainFontInfo(cinfo.mainFontInfo)
+            m_mainFontInfo(cinfo.mainFontInfo),
+            m_bounds(cinfo.bounds)
         {}
         virtual ~Console() {}
 
@@ -46,17 +43,14 @@ namespace lcpp
 
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-        inline Text& text(){ return m_textData; }
-        inline Text& inputText(){ return m_inputData; }
-        inline Text& infoText(){ return m_infoData; }
+        //inline Text& text(){ return m_textData; }
+        inline Text& inputText(){ return m_input; }
+        //inline Text& infoText(){ return m_infoData; }
 
     private:
 
-        void buildText();
-        void buildInputText();
-        void buildInfoText();
-
-        ezUInt32 calcNumLines();
-        void setupLines();
+        //void buildText();
+        //void buildInputText();
+        //void buildInfoText();
     };
 }

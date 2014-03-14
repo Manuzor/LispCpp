@@ -11,22 +11,22 @@ bool lcpp::Console::initialize()
     }
 
     m_input.setFont(m_mainFont);
-
-    setupLines();
+    m_input.setColor(m_mainFontInfo.color);
+    m_input.boundsMax(m_bounds);
 
     return true;
 }
 
 void lcpp::Console::shutdown()
 {
-
 }
 
 void lcpp::Console::update( sf::Time elapsedTime )
 {
-    if (m_textData.isModified()) buildText();
-    if (m_inputData.isModified()) buildInputText();
-    if (m_infoData.isModified()) buildInfoText();
+    //if (m_textData.isModified()) buildText();
+    //if (m_input.isModified()) buildInputText();
+    //if (m_infoData.isModified()) buildInfoText();
+    m_input.update(elapsedTime);
 }
 
 void lcpp::Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -34,6 +34,7 @@ void lcpp::Console::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     target.draw(m_input);
 }
 
+/*
 void lcpp::Console::buildText()
 {
     LCPP_SCOPE_EXIT{ m_textData.unmarkModified(); };
@@ -50,9 +51,9 @@ void lcpp::Console::buildText()
 
 void lcpp::Console::buildInputText()
 {
-    LCPP_SCOPE_EXIT{ m_inputData.unmarkModified(); };
+    LCPP_SCOPE_EXIT{ m_input.unmarkModified(); };
     //TODO: calculate proper position here!
-    m_input.setString(m_inputData.data());
+    m_input.setString(m_input.data());
 }
 
 void lcpp::Console::buildInfoText()
@@ -60,29 +61,4 @@ void lcpp::Console::buildInfoText()
     LCPP_SCOPE_EXIT{ m_infoData.unmarkModified(); };
     //TODO: Implement me
 }
-
-ezUInt32 lcpp::Console::calcNumLines()
-{
-    //TODO: Implement me.
-    return 2;
-}
-
-void lcpp::Console::setupLines()
-{
-    const ezInt32 spacing = m_mainFont.getLineSpacing(m_mainFontInfo.size);
-    const ezUInt32 numLines = calcNumLines();
-
-    m_textLines.Clear();
-    m_textLines.Reserve(numLines);
-    m_textLines.SetCount(numLines);
-
-    for (ezUInt32 i = 0; i < m_textLines.GetCount(); i++)
-    {
-        auto& text = m_textLines[i];
-
-        text.setFont(m_mainFont);
-        text.setCharacterSize(m_mainFontInfo.size);
-        text.setColor(m_mainFontInfo.color);
-        text.setPosition(10.0f, 10.0f + (i * spacing) + (i * m_mainFontInfo.size));
-    }
-}
+*/

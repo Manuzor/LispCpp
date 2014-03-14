@@ -16,6 +16,8 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
     //////////////////////////////////////////////////////////////////////////
     {
         Console::CInfo consoleCInfo;
+        consoleCInfo.bounds = m_Window.getDefaultView().getViewport();
+        consoleCInfo.bounds.width = m_Window.getViewport(m_Window.getDefaultView()).width;
         m_console = new Console(consoleCInfo);
     }
 
@@ -54,8 +56,8 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
             stop();
             break;
         case sf::Keyboard::Return:
-            m_console->infoText().clear();
-            m_console->infoText().append("Return pressed!");
+            //m_console->infoText().clear();
+            //m_console->infoText().append("Return pressed!");
             m_console->inputText().append('\n');
             break;
         default:
