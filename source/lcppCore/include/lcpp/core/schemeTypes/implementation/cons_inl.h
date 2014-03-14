@@ -1,3 +1,8 @@
+inline
+ezAllocatorBase& lcpp::SchemeCons::getAllocator()
+{
+    return *ezFoundation::GetDefaultAllocator();
+}
 
 inline
 lcpp::SchemeCons::SchemeCons() :

@@ -34,7 +34,7 @@ namespace lcpp
 
     private:
 
-        static ezAllocatorBase& getAllocator() { return *ezFoundation::GetDefaultAllocator(); }
+        static ezAllocatorBase& getAllocator();
 
         void toStringHelper(ezStringBuilder& builder) const;
 

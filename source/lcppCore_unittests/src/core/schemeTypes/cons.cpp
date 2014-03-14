@@ -112,6 +112,36 @@ namespace lcpp { namespace unittests {
                 Assert::AreEqual(expected, actual);
             }
         }
+
+        TEST_METHOD(ConstructDifferentTypes)
+        {
+            SchemeInt32 number(42);
+            SchemeBool t(SCHEME_TRUE);
+            SchemeBool f(SCHEME_FALSE);
+            SchemeNil nil(SCHEME_NIL);
+            SchemeVoid v(SCHEME_VOID);
+
+            {
+                SchemeCons cons1(number);
+                SchemeCons cons2(number, number);
+            }
+            {
+                SchemeCons cons1(t);
+                SchemeCons cons2(t, t);
+            }
+            {
+                SchemeCons cons1(f);
+                SchemeCons cons2(f, f);
+            }
+            {
+                SchemeCons cons1(nil);
+                SchemeCons cons2(nil, nil);
+            }
+            {
+                SchemeCons cons1(v);
+                SchemeCons cons2(v, v);
+            }
+        }
     };
 
 }}
