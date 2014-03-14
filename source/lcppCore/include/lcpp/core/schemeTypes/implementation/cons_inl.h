@@ -1,63 +1,62 @@
 
 inline
 lcpp::SchemeCons::SchemeCons() :
-    m_car(&SCHEME_NIL),
-    m_cdr(&SCHEME_NIL)
+    m_car(nullptr),
+    m_cdr(nullptr)
 {
+    set(m_car, SCHEME_NIL);
+    set(m_cdr, SCHEME_NIL);
+
+    EZ_ASSERT(m_car != nullptr, "set failed to initialize m_car properly!");
+    EZ_ASSERT(m_cdr != nullptr, "set failed to initialize m_cdr properly!");
 }
 
 inline
 lcpp::SchemeCons::SchemeCons(const SchemeObject& car) :
-    m_car(&SCHEME_NIL),
-    m_cdr(&SCHEME_NIL)
+    m_car(nullptr),
+    m_cdr(nullptr)
 {
     EZ_ASSERT(&car != nullptr, "Invalid value for car!");
-    EZ_ASSERT(&car != this, "Cannot include myself as car!");
 
-    this->car(car);
+    set(m_car, car);
+    set(m_cdr, SCHEME_NIL);
+
+    EZ_ASSERT(m_car != nullptr, "set failed to initialize m_car properly!");
+    EZ_ASSERT(m_cdr != nullptr, "set failed to initialize m_cdr properly!");
 }
 
 inline
 lcpp::SchemeCons::SchemeCons(const SchemeObject& car, const SchemeObject& cdr) :
-    m_car(&SCHEME_NIL),
-    m_cdr(&SCHEME_NIL)
+    m_car(nullptr),
+    m_cdr(nullptr)
 {
     EZ_ASSERT(&car != nullptr, "Invalid value for car!");
-    EZ_ASSERT(&car != this, "Cannot include myself as car!");
-
     EZ_ASSERT(&cdr != nullptr, "Invalid value for car!");
-    EZ_ASSERT(&cdr != this, "Cannot include myself as cdr!");
 
-    this->car(car);
-    this->cdr(cdr);
+    set(m_car, car);
+    set(m_cdr, cdr);
+
+    EZ_ASSERT(m_car != nullptr, "set failed to initialize m_car properly!");
+    EZ_ASSERT(m_cdr != nullptr, "set failed to initialize m_cdr properly!");
 }
 
 inline
 lcpp::SchemeCons::SchemeCons(const SchemeCons& copy) :
-    m_car(&SCHEME_NIL),
-    m_cdr(&SCHEME_NIL)
+    m_car(nullptr),
+    m_cdr(nullptr)
 {
-    this->car(*copy.m_car);
-    this->cdr(*copy.m_cdr);
-}
+    set(m_car, *copy.m_car);
+    set(m_cdr, *copy.m_cdr);
 
-inline
-lcpp::SchemeCons::~SchemeCons()
-{
-    if (m_car != &SCHEME_NIL)
-    {
-        ezFoundation::GetDefaultAllocator()->Deallocate(const_cast<SchemeObject*>(m_car));
-    }
-    if (m_cdr != &SCHEME_NIL)
-    {
-        ezFoundation::GetDefaultAllocator()->Deallocate(const_cast<SchemeObject*>(m_cdr));
-    }
+    EZ_ASSERT(m_car != nullptr, "set failed to initialize m_car properly!");
+    EZ_ASSERT(m_cdr != nullptr, "set failed to initialize m_cdr properly!");
 }
 
 inline
 void
 lcpp::SchemeCons::operator =(SchemeCons copy)
 {
+    // The actual copying is done by the copy constructor since \a copy is passed by value.
     std::swap(m_car, copy.m_car);
     std::swap(m_cdr, copy.m_cdr);
 }
@@ -67,7 +66,26 @@ lcpp::SchemeCons::SchemeCons(SchemeCons&& toMove) :
     m_car(toMove.m_car),
     m_cdr(toMove.m_cdr)
 {
-    toMove.m_car = toMove.m_cdr = &SCHEME_NIL;
+    EZ_ASSERT(toMove.m_car != nullptr, "Invalid value for the other's m_car!");
+    EZ_ASSERT(toMove.m_cdr != nullptr, "Invalid value for the other's m_cdr!");
+
+    set(toMove.m_car, SCHEME_NIL);
+    set(toMove.m_cdr, SCHEME_NIL);
+}
+
+inline
+lcpp::SchemeCons::~SchemeCons()
+{
+    if (m_car != nullptr)
+    {
+        m_car->~SchemeObject();
+        getAllocator().Deallocate((void*)m_car);
+    }
+    if (m_cdr != nullptr)
+    {
+        m_cdr->~SchemeObject();
+        getAllocator().Deallocate((void*)m_cdr);
+    }
 }
 
 inline
@@ -95,9 +113,7 @@ lcpp::SchemeCons::toString() const
 {
     ezStringBuilder builder;
     builder.Append('(');
-
     toStringHelper(builder);
-
     builder.Append(')');
     return builder;
 }
@@ -107,7 +123,17 @@ void
 lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 {
     // car
-    builder.Append(m_car->toString().GetData());
+    // \remark This is more efficient than simply calling m_car->toString()
+    if (m_car->is(SchemeType::Cons))
+    {
+        builder.Append('(');
+        static_cast<const SchemeCons*>(m_car)->toStringHelper(builder);
+        builder.Append(')');
+    }
+    else
+    {
+        builder.Append(m_car->toString().GetData());
+    }
 
     // cdr
     if (*m_cdr == SCHEME_NIL)
@@ -136,69 +162,40 @@ lcpp::SchemeCons::car() const
     return *m_car;
 }
 
-// set car
-inline
-void
-lcpp::SchemeCons::car(const SchemeObject& value)
-{
-    EZ_ASSERT(&value != nullptr, "Invalid value for car!");
-    if (value == SCHEME_NIL) m_car = &SCHEME_NIL;
-    else if (&value != m_car) set(m_car, value);
-}
-
 // get cdr
 inline
 const lcpp::SchemeObject&
 lcpp::SchemeCons::cdr() const
 {
     EZ_ASSERT(m_cdr != nullptr, "Operating on invalid object!");
-    return m_cdr == nullptr ? SCHEME_NIL : *m_cdr;
-}
-
-// set cdr
-inline
-void
-lcpp::SchemeCons::cdr(const SchemeObject& value)
-{
-    EZ_ASSERT(&value != nullptr, "Invalid value for cdr!");
-    if (value == SCHEME_NIL) m_cdr = &SCHEME_NIL;
-    else if (&value != m_cdr) set(m_cdr, value);
+    return *m_cdr;
 }
 
 inline
 void
 lcpp::SchemeCons::set(const SchemeObject*& member, const SchemeObject& from)
 {
-    EZ_ASSERT(from != SCHEME_NIL, "The argument 'from' is not allowed to be SchemeNil here!");
-
     size_t size = from.size();
     void* mem = nullptr;
 
-    bool needNewAllocation = member == &SCHEME_NIL || size > member->size();
-    bool needDeallocation = needNewAllocation && member != &SCHEME_NIL;
-
-    if (needDeallocation)
+    if (member == nullptr)
     {
-        EZ_ASSERT(needNewAllocation, "Prevented attempt to allocate new memory without relasing the old memory first!");
-
-        ezFoundation::GetDefaultAllocator()->Deallocate(const_cast<SchemeObject*>(member));
+        mem = getAllocator().Allocate(size, from.alignment());
     }
-    else if (member != &SCHEME_NIL)
+    else if (size > member->size())
     {
-        // Call the destructor...
         member->~SchemeObject();
-        // ...and re-use the memory
-        mem = const_cast<SchemeObject*>(member);
+        getAllocator().Deallocate((void*)member);
+        mem = getAllocator().Allocate(size, from.alignment());
+    }
+    else
+    {
+        mem = (void*)member;
     }
 
-    if (needNewAllocation)
-    {
-        mem = ezFoundation::GetDefaultAllocator()->Allocate(size, from.alignment());
-    }
+    EZ_ASSERT(mem != nullptr, "Out of memory or uninitialized mem!");
 
     // copy the other objects data
-    // TODO Should somehow use the copy constructor instead!
-    memcpy(mem, &from, size);
-
+    from.copyTo(mem);
     member = static_cast<SchemeObject*>(mem);
 }

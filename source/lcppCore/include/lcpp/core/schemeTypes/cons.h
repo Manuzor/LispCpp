@@ -28,15 +28,13 @@ namespace lcpp
 
         /// \brief get car
         const SchemeObject& car() const;
-        /// \brief set car by copying \a value
-        void car(const SchemeObject& value);
         
         /// \brief get cdr
         const SchemeObject& cdr() const;
-        /// \brief set cdr by copying \a value
-        void cdr(const SchemeObject& value);
 
     private:
+
+        static ezAllocatorBase& getAllocator() { return *ezFoundation::GetDefaultAllocator(); }
 
         void toStringHelper(ezStringBuilder& builder) const;
 
