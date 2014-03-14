@@ -1,3 +1,12 @@
+// Static
+inline
+const lcpp::SchemeNil&
+lcpp::SchemeNil::instance()
+{
+    static SchemeNil nil;
+    return nil;
+}
+
 
 inline
 lcpp::SchemeNil::SchemeNil()

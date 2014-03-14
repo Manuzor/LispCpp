@@ -11,16 +11,16 @@ namespace lcpp { namespace unittests {
             // Default construction
             {
                 SchemeCons cons;
-                Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_NIL,L"");
-                Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_NIL,L"");
+                Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_NIL,L"Car is not nil!");
+                Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_NIL,L"Cdr is not nil!");
             }
 
             // Only car given
             {
                 SchemeBool t(SCHEME_TRUE);
                 SchemeCons cons(t);
-                Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_TRUE,L"");
-                Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_NIL,L"");
+                Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_TRUE,L"Wrong object for car!");
+                Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_NIL,L"Cdr should be nil here!");
             }
 
             // Car and cdr explicitly given
@@ -28,8 +28,8 @@ namespace lcpp { namespace unittests {
                 SchemeBool t(SCHEME_TRUE);
                 SchemeBool f(SCHEME_FALSE);
                 SchemeCons cons(t, f);
-                Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_TRUE,L"");
-                Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_FALSE,L"");
+                Assert::AreEqual<SchemeObject>(cons.car(), SCHEME_TRUE,L"Wrong car!");
+                Assert::AreEqual<SchemeObject>(cons.cdr(), SCHEME_FALSE,L"Wrong cdr!");
             }
         }
 
@@ -41,7 +41,7 @@ namespace lcpp { namespace unittests {
                 SchemeCons first(t);
                 SchemeCons second = first;
                 Assert::AreEqual<SchemeObject>(first.car(), SCHEME_TRUE);
-                Assert::AreEqual<SchemeObject>(second.car(), SCHEME_TRUE, L"");
+                Assert::AreEqual<SchemeObject>(second.car(), SCHEME_TRUE);
             }
             {
                 SchemeInt32 theInt(42);
@@ -49,7 +49,7 @@ namespace lcpp { namespace unittests {
                 SchemeCons second = first;
                 Assert::AreEqual<SchemeObject>(first.car(), theInt);
                 Assert::AreEqual<SchemeObject>(second.car(), theInt, L"Failed to construct 'second' by assigning it 'first'!");
-                Assert::AreSame(first.car(), second.car(), L"Failed to make a flat copy!");
+                Assert::AreNotSame(first.car(), second.car(), L"Cons is not supposed to make a flat copy!");
             }
         }
     };

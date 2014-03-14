@@ -5,7 +5,7 @@ namespace lcpp
 {
     template<typename NUMBER_TYPE>
     class SchemeNumber_t :
-        public SchemeObject
+        public SchemeExtend<SchemeNumber_t<NUMBER_TYPE>, SchemeObject>
     {
     public:
         LCPP_SCHEME_TYPE_DECLARATION(Number);
@@ -213,4 +213,11 @@ namespace lcpp
     typedef SchemeNumber_t<float> SchemeFloat;
     typedef SchemeNumber_t<double> SchemeDouble;
 
+    template<typename T>
+    struct SchemeTypeInfo< SchemeNumber_t<T> >
+    {
+        static size_t size() { return sizeof(SchemeNumber_t<T>); }
+        static SchemeType::Enum type() { return SchemeType::Number; }
+        static const char* name() { return "SchemeNumber"; }
+    };
 }

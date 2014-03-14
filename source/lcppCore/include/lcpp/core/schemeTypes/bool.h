@@ -3,11 +3,13 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API SchemeBool :
-        public SchemeObject
+    class SchemeBool :
+        public SchemeExtend<SchemeBool, SchemeObject>
     {
     public:
-        LCPP_SCHEME_TYPE_DECLARATION(Bool);
+
+        static const SchemeBool& trueInstance();
+        static const SchemeBool& falseInstance();
 
         SchemeBool(bool value);
         virtual ~SchemeBool();
@@ -23,7 +25,15 @@ namespace lcpp
         const bool m_value;
     };
 
-#define SCHEME_TRUE ::lcpp::SchemeBool(true)
-#define SCHEME_FALSE ::lcpp::SchemeBool(false)
+    template<>
+    struct SchemeTypeInfo<SchemeBool>
+    {
+        static size_t size() { return sizeof(SchemeBool); }
+        static SchemeType::Enum type() { return SchemeType::Bool; }
+        static const char* name() { return "SchemeBool"; }
+    };
+
+#define SCHEME_TRUE (::lcpp::SchemeBool::trueInstance())
+#define SCHEME_FALSE (::lcpp::SchemeBool::falseInstance())
 
 }

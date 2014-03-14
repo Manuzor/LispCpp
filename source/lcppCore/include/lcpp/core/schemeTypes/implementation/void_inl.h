@@ -1,3 +1,12 @@
+// static
+inline
+const lcpp::SchemeVoid&
+lcpp::SchemeVoid::instance()
+{
+    static SchemeVoid v;
+    return v;
+}
+
 
 inline
 lcpp::SchemeVoid::SchemeVoid()

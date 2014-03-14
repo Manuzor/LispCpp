@@ -1,3 +1,21 @@
+// static
+inline
+const lcpp::SchemeBool&
+lcpp::SchemeBool::trueInstance()
+{
+    static SchemeBool t(true);
+    return t;
+}
+
+// static
+inline
+const lcpp::SchemeBool&
+lcpp::SchemeBool::falseInstance()
+{
+    static SchemeBool f(false);
+    return f;
+}
+
 
 inline
 lcpp::SchemeBool::SchemeBool(bool value) :

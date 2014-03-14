@@ -3,11 +3,12 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API SchemeVoid :
-        public SchemeObject
+    class SchemeVoid :
+        public SchemeExtend<SchemeVoid, SchemeObject>
     {
     public:
-        LCPP_SCHEME_TYPE_DECLARATION(Void);
+
+        static const SchemeVoid& instance();
 
         SchemeVoid();
         virtual ~SchemeVoid();
@@ -15,4 +16,14 @@ namespace lcpp
         virtual bool operator==(const SchemeObject& obj) const override;
         virtual ezString toString() const override;
     };
+
+    template<>
+    struct SchemeTypeInfo<SchemeVoid>
+    {
+        static size_t size() { return sizeof(SchemeVoid); }
+        static SchemeType::Enum type() { return SchemeType::Void; }
+        static const char* name() { return "SchemeVoid"; }
+    };
+
+#define SCHEME_VOID (::lcpp::SchemeVoid::instance())
 }

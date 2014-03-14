@@ -4,10 +4,9 @@
 namespace lcpp
 {
     class SchemeCons :
-        public SchemeObject
+        public SchemeExtend<SchemeCons, SchemeObject>
     {
     public:
-        LCPP_SCHEME_TYPE_DECLARATION(Cons);
 
         SchemeCons();
         explicit SchemeCons(const SchemeObject& car);
@@ -27,18 +26,27 @@ namespace lcpp
 
         /// \brief get car
         const SchemeObject& car() const;
-        /// \brief set car
+        /// \brief set car by copying \a value
         void car(const SchemeObject& value);
         
         /// \brief get cdr
         const SchemeObject& cdr() const;
-        /// \brief set cdr
+        /// \brief set cdr by copying \a value
         void cdr(const SchemeObject& value);
 
     private:
 
         const SchemeObject* m_car;
         const SchemeObject* m_cdr;
+
+        void set(const SchemeObject*& member, const SchemeObject& from);
     };
 
+    template<>
+    struct SchemeTypeInfo<SchemeCons>
+    {
+        static size_t size() { return sizeof(SchemeCons); }
+        static SchemeType::Enum type() { return SchemeType::Cons; }
+        static const char* name() { return "SchemeCons"; }
+    };
 }

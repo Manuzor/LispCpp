@@ -3,11 +3,12 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API SchemeNil :
-        public SchemeObject
+    class SchemeNil :
+        public SchemeExtend<SchemeNil, SchemeObject>
     {
     public:
-        LCPP_SCHEME_TYPE_DECLARATION(Nil);
+
+        static const SchemeNil& instance();
 
         SchemeNil();
         virtual ~SchemeNil();
@@ -15,4 +16,14 @@ namespace lcpp
         virtual bool operator==(const SchemeObject& obj) const override;
         virtual ezString toString() const override;
     };
+
+    template<>
+    struct SchemeTypeInfo<SchemeNil>
+    {
+        static size_t size() { return sizeof(SchemeNil); }
+        static SchemeType::Enum type() { return SchemeType::Nil; }
+        static const char* name() { return "SchemeNil"; }
+    };
+
+#define SCHEME_NIL (::lcpp::SchemeNil::instance())
 }
