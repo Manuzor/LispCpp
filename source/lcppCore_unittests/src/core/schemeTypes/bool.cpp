@@ -37,6 +37,12 @@ namespace lcpp { namespace unittests {
             Assert::IsFalse(SCHEME_TRUE != SCHEME_TRUE, L"SCHEME_TRUE != SCHEME_TRUE does not evaluate to a boolean false!");
             Assert::IsFalse(SCHEME_FALSE != SCHEME_FALSE, L"SCHEME_FALSE != SCHEME_FALSE does not evaluate to a boolean alse!");
         }
+
+        TEST_METHOD(ToString)
+        {
+            Assert::AreEqual("#t", SCHEME_TRUE.toString().GetData(), L"SCHEME_TRUE has the wrong string representation!");
+            Assert::AreEqual("#f", SCHEME_FALSE.toString().GetData(), L"SCHEME_FALSE has the wrong string representation!");
+        }
     };
 
 }}
