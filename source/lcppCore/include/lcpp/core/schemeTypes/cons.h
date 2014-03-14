@@ -1,6 +1,8 @@
 #pragma once
 #include "lcpp/core/schemeTypes/object.h"
 
+#include "lcpp/foundation/common.h"
+
 namespace lcpp
 {
     class SchemeCons :
@@ -35,6 +37,8 @@ namespace lcpp
         void cdr(const SchemeObject& value);
 
     private:
+
+        void toStringHelper(ezStringBuilder& builder) const;
 
         const SchemeObject* m_car;
         const SchemeObject* m_cdr;

@@ -3,6 +3,9 @@
 
 #pragma once
 
+// STL dependencies
+#include <functional>
+
 #include "lcpp/foundation/common.h"
 
 #include "lcpp/core/reader.h"

@@ -94,8 +94,37 @@ ezString
 lcpp::SchemeCons::toString() const
 {
     ezStringBuilder builder;
-    builder.AppendFormat("(%s %s)", m_car->toString().GetData(), m_cdr->toString().GetData());
-    return builder.GetData();
+    builder.Append('(');
+
+    toStringHelper(builder);
+
+    builder.Append(')');
+    return builder;
+}
+
+inline
+void
+lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
+{
+    // car
+    builder.Append(m_car->toString().GetData());
+
+    // cdr
+    if (*m_cdr == SCHEME_NIL)
+    {
+        return;
+    }
+
+    builder.Append(' ');
+
+    if (m_cdr->is(SchemeType::Cons))
+    {
+        static_cast<const SchemeCons*>(m_cdr)->toStringHelper(builder);
+    }
+    else
+    {
+        builder.AppendFormat(". %s", m_cdr->toString().GetData());
+    }
 }
 
 // get car
@@ -168,6 +197,7 @@ lcpp::SchemeCons::set(const SchemeObject*& member, const SchemeObject& from)
     }
 
     // copy the other objects data
+    // TODO Should somehow use the copy constructor instead!
     memcpy(mem, &from, size);
 
     member = static_cast<SchemeObject*>(mem);

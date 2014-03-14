@@ -24,16 +24,18 @@
 
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 
-namespace
+namespace lcpp
 {
     template<typename T>
-    class ScopeExit_tpl
+    struct ScopeExit_tpl
     {
-    public:
         T m_onExitFunction;
+
         ScopeExit_tpl() : m_onExitFunction(nullptr) {}
         ~ScopeExit_tpl() { m_onExitFunction(); }
     };
+
+    typedef ScopeExit_tpl<::std::function<void()>> ScopeExit;
 }
 
 // Executes code when the current scope exits. Use within a scope only!
@@ -42,4 +44,4 @@ namespace
 // {
 //     printf("You will always see me when the current scope exits!\n");
 // }; // <- mind the semicolon!
-#define LCPP_SCOPE_EXIT ScopeExit_tpl<std::function<void()>> EZ_CONCAT(scopeExit, EZ_SOURCE_LINE) ; EZ_CONCAT(scopeExit, EZ_SOURCE_LINE).m_onExitFunction = [&]()
+#define LCPP_SCOPE_EXIT ::lcpp::ScopeExit EZ_CONCAT(scopeExit_, EZ_SOURCE_LINE) ; EZ_CONCAT(scopeExit_, EZ_SOURCE_LINE).m_onExitFunction = [&]()

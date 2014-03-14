@@ -1,3 +1,4 @@
+#lang scheme
 (define nil '())
 
 (define a0 (cons nil nil))
@@ -10,7 +11,7 @@
 (define b2 (cons 1   (cons 2   nil)))
 (define b3 (cons 1   (cons nil 3  )))
 (define b4 (cons 1   (cons 2   3  )))
-(define b5 (cons nil (cons 2 nil  )))
+(define b5 (cons nil (cons 2   nil)))
 (define b6 (cons nil (cons nil 3  )))
 (define b7 (cons nil (cons 2   3  )))
 (define b8 (cons 1   (cons 2   3  )))
@@ -20,7 +21,7 @@
 (define c2 (cons (cons 2   nil) 1  ))
 (define c3 (cons (cons nil 3  ) 1  ))
 (define c4 (cons (cons 2   3  ) 1  ))
-(define c5 (cons (cons 2 nil  ) nil))
+(define c5 (cons (cons 2   nil) nil))
 (define c6 (cons (cons nil 3  ) nil))
 (define c7 (cons (cons 2   3  ) nil))
 (define c8 (cons (cons 2   3  ) 1  ))
