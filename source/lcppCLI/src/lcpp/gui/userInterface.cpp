@@ -17,7 +17,7 @@ void lcpp::UserInterface::initialize(const CInfo& cinfo)
     {
         Console::CInfo consoleCInfo;
         consoleCInfo.bounds = m_Window.getDefaultView().getViewport();
-        consoleCInfo.bounds.width = m_Window.getViewport(m_Window.getDefaultView()).width;
+        consoleCInfo.bounds.width = float(m_Window.getViewport(m_Window.getDefaultView()).width);
         m_console = new Console(consoleCInfo);
     }
 

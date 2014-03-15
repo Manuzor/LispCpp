@@ -2,6 +2,17 @@
 
 namespace lcpp
 {
+    struct TextPosition
+    {
+        ezUInt64 line;
+        ezUInt64 column;
+
+        TextPosition(ezUInt64 line, ezUInt64 column) :
+            line(line),
+            column(column)
+        {
+        }
+    };
 
     class Text : public sf::Drawable
     {

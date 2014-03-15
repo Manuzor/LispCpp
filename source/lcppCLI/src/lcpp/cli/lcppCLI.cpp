@@ -37,6 +37,8 @@ namespace lcpp
             m_absoluteLogFilesDir.AppendPath(g_ApplicationTitleShort);
             m_absoluteLogFilesDir.Append(".log.html");
             m_htmlLog.BeginLog(m_absoluteLogFilesDir.GetData(), g_ApplicationTitle);
+
+            m_absoluteLogFilesDir.Clear();
         }
 
         void shutdown()

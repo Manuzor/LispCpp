@@ -196,6 +196,7 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
     <ClInclude Include="include\lcpp\cli\common.h" />
     <ClInclude Include="include\lcpp\cli\exceptions.h" />
     <ClInclude Include="include\lcpp\gui\console.h" />
+    <ClInclude Include="include\lcpp\gui\cursor.h" />
     <ClInclude Include="include\lcpp\gui\fontInfo.h" />
     <ClInclude Include="include\lcpp\gui\text.h" />
     <ClInclude Include="include\stdafx.h" />

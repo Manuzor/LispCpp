@@ -2,6 +2,7 @@
 
 #include "lcpp/gui/fontInfo.h"
 #include "lcpp/gui/text.h"
+#include "lcpp/gui/cursor.h"
 
 namespace lcpp
 {
@@ -27,6 +28,8 @@ namespace lcpp
         Text m_input;
 
         sf::FloatRect m_bounds;
+
+        Cursor m_cursor;
 
     public:
         Console(const CInfo& cinfo) :

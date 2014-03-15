@@ -14,6 +14,9 @@ bool lcpp::Console::initialize()
     m_input.setColor(m_mainFontInfo.color);
     m_input.boundsMax(m_bounds);
 
+    m_cursor.setSize(m_input.getCharacterSize());
+    m_cursor.setFont(m_mainFont);
+
     return true;
 }
 
@@ -32,6 +35,7 @@ void lcpp::Console::update( sf::Time elapsedTime )
 void lcpp::Console::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(m_input);
+    target.draw(m_cursor);
 }
 
 /*
