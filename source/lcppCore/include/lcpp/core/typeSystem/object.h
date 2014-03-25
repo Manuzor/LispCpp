@@ -21,22 +21,22 @@ namespace lcpp
         virtual bool operator !=(const SchemeObject& rhs) const;
         virtual ezString toString() const = 0;
 
-        virtual const SchemeTypeId& type() const = 0;
-        virtual bool is(const SchemeTypeId& type) const = 0;
+        virtual const Type& type() const = 0;
+        virtual bool is(const Type& type) const = 0;
 
         virtual void copyTo(void* mem) const = 0;
     };
     
     template<>
-    struct SchemeTypeInfo< SchemeObject >
+    struct TypeInfo< SchemeObject >
     {
-        static const SchemeTypeId& type()
+        static const Type& type()
         {
-            static SchemeTypeId instance;
-            instance.name = "SchemeNumber";
-            instance.size = instance.alignment = sizeof(SchemeObject);
-            return instance;
-        }                                                 
+            static Type theType;
+            theType.name = "SchemeObject";
+            theType.size = theType.alignment = sizeof(SchemeObject);
+            return theType;
+        }
     };
 
     /// \brief Class used to generate default overrides of SchemeObject.
@@ -48,8 +48,8 @@ namespace lcpp
     public:
         virtual ~SchemeExtend() = 0 {}
 
-        virtual const SchemeTypeId& type() const override;
-        virtual bool is(const SchemeTypeId& type) const override;
+        virtual const Type& type() const override;
+        virtual bool is(const Type& type) const override;
 
         virtual void copyTo(void* mem) const override;
     };

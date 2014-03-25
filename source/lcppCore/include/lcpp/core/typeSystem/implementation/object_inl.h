@@ -9,18 +9,18 @@ lcpp::SchemeObject::operator !=(const SchemeObject& rhs) const
 
 template<typename Derived, typename Base>
 inline
-const lcpp::SchemeTypeId&
+const lcpp::Type&
 lcpp::SchemeExtend<Derived, Base>::type() const
 {
-    return SchemeTypeInfo<Derived>::type();
+    return TypeInfo<Derived>::type();
 }
 
 template<typename Derived, typename Base>
 inline
 bool
-lcpp::SchemeExtend<Derived, Base>::is(const SchemeTypeId& type) const
+lcpp::SchemeExtend<Derived, Base>::is(const Type& type) const
 {
-    return type.id == SchemeTypeInfo<Derived>::type().id;
+    return type.id == TypeInfo<Derived>::type().id;
 }
 
 template<typename Derived, typename Base>

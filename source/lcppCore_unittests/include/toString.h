@@ -29,7 +29,7 @@ namespace lcpp { namespace unittests {
 namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
     
     template<>
-    static std::wstring ToString<lcpp::SchemeTypeId>(const lcpp::SchemeTypeId& type)
+    static std::wstring ToString<lcpp::Type>(const lcpp::Type& type)
     {
         ezStringWChar wide(type.name);
         return wide.GetData();

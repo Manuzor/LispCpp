@@ -212,11 +212,11 @@ namespace lcpp
     typedef SchemeNumber_t<double> SchemeDouble;
 
     template<typename T>
-    struct SchemeTypeInfo< SchemeNumber_t<T> >
+    struct TypeInfo< SchemeNumber_t<T> >
     {
-        static const SchemeTypeId& type()
+        static const Type& type()
         {
-            static SchemeTypeId instance;
+            static Type instance;
             instance.name = "SchemeNumber";
             instance.size = sizeof(SchemeNumber_t<T>);
             instance.alignment = EZ_ALIGNMENT_OF(SchemeNumber_t<T>);

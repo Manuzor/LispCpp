@@ -22,7 +22,7 @@ inline
 bool
 lcpp::SchemeNil::operator ==(const SchemeObject& obj) const
 {
-    return obj.is(SchemeTypeInfo<SchemeNil>::type());
+    return obj.is(TypeInfo<SchemeNil>::type());
 }
 inline
 ezString

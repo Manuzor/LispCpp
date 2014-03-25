@@ -1,5 +1,5 @@
 inline
-lcpp::SchemeTypeId::SchemeTypeId() :
+lcpp::Type::Type() :
     id(makeUniqueId()),
     name(nullptr),
     size(0),
@@ -9,7 +9,7 @@ lcpp::SchemeTypeId::SchemeTypeId() :
 
 inline
 ezUInt64
-lcpp::SchemeTypeId::makeUniqueId()
+lcpp::Type::makeUniqueId()
 {
     // TODO Find a more elegant solution?
     static ezUInt64 counter = 0;
@@ -18,7 +18,7 @@ lcpp::SchemeTypeId::makeUniqueId()
 
 inline
 bool
-lcpp::operator ==(const SchemeTypeId& lhs, const SchemeTypeId& rhs)
+lcpp::operator ==(const Type& lhs, const Type& rhs)
 {
     return lhs.id == rhs.id;
 }

@@ -3,7 +3,7 @@
 namespace lcpp
 {
     /// \brief Describes a scheme type
-    struct SchemeTypeId
+    struct Type
     {
         /// Is set automatically and will be unique for every new instance.
         const ezUInt64 id;
@@ -17,35 +17,35 @@ namespace lcpp
         size_t alignment;
 
 
-        SchemeTypeId();
+        Type();
 
     private:
         static ezUInt64 makeUniqueId();
 
         // Disallow assignment
-        void operator =(const SchemeTypeId&);
+        void operator =(const Type&);
     };
 
-    bool operator ==(const SchemeTypeId& lhs, const SchemeTypeId& rhs);
+    bool operator ==(const Type& lhs, const Type& rhs);
 
     /// \brief Class that provides information about scheme types statically.
     /// \remark You have to specialize this template for all your scheme types!
     ///         In order to make this easier, you can use the macros defined at
     ///         the end of this file.
     template<typename T>
-    struct SchemeTypeInfo
+    struct TypeInfo
     {
-        /// \brief Gets the instance of the SchemeType associated with T
-        static const SchemeTypeId& type();
+        /// \brief Gets the instance of the Type associated with T
+        static const Type& type();
     };
 }
 
 #define DECLARE_SCHEME_TYPE_INFO_WITH_NAME(theType, theName) template<> \
-    struct SchemeTypeInfo<theType>                                      \
+    struct TypeInfo<theType>                                      \
     {                                                                   \
-        static const SchemeTypeId& type()                               \
+        static const Type& type()                               \
         {                                                               \
-            static SchemeTypeId instance;                               \
+            static Type instance;                               \
             instance.name = theName;                                    \
             instance.size = sizeof(theType);                            \
             instance.alignment = EZ_ALIGNMENT_OF(theType);              \

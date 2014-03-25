@@ -97,7 +97,7 @@ inline
 bool
 lcpp::SchemeCons::operator ==(const SchemeObject& obj) const
 {
-    if (obj.is(SchemeTypeInfo<SchemeCons>::type()))
+    if (obj.is(TypeInfo<SchemeCons>::type()))
     {
         return static_cast<const SchemeCons&>(obj) == *this;
     }
@@ -129,7 +129,7 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 {
     // car
     // \remark This is more efficient than simply calling m_car->toString()
-    if (m_car->is(SchemeTypeInfo<SchemeCons>::type()))
+    if (m_car->is(TypeInfo<SchemeCons>::type()))
     {
         builder.Append('(');
         static_cast<const SchemeCons*>(m_car)->toStringHelper(builder);
@@ -148,7 +148,7 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 
     builder.Append(' ');
 
-    if (m_cdr->is(SchemeTypeInfo<SchemeCons>::type()))
+    if (m_cdr->is(TypeInfo<SchemeCons>::type()))
     {
         static_cast<const SchemeCons*>(m_cdr)->toStringHelper(builder);
     }

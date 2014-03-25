@@ -10,8 +10,8 @@ namespace lcpp { namespace unittests {
 
         TEST_METHOD(Type)
         {
-            Assert::AreEqual(SCHEME_NIL.type(), SchemeTypeInfo<SchemeNil>::type(), L"SCHEME_NIL.type() returns an incorrect type!");
-            Assert::IsTrue(SCHEME_NIL.is(SchemeTypeInfo<SchemeNil>::type()), L"SCHEME_NIL.is(...) is not working!");
+            Assert::AreEqual(SCHEME_NIL.type(), TypeInfo<SchemeNil>::type(), L"SCHEME_NIL.type() returns an incorrect type!");
+            Assert::IsTrue(SCHEME_NIL.is(TypeInfo<SchemeNil>::type()), L"SCHEME_NIL.is(...) is not working!");
         }
 
         TEST_METHOD(Equality)

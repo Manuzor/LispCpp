@@ -22,7 +22,7 @@ inline
 bool
 lcpp::SchemeVoid::operator ==(const SchemeObject& obj) const
 {
-    return obj.is(SchemeTypeInfo<SchemeVoid>::type());
+    return obj.is(TypeInfo<SchemeVoid>::type());
 }
 
 inline

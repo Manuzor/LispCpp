@@ -18,7 +18,7 @@ inline
 bool
 lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 {
-    if (obj.is(SchemeTypeInfo<SchemeNumber_t<NUMBER_TYPE>>::type()))
+    if (obj.is(TypeInfo<SchemeNumber_t<NUMBER_TYPE>>::type()))
     {
         return *this == static_cast<const type_t&>(obj); // Call the specialized operator ==
     }
