@@ -7,23 +7,12 @@
 
 #include <SDKDDKVer.h>
 
-#include <stdio.h>
+#include <cstdio>
+#include <iostream>
 #include <tchar.h>
 #include <functional>
 
 #include "lcpp/api.h"
-
-// SFML
-//////////////////////////////////////////////////////////////////////////
-#include "SFML/Config.hpp"
-#include "SFML/System.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/Audio.hpp"
-#include "SFML/Graphics.hpp"
-#include "SFML/Network.hpp"
-
-// Uncomment to access OpenGL functionality
-//#include "SFML/OpenGL.hpp"
 
 // Custom stuff that will not change frequently
 //////////////////////////////////////////////////////////////////////////

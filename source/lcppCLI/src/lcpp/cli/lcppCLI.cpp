@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include <functional>
-#include "lcpp/gui/userInterface.h"
 #include "lcpp/cli/exceptions.h"
 
 namespace lcpp
@@ -59,24 +58,7 @@ namespace lcpp
 
 void run()
 {
-    lcpp::UserInterface ui;
-
-    // Initialize
-    {
-        EZ_LOG_BLOCK("Initializing user interface.");
-        // Use default cinfo state
-        lcpp::UserInterface::CInfo cinfo;
-        ui.initialize(cinfo);
-    }
-
-    // Run
-    ui.run();
-
-    // Shutdown.
-    {
-        EZ_LOG_BLOCK("Shutting down user interface.");
-        ui.shutdown();
-    }
+    // TODO Implement me.
 }
 
 int main(int argc, const char* argv[])
