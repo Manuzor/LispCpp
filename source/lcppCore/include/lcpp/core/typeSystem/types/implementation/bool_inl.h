@@ -1,4 +1,4 @@
-// static
+﻿// static
 inline
 const lcpp::SchemeBool&
 lcpp::SchemeBool::trueInstance()

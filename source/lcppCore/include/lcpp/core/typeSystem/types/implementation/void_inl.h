@@ -1,4 +1,4 @@
-// static
+﻿// static
 inline
 const lcpp::SchemeVoid&
 lcpp::SchemeVoid::instance()

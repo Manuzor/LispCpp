@@ -1,4 +1,4 @@
-/// Include this file for all you need from the lcppCore api.
+﻿/// Include this file for all you need from the lcppCore api.
 /// Do not forget to include the api_inl.h file (once)!
 
 #pragma once

@@ -1,4 +1,4 @@
-inline
+﻿inline
 lcpp::Type::Type() :
     id(makeUniqueId()),
     name(nullptr),

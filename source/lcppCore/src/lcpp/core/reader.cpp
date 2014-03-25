@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "lcpp/core/reader.h"
 
 #include "lcpp/exceptions/exceptions.h"

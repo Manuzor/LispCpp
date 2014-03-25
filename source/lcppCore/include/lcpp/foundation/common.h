@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifdef LCPP_CORE_EXPORT
 #define LCPP_CORE_API __declspec(dllexport)

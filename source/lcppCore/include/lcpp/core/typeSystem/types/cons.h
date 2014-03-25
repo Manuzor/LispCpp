@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 

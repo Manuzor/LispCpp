@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // declare in global namespace for C++11 range-based for loops
 

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include <functional>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

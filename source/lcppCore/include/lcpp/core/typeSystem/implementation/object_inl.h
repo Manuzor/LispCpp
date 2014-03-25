@@ -1,4 +1,4 @@
-inline
+﻿inline
 bool
 lcpp::SchemeObject::operator !=(const SchemeObject& rhs) const
 {

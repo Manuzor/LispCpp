@@ -1,4 +1,4 @@
-// This header includes all relevant files associated with the type system.
+﻿// This header includes all relevant files associated with the type system.
 
 // Include base headers of scheme types
 //////////////////////////////////////////////////////////////////////////

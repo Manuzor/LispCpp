@@ -1,4 +1,4 @@
-inline
+﻿inline
 ezAllocatorBase& lcpp::SchemeCons::getAllocator()
 {
     return *ezFoundation::GetDefaultAllocator();

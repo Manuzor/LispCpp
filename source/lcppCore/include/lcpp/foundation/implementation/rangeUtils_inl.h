@@ -1,4 +1,4 @@
-
+﻿
 template<typename T, typename Derived>
 T*
 begin( ezArrayBase<T, Derived>& arr )

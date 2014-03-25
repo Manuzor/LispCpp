@@ -1,4 +1,4 @@
-// Static
+﻿// Static
 inline
 const lcpp::SchemeNil&
 lcpp::SchemeNil::instance()

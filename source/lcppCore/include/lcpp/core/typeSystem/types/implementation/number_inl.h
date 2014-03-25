@@ -1,4 +1,4 @@
-#include "lcpp/foundation/stringUtil.h"
+﻿#include "lcpp/foundation/stringUtil.h"
 
 template<typename NUMBER_TYPE>
 inline
