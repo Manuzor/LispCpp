@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypeSystem/object.h"
+#include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
 {
@@ -28,4 +28,4 @@ namespace lcpp
 #define SCHEME_VOID (::lcpp::SchemeVoid::instance())
 }
 
-#include "lcpp/core/schemeTypeSystem/types/implementation/void_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/void_inl.h"

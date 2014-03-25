@@ -1,6 +1,6 @@
 #pragma once
-#include "lcpp/core/schemeTypeSystem/object.h"
-#include "lcpp/core/schemeTypeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 
 namespace lcpp
 {
@@ -52,4 +52,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/schemeTypeSystem/types/implementation/cons_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/cons_inl.h"

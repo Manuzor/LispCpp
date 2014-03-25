@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypeSystem/object.h"
+#include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
 {
@@ -38,4 +38,4 @@ namespace lcpp
 
 }
 
-#include "lcpp/core/schemeTypeSystem/types/implementation/bool_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/bool_inl.h"

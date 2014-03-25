@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypeSystem/object.h"
+#include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
 {
@@ -222,4 +222,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/schemeTypeSystem/types/implementation/number_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/number_inl.h"

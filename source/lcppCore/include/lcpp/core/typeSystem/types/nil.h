@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypeSystem/object.h"
+#include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
 {
@@ -28,4 +28,4 @@ namespace lcpp
 #define SCHEME_NIL (::lcpp::SchemeNil::instance())
 }
 
-#include "lcpp/core/schemeTypeSystem/types/implementation/nil_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/nil_inl.h"

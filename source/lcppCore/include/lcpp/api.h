@@ -9,4 +9,4 @@
 #include "lcpp/foundation/common.h"
 
 #include "lcpp/core/reader.h"
-#include "lcpp/core/schemeTypeSystem.h"
+#include "lcpp/core/typeSystem.h"
