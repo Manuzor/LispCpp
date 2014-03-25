@@ -17,15 +17,9 @@ namespace lcpp
         virtual ezString toString() const override;
     };
 
-    template<>
-    struct SchemeTypeInfo<SchemeVoid>
-    {
-        inline static size_t size() { return sizeof(SchemeVoid); }
-        inline static SchemeType::Enum type() { return SchemeType::Void; }
-        inline static const char* name() { return "SchemeVoid"; }
-    };
+    DECLARE_SCHEME_TYPE_INFO(SchemeVoid);
+}
 
 #define SCHEME_VOID (::lcpp::SchemeVoid::instance())
-}
 
 #include "lcpp/core/typeSystem/types/implementation/void_inl.h"

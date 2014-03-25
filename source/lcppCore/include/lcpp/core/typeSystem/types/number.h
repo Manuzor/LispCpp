@@ -8,8 +8,6 @@ namespace lcpp
         public SchemeExtend<SchemeNumber_t<NUMBER_TYPE>, SchemeObject>
     {
     public:
-        LCPP_SCHEME_TYPE_DECLARATION(Number);
-
         typedef NUMBER_TYPE number_t;
         typedef SchemeNumber_t<number_t> type_t;
 
@@ -216,9 +214,14 @@ namespace lcpp
     template<typename T>
     struct SchemeTypeInfo< SchemeNumber_t<T> >
     {
-        inline static size_t size() { return sizeof(SchemeNumber_t<T>); }
-        inline static SchemeType::Enum type() { return SchemeType::Number; }
-        inline static const char* name() { return "SchemeNumber"; }
+        static const SchemeTypeId& type()
+        {
+            static SchemeTypeId instance;
+            instance.name = "SchemeNumber";
+            instance.size = sizeof(SchemeNumber_t<T>);
+            instance.alignment = EZ_ALIGNMENT_OF(SchemeNumber_t<T>);
+            return instance;
+        }                                                 
     };
 }
 

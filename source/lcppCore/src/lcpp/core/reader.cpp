@@ -3,14 +3,12 @@
 
 #include "lcpp/exceptions/exceptions.h"
 
-lcpp::Reader::
-Reader()
+lcpp::Reader::Reader()
 {
     printf("Created reader.\n");
 }
 
-lcpp::Reader::
-~Reader()
+lcpp::Reader::~Reader()
 {
     printf("Destroyed reader.\n");
 }

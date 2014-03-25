@@ -17,15 +17,8 @@ namespace lcpp
         virtual ezString toString() const override;
     };
 
-    template<>
-    struct SchemeTypeInfo<SchemeNil>
-    {
-        inline static size_t size() { return sizeof(SchemeNil); }
-        inline static SchemeType::Enum type() { return SchemeType::Nil; }
-        inline static const char* name() { return "SchemeNil"; }
-    };
-
-#define SCHEME_NIL (::lcpp::SchemeNil::instance())
+    DECLARE_SCHEME_TYPE_INFO(SchemeNil);
 }
+#define SCHEME_NIL (::lcpp::SchemeNil::instance())
 
 #include "lcpp/core/typeSystem/types/implementation/nil_inl.h"

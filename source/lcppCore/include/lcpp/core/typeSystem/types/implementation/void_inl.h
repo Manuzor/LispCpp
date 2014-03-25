@@ -22,12 +22,13 @@ inline
 bool
 lcpp::SchemeVoid::operator ==(const SchemeObject& obj) const
 {
-    return obj.is(SchemeType::Void);
+    return obj.is(SchemeTypeInfo<SchemeVoid>::type());
 }
 
 inline
 ezString
 lcpp::SchemeVoid::toString() const
 {
-    return "#v";
+    static ezString voidString("#v");
+    return voidString;
 }

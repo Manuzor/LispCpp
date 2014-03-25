@@ -14,24 +14,20 @@ namespace lcpp
         SchemeBool(bool value);
         virtual ~SchemeBool();
 
-        virtual bool operator==(const SchemeObject& obj) const override;
+        virtual bool operator==(const SchemeObject& rhs) const override;
         virtual ezString toString() const override;
 
-        bool operator ==(const SchemeBool& rhs) const;
-
         operator bool() const;
+
+        bool value() const;
 
     private:
         const bool m_value;
     };
 
-    template<>
-    struct SchemeTypeInfo<SchemeBool>
-    {
-        inline static size_t size() { return sizeof(SchemeBool); }
-        inline static SchemeType::Enum type() { return SchemeType::Bool; }
-        inline static const char* name() { return "SchemeBool"; }
-    };
+    DECLARE_SCHEME_TYPE_INFO(SchemeBool);
+
+    bool operator ==(const SchemeBool& lhs, const SchemeBool& rhs);
 
 #define SCHEME_TRUE (::lcpp::SchemeBool::trueInstance())
 #define SCHEME_FALSE (::lcpp::SchemeBool::falseInstance())

@@ -3,7 +3,7 @@
 template<typename NUMBER_TYPE>
 inline
 lcpp::SchemeNumber_t<NUMBER_TYPE>::SchemeNumber_t(number_t value) :
-m_value(value)
+    m_value(value)
 {
 }
 
@@ -18,7 +18,7 @@ inline
 bool
 lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 {
-    if (obj.is(SchemeType::Number))
+    if (obj.is(SchemeTypeInfo<SchemeNumber_t<NUMBER_TYPE>>::type()))
     {
         return *this == static_cast<const type_t&>(obj); // Call the specialized operator ==
     }

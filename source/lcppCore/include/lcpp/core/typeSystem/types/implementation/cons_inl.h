@@ -97,7 +97,7 @@ inline
 bool
 lcpp::SchemeCons::operator ==(const SchemeObject& obj) const
 {
-    if (obj.is(SchemeType::Cons))
+    if (obj.is(SchemeTypeInfo<SchemeCons>::type()))
     {
         return static_cast<const SchemeCons&>(obj) == *this;
     }
@@ -129,7 +129,7 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 {
     // car
     // \remark This is more efficient than simply calling m_car->toString()
-    if (m_car->is(SchemeType::Cons))
+    if (m_car->is(SchemeTypeInfo<SchemeCons>::type()))
     {
         builder.Append('(');
         static_cast<const SchemeCons*>(m_car)->toStringHelper(builder);
@@ -148,7 +148,7 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 
     builder.Append(' ');
 
-    if (m_cdr->is(SchemeType::Cons))
+    if (m_cdr->is(SchemeTypeInfo<SchemeCons>::type()))
     {
         static_cast<const SchemeCons*>(m_cdr)->toStringHelper(builder);
     }
@@ -180,18 +180,18 @@ inline
 void
 lcpp::SchemeCons::set(const SchemeObject*& member, const SchemeObject& from)
 {
-    size_t size = from.size();
+    size_t size = from.type().size;
     void* mem = nullptr;
 
     if (member == nullptr)
     {
-        mem = getAllocator().Allocate(size, from.alignment());
+        mem = getAllocator().Allocate(size, from.type().alignment);
     }
-    else if (size > member->size())
+    else if (size > member->type().size)
     {
         member->~SchemeObject();
         getAllocator().Deallocate((void*)member);
-        mem = getAllocator().Allocate(size, from.alignment());
+        mem = getAllocator().Allocate(size, from.type().alignment);
     }
     else
     {

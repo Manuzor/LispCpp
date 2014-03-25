@@ -18,29 +18,28 @@ namespace lcpp
 
         virtual ~SchemeObject() = 0 {}
         virtual bool operator ==(const SchemeObject& other) const = 0;
-        virtual bool operator !=(const SchemeObject& rhs) const { return !(*this == rhs); }
+        virtual bool operator !=(const SchemeObject& rhs) const;
         virtual ezString toString() const = 0;
 
-        virtual SchemeType::Enum type() const = 0;
-        virtual bool is(SchemeType::Enum type) const = 0;
+        virtual const SchemeTypeId& type() const = 0;
+        virtual bool is(const SchemeTypeId& type) const = 0;
 
         virtual void copyTo(void* mem) const = 0;
-
-        virtual size_t size() const = 0;
-        virtual size_t alignment() const = 0;
-
-        virtual const char* name() const = 0;
     };
-
+    
     template<>
-    struct SchemeTypeInfo<SchemeObject>
+    struct SchemeTypeInfo< SchemeObject >
     {
-        static size_t size() { return sizeof(SchemeObject); }
-        static SchemeType::Enum type() { return SchemeType::Object; }
-        static const char* name() { return "SchemeObject"; }
+        static const SchemeTypeId& type()
+        {
+            static SchemeTypeId instance;
+            instance.name = "SchemeNumber";
+            instance.size = instance.alignment = sizeof(SchemeObject);
+            return instance;
+        }                                                 
     };
 
-    /// \brief ...
+    /// \brief Class used to generate default overrides of SchemeObject.
     ///
     /// Has to derive from SchemeObject at some point!
     template<typename Derived, typename Base>
@@ -49,14 +48,11 @@ namespace lcpp
     public:
         virtual ~SchemeExtend() = 0 {}
 
-        virtual SchemeType::Enum type() const override { return SchemeTypeInfo<Derived>::type(); }
-        virtual bool is(SchemeType::Enum type) const override { return type == SchemeTypeInfo<Derived>::type(); }
+        virtual const SchemeTypeId& type() const override;
+        virtual bool is(const SchemeTypeId& type) const override;
 
-        virtual void copyTo(void* mem) const override { new (mem) Derived(*static_cast<const Derived*>(this)); }
-
-        virtual size_t size() const override { return sizeof(Derived); }
-        virtual size_t alignment() const override { return EZ_ALIGNMENT_OF(Derived); }
-
-        virtual const char* name() const override { return SchemeTypeInfo<Derived>::name(); }
+        virtual void copyTo(void* mem) const override;
     };
 }
+
+#include "lcpp/core/typeSystem/implementation/object_inl.h"

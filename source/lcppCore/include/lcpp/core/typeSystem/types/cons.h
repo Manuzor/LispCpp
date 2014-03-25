@@ -43,13 +43,7 @@ namespace lcpp
         void set(const SchemeObject*& member, const SchemeObject& from);
     };
 
-    template<>
-    struct SchemeTypeInfo<SchemeCons>
-    {
-        inline static size_t size() { return sizeof(SchemeCons); }
-        inline static SchemeType::Enum type() { return SchemeType::Cons; }
-        inline static const char* name() { return "SchemeCons"; }
-    };
+    DECLARE_SCHEME_TYPE_INFO(SchemeCons);
 }
 
 #include "lcpp/core/typeSystem/types/implementation/cons_inl.h"

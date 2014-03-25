@@ -11,8 +11,8 @@ namespace lcpp { namespace unittests {
 
         TEST_METHOD(Type)
         {
-            Assert::IsTrue(SCHEME_TRUE.is(SchemeType::Bool), L"Wrong type declaration for SCHEME_TRUE!");
-            Assert::IsTrue(SCHEME_FALSE.is(SchemeType::Bool), L"Wrong type declaration for SCHEME_FALSE!");
+            Assert::IsTrue(SCHEME_TRUE.is(SchemeTypeInfo<SchemeBool>::type()), L"Wrong type declaration for SCHEME_TRUE!");
+            Assert::IsTrue(SCHEME_FALSE.is(SchemeTypeInfo<SchemeBool>::type()), L"Wrong type declaration for SCHEME_FALSE!");
         }
 
         TEST_METHOD(Equality)

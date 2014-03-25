@@ -1,49 +1,68 @@
 #pragma once
-#define LCPP_UNITTESTS_FRAMEWORK_TOSTRING(typeName) namespace Microsoft {\
-namespace VisualStudio {\
-namespace CppUnitTestFramework { \
-    template<>                                                    \
-    static std::wstring ToString<typeName>(const typeName& value) \
-    {                                                             \
-        ezStringWChar result = value.toString().GetData();        \
-        return result.GetData();                                  \
-    }                                                             \
-}}}
 
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeObject);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeVoid);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeBool);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeNil);
+namespace lcpp { namespace unittests {
 
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt8);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt8);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt16);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt16);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt32);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt32);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeInt64);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeUInt64);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeFloat);
-LCPP_UNITTESTS_FRAMEWORK_TOSTRING(lcpp::SchemeDouble);
+    template<typename T>
+    struct ToStringHelper
+    {
+        static std::wstring get(const T& object)
+        {
+            static_cast<const SchemeObject&>(object);
+
+            ezStringWChar result(object.toString().GetData());
+            return result.GetData();
+        }
+    };
+
+    template<typename T>
+    struct ToStringHelper<SchemeNumber_t<T>>
+    {
+        static std::wstring get(const SchemeNumber_t<T>& number)
+        {
+            ezStringWChar result = number.toString().GetData();
+            return result.GetData();
+        }
+    };
+
+}}
 
 namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
+    
+    template<>
+    static std::wstring ToString<lcpp::SchemeTypeId>(const lcpp::SchemeTypeId& type)
+    {
+        ezStringWChar wide(type.name);
+        return wide.GetData();
+    }
 
     template<>
-    static std::wstring ToString<lcpp::SchemeType::Enum>(const lcpp::SchemeType::Enum& value)
+    static std::wstring ToString<lcpp::SchemeObject>(const lcpp::SchemeObject& object)
     {
-        static_assert(lcpp::SchemeType::NUM_ELEMENTS == 8, "Keep this method in sync with lcpp::SchemeType::Enum!");
-        switch (value)
-        {
-        case lcpp::SchemeType::Object: return L"Object";
-        case lcpp::SchemeType::Void:   return L"Void";
-        case lcpp::SchemeType::Nil:    return L"Nil";
-        case lcpp::SchemeType::Bool:   return L"Bool";
-        case lcpp::SchemeType::Symbol: return L"Symbol";
-        case lcpp::SchemeType::Cons:   return L"Cons";
-        case lcpp::SchemeType::Number: return L"Number";
-        case lcpp::SchemeType::String: return L"String";
-        default: return L"<INVALID>";
-        }
+        return lcpp::unittests::ToStringHelper<lcpp::SchemeObject>::get(object);
+    }
+
+    template<>
+    static std::wstring ToString<lcpp::SchemeVoid>(const lcpp::SchemeVoid& theVoid)
+    {
+        return lcpp::unittests::ToStringHelper<lcpp::SchemeVoid>::get(theVoid);
+    }
+
+    template<>
+    static std::wstring ToString<lcpp::SchemeBool>(const lcpp::SchemeBool& theBool)
+    {
+        return lcpp::unittests::ToStringHelper<lcpp::SchemeBool>::get(theBool);
+    }
+
+    template<>
+    static std::wstring ToString<lcpp::SchemeNil>(const lcpp::SchemeNil& nil)
+    {
+        return lcpp::unittests::ToStringHelper<lcpp::SchemeNil>::get(nil);
+    }
+
+    template<typename T>
+    static std::wstring ToString(const lcpp::SchemeNumber_t<T>& number)
+    {
+        return lcpp::unittests::ToStringHelper< lcpp::SchemeNumber_t<T> >::get(number);
     }
 
 // TODO: More here

@@ -2,43 +2,58 @@
 
 namespace lcpp
 {
-    struct SchemeType
+    /// \brief Describes a scheme type
+    struct SchemeTypeId
     {
-        enum Enum
-        {
-            INVALID = -1,
+        /// Is set automatically and will be unique for every new instance.
+        const ezUInt64 id;
+        
+        /// \brief A human-readable name of this type.
+        const char* name;
 
-            Object,
-            Void,
-            Nil,
-            Bool,
-            Symbol,
-            Cons,
-            Number,
-            String,
+        /// \brief Number of bytes of this scheme type. Typically sizeof(T).
+        size_t size;
 
-            NUM_ELEMENTS
-        };
+        size_t alignment;
 
-        LCPP_DISALLOW_CONSTRUCTION(SchemeType);
+
+        SchemeTypeId();
+
+    private:
+        static ezUInt64 makeUniqueId();
+
+        // Disallow assignment
+        void operator =(const SchemeTypeId&);
     };
+
+    bool operator ==(const SchemeTypeId& lhs, const SchemeTypeId& rhs);
 
     /// \brief Class that provides information about scheme types statically.
     /// \remark You have to specialize this template for all your scheme types!
+    ///         In order to make this easier, you can use the macros defined at
+    ///         the end of this file.
     template<typename T>
     struct SchemeTypeInfo
     {
-        /// \brief 
-        static SchemeType::Enum type();
-
-        /// \brief Number of bytes an instance of T allocates. Typically sizeof(T).
-        static size_t size();
-
-        /// \brief A human-readable name of this type.
-        static const char* name();
+        /// \brief Gets the instance of the SchemeType associated with T
+        static const SchemeTypeId& type();
     };
-
-// Assumes that the type is called Scheme<typeValue>, e.g. for typeValue = Bool => SchemeBool
-#define LCPP_SCHEME_TYPE_DECLARATION(typeValue) virtual ::lcpp::SchemeType::Enum type() const override { return ::lcpp::SchemeType::typeValue; }\
-    virtual bool is(::lcpp::SchemeType::Enum type) const override { return type == ::lcpp::SchemeType::typeValue; }
 }
+
+#define DECLARE_SCHEME_TYPE_INFO_WITH_NAME(theType, theName) template<> \
+    struct SchemeTypeInfo<theType>                                      \
+    {                                                                   \
+        static const SchemeTypeId& type()                               \
+        {                                                               \
+            static SchemeTypeId instance;                               \
+            instance.name = theName;                                    \
+            instance.size = sizeof(theType);                            \
+            instance.alignment = EZ_ALIGNMENT_OF(theType);              \
+            return instance;                                            \
+        }                                                               \
+    }
+
+#define DECLARE_SCHEME_TYPE_INFO(type) DECLARE_SCHEME_TYPE_INFO_WITH_NAME(type, #type)
+
+
+#include "lcpp/core/typeSystem/implementation/type_inl.h"

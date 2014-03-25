@@ -30,31 +30,41 @@ lcpp::SchemeBool::~SchemeBool()
 
 inline
 bool
-lcpp::SchemeBool::operator ==( const SchemeObject& obj ) const
+lcpp::SchemeBool::operator ==( const SchemeObject& rhs ) const
 {
-    if (obj.is(SchemeType::Bool))
+    if (rhs.is(SchemeTypeInfo<SchemeBool>::type()))
     {
-        return static_cast<const SchemeBool&>(obj) == *this;
+        return *this == static_cast<const SchemeBool&>(rhs);
     }
     return false;
-}
-
-inline
-bool
-lcpp::SchemeBool::operator ==( const SchemeBool& rhs ) const
-{
-    return rhs.m_value == m_value;
 }
 
 inline
 ezString
 lcpp::SchemeBool::toString() const
 {
-    return m_value ? "#t" : "#f";
+    static ezString trueString("#t");
+    static ezString falseString("#f");
+
+    return m_value ? trueString : falseString;
 }
 
 inline
 lcpp::SchemeBool::operator bool() const
 {
     return m_value;
+}
+
+inline
+bool
+lcpp::SchemeBool::value() const
+{
+    return m_value;
+}
+
+inline
+bool
+lcpp::operator ==(const SchemeBool& lhs, const SchemeBool& rhs)
+{
+    return lhs.value() == rhs.value();
 }
