@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypes/object.h"
+#include "lcpp/core/schemeTypeSystem/object.h"
 
 namespace lcpp
 {
@@ -221,3 +221,5 @@ namespace lcpp
         inline static const char* name() { return "SchemeNumber"; }
     };
 }
+
+#include "lcpp/core/schemeTypeSystem/types/implementation/number_inl.h"

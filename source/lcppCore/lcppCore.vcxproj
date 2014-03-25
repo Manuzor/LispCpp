@@ -22,22 +22,19 @@
     <ClInclude Include="include\lcpp\api.h" />
     <ClInclude Include="include\lcpp\api_inl.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\bool.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\cons.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\conversion.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\bool_inl.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\cons_inl.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\conversion_inl.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\nil_inl.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\number_inl.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\implementation\void_inl.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\nil.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\number.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\object.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\singletons.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\type.h" />
-    <ClInclude Include="include\lcpp\core\schemeTypes\void.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\bool.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\cons.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\implementation\bool_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\implementation\cons_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\implementation\nil_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\implementation\number_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\implementation\void_inl.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\nil.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\number.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\object.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\type.h" />
+    <ClInclude Include="include\lcpp\core\schemeTypeSystem\types\void.h" />
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
     <ClInclude Include="include\lcpp\foundation\common.h" />
     <ClInclude Include="include\lcpp\foundation\implementation\newdelete_inl.h" />
@@ -49,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lcpp\core\reader.cpp" />
-    <ClCompile Include="src\lcpp\schemeTypes.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

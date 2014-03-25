@@ -1,7 +1,6 @@
 #pragma once
-#include "lcpp/core/schemeTypes/object.h"
-
-#include "lcpp/foundation/common.h"
+#include "lcpp/core/schemeTypeSystem/object.h"
+#include "lcpp/core/schemeTypeSystem/types/nil.h"
 
 namespace lcpp
 {
@@ -52,3 +51,5 @@ namespace lcpp
         inline static const char* name() { return "SchemeCons"; }
     };
 }
+
+#include "lcpp/core/schemeTypeSystem/types/implementation/cons_inl.h"

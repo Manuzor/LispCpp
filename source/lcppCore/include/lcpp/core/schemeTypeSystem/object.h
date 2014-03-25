@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypes/type.h"
+#include "lcpp/core/schemeTypeSystem/type.h"
 
 namespace lcpp
 {

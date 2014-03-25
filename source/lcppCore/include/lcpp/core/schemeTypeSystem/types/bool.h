@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/schemeTypes/object.h"
+#include "lcpp/core/schemeTypeSystem/object.h"
 
 namespace lcpp
 {
@@ -37,3 +37,5 @@ namespace lcpp
 #define SCHEME_FALSE (::lcpp::SchemeBool::falseInstance())
 
 }
+
+#include "lcpp/core/schemeTypeSystem/types/implementation/bool_inl.h"
