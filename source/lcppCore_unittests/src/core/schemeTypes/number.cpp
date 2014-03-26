@@ -93,12 +93,12 @@ namespace lcpp { namespace unittests {
                 Assert::IsTrue(str.IsEqual("1337"), L"SchemeInt32::toString is broken!");
             }
             {
-                SchemeInt32 intMax = std::numeric_limits<SchemeInt32::number_t>::max();
+                SchemeInt32 intMax = std::numeric_limits<SchemeInt32::Number_t>::max();
                 ezString str = intMax.toString();
                 Assert::IsTrue(str.IsEqual("2147483647"), L"SchemeInt32::toString is broken!");
             }
             {
-                SchemeInt32 intMin = std::numeric_limits<SchemeInt32::number_t>::min();
+                SchemeInt32 intMin = std::numeric_limits<SchemeInt32::Number_t>::min();
                 ezString str = intMin.toString();
                 Assert::IsTrue(str.IsEqual("-2147483648"), L"SchemeInt32::toString is broken!");
             }
@@ -115,12 +115,12 @@ namespace lcpp { namespace unittests {
                 Assert::IsTrue(str.IsEqual("1337"), L"SchemeInt32::toString is broken!");
             }
             {
-                SchemeUInt32 uintMax = std::numeric_limits<SchemeUInt32::number_t>::max();
+                SchemeUInt32 uintMax = std::numeric_limits<SchemeUInt32::Number_t>::max();
                 ezString str = uintMax.toString();
                 Assert::IsTrue(str.IsEqual("4294967295"), L"SchemeInt32::toString is broken!");
             }
             {
-                SchemeUInt32 uintMin = std::numeric_limits<SchemeUInt32::number_t>::min();
+                SchemeUInt32 uintMin = std::numeric_limits<SchemeUInt32::Number_t>::min();
                 ezString str = uintMin.toString();
                 Assert::IsTrue(str.IsEqual("0"), L"SchemeInt32::toString is broken!");
             }
@@ -152,16 +152,16 @@ namespace lcpp { namespace unittests {
             SchemeFloat third = 3.1415f;
 
             first = 3;
-            Assert::AreEqual<SchemeInt32::number_t>(first, 3, L"Assignment operator of SchemeNumber_t broken!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 3, L"Assignment operator of SchemeNumber_t broken!");
 
             first = 7.123;
-            Assert::AreEqual<SchemeInt32::number_t>(first, 7, L"Failed to assign a float to a SchemeInt32!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 7, L"Failed to assign a float to a SchemeInt32!");
 
             first = second;
             Assert::AreEqual(first, second, L"Failed to assign a SchemeInt32 to a SchemeInt32!");
 
             first = third;
-            Assert::AreEqual<SchemeInt32::number_t>(first, third, L"Failed to assign a SchemeFloat to a SchemeInt32!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, third, L"Failed to assign a SchemeFloat to a SchemeInt32!");
         }
 
         TEST_METHOD(Operator_Add)
@@ -172,22 +172,23 @@ namespace lcpp { namespace unittests {
             SchemeFloat fourth = 3.6f;
 
             // Add SchemeInt32 and ezInt32 (signed int)
-            Assert::AreEqual<SchemeInt32::number_t>(first + 1, 2, L"Failed to add int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
+            auto result = first + 1;
+            Assert::AreEqual<SchemeInt32::Number_t>(first + 1, 2, L"Failed to add int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 1, L"Operator + must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeInt32
-            Assert::AreEqual<SchemeInt32::number_t>(first + second, 3, L"Failed to add int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
-            Assert::AreEqual<SchemeInt32::number_t>(second, 2, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first + second, 3, L"Failed to add int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 1, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(second, 2, L"Operator + must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeFloat
-            Assert::AreEqual<SchemeInt32::number_t>(first + third, 4, L"Failed to add int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator + must not have sideeffects!");
-            Assert::AreEqual<SchemeFloat::number_t>(third, 3.1415f, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first + third, 4, L"Failed to add int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 1, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeFloat::Number_t>(third, 3.1415f, L"Operator + must not have sideeffects!");
 
-            Assert::AreEqual<SchemeInt32::number_t>(second + fourth, 5, L"Failed to properly add a SchemeFloat to a SchemeInt32!");
-            Assert::AreEqual<SchemeInt32::number_t>(second, 2, L"Operator + must not have sideeffects!");
-            Assert::AreEqual<SchemeFloat::number_t>(fourth, 3.6f, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(second + fourth, 5, L"Failed to properly add a SchemeFloat to a SchemeInt32!");
+            Assert::AreEqual<SchemeInt32::Number_t>(second, 2, L"Operator + must not have sideeffects!");
+            Assert::AreEqual<SchemeFloat::Number_t>(fourth, 3.6f, L"Operator + must not have sideeffects!");
         }
 
         TEST_METHOD(Operator_AddAndAssign)
@@ -196,7 +197,7 @@ namespace lcpp { namespace unittests {
             {
                 SchemeInt32 first = 1;
                 first += 1;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Cannot add and assign int!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 2, L"Cannot add and assign int!");
             }
 
             // Assign another scheme number of same type
@@ -205,7 +206,7 @@ namespace lcpp { namespace unittests {
                 SchemeInt32 second = 2;
 
                 first += second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 3, L"Cannot add another SchemeInt32!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 3, L"Cannot add another SchemeInt32!");
             }
 
             // Assign another scheme number of different type
@@ -214,7 +215,7 @@ namespace lcpp { namespace unittests {
                 SchemeFloat second = 3.1415f;
 
                 first += second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 4, L"Cannot add and assign another scheme number of different type!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 4, L"Cannot add and assign another scheme number of different type!");
             }
         }
 
@@ -225,16 +226,16 @@ namespace lcpp { namespace unittests {
             SchemeFloat third = 3.1415f;
 
             // Add SchemeInt32 and ezInt32 (signed int)
-            Assert::AreEqual<SchemeInt32::number_t>(first - 1, 0, L"Failed to subtract int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator - must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first - 1, 0, L"Failed to subtract int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 1, L"Operator - must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeInt32
-            Assert::AreEqual<SchemeInt32::number_t>(first - second, -1, L"Failed to subtract int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator - must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first - second, -1, L"Failed to subtract int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 1, L"Operator - must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeFloat
-            Assert::AreEqual<SchemeInt32::number_t>(first - third, -2, L"Failed to subtract int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 1, L"Operator - must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first - third, -2, L"Failed to subtract int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 1, L"Operator - must not have sideeffects!");
         }
 
         TEST_METHOD(Operator_SubtractAndAssign)
@@ -243,7 +244,7 @@ namespace lcpp { namespace unittests {
             {
                 SchemeInt32 first = 1;
                 first -= 1;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 0, L"Cannot subtract and assign int!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 0, L"Cannot subtract and assign int!");
             }
 
             // Assign another scheme number of same type
@@ -252,7 +253,7 @@ namespace lcpp { namespace unittests {
                 SchemeInt32 second = 2;
 
                 first -= second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, -1, L"Cannot subtract another SchemeInt32!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, -1, L"Cannot subtract another SchemeInt32!");
             }
 
             // Assign another scheme number of different type
@@ -261,7 +262,7 @@ namespace lcpp { namespace unittests {
                 SchemeFloat second = 3.1415f;
 
                 first -= second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, -2, L"Cannot subtract and assign another scheme number of different type!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, -2, L"Cannot subtract and assign another scheme number of different type!");
             }
         }
 
@@ -274,20 +275,20 @@ namespace lcpp { namespace unittests {
             SchemeFloat fourth = 3.6f;
 
             // Add SchemeInt32 and ezInt32 (signed int)
-            Assert::AreEqual<SchemeInt32::number_t>(first * 1, 2, L"Failed to multiply with int!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first * 1, 2, L"Failed to multiply with int!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 2, L"Operator * must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeInt32
-            Assert::AreEqual<SchemeInt32::number_t>(first * second, 6, L"Failed to multiply with SchemeInt32!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Operator * must not have sideeffects!");
-            Assert::AreEqual<SchemeInt32::number_t>(second, 3, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first * second, 6, L"Failed to multiply with SchemeInt32!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 2, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(second, 3, L"Operator * must not have sideeffects!");
 
             // Add SchemeInt32 and SchemeFloat
-            Assert::AreEqual<SchemeInt32::number_t>(first * third, 8, L"Failed to multiply SchemeInt32 with SchemeFloat!");
-            Assert::AreEqual<SchemeInt32::number_t>(first, 2, L"Operator * must not have sideeffects!");
-            Assert::AreEqual<SchemeFloat::number_t>(third, 4.1415f, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first * third, 8, L"Failed to multiply SchemeInt32 with SchemeFloat!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first, 2, L"Operator * must not have sideeffects!");
+            Assert::AreEqual<SchemeFloat::Number_t>(third, 4.1415f, L"Operator * must not have sideeffects!");
 
-            Assert::AreEqual<SchemeInt32::number_t>(first * fourth, 7, L"Failed to multiply SchemeInt32 with SchemeFloat!");
+            Assert::AreEqual<SchemeInt32::Number_t>(first * fourth, 7, L"Failed to multiply SchemeInt32 with SchemeFloat!");
         }
 
         TEST_METHOD(Operator_MultiplyAndAssign)
@@ -296,7 +297,7 @@ namespace lcpp { namespace unittests {
             {
                 SchemeInt32 first = 2;
                 first *= 2;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 4, L"Cannot multiply with and assign int!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 4, L"Cannot multiply with and assign int!");
             }
 
             // Assign another scheme number of same type
@@ -305,7 +306,7 @@ namespace lcpp { namespace unittests {
                 SchemeInt32 second = 3;
 
                 first *= second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 6, L"Cannot add another SchemeInt32!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 6, L"Cannot add another SchemeInt32!");
             }
 
             // Assign another scheme number of different type
@@ -314,14 +315,14 @@ namespace lcpp { namespace unittests {
                 SchemeFloat second = 3.1415f;
 
                 first *= second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 6, L"Cannot add and assign another scheme number of different type!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 6, L"Cannot add and assign another scheme number of different type!");
             }
             {
                 SchemeInt32 first = 2;
                 SchemeFloat second = 3.6f;
 
                 first *= second;
-                Assert::AreEqual<SchemeInt32::number_t>(first, 7, L"Cannot add and assign a SchemeFloat or SchemeFloat without truncation!");
+                Assert::AreEqual<SchemeInt32::Number_t>(first, 7, L"Cannot add and assign a SchemeFloat or SchemeFloat without truncation!");
             }
         }
     };
