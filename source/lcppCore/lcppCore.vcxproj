@@ -31,11 +31,13 @@
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\cons_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\nil_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\number_inl.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\symbol_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\void_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\nil.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\number.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\object.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\type.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\types\symbol.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
     <ClInclude Include="include\lcpp\foundation\common.h" />
