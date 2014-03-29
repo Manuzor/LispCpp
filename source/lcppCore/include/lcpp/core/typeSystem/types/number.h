@@ -165,12 +165,14 @@ namespace lcpp
     {
         static const Type& type()
         {
+            static_assert(Type::Version == 2,
+                "Type version was updated. Adjust your implementation accordingly!");
             static Type instance;
             instance.name = "SchemeNumber";
-            instance.size = sizeof(SchemeNumber_t<T>);
-            instance.alignment = EZ_ALIGNMENT_OF(SchemeNumber_t<T>);
+            instance.memory.size = sizeof(SchemeNumber_t<T>);
+            instance.memory.alignment = EZ_ALIGNMENT_OF(SchemeNumber_t<T>);
             return instance;
-        }                                                 
+        }
     };
 }
 

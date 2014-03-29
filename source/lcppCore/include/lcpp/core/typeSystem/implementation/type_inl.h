@@ -2,8 +2,7 @@
 lcpp::Type::Type() :
     id(makeUniqueId()),
     name(nullptr),
-    size(0),
-    alignment(0)
+    memory()
 {
 }
 

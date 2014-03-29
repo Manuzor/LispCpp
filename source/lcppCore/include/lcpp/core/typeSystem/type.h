@@ -1,21 +1,23 @@
 ﻿#pragma once
 
+#include "lcpp/foundation/memoryInfo.h"
+
 namespace lcpp
 {
     /// \brief Describes a scheme type
     struct Type
     {
-        /// Is set automatically and will be unique for every new instance.
+        /// \brief This can be used to make static_asserts trigger at places in
+        /// the code that need to be updated to the new version.
+        enum{ Version = 2 };
+
+        /// \brief Is set automatically and will be unique for every new instance.
         const ezUInt64 id;
         
         /// \brief A human-readable name of this type.
         const char* name;
 
-        /// \brief Number of bytes of this scheme type. Typically sizeof(T).
-        size_t size;
-
-        size_t alignment;
-
+        MemoryInfo memory;
 
         Type();
 
@@ -41,14 +43,17 @@ namespace lcpp
 }
 
 #define DECLARE_SCHEME_TYPE_INFO_WITH_NAME(theType, theName) template<> \
-    struct TypeInfo<theType>                                      \
+    struct TypeInfo<theType>                                            \
     {                                                                   \
-        static const Type& type()                               \
+        inline static const Type& type()                                \
         {                                                               \
-            static Type instance;                               \
+            static_assert(Type::Version == 2,                           \
+                "Type version was updated."                             \
+                "Adjust your implementation accordingly!");             \
+            static Type instance;                                       \
             instance.name = theName;                                    \
-            instance.size = sizeof(theType);                            \
-            instance.alignment = EZ_ALIGNMENT_OF(theType);              \
+            instance.memory.size = sizeof(theType);                     \
+            instance.memory.alignment = EZ_ALIGNMENT_OF(theType);       \
             return instance;                                            \
         }                                                               \
     }

@@ -180,18 +180,18 @@ inline
 void
 lcpp::SchemeCons::set(const SchemeObject*& member, const SchemeObject& from)
 {
-    size_t size = from.type().size;
+    size_t size = from.type().memory.size;
     void* mem = nullptr;
 
     if (member == nullptr)
     {
-        mem = getAllocator().Allocate(size, from.type().alignment);
+        mem = getAllocator().Allocate(size, from.type().memory.alignment);
     }
-    else if (size > member->type().size)
+    else if (size > member->type().memory.size)
     {
         member->~SchemeObject();
         getAllocator().Deallocate((void*)member);
-        mem = getAllocator().Allocate(size, from.type().alignment);
+        mem = getAllocator().Allocate(size, from.type().memory.alignment);
     }
     else
     {
@@ -200,7 +200,7 @@ lcpp::SchemeCons::set(const SchemeObject*& member, const SchemeObject& from)
 
     EZ_ASSERT(mem != nullptr, "Out of memory or uninitialized mem!");
 
-    // copy the other objects data
+    // copy the other objects' data
     from.copyTo(mem);
     member = static_cast<SchemeObject*>(mem);
 }

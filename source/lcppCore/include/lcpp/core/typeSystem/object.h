@@ -32,9 +32,11 @@ namespace lcpp
     {
         static const Type& type()
         {
+            static_assert(Type::Version == 2,
+                "Type version was updated. Adjust your implementation accordingly!");
             static Type theType;
             theType.name = "SchemeObject";
-            theType.size = theType.alignment = sizeof(SchemeObject);
+            theType.memory.size = theType.memory.alignment = sizeof(SchemeObject);
             return theType;
         }
     };
