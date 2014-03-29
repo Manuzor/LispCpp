@@ -15,6 +15,26 @@ namespace lcpp { namespace unittests {
             Assert::IsTrue(SCHEME_FALSE.is(TypeInfo<SchemeBool>::type()), L"Wrong type declaration for SCHEME_FALSE!");
         }
 
+        TEST_METHOD(Construction)
+        {
+            SchemeBool t(true);
+            SchemeBool f(false);
+
+            SchemeBool tOther(t);
+            SchemeBool fOther = false;
+
+            Assert::IsTrue( t.value(),      L"SchemeBool(true) appears to be not working correctly.");
+            Assert::IsFalse(f.value(),      L"SchemeBool(false) appears to be not working correctly.");
+            Assert::IsTrue( tOther.value(), L"Copy constructor of SchemeBool failed to construct object with the correct value.");
+
+            auto implicitConversion = [](SchemeBool b) -> bool
+            {
+                Assert::IsTrue(b.value(), L"Implicit conversion failed."); return b;
+            };
+
+            Assert::IsTrue(implicitConversion(true), L"Implicit conversion failed.");
+        }
+
         TEST_METHOD(Equality)
         {
             Assert::AreEqual(SCHEME_TRUE, SCHEME_TRUE, L"Scheme true must equal itself!");

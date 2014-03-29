@@ -20,11 +20,17 @@ namespace lcpp { namespace unittests {
             Assert::AreSame(SCHEME_NIL, SCHEME_NIL, L"Something is seriously b0rken!");
 
             Assert::AreNotEqual<SchemeObject>(SCHEME_NIL, SCHEME_VOID, L"Wrong result for equality operator!");
+
+            SchemeNil nil;
+            Assert::AreEqual(nil, SCHEME_NIL, L"SCHEME_NIL must equal a locally constructed SchemeNil object!");
+            Assert::AreEqual(SCHEME_NIL, nil, L"SCHEME_NIL must equal a locally constructed SchemeNil object!");
         }
 
-        TEST_METHOD(toString)
+        TEST_METHOD(ToString)
         {
+            SchemeNil nil;
             Assert::IsTrue(SCHEME_NIL.toString().IsEqual("()"), L"SCHEME_NIL.toString() should return \"()\"!");
+            Assert::IsTrue(SCHEME_NIL.toString().IsEqual("()"), L"Locally constructed SchemeNil instance nil.toString() should return \"()\"!");
         }
     };
 
