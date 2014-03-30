@@ -4,6 +4,9 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace lcpp { namespace unittests {
 
+#pragma warning( push )
+#pragma warning( disable : 4244 ) // conversion from 'x' to 'y', possible loss of data
+
     TEST_CLASS(SchemeNumberTests)
     {
         TEST_METHOD(Construction)
@@ -266,7 +269,6 @@ namespace lcpp { namespace unittests {
             }
         }
 
-
         TEST_METHOD(Operator_Multiply)
         {
             SchemeInt32 first = 2;
@@ -326,5 +328,7 @@ namespace lcpp { namespace unittests {
             }
         }
     };
+
+#pragma warning( pop )
 
 }}

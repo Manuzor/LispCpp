@@ -65,6 +65,10 @@ namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
         return lcpp::unittests::ToStringHelper< lcpp::SchemeNumber_t<T> >::get(number);
     }
 
-// TODO: More here
+    template<>
+    static std::wstring ToString<lcpp::SchemeSymbol>(const lcpp::SchemeSymbol& symbol)
+    {
+        return lcpp::unittests::ToStringHelper<lcpp::SchemeSymbol>::get(symbol);
+    }
 
 }}}
