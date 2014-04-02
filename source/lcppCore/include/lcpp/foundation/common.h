@@ -20,6 +20,8 @@
 #define LCPP_DELETE_ARRAY(type)      EZ_DEFAULT_DELETE_ARRAY(type)
 #define LCPP_DELETE_RAW_BUFFER(type) EZ_DEFAULT_DELETE_RAW_BUFFER(type)
 
+#define LCPP_OVERRIDE EZ_OVERRIDE
+
 #include "lcpp/exceptions/exceptions.h"
 
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()

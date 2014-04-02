@@ -17,12 +17,12 @@ namespace lcpp
         SchemeNumber_t(Number_t value);
         virtual ~SchemeNumber_t();
 
-        virtual bool operator ==(const SchemeObject& obj) const override;
+        virtual bool operator ==(const SchemeObject& obj) const LCPP_OVERRIDE;
 
         Number_t value() const;
         void     value(Number_t val);
 
-        virtual ezString toString() const override;
+        virtual ezString toString() const LCPP_OVERRIDE;
 
         // Other operators
         // Note: Due to a compiler bug, they can't be put in the _inl file.

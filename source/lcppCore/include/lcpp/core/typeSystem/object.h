@@ -50,10 +50,10 @@ namespace lcpp
     public:
         virtual ~SchemeExtend() = 0 {}
 
-        virtual const Type& type() const override;
-        virtual bool is(const Type& type) const override;
+        virtual const Type& type() const LCPP_OVERRIDE;
+        virtual bool is(const Type& type) const LCPP_OVERRIDE;
 
-        virtual void copyTo(void* mem) const override;
+        virtual void copyTo(void* mem) const LCPP_OVERRIDE;
     };
 }
 

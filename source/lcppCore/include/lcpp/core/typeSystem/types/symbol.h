@@ -12,8 +12,8 @@ namespace lcpp
         SchemeSymbol(const ezString& symbol);
         virtual ~SchemeSymbol();
 
-        virtual bool operator ==(const SchemeObject& rhs) const override;
-        virtual ezString toString() const override;
+        virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
+        virtual ezString toString() const LCPP_OVERRIDE;
 
         operator ezString() const;
 

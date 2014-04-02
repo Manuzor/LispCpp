@@ -13,8 +13,8 @@ namespace lcpp
         SchemeNil();
         virtual ~SchemeNil();
 
-        virtual bool operator==(const SchemeObject& obj) const override;
-        virtual ezString toString() const override;
+        virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
+        virtual ezString toString() const LCPP_OVERRIDE;
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeNil);

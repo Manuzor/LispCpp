@@ -20,10 +20,10 @@ namespace lcpp
 
         virtual ~SchemeCons();
 
-        virtual bool operator==(const SchemeObject& obj) const override;
+        virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeCons& rhs) const;
 
-        virtual ezString toString() const override;
+        virtual ezString toString() const LCPP_OVERRIDE;
 
         /// \brief get car
         const SchemeObject& car() const;

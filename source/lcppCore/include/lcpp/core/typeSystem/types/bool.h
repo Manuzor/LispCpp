@@ -14,8 +14,8 @@ namespace lcpp
         SchemeBool(bool value);
         virtual ~SchemeBool();
 
-        virtual bool operator==(const SchemeObject& rhs) const override;
-        virtual ezString toString() const override;
+        virtual bool operator==(const SchemeObject& rhs) const LCPP_OVERRIDE;
+        virtual ezString toString() const LCPP_OVERRIDE;
 
         operator bool() const;
 
