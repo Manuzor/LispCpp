@@ -1,37 +1,31 @@
 ﻿#include "stdafx.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace cut;
+using namespace lcpp;
 
-namespace lcpp { namespace unittests {
+namespace
+{
+    UnitTestGroup g_group("SchemeNilTests");
 
-    TEST_CLASS(SchemeNilTests)
-    {
-    public:
+    UnitTest g_test1(g_group, "Type", [](){
+        CUT_ASSERT.isTrue(SCHEME_NIL.type() == TypeInfo<SchemeNil>::type(), "SCHEME_NIL.type() returns an incorrect type!");
+        CUT_ASSERT.isTrue(SCHEME_NIL.is(TypeInfo<SchemeNil>::type()), "SCHEME_NIL.is(...) is not working!");
+    });
 
-        TEST_METHOD(Type)
-        {
-            Assert::AreEqual(SCHEME_NIL.type(), TypeInfo<SchemeNil>::type(), L"SCHEME_NIL.type() returns an incorrect type!");
-            Assert::IsTrue(SCHEME_NIL.is(TypeInfo<SchemeNil>::type()), L"SCHEME_NIL.is(...) is not working!");
-        }
+    UnitTest g_test2(g_group, "Equality", [](){
+        CUT_ASSERT.isTrue(SCHEME_NIL == SCHEME_NIL, "Scheme nil must equal itself!");
+        CUT_ASSERT.isTrue(&SCHEME_NIL == &SCHEME_NIL, "Something is seriously b0rken!");
 
-        TEST_METHOD(Equality)
-        {
-            Assert::AreEqual(SCHEME_NIL, SCHEME_NIL, L"Scheme nil must equal itself!");
-            Assert::AreSame(SCHEME_NIL, SCHEME_NIL, L"Something is seriously b0rken!");
+        CUT_ASSERT.isTrue(SCHEME_NIL != SCHEME_VOID, "Wrong result for equality operator!");
 
-            Assert::AreNotEqual<SchemeObject>(SCHEME_NIL, SCHEME_VOID, L"Wrong result for equality operator!");
+        SchemeNil nil;
+        CUT_ASSERT.isTrue(nil == SCHEME_NIL, "SCHEME_NIL must equal a locally constructed SchemeNil object!");
+        CUT_ASSERT.isTrue(SCHEME_NIL == nil, "SCHEME_NIL must equal a locally constructed SchemeNil object!");
+    });
 
-            SchemeNil nil;
-            Assert::AreEqual(nil, SCHEME_NIL, L"SCHEME_NIL must equal a locally constructed SchemeNil object!");
-            Assert::AreEqual(SCHEME_NIL, nil, L"SCHEME_NIL must equal a locally constructed SchemeNil object!");
-        }
-
-        TEST_METHOD(ToString)
-        {
-            SchemeNil nil;
-            Assert::IsTrue(SCHEME_NIL.toString().IsEqual("()"), L"SCHEME_NIL.toString() should return \"()\"!");
-            Assert::IsTrue(SCHEME_NIL.toString().IsEqual("()"), L"Locally constructed SchemeNil instance nil.toString() should return \"()\"!");
-        }
-    };
-
-}}
+    UnitTest g_test3(g_group, "ToString", [](){
+        SchemeNil nil;
+        CUT_ASSERT.isTrue(SCHEME_NIL.toString().IsEqual("()"), "SCHEME_NIL.toString() should return \"()\"!");
+        CUT_ASSERT.isTrue(SCHEME_NIL.toString().IsEqual("()"), "Locally constructed SchemeNil instance nil.toString() should return \"()\"!");
+    });
+}

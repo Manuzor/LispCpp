@@ -1,37 +1,31 @@
 ﻿#include "stdafx.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace cut;
+using namespace lcpp;
 
-namespace lcpp { namespace unittests {
+namespace
+{
+    UnitTestGroup g_group("SchemeVoidTests");
 
-    TEST_CLASS(SchemeVoidTests)
-    {
-    public:
+    UnitTest g_test1(g_group, "Type", [](){
+        CUT_ASSERT.isTrue(SCHEME_VOID.type() == TypeInfo<SchemeVoid>::type(), "SCHEME_VOID.type() returns an incorrect type!");
+        CUT_ASSERT.isTrue(SCHEME_VOID.is(TypeInfo<SchemeVoid>::type()), "SCHEME_VOID.is(...) is not working!");
+    });
 
-        TEST_METHOD(Type)
-        {
-            Assert::AreEqual(SCHEME_VOID.type(), TypeInfo<SchemeVoid>::type(), L"SCHEME_VOID.type() returns an incorrect type!");
-            Assert::IsTrue(SCHEME_VOID.is(TypeInfo<SchemeVoid>::type()), L"SCHEME_VOID.is(...) is not working!");
-        }
+    UnitTest g_test2(g_group, "Equality", [](){
+        CUT_ASSERT.isTrue(SCHEME_VOID == SCHEME_VOID, "Scheme nil must equal itself!");
+        CUT_ASSERT.isTrue(&SCHEME_VOID == &SCHEME_VOID, "Something is seriously b0rken!");
 
-        TEST_METHOD(Equality)
-        {
-            Assert::AreEqual(SCHEME_VOID, SCHEME_VOID, L"Scheme nil must equal itself!");
-            Assert::AreSame(SCHEME_VOID, SCHEME_VOID, L"Something is seriously b0rken!");
+        CUT_ASSERT.isTrue(SCHEME_VOID != SCHEME_NIL, "Wrong result for equality operator!");
 
-            Assert::AreNotEqual<SchemeObject>(SCHEME_VOID, SCHEME_NIL, L"Wrong result for equality operator!");
+        SchemeVoid v;
+        CUT_ASSERT.isTrue(v == SCHEME_VOID, "SCHEME_VOID must equal a locally constructed SchemeVoid object!");
+        CUT_ASSERT.isTrue(SCHEME_VOID == v, "SCHEME_VOID must equal a locally constructed SchemeVoid object!");
+    });
 
-            SchemeVoid v;
-            Assert::AreEqual(v, SCHEME_VOID, L"SCHEME_VOID must equal a locally constructed SchemeVoid object!");
-            Assert::AreEqual(SCHEME_VOID, v, L"SCHEME_VOID must equal a locally constructed SchemeVoid object!");
-        }
-
-        TEST_METHOD(ToString)
-        {
-            SchemeVoid v;
-            Assert::IsTrue(SCHEME_VOID.toString().IsEqual("#v"), L"SCHEME_VOID.toString() should return \"#v\"!");
-            Assert::IsTrue(SCHEME_VOID.toString().IsEqual("#v"), L"Locally constructed SchemeVoid instance v.toString() should return \"#v\"!");
-        }
-    };
-
-}}
+    UnitTest g_test3(g_group, "ToString", [](){
+        SchemeVoid v;
+        CUT_ASSERT.isTrue(SCHEME_VOID.toString().IsEqual("#v"), "SCHEME_VOID.toString() should return \"#v\"!");
+        CUT_ASSERT.isTrue(SCHEME_VOID.toString().IsEqual("#v"), "Locally constructed SchemeVoid instance v.toString() should return \"#v\"!");
+    });
+}

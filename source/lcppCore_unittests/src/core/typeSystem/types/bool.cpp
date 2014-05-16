@@ -1,68 +1,60 @@
 ﻿#include "stdafx.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace cut;
+using namespace lcpp;
 
-namespace lcpp { namespace unittests {
+namespace
+{
+    UnitTestGroup g_group_SchemeBoolTests("SchemeBoolTests");
 
+    UnitTest g_test_Type(g_group_SchemeBoolTests, "Type", [](){
+        CUT_ASSERT.isTrue(SCHEME_TRUE.is(TypeInfo<SchemeBool>::type()), "Wrong type declaration for SCHEME_TRUE!");
+        CUT_ASSERT.isTrue(SCHEME_FALSE.is(TypeInfo<SchemeBool>::type()), "Wrong type declaration for SCHEME_FALSE!");
+    });
 
-    TEST_CLASS(SchemeBoolTests)
-    {
-    public:
+    UnitTest g_test_Construction(g_group_SchemeBoolTests, "Construction", [](){
+        SchemeBool t(true);
+        SchemeBool f(false);
 
-        TEST_METHOD(Type)
+        SchemeBool tOther(t);
+        SchemeBool fOther = false;
+
+        CUT_ASSERT.isTrue( t.value(),      "SchemeBool(true) appears to be not working correctly.");
+        CUT_ASSERT.isFalse(f.value(),      "SchemeBool(false) appears to be not working correctly.");
+        CUT_ASSERT.isTrue( tOther.value(), "Copy constructor of SchemeBool failed to construct object with the correct value.");
+
+        auto implicitConversion = [](SchemeBool b) -> bool
         {
-            Assert::IsTrue(SCHEME_TRUE.is(TypeInfo<SchemeBool>::type()), L"Wrong type declaration for SCHEME_TRUE!");
-            Assert::IsTrue(SCHEME_FALSE.is(TypeInfo<SchemeBool>::type()), L"Wrong type declaration for SCHEME_FALSE!");
-        }
+            CUT_ASSERT.isTrue(b.value(), "Implicit conversion failed."); return b;
+        };
 
-        TEST_METHOD(Construction)
-        {
-            SchemeBool t(true);
-            SchemeBool f(false);
+        CUT_ASSERT.isTrue(implicitConversion(true), "Implicit conversion failed.");
+    });
 
-            SchemeBool tOther(t);
-            SchemeBool fOther = false;
+    UnitTest g_test_Equality(g_group_SchemeBoolTests, "Equality", [](){
+        CUT_ASSERT.isTrue(SCHEME_TRUE == SCHEME_TRUE, "Scheme true must equal itself!");
 
-            Assert::IsTrue( t.value(),      L"SchemeBool(true) appears to be not working correctly.");
-            Assert::IsFalse(f.value(),      L"SchemeBool(false) appears to be not working correctly.");
-            Assert::IsTrue( tOther.value(), L"Copy constructor of SchemeBool failed to construct object with the correct value.");
+        CUT_ASSERT.isTrue(SCHEME_FALSE == SCHEME_FALSE, "Scheme false must equal itself!");
 
-            auto implicitConversion = [](SchemeBool b) -> bool
-            {
-                Assert::IsTrue(b.value(), L"Implicit conversion failed."); return b;
-            };
+        CUT_ASSERT.isFalse(SCHEME_TRUE == SCHEME_FALSE, "Scheme true cannot equal scheme false!");
+        CUT_ASSERT.isFalse(SCHEME_FALSE == SCHEME_TRUE, "Scheme true cannot equal scheme false!");
+    });
 
-            Assert::IsTrue(implicitConversion(true), L"Implicit conversion failed.");
-        }
+    UnitTest g_test_Conversion(g_group_SchemeBoolTests, "ConversionToBool", [](){
+        bool result = SCHEME_TRUE;
+        CUT_ASSERT.isTrue(SCHEME_TRUE, "Auto conversion of SCHEME_TRUE to 'true' is broken!");
+        CUT_ASSERT.isFalse(SCHEME_FALSE, "Auto conversion of SCHEME_FALSE to 'false' is broken!");
 
-        TEST_METHOD(Equality)
-        {
-            Assert::AreEqual(SCHEME_TRUE, SCHEME_TRUE, L"Scheme true must equal itself!");
+        CUT_ASSERT.isTrue(SCHEME_TRUE == SCHEME_TRUE, "SCHEME_TRUE == SCHEME_TRUE does not evaluate to a boolean true!");
+        CUT_ASSERT.isTrue(SCHEME_FALSE == SCHEME_FALSE, "SCHEME_FALSE == SCHEME_FALSE does not evaluate to a boolean true!");
 
-            Assert::AreEqual(SCHEME_FALSE, SCHEME_FALSE, L"Scheme false must equal itself!");
+        CUT_ASSERT.isFalse(SCHEME_TRUE != SCHEME_TRUE, "SCHEME_TRUE != SCHEME_TRUE does not evaluate to a boolean false!");
+        CUT_ASSERT.isFalse(SCHEME_FALSE != SCHEME_FALSE, "SCHEME_FALSE != SCHEME_FALSE does not evaluate to a boolean alse!");
+    });
 
-            Assert::AreNotEqual(SCHEME_TRUE, SCHEME_FALSE, L"Scheme true cannot equal scheme false!");
-            Assert::AreNotEqual(SCHEME_FALSE, SCHEME_TRUE, L"Scheme true cannot equal scheme false!");
-        }
+    UnitTest g_test_ToString(g_group_SchemeBoolTests, "ToString", [](){
+        CUT_ASSERT.isTrue(SCHEME_TRUE.toString().IsEqual("#t"), "SCHEME_TRUE has the wrong string representation!");
+        CUT_ASSERT.isTrue(SCHEME_FALSE.toString().IsEqual("#f"), "SCHEME_FALSE has the wrong string representation!");
+    });
 
-        TEST_METHOD(ConversionToBool)
-        {
-            bool result = SCHEME_TRUE;
-            Assert::IsTrue(SCHEME_TRUE, L"Auto conversion of SCHEME_TRUE to 'true' is broken!");
-            Assert::IsFalse(SCHEME_FALSE, L"Auto conversion of SCHEME_FALSE to 'false' is broken!");
-
-            Assert::IsTrue(SCHEME_TRUE == SCHEME_TRUE, L"SCHEME_TRUE == SCHEME_TRUE does not evaluate to a boolean true!");
-            Assert::IsTrue(SCHEME_FALSE == SCHEME_FALSE, L"SCHEME_FALSE == SCHEME_FALSE does not evaluate to a boolean true!");
-
-            Assert::IsFalse(SCHEME_TRUE != SCHEME_TRUE, L"SCHEME_TRUE != SCHEME_TRUE does not evaluate to a boolean false!");
-            Assert::IsFalse(SCHEME_FALSE != SCHEME_FALSE, L"SCHEME_FALSE != SCHEME_FALSE does not evaluate to a boolean alse!");
-        }
-
-        TEST_METHOD(ToString)
-        {
-            Assert::AreEqual("#t", SCHEME_TRUE.toString().GetData(), L"SCHEME_TRUE has the wrong string representation!");
-            Assert::AreEqual("#f", SCHEME_FALSE.toString().GetData(), L"SCHEME_FALSE has the wrong string representation!");
-        }
-    };
-
-}}
+}
