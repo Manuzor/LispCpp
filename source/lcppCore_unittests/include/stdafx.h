@@ -7,11 +7,9 @@
 
 #include <SDKDDKVer.h>
 
-// Headers for CppUnitTest
-#include "CppUnitTest.h"
-
 #include <tchar.h>
 
-#include "lcpp/api.h"
+// unit test framework
+#include "cut/api.h"
 
-#include "toString.h"
+#include "lcpp/api.h"

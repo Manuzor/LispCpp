@@ -1,36 +1,34 @@
 ﻿#include "stdafx.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace cut;
+using namespace lcpp;
 
-namespace lcpp { namespace unittests {
+namespace
+{
+	UnitTestGroup g_group("StringUtil");
 
-    TEST_CLASS(StringUtil)
-    {
-        TEST_METHOD(ToString)
-        {
-            {
-                auto str = lcpp::toString(1);
-                Assert::IsTrue(str.IsEqual("1"));
-            }
-            {
-                auto str = lcpp::toString(1U);
-                Assert::IsTrue(str.IsEqual("1"));
-            }
-            {
-                auto str = lcpp::toString(1.0f);
-                Assert::IsTrue(str.IsEqual("1"));
+    UnitTest g_test1(g_group, "ToString", [](){
+		{
+			auto str = toString(1);
+			CUT_ASSERT.isTrue(str.IsEqual("1"));
+		}
+		{
+			auto str = toString(1U);
+			CUT_ASSERT.isTrue(str.IsEqual("1"));
+		}
+		{
+			auto str = toString(1.0f);
+			CUT_ASSERT.isTrue(str.IsEqual("1"));
 
-                str = lcpp::toString(1.1f);
-                Assert::IsTrue(str.IsEqual("1.1"));
-            }
-            {
-                auto str = lcpp::toString(1.0);
-                Assert::IsTrue(str.IsEqual("1"));
+			str = toString(1.1f);
+			CUT_ASSERT.isTrue(str.IsEqual("1.1"));
+		}
+		{
+			auto str = toString(1.0);
+			CUT_ASSERT.isTrue(str.IsEqual("1"));
 
-                str = lcpp::toString(1.1);
-                Assert::IsTrue(str.IsEqual("1.1"));
-            }
-        }
-    };
-
-}}
+			str = toString(1.1);
+			CUT_ASSERT.isTrue(str.IsEqual("1.1"));
+		}
+	});
+}
