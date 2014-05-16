@@ -10,8 +10,6 @@
 #include <Foundation/Basics/IncludeAll.cpp>
 #include "lcpp/foundation/rangeUtils.h"
 
-#include "lcpp/foundation/newdelete.h"
-
 #define LCPP_NEW(type)               EZ_DEFAULT_NEW(type)
 #define LCPP_NEW_ARRAY(type)         EZ_DEFAULT_NEW_ARRAY(type)
 #define LCPP_NEW_RAW_BUFFER(type)    EZ_DEFAULT_NEW_RAW_BUFFER(type)
