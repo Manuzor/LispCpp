@@ -76,4 +76,44 @@ namespace
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("\"hello world\""), "Wrong string representation");
         }
     });
+
+    UnitTest g_test4(g_group, "parseInteger", []()
+    {
+        Reader reader;
+
+        {
+            ezString str("123");
+            auto pInt = reader.parseInteger(str);
+            CUT_ASSERT.isTrue(pInt != nullptr, "Invalid result for parsing the integer.");
+            CUT_ASSERT.isTrue(pInt->value() == 123, "Invalid value of parsed integer.");
+            CUT_ASSERT.isTrue(pInt->toString().IsEqual("123"), "Invalid string representation of parsed integer.");
+        }
+
+        {
+            ezString str("qwerty");
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+                reader.parseInteger(str);
+            }, "'qwerty' should not be parsed as integer!");
+        }
+    });
+
+    UnitTest g_test5(g_group, "parseNumber", []()
+    {
+        Reader reader;
+
+        {
+            ezString str("3.1415");
+            auto pNumber = reader.parseNumber(str);
+            CUT_ASSERT.isTrue(pNumber != nullptr, "Invalid result for parsing the number.");
+            CUT_ASSERT.isTrue(pNumber->value() == 3.1415, "Invalid value of parsed number.");
+            CUT_ASSERT.isTrue(pNumber->toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
+        }
+
+        {
+            ezString str("qwerty");
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+                reader.parseNumber(str);
+            }, "'qwerty' should not be parsed as number!");
+        }
+    });
 }
