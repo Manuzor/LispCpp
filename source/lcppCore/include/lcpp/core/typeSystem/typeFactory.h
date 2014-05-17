@@ -18,5 +18,4 @@ namespace lcpp
         SchemeString*  createString(const ezString& str);
         SchemeSymbol*  createSymbol(const ezString& symbol);
     };
-
 }

@@ -175,5 +175,24 @@ lcpp::SchemeString* lcpp::Reader::parseString(const ezString& inputString)
 
 lcpp::SchemeCons* lcpp::Reader::parseList(const ezString& inputString)
 {
+    if(!inputString.StartsWith("("))
+    {
+        throw exceptions::InvalidInput("Input is not a valid cons/list!");
+    }
+
+    auto input = inputString.GetIteratorFront();
+
+    // skip first ( character
+    ++input;
+    auto ch = input.GetCharacter();
+
+    if (ch == ')')
+    {
+        return nullptr;
+    }
+
+    // read symbols here and advance the iterator
+
+    //return m_pFactory->createCons();
     return nullptr;
 }

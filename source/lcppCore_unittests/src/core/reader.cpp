@@ -129,6 +129,13 @@ namespace
         }
 
         {
+            ezString str("hello world with spaces");
+            auto pSymbol = reader.parseSymbol(str);
+            CUT_ASSERT.isTrue(pSymbol != nullptr, "Invalid result for parsing the symbol.");
+            CUT_ASSERT.isTrue(pSymbol->value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
+        }
+
+        {
             ezString str("123");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
                 reader.parseSymbol(str);
@@ -161,6 +168,24 @@ namespace
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
                 reader.parseString(str);
             }, "'hello' should not be parsed as string! ('\"hello\"' should)");
+        }
+    });
+
+    UnitTest g_test8(g_group, "ParseList", []()
+    {
+        Reader reader;
+
+        {
+            ezString str("hello world 123 42");
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+                reader.parseList(str);
+            }, "The input string 'hello world 123 42' should not be read as a valid list!");
+        }
+
+        {
+            ezString str("(define x 1)");
+            auto pCons = reader.parseList(str);
+            CUT_ASSERT.isTrue(pCons != nullptr, "Invalid result for parsing the list.");
         }
     });
 }
