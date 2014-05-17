@@ -44,6 +44,7 @@ namespace
             auto& type = pObject->type();
 
             CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeInteger*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
             CUT_ASSERT.isTrue(type == staticType, "Type ID mismatch for scheme integer!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("42"), "Wrong string representation");
         }
@@ -52,8 +53,27 @@ namespace
             SchemeObject* pObject = reader.read("3.1415");
 
             CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeNumber*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
             CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeNumber>::type(), "Type ID mismatch for scheme number!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("3.1415"), "Wrong string representation");
+        }
+
+        {
+            SchemeObject* pObject = reader.read("hello world");
+
+            CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeSymbol*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeSymbol>::type(), "Type ID mismatch for scheme number!");
+            CUT_ASSERT.isTrue(pObject->toString().IsEqual("hello"), "Wrong string representation");
+        }
+
+        {
+            SchemeObject* pObject = reader.read("\"hello world\"");
+
+            CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeString*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeString>::type(), "Type ID mismatch for scheme number!");
+            CUT_ASSERT.isTrue(pObject->toString().IsEqual("\"hello world\""), "Wrong string representation");
         }
     });
 }

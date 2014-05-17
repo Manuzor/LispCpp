@@ -166,6 +166,7 @@
     <ClCompile Include="src\core\typeSystem\types\symbol.cpp" />
     <ClCompile Include="src\core\typeSystem\types\void.cpp" />
     <ClCompile Include="src\foundation\conversion.cpp" />
+    <ClCompile Include="src\foundation\stringUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\core\typeSystem\types\bool.cpp" />
     <ClCompile Include="src\core\typeSystem\types\cons.cpp" />

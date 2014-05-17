@@ -16,6 +16,11 @@ lcpp::SchemeNumber* lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value
     return new SchemeNumber(value);
 }
 
+lcpp::SchemeString* lcpp::TypeFactory::createString(const ezString& str)
+{
+    return new SchemeString(str);
+}
+
 lcpp::SchemeSymbol* lcpp::TypeFactory::createSymbol(const ezString& symbol)
 {
     return new SchemeSymbol(symbol);

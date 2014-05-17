@@ -5,7 +5,6 @@ lcpp::Type::Type(ezUInt32 id, const char* name, MemoryInfo memInfo) :
     name(name),
     memory(memInfo)
 {
-    printf("+++ Type for %s with id %u\n", name, id);
 }
 
 inline

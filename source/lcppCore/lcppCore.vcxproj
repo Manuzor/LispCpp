@@ -24,7 +24,7 @@
     <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\lcpp\core\typeSystem.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\implementation\object_inl.h" />
-    <ClInclude Include="include\lcpp\core\typeSystem\implementation\type_inl.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\implementation\type.inl" />
     <ClInclude Include="include\lcpp\core\typeSystem\typeFactory.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\bool.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\cons.h" />
@@ -38,6 +38,7 @@
     <ClInclude Include="include\lcpp\core\typeSystem\types\number.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\object.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\type.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\types\string.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\symbol.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="include\lcpp\foundation\implementation\rangeUtils_inl.h" />
     <ClInclude Include="include\lcpp\foundation\memoryInfo.h" />
     <ClInclude Include="include\lcpp\foundation\rangeUtils.h" />
+    <ClInclude Include="include\lcpp\foundation\stringUtils.h" />
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +59,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\lcpp\core\typeSystem\types\implementation\string.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>

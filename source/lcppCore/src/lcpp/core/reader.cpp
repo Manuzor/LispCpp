@@ -3,6 +3,7 @@
 #include "lcpp/foundation/conversion.h"
 #include "lcpp/exceptions/exceptions.h"
 #include "lcpp/core/typeSystem.h"
+#include "lcpp/foundation/stringUtils.h"
 
 
 lcpp::Reader::Reader() :
@@ -31,6 +32,14 @@ lcpp::SchemeObject* lcpp::Reader::read(const ezString& input)
 
 lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
 {
+    auto extractWord = [&](ezStringIterator& iter, ezStringBuilder& builder){
+        while(iter.IsValid() && !isSeparator(iter.GetCharacter()))
+        {
+            builder.Append(iter.GetCharacter());
+            ++iter;
+        }
+    };
+
     SchemeObject* pResultObject = nullptr;
 
     skipSeparators(input);
@@ -40,9 +49,7 @@ lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
         throw exceptions::InvalidInput("Input string only contained whitespace!");
     }
 
-    auto ch = input.GetCharacter();
-
-    switch(ch)
+    switch(input.GetCharacter())
     {
     case ')':
         throw exceptions::InvalidInput("Unexpected character ')'.");
@@ -50,7 +57,28 @@ lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
         // TODO read quote
         break;
     case '"':
-        // TODO read string
+        {
+            // skip the " character
+            ++input;
+
+            auto ch = input.GetCharacter();
+
+            if (ch == '"')
+            {
+                pResultObject = m_pFactory->createString("");
+                break;
+            }
+
+            ezStringBuilder str;
+            do 
+            {
+                str.Append(ch);
+                ++input;
+                ch = input.GetCharacter();
+            } while (input.IsValid() && ch != '"');
+
+            pResultObject = m_pFactory->createString(str);
+        }
         break;
     case '(':
         // TODO read list
@@ -79,7 +107,18 @@ lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
                 pResultObject = m_pFactory->createInteger(integer);
                 break;
             }
-            // TODO parse symbol
+            // Parse for a scheme symbol
+            ezStringBuilder symbol;
+
+            while(input.IsValid() && !isSeparator(input.GetCharacter()))
+            {
+                symbol.Append(input.GetCharacter());
+                ++input;
+            }
+            
+            EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
+
+            pResultObject = m_pFactory->createSymbol(symbol);
         }
         break;
     }
@@ -97,13 +136,5 @@ void lcpp::Reader::skipSeparators(ezStringIterator& iter)
 
 bool lcpp::Reader::isSeparator(ezUInt32 character)
 {
-    for(auto iter = m_separators.GetIteratorFront(); iter.IsValid(); ++iter)
-    {
-        if(character == iter.GetCharacter())
-        {
-            return true;
-        }
-    }
-
-    return false;
+    return contains(m_separators, character);
 }

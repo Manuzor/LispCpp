@@ -65,4 +65,4 @@ namespace lcpp
 #define DECLARE_SCHEME_TYPE_INFO(type) DECLARE_SCHEME_TYPE_INFO_WITH_NAME(type, #type)
 
 
-#include "lcpp/core/typeSystem/implementation/type_inl.h"
+#include "lcpp/core/typeSystem/implementation/type.inl"
