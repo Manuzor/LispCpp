@@ -116,4 +116,51 @@ namespace
             }, "'qwerty' should not be parsed as number!");
         }
     });
+
+    UnitTest g_test6(g_group, "parseSymbol", []()
+    {
+        Reader reader;
+
+        {
+            ezString str("qwerty");
+            auto pSymbol = reader.parseSymbol(str);
+            CUT_ASSERT.isTrue(pSymbol != nullptr, "Invalid result for parsing the symbol.");
+            CUT_ASSERT.isTrue(pSymbol->value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
+        }
+
+        {
+            ezString str("123");
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+                reader.parseSymbol(str);
+            }, "'123' should not be parsed as symbol!");
+        }
+    });
+
+    UnitTest g_test7(g_group, "parseString", []()
+    {
+        Reader reader;
+
+        {
+            ezString str("\"qwerty\"");
+            auto pString = reader.parseString(str);
+            CUT_ASSERT.isTrue(pString != nullptr, "Invalid result for parsing the string.");
+            CUT_ASSERT.isTrue(pString->value().IsEqual("qwerty"), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(pString->toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
+        }
+
+        {
+            ezString str("\"123\"");
+            auto pString = reader.parseString(str);
+            CUT_ASSERT.isTrue(pString != nullptr, "Invalid result for parsing the string.");
+            CUT_ASSERT.isTrue(pString->value().IsEqual("123"), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(pString->toString().IsEqual("\"123\""), "Invalid value of parsed string.");
+        }
+
+        {
+            ezString str("hello");
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+                reader.parseString(str);
+            }, "'hello' should not be parsed as string! ('\"hello\"' should)");
+        }
+    });
 }

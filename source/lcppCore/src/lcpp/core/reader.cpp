@@ -47,7 +47,6 @@ lcpp::SchemeObject* lcpp::Reader::read(const ezString& inputString)
         pResultObject = parseString(input);
         break;
     case '(':
-        // TODO read list
         pResultObject = parseList(input);
         break;
     default:
@@ -120,6 +119,15 @@ lcpp::SchemeNumber* lcpp::Reader::parseNumber(const ezString& inputString)
 
 lcpp::SchemeSymbol* lcpp::Reader::parseSymbol(const ezString& inputString)
 {
+    {
+        // Test if the input string can be parsed as int, which should not be possible
+        SchemeInteger::Number_t integer;
+        if(to(inputString, integer).IsSuccess())
+        {
+            throw exceptions::InvalidInput("Invalid input: A number is not a symbol!");
+        }
+    }
+
     auto input = inputString.GetIteratorFront();
 
     // Parse for a scheme symbol
@@ -140,7 +148,7 @@ lcpp::SchemeString* lcpp::Reader::parseString(const ezString& inputString)
 {
     if (!inputString.StartsWith("\""))
     {
-        return nullptr;
+        throw exceptions::InvalidInput("Input is not a valid string!");
     }
 
     auto input = inputString.GetIteratorFront();
