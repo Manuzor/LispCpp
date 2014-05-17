@@ -2,7 +2,7 @@
 
 namespace lcpp { namespace exceptions {
 
-    class ExceptionBase : 
+    class ExceptionBase :
         public std::exception
     {
     public:
@@ -37,6 +37,15 @@ namespace lcpp { namespace exceptions {
     {
     public:
         inline InvalidSyntax(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
+            ExceptionBase(message ? message : "Invalid syntax!", file, line)
+        {}
+    };
+
+    class InvalidInput :
+        public ExceptionBase
+    {
+    public:
+        inline InvalidInput(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
             ExceptionBase(message ? message : "Invalid syntax!", file, line)
         {}
     };

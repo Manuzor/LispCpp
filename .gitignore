@@ -4,6 +4,8 @@ temp/*
 
 ipch
 
+unit-tests.log
+
 # Ignored file types
 *.obj
 *.exe

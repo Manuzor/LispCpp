@@ -25,6 +25,7 @@
     <ClInclude Include="include\lcpp\core\typeSystem.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\implementation\object_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\implementation\type_inl.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\typeFactory.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\bool.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\cons.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\bool_inl.h" />
@@ -41,13 +42,14 @@
     <ClInclude Include="include\lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
     <ClInclude Include="include\lcpp\foundation\common.h" />
+    <ClInclude Include="include\lcpp\foundation\conversion.h" />
     <ClInclude Include="include\lcpp\foundation\implementation\rangeUtils_inl.h" />
     <ClInclude Include="include\lcpp\foundation\memoryInfo.h" />
     <ClInclude Include="include\lcpp\foundation\rangeUtils.h" />
-    <ClInclude Include="include\lcpp\foundation\stringUtil.h" />
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
     <ClCompile Include="src\lcpp\core\reader.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

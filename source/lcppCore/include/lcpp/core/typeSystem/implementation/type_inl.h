@@ -1,18 +1,11 @@
-﻿inline
-lcpp::Type::Type() :
-    id(makeUniqueId()),
-    name(nullptr),
-    memory()
-{
-}
-
+﻿
 inline
-ezUInt64
-lcpp::Type::makeUniqueId()
+lcpp::Type::Type(ezUInt32 id, const char* name, MemoryInfo memInfo) :
+    id(id),
+    name(name),
+    memory(memInfo)
 {
-    // TODO Find a more elegant solution?
-    static ezUInt64 counter = 0;
-    return counter++;
+    printf("+++ Type for %s with id %u\n", name, id);
 }
 
 inline
@@ -20,4 +13,11 @@ bool
 lcpp::operator ==(const Type& lhs, const Type& rhs)
 {
     return lhs.id == rhs.id;
+}
+
+inline
+bool
+lcpp::operator !=(const Type& lhs, const Type& rhs)
+{
+    return lhs.id != rhs.id;
 }

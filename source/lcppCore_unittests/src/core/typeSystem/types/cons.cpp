@@ -6,7 +6,7 @@ using namespace lcpp;
 
 namespace
 {
-    UnitTestGroup g_group("SchemeBoolTests");
+    UnitTestGroup g_group("SchemeConsTests");
 
     UnitTest g_test1(g_group, "Construction", [](){
         // Default construction
@@ -44,7 +44,7 @@ namespace
             CUT_ASSERT.isTrue(second.car() == SCHEME_TRUE);
         }
         {
-            SchemeInt32 theInt(42);
+            SchemeInteger theInt(42);
             SchemeCons first(theInt);
             SchemeCons second = first;
             CUT_ASSERT.isTrue(first.car() == theInt);
@@ -54,9 +54,9 @@ namespace
     });
 
     UnitTest g_test3(g_group, "ToString", [](){
-        static SchemeInt32 one(1);
-        static SchemeInt32 two(2);
-        static SchemeInt32 three(3);
+        static SchemeInteger one(1);
+        static SchemeInteger two(2);
+        static SchemeInteger three(3);
 
         struct TestWrapper
         {
@@ -112,7 +112,7 @@ namespace
     });
 
     UnitTest g_test4(g_group, "ConstructDifferentTypes", [](){
-        SchemeInt32 number(42);
+        SchemeInteger number(42);
         SchemeBool t(SCHEME_TRUE);
         SchemeBool f(SCHEME_FALSE);
         SchemeNil nil(SCHEME_NIL);

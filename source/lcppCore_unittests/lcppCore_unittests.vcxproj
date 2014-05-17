@@ -161,11 +161,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\reader.cpp" />
+    <ClCompile Include="src\core\typeSystem\type.cpp" />
     <ClCompile Include="src\core\typeSystem\types\symbol.cpp" />
     <ClCompile Include="src\core\typeSystem\types\void.cpp" />
-    <ClCompile Include="src\foundation\stringUtil.cpp" />
+    <ClCompile Include="src\foundation\conversion.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\core\typeSystem\basics.cpp" />
     <ClCompile Include="src\core\typeSystem\types\bool.cpp" />
     <ClCompile Include="src\core\typeSystem\types\cons.cpp" />
     <ClCompile Include="src\core\typeSystem\types\nil.cpp" />

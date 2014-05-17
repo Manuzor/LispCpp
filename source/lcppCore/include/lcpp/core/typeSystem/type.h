@@ -7,28 +7,32 @@ namespace lcpp
     /// \brief Describes a scheme type
     struct Type
     {
+        inline static Type create(const char* name, MemoryInfo memInfo)
+        {
+            return Type(ezHashing::MurmurHash(name), name, memInfo);
+        }
+
         /// \brief This can be used to make static_asserts trigger at places in
         /// the code that need to be updated to the new version.
-        enum{ Version = 2 };
+        enum { Version = 2 };
 
         /// \brief Is set automatically and will be unique for every new instance.
-        const ezUInt64 id;
+        const ezUInt32 id;
         
         /// \brief A human-readable name of this type.
         const char* name;
 
         MemoryInfo memory;
 
-        Type();
-
     private:
-        static ezUInt64 makeUniqueId();
+        Type(ezUInt32 id, const char* name, MemoryInfo memInfo);
 
         // Disallow assignment
-        void operator =(const Type&);
+        void operator = (const Type&);
     };
 
     bool operator ==(const Type& lhs, const Type& rhs);
+    bool operator !=(const Type& lhs, const Type& rhs);
 
     /// \brief Class that provides information about scheme types statically.
     /// \remark You have to specialize this template for all your scheme types!
@@ -50,10 +54,10 @@ namespace lcpp
             static_assert(Type::Version == 2,                           \
                 "Type version was updated."                             \
                 "Adjust your implementation accordingly!");             \
-            static Type instance;                                       \
-            instance.name = theName;                                    \
-            instance.memory.size = sizeof(theType);                     \
-            instance.memory.alignment = EZ_ALIGNMENT_OF(theType);       \
+            static auto instance = Type::create(                        \
+                theName,                                                \
+                MemoryInfo(sizeof(theType), EZ_ALIGNMENT_OF(theType))   \
+            );                                                          \
             return instance;                                            \
         }                                                               \
     }

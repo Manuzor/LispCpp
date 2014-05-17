@@ -30,13 +30,14 @@ namespace lcpp
     template<>
     struct TypeInfo< SchemeObject >
     {
-        static const Type& type()
+        inline static const Type& type()
         {
             static_assert(Type::Version == 2,
                 "Type version was updated. Adjust your implementation accordingly!");
-            static Type theType;
-            theType.name = "SchemeObject";
-            theType.memory.size = theType.memory.alignment = sizeof(SchemeObject);
+            static auto theType = Type::create(
+                "SchemeObject",
+                MemoryInfo(sizeof(SchemeObject), sizeof(SchemeObject))
+                );
             return theType;
         }
     };

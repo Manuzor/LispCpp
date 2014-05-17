@@ -1,4 +1,4 @@
-﻿#include "lcpp/foundation/stringUtil.h"
+﻿#include "lcpp/foundation/conversion.h"
 
 template<typename NUMBER_TYPE>
 inline
@@ -46,5 +46,5 @@ inline
 ezString
 lcpp::SchemeNumber_t<NUMBER_TYPE>::toString() const
 {
-    return ::lcpp::toString(m_value);
+    return lcpp::toString(m_value);
 }

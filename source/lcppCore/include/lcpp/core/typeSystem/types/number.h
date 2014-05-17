@@ -138,40 +138,45 @@ namespace lcpp
     LCPP_DEFINE_SCHEME_NUMBER_ARITHMETIC_OPERATOR(-);
     LCPP_DEFINE_SCHEME_NUMBER_ARITHMETIC_OPERATOR(*);
     LCPP_DEFINE_SCHEME_NUMBER_ARITHMETIC_OPERATOR(/);
+
+#undef LCPP_DEFINE_SCHEME_NUMBER_ARITHMETIC_OPERATOR
     
     // Convenience typedefs
     //////////////////////////////////////////////////////////////////////////
 
-    typedef SchemeNumber_t<ezInt8> SchemeInt8;
-    typedef SchemeNumber_t<ezUInt8> SchemeUInt8;
-
-    typedef SchemeNumber_t<ezInt16> SchemeInt16;
-    typedef SchemeNumber_t<ezUInt16> SchemeUInt16;
-
-    typedef SchemeNumber_t<ezInt32> SchemeInt32;
-    typedef SchemeNumber_t<ezUInt32> SchemeUInt32;
-
-    typedef SchemeNumber_t<ezInt64> SchemeInt64;
-    typedef SchemeNumber_t<ezUInt64> SchemeUInt64;
-
-    typedef SchemeNumber_t<float> SchemeFloat;
-    typedef SchemeNumber_t<double> SchemeDouble;
+    typedef SchemeNumber_t<ezInt64> SchemeInteger;
+    typedef SchemeNumber_t<double> SchemeNumber;
 
     // Type info definition
     //////////////////////////////////////////////////////////////////////////
 
-    template<typename T>
-    struct TypeInfo< SchemeNumber_t<T> >
+    template<>
+    struct TypeInfo<SchemeInteger>
     {
         static const Type& type()
         {
             static_assert(Type::Version == 2,
-                "Type version was updated. Adjust your implementation accordingly!");
-            static Type instance;
-            instance.name = "SchemeNumber";
-            instance.memory.size = sizeof(SchemeNumber_t<T>);
-            instance.memory.alignment = EZ_ALIGNMENT_OF(SchemeNumber_t<T>);
-            return instance;
+                          "Type version was updated. Adjust your implementation accordingly!");
+            static Type integerType = Type::create(
+                "SchemeInteger",
+                lcpp::MemoryInfo(sizeof(lcpp::SchemeInteger), EZ_ALIGNMENT_OF(lcpp::SchemeInteger))
+                );
+            return integerType;
+        }
+    };
+
+    template<>
+    struct LCPP_CORE_API TypeInfo<SchemeNumber>
+    {
+        static const Type& type()
+        {
+            static_assert(Type::Version == 2,
+                          "Type version was updated. Adjust your implementation accordingly!");
+            static Type numberInstance = Type::create(
+                "SchemeNumber",
+                MemoryInfo(sizeof(SchemeNumber), EZ_ALIGNMENT_OF(SchemeNumber))
+                );
+            return numberInstance;
         }
     };
 }
