@@ -8,15 +8,15 @@
 
 lcpp::Reader::Reader() :
     m_separators(CInfo().separators),
-    m_factoryDefault(),
-    m_pFactory(&m_factoryDefault)
+    m_defaultFactory(),
+    m_pFactory(&m_defaultFactory)
 {
 }
 
 lcpp::Reader::Reader(const CInfo& cinfo) :
     m_separators(cinfo.separators),
-    m_factoryDefault(),
-    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_factoryDefault)
+    m_defaultFactory(),
+    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory)
 {
 }
 
@@ -24,23 +24,10 @@ lcpp::Reader::~Reader()
 {
 }
 
-lcpp::SchemeObject* lcpp::Reader::read(const ezString& input)
+lcpp::SchemeObject* lcpp::Reader::read(const ezString& inputString)
 {
-    auto iter = input.GetIteratorFront();
-    return read(iter);
-}
-
-lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
-{
-    auto extractWord = [&](ezStringIterator& iter, ezStringBuilder& builder){
-        while(iter.IsValid() && !isSeparator(iter.GetCharacter()))
-        {
-            builder.Append(iter.GetCharacter());
-            ++iter;
-        }
-    };
-
     SchemeObject* pResultObject = nullptr;
+    auto input = inputString.GetIteratorFront();
 
     skipSeparators(input);
 
@@ -57,34 +44,14 @@ lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
         // TODO read quote
         break;
     case '"':
-        {
-            // skip the " character
-            ++input;
-
-            auto ch = input.GetCharacter();
-
-            if (ch == '"')
-            {
-                pResultObject = m_pFactory->createString("");
-                break;
-            }
-
-            ezStringBuilder str;
-            do 
-            {
-                str.Append(ch);
-                ++input;
-                ch = input.GetCharacter();
-            } while (input.IsValid() && ch != '"');
-
-            pResultObject = m_pFactory->createString(str);
-        }
+        pResultObject = parseString(input);
         break;
     case '(':
         // TODO read list
+        pResultObject = parseList(input);
         break;
     default:
-        // Try parsing for an integer first, then a symbol
+        // Try parsing for an integer first, then a number, then a symbol
         {
             const char* lastPos = nullptr;
             SchemeInteger::Number_t integer;
@@ -98,27 +65,16 @@ lcpp::SchemeObject* lcpp::Reader::read(ezStringIterator& input)
                 if(lastPos[0] == '.')
                 {
                     SchemeNumber::Number_t number;
-                    result = to(input, number, &lastPos);
+                    auto result = to(input, number, &lastPos);
                     EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
                     pResultObject = m_pFactory->createNumber(number);
                     break;
                 }
-                
+
                 pResultObject = m_pFactory->createInteger(integer);
                 break;
             }
-            // Parse for a scheme symbol
-            ezStringBuilder symbol;
-
-            while(input.IsValid() && !isSeparator(input.GetCharacter()))
-            {
-                symbol.Append(input.GetCharacter());
-                ++input;
-            }
-            
-            EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
-
-            pResultObject = m_pFactory->createSymbol(symbol);
+            pResultObject = parseSymbol(input);
         }
         break;
     }
@@ -137,4 +93,79 @@ void lcpp::Reader::skipSeparators(ezStringIterator& iter)
 bool lcpp::Reader::isSeparator(ezUInt32 character)
 {
     return contains(m_separators, character);
+}
+
+lcpp::SchemeInteger* lcpp::Reader::parseInteger(const ezString& inputString)
+{
+    SchemeInteger::Number_t integer;
+    auto result = to(inputString, integer);
+    if (!result.IsSuccess())
+    {
+        throw exceptions::InvalidInput("Unable to parse an integer from the input.");
+    }
+    
+    return m_pFactory->createInteger(integer);
+}
+
+lcpp::SchemeNumber* lcpp::Reader::parseNumber(const ezString& inputString)
+{
+    SchemeNumber::Number_t number;
+    auto result = to(inputString, number);
+    if(!result.IsSuccess())
+    {
+        throw exceptions::InvalidInput("Unable to parse a number from the input.");
+    }
+    return m_pFactory->createNumber(number);
+}
+
+lcpp::SchemeSymbol* lcpp::Reader::parseSymbol(const ezString& inputString)
+{
+    auto input = inputString.GetIteratorFront();
+
+    // Parse for a scheme symbol
+    ezStringBuilder symbol;
+
+    while(input.IsValid() && !isSeparator(input.GetCharacter()))
+    {
+        symbol.Append(input.GetCharacter());
+        ++input;
+    }
+
+    EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
+
+    return m_pFactory->createSymbol(symbol);
+}
+
+lcpp::SchemeString* lcpp::Reader::parseString(const ezString& inputString)
+{
+    if (!inputString.StartsWith("\""))
+    {
+        return nullptr;
+    }
+
+    auto input = inputString.GetIteratorFront();
+    // skip the " character
+    ++input;
+
+    auto ch = input.GetCharacter();
+
+    if(ch == '"')
+    {
+        return m_pFactory->createString("");
+    }
+
+    ezStringBuilder str;
+    do
+    {
+        str.Append(ch);
+        ++input;
+        ch = input.GetCharacter();
+    } while(input.IsValid() && ch != '"');
+
+    return m_pFactory->createString(str);
+}
+
+lcpp::SchemeCons* lcpp::Reader::parseList(const ezString& inputString)
+{
+    return nullptr;
 }
