@@ -8,16 +8,23 @@ namespace lcpp
     {
     public:
 
-        static const SchemeNil& instance();
+        static SchemeNil& instance();
 
         SchemeNil();
         virtual ~SchemeNil();
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
+
+    private:
+        // For debugging. Shows that this instance is the real nil
+        const void* const m_pNil;
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeNil);
+
+    bool isNil(const SchemeObject* pObject);
+    bool isNil(const SchemeObject& object);
 }
 #define SCHEME_NIL (::lcpp::SchemeNil::instance())
 

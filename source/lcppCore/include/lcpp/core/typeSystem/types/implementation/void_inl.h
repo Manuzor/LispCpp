@@ -1,6 +1,6 @@
 ﻿// static
 inline
-const lcpp::SchemeVoid&
+lcpp::SchemeVoid&
 lcpp::SchemeVoid::instance()
 {
     static SchemeVoid v;

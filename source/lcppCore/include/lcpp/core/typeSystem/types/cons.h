@@ -9,14 +9,7 @@ namespace lcpp
     {
     public:
 
-        SchemeCons();
-        explicit SchemeCons(const SchemeObject& car);
-        SchemeCons(const SchemeObject& car, const SchemeObject& cdr);
-
-        SchemeCons(const SchemeCons& copy);
-        void operator =(SchemeCons copyAssign);
-
-        SchemeCons(SchemeCons&& toMove);
+        explicit SchemeCons(SchemeObject& car = SCHEME_NIL, SchemeObject& cdr = SCHEME_NIL);
 
         virtual ~SchemeCons();
 
@@ -26,21 +19,17 @@ namespace lcpp
         virtual ezString toString() const LCPP_OVERRIDE;
 
         /// \brief get car
-        const SchemeObject& car() const;
+        SchemeObject& car() const;
         
         /// \brief get cdr
-        const SchemeObject& cdr() const;
+        SchemeObject& cdr() const;
 
     private:
 
-        static ezAllocatorBase& getAllocator();
-
         void toStringHelper(ezStringBuilder& builder) const;
 
-        const SchemeObject* m_car;
-        const SchemeObject* m_cdr;
-
-        void set(const SchemeObject*& member, const SchemeObject& from);
+        SchemeObject* m_pCar;
+        SchemeObject* m_pCdr;
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeCons);

@@ -49,14 +49,14 @@ namespace
             SchemeCons second = first;
             CUT_ASSERT.isTrue(first.car() == theInt);
             CUT_ASSERT.isTrue(second.car() == theInt, "Failed to construct 'second' by assigning it 'first'!");
-            CUT_ASSERT.isTrue(&first.car() != &second.car(), "Cons is not supposed to make a flat copy!");
+            CUT_ASSERT.isTrue(&first.car() == &second.car(), "Cons is not supposed to make a copy!");
         }
     });
 
     UnitTest g_test3(g_group, "ToString", [](){
-        static SchemeInteger one(1);
-        static SchemeInteger two(2);
-        static SchemeInteger three(3);
+        SchemeInteger one(1);
+        SchemeInteger two(2);
+        SchemeInteger three(3);
 
         struct TestWrapper
         {

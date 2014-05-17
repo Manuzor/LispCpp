@@ -1,6 +1,6 @@
 ﻿// static
 inline
-const lcpp::SchemeBool&
+lcpp::SchemeBool&
 lcpp::SchemeBool::trueInstance()
 {
     static SchemeBool t(true);
@@ -9,7 +9,7 @@ lcpp::SchemeBool::trueInstance()
 
 // static
 inline
-const lcpp::SchemeBool&
+lcpp::SchemeBool&
 lcpp::SchemeBool::falseInstance()
 {
     static SchemeBool f(false);

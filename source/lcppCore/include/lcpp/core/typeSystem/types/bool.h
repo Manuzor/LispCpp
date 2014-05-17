@@ -8,8 +8,8 @@ namespace lcpp
     {
     public:
 
-        static const SchemeBool& trueInstance();
-        static const SchemeBool& falseInstance();
+        static SchemeBool& trueInstance();
+        static SchemeBool& falseInstance();
 
         SchemeBool(bool value);
         virtual ~SchemeBool();
