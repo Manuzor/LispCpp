@@ -26,8 +26,8 @@ inline
 bool
 lcpp::SchemeCons::operator ==(const SchemeCons& rhs) const
 {
-   return car() == rhs.car()
-       && cdr() == rhs.cdr();
+    return *m_pCar == *rhs.m_pCar
+        && *m_pCdr == *rhs.m_pCdr;
 }
 
 inline
@@ -76,18 +76,34 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
     }
 }
 
+// set car
+inline
+void
+lcpp::SchemeCons::car(lcpp::SchemeObject& object)
+{
+    m_pCar = &object;
+}
+
 // get car
 inline
 lcpp::SchemeObject&
-lcpp::SchemeCons::car() const
+lcpp::SchemeCons::car()
 {
     return *m_pCar;
+}
+
+// set cdr
+inline
+void
+lcpp::SchemeCons::cdr(lcpp::SchemeObject& object)
+{
+    m_pCdr = &object;
 }
 
 // get cdr
 inline
 lcpp::SchemeObject&
-lcpp::SchemeCons::cdr() const
+lcpp::SchemeCons::cdr()
 {
     return *m_pCdr;
 }

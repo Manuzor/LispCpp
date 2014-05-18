@@ -9,7 +9,7 @@ namespace lcpp
     {
     public:
 
-        explicit SchemeCons(SchemeObject& car = SCHEME_NIL, SchemeObject& cdr = SCHEME_NIL);
+        SchemeCons(SchemeObject& car, SchemeObject& cdr);
 
         virtual ~SchemeCons();
 
@@ -18,12 +18,15 @@ namespace lcpp
 
         virtual ezString toString() const LCPP_OVERRIDE;
 
-        /// \brief get car
-        SchemeObject& car() const;
-        
-        /// \brief get cdr
-        SchemeObject& cdr() const;
+        /// \brief set car.
+        void car(SchemeObject& object);
+        /// \brief get car.
+        SchemeObject& car();
 
+        /// \brief set cdr.
+        void cdr(SchemeObject& object);
+        /// \brief get cdr
+        SchemeObject& cdr();
     private:
 
         void toStringHelper(ezStringBuilder& builder) const;
