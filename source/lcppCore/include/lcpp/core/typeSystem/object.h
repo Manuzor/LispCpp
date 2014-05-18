@@ -25,6 +25,9 @@ namespace lcpp
         virtual bool is(const Type& type) const = 0;
 
         virtual void copyTo(void* mem) const = 0;
+
+    private:
+        void operator = (const SchemeObject&);
     };
     
     template<>
@@ -55,6 +58,9 @@ namespace lcpp
         virtual bool is(const Type& type) const LCPP_OVERRIDE;
 
         virtual void copyTo(void* mem) const LCPP_OVERRIDE;
+
+    private:
+        void operator = (const SchemeExtend&);
     };
 }
 

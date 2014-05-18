@@ -118,33 +118,30 @@ namespace
         }
     });
 
-    UnitTest g_test3(g_group, "Conversion", [](){
-        SchemeInteger theInt = 42;
-        CUT_ASSERT.isTrue(ezInt32(theInt) == ezInt32(42), "Explicit conversion does not work!");
-        auto equals = [](ezInt32 lhs, ezInt32 rhs){ return lhs == rhs; };
-        CUT_ASSERT.isTrue(equals(theInt, 42), "Implicit conversion does not work!");
-    });
-
     UnitTest g_test4(g_group, "Operator_Assign", [](){
-        SchemeInteger first = 1;
         SchemeInteger second = 2;
         SchemeNumber third = 3.1415f;
 
-        first = 3;
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 3,
-                          "Assignment operator of SchemeNumber_t broken!");
-
-        first = 7.123;
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 7,
-                          "Failed to assign a float to a SchemeInteger!");
-
-        first = second;
-        CUT_ASSERT.isTrue(first == second,
-                          "Failed to assign a SchemeInteger to a SchemeInteger!");
-
-        first = third;
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == SchemeInteger::Number_t(third),
-                                                 "Failed to assign a SchemeNumber to a SchemeInteger!");
+        {
+            SchemeInteger first(3);
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 3,
+                              "Assignment operator of SchemeNumber_t broken!");
+        }
+        {
+            SchemeInteger first(7.123);
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 7,
+                              "Failed to assign a float to a SchemeInteger!");
+        }
+        {
+            SchemeInteger first(second);
+            CUT_ASSERT.isTrue(first == second,
+                              "Failed to assign a SchemeInteger to a SchemeInteger!");
+        }
+        {
+            SchemeInteger first(third.value());
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == SchemeInteger::Number_t(third.value()),
+                              "Failed to assign a SchemeNumber to a SchemeInteger!");
+        }
     });
 
     UnitTest g_test5(g_group, "Operator_Add", [](){
@@ -155,22 +152,22 @@ namespace
 
         // Add SchemeInteger and ezInt32 (signed int)
         auto result = first + 1;
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first + 1) == 2, "Failed to add int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 1, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value() + 1) == 2, "Failed to add int!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 1, "Operator + must not have sideeffects!");
 
         // Add SchemeInteger and SchemeInteger
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first + second) == 3, "Failed to add int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 1, "Operator + must not have sideeffects!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second) == 2, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value() + second.value()) == 3, "Failed to add int!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 1, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second.value()) == 2, "Operator + must not have sideeffects!");
 
         // Add SchemeInteger and SchemeNumber
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first + third) == 4, "Failed to add int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 1, "Operator + must not have sideeffects!");
-        CUT_ASSERT.isTrue(SchemeNumber::Number_t(third) == 3.1415f, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value() + third.value()) == 4, "Failed to add int!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 1, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeNumber::Number_t(third.value()) == 3.1415f, "Operator + must not have sideeffects!");
 
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second + fourth) == 5, "Failed to properly add a SchemeNumber to a SchemeInteger!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second) == 2, "Operator + must not have sideeffects!");
-        CUT_ASSERT.isTrue(SchemeNumber::Number_t(fourth) == 3.6f, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second.value() + fourth.value()) == 5, "Failed to properly add a SchemeNumber to a SchemeInteger!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second.value()) == 2, "Operator + must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeNumber::Number_t(fourth.value()) == 3.6f, "Operator + must not have sideeffects!");
     });
 
     UnitTest g_test6(g_group, "Operator_AddAndAssign", [](){
@@ -178,7 +175,7 @@ namespace
         {
             SchemeInteger first = 1;
             first += 1;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 2, "Cannot add and assign int!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 2, "Cannot add and assign int!");
         }
 
         // Assign another scheme number of same type
@@ -187,7 +184,7 @@ namespace
             SchemeInteger second = 2;
 
             first += second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 3, "Cannot add another SchemeInteger!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 3, "Cannot add another SchemeInteger!");
         }
 
         // Assign another scheme number of different type
@@ -196,7 +193,7 @@ namespace
             SchemeNumber second = 3.1415f;
 
             first += second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 4, "Cannot add and assign another scheme number of different type!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 4, "Cannot add and assign another scheme number of different type!");
         }
     });
 
@@ -206,17 +203,16 @@ namespace
         SchemeNumber third = 3.1415f;
 
         // Add SchemeInteger and ezInt32 (signed int)
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) - 1 == 0, "Failed to subtract int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 1, "Operator - must not have side effects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) - 1 == 0, "Failed to subtract int!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 1, "Operator - must not have side effects!");
 
         // Add SchemeInteger and SchemeInteger
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) - second == -1, "Failed to subtract int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 1, "Operator - must not have side effects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) - second == -1, "Failed to subtract int!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 1, "Operator - must not have side effects!");
 
         // Add SchemeInteger and SchemeNumber
-        auto result = first - third;
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first - third) == -2, "Failed to subtract int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 1, "Operator - must not have side effects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value() - third.value()) == -2, "Failed to subtract int!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 1, "Operator - must not have side effects!");
     });
 
     UnitTest g_test8(g_group, "Operator_SubtractAndAssign", [](){
@@ -224,7 +220,7 @@ namespace
         {
             SchemeInteger first = 1;
             first -= 1;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 0, "Cannot subtract and assign int!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 0, "Cannot subtract and assign int!");
         }
 
         // Assign another scheme number of same type
@@ -233,7 +229,7 @@ namespace
             SchemeInteger second = 2;
 
             first -= second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == -1, "Cannot subtract another SchemeInteger!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == -1, "Cannot subtract another SchemeInteger!");
         }
 
         // Assign another scheme number of different type
@@ -242,7 +238,7 @@ namespace
             SchemeNumber second = 3.1415f;
 
             first -= second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == -2, "Cannot subtract and assign another scheme number of different type!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == -2, "Cannot subtract and assign another scheme number of different type!");
         }
     });
 
@@ -254,19 +250,19 @@ namespace
 
         // Add SchemeInteger and ezInt32 (signed int)
         CUT_ASSERT.isTrue(SchemeInteger::Number_t(first * 1) == 2, "Failed to multiply with int!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 2, "Operator * must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 2, "Operator * must not have sideeffects!");
 
         // Add SchemeInteger and SchemeInteger
         CUT_ASSERT.isTrue(SchemeInteger::Number_t(first * second) == 6, "Failed to multiply with SchemeInteger!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 2, "Operator * must not have sideeffects!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second) == 3, "Operator * must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 2, "Operator * must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(second.value()) == 3, "Operator * must not have sideeffects!");
 
         // Add SchemeInteger and SchemeNumber
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first * third) == 8, "Failed to multiply SchemeInteger with SchemeNumber!");
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 2, "Operator * must not have sideeffects!");
-        CUT_ASSERT.isTrue(SchemeNumber::Number_t(third) == 4.1415f, "Operator * must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value() * third.value()) == 8, "Failed to multiply SchemeInteger with SchemeNumber!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 2, "Operator * must not have sideeffects!");
+        CUT_ASSERT.isTrue(SchemeNumber::Number_t(third.value()) == 4.1415f, "Operator * must not have sideeffects!");
 
-        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first * fourth) == 7, "Failed to multiply SchemeInteger with SchemeNumber!");
+        CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value() * fourth.value()) == 7, "Failed to multiply SchemeInteger with SchemeNumber!");
     });
 
     UnitTest g_test10(g_group, "Operator_MultiplyAndAssign", [](){
@@ -274,7 +270,7 @@ namespace
         {
             SchemeInteger first = 2;
             first *= 2;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 4, "Cannot multiply with and assign int!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 4, "Cannot multiply with and assign int!");
         }
 
         // Assign another scheme number of same type
@@ -283,7 +279,7 @@ namespace
             SchemeInteger second = 3;
 
             first *= second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 6, "Cannot add another SchemeInteger!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 6, "Cannot add another SchemeInteger!");
         }
 
         // Assign another scheme number of different type
@@ -292,14 +288,14 @@ namespace
             SchemeNumber second = 3.1415f;
 
             first *= second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 6, "Cannot add and assign another scheme number of different type!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 6, "Cannot add and assign another scheme number of different type!");
         }
         {
             SchemeInteger first = 2;
             SchemeNumber second = 3.6f;
 
             first *= second;
-            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first) == 7, "Cannot add and assign a SchemeNumber or SchemeNumber without truncation!");
+            CUT_ASSERT.isTrue(SchemeInteger::Number_t(first.value()) == 7, "Cannot add and assign a SchemeNumber or SchemeNumber without truncation!");
         }
     });
 

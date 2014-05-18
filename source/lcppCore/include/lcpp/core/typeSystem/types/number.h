@@ -78,11 +78,11 @@ namespace lcpp
 
         // conversion
         //////////////////////////////////////////////////////////////////////////
-        template<typename T>
-        inline operator T() // TODO const?
-        {
-            return static_cast<T>(m_value);
-        }
+        //template<typename T>
+        //inline operator T() // TODO const?
+        //{
+        //    return static_cast<T>(m_value);
+        //}
 
         // =
         //////////////////////////////////////////////////////////////////////////
@@ -96,6 +96,8 @@ namespace lcpp
 
     private:
         Number_t m_value;
+
+        void operator = (const SchemeNumber_t<Number_t>&);
     };
 
     // SchemeNumber_t<> arithmetic operators

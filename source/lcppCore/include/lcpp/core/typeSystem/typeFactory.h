@@ -13,9 +13,10 @@ namespace lcpp
     public:
         TypeFactory();
 
-        SchemeInteger* createInteger(SchemeInteger::Number_t value);
-        SchemeNumber*  createNumber(SchemeNumber::Number_t value);
-        SchemeString*  createString(const ezString& str);
-        SchemeSymbol*  createSymbol(const ezString& symbol);
+        SchemeInteger& createInteger(SchemeInteger::Number_t value);
+        SchemeNumber&  createNumber(SchemeNumber::Number_t value);
+        SchemeString&  createString(const ezString& str);
+        SchemeSymbol&  createSymbol(const ezString& symbol);
+        SchemeCons&    createCons(SchemeObject& car, SchemeObject& cdr);
     };
 }

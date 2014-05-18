@@ -38,42 +38,38 @@ namespace
         Reader reader;
 
         {
-            SchemeObject* pObject = reader.read("42");
+            auto& object = reader.read("42");
 
             auto& staticType = TypeInfo<SchemeInteger>::type();
-            auto& type = pObject->type();
+            auto& type = object.type();
 
-            CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeInteger*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
             CUT_ASSERT.isTrue(type == staticType, "Type ID mismatch for scheme integer!");
-            CUT_ASSERT.isTrue(pObject->toString().IsEqual("42"), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeInteger*>(&object) != nullptr, "Reader did not return a scheme integer instance!");
+            CUT_ASSERT.isTrue(object.toString().IsEqual("42"), "Wrong string representation");
         }
 
         {
-            SchemeObject* pObject = reader.read("3.1415");
+            SchemeObject& object = reader.read("3.1415");
 
-            CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeNumber*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeNumber>::type(), "Type ID mismatch for scheme number!");
-            CUT_ASSERT.isTrue(pObject->toString().IsEqual("3.1415"), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeNumber*>(&object) != nullptr, "Reader did not return a scheme number instance!");
+            CUT_ASSERT.isTrue(object.type() == TypeInfo<SchemeNumber>::type(), "Type ID mismatch for scheme number!");
+            CUT_ASSERT.isTrue(object.toString().IsEqual("3.1415"), "Wrong string representation");
         }
 
         {
-            SchemeObject* pObject = reader.read("hello world");
+            SchemeObject& object = reader.read("hello world");
 
-            CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeSymbol*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeSymbol>::type(), "Type ID mismatch for scheme number!");
-            CUT_ASSERT.isTrue(pObject->toString().IsEqual("hello"), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeSymbol*>(&object) != nullptr, "Reader did not return a scheme symbol instance!");
+            CUT_ASSERT.isTrue(object.type() == TypeInfo<SchemeSymbol>::type(), "Type ID mismatch for scheme symbol!");
+            CUT_ASSERT.isTrue(object.toString().IsEqual("hello"), "Wrong string representation");
         }
 
         {
-            SchemeObject* pObject = reader.read("\"hello world\"");
+            SchemeObject& object = reader.read("\"hello world\"");
 
-            CUT_ASSERT.isTrue(pObject != nullptr, "Reader did not return a valid object!");
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeString*>(pObject) != nullptr, "Reader did not return a scheme symbol instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeString>::type(), "Type ID mismatch for scheme number!");
-            CUT_ASSERT.isTrue(pObject->toString().IsEqual("\"hello world\""), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeString*>(&object) != nullptr, "Reader did not return a scheme string instance!");
+            CUT_ASSERT.isTrue(object.type() == TypeInfo<SchemeString>::type(), "Type ID mismatch for scheme string!");
+            CUT_ASSERT.isTrue(object.toString().IsEqual("\"hello world\""), "Wrong string representation");
         }
     });
 
@@ -83,10 +79,9 @@ namespace
 
         {
             ezString str("123");
-            auto pInt = reader.parseInteger(str);
-            CUT_ASSERT.isTrue(pInt != nullptr, "Invalid result for parsing the integer.");
-            CUT_ASSERT.isTrue(pInt->value() == 123, "Invalid value of parsed integer.");
-            CUT_ASSERT.isTrue(pInt->toString().IsEqual("123"), "Invalid string representation of parsed integer.");
+            auto& i = reader.parseInteger(str);
+            CUT_ASSERT.isTrue(i.value() == 123, "Invalid value of parsed integer.");
+            CUT_ASSERT.isTrue(i.toString().IsEqual("123"), "Invalid string representation of parsed integer.");
         }
 
         {
@@ -103,10 +98,9 @@ namespace
 
         {
             ezString str("3.1415");
-            auto pNumber = reader.parseNumber(str);
-            CUT_ASSERT.isTrue(pNumber != nullptr, "Invalid result for parsing the number.");
-            CUT_ASSERT.isTrue(pNumber->value() == 3.1415, "Invalid value of parsed number.");
-            CUT_ASSERT.isTrue(pNumber->toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
+            auto number = reader.parseNumber(str);
+            CUT_ASSERT.isTrue(number.value() == 3.1415, "Invalid value of parsed number.");
+            CUT_ASSERT.isTrue(number.toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
         }
 
         {
@@ -123,16 +117,14 @@ namespace
 
         {
             ezString str("qwerty");
-            auto pSymbol = reader.parseSymbol(str);
-            CUT_ASSERT.isTrue(pSymbol != nullptr, "Invalid result for parsing the symbol.");
-            CUT_ASSERT.isTrue(pSymbol->value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
+            auto& symbol = reader.parseSymbol(str);
+            CUT_ASSERT.isTrue(symbol.value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
         }
 
         {
             ezString str("hello world with spaces");
-            auto pSymbol = reader.parseSymbol(str);
-            CUT_ASSERT.isTrue(pSymbol != nullptr, "Invalid result for parsing the symbol.");
-            CUT_ASSERT.isTrue(pSymbol->value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
+            auto& symbol = reader.parseSymbol(str);
+            CUT_ASSERT.isTrue(symbol.value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
         }
 
         {
@@ -148,44 +140,42 @@ namespace
         Reader reader;
 
         {
-            ezString str("\"qwerty\"");
-            auto pString = reader.parseString(str);
-            CUT_ASSERT.isTrue(pString != nullptr, "Invalid result for parsing the string.");
-            CUT_ASSERT.isTrue(pString->value().IsEqual("qwerty"), "Invalid value of parsed string.");
-            CUT_ASSERT.isTrue(pString->toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
+            ezString input("\"qwerty\"");
+            auto& str = reader.parseString(input);
+            CUT_ASSERT.isTrue(str.value().IsEqual("qwerty"), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(str.toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
         }
 
         {
-            ezString str("\"123\"");
-            auto pString = reader.parseString(str);
-            CUT_ASSERT.isTrue(pString != nullptr, "Invalid result for parsing the string.");
-            CUT_ASSERT.isTrue(pString->value().IsEqual("123"), "Invalid value of parsed string.");
-            CUT_ASSERT.isTrue(pString->toString().IsEqual("\"123\""), "Invalid value of parsed string.");
+            ezString input("\"123\"");
+            auto& str = reader.parseString(input);
+            CUT_ASSERT.isTrue(str.value().IsEqual("123"), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(str.toString().IsEqual("\"123\""), "Invalid value of parsed string.");
         }
 
         {
-            ezString str("hello");
+            ezString input("hello");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseString(str);
+                reader.parseString(input);
             }, "'hello' should not be parsed as string! ('\"hello\"' should)");
         }
     });
 
-    UnitTest g_test8(g_group, "ParseList", []()
+    UnitTest g_test8(g_group, "parseList", []()
     {
         Reader reader;
 
         {
-            ezString str("hello world 123 42");
+            ezString input("hello world 123 42");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseList(str);
+                reader.parseList(input);
             }, "The input string 'hello world 123 42' should not be read as a valid list!");
         }
 
         {
-            ezString str("(define x 1)");
-            auto pCons = reader.parseList(str);
-            CUT_ASSERT.isTrue(pCons != nullptr, "Invalid result for parsing the list.");
+            ezString input("(define x 1)");
+            auto& cons = reader.parseList(input);
+            CUT_ASSERT.isTrue(cons != SCHEME_NIL, "Invalid result for parsing the list.");
         }
     });
 }

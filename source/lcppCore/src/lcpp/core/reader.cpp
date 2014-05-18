@@ -24,9 +24,8 @@ lcpp::Reader::~Reader()
 {
 }
 
-lcpp::SchemeObject* lcpp::Reader::read(const ezString& inputString)
+lcpp::SchemeObject& lcpp::Reader::read(const ezString& inputString)
 {
-    SchemeObject* pResultObject = nullptr;
     auto input = inputString.GetIteratorFront();
 
     skipSeparators(input);
@@ -44,10 +43,10 @@ lcpp::SchemeObject* lcpp::Reader::read(const ezString& inputString)
         // TODO read quote
         break;
     case '"':
-        pResultObject = parseString(input);
+        return parseString(input);
         break;
     case '(':
-        pResultObject = parseList(input);
+        return parseList(input);
         break;
     default:
         // Try parsing for an integer first, then a number, then a symbol
@@ -66,19 +65,17 @@ lcpp::SchemeObject* lcpp::Reader::read(const ezString& inputString)
                     SchemeNumber::Number_t number;
                     auto result = to(input, number, &lastPos);
                     EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-                    pResultObject = m_pFactory->createNumber(number);
-                    break;
+                    return m_pFactory->createNumber(number);
                 }
 
-                pResultObject = m_pFactory->createInteger(integer);
-                break;
+                return m_pFactory->createInteger(integer);
             }
-            pResultObject = parseSymbol(input);
+            return parseSymbol(input);
         }
         break;
     }
 
-    return pResultObject;
+    return SCHEME_NIL;
 }
 
 void lcpp::Reader::skipSeparators(ezStringIterator& iter)
@@ -94,7 +91,7 @@ bool lcpp::Reader::isSeparator(ezUInt32 character)
     return contains(m_separators, character);
 }
 
-lcpp::SchemeInteger* lcpp::Reader::parseInteger(const ezString& inputString)
+lcpp::SchemeInteger& lcpp::Reader::parseInteger(const ezString& inputString)
 {
     SchemeInteger::Number_t integer;
     auto result = to(inputString, integer);
@@ -106,7 +103,7 @@ lcpp::SchemeInteger* lcpp::Reader::parseInteger(const ezString& inputString)
     return m_pFactory->createInteger(integer);
 }
 
-lcpp::SchemeNumber* lcpp::Reader::parseNumber(const ezString& inputString)
+lcpp::SchemeNumber& lcpp::Reader::parseNumber(const ezString& inputString)
 {
     SchemeNumber::Number_t number;
     auto result = to(inputString, number);
@@ -117,7 +114,7 @@ lcpp::SchemeNumber* lcpp::Reader::parseNumber(const ezString& inputString)
     return m_pFactory->createNumber(number);
 }
 
-lcpp::SchemeSymbol* lcpp::Reader::parseSymbol(const ezString& inputString)
+lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(const ezString& inputString)
 {
     {
         // Test if the input string can be parsed as int, which should not be possible
@@ -144,7 +141,7 @@ lcpp::SchemeSymbol* lcpp::Reader::parseSymbol(const ezString& inputString)
     return m_pFactory->createSymbol(symbol);
 }
 
-lcpp::SchemeString* lcpp::Reader::parseString(const ezString& inputString)
+lcpp::SchemeString& lcpp::Reader::parseString(const ezString& inputString)
 {
     if (!inputString.StartsWith("\""))
     {
@@ -173,7 +170,7 @@ lcpp::SchemeString* lcpp::Reader::parseString(const ezString& inputString)
     return m_pFactory->createString(str);
 }
 
-lcpp::SchemeCons* lcpp::Reader::parseList(const ezString& inputString)
+lcpp::SchemeCons& lcpp::Reader::parseList(const ezString& inputString)
 {
     if(!inputString.StartsWith("("))
     {
@@ -188,11 +185,10 @@ lcpp::SchemeCons* lcpp::Reader::parseList(const ezString& inputString)
 
     if (ch == ')')
     {
-        return nullptr;
+        return m_pFactory->createCons(SCHEME_NIL, SCHEME_NIL);
     }
 
-    // read symbols here and advance the iterator
+    // TODO read symbols here and advance the iterator
 
-    //return m_pFactory->createCons();
-    return nullptr;
+    return m_pFactory->createCons(SCHEME_NIL, SCHEME_NIL);;
 }

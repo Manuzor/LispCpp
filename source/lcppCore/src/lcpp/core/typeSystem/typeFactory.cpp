@@ -6,22 +6,27 @@ lcpp::TypeFactory::TypeFactory()
 {
 }
 
-lcpp::SchemeInteger* lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
+lcpp::SchemeInteger& lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
 {
-    return new SchemeInteger(value);
+    return *new SchemeInteger(value);
 }
 
-lcpp::SchemeNumber* lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)
+lcpp::SchemeNumber& lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)
 {
-    return new SchemeNumber(value);
+    return *new SchemeNumber(value);
 }
 
-lcpp::SchemeString* lcpp::TypeFactory::createString(const ezString& str)
+lcpp::SchemeString& lcpp::TypeFactory::createString(const ezString& str)
 {
-    return new SchemeString(str);
+    return *new SchemeString(str);
 }
 
-lcpp::SchemeSymbol* lcpp::TypeFactory::createSymbol(const ezString& symbol)
+lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
 {
-    return new SchemeSymbol(symbol);
+    return *new SchemeSymbol(symbol);
+}
+
+lcpp::SchemeCons& lcpp::TypeFactory::createCons(SchemeObject& car, SchemeObject& cdr)
+{
+    return *new SchemeCons(car, cdr);
 }

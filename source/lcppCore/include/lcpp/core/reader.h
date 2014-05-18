@@ -27,13 +27,13 @@ namespace lcpp
         Reader(const CInfo& cinfo);
         ~Reader();
 
-        SchemeObject* read(const ezString& inputString);
+        SchemeObject& read(const ezString& inputString);
 
-        SchemeInteger* parseInteger(const ezString& inputString);
-        SchemeNumber*  parseNumber(const ezString& inputString);
-        SchemeSymbol*  parseSymbol(const ezString& inputString);
-        SchemeString*  parseString(const ezString& inputString);
-        SchemeCons*    parseList(const ezString& inputString);
+        SchemeInteger& parseInteger(const ezString& inputString);
+        SchemeNumber&  parseNumber(const ezString& inputString);
+        SchemeSymbol&  parseSymbol(const ezString& inputString);
+        SchemeString&  parseString(const ezString& inputString);
+        SchemeCons&    parseList(const ezString& inputString);
 
         void skipSeparators(ezStringIterator& iter);
 
