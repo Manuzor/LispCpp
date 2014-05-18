@@ -80,56 +80,106 @@ namespace
         SchemeInteger two(2);
         SchemeInteger three(3);
 
-        struct TestWrapper
         {
-            const char* expected;
-            const SchemeCons cons;
-
-            TestWrapper(const char* expected, const SchemeCons cons) :
-                expected(expected),
-                cons(cons)
-            {
-            }
-        };
-
-        ezDynamicArray<TestWrapper> tests;
-        tests.Reserve(22);
-
-        auto push = [&](const char* a, const SchemeCons& b)
+            SchemeCons test(SCHEME_NIL, SCHEME_NIL);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(())"));
+        }
         {
-            tests.PushBack(TestWrapper(a, b));
-        };
-
-        push("(())", SchemeCons(SCHEME_NIL, SCHEME_NIL));
-        push("(1)", SchemeCons(one, SCHEME_NIL));
-        push("(() . 2)", SchemeCons(SCHEME_NIL, two));
-        push("(1 . 2)", SchemeCons(one, two));
-
-        push("(() ())", SchemeCons(SCHEME_NIL, SchemeCons(SCHEME_NIL, SCHEME_NIL)));
-        push("(1 ())", SchemeCons(one, SchemeCons(SCHEME_NIL, SCHEME_NIL)));
-        push("(1 2)", SchemeCons(one, SchemeCons(two, SCHEME_NIL)));
-        push("(1 () . 3)", SchemeCons(one, SchemeCons(SCHEME_NIL, three)));
-        push("(1 2 . 3)", SchemeCons(one, SchemeCons(two, three)));
-        push("(() 2)", SchemeCons(SCHEME_NIL, SchemeCons(two, SCHEME_NIL)));
-        push("(() () . 3)", SchemeCons(SCHEME_NIL, SchemeCons(SCHEME_NIL, three)));
-        push("(() 2 . 3)", SchemeCons(SCHEME_NIL, SchemeCons(two, three)));
-        push("(1 2 . 3)", SchemeCons(one, SchemeCons(two, three)));
-
-        push("((()))", SchemeCons(SchemeCons(SCHEME_NIL, SCHEME_NIL), SCHEME_NIL));
-        push("((()) . 1)", SchemeCons(SchemeCons(SCHEME_NIL, SCHEME_NIL), one));
-        push("((2) . 1)", SchemeCons(SchemeCons(two, SCHEME_NIL), one));
-        push("((() . 3) . 1)", SchemeCons(SchemeCons(SCHEME_NIL, three), one));
-        push("((2 . 3) . 1)", SchemeCons(SchemeCons(two, three), one));
-        push("((2))", SchemeCons(SchemeCons(two, SCHEME_NIL), SCHEME_NIL));
-        push("((() . 3))", SchemeCons(SchemeCons(SCHEME_NIL, three), SCHEME_NIL));
-        push("((2 . 3))", SchemeCons(SchemeCons(two, three), SCHEME_NIL));
-        push("((2 . 3) . 1)", SchemeCons(SchemeCons(two, three), one));
-
-        for(const auto& testWrapper : tests)
+            SchemeCons test(one, SCHEME_NIL);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1)"));
+        }
         {
-            const char* expected = testWrapper.expected;
-            const char* actual = testWrapper.cons.toString().GetData();
-            CUT_ASSERT.isTrue(ezStringUtils::IsEqual(expected, actual));
+            SchemeCons test(SCHEME_NIL, two);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(() . 2)"));
+        }
+        {
+            SchemeCons test(one, two);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1 . 2)"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, SCHEME_NIL);
+            SchemeCons test(SCHEME_NIL, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(() ())"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, SCHEME_NIL);
+            SchemeCons test(one, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1 ())"));
+        }
+        {
+            SchemeCons inner(two, SCHEME_NIL);
+            SchemeCons test(one, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1 2)"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, three);
+            SchemeCons test(one, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1 () . 3)"));
+        }
+        {
+            SchemeCons inner(two, three);
+            SchemeCons test(one, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1 2 . 3)"));
+        }
+        {
+            SchemeCons inner(two, SCHEME_NIL);
+            SchemeCons test(SCHEME_NIL, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(() 2)"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, three);
+            SchemeCons test(SCHEME_NIL, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(() () . 3)"));
+        }
+        {
+            SchemeCons inner(two, three);
+            SchemeCons test(SCHEME_NIL, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(() 2 . 3)"));
+        }
+        {
+            SchemeCons inner(two, three);
+            SchemeCons test(one, inner);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("(1 2 . 3)"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, SCHEME_NIL);
+            SchemeCons test(inner, SCHEME_NIL);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((()))"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, SCHEME_NIL);
+            SchemeCons test(inner, one);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((()) . 1)"));
+        }
+        {
+            SchemeCons inner(two, SCHEME_NIL);
+            SchemeCons test(inner, one);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((2) . 1)"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, three);
+            SchemeCons test(inner, one);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((() . 3) . 1)"));
+        }
+        {
+            SchemeCons inner(two, three);
+            SchemeCons test(inner, one);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((2 . 3) . 1)"));
+        }
+        {
+            SchemeCons inner(two, SCHEME_NIL);
+            SchemeCons test(inner, SCHEME_NIL);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((2))"));
+        }
+        {
+            SchemeCons inner(SCHEME_NIL, three);
+            SchemeCons test(inner, SCHEME_NIL);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((() . 3))"));
+        }
+        {
+            SchemeCons inner(two, three);
+            SchemeCons test(inner, SCHEME_NIL);
+            CUT_ASSERT.isTrue(test.toString().IsEqual("((2 . 3))"));
         }
     });
 

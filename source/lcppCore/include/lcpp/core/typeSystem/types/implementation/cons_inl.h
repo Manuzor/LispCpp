@@ -7,8 +7,26 @@ lcpp::SchemeCons::SchemeCons(SchemeObject& car, SchemeObject& cdr) :
 }
 
 inline
+lcpp::SchemeCons::SchemeCons(const SchemeCons& toCopy) :
+    m_pCar(toCopy.m_pCar),
+    m_pCdr(toCopy.m_pCdr)
+{
+}
+
+inline
+lcpp::SchemeCons::SchemeCons(SchemeCons&& toMove) :
+    m_pCar(toMove.m_pCar),
+    m_pCdr(toMove.m_pCdr)
+{
+    toMove.m_pCar = &SCHEME_NIL;
+    toMove.m_pCdr = &SCHEME_NIL;
+}
+
+inline
 lcpp::SchemeCons::~SchemeCons()
 {
+    m_pCar = nullptr;
+    m_pCdr = nullptr;
 }
 
 inline

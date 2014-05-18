@@ -10,6 +10,8 @@ namespace lcpp
     public:
 
         SchemeCons(SchemeObject& car, SchemeObject& cdr);
+        SchemeCons(const SchemeCons& toCopy);
+        SchemeCons(SchemeCons&& toMove);
 
         virtual ~SchemeCons();
 
