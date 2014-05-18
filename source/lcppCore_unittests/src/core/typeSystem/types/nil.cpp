@@ -10,6 +10,7 @@ namespace
     UnitTest g_test1(g_group, "Type", [](){
         CUT_ASSERT.isTrue(SCHEME_NIL.type() == TypeInfo<SchemeNil>::type(), "SCHEME_NIL.type() returns an incorrect type!");
         CUT_ASSERT.isTrue(SCHEME_NIL.is(TypeInfo<SchemeNil>::type()), "SCHEME_NIL.is(...) is not working!");
+        CUT_ASSERT.isTrue(isNil(SCHEME_NIL), "Global function isNil does not work!");
     });
 
     UnitTest g_test2(g_group, "Equality", [](){

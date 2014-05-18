@@ -1,6 +1,6 @@
 ﻿// Static
 inline
-const lcpp::SchemeNil&
+lcpp::SchemeNil&
 lcpp::SchemeNil::instance()
 {
     static SchemeNil nil;
@@ -9,7 +9,8 @@ lcpp::SchemeNil::instance()
 
 
 inline
-lcpp::SchemeNil::SchemeNil()
+lcpp::SchemeNil::SchemeNil() :
+    m_pNil(nullptr)
 {
 }
 
@@ -30,4 +31,20 @@ lcpp::SchemeNil::toString() const
 {
     static ezString voidString("()");
     return voidString;
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+inline
+bool
+lcpp::isNil(const lcpp::SchemeObject* pObject)
+{
+    return pObject == &SCHEME_NIL;
+}
+
+inline
+bool
+lcpp::isNil(const lcpp::SchemeObject& object)
+{
+    return isNil(&object);
 }

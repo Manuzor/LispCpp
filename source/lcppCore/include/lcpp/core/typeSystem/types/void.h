@@ -8,7 +8,7 @@ namespace lcpp
     {
     public:
 
-        static const SchemeVoid& instance();
+        static SchemeVoid& instance();
 
         SchemeVoid();
         virtual ~SchemeVoid();
