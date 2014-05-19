@@ -2,7 +2,10 @@
 #include "lcpp/core/typeSystem.h"
 
 
-lcpp::TypeFactory::TypeFactory()
+lcpp::TypeFactory::TypeFactory(ezAllocatorBase* pAllocator) :
+    m_pAllocator(pAllocator),
+    m_symbols(pAllocator),
+    m_integers(pAllocator)
 {
 }
 
@@ -17,7 +20,7 @@ lcpp::SchemeInteger& lcpp::TypeFactory::createInteger(SchemeInteger::Number_t va
     SchemeInteger* pResult = nullptr;
     if(!m_integers.TryGetValue(value, pResult))
     {
-        pResult = new SchemeInteger(value);
+        pResult = LCPP_NEW(SchemeInteger)(value);
         m_integers[value] = pResult;
     }
 
@@ -26,12 +29,12 @@ lcpp::SchemeInteger& lcpp::TypeFactory::createInteger(SchemeInteger::Number_t va
 
 lcpp::SchemeNumber& lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)
 {
-    return *new SchemeNumber(value);
+    return *LCPP_NEW(SchemeNumber)(value);
 }
 
 lcpp::SchemeString& lcpp::TypeFactory::createString(const ezString& str)
 {
-    return *new SchemeString(str);
+    return *LCPP_NEW(SchemeString)(str);
 }
 
 lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
@@ -39,7 +42,7 @@ lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
     SchemeSymbol* pResult = nullptr;
     if (!m_symbols.TryGetValue(symbol, pResult))
     {
-        pResult = new SchemeSymbol(symbol);
+        pResult = LCPP_NEW(SchemeSymbol)(symbol);
         m_symbols[symbol] = pResult;
     }
 
@@ -48,5 +51,5 @@ lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
 
 lcpp::SchemeCons& lcpp::TypeFactory::createCons(SchemeObject& car, SchemeObject& cdr)
 {
-    return *new SchemeCons(car, cdr);
+    return *LCPP_NEW(SchemeCons)(car, cdr);
 }

@@ -46,6 +46,7 @@
     <ClInclude Include="include\lcpp\foundation\conversion.h" />
     <ClInclude Include="include\lcpp\foundation\implementation\rangeUtils_inl.h" />
     <ClInclude Include="include\lcpp\foundation\memoryInfo.h" />
+    <ClInclude Include="include\lcpp\foundation\memory\allocator.h" />
     <ClInclude Include="include\lcpp\foundation\rangeUtils.h" />
     <ClInclude Include="include\lcpp\foundation\stringUtils.h" />
     <ClInclude Include="include\stdafx.h" />
@@ -53,6 +54,7 @@
   <ItemGroup>
     <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
     <ClCompile Include="src\lcpp\core\reader.cpp" />
+    <ClCompile Include="src\lcpp\foundation\memory\allocator.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

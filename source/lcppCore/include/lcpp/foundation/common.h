@@ -8,6 +8,10 @@
 
 // ezEngine stuff
 #include <Foundation/Basics/IncludeAll.cpp>
+
+#define LCPP_OVERRIDE EZ_OVERRIDE
+
+#include "lcpp/foundation/memory/allocator.h"
 #include "lcpp/foundation/rangeUtils.h"
 
 #define LCPP_NEW(type)               EZ_DEFAULT_NEW(type)
@@ -18,12 +22,11 @@
 #define LCPP_DELETE_ARRAY(type)      EZ_DEFAULT_DELETE_ARRAY(type)
 #define LCPP_DELETE_RAW_BUFFER(type) EZ_DEFAULT_DELETE_RAW_BUFFER(type)
 
-#define LCPP_OVERRIDE EZ_OVERRIDE
-
 #include "lcpp/exceptions/exceptions.h"
 
 #define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
+#define LCPP_UNUSED(anything) ((void)anything)
 
 namespace lcpp
 {

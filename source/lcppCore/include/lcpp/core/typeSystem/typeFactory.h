@@ -11,7 +11,7 @@ namespace lcpp
     class LCPP_CORE_API TypeFactory
     {
     public:
-        TypeFactory();
+        TypeFactory(ezAllocatorBase* pAllocator = defaultAllocator());
         ~TypeFactory();
 
         SchemeInteger& createInteger(SchemeInteger::Number_t value);
@@ -21,6 +21,8 @@ namespace lcpp
         SchemeCons&    createCons(SchemeObject& car, SchemeObject& cdr);
 
     private:
+        ezAllocatorBase* m_pAllocator;
+
         ezHashTable<ezString, SchemeSymbol*> m_symbols;
         ezHashTable<SchemeInteger::Number_t, SchemeInteger*> m_integers;
     };
