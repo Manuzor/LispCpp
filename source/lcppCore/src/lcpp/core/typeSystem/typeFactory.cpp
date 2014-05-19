@@ -6,9 +6,22 @@ lcpp::TypeFactory::TypeFactory()
 {
 }
 
+lcpp::TypeFactory::~TypeFactory()
+{
+    m_symbols.Clear();
+    m_integers.Clear();
+}
+
 lcpp::SchemeInteger& lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
 {
-    return *new SchemeInteger(value);
+    SchemeInteger* pResult = nullptr;
+    if(!m_integers.TryGetValue(value, pResult))
+    {
+        pResult = new SchemeInteger(value);
+        m_integers[value] = pResult;
+    }
+
+    return *pResult;
 }
 
 lcpp::SchemeNumber& lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)

@@ -12,6 +12,7 @@ namespace lcpp
     {
     public:
         TypeFactory();
+        ~TypeFactory();
 
         SchemeInteger& createInteger(SchemeInteger::Number_t value);
         SchemeNumber&  createNumber(SchemeNumber::Number_t value);
@@ -21,5 +22,6 @@ namespace lcpp
 
     private:
         ezHashTable<ezString, SchemeSymbol*> m_symbols;
+        ezHashTable<SchemeInteger::Number_t, SchemeInteger*> m_integers;
     };
 }

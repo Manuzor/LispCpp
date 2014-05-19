@@ -101,6 +101,14 @@ namespace
         }
     });
 
+    UnitTest g_test3(g_group, "Instancing", [](){
+        TypeFactory factory;
+
+        auto& int1 = factory.createInteger(42);
+        auto& int2 = factory.createInteger(42);
+
+        CUT_ASSERT.isTrue(&int1 == &int2, "Scheme integers with the same value should be the same object!");
+    });
 }
 
 #pragma warning( pop )
