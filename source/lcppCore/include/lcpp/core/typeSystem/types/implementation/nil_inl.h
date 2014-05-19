@@ -39,12 +39,13 @@ inline
 bool
 lcpp::isNil(const lcpp::SchemeObject* pObject)
 {
-    return pObject == &SCHEME_NIL;
+    EZ_ASSERT(pObject != nullptr, "No SchemeObject* should be a nullptr, ever!");
+    return isNil(*pObject);
 }
 
 inline
 bool
 lcpp::isNil(const lcpp::SchemeObject& object)
 {
-    return isNil(&object);
+    return object == SCHEME_NIL;
 }

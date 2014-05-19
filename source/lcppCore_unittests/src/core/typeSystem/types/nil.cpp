@@ -19,13 +19,13 @@ namespace
 
         CUT_ASSERT.isTrue(SCHEME_NIL != SCHEME_VOID, "Wrong result for equality operator!");
 
-        SchemeNil nil;
-        CUT_ASSERT.isTrue(nil == SCHEME_NIL, "SCHEME_NIL must equal a locally constructed SchemeNil object!");
-        CUT_ASSERT.isTrue(SCHEME_NIL == nil, "SCHEME_NIL must equal a locally constructed SchemeNil object!");
+        SchemeObject& nil = SCHEME_NIL;
+        CUT_ASSERT.isTrue(nil == SCHEME_NIL);
+        CUT_ASSERT.isTrue(&nil == &SCHEME_NIL);
+        CUT_ASSERT.isTrue(isNil(nil));
     });
 
     UnitTest g_test3(g_group, "ToString", [](){
-        SchemeNil nil;
         CUT_ASSERT.isTrue(SCHEME_NIL.toString().IsEqual("()"), "SCHEME_NIL.toString() should return \"()\"!");
         CUT_ASSERT.isTrue(SCHEME_NIL.toString().IsEqual("()"), "Locally constructed SchemeNil instance nil.toString() should return \"()\"!");
     });

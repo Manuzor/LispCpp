@@ -6,23 +6,23 @@ namespace lcpp
     class SchemeBool :
         public SchemeExtend<SchemeBool, SchemeObject>
     {
+        friend class TypeFactory;
     public:
 
         static SchemeBool& trueInstance();
         static SchemeBool& falseInstance();
 
-        SchemeBool(bool value);
         virtual ~SchemeBool();
 
         virtual bool operator==(const SchemeObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
-        operator bool() const;
-
         bool value() const;
 
     private:
         const bool m_value;
+
+        SchemeBool(bool value);
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeBool);

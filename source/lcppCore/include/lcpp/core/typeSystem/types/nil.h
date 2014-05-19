@@ -6,11 +6,10 @@ namespace lcpp
     class SchemeNil :
         public SchemeExtend<SchemeNil, SchemeObject>
     {
+        friend class TypeFactory;
     public:
 
         static SchemeNil& instance();
-
-        SchemeNil();
         virtual ~SchemeNil();
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
@@ -19,6 +18,8 @@ namespace lcpp
     private:
         // For debugging. Shows that this instance is the real nil
         const void* const m_pNil;
+
+        SchemeNil();
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeNil);

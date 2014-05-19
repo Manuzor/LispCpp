@@ -6,10 +6,9 @@ namespace lcpp
     class SchemeString:
         public SchemeExtend<SchemeString, SchemeObject>
     {
+        friend class TypeFactory;
     public:
 
-        SchemeString(const char* str);
-        SchemeString(const ezString& str);
         virtual ~SchemeString();
 
         virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
@@ -23,6 +22,9 @@ namespace lcpp
 
     private:
         ezString m_string;
+
+        SchemeString(const char* str);
+        SchemeString(const ezString& str);
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeString);

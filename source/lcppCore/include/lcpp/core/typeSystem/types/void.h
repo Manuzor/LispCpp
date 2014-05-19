@@ -6,15 +6,18 @@ namespace lcpp
     class SchemeVoid :
         public SchemeExtend<SchemeVoid, SchemeObject>
     {
+        friend class TypeFactory;
     public:
 
         static SchemeVoid& instance();
 
-        SchemeVoid();
         virtual ~SchemeVoid();
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
+    private:
+
+        SchemeVoid();
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeVoid);

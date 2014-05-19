@@ -23,9 +23,14 @@ lcpp::SchemeString& lcpp::TypeFactory::createString(const ezString& str)
 
 lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
 {
+    SchemeSymbol* pResult = nullptr;
+    if (!m_symbols.TryGetValue(symbol, pResult))
+    {
+        pResult = new SchemeSymbol(symbol);
+        m_symbols[symbol] = pResult;
+    }
 
-
-    return *new SchemeSymbol(symbol);
+    return *pResult;
 }
 
 lcpp::SchemeCons& lcpp::TypeFactory::createCons(SchemeObject& car, SchemeObject& cdr)

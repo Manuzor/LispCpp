@@ -7,9 +7,9 @@ namespace lcpp
     class SchemeCons :
         public SchemeExtend<SchemeCons, SchemeObject>
     {
+        friend class TypeFactory;
     public:
 
-        SchemeCons(SchemeObject& car, SchemeObject& cdr);
         SchemeCons(const SchemeCons& toCopy);
         SchemeCons(SchemeCons&& toMove);
 
@@ -31,10 +31,11 @@ namespace lcpp
         SchemeObject& cdr();
     private:
 
-        void toStringHelper(ezStringBuilder& builder) const;
-
         SchemeObject* m_pCar;
         SchemeObject* m_pCdr;
+
+        SchemeCons(SchemeObject& car, SchemeObject& cdr);
+        void toStringHelper(ezStringBuilder& builder) const;
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeCons);

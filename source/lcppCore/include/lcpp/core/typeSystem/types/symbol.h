@@ -6,10 +6,9 @@ namespace lcpp
     class SchemeSymbol :
         public SchemeExtend<SchemeSymbol, SchemeObject>
     {
+        friend class TypeFactory;
     public:
 
-        SchemeSymbol(const char* symbol);
-        SchemeSymbol(const ezString& symbol);
         virtual ~SchemeSymbol();
 
         virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
@@ -19,6 +18,9 @@ namespace lcpp
 
     private:
         const ezString m_symbol;
+
+        SchemeSymbol(const char* symbol);
+        SchemeSymbol(const ezString& symbol);
 
         LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeSymbol);
     };

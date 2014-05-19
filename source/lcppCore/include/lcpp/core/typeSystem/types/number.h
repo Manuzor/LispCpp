@@ -7,14 +7,13 @@ namespace lcpp
     class SchemeNumber_t :
         public SchemeExtend<SchemeNumber_t<NUMBER_TYPE>, SchemeObject>
     {
+        friend class TypeFactory;
     public:
         typedef NUMBER_TYPE Number_t;
 
         static_assert(std::is_arithmetic<Number_t>::value,
             "Tried to create SchemeNumber_t of a type other than the built in ones!");
 
-        /// Deliberately not explicit
-        SchemeNumber_t(Number_t value);
         virtual ~SchemeNumber_t();
 
         virtual bool operator ==(const SchemeObject& obj) const LCPP_OVERRIDE;
@@ -97,6 +96,8 @@ namespace lcpp
     private:
         Number_t m_value;
 
+        /// Deliberately not explicit
+        explicit SchemeNumber_t(Number_t value);
         void operator = (const SchemeNumber_t<Number_t>&);
     };
 

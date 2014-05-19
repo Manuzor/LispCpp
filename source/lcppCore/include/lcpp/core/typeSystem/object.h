@@ -3,6 +3,8 @@
 
 namespace lcpp
 {
+    class TypeFactory;
+
     template<typename Derived, typename Base>
     class SchemeExtend;
 
@@ -14,6 +16,7 @@ namespace lcpp
     /// class SchemeBool : public SchemeExtend<SchemeBool, SchemeObject> { /* ... */ };
     class SchemeObject
     {
+        friend class TypeFactory;
     public:
 
         virtual ~SchemeObject() = 0 {}

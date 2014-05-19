@@ -17,14 +17,9 @@ namespace
         CUT_ASSERT.isTrue(&SCHEME_VOID == &SCHEME_VOID, "Something is seriously b0rken!");
 
         CUT_ASSERT.isTrue(SCHEME_VOID != SCHEME_NIL, "Wrong result for equality operator!");
-
-        SchemeVoid v;
-        CUT_ASSERT.isTrue(v == SCHEME_VOID, "SCHEME_VOID must equal a locally constructed SchemeVoid object!");
-        CUT_ASSERT.isTrue(SCHEME_VOID == v, "SCHEME_VOID must equal a locally constructed SchemeVoid object!");
     });
 
     UnitTest g_test3(g_group, "ToString", [](){
-        SchemeVoid v;
         CUT_ASSERT.isTrue(SCHEME_VOID.toString().IsEqual("#v"), "SCHEME_VOID.toString() should return \"#v\"!");
         CUT_ASSERT.isTrue(SCHEME_VOID.toString().IsEqual("#v"), "Locally constructed SchemeVoid instance v.toString() should return \"#v\"!");
     });

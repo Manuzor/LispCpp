@@ -50,12 +50,6 @@ lcpp::SchemeBool::toString() const
 }
 
 inline
-lcpp::SchemeBool::operator bool() const
-{
-    return m_value;
-}
-
-inline
 bool
 lcpp::SchemeBool::value() const
 {
