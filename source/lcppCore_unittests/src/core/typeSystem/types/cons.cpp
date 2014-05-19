@@ -57,28 +57,7 @@ namespace
 
     UnitTest g_test3(g_group, "ToString", [](){
         TypeFactory factory;
-
-        // More harmless tests first...
-        {
-            auto& one = factory.createInteger(1);
-            auto& two = factory.createInteger(2);
-
-            auto& cons = factory.createCons(SCHEME_NIL, SCHEME_NIL);
-            ezString result;
-
-            result = cons.toString();
-            CUT_ASSERT.isTrue(result.IsEqual("(())"));
-            cons.car(one);
-            result = cons.toString();
-            CUT_ASSERT.isTrue(result.IsEqual("(1)"));
-            cons.cdr(two);
-            result = cons.toString();
-            CUT_ASSERT.isTrue(result.IsEqual("(1 . 2)"));
-            cons.car(SCHEME_NIL);
-            result = cons.toString();
-            CUT_ASSERT.isTrue(result.IsEqual("(() . 2)"));
-        }
-
+        
         auto& one = factory.createInteger(1);
         auto& two = factory.createInteger(2);
         auto& three = factory.createInteger(3);
