@@ -22,6 +22,7 @@
 
 #include "lcpp/exceptions/exceptions.h"
 
+#define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 
 namespace lcpp

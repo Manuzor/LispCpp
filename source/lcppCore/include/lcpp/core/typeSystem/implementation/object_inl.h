@@ -7,26 +7,26 @@ lcpp::SchemeObject::operator !=(const SchemeObject& rhs) const
 
 //////////////////////////////////////////////////////////////////////////
 
-template<typename Derived, typename Base>
+template<typename T_Derived, typename T_Base>
 inline
 const lcpp::Type&
-lcpp::SchemeExtend<Derived, Base>::type() const
+lcpp::SchemeExtend<T_Derived, T_Base>::type() const
 {
-    return TypeInfo<Derived>::type();
+    return TypeInfo<T_Derived>::type();
 }
 
-template<typename Derived, typename Base>
+template<typename T_Derived, typename T_Base>
 inline
 bool
-lcpp::SchemeExtend<Derived, Base>::is(const Type& type) const
+lcpp::SchemeExtend<T_Derived, T_Base>::is(const Type& type) const
 {
-    return type.id == TypeInfo<Derived>::type().id;
+    return type.id == TypeInfo<T_Derived>::type().id;
 }
 
-template<typename Derived, typename Base>
+template<typename T_Derived, typename T_Base>
 inline
 void
-lcpp::SchemeExtend<Derived, Base>::copyTo(void* mem) const
+lcpp::SchemeExtend<T_Derived, T_Base>::copyTo(void* mem) const
 {
-    new (mem) Derived(*static_cast<const Derived*>(this));
-}   
+    new (mem) T_Derived(*static_cast<const T_Derived*>(this));
+}

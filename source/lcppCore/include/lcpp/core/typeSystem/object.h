@@ -27,7 +27,7 @@ namespace lcpp
         virtual void copyTo(void* mem) const = 0;
 
     private:
-        void operator = (const SchemeObject&);
+        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeObject);
     };
     
     template<>
@@ -48,8 +48,8 @@ namespace lcpp
     /// \brief Class used to generate default overrides of SchemeObject.
     ///
     /// Has to derive from SchemeObject at some point!
-    template<typename Derived, typename Base>
-    class SchemeExtend : public Base
+    template<typename T_Derived, typename T_Base>
+    class SchemeExtend : public T_Base
     {
     public:
         virtual ~SchemeExtend() = 0 {}
@@ -60,7 +60,7 @@ namespace lcpp
         virtual void copyTo(void* mem) const LCPP_OVERRIDE;
 
     private:
-        void operator = (const SchemeExtend&);
+        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeExtend);
     };
 }
 

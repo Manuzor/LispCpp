@@ -15,25 +15,17 @@ namespace lcpp
         virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
-        operator ezString() const;
-
         const ezString& value() const;
-        void value(const ezString& newSymbol);
-        void value(const char* newSymbol);
 
     private:
-        ezString m_symbol;
+        const ezString m_symbol;
+
+        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeSymbol);
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeSymbol);
 
     bool operator ==(const SchemeSymbol& lhs, const SchemeSymbol& rhs);
-
-    bool operator ==(const SchemeSymbol& lhs, const char* rhs);
-    bool operator ==(const char* lhs, const SchemeSymbol& rhs);
-
-    bool operator ==(const SchemeSymbol& lhs, const ezString& rhs);
-    bool operator ==(const ezString& lhs, const SchemeSymbol& rhs);
 
 }
 

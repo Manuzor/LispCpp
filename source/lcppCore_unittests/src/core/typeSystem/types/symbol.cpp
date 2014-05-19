@@ -54,17 +54,17 @@ namespace
         }
     });
 
-    UnitTest g_test4(g_group, "ConversionToString", [](){
-        SchemeSymbol s1("Hello World");
-        ezString str(s1);
-
-        CUT_ASSERT.isTrue(s1.toString().IsEqual(str.GetData()), "s.toString should return the same thing as s.value()!");
-        CUT_ASSERT.isTrue(str.IsEqual(s1.value().GetData()), "s.toString should return the same thing as s.value()!");
-    });
-
-    UnitTest g_test5(g_group, "ToString", [](){
+    UnitTest g_test4(g_group, "ToString", [](){
         SchemeSymbol s1("Hello World");
 
         CUT_ASSERT.isTrue(s1.toString().IsEqual(s1.value().GetData()), "s.toString() should return the same thing as s.value()!");
+    });
+
+    UnitTest g_test6(g_group, "Instancing", [](){
+        TypeFactory factory;
+        auto& s1 = factory.createSymbol("hello");
+        auto& s2 = factory.createSymbol("hello");
+    
+        CUT_ASSERT.isTrue(&s1 == &s2, "Symbols with the same value should have the same identity!");
     });
 }

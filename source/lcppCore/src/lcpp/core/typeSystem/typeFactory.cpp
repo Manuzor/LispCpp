@@ -23,6 +23,8 @@ lcpp::SchemeString& lcpp::TypeFactory::createString(const ezString& str)
 
 lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
 {
+
+
     return *new SchemeSymbol(symbol);
 }
 

@@ -18,5 +18,8 @@ namespace lcpp
         SchemeString&  createString(const ezString& str);
         SchemeSymbol&  createSymbol(const ezString& symbol);
         SchemeCons&    createCons(SchemeObject& car, SchemeObject& cdr);
+
+    private:
+        ezHashTable<ezString, SchemeSymbol*> m_symbols;
     };
 }

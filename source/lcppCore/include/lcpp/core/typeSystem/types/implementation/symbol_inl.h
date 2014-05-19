@@ -24,12 +24,6 @@ lcpp::SchemeSymbol::toString() const
 }
 
 inline
-lcpp::SchemeSymbol::operator ezString() const
-{
-    return m_symbol;
-}
-
-inline
 bool
 lcpp::SchemeSymbol::operator ==(const SchemeObject& rhs) const
 {
@@ -48,60 +42,10 @@ lcpp::SchemeSymbol::value() const
 }
 
 inline
-void
-lcpp::SchemeSymbol::value(const ezString& newSymbol)
-{
-    m_symbol = newSymbol;
-}
-
-inline
-void
-lcpp::SchemeSymbol::value(const char* newSymbol)
-{
-    m_symbol = newSymbol;
-}
-
-inline
 bool
 lcpp::operator ==(const SchemeSymbol& lhs, const SchemeSymbol& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.value().GetData(),
-        rhs.value().GetData());
-}
-
-inline
-bool
-lcpp::operator ==(const SchemeSymbol& lhs, const char* rhs)
-{
-    return ezStringUtils::IsEqual(
-        lhs.value().GetData(),
-        rhs);
-}
-
-inline
-bool
-lcpp::operator ==(const char* lhs, const SchemeSymbol& rhs)
-{
-    return ezStringUtils::IsEqual(
-        lhs,
-        rhs.value().GetData());
-}
-
-inline
-bool
-lcpp::operator ==(const SchemeSymbol& lhs, const ezString& rhs)
-{
-    return ezStringUtils::IsEqual(
-        lhs.value().GetData(),
-        rhs.GetData());
-}
-
-inline
-bool
-lcpp::operator ==(const ezString& lhs, const SchemeSymbol& rhs)
-{
-    return ezStringUtils::IsEqual(
-        lhs.GetData(),
         rhs.value().GetData());
 }
