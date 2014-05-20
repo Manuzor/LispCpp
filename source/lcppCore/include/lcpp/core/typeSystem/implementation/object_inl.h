@@ -5,6 +5,13 @@ lcpp::SchemeObject::operator !=(const SchemeObject& rhs) const
     return !(*this == rhs);
 }
 
+template<typename T_Other>
+inline
+bool lcpp::SchemeObject::is() const
+{
+    return type().id == TypeInfo<T_Other>::type().id;
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 template<typename T_Derived, typename T_Base>
@@ -13,14 +20,6 @@ const lcpp::Type&
 lcpp::SchemeExtend<T_Derived, T_Base>::type() const
 {
     return TypeInfo<T_Derived>::type();
-}
-
-template<typename T_Derived, typename T_Base>
-inline
-bool
-lcpp::SchemeExtend<T_Derived, T_Base>::is(const Type& type) const
-{
-    return type.id == TypeInfo<T_Derived>::type().id;
 }
 
 template<typename T_Derived, typename T_Base>

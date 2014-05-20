@@ -36,7 +36,7 @@ inline
 bool
 lcpp::SchemeString::operator ==(const SchemeObject& rhs) const
 {
-    if (rhs.is(TypeInfo<SchemeString>::type()))
+    if(rhs.is<SchemeString>())
     {
         return *this == static_cast<const SchemeString&>(rhs);
     }

@@ -27,7 +27,7 @@ inline
 bool
 lcpp::SchemeSymbol::operator ==(const SchemeObject& rhs) const
 {
-    if (rhs.is(TypeInfo<SchemeSymbol>::type()))
+    if(rhs.is<SchemeSymbol>())
     {
         return *this == static_cast<const SchemeSymbol&>(rhs);
     }

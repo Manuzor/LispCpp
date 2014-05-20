@@ -9,7 +9,7 @@ namespace
 
     UnitTest g_test1(g_group, "Type", [](){
         CUT_ASSERT.isTrue(SCHEME_VOID.type() == TypeInfo<SchemeVoid>::type(), "SCHEME_VOID.type() returns an incorrect type!");
-        CUT_ASSERT.isTrue(SCHEME_VOID.is(TypeInfo<SchemeVoid>::type()), "SCHEME_VOID.is(...) is not working!");
+        CUT_ASSERT.isTrue(SCHEME_VOID.is<SchemeVoid>(), "SCHEME_VOID.is(...) is not working!");
     });
 
     UnitTest g_test2(g_group, "Equality", [](){

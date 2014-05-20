@@ -8,8 +8,8 @@ namespace
     UnitTestGroup g_group_SchemeBoolTests("SchemeBoolTests");
 
     UnitTest g_test_Type(g_group_SchemeBoolTests, "Type", [](){
-        CUT_ASSERT.isTrue(SCHEME_TRUE.is(TypeInfo<SchemeBool>::type()), "Wrong type declaration for SCHEME_TRUE!");
-        CUT_ASSERT.isTrue(SCHEME_FALSE.is(TypeInfo<SchemeBool>::type()), "Wrong type declaration for SCHEME_FALSE!");
+        CUT_ASSERT.isTrue(SCHEME_TRUE.is<SchemeBool>(), "Wrong type declaration for SCHEME_TRUE!");
+        CUT_ASSERT.isTrue(SCHEME_FALSE.is<SchemeBool>(), "Wrong type declaration for SCHEME_FALSE!");
     });
 
     UnitTest g_test_Equality(g_group_SchemeBoolTests, "Equality", [](){

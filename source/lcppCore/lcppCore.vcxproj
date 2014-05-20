@@ -23,6 +23,7 @@
     <ClInclude Include="include\lcpp\api_inl.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\lcpp\core\typeSystem.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\functions.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\implementation\object_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\implementation\type.inl" />
     <ClInclude Include="include\lcpp\core\typeSystem\typeFactory.h" />

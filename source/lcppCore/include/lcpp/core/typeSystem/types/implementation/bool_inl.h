@@ -32,7 +32,7 @@ inline
 bool
 lcpp::SchemeBool::operator ==( const SchemeObject& rhs ) const
 {
-    if (rhs.is(TypeInfo<SchemeBool>::type()))
+    if(rhs.is<SchemeBool>())
     {
         return *this == static_cast<const SchemeBool&>(rhs);
     }

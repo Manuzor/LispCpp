@@ -28,12 +28,13 @@ namespace lcpp
         ~Reader();
 
         SchemeObject& read(const ezString& inputString);
+        SchemeObject& read(ezStringIterator& input);
 
-        SchemeInteger& parseInteger(const ezString& inputString);
-        SchemeNumber&  parseNumber(const ezString& inputString);
-        SchemeSymbol&  parseSymbol(const ezString& inputString);
-        SchemeString&  parseString(const ezString& inputString);
-        SchemeCons&    parseList(const ezString& inputString);
+        SchemeInteger& parseInteger(ezStringIterator& input);
+        SchemeNumber&  parseNumber(ezStringIterator& input);
+        SchemeSymbol&  parseSymbol(ezStringIterator& input);
+        SchemeString&  parseString(ezStringIterator& input);
+        SchemeObject&  parseList(ezStringIterator& input);
 
         void skipSeparators(ezStringIterator& iter);
 
@@ -45,5 +46,7 @@ namespace lcpp
 
         TypeFactory m_defaultFactory;
         TypeFactory* m_pFactory;
+
+        SchemeObject& parseListHelper(ezStringIterator& input);
     };
 }

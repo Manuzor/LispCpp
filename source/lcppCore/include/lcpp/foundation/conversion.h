@@ -28,7 +28,7 @@ namespace lcpp
             }
             inline static ezResult convert(const ezStringIterator& iter, ezInt64& out, const char** out_lastParsePos)
             {
-                return ezConversionUtils::StringToInt64(iter.GetStart(), out, out_lastParsePos);
+                return ezConversionUtils::StringToInt64(iter.GetData(), out, out_lastParsePos);
             }
         };
 
@@ -41,7 +41,7 @@ namespace lcpp
             }
             inline static ezResult convert(const ezStringIterator& iter, double& out, const char** out_lastParsePos = nullptr)
             {
-                return ezConversionUtils::StringToFloat(iter.GetStart(), out, out_lastParsePos);
+                return ezConversionUtils::StringToFloat(iter.GetData(), out, out_lastParsePos);
             }
         };
     }

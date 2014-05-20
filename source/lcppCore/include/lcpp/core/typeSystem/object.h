@@ -25,7 +25,8 @@ namespace lcpp
         virtual ezString toString() const = 0;
 
         virtual const Type& type() const = 0;
-        virtual bool is(const Type& type) const = 0;
+        template<typename T_Other>
+        bool is() const;
 
         virtual void copyTo(void* mem) const = 0;
 
@@ -58,7 +59,6 @@ namespace lcpp
         virtual ~SchemeExtend() = 0 {}
 
         virtual const Type& type() const LCPP_OVERRIDE;
-        virtual bool is(const Type& type) const LCPP_OVERRIDE;
 
         virtual void copyTo(void* mem) const LCPP_OVERRIDE;
 

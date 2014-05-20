@@ -79,7 +79,7 @@ namespace
 
         {
             ezString str("123");
-            auto& i = reader.parseInteger(str);
+            auto& i = reader.parseInteger(str.GetIteratorFront());
             CUT_ASSERT.isTrue(i.value() == 123, "Invalid value of parsed integer.");
             CUT_ASSERT.isTrue(i.toString().IsEqual("123"), "Invalid string representation of parsed integer.");
         }
@@ -87,7 +87,7 @@ namespace
         {
             ezString str("qwerty");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseInteger(str);
+                reader.parseInteger(str.GetIteratorFront());
             }, "'qwerty' should not be parsed as integer!");
         }
     });
@@ -98,7 +98,7 @@ namespace
 
         {
             ezString str("3.1415");
-            auto number = reader.parseNumber(str);
+            auto number = reader.parseNumber(str.GetIteratorFront());
             CUT_ASSERT.isTrue(number.value() == 3.1415, "Invalid value of parsed number.");
             CUT_ASSERT.isTrue(number.toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
         }
@@ -106,7 +106,7 @@ namespace
         {
             ezString str("qwerty");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseNumber(str);
+                reader.parseNumber(str.GetIteratorFront());
             }, "'qwerty' should not be parsed as number!");
         }
     });
@@ -117,20 +117,26 @@ namespace
 
         {
             ezString str("qwerty");
-            auto& symbol = reader.parseSymbol(str);
+            auto& symbol = reader.parseSymbol(str.GetIteratorFront());
             CUT_ASSERT.isTrue(symbol.value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
         }
 
         {
             ezString str("hello world with spaces");
-            auto& symbol = reader.parseSymbol(str);
+            auto& symbol = reader.parseSymbol(str.GetIteratorFront());
             CUT_ASSERT.isTrue(symbol.value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
+        }
+
+        {
+            ezString str("    leadingWhiteSpace");
+            auto& symbol = reader.parseSymbol(str.GetIteratorFront());
+            CUT_ASSERT.isTrue(symbol.value().IsEqual("leadingWhiteSpace"), "Invalid value of parsed symbol.");
         }
 
         {
             ezString str("123");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseSymbol(str);
+                reader.parseSymbol(str.GetIteratorFront());
             }, "'123' should not be parsed as symbol!");
         }
     });
@@ -141,14 +147,14 @@ namespace
 
         {
             ezString input("\"qwerty\"");
-            auto& str = reader.parseString(input);
+            auto& str = reader.parseString(input.GetIteratorFront());
             CUT_ASSERT.isTrue(str.value().IsEqual("qwerty"), "Invalid value of parsed string.");
             CUT_ASSERT.isTrue(str.toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
         }
 
         {
             ezString input("\"123\"");
-            auto& str = reader.parseString(input);
+            auto& str = reader.parseString(input.GetIteratorFront());
             CUT_ASSERT.isTrue(str.value().IsEqual("123"), "Invalid value of parsed string.");
             CUT_ASSERT.isTrue(str.toString().IsEqual("\"123\""), "Invalid value of parsed string.");
         }
@@ -156,7 +162,7 @@ namespace
         {
             ezString input("hello");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseString(input);
+                reader.parseString(input.GetIteratorFront());
             }, "'hello' should not be parsed as string! ('\"hello\"' should)");
         }
     });
@@ -168,14 +174,35 @@ namespace
         {
             ezString input("hello world 123 42");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
-                reader.parseList(input);
+                reader.parseList(input.GetIteratorFront());
             }, "The input string 'hello world 123 42' should not be read as a valid list!");
         }
 
         {
+            ezString input("()");
+            auto& consObject = reader.parseList(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(consObject == SCHEME_NIL, "Invalid result for parsing the list.");
+        }
+
+        {
             ezString input("(define x 1)");
-            auto& cons = reader.parseList(input);
-            CUT_ASSERT.isTrue(cons != SCHEME_NIL, "Invalid result for parsing the list.");
+            auto& consObject = reader.parseList(input.GetIteratorFront());
+            auto& cons = static_cast<SchemeCons&>(consObject);
+            CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
+            auto& car = cons.car(); // "define"
+            CUT_ASSERT.isTrue(car.is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(car).value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(cons.cdr().is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
+            auto& cdr = static_cast<SchemeCons&>(cons.cdr());
+            auto& cdr_car = cdr.car(); // "x"
+            CUT_ASSERT.isTrue(cdr_car.is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(cdr_car).value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr.cdr().is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
+            auto& cdr_cdr = static_cast<SchemeCons&>(cdr.cdr());
+            auto& cdr_cdr_car = cdr_cdr.car(); // 1
+            CUT_ASSERT.isTrue(cdr_cdr_car.is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(cdr_cdr_car).value() == 1, "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(isNil(cdr_cdr.cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
     });
 }

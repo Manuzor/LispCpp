@@ -27,12 +27,16 @@ lcpp::Reader::~Reader()
 lcpp::SchemeObject& lcpp::Reader::read(const ezString& inputString)
 {
     auto input = inputString.GetIteratorFront();
+    return read(input);
+}
 
+lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input)
+{
     skipSeparators(input);
 
     if(!input.IsValid())
     {
-        throw exceptions::InvalidInput("Input string only contained whitespace!");
+        throw exceptions::InvalidInput("Input string only contained separators!");
     }
 
     switch(input.GetCharacter())
@@ -91,10 +95,11 @@ bool lcpp::Reader::isSeparator(ezUInt32 character)
     return contains(m_separators, character);
 }
 
-lcpp::SchemeInteger& lcpp::Reader::parseInteger(const ezString& inputString)
+lcpp::SchemeInteger& lcpp::Reader::parseInteger(ezStringIterator& input)
 {
+    skipSeparators(input);
     SchemeInteger::Number_t integer;
-    auto result = to(inputString, integer);
+    auto result = to(input, integer);
     if (!result.IsSuccess())
     {
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
@@ -103,10 +108,11 @@ lcpp::SchemeInteger& lcpp::Reader::parseInteger(const ezString& inputString)
     return m_pFactory->createInteger(integer);
 }
 
-lcpp::SchemeNumber& lcpp::Reader::parseNumber(const ezString& inputString)
+lcpp::SchemeNumber& lcpp::Reader::parseNumber(ezStringIterator& input)
 {
+    skipSeparators(input);
     SchemeNumber::Number_t number;
-    auto result = to(inputString, number);
+    auto result = to(input, number);
     if(!result.IsSuccess())
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
@@ -114,18 +120,17 @@ lcpp::SchemeNumber& lcpp::Reader::parseNumber(const ezString& inputString)
     return m_pFactory->createNumber(number);
 }
 
-lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(const ezString& inputString)
+lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(ezStringIterator& input)
 {
+    skipSeparators(input);
     {
         // Test if the input string can be parsed as int, which should not be possible
         SchemeInteger::Number_t integer;
-        if(to(inputString, integer).IsSuccess())
+        if(to(input, integer).IsSuccess())
         {
             throw exceptions::InvalidInput("Invalid input: A number is not a symbol!");
         }
     }
-
-    auto input = inputString.GetIteratorFront();
 
     // Parse for a scheme symbol
     ezStringBuilder symbol;
@@ -141,14 +146,15 @@ lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(const ezString& inputString)
     return m_pFactory->createSymbol(symbol);
 }
 
-lcpp::SchemeString& lcpp::Reader::parseString(const ezString& inputString)
+
+lcpp::SchemeString& lcpp::Reader::parseString(ezStringIterator& input)
 {
-    if (!inputString.StartsWith("\""))
+    skipSeparators(input);
+    if(!input.StartsWith("\""))
     {
         throw exceptions::InvalidInput("Input is not a valid string!");
     }
 
-    auto input = inputString.GetIteratorFront();
     // skip the " character
     ++input;
 
@@ -170,25 +176,32 @@ lcpp::SchemeString& lcpp::Reader::parseString(const ezString& inputString)
     return m_pFactory->createString(str);
 }
 
-lcpp::SchemeCons& lcpp::Reader::parseList(const ezString& inputString)
+lcpp::SchemeObject& lcpp::Reader::parseList(ezStringIterator& input)
 {
-    if(!inputString.StartsWith("("))
+    skipSeparators(input);
+    if(!input.StartsWith("("))
     {
         throw exceptions::InvalidInput("Input is not a valid cons/list!");
     }
 
-    auto input = inputString.GetIteratorFront();
-
     // skip first ( character
     ++input;
+
+    return parseListHelper(input);
+}
+
+lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
+{
+    skipSeparators(input);
     auto ch = input.GetCharacter();
 
-    if (ch == ')')
+    if(ch == ')')
     {
-        return m_pFactory->createCons(SCHEME_NIL, SCHEME_NIL);
+        return SCHEME_NIL;
     }
 
-    // TODO read symbols here and advance the iterator
+    auto& car = read(input);
+    auto& cdr = parseListHelper(input);
 
-    return m_pFactory->createCons(SCHEME_NIL, SCHEME_NIL);;
+    return m_pFactory->createCons(car, cdr);
 }
