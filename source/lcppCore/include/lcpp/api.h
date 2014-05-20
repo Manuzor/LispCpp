@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "lcpp/foundation/common.h"
+#include "lcpp/foundation/startup.h"
 
 #include "lcpp/core/reader.h"
 #include "lcpp/core/typeSystem.h"

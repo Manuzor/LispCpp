@@ -63,8 +63,8 @@ void run()
 
 int main(int argc, const char* argv[])
 {
-    ezStartup::StartupCore();
-    LCPP_SCOPE_EXIT { ezStartup::ShutdownBase(); };
+    lcpp::startup();
+    LCPP_SCOPE_EXIT{ lcpp::shutdown(); };
 
     lcpp::LoggingSystem loggingSystem("log/");
     loggingSystem.initialize();
