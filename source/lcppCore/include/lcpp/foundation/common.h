@@ -8,22 +8,25 @@
 
 // ezEngine stuff
 #include <Foundation/Basics/IncludeAll.cpp>
-#include "lcpp/foundation/rangeUtils.h"
-
-#define LCPP_NEW(type)               EZ_DEFAULT_NEW(type)
-#define LCPP_NEW_ARRAY(type)         EZ_DEFAULT_NEW_ARRAY(type)
-#define LCPP_NEW_RAW_BUFFER(type)    EZ_DEFAULT_NEW_RAW_BUFFER(type)
-
-#define LCPP_DELETE(type)            EZ_DEFAULT_DELETE(type)
-#define LCPP_DELETE_ARRAY(type)      EZ_DEFAULT_DELETE_ARRAY(type)
-#define LCPP_DELETE_RAW_BUFFER(type) EZ_DEFAULT_DELETE_RAW_BUFFER(type)
 
 #define LCPP_OVERRIDE EZ_OVERRIDE
+
+#include "lcpp/foundation/memory/allocator.h"
+#include "lcpp/foundation/rangeUtils.h"
+
+#define LCPP_NEW(allocator, type)               EZ_NEW(allocator, type)
+#define LCPP_NEW_ARRAY(allocator, type)         EZ_NEW_ARRAY(allocator, type)
+#define LCPP_NEW_RAW_BUFFER(allocator, type)    EZ_NEW_RAW_BUFFER(allocator, type)
+
+#define LCPP_DELETE(allocator, type)            EZ_DELETE(allocator, type)
+#define LCPP_DELETE_ARRAY(allocator, type)      EZ_DELETE_ARRAY(allocator, type)
+#define LCPP_DELETE_RAW_BUFFER(allocator, type) EZ_DELETE_RAW_BUFFER(allocator, type)
 
 #include "lcpp/exceptions/exceptions.h"
 
 #define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
+#define LCPP_UNUSED(anything) ((void)anything)
 
 namespace lcpp
 {
