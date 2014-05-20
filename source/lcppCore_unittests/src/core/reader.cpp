@@ -204,5 +204,27 @@ namespace
             CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(cdr_cdr_car).value() == 1, "Third car is supposed to be the integer 1.");
             CUT_ASSERT.isTrue(isNil(cdr_cdr.cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
+
+        // same as above, with more whitespace!
+        {
+            ezString input("  \n ( \t \n  \tdefine \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
+            auto& consObject = reader.parseList(input.GetIteratorFront());
+            auto& cons = static_cast<SchemeCons&>(consObject);
+            CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
+            auto& car = cons.car(); // "define"
+            CUT_ASSERT.isTrue(car.is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(car).value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(cons.cdr().is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
+            auto& cdr = static_cast<SchemeCons&>(cons.cdr());
+            auto& cdr_car = cdr.car(); // "x"
+            CUT_ASSERT.isTrue(cdr_car.is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(cdr_car).value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr.cdr().is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
+            auto& cdr_cdr = static_cast<SchemeCons&>(cdr.cdr());
+            auto& cdr_cdr_car = cdr_cdr.car(); // 1
+            CUT_ASSERT.isTrue(cdr_cdr_car.is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(cdr_cdr_car).value() == 1, "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(isNil(cdr_cdr.cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
+        }
     });
 }
