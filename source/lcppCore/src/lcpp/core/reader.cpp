@@ -135,10 +135,12 @@ lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(ezStringIterator& input)
     // Parse for a scheme symbol
     ezStringBuilder symbol;
 
-    while(input.IsValid() && !isSeparator(input.GetCharacter()))
+    auto ch = input.GetCharacter();
+    while(input.IsValid() && ch != ')' && !isSeparator(input.GetCharacter()))
     {
         symbol.Append(input.GetCharacter());
         ++input;
+        ch = input.GetCharacter();
     }
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
@@ -197,6 +199,7 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
 
     if(ch == ')')
     {
+        ++input;
         return SCHEME_NIL;
     }
 

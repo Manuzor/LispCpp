@@ -189,6 +189,7 @@ namespace
             auto& consObject = reader.parseList(input.GetIteratorFront());
             auto& cons = static_cast<SchemeCons&>(consObject);
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
+            CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
             auto& car = cons.car(); // "define"
             CUT_ASSERT.isTrue(car.is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
             CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(car).value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
@@ -211,6 +212,7 @@ namespace
             auto& consObject = reader.parseList(input.GetIteratorFront());
             auto& cons = static_cast<SchemeCons&>(consObject);
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
+            CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
             auto& car = cons.car(); // "define"
             CUT_ASSERT.isTrue(car.is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
             CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(car).value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
@@ -225,6 +227,11 @@ namespace
             CUT_ASSERT.isTrue(cdr_cdr_car.is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
             CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(cdr_cdr_car).value() == 1, "Third car is supposed to be the integer 1.");
             CUT_ASSERT.isTrue(isNil(cdr_cdr.cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
+        }
+        {
+            ezString input("(define (x a b) (+ a b))");
+            auto& consObject = reader.parseList(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
     });
 }
