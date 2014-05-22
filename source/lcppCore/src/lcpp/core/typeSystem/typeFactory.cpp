@@ -23,6 +23,7 @@ lcpp::SchemeInteger& lcpp::TypeFactory::createInteger(SchemeInteger::Number_t va
         pResult = LCPP_NEW(m_pAllocator, SchemeInteger)(value);
         m_integers[value] = pResult;
     }
+    EZ_ASSERT(pResult != nullptr, "The result should never be a nullptr!");
 
     return *pResult;
 }
@@ -45,6 +46,7 @@ lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
         pResult = LCPP_NEW(m_pAllocator, SchemeSymbol)(symbol);
         m_symbols[symbol] = pResult;
     }
+    EZ_ASSERT(pResult != nullptr, "The result should never be a nullptr!");
 
     return *pResult;
 }

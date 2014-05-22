@@ -22,6 +22,7 @@ lcpp::Reader::Reader(const CInfo& cinfo) :
 
 lcpp::Reader::~Reader()
 {
+    m_pFactory = nullptr;
 }
 
 lcpp::SchemeObject& lcpp::Reader::read(const ezString& inputString)

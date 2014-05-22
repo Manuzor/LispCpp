@@ -10,4 +10,5 @@
 #include "lcpp/foundation/startup.h"
 
 #include "lcpp/core/reader.h"
+#include "lcpp/core/evaluator.h"
 #include "lcpp/core/typeSystem.h"

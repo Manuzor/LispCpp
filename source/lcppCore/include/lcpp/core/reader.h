@@ -11,7 +11,6 @@ namespace lcpp
         struct CInfo 
         {
             const char* separators;
-
             TypeFactory* pFactory;
 
             CInfo() :
@@ -24,7 +23,7 @@ namespace lcpp
     public:
 
         Reader();
-        Reader(const CInfo& cinfo);
+        explicit Reader(const CInfo& cinfo);
         ~Reader();
 
         SchemeObject& read(const ezString& inputString);
