@@ -262,6 +262,27 @@ namespace
             CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
         }
+        {
+            ezString input("(define (a b c) (* (+ b 1) ( - 1 c)))");
+            auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.valid);
+            CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
+        }
+        {
+            // ----------------------------v one closing bracket too much
+            ezString input("(define (a b c)) (* (+ b 1) ( - 1 c)) '123)456");
+            // --------------------------------------------------^ cursor should point to this ')' character
+            auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isFalse(result.valid);
+            CUT_ASSERT.isTrue(result.parenthesisBalance == -1);
+            auto iter = input.GetIteratorFront();
+            iter += result.cursor.streamIndex - 1;
+            CUT_ASSERT.isTrue(iter.GetCharacter() == '3');
+            ++iter;
+            CUT_ASSERT.isTrue(iter.GetCharacter() == ')');
+            ++iter;
+            CUT_ASSERT.isTrue(iter.GetCharacter() == '4');
+        }
 
     });
 }

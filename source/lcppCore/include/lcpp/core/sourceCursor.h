@@ -4,9 +4,9 @@ namespace lcpp
 {
     struct SourceCursor
     {
-        ezUInt64 line;
-        ezUInt64 posInLine;
-        ezUInt64 streamIndex;
+        ezUInt32 line;
+        ezUInt32 posInLine;
+        ezUInt32 streamIndex;
 
         inline static SourceCursor beginning()
         {
@@ -27,7 +27,7 @@ namespace lcpp
         inline void lineBreak()
         {
             line++;
-            posInLine = 0;// will be correct with the next call of advance()
+            posInLine = ezUInt32(- 1);// will be corrected with the next call of advance()
             streamIndex++;
         }
 

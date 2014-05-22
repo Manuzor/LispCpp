@@ -33,7 +33,7 @@ namespace lcpp
                 valid(false),
                 hasParenthesis(false),
                 parenthesisBalance(0),
-                cursor(SourceCursor::beginning()),
+                cursor(),
                 info()
             {
             }
