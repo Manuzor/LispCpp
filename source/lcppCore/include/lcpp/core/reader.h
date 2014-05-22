@@ -19,6 +19,11 @@ namespace lcpp
             {
             }
         };
+
+        struct SyntaxCheckResult
+        {
+            ezInt32 parenthesisBalance;
+        };
         
     public:
 
@@ -35,9 +40,11 @@ namespace lcpp
         SchemeString&  parseString(ezStringIterator& input);
         SchemeObject&  parseList(ezStringIterator& input);
 
-        void skipSeparators(ezStringIterator& iter);
+        ezUInt32 skipSeparators(ezStringIterator& iter);
 
         bool isSeparator(ezUInt32 character);
+
+        SyntaxCheckResult checkSyntax(const ezStringIterator& input);
 
     private:
 

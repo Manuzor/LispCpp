@@ -83,12 +83,15 @@ lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input)
     return SCHEME_NIL;
 }
 
-void lcpp::Reader::skipSeparators(ezStringIterator& iter)
+ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
 {
+    ezUInt32 count = 0;
     while(iter.IsValid() && isSeparator(iter.GetCharacter()))
     {
+        ++count;
         ++iter;
     }
+    return count;
 }
 
 bool lcpp::Reader::isSeparator(ezUInt32 character)
@@ -208,4 +211,32 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
     auto& cdr = parseListHelper(input);
 
     return m_pFactory->createCons(car, cdr);
+}
+
+lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkSyntax(const ezStringIterator& input)
+{
+    // copy it
+    ezStringIterator iter = input;
+    SyntaxCheckResult result;
+    result.parenthesisBalance = 0;
+
+    while(iter.IsValid())
+    {
+        auto ch = iter.GetCharacter();
+        switch(ch)
+        {
+        case '(':
+            result.parenthesisBalance++;
+            break;
+        case ')':
+            result.parenthesisBalance--;
+            break;
+        default:
+            break;
+        }
+        
+        ++iter;
+    }
+
+    return result;
 }

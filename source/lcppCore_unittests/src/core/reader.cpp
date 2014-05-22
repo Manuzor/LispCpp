@@ -234,4 +234,30 @@ namespace
             CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
     });
+
+    UnitTest g_test9(g_group, "checkSyntax", [](){
+        Reader reader;
+
+        {
+            ezString input("()");
+            auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
+        }
+        {
+            ezString input("())");
+            auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.parenthesisBalance == -1);
+        }
+        {
+            ezString input("(()");
+            auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.parenthesisBalance == 1);
+        }
+        {
+            ezString input("()()");
+            auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
+        }
+
+    });
 }
