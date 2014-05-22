@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="include\lcpp\api.h" />
     <ClInclude Include="include\lcpp\api_inl.h" />
+    <ClInclude Include="include\lcpp\core\evaluator.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\lcpp\core\typeSystem.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\functions.h" />
