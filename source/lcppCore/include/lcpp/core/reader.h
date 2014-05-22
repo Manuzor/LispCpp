@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "lcpp/core/typeSystem.h"
+#include "lcpp/core/sourceCursor.h"
 
 namespace lcpp
 {
@@ -22,7 +23,20 @@ namespace lcpp
 
         struct SyntaxCheckResult
         {
+            bool valid;
+            bool hasParenthesis;
             ezInt32 parenthesisBalance;
+            SourceCursor cursor;
+            ezString info;
+
+            SyntaxCheckResult() :
+                valid(false),
+                hasParenthesis(false),
+                parenthesisBalance(0),
+                cursor(SourceCursor::beginning()),
+                info()
+            {
+            }
         };
         
     public:

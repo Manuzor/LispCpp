@@ -241,21 +241,25 @@ namespace
         {
             ezString input("()");
             auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
         }
         {
             ezString input("())");
             auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isFalse(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == -1);
         }
         {
             ezString input("(()");
             auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 1);
         }
         {
             ezString input("()()");
             auto result = reader.checkSyntax(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
         }
 

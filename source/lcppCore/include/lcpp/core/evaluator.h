@@ -19,6 +19,11 @@ namespace lcpp
         struct CInfo
         {
             TypeFactory* pFactory;
+
+            CInfo() :
+                pFactory(nullptr)
+            {
+            }
         };
     public:
         explicit RecursiveEvaluator();

@@ -215,28 +215,40 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
 
 lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkSyntax(const ezStringIterator& input)
 {
-    // copy it
     ezStringIterator iter = input;
     SyntaxCheckResult result;
-    result.parenthesisBalance = 0;
+    auto& cursor = result.cursor;
 
-    while(iter.IsValid())
+    for(; iter.IsValid(); ++iter, ++cursor)
     {
         auto ch = iter.GetCharacter();
+
+        if (ch == '\n')
+        {
+            cursor.lineBreak();
+            continue;
+        }
+
         switch(ch)
         {
         case '(':
+            result.hasParenthesis = true;
             result.parenthesisBalance++;
             break;
         case ')':
             result.parenthesisBalance--;
+
+            if(!result.hasParenthesis || result.parenthesisBalance < 0)
+            {
+                result.info = "Invalid closing parenthesis!";
+                return result;
+            }
             break;
         default:
             break;
         }
-        
-        ++iter;
     }
 
+    result.valid = true;
     return result;
 }

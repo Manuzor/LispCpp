@@ -10,6 +10,7 @@ namespace
     UnitTest g_test1(g_group, "Recursive_SimpleEval", []()
     {
         TypeFactory factory;
+        RecursiveEvaluator::CInfo cinfo;
         RecursiveEvaluator eval;
 
         auto& test = factory.createInteger(42);
