@@ -213,7 +213,7 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
     return m_pFactory->createCons(car, cdr);
 }
 
-lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkSyntax(const ezStringIterator& input)
+lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)
 {
     ezStringIterator iter = input;
     SyntaxCheckResult result;

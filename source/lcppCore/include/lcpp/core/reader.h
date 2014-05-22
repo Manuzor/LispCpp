@@ -37,6 +37,8 @@ namespace lcpp
                 info()
             {
             }
+
+            inline bool isComplete() { return parenthesisBalance == 0; }
         };
         
     public:
@@ -58,7 +60,8 @@ namespace lcpp
 
         bool isSeparator(ezUInt32 character);
 
-        SyntaxCheckResult checkSyntax(const ezStringIterator& input);
+        /// \brief Checks for correctness of parenthesis
+        SyntaxCheckResult checkBasicSyntax(const ezStringIterator& input);
 
     private:
 
