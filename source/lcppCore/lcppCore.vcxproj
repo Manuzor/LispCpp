@@ -23,6 +23,7 @@
     <ClInclude Include="include\lcpp\api_inl.h" />
     <ClInclude Include="include\lcpp\core\evaluator.h" />
     <ClInclude Include="include\lcpp\core\evaluatorExceptions.h" />
+    <ClInclude Include="include\lcpp\core\printer.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\lcpp\core\typeSystem.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\functions.h" />
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lcpp\core\evaluator.cpp" />
+    <ClCompile Include="src\lcpp\core\printer.cpp" />
     <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
     <ClCompile Include="src\lcpp\core\reader.cpp" />
     <ClCompile Include="src\lcpp\foundation\memory\allocator.cpp" />
