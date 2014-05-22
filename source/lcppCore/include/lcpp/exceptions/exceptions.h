@@ -7,6 +7,7 @@ namespace lcpp { namespace exceptions {
     {
     public:
         inline ExceptionBase(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = 0) :
+            std::exception(message != nullptr ? message : "<<UNKNOWN>>"),
             m_message(message),
             m_file(file),
             m_line(line)

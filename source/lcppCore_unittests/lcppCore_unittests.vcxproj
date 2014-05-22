@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\evaluator.cpp" />
     <ClCompile Include="src\core\reader.cpp" />
     <ClCompile Include="src\core\typeSystem\type.cpp" />
     <ClCompile Include="src\core\typeSystem\types\symbol.cpp" />
