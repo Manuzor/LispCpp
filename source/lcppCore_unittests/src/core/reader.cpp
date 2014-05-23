@@ -146,10 +146,12 @@ namespace
         Reader reader;
 
         {
-            ezString input("\"qwerty\"");
-            auto& str = reader.parseString(input.GetIteratorFront());
+            ezString input("\"qwerty\"123");
+            auto iter = input.GetIteratorFront();
+            auto& str = reader.parseString(iter);
             CUT_ASSERT.isTrue(str.value().IsEqual("qwerty"), "Invalid value of parsed string.");
             CUT_ASSERT.isTrue(str.toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(iter.GetCharacter() == '1', "Reader did not consume the trailing \" character!");
         }
 
         {

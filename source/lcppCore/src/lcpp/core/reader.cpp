@@ -182,6 +182,7 @@ lcpp::SchemeString& lcpp::Reader::parseString(ezStringIterator& input)
 
     if(ch == '"')
     {
+        advance(input);
         return m_factory.createString("");
     }
 
@@ -193,6 +194,8 @@ lcpp::SchemeString& lcpp::Reader::parseString(ezStringIterator& input)
         ch = input.GetCharacter();
     } while(input.IsValid() && ch != '"');
 
+    // consume trailing "
+    advance(input);
     return m_factory.createString(str);
 }
 
