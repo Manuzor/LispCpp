@@ -282,7 +282,7 @@ namespace
             CUT_ASSERT.isTrue(result.parenthesisBalance == -1);
             CUT_ASSERT.isFalse(result.isComplete());
             auto iter = input.GetIteratorFront();
-            iter += result.cursor.streamIndex - 1;
+            iter += result.cursor.currentPosition().streamIndex - 1;
             CUT_ASSERT.isTrue(iter.GetCharacter() == '3');
             ++iter;
             CUT_ASSERT.isTrue(iter.GetCharacter() == ')');

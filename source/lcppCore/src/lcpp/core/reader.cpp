@@ -7,32 +7,38 @@
 
 
 lcpp::Reader::Reader() :
+    defaults(),
     m_separators(CInfo().separators),
-    m_defaultFactory(),
-    m_pFactory(&m_defaultFactory)
+    m_factory(defaults.factory),
+    m_cursor(defaults.cursor)
 {
 }
 
 lcpp::Reader::Reader(const CInfo& cinfo) :
+    defaults(),
     m_separators(cinfo.separators),
-    m_defaultFactory(),
-    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory)
+    m_factory(cinfo.pFactory ? *cinfo.pFactory : defaults.factory),
+    m_cursor(cinfo.pCursor ? *cinfo.pCursor : defaults.cursor)
 {
 }
 
 lcpp::Reader::~Reader()
 {
-    m_pFactory = nullptr;
 }
 
-lcpp::SchemeObject& lcpp::Reader::read(const ezString& inputString)
+lcpp::SchemeObject& lcpp::Reader::read(const ezString& inputString, bool resetCursor)
 {
     auto input = inputString.GetIteratorFront();
-    return read(input);
+    return read(input, resetCursor);
 }
 
-lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input)
+lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input, bool resetCursor)
 {
+    if (resetCursor)
+    {
+        m_cursor.reset();
+    }
+
     skipSeparators(input);
 
     if(!input.IsValid())
@@ -70,10 +76,10 @@ lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input)
                     SchemeNumber::Number_t number;
                     auto result = to(input, number, &lastPos);
                     EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-                    return m_pFactory->createNumber(number);
+                    return m_factory.createNumber(number);
                 }
 
-                return m_pFactory->createInteger(integer);
+                return m_factory.createInteger(integer);
             }
             return parseSymbol(input);
         }
@@ -86,10 +92,13 @@ lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input)
 ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
 {
     ezUInt32 count = 0;
-    while(iter.IsValid() && isSeparator(iter.GetCharacter()))
+    auto ch = iter.GetCharacter();
+    while(iter.IsValid() && isSeparator(ch))
     {
         ++count;
-        ++iter;
+        advance(iter);
+
+        ch = iter.GetCharacter();
     }
     return count;
 }
@@ -97,6 +106,11 @@ ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
 bool lcpp::Reader::isSeparator(ezUInt32 character)
 {
     return contains(m_separators, character);
+}
+
+bool lcpp::Reader::isNewLine(ezUInt32 character)
+{
+    return character == '\n';
 }
 
 lcpp::SchemeInteger& lcpp::Reader::parseInteger(ezStringIterator& input)
@@ -109,7 +123,7 @@ lcpp::SchemeInteger& lcpp::Reader::parseInteger(ezStringIterator& input)
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
     
-    return m_pFactory->createInteger(integer);
+    return m_factory.createInteger(integer);
 }
 
 lcpp::SchemeNumber& lcpp::Reader::parseNumber(ezStringIterator& input)
@@ -121,7 +135,7 @@ lcpp::SchemeNumber& lcpp::Reader::parseNumber(ezStringIterator& input)
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
-    return m_pFactory->createNumber(number);
+    return m_factory.createNumber(number);
 }
 
 lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(ezStringIterator& input)
@@ -140,16 +154,16 @@ lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(ezStringIterator& input)
     ezStringBuilder symbol;
 
     auto ch = input.GetCharacter();
-    while(input.IsValid() && ch != ')' && !isSeparator(input.GetCharacter()))
+    while(input.IsValid() && ch != ')' && !isSeparator(ch))
     {
-        symbol.Append(input.GetCharacter());
-        ++input;
+        symbol.Append(ch);
+        advance(input);
         ch = input.GetCharacter();
     }
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-    return m_pFactory->createSymbol(symbol);
+    return m_factory.createSymbol(symbol);
 }
 
 
@@ -162,24 +176,24 @@ lcpp::SchemeString& lcpp::Reader::parseString(ezStringIterator& input)
     }
 
     // skip the " character
-    ++input;
+    advance(input);
 
     auto ch = input.GetCharacter();
 
     if(ch == '"')
     {
-        return m_pFactory->createString("");
+        return m_factory.createString("");
     }
 
     ezStringBuilder str;
     do
     {
         str.Append(ch);
-        ++input;
+        advance(input);
         ch = input.GetCharacter();
     } while(input.IsValid() && ch != '"');
 
-    return m_pFactory->createString(str);
+    return m_factory.createString(str);
 }
 
 lcpp::SchemeObject& lcpp::Reader::parseList(ezStringIterator& input)
@@ -191,7 +205,7 @@ lcpp::SchemeObject& lcpp::Reader::parseList(ezStringIterator& input)
     }
 
     // skip first ( character
-    ++input;
+    advance(input);
 
     return parseListHelper(input);
 }
@@ -203,31 +217,26 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
 
     if(ch == ')')
     {
-        ++input;
+        advance(input);
         return SCHEME_NIL;
     }
 
-    auto& car = read(input);
+    auto& car = read(input, false);
     auto& cdr = parseListHelper(input);
 
-    return m_pFactory->createCons(car, cdr);
+    return m_factory.createCons(car, cdr);
 }
 
 lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)
 {
-    ezStringIterator iter = input;
-    SyntaxCheckResult result;
-    auto& cursor = result.cursor;
+    m_cursor.reset();
 
-    for(; iter.IsValid(); ++iter, ++cursor)
+    ezStringIterator iter = input;
+    SyntaxCheckResult result(m_cursor);
+
+    for(; iter.IsValid(); advance(iter))
     {
         auto ch = iter.GetCharacter();
-
-        if (ch == '\n')
-        {
-            cursor.lineBreak();
-            continue;
-        }
 
         switch(ch)
         {
@@ -251,4 +260,18 @@ lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkBasicSyntax(const ezStringIte
 
     result.valid = true;
     return result;
+}
+
+ezUInt8 lcpp::Reader::advance(ezStringIterator& iter)
+{
+    ezUInt8 count = 1;
+    if(isNewLine(iter.GetCharacter()))
+    {
+        m_cursor.advance();
+        ++count;
+    }
+    ++iter;
+    ++m_cursor;
+
+    return count;
 }

@@ -2,44 +2,62 @@
 
 namespace lcpp
 {
-    struct SourceCursor
+    struct SourcePosition
     {
         ezUInt32 line;
         ezUInt32 posInLine;
         ezUInt32 streamIndex;
 
-        inline static SourceCursor beginning()
-        {
-            SourceCursor cursor;
-            cursor.line = 1;
-            cursor.posInLine = 1;
-            cursor.streamIndex = 1;
-            return cursor;
-        }
-
-        inline SourceCursor() :
+        SourcePosition() :
             line(0),
             posInLine(0),
             streamIndex(0)
         {
         }
+    };
+
+    struct SourceCursor
+    {
+    public:
+        inline SourceCursor() :
+            position()
+        {
+        }
+
+        inline void reset()
+        {
+            position = SourcePosition();
+        }
 
         inline void lineBreak()
         {
-            line++;
-            posInLine = ezUInt32(- 1);// will be corrected with the next call of advance()
-            streamIndex++;
+            position.line++;
+            position.posInLine = ezUInt32(-1);// will be corrected with the next call of advance()
+            position.streamIndex++;
         }
 
         inline void advance()
         {
-            posInLine++;
-            streamIndex++;
+            position.posInLine++;
+            position.streamIndex++;
         }
 
         inline void operator ++()
         {
             advance();
         }
+
+        inline SourcePosition& currentPosition()
+        {
+            return position;
+        }
+
+        inline const SourcePosition& currentPosition() const
+        {
+            return position;
+        }
+
+    private:
+        SourcePosition position;
     };
 }
