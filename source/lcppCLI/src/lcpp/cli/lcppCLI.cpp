@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <functional>
 #include "lcpp/cli/exceptions.h"
+#include "lcpp/cli/interpreter.h"
 
 namespace lcpp
 {
@@ -23,7 +24,6 @@ namespace lcpp
             // set up console and visual studio loggers.
             ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
             ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
-
 
             // set up html file log.
             ezOSFile::CreateDirectoryStructure(m_absoluteLogFilesDir.GetData());
@@ -58,7 +58,31 @@ namespace lcpp
 
 void run()
 {
-    // TODO Implement me.
+    using namespace lcpp;
+    // Factory
+    TypeFactory factory;
+
+    // Reader
+    Reader::CInfo readerCinfo;
+    readerCinfo.pFactory = &factory;
+    Reader reader(readerCinfo);
+
+    // Evaluator
+    RecursiveEvaluator::CInfo evalCinfo;
+    evalCinfo.pFactory = &factory;
+    RecursiveEvaluator evaluator(evalCinfo);
+
+    // Printer
+    Printer printer;
+    
+    Interpreter::CInfo cinfo;
+    cinfo.pReader = &reader;
+    cinfo.pEvaluator = &evaluator;
+    cinfo.pPrinter = &printer;
+
+    Interpreter interpreter(cinfo);
+
+    interpreter.run();
 }
 
 int main(int argc, const char* argv[])
@@ -72,7 +96,7 @@ int main(int argc, const char* argv[])
 
     EZ_LOG_BLOCK("ezEngine running.");
 
-    ezStartup::PrintAllSubsystems();
+    //ezStartup::PrintAllSubsystems();
 
     try
     {

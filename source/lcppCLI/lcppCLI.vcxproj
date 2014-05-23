@@ -195,9 +195,11 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
   <ItemGroup>
     <ClInclude Include="include\lcpp\cli\common.h" />
     <ClInclude Include="include\lcpp\cli\exceptions.h" />
+    <ClInclude Include="include\lcpp\cli\interpreter.h" />
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\lcpp\cli\interpreter.cpp" />
     <ClCompile Include="src\lcpp\cli\lcppCLI.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
