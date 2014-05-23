@@ -3,25 +3,20 @@
 namespace lcpp
 {
     class SchemeObject;
-
-    class LCPP_CORE_API IPrinter
-    {
-    public:
-        virtual ~IPrinter() {}
-
-        virtual void print(SchemeObject& object) = 0;
-
-        virtual void setOutputStream(std::ostream& out) = 0;
-    };
     
-    class LCPP_CORE_API Printer : public IPrinter
+    class LCPP_CORE_API Printer
     {
     public:
         Printer();
         virtual ~Printer();
 
-        virtual void print(SchemeObject& object) override;
-        virtual void setOutputStream(std::ostream& out) override;
+        virtual void print(SchemeObject& object);
+        virtual void print(const std::string& object);
+        virtual void print(const ezStringBuilder& str);
+        virtual void print(const ezString& str);
+        virtual void print(const char* str);
+
+        virtual void setOutputStream(std::ostream& out);
 
     private:
         std::ostream* m_out;
