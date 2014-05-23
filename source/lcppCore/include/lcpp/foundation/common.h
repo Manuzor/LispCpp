@@ -6,6 +6,9 @@
 #define LCPP_CORE_API __declspec(dllimport)
 #endif // LCPP_CORE_EXPORT
 
+// stl dependencies
+#include <iostream>
+
 // ezEngine stuff
 #include <Foundation/Basics/IncludeAll.cpp>
 
