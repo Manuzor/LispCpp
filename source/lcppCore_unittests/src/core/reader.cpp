@@ -291,6 +291,17 @@ namespace
             ++iter;
             CUT_ASSERT.isTrue(iter.GetCharacter() == '4');
         }
+    });
 
+    UnitTest g_test10(g_group, "skipComments", [](){
+        Reader reader;
+
+        {
+            ezString input(";This is a comment\n1337");
+            auto iter = input.GetIteratorFront();
+            auto& result = reader.read(iter);
+            CUT_ASSERT.isTrue(result.is<SchemeInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(result).value() == 1337, "Wrong value");
+        }
     });
 }

@@ -52,6 +52,7 @@ lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input, bool resetCursor
         throw exceptions::InvalidInput("Unexpected character ')'.");
     case '\'':
         // TODO read quote
+        throw exceptions::NotImplemented("Not supporting quote yet.");
         break;
     case '"':
         return parseString(input);
@@ -87,30 +88,6 @@ lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input, bool resetCursor
     }
 
     return SCHEME_NIL;
-}
-
-ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
-{
-    ezUInt32 count = 0;
-    auto ch = iter.GetCharacter();
-    while(iter.IsValid() && isSeparator(ch))
-    {
-        ++count;
-        advance(iter);
-
-        ch = iter.GetCharacter();
-    }
-    return count;
-}
-
-bool lcpp::Reader::isSeparator(ezUInt32 character)
-{
-    return contains(m_separators, character);
-}
-
-bool lcpp::Reader::isNewLine(ezUInt32 character)
-{
-    return character == '\n';
 }
 
 lcpp::SchemeInteger& lcpp::Reader::parseInteger(ezStringIterator& input)
@@ -228,6 +205,48 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
     auto& cdr = parseListHelper(input);
 
     return m_factory.createCons(car, cdr);
+}
+
+ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
+{
+    ezUInt32 count = 0;
+    auto ch = iter.GetCharacter();
+    while(iter.IsValid() && isSeparator(ch) || isComment(ch))
+    {
+        LCPP_SCOPE_EXIT{ ch = iter.GetCharacter(); };
+
+        if (isComment(ch))
+        {
+            skipToFirstNewLine(iter);
+        }
+        
+        ++count;
+        advance(iter);
+    }
+    return count;
+}
+
+void lcpp::Reader::skipToFirstNewLine(ezStringIterator& iter)
+{
+    while(!isNewLine(iter.GetCharacter()))
+    {
+        advance(iter);
+    }
+}
+
+bool lcpp::Reader::isSeparator(ezUInt32 character)
+{
+    return contains(m_separators, character);
+}
+
+bool lcpp::Reader::isNewLine(ezUInt32 character)
+{
+    return character == '\n';
+}
+
+bool lcpp::Reader::isComment(ezUInt32 character)
+{
+    return character == ';';
 }
 
 lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)

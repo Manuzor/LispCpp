@@ -77,9 +77,13 @@ namespace lcpp
         SyntaxCheckResult checkBasicSyntax(const ezStringIterator& input);
 
         ezUInt32 skipSeparators(ezStringIterator& iter);
+        /// \brief
+        /// \remark Does not consume the encountered new-line character
+        void skipToFirstNewLine(ezStringIterator& iter);
 
         bool isSeparator(ezUInt32 character);
         bool isNewLine(ezUInt32 character);
+        bool isComment(ezUInt32 character);
 
         inline const SourceCursor& getCursor() const { return m_cursor; }
         inline SourceCursor& getCursor() { return m_cursor; }
