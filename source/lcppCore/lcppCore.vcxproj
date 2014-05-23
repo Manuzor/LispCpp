@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClInclude Include="include\lcpp\api.h" />
     <ClInclude Include="include\lcpp\api_inl.h" />
+    <ClInclude Include="include\lcpp\core\environment.h" />
     <ClInclude Include="include\lcpp\core\evaluator.h" />
-    <ClInclude Include="include\lcpp\core\evaluatorExceptions.h" />
     <ClInclude Include="include\lcpp\core\printer.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
     <ClInclude Include="include\lcpp\core\sourceCursor.h" />
@@ -72,6 +72,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="include\lcpp\core\implementation\environment.inl" />
     <None Include="include\lcpp\core\typeSystem\types\implementation\string.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

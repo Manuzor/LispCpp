@@ -11,5 +11,6 @@
 
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/reader.h"
+#include "lcpp/core/environment.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/printer.h"

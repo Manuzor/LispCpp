@@ -4,13 +4,15 @@
 
 lcpp::RecursiveEvaluator::RecursiveEvaluator() :
     m_defaultFactory(),
-    m_pFactory(&m_defaultFactory)
+    m_pFactory(&m_defaultFactory),
+    m_env(Environment::createTopLevelInstance())
 {
 }
 
 lcpp::RecursiveEvaluator::RecursiveEvaluator(const CInfo& cinfo) :
     m_defaultFactory(),
-    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory)
+    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory),
+    m_env(Environment::createTopLevelInstance())
 {
 }
 
@@ -27,4 +29,14 @@ lcpp::SchemeObject& lcpp::RecursiveEvaluator::evalulate(SchemeObject& object)
     }
     // TODO Implement eval of cons
     return object;
+}
+
+lcpp::Environment& lcpp::RecursiveEvaluator::environment()
+{
+    return m_env;
+}
+
+const lcpp::Environment& lcpp::RecursiveEvaluator::environment() const
+{
+    return m_env;
 }
