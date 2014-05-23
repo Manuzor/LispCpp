@@ -26,5 +26,5 @@ lcpp::SchemeObject& lcpp::RecursiveEvaluator::evalulate(SchemeObject& object)
         return object;
     }
     // TODO Implement eval of cons
-    return SCHEME_NIL;
+    return object;
 }
