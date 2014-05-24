@@ -52,6 +52,7 @@
     <ClInclude Include="include\lcpp\foundation\implementation\rangeUtils_inl.h" />
     <ClInclude Include="include\lcpp\foundation\memoryInfo.h" />
     <ClInclude Include="include\lcpp\foundation\memory\allocator.h" />
+    <ClInclude Include="include\lcpp\foundation\ptr.h" />
     <ClInclude Include="include\lcpp\foundation\rangeUtils.h" />
     <ClInclude Include="include\lcpp\foundation\startup.h" />
     <ClInclude Include="include\lcpp\foundation\stringUtils.h" />
@@ -74,6 +75,7 @@
   <ItemGroup>
     <None Include="include\lcpp\core\implementation\environment.inl" />
     <None Include="include\lcpp\core\typeSystem\types\implementation\string.inl" />
+    <None Include="include\lcpp\foundation\implementation\ptr.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>

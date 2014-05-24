@@ -16,6 +16,7 @@
 
 #include "lcpp/foundation/memory/allocator.h"
 #include "lcpp/foundation/rangeUtils.h"
+#include "lcpp/foundation/ptr.h"
 
 #define LCPP_NEW(allocator, type)               EZ_NEW(allocator, type)
 #define LCPP_NEW_ARRAY(allocator, type)         EZ_NEW_ARRAY(allocator, type)
