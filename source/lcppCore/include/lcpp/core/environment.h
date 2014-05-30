@@ -11,7 +11,7 @@ namespace lcpp
 
         static Environment createTopLevelInstance();
 
-        Environment(const ezString& name, Environment* pParent);
+        Environment(const ezString& name, Ptr<Environment> pParent);
 
         void set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
         ezResult get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value);

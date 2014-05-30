@@ -8,7 +8,7 @@ lcpp::Environment::createTopLevelInstance()
 }
 
 inline
-lcpp::Environment::Environment(const ezString& name, Environment* pParent) :
+lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
     m_pParent(pParent),
     m_name(name),
     m_symbols()
@@ -73,6 +73,8 @@ inline
 ezString
 lcpp::Environment::qualifiedName() const
 {
+    if(!m_pParent) { return "/"; }
+
     ezStringBuilder builder;
     qualifiedNameHelper(builder);
     return builder;
@@ -82,11 +84,11 @@ inline
 void
 lcpp::Environment::qualifiedNameHelper(ezStringBuilder& builder) const
 {
-    if (m_pParent)
-    {
-        builder.Append(m_name.GetData());
-    }
-    builder.AppendFormat("/%s", m_name.GetData());
+    if (!m_pParent) { return; }
+
+    m_pParent->qualifiedNameHelper(builder);
+    builder.Append('/');
+    builder.Append(m_name.GetData());
 }
 
 

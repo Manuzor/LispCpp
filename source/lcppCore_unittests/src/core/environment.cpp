@@ -20,4 +20,56 @@ namespace
         CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Wrong type stored in environment!");
     });
 
+    UnitTest g_test2(g_group, "Parent", [](){
+        Environment topEnv = Environment::createTopLevelInstance();
+        Environment childEnv("child", &topEnv);
+        TypeFactory factory;
+        Ptr<SchemeObject> pResult;
+        auto pSymbol = factory.createSymbol("x");
+        auto pSymbol2 = factory.createSymbol("y");
+
+        topEnv.set(pSymbol, factory.createInteger(42));
+        childEnv.set(pSymbol, factory.createInteger(1337));
+
+        CUT_ASSERT.isTrue(topEnv.get(pSymbol, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42);
+
+        CUT_ASSERT.isTrue(childEnv.get(pSymbol, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 1337);
+
+        Environment subChildEnv("subChild", &childEnv);
+
+        subChildEnv.set(pSymbol, factory.createInteger(666));
+
+        CUT_ASSERT.isTrue(subChildEnv.get(pSymbol, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 666);
+
+        // Set in top-level env from child env
+
+        topEnv.set(pSymbol2, factory.createString("hello"));
+
+        CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pResult->is<SchemeString>());
+        CUT_ASSERT.isTrue(pResult.cast<SchemeString>()->value().IsEqual("hello"));
+    });
+
+    UnitTest g_test3(g_group, "QualifiedName", [](){
+        auto topLevelEnv = Environment::createTopLevelInstance();
+        Environment sub1("sub1", &topLevelEnv);
+        Environment sub2("sub2", &sub1);
+        Environment sub3("sub3", &sub2);
+
+        CUT_ASSERT.isTrue(topLevelEnv.name().IsEqual(""));
+        CUT_ASSERT.isTrue(sub1.name().IsEqual("sub1"));
+        CUT_ASSERT.isTrue(sub2.name().IsEqual("sub2"));
+        CUT_ASSERT.isTrue(sub3.name().IsEqual("sub3"));
+
+        CUT_ASSERT.isTrue(topLevelEnv.qualifiedName().IsEqual("/"));
+        CUT_ASSERT.isTrue(sub1.qualifiedName().IsEqual("/sub1"));
+        CUT_ASSERT.isTrue(sub2.qualifiedName().IsEqual("/sub1/sub2"));
+        CUT_ASSERT.isTrue(sub3.qualifiedName().IsEqual("/sub1/sub2/sub3"));
+    });
 }
