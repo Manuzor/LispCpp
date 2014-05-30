@@ -165,6 +165,7 @@
     <ClCompile Include="src\core\evaluator.cpp" />
     <ClCompile Include="src\core\reader.cpp" />
     <ClCompile Include="src\core\typeSystem\type.cpp" />
+    <ClCompile Include="src\core\typeSystem\types\function.cpp" />
     <ClCompile Include="src\core\typeSystem\types\symbol.cpp" />
     <ClCompile Include="src\core\typeSystem\types\void.cpp" />
     <ClCompile Include="src\foundation\conversion.cpp" />
