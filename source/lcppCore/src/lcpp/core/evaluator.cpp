@@ -21,22 +21,25 @@ lcpp::RecursiveEvaluator::~RecursiveEvaluator()
     m_pFactory = nullptr;
 }
 
-lcpp::SchemeObject& lcpp::RecursiveEvaluator::evalulate(SchemeObject& object)
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::RecursiveEvaluator::evalulate(Ptr<SchemeObject> pObject)
 {
-    if (!object.is<SchemeCons>())
+    if(!pObject->is<SchemeCons>())
     {
-        return object;
+        return pObject;
     }
     // TODO Implement eval of cons
-    return object;
+    return pObject;
 }
 
-lcpp::Environment& lcpp::RecursiveEvaluator::environment()
+lcpp::Environment&
+lcpp::RecursiveEvaluator::environment()
 {
     return m_env;
 }
 
-const lcpp::Environment& lcpp::RecursiveEvaluator::environment() const
+const lcpp::Environment&
+lcpp::RecursiveEvaluator::environment() const
 {
     return m_env;
 }

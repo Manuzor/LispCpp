@@ -38,38 +38,38 @@ namespace
         Reader reader;
 
         {
-            auto& object = reader.read("42");
+            auto object = reader.read("42");
 
             auto& staticType = TypeInfo<SchemeInteger>::type();
-            auto& type = object.type();
+            auto& type = object->type();
 
             CUT_ASSERT.isTrue(type == staticType, "Type ID mismatch for scheme integer!");
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeInteger*>(&object) != nullptr, "Reader did not return a scheme integer instance!");
-            CUT_ASSERT.isTrue(object.toString().IsEqual("42"), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeInteger*>(object.get()) != nullptr, "Reader did not return a scheme integer instance!");
+            CUT_ASSERT.isTrue(object->toString().IsEqual("42"), "Wrong string representation");
         }
 
         {
-            SchemeObject& object = reader.read("3.1415");
+            auto pObject = reader.read("3.1415");
 
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeNumber*>(&object) != nullptr, "Reader did not return a scheme number instance!");
-            CUT_ASSERT.isTrue(object.type() == TypeInfo<SchemeNumber>::type(), "Type ID mismatch for scheme number!");
-            CUT_ASSERT.isTrue(object.toString().IsEqual("3.1415"), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeNumber*>(pObject.get()) != nullptr, "Reader did not return a scheme number instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeNumber>::type(), "Type ID mismatch for scheme number!");
+            CUT_ASSERT.isTrue(pObject->toString().IsEqual("3.1415"), "Wrong string representation");
         }
 
         {
-            SchemeObject& object = reader.read("hello world");
+            auto pObject = reader.read("hello world");
 
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeSymbol*>(&object) != nullptr, "Reader did not return a scheme symbol instance!");
-            CUT_ASSERT.isTrue(object.type() == TypeInfo<SchemeSymbol>::type(), "Type ID mismatch for scheme symbol!");
-            CUT_ASSERT.isTrue(object.toString().IsEqual("hello"), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeSymbol*>(pObject.get()) != nullptr, "Reader did not return a scheme symbol instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeSymbol>::type(), "Type ID mismatch for scheme symbol!");
+            CUT_ASSERT.isTrue(pObject->toString().IsEqual("hello"), "Wrong string representation");
         }
 
         {
-            SchemeObject& object = reader.read("\"hello world\"");
+            auto pObject = reader.read("\"hello world\"");
 
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeString*>(&object) != nullptr, "Reader did not return a scheme string instance!");
-            CUT_ASSERT.isTrue(object.type() == TypeInfo<SchemeString>::type(), "Type ID mismatch for scheme string!");
-            CUT_ASSERT.isTrue(object.toString().IsEqual("\"hello world\""), "Wrong string representation");
+            CUT_ASSERT.isTrue(dynamic_cast<SchemeString*>(pObject.get()) != nullptr, "Reader did not return a scheme string instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeString>::type(), "Type ID mismatch for scheme string!");
+            CUT_ASSERT.isTrue(pObject->toString().IsEqual("\"hello world\""), "Wrong string representation");
         }
     });
 
@@ -79,9 +79,9 @@ namespace
 
         {
             ezString str("123");
-            auto& i = reader.parseInteger(str.GetIteratorFront());
-            CUT_ASSERT.isTrue(i.value() == 123, "Invalid value of parsed integer.");
-            CUT_ASSERT.isTrue(i.toString().IsEqual("123"), "Invalid string representation of parsed integer.");
+            auto i = reader.parseInteger(str.GetIteratorFront());
+            CUT_ASSERT.isTrue(i->value() == 123, "Invalid value of parsed integer.");
+            CUT_ASSERT.isTrue(i->toString().IsEqual("123"), "Invalid string representation of parsed integer.");
         }
 
         {
@@ -99,8 +99,8 @@ namespace
         {
             ezString str("3.1415");
             auto number = reader.parseNumber(str.GetIteratorFront());
-            CUT_ASSERT.isTrue(number.value() == 3.1415, "Invalid value of parsed number.");
-            CUT_ASSERT.isTrue(number.toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
+            CUT_ASSERT.isTrue(number->value() == 3.1415, "Invalid value of parsed number.");
+            CUT_ASSERT.isTrue(number->toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
         }
 
         {
@@ -117,20 +117,20 @@ namespace
 
         {
             ezString str("qwerty");
-            auto& symbol = reader.parseSymbol(str.GetIteratorFront());
-            CUT_ASSERT.isTrue(symbol.value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
+            auto symbol = reader.parseSymbol(str.GetIteratorFront());
+            CUT_ASSERT.isTrue(symbol->value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
         }
 
         {
             ezString str("hello world with spaces");
-            auto& symbol = reader.parseSymbol(str.GetIteratorFront());
-            CUT_ASSERT.isTrue(symbol.value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
+            auto symbol = reader.parseSymbol(str.GetIteratorFront());
+            CUT_ASSERT.isTrue(symbol->value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
         }
 
         {
             ezString str("    leadingWhiteSpace");
-            auto& symbol = reader.parseSymbol(str.GetIteratorFront());
-            CUT_ASSERT.isTrue(symbol.value().IsEqual("leadingWhiteSpace"), "Invalid value of parsed symbol.");
+            auto symbol = reader.parseSymbol(str.GetIteratorFront());
+            CUT_ASSERT.isTrue(symbol->value().IsEqual("leadingWhiteSpace"), "Invalid value of parsed symbol.");
         }
 
         {
@@ -148,17 +148,17 @@ namespace
         {
             ezString input("\"qwerty\"123");
             auto iter = input.GetIteratorFront();
-            auto& str = reader.parseString(iter);
-            CUT_ASSERT.isTrue(str.value().IsEqual("qwerty"), "Invalid value of parsed string.");
-            CUT_ASSERT.isTrue(str.toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
+            auto str = reader.parseString(iter);
+            CUT_ASSERT.isTrue(str->value().IsEqual("qwerty"), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(str->toString().IsEqual("\"qwerty\""), "Invalid value of parsed string.");
             CUT_ASSERT.isTrue(iter.GetCharacter() == '1', "Reader did not consume the trailing \" character!");
         }
 
         {
             ezString input("\"123\"");
-            auto& str = reader.parseString(input.GetIteratorFront());
-            CUT_ASSERT.isTrue(str.value().IsEqual("123"), "Invalid value of parsed string.");
-            CUT_ASSERT.isTrue(str.toString().IsEqual("\"123\""), "Invalid value of parsed string.");
+            auto str = reader.parseString(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(str->value().IsEqual("123"), "Invalid value of parsed string.");
+            CUT_ASSERT.isTrue(str->toString().IsEqual("\"123\""), "Invalid value of parsed string.");
         }
 
         {
@@ -182,58 +182,58 @@ namespace
 
         {
             ezString input("()");
-            auto& consObject = reader.parseList(input.GetIteratorFront());
-            CUT_ASSERT.isTrue(consObject == SCHEME_NIL, "Invalid result for parsing the list.");
+            auto consObject = reader.parseList(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(*consObject == SCHEME_NIL, "Invalid result for parsing the list.");
         }
 
         {
             ezString input("(define x 1)");
-            auto& consObject = reader.parseList(input.GetIteratorFront());
-            auto& cons = static_cast<SchemeCons&>(consObject);
+            auto consObject = reader.parseList(input.GetIteratorFront());
+            auto cons = consObject.cast<SchemeCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
-            CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
-            auto& car = cons.car(); // "define"
-            CUT_ASSERT.isTrue(car.is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
-            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(car).value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
-            CUT_ASSERT.isTrue(cons.cdr().is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
-            auto& cdr = static_cast<SchemeCons&>(cons.cdr());
-            auto& cdr_car = cdr.car(); // "x"
-            CUT_ASSERT.isTrue(cdr_car.is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(cdr_car).value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr.cdr().is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
-            auto& cdr_cdr = static_cast<SchemeCons&>(cdr.cdr());
-            auto& cdr_cdr_car = cdr_cdr.car(); // 1
-            CUT_ASSERT.isTrue(cdr_cdr_car.is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
-            CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(cdr_cdr_car).value() == 1, "Third car is supposed to be the integer 1.");
-            CUT_ASSERT.isTrue(isNil(cdr_cdr.cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
+            auto car = cons->car(); // "define"
+            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(cons->cdr()->is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
+            auto cdr = cons->cdr().cast<SchemeCons>();
+            auto cdr_car = cdr->car(); // "x"
+            CUT_ASSERT.isTrue(cdr_car->is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr_car.cast<SchemeSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
+            auto cdr_cdr = cdr->cdr().cast<SchemeCons>();
+            auto cdr_cdr_car = cdr_cdr->car(); // 1
+            CUT_ASSERT.isTrue(cdr_cdr_car->is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(cdr_cdr_car.cast<SchemeInteger>()->value() == 1, "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(isNil(cdr_cdr->cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
 
         // same as above, with more whitespace!
         {
             ezString input("  \n ( \t \n  \tdefine \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
-            auto& consObject = reader.parseList(input.GetIteratorFront());
-            auto& cons = static_cast<SchemeCons&>(consObject);
+            auto consObject = reader.parseList(input.GetIteratorFront());
+            auto cons = consObject.cast<SchemeCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
-            CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
-            auto& car = cons.car(); // "define"
-            CUT_ASSERT.isTrue(car.is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
-            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(car).value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
-            CUT_ASSERT.isTrue(cons.cdr().is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
-            auto& cdr = static_cast<SchemeCons&>(cons.cdr());
-            auto& cdr_car = cdr.car(); // "x"
-            CUT_ASSERT.isTrue(cdr_car.is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(static_cast<SchemeSymbol&>(cdr_car).value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr.cdr().is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
-            auto& cdr_cdr = static_cast<SchemeCons&>(cdr.cdr());
-            auto& cdr_cdr_car = cdr_cdr.car(); // 1
-            CUT_ASSERT.isTrue(cdr_cdr_car.is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
-            CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(cdr_cdr_car).value() == 1, "Third car is supposed to be the integer 1.");
-            CUT_ASSERT.isTrue(isNil(cdr_cdr.cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
+            auto car = cons->car(); // "define"
+            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(cons->cdr()->is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
+            auto cdr = cons->cdr().cast<SchemeCons>();
+            auto cdr_car = cdr->car(); // "x"
+            CUT_ASSERT.isTrue(cdr_car->is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr_car.cast<SchemeSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
+            auto cdr_cdr = cdr->cdr().cast<SchemeCons>();
+            auto cdr_cdr_car = cdr_cdr->car(); // 1
+            CUT_ASSERT.isTrue(cdr_cdr_car->is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(cdr_cdr_car.cast<SchemeInteger>()->value() == 1, "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(isNil(cdr_cdr->cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
         {
             ezString input("(define (x a b) (+ a b))");
-            auto& consObject = reader.parseList(input.GetIteratorFront());
-            CUT_ASSERT.isTrue(consObject.toString().IsEqual("(define (x a b) (+ a b))"), "Wrong string representation for read list!");
+            auto consObject = reader.parseList(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(define (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
     });
 
@@ -299,9 +299,9 @@ namespace
         {
             ezString input(";This is a comment\n1337");
             auto iter = input.GetIteratorFront();
-            auto& result = reader.read(iter);
-            CUT_ASSERT.isTrue(result.is<SchemeInteger>(), "Wrong type");
-            CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(result).value() == 1337, "Wrong value");
+            auto result = reader.read(iter);
+            CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 1337, "Wrong value");
         }
     });
 }

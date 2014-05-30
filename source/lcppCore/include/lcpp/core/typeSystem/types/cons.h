@@ -13,28 +13,26 @@ namespace lcpp
         SchemeCons(const SchemeCons& toCopy);
         SchemeCons(SchemeCons&& toMove);
 
-        virtual ~SchemeCons();
-
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeCons& rhs) const;
 
         virtual ezString toString() const LCPP_OVERRIDE;
 
         /// \brief set car.
-        void car(SchemeObject& object);
+        void car(Ptr<SchemeObject> pObject);
         /// \brief get car.
-        SchemeObject& car();
+        Ptr<SchemeObject> car();
 
         /// \brief set cdr.
-        void cdr(SchemeObject& object);
+        void cdr(Ptr<SchemeObject> pObject);
         /// \brief get cdr
-        SchemeObject& cdr();
+        Ptr<SchemeObject> cdr();
     private:
 
-        SchemeObject* m_pCar;
-        SchemeObject* m_pCdr;
+        Ptr<SchemeObject> m_pCar;
+        Ptr<SchemeObject> m_pCdr;
 
-        SchemeCons(SchemeObject& car, SchemeObject& cdr);
+        SchemeCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr);
         void toStringHelper(ezStringBuilder& builder) const;
     };
 

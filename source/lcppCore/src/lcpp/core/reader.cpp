@@ -26,13 +26,15 @@ lcpp::Reader::~Reader()
 {
 }
 
-lcpp::SchemeObject& lcpp::Reader::read(const ezString& inputString, bool resetCursor)
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Reader::read(const ezString& inputString, bool resetCursor)
 {
     auto input = inputString.GetIteratorFront();
     return read(input, resetCursor);
 }
 
-lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input, bool resetCursor)
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Reader::read(ezStringIterator& input, bool resetCursor)
 {
     if (resetCursor)
     {
@@ -87,10 +89,11 @@ lcpp::SchemeObject& lcpp::Reader::read(ezStringIterator& input, bool resetCursor
         break;
     }
 
-    return SCHEME_NIL;
+    return SCHEME_NIL_PTR;
 }
 
-lcpp::SchemeInteger& lcpp::Reader::parseInteger(ezStringIterator& input)
+lcpp::Ptr<lcpp::SchemeInteger>
+lcpp::Reader::parseInteger(ezStringIterator& input)
 {
     skipSeparators(input);
     SchemeInteger::Number_t integer;
@@ -103,7 +106,8 @@ lcpp::SchemeInteger& lcpp::Reader::parseInteger(ezStringIterator& input)
     return m_factory.createInteger(integer);
 }
 
-lcpp::SchemeNumber& lcpp::Reader::parseNumber(ezStringIterator& input)
+lcpp::Ptr<lcpp::SchemeNumber>
+lcpp::Reader::parseNumber(ezStringIterator& input)
 {
     skipSeparators(input);
     SchemeNumber::Number_t number;
@@ -115,7 +119,8 @@ lcpp::SchemeNumber& lcpp::Reader::parseNumber(ezStringIterator& input)
     return m_factory.createNumber(number);
 }
 
-lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(ezStringIterator& input)
+lcpp::Ptr<lcpp::SchemeSymbol>
+lcpp::Reader::parseSymbol(ezStringIterator& input)
 {
     skipSeparators(input);
     {
@@ -144,7 +149,8 @@ lcpp::SchemeSymbol& lcpp::Reader::parseSymbol(ezStringIterator& input)
 }
 
 
-lcpp::SchemeString& lcpp::Reader::parseString(ezStringIterator& input)
+lcpp::Ptr<lcpp::SchemeString>
+lcpp::Reader::parseString(ezStringIterator& input)
 {
     skipSeparators(input);
     if(!input.StartsWith("\""))
@@ -176,7 +182,8 @@ lcpp::SchemeString& lcpp::Reader::parseString(ezStringIterator& input)
     return m_factory.createString(str);
 }
 
-lcpp::SchemeObject& lcpp::Reader::parseList(ezStringIterator& input)
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Reader::parseList(ezStringIterator& input)
 {
     skipSeparators(input);
     if(!input.StartsWith("("))
@@ -190,7 +197,8 @@ lcpp::SchemeObject& lcpp::Reader::parseList(ezStringIterator& input)
     return parseListHelper(input);
 }
 
-lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Reader::parseListHelper(ezStringIterator& input)
 {
     skipSeparators(input);
     auto ch = input.GetCharacter();
@@ -198,7 +206,7 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
     if(ch == ')')
     {
         advance(input);
-        return SCHEME_NIL;
+        return SCHEME_NIL_PTR;
     }
 
     auto& car = read(input, false);
@@ -207,7 +215,8 @@ lcpp::SchemeObject& lcpp::Reader::parseListHelper(ezStringIterator& input)
     return m_factory.createCons(car, cdr);
 }
 
-ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
+ezUInt32
+lcpp::Reader::skipSeparators(ezStringIterator& iter)
 {
     ezUInt32 count = 0;
     auto ch = iter.GetCharacter();
@@ -226,7 +235,8 @@ ezUInt32 lcpp::Reader::skipSeparators(ezStringIterator& iter)
     return count;
 }
 
-void lcpp::Reader::skipToFirstNewLine(ezStringIterator& iter)
+void
+lcpp::Reader::skipToFirstNewLine(ezStringIterator& iter)
 {
     while(!isNewLine(iter.GetCharacter()))
     {
@@ -234,12 +244,14 @@ void lcpp::Reader::skipToFirstNewLine(ezStringIterator& iter)
     }
 }
 
-bool lcpp::Reader::isSeparator(ezUInt32 character)
+bool
+lcpp::Reader::isSeparator(ezUInt32 character)
 {
     return contains(m_separators, character);
 }
 
-bool lcpp::Reader::isNewLine(ezUInt32 character)
+bool
+lcpp::Reader::isNewLine(ezUInt32 character)
 {
     return character == '\n';
 }
@@ -249,7 +261,8 @@ bool lcpp::Reader::isComment(ezUInt32 character)
     return character == ';';
 }
 
-lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)
+lcpp::Reader::SyntaxCheckResult
+lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)
 {
     m_cursor.reset();
 
@@ -284,7 +297,8 @@ lcpp::Reader::SyntaxCheckResult lcpp::Reader::checkBasicSyntax(const ezStringIte
     return result;
 }
 
-ezUInt8 lcpp::Reader::advance(ezStringIterator& iter)
+ezUInt8
+lcpp::Reader::advance(ezStringIterator& iter)
 {
     ezUInt8 count = 1;
     if(isNewLine(iter.GetCharacter()))

@@ -1,8 +1,8 @@
 ﻿
 inline
-lcpp::SchemeCons::SchemeCons(SchemeObject& car, SchemeObject& cdr) :
-    m_pCar(&car),
-    m_pCdr(&cdr)
+lcpp::SchemeCons::SchemeCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr) :
+    m_pCar(car),
+    m_pCdr(cdr)
 {
 }
 
@@ -20,13 +20,6 @@ lcpp::SchemeCons::SchemeCons(SchemeCons&& toMove) :
 {
     toMove.m_pCar = &SCHEME_NIL;
     toMove.m_pCdr = &SCHEME_NIL;
-}
-
-inline
-lcpp::SchemeCons::~SchemeCons()
-{
-    m_pCar = nullptr;
-    m_pCdr = nullptr;
 }
 
 inline
@@ -68,7 +61,7 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
     if(m_pCar->is<SchemeCons>())
     {
         builder.Append('(');
-        static_cast<const SchemeCons*>(m_pCar)->toStringHelper(builder);
+        m_pCar.cast<SchemeCons>()->toStringHelper(builder);
         builder.Append(')');
     }
     else
@@ -86,7 +79,7 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 
     if(m_pCdr->is<SchemeCons>())
     {
-        static_cast<const SchemeCons*>(m_pCdr)->toStringHelper(builder);
+        m_pCdr.cast<SchemeCons>()->toStringHelper(builder);
     }
     else
     {
@@ -97,31 +90,31 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 // set car
 inline
 void
-lcpp::SchemeCons::car(lcpp::SchemeObject& object)
+lcpp::SchemeCons::car(Ptr<SchemeObject> pObject)
 {
-    m_pCar = &object;
+    m_pCar = pObject;
 }
 
 // get car
 inline
-lcpp::SchemeObject&
+lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeCons::car()
 {
-    return *m_pCar;
+    return m_pCar;
 }
 
 // set cdr
 inline
 void
-lcpp::SchemeCons::cdr(lcpp::SchemeObject& object)
+lcpp::SchemeCons::cdr(Ptr<SchemeObject> pObject)
 {
-    m_pCdr = &object;
+    m_pCdr = pObject;
 }
 
 // get cdr
 inline
-lcpp::SchemeObject&
+lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeCons::cdr()
 {
-    return *m_pCdr;
+    return m_pCdr;
 }

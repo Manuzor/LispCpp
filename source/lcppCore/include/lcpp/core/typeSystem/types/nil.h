@@ -24,9 +24,12 @@ namespace lcpp
 
     DECLARE_SCHEME_TYPE_INFO(SchemeNil);
 
-    bool isNil(const SchemeObject* pObject);
     bool isNil(const SchemeObject& object);
+    bool isNil(const SchemeObject* pObject);
+    bool isNil(Ptr<SchemeObject> pObject);
+    bool isNil(Ptr<const SchemeObject> pObject);
 }
 #define SCHEME_NIL (::lcpp::SchemeNil::instance())
+#define SCHEME_NIL_PTR (&SCHEME_NIL)
 
 #include "lcpp/core/typeSystem/types/implementation/nil_inl.h"

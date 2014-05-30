@@ -24,7 +24,7 @@ void lcpp::Interpreter::run()
     std::ostream& out = std::cout;
     std::istream& in = std::cin;
 
-    SchemeObject* pResult = &SCHEME_NIL;
+    Ptr<SchemeObject> pResult = SCHEME_NIL_PTR;
 
     ezStringBuilder buffer;
     std::string inputBuffer("");
@@ -55,7 +55,7 @@ void lcpp::Interpreter::run()
                 abort = syntaxCheck.isComplete()
                     && (syntaxCheck.hasParenthesis || syntaxCheck.parenthesisBalance <= 0);
             } while (!abort);
-            pResult = &m_pReader->read(buffer.GetIteratorFront());
+            pResult = m_pReader->read(buffer.GetIteratorFront());
         }
         catch (exceptions::ExceptionBase& e)
         {
@@ -68,7 +68,7 @@ void lcpp::Interpreter::run()
         try
         {
             // TODO eval
-            pResult = &m_pEvaluator->evalulate(*pResult);
+            pResult = m_pEvaluator->evalulate(pResult);
         }
         catch(exceptions::ExceptionBase& e)
         {

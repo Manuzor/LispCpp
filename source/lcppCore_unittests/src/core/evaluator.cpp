@@ -16,8 +16,8 @@ namespace
         auto& test = factory.createInteger(42);
         auto& result = eval.evalulate(test);
 
-        CUT_ASSERT.isTrue(result.is<SchemeInteger>(), "Wrong evaluation result! Expected integer 42.");
-        CUT_ASSERT.isTrue(static_cast<SchemeInteger&>(result).value() == 42, "Expected integer 42.");
-        CUT_ASSERT.isTrue(&result == &factory.createInteger(42), "Double check if instancing failed.");
+        CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong evaluation result! Expected integer 42.");
+        CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 42, "Expected integer 42.");
+        CUT_ASSERT.isTrue(result == factory.createInteger(42), "Double check if instancing failed.");
     });
 }

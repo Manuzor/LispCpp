@@ -25,22 +25,24 @@ lcpp::Environment::Environment() :
 
 inline
 void
-lcpp::Environment::set(SchemeSymbol& key, SchemeObject& value)
+lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
 {
-    m_symbols[&key] = &value;
+    m_symbols[pKey.get()] = pValue.get();
 }
 
 inline
 ezResult
-lcpp::Environment::get(SchemeSymbol& key, SchemeObject*& out_value)
+lcpp::Environment::get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value)
 {
-    if(m_symbols.TryGetValue(&key, out_value))
+    SchemeObject* pResult = nullptr;
+    if(m_symbols.TryGetValue(pKey.get(), pResult))
     {
+        out_value = pResult;
         return EZ_SUCCESS;
     }
     if (m_pParent)
     {
-        return m_pParent->get(key, out_value);
+        return m_pParent->get(pKey, out_value);
     }
     
     return EZ_FAILURE;
@@ -48,9 +50,9 @@ lcpp::Environment::get(SchemeSymbol& key, SchemeObject*& out_value)
 
 inline
 bool
-lcpp::Environment::exists(SchemeSymbol& key)
+lcpp::Environment::exists(Ptr<SchemeSymbol> pKey)
 {
-    return m_symbols.KeyExists(&key);
+    return m_symbols.KeyExists(pKey.get());
 }
 
 inline

@@ -26,7 +26,7 @@ namespace lcpp
     public:
         virtual ~IEvaluator() {}
 
-        virtual SchemeObject& evalulate(SchemeObject& object) = 0;
+        virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) = 0;
 
         virtual Environment& environment() = 0;
         virtual const Environment& environment() const = 0;
@@ -49,7 +49,7 @@ namespace lcpp
         explicit RecursiveEvaluator(const CInfo& cinfo);
         virtual ~RecursiveEvaluator();
 
-        virtual SchemeObject& evalulate(SchemeObject& object) override;
+        virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) override;
 
         virtual Environment& environment() override;
         virtual const Environment& environment() const override;

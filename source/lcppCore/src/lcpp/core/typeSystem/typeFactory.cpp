@@ -15,43 +15,48 @@ lcpp::TypeFactory::~TypeFactory()
     m_integers.Clear();
 }
 
-lcpp::SchemeInteger& lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
+lcpp::Ptr<lcpp::SchemeInteger>
+lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
 {
-    SchemeInteger* pResult = nullptr;
+    Ptr<SchemeInteger> pResult;
     if(!m_integers.TryGetValue(value, pResult))
     {
         pResult = LCPP_NEW(m_pAllocator, SchemeInteger)(value);
         m_integers[value] = pResult;
     }
-    EZ_ASSERT(pResult != nullptr, "The result should never be a nullptr!");
+    EZ_ASSERT(pResult, "The result should never be a nullptr!");
 
-    return *pResult;
+    return pResult;
 }
 
-lcpp::SchemeNumber& lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)
+lcpp::Ptr<lcpp::SchemeNumber>
+lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)
 {
-    return *LCPP_NEW(m_pAllocator, SchemeNumber)(value);
+    return LCPP_NEW(m_pAllocator, SchemeNumber)(value);
 }
 
-lcpp::SchemeString& lcpp::TypeFactory::createString(const ezString& str)
+lcpp::Ptr<lcpp::SchemeString>
+lcpp::TypeFactory::createString(const ezString& str)
 {
-    return *LCPP_NEW(m_pAllocator, SchemeString)(str);
+    return LCPP_NEW(m_pAllocator, SchemeString)(str);
 }
 
-lcpp::SchemeSymbol& lcpp::TypeFactory::createSymbol(const ezString& symbol)
+lcpp::Ptr<lcpp::SchemeSymbol>
+lcpp::TypeFactory::createSymbol(const ezString& symbol)
 {
-    SchemeSymbol* pResult = nullptr;
+    Ptr<SchemeSymbol> pResult;
     if (!m_symbols.TryGetValue(symbol, pResult))
     {
         pResult = LCPP_NEW(m_pAllocator, SchemeSymbol)(symbol);
         m_symbols[symbol] = pResult;
     }
-    EZ_ASSERT(pResult != nullptr, "The result should never be a nullptr!");
+    EZ_ASSERT(pResult, "The result should never be a nullptr!");
 
-    return *pResult;
+    return pResult;
 }
 
-lcpp::SchemeCons& lcpp::TypeFactory::createCons(SchemeObject& car, SchemeObject& cdr)
+lcpp::Ptr<lcpp::SchemeCons>
+lcpp::TypeFactory::createCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr)
 {
-    return *LCPP_NEW(m_pAllocator, SchemeCons)(car, cdr);
+    return LCPP_NEW(m_pAllocator, SchemeCons)(pCar, pCdr);
 }

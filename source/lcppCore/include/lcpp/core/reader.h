@@ -49,28 +49,28 @@ namespace lcpp
         explicit Reader(const CInfo& cinfo);
         ~Reader();
 
-        SchemeObject& read(const ezString& inputString, bool resetCursor = true);
-        SchemeObject& read(ezStringIterator& input, bool resetCursor = true);
+        Ptr<SchemeObject> read(const ezString& inputString, bool resetCursor = true);
+        Ptr<SchemeObject> read(ezStringIterator& input, bool resetCursor = true);
 
         /// \brief Tries to parse an integer from the string iterator.
         /// \remark Does not reset the cursor.
-        SchemeInteger& parseInteger(ezStringIterator& input);
+        Ptr<SchemeInteger> parseInteger(ezStringIterator& input);
 
         /// \brief Tries to parse a number from the string iterator.
         /// \remark Does not reset the cursor.
-        SchemeNumber&  parseNumber(ezStringIterator& input);
+        Ptr<SchemeNumber>  parseNumber(ezStringIterator& input);
 
         /// \brief Tries to parse a symbol from the string iterator.
         /// \remark Does not reset the cursor.
-        SchemeSymbol&  parseSymbol(ezStringIterator& input);
+        Ptr<SchemeSymbol>  parseSymbol(ezStringIterator& input);
 
         /// \brief Tries to parse a string from the string iterator.
         /// \remark Does not reset the cursor.
-        SchemeString&  parseString(ezStringIterator& input);
+        Ptr<SchemeString>  parseString(ezStringIterator& input);
 
         /// \brief Tries to parse a list from the string iterator.
         /// \remark Does not reset the cursor.
-        SchemeObject&  parseList(ezStringIterator& input);
+        Ptr<SchemeObject>  parseList(ezStringIterator& input);
 
         /// \brief Checks for correctness of parenthesis
         /// \remark Always resets the cursor.
@@ -104,6 +104,6 @@ namespace lcpp
         SourceCursor& m_cursor;
 
         ezUInt8 advance(ezStringIterator& iter);
-        SchemeObject& parseListHelper(ezStringIterator& input);
+        Ptr<SchemeObject> parseListHelper(ezStringIterator& input);
     };
 }

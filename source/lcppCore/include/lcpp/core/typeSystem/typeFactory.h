@@ -14,16 +14,16 @@ namespace lcpp
         TypeFactory(ezAllocatorBase* pAllocator = defaultAllocator());
         ~TypeFactory();
 
-        SchemeInteger& createInteger(SchemeInteger::Number_t value);
-        SchemeNumber&  createNumber(SchemeNumber::Number_t value);
-        SchemeString&  createString(const ezString& str);
-        SchemeSymbol&  createSymbol(const ezString& symbol);
-        SchemeCons&    createCons(SchemeObject& car, SchemeObject& cdr);
+        Ptr<SchemeInteger> createInteger(SchemeInteger::Number_t value);
+        Ptr<SchemeNumber>  createNumber(SchemeNumber::Number_t value);
+        Ptr<SchemeString>  createString(const ezString& str);
+        Ptr<SchemeSymbol>  createSymbol(const ezString& symbol);
+        Ptr<SchemeCons>    createCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr);
 
     private:
         ezAllocatorBase* m_pAllocator;
 
-        ezHashTable<ezString, SchemeSymbol*> m_symbols;
-        ezHashTable<SchemeInteger::Number_t, SchemeInteger*> m_integers;
+        ezHashTable<ezString, Ptr<SchemeSymbol>> m_symbols;
+        ezHashTable<SchemeInteger::Number_t, Ptr<SchemeInteger>> m_integers;
     };
 }

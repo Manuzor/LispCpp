@@ -37,7 +37,14 @@ lcpp::SchemeNil::toString() const
 
 inline
 bool
-lcpp::isNil(const lcpp::SchemeObject* pObject)
+lcpp::isNil(const SchemeObject& object)
+{
+    return SCHEME_NIL == object;
+}
+
+inline
+bool
+lcpp::isNil(const SchemeObject* pObject)
 {
     EZ_ASSERT(pObject != nullptr, "No SchemeObject* should be a nullptr, ever!");
     return isNil(*pObject);
@@ -45,7 +52,14 @@ lcpp::isNil(const lcpp::SchemeObject* pObject)
 
 inline
 bool
-lcpp::isNil(const lcpp::SchemeObject& object)
+lcpp::isNil(Ptr<SchemeObject> pObject)
 {
-    return SCHEME_NIL == object;
+    return isNil(pObject.get());
+}
+
+inline
+bool
+lcpp::isNil(Ptr<const SchemeObject> pObject)
+{
+    return isNil(pObject.get());
 }

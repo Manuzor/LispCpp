@@ -13,17 +13,17 @@ namespace lcpp
 
         Environment(const ezString& name, Environment* pParent);
 
-        void set(SchemeSymbol& key, SchemeObject& value);
-        ezResult get(SchemeSymbol& key, SchemeObject*& out_value);
+        void set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
+        ezResult get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value);
 
-        bool exists(SchemeSymbol& key);
+        bool exists(Ptr<SchemeSymbol> pKey);
 
         const ezString& name() const;
         ezString& name();
         ezString qualifiedName() const;
 
     private:
-        Environment* m_pParent;
+        Ptr<Environment> m_pParent;
         ezString m_name;
         ezHashTable<SchemeSymbol*, SchemeObject*> m_symbols;
 
