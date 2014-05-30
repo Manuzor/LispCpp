@@ -13,7 +13,8 @@ namespace lcpp
 
         Environment(const ezString& name, Ptr<Environment> pParent);
 
-        void set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
+        void add(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
+        ezResult set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
         ezResult get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value);
 
         bool exists(Ptr<SchemeSymbol> pKey);

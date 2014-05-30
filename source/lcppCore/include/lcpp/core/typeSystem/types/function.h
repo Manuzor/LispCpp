@@ -11,7 +11,7 @@ namespace lcpp
     {
         friend class TypeFactory;
     public:
-        typedef std::function<Ptr<SchemeObject>(Ptr<Environment>, Ptr<SchemeCons>)> Executor;
+        typedef std::function<Ptr<SchemeObject>(Ptr<Environment>, Ptr<SchemeObject>)> Executor;
 
         SchemeFunction(Ptr<Environment> pParentEnv,
                        Ptr<IEvaluator> pEvaluator,
@@ -19,7 +19,6 @@ namespace lcpp
 
         SchemeFunction(Ptr<Environment> pParentEnv,
                        Ptr<IEvaluator> pEvaluator,
-                       Ptr<SchemeCons> pBody,
                        Executor exec);
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
@@ -27,7 +26,7 @@ namespace lcpp
 
         virtual ezString toString() const LCPP_OVERRIDE;
 
-        Ptr<SchemeObject> operator()();
+        Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList);
 
     private:
         Environment m_env;
@@ -35,7 +34,7 @@ namespace lcpp
         Ptr<SchemeCons> m_pBody;
         Executor m_exec;
 
-        Ptr<SchemeObject> execute(Ptr<Environment> pEnv, Ptr<SchemeCons> pBody);
+        Ptr<SchemeObject> execute(Ptr<SchemeObject> pArgList);
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeFunction);

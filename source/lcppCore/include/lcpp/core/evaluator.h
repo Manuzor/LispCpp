@@ -58,7 +58,11 @@ namespace lcpp
         TypeFactory m_defaultFactory;
         TypeFactory* m_pFactory;
 
+        ezHashTable<ezString, Ptr<SchemeFunction>> m_syntax;
+
         Environment m_env;
+
+        void setupSyntax();
     };
     
 }

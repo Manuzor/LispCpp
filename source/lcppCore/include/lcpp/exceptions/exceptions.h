@@ -60,4 +60,16 @@ namespace lcpp { namespace exceptions {
         {}
     };
 
+    class Exit :
+        public ExceptionBase
+    {
+    public:
+        inline Exit(const char* message = nullptr, ezInt32 status = 0) :
+            ExceptionBase(message ? message : "Good bye.", nullptr, -1),
+            m_status(status)
+        {}
+
+        ezInt32 m_status;
+    };
+
 }}

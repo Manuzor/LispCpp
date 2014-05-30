@@ -25,9 +25,27 @@ lcpp::Environment::Environment() :
 
 inline
 void
-lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
+lcpp::Environment::add(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
 {
     m_symbols[pKey.get()] = pValue.get();
+}
+
+inline
+ezResult
+lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
+{
+    if(exists(pKey))
+    {
+        m_symbols[pKey.get()] = pValue.get();
+        return EZ_SUCCESS;
+    }
+    
+    if(m_pParent)
+    {
+        return m_pParent->set(pKey, pValue);
+    }
+
+    return EZ_FAILURE;
 }
 
 inline

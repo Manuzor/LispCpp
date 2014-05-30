@@ -24,5 +24,6 @@ namespace lcpp
 }
 
 #define SCHEME_VOID (::lcpp::SchemeVoid::instance())
+#define SCHEME_VOID_PTR (&SCHEME_VOID)
 
 #include "lcpp/core/typeSystem/types/implementation/void_inl.h"

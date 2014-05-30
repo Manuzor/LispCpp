@@ -60,3 +60,19 @@ lcpp::TypeFactory::createCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr)
 {
     return LCPP_NEW(m_pAllocator, SchemeCons)(pCar, pCdr);
 }
+
+lcpp::Ptr<lcpp::SchemeFunction>
+lcpp::TypeFactory::createFunction(Ptr<Environment> pParentEnv,
+                                  Ptr<IEvaluator> pEvaluator,
+                                  Ptr<SchemeCons> pBody)
+{
+    return LCPP_NEW(m_pAllocator, SchemeFunction)(pParentEnv, pEvaluator, pBody);
+}
+
+lcpp::Ptr<lcpp::SchemeFunction>
+lcpp::TypeFactory::createFunction(Ptr<Environment> pParentEnv,
+                                  Ptr<IEvaluator> pEvaluator,
+                                  SchemeFunction::Executor executor)
+{
+    return LCPP_NEW(m_pAllocator, SchemeFunction)(pParentEnv, pEvaluator, executor);
+}

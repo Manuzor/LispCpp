@@ -1,4 +1,4 @@
-
+#include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/evaluator.h"
 
 inline
@@ -15,11 +15,10 @@ lcpp::SchemeFunction::SchemeFunction(Ptr<Environment> pParentEnv,
 inline
 lcpp::SchemeFunction::SchemeFunction(Ptr<Environment> pParentEnv,
                                      Ptr<IEvaluator> pEvaluator,
-                                     Ptr<SchemeCons> pBody,
                                      Executor exec) :
     m_env("builtin-function", pParentEnv),
     m_pEvaluator(pEvaluator),
-    m_pBody(pBody),
+    m_pBody(nullptr),
     m_exec(exec)
 {
     EZ_ASSERT(exec, "The function executor must be valid!");
@@ -47,25 +46,28 @@ inline
 ezString
 lcpp::SchemeFunction::toString() const
 {
-    // TODO implement this properly!
+    if(m_exec)
+    {
+        return "built-in function";
+    }
     return m_pBody->toString();
 }
 
 inline
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunction::operator()()
+lcpp::SchemeFunction::call(Ptr<SchemeObject> pArgList)
 {
     if (m_exec)
     {
-        return m_exec(&m_env, m_pBody);
+        return m_exec(&m_env, pArgList);
     }
-    
-    return execute(&m_env, m_pBody);
+    EZ_ASSERT(m_pBody, "The body must NOT be invalid!");
+    return execute(pArgList);
 }
 
 inline
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunction::execute(Ptr<Environment> pEnv, Ptr<SchemeCons> pBody)
+lcpp::SchemeFunction::execute(Ptr<SchemeObject> pArgList)
 {
     Ptr<SchemeObject> pResult = &SCHEME_VOID;
     // TODO Implement me.

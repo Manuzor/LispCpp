@@ -56,7 +56,7 @@ namespace lcpp
     };
 }
 
-void run()
+ezInt32 run()
 {
     using namespace lcpp;
     // Factory
@@ -82,7 +82,7 @@ void run()
 
     Interpreter interpreter(cinfo);
 
-    interpreter.run();
+    return interpreter.run();
 }
 
 int main(int argc, const char* argv[])
@@ -97,10 +97,11 @@ int main(int argc, const char* argv[])
     EZ_LOG_BLOCK("ezEngine running.");
 
     //ezStartup::PrintAllSubsystems();
+    ezInt32 status = 0;
 
     try
     {
-        run();
+        status = run();
     }
     catch (lcpp::exceptions::ExceptionBase& e)
     {
@@ -120,5 +121,5 @@ int main(int argc, const char* argv[])
         return -4;
     }
 
-    return 0;
+    return status;
 }

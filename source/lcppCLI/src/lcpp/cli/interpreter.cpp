@@ -17,7 +17,7 @@ lcpp::Interpreter::~Interpreter()
     m_pPrinter = nullptr;
 }
 
-void lcpp::Interpreter::run()
+ezInt32 lcpp::Interpreter::run()
 {
     std::ios_base::sync_with_stdio(false);
 
@@ -69,6 +69,10 @@ void lcpp::Interpreter::run()
         {
             // TODO eval
             pResult = m_pEvaluator->evalulate(pResult);
+        }
+        catch(exceptions::Exit& e)
+        {
+            return e.m_status;
         }
         catch(exceptions::ExceptionBase& e)
         {

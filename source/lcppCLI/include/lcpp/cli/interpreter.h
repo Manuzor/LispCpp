@@ -24,7 +24,7 @@ namespace lcpp
         Interpreter(const CInfo& cinfo);
         ~Interpreter();
 
-        void run();
+        ezInt32 run();
 
     private:
         Reader* m_pReader;
