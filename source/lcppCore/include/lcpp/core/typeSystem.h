@@ -14,5 +14,6 @@
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/function.h"
 
 #include "lcpp/core/typeSystem/typeFactory.h"

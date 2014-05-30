@@ -33,6 +33,7 @@
     <ClInclude Include="include\lcpp\core\typeSystem\typeFactory.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\bool.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\cons.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\types\function.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\bool_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\cons_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\nil_inl.h" />
@@ -74,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="include\lcpp\core\implementation\environment.inl" />
+    <None Include="include\lcpp\core\typeSystem\types\implementation\function.inl" />
     <None Include="include\lcpp\core\typeSystem\types\implementation\string.inl" />
     <None Include="include\lcpp\foundation\implementation\ptr.inl" />
   </ItemGroup>
