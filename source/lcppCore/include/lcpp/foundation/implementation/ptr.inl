@@ -8,13 +8,6 @@ lcpp::Ptr<T>::Ptr() :
 
 template<typename T>
 inline
-lcpp::Ptr<T>::Ptr(T* pPtr) :
-    m_pPtr(pPtr)
-{
-}
-
-template<typename T>
-inline
 lcpp::Ptr<T>::Ptr(const Ptr& rhs) :
     m_pPtr(rhs.m_pPtr)
 {
@@ -26,6 +19,21 @@ lcpp::Ptr<T>::Ptr(Ptr&& rhs) :
     m_pPtr(rhs.m_pPtr)
 {
     rhs.m_pPtr = nullptr;
+}
+
+template<typename T>
+inline
+lcpp::Ptr<T>::Ptr(T* pPtr) :
+    m_pPtr(pPtr)
+{
+}
+
+
+template<typename T>
+template<typename T_Other>
+lcpp::Ptr<T>::Ptr(const Ptr<T_Other>& pOther)
+{
+    *this = pOther.cast<T>();
 }
 
 template<typename T>
@@ -73,16 +81,16 @@ lcpp::Ptr<T>::get() const
 template<typename T>
 inline
 bool
-lcpp::Ptr<T>::valid() const
+lcpp::Ptr<T>::isNull() const
 {
-    return m_pPtr != nullptr;
+    return m_pPtr == nullptr;
 }
 
 template<typename T>
 inline
 lcpp::Ptr<T>::operator bool() const
 {
-    return valid();
+    return !isNull();
 }
 
 
@@ -117,7 +125,7 @@ inline
 bool
 lcpp::operator !(const Ptr<T>& ptr)
 {
-    return !(ptr.valid());
+    return ptr.isNull();
 }
 
 template<typename T_Rhs, typename T_Lhs>
@@ -126,4 +134,20 @@ lcpp::Ptr<T_Rhs>
 lcpp::cast(const Ptr<T_Lhs>& lhs)
 {
     return static_cast<T_Rhs*>(lhs.get());
+}
+
+template<typename T_Lhs, typename T_Rhs>
+inline
+bool
+lcpp::operator == (Ptr<T_Lhs> lhs, Ptr<T_Rhs> rhs)
+{
+    return lhs.get() == rhs.get();
+}
+
+template<typename T_Lhs, typename T_Rhs>
+inline
+bool
+lcpp::operator != (Ptr<T_Lhs> lhs, Ptr<T_Rhs> rhs)
+{
+    return lhs.get() != rhs.get();
 }
