@@ -267,11 +267,17 @@ lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)
     m_cursor.reset();
 
     ezStringIterator iter = input;
-    SyntaxCheckResult result(m_cursor);
+    SyntaxCheckResult result;
+    result.pCursor = &m_cursor;
 
     for(; iter.IsValid(); advance(iter))
     {
         auto ch = iter.GetCharacter();
+
+        if(!isSeparator(ch))
+        {
+            result.isPureWhitespace = false;
+        }
 
         switch(ch)
         {

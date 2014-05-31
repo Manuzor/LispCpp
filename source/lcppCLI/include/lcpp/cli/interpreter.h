@@ -24,12 +24,15 @@ namespace lcpp
         Interpreter(const CInfo& cinfo);
         ~Interpreter();
 
-        ezInt32 run();
+        ezInt32 repl();
 
     private:
-        Reader* m_pReader;
-        IEvaluator* m_pEvaluator;
-        Printer* m_pPrinter;
+        Ptr<Reader> m_pReader;
+        Ptr<IEvaluator> m_pEvaluator;
+        Ptr<Printer> m_pPrinter;
+
+        std::ostream& m_out;
+        std::istream& m_in;
     };
     
 }

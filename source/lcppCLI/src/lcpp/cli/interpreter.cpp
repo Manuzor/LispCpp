@@ -5,29 +5,29 @@
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pReader(cinfo.pReader),
     m_pEvaluator(cinfo.pEvaluator),
-    m_pPrinter(cinfo.pPrinter)
+    m_pPrinter(cinfo.pPrinter),
+    m_out(std::cout),
+    m_in(std::cin)
 {
     // TODO assert pointers are valid
 }
 
 lcpp::Interpreter::~Interpreter()
 {
-    m_pReader = nullptr;
-    m_pEvaluator = nullptr;
-    m_pPrinter = nullptr;
 }
 
-ezInt32 lcpp::Interpreter::run()
+ezInt32 lcpp::Interpreter::repl()
 {
     std::ios_base::sync_with_stdio(false);
 
-    std::ostream& out = std::cout;
-    std::istream& in = std::cin;
+    m_pPrinter->setOutputStream(m_out);
 
     Ptr<SchemeObject> pResult = SCHEME_NIL_PTR;
 
     ezStringBuilder buffer;
     std::string inputBuffer("");
+
+    Reader::SyntaxCheckResult syntaxCheck;
 
     m_pPrinter->print("=== Scheme interpreter 'lcpp' ===\n");
 
@@ -38,23 +38,30 @@ ezInt32 lcpp::Interpreter::run()
 
         try
         {
-            bool abort = false;
-            do
+            while(true)
             {
-                std::getline(in, inputBuffer);
+                std::getline(m_in, inputBuffer);
                 buffer.Append(inputBuffer.c_str());
                 buffer.Append('\n');
 
-                auto syntaxCheck = m_pReader->checkBasicSyntax(buffer.GetIteratorFront());
+                syntaxCheck = m_pReader->checkBasicSyntax(buffer.GetIteratorFront());
 
-                if (!syntaxCheck.valid)
+                if(syntaxCheck.isPureWhitespace
+                   || syntaxCheck.isComplete()
+                   && (syntaxCheck.hasParenthesis
+                       || syntaxCheck.parenthesisBalance <= 0))
                 {
-                    throw exceptions::InvalidSyntax("Invalid syntax!");
+                    break;
                 }
+            }
 
-                abort = syntaxCheck.isComplete()
-                    && (syntaxCheck.hasParenthesis || syntaxCheck.parenthesisBalance <= 0);
-            } while (!abort);
+            if(syntaxCheck.isPureWhitespace) { continue; }
+
+            if(!syntaxCheck.valid)
+            {
+                throw exceptions::InvalidSyntax("Invalid syntax!");
+            }
+
             pResult = m_pReader->read(buffer.GetIteratorFront());
         }
         catch (exceptions::ExceptionBase& e)
@@ -67,7 +74,6 @@ ezInt32 lcpp::Interpreter::run()
 
         try
         {
-            // TODO eval
             pResult = m_pEvaluator->evalulate(pResult);
         }
         catch(exceptions::Exit& e)

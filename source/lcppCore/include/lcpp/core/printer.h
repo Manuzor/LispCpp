@@ -19,6 +19,6 @@ namespace lcpp
         virtual void setOutputStream(std::ostream& out);
 
     private:
-        std::ostream* m_out;
+        Ptr<std::ostream> m_pOut;
     };
 }

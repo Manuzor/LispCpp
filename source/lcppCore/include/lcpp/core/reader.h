@@ -27,15 +27,17 @@ namespace lcpp
         {
             bool valid;
             bool hasParenthesis;
+            bool isPureWhitespace;
             ezInt32 parenthesisBalance;
-            SourceCursor& cursor;
+            Ptr<SourceCursor> pCursor;
             ezString info;
 
-            SyntaxCheckResult(SourceCursor& cursor) :
+            SyntaxCheckResult() :
                 valid(false),
                 hasParenthesis(false),
+                isPureWhitespace(true),
                 parenthesisBalance(0),
-                cursor(cursor),
+                pCursor(),
                 info()
             {
             }

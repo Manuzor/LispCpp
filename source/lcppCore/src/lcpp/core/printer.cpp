@@ -4,7 +4,7 @@
 #include <iostream>
 
 lcpp::Printer::Printer() :
-    m_out(&std::cout)
+    m_pOut(&std::cout)
 {
 }
 
@@ -19,12 +19,12 @@ void lcpp::Printer::print(SchemeObject& object)
         return;
     }
 
-    *m_out << object.toString().GetData() << std::endl;
+    *m_pOut << object.toString().GetData() << std::endl;
 }
 
 void lcpp::Printer::print(const std::string& str)
 {
-    *m_out << str;
+    *m_pOut << str;
 }
 
 void lcpp::Printer::print(const ezString& str)
@@ -39,10 +39,10 @@ void lcpp::Printer::print(const ezStringBuilder& str)
 
 void lcpp::Printer::print(const char* str)
 {
-    *m_out << str;
+    *m_pOut << str;
 }
 
 void lcpp::Printer::setOutputStream(std::ostream& out)
 {
-    m_out = &out;
+    m_pOut = &out;
 }

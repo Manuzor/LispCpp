@@ -82,7 +82,7 @@ ezInt32 run()
 
     Interpreter interpreter(cinfo);
 
-    return interpreter.run();
+    return interpreter.repl();
 }
 
 int main(int argc, const char* argv[])
