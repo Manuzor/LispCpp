@@ -14,14 +14,14 @@ namespace
 
         int testData = 0;
 
-        SchemeFunction func(&env, &eval, [&](Ptr<Environment>, Ptr<SchemeCons>) {
+        SchemeFunctionBuiltin func("testFunc", &env, [&](Ptr<Environment>, Ptr<IEvaluator>, Ptr<SchemeObject>) {
             testData = 1;
             return factory.createInteger(42);
         });
 
         CUT_ASSERT.isTrue(testData == 0);
 
-        auto pResult = func.call(factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR));
+        auto pResult = func.call(&eval, SCHEME_NIL_PTR);
 
         CUT_ASSERT.isTrue(testData == 1);
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());

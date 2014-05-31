@@ -7,37 +7,77 @@ namespace lcpp
 {
     class IEvaluator;
 
-    class SchemeFunction : public SchemeExtend<SchemeFunction, SchemeObject>
+    class LCPP_CORE_API SchemeFunction : public SchemeExtend<SchemeFunction, SchemeObject>
     {
-        friend class TypeFactory;
     public:
-        typedef std::function<Ptr<SchemeObject>(Ptr<Environment>, Ptr<SchemeObject>)> Executor;
 
-        SchemeFunction(Ptr<Environment> pParentEnv,
-                       Ptr<IEvaluator> pEvaluator,
-                       Ptr<SchemeCons> pBody);
-
-        SchemeFunction(Ptr<Environment> pParentEnv,
-                       Ptr<IEvaluator> pEvaluator,
-                       Executor exec);
+        SchemeFunction(const ezString& name, Ptr<Environment> pParentEnv);
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeFunction& rhs) const;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList) = 0;
 
-        Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList);
+        ezString& name();
+        const ezString& name() const;
 
-    private:
+        Ptr<Environment> env();
+        Ptr<const Environment> env() const;
+
+    protected:
+        ezString m_name;
         Environment m_env;
-        Ptr<IEvaluator> m_pEvaluator;
-        Ptr<SchemeCons> m_pBody;
-        Executor m_exec;
-
-        Ptr<SchemeObject> execute(Ptr<SchemeObject> pArgList);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeFunction);
+    template<>
+    struct TypeInfo< SchemeFunction >
+    {
+        inline static const Type& type()
+        {
+            static_assert(Type::Version == 2,
+                          "Type version was updated. Adjust your implementation accordingly!");
+            static auto theType = Type::create(
+                "SchemeFunction",
+                MemoryInfo(sizeof(SchemeFunction), sizeof(SchemeFunction))
+                );
+            return theType;
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+
+    class LCPP_CORE_API SchemeFunctionBuiltin : public SchemeFunction
+    {
+        friend class TypeFactory;
+    public:
+        typedef std::function<Ptr<SchemeObject>(Ptr<Environment>, Ptr<IEvaluator>, Ptr<SchemeObject>)> Executor;
+
+        SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pParentEnv, Executor exec);
+
+        virtual ezString toString() const LCPP_OVERRIDE;
+
+        Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
+
+    private:
+        Executor m_exec;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+
+    class LCPP_CORE_API SchemeFunctionUserDefined : public SchemeFunction
+    {
+        friend class TypeFactory;
+    public:
+
+        SchemeFunctionUserDefined(const ezString& name, Ptr<Environment> pParentEnv, Ptr<SchemeCons> pBody);
+
+        virtual ezString toString() const LCPP_OVERRIDE;
+
+        Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
+
+    private:
+        Ptr<SchemeCons> m_pBody;
+    };
 }
 
 #include "lcpp/core/typeSystem/types/implementation/function.inl"

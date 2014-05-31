@@ -21,11 +21,3 @@ lcpp::SchemeExtend<T_Derived, T_Base>::type() const
 {
     return TypeInfo<T_Derived>::type();
 }
-
-template<typename T_Derived, typename T_Base>
-inline
-void
-lcpp::SchemeExtend<T_Derived, T_Base>::copyTo(void* mem) const
-{
-    new (mem) T_Derived(*static_cast<const T_Derived*>(this));
-}

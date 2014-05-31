@@ -62,17 +62,17 @@ lcpp::TypeFactory::createCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr)
 }
 
 lcpp::Ptr<lcpp::SchemeFunction>
-lcpp::TypeFactory::createFunction(Ptr<Environment> pParentEnv,
-                                  Ptr<IEvaluator> pEvaluator,
-                                  Ptr<SchemeCons> pBody)
+lcpp::TypeFactory::createUserDefinedFunction(const ezString& name,
+                                             Ptr<Environment> pParentEnv,
+                                             Ptr<SchemeCons> pBody)
 {
-    return LCPP_NEW(m_pAllocator, SchemeFunction)(pParentEnv, pEvaluator, pBody);
+    return LCPP_NEW(m_pAllocator, SchemeFunctionUserDefined)(name, pParentEnv, pBody);
 }
 
 lcpp::Ptr<lcpp::SchemeFunction>
-lcpp::TypeFactory::createFunction(Ptr<Environment> pParentEnv,
-                                  Ptr<IEvaluator> pEvaluator,
-                                  SchemeFunction::Executor executor)
+lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
+                                         Ptr<Environment> pParentEnv,
+                                         SchemeFunctionBuiltin::Executor executor)
 {
-    return LCPP_NEW(m_pAllocator, SchemeFunction)(pParentEnv, pEvaluator, executor);
+    return LCPP_NEW(m_pAllocator, SchemeFunctionBuiltin)(name, pParentEnv, executor);
 }

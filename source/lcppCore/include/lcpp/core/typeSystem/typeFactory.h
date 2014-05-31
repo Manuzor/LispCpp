@@ -24,12 +24,8 @@ namespace lcpp
         Ptr<SchemeSymbol>   createSymbol(const ezString& symbol);
         Ptr<SchemeCons>     createCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr);
 
-        Ptr<SchemeFunction> createFunction(Ptr<Environment> pParentEnv,
-                                           Ptr<IEvaluator> pEvaluator,
-                                           Ptr<SchemeCons> pBody);
-        Ptr<SchemeFunction> createFunction(Ptr<Environment> pParentEnv,
-                                           Ptr<IEvaluator> pEvaluator,
-                                           SchemeFunction::Executor executor);
+        Ptr<SchemeFunction> createUserDefinedFunction(const ezString& name, Ptr<Environment> pParentEnv, Ptr<SchemeCons> pBody);
+        Ptr<SchemeFunction> createBuiltinFunction(const ezString& name, Ptr<Environment> pParentEnv, SchemeFunctionBuiltin::Executor executor);
 
     private:
         ezAllocatorBase* m_pAllocator;

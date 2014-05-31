@@ -14,7 +14,7 @@ namespace lcpp
     /// Use SchemeExtend instead.
     /// Example:
     /// class SchemeBool : public SchemeExtend<SchemeBool, SchemeObject> { /* ... */ };
-    class SchemeObject
+    class LCPP_CORE_API SchemeObject
     {
         friend class TypeFactory;
     public:
@@ -27,8 +27,6 @@ namespace lcpp
         virtual const Type& type() const = 0;
         template<typename T_Other>
         bool is() const;
-
-        virtual void copyTo(void* mem) const = 0;
 
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeObject);
@@ -59,8 +57,6 @@ namespace lcpp
         virtual ~SchemeExtend() = 0 {}
 
         virtual const Type& type() const LCPP_OVERRIDE;
-
-        virtual void copyTo(void* mem) const LCPP_OVERRIDE;
 
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeExtend);

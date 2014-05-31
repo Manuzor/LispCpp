@@ -74,6 +74,20 @@ lcpp::Environment::exists(Ptr<SchemeSymbol> pKey)
 }
 
 inline
+lcpp::Ptr<lcpp::Environment>
+lcpp::Environment::parent()
+{
+    return m_pParent;
+}
+
+inline
+lcpp::Ptr<const lcpp::Environment>
+lcpp::Environment::parent() const
+{
+    return m_pParent;
+}
+
+inline
 const ezString&
 lcpp::Environment::name() const
 {

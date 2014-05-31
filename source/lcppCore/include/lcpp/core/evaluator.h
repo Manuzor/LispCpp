@@ -4,21 +4,6 @@
 
 namespace lcpp
 {
-    namespace exceptions {
-
-        class InvalidEvalInput :
-            public ExceptionBase
-        {
-        public:
-            inline InvalidEvalInput(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
-                ExceptionBase(message ? message : "Invalid operation!", file, line)
-            {
-            }
-        };
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-
     class SchemeObject;
 
     class LCPP_CORE_API IEvaluator
@@ -27,6 +12,7 @@ namespace lcpp
         virtual ~IEvaluator() {}
 
         virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) = 0;
+        virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) = 0;
 
         virtual Environment& environment() = 0;
         virtual const Environment& environment() const = 0;
@@ -50,6 +36,7 @@ namespace lcpp
         virtual ~RecursiveEvaluator();
 
         virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) override;
+        virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) override;
 
         virtual Environment& environment() override;
         virtual const Environment& environment() const override;
@@ -58,11 +45,11 @@ namespace lcpp
         TypeFactory m_defaultFactory;
         TypeFactory* m_pFactory;
 
-        ezHashTable<ezString, Ptr<SchemeFunction>> m_syntax;
-
+        Environment m_syntax;
         Environment m_env;
 
         void setupSyntax();
+        void setupEnvironment();
     };
     
 }

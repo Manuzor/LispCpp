@@ -19,6 +19,9 @@ namespace lcpp
 
         bool exists(Ptr<SchemeSymbol> pKey);
 
+        Ptr<      Environment> parent() ;
+        Ptr<const Environment> parent() const;
+
         const ezString& name() const;
         ezString& name();
         ezString qualifiedName() const;
