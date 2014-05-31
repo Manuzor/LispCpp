@@ -70,7 +70,8 @@ inline
 bool
 lcpp::Environment::exists(Ptr<SchemeSymbol> pKey)
 {
-    return m_symbols.KeyExists(pKey.get());
+    return m_symbols.KeyExists(pKey.get())
+        || m_pParent && m_pParent->exists(pKey);
 }
 
 inline
