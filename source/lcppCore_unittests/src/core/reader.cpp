@@ -304,4 +304,41 @@ namespace
             CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 1337, "Wrong value");
         }
     });
+
+
+    UnitTest g_test11(g_group, "Detect +- as symbols", [](){
+        Reader reader;
+
+        {
+            ezString input("(+ 1 2)");
+            auto iter = input.GetIteratorFront();
+            auto result = reader.read(iter);
+            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected + to be read as symbol!");
+        }
+
+        {
+            ezString input("(- 1 2)");
+            auto iter = input.GetIteratorFront();
+            auto result = reader.read(iter);
+            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected - to be read as symbol!");
+        }
+
+        {
+            ezString input("+1");
+            auto iter = input.GetIteratorFront();
+            auto result = reader.read(iter);
+            CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 1, "Expected +1 to be read as integer!");
+        }
+
+        {
+            ezString input("-1");
+            auto iter = input.GetIteratorFront();
+            auto result = reader.read(iter);
+            CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == -1, "Expected -1 to be read as integer!");
+        }
+    });
 }

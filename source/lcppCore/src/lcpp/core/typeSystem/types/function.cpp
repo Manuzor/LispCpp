@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 
 lcpp::SchemeFunction::SchemeFunction(const ezString& name,
@@ -8,10 +9,6 @@ lcpp::SchemeFunction::SchemeFunction(const ezString& name,
     m_name(name),
     m_env("", pParentEnv)
 {
-    if(m_name.IsEmpty())
-    {
-        m_name = "anonymous-procedure";
-    }
     m_env.name() = m_name;
 }
 
@@ -64,17 +61,44 @@ lcpp::SchemeFunctionBuiltin::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> 
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(const ezString& name, Ptr<Environment> pParentEnv, Ptr<SchemeCons> pBody) :
-    SchemeFunction(name, pParentEnv),
+lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<Environment> pParentEnv,
+                                                           Ptr<SchemeObject> pArgNameList,
+                                                           Ptr<SchemeCons> pBody) :
+    SchemeFunction("anonymous", pParentEnv),
+    m_pArgNameList(pArgNameList),
+    m_numArgs(0),
     m_pBody(pBody)
 {
-    EZ_ASSERT(!name.IsEmpty(), "A builtin function needs a name!");
-
     ezStringBuilder builder;
     builder.AppendFormat("procedure:%s", m_name.GetData());
     m_env.name() = builder;
 
+    EZ_ASSERT(m_pArgNameList, "The function body MUST be valid argNameList!");
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
+
+    if(isNil(m_pArgNameList))
+    {
+        return;
+    }
+
+    EZ_ASSERT(m_pArgNameList->is<SchemeCons>(), "Invalid arg name list.");
+
+    auto pArgNamePtr = m_pArgNameList.cast<SchemeCons>();
+
+    while(true)
+    {
+        EZ_ASSERT(pArgNamePtr->car()->is<SchemeSymbol>(), "All arg names must be symbols!");
+        auto pArgName = pArgNamePtr->car().cast<SchemeSymbol>();
+        m_env.add(pArgName, SCHEME_NIL_PTR);
+        ++m_numArgs;
+
+        if(isNil(pArgNamePtr->cdr()))
+        {
+            break;
+        }
+        EZ_ASSERT(pArgNamePtr->cdr()->is<SchemeCons>(), "Invalid arg name list.");
+        pArgNamePtr = pArgNamePtr->cdr().cast<SchemeCons>();
+    }
 }
 
 ezString
@@ -89,8 +113,91 @@ lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeFunctionUserDefined::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
-    // TODO process args
-    return pEvaluator->evalulate(&m_env, m_pBody);
+
+    // TODO Process args
+    //////////////////////////////////////////////////////////////////////////
+    processArguments(pArgList);
+
+    // Process body
+    //////////////////////////////////////////////////////////////////////////
+    Ptr<SchemeObject> pCodePointer = m_pBody;
+    Ptr<SchemeObject> pResult = SCHEME_NIL_PTR;
+
+    while(!isNil(pCodePointer))
+    {
+        EZ_ASSERT(pCodePointer->is<SchemeCons>(), "Function body must be a cons.");
+
+        auto pCons = pCodePointer.cast<SchemeCons>();
+        pResult = pEvaluator->evalulate(&m_env, pCons->car());
+        pCodePointer = pCons->cdr();
+    }
+
+    return pResult;
 }
 
+void
+lcpp::SchemeFunctionUserDefined::processArguments(Ptr<SchemeObject> pArgs)
+{
+    if(!checkArgumentCount(pArgs)) { return; }
 
+    // Update environment with argument values
+    //////////////////////////////////////////////////////////////////////////
+    EZ_ASSERT(pArgs->is<SchemeCons>(), "pArgs must be a cons if it is not nil!");
+
+    auto pCurrentArgName = m_pArgNameList.cast<SchemeCons>();
+    auto pCurrentArg = pArgs.cast<SchemeCons>();
+
+    for(auto i = m_numArgs; i > 0; --i)
+    {
+        auto setResult = m_env.set(pCurrentArgName->car().cast<SchemeSymbol>(),
+                                   pCurrentArg->car());
+        EZ_ASSERT(setResult.IsSuccess(),
+                  "m_pArgNameList was changed after construction of this function object "
+                  "or the environment was not properly set up when this function object was constructed.");
+
+        pCurrentArgName = pCurrentArgName->cdr().cast<SchemeCons>();
+        pCurrentArg = pCurrentArg->cdr().cast<SchemeCons>();
+    }
+}
+
+bool
+lcpp::SchemeFunctionUserDefined::checkArgumentCount(Ptr<SchemeObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        // No args are given, but 1 or more are expected.
+        if(m_numArgs > 0)
+        {
+            ezStringBuilder message;
+            message.AppendFormat("Invalid number of arguments: expected %u, got none.", m_numArgs);
+            throw exceptions::InvalidInput(message.GetData());
+        }
+        return false;
+    }
+
+    // From here on out we know that pArgs MUST be a cons.
+    EZ_ASSERT(pArgs->is<SchemeCons>(), "pArgs must be a cons if it is not nil!");
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    // pArgs is not nil, which means it's a cons, so we count the args
+    ezUInt32 numElements = 0;
+    auto res = count(pArgList, numElements);
+    EZ_ASSERT(res.IsSuccess(), "pArgList is not a regular list!");
+
+    // pArgs is not nil but we don't expect any arguments
+    if(m_numArgs == 0)
+    {
+        ezStringBuilder message;
+        message.AppendFormat("Invalid number of arguments: expected no arguments, got %u", numElements);
+        throw exceptions::InvalidInput(message.GetData());
+    }
+
+    if(numElements != m_numArgs)
+    {
+        ezStringBuilder message;
+        message.AppendFormat("Invalid number of arguments: Expected %u arguments, got %u", m_numArgs, numElements);
+        throw exceptions::InvalidInput(message.GetData());
+    }
+
+    return true;
+}

@@ -16,6 +16,11 @@ lcpp::Interpreter::~Interpreter()
 {
 }
 
+void lcpp::Interpreter::initialize()
+{
+    m_pEvaluator->initialize();
+}
+
 ezInt32 lcpp::Interpreter::repl()
 {
     std::ios_base::sync_with_stdio(false);

@@ -81,6 +81,7 @@ ezInt32 run()
     cinfo.pPrinter = &printer;
 
     Interpreter interpreter(cinfo);
+    interpreter.initialize();
 
     return interpreter.repl();
 }

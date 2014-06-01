@@ -62,34 +62,62 @@ lcpp::Reader::read(ezStringIterator& input, bool resetCursor)
     case '(':
         return parseList(input);
         break;
-    default:
-        // Try parsing for an integer first, then a number, then a symbol
-        {
-            const char* lastPos = nullptr;
-            SchemeInteger::Number_t integer;
-            auto result = to(input, integer, &lastPos);
-
-            // The string contains a number, but it is a floating point number; reparse.
-            if (result.IsSuccess())
-            {
-                LCPP_SCOPE_EXIT{ input.SetCurrentPosition(lastPos); };
-
-                if(lastPos[0] == '.')
-                {
-                    SchemeNumber::Number_t number;
-                    auto result = to(input, number, &lastPos);
-                    EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-                    return m_factory.createNumber(number);
-                }
-
-                return m_factory.createInteger(integer);
-            }
-            return parseSymbol(input);
-        }
-        break;
     }
 
-    return SCHEME_NIL_PTR;
+    return parseAtom(input);
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Reader::parseAtom(ezStringIterator& input)
+{
+    // Special case for + and - characters, since the ezEngine parse (+ 1) as +1...
+    auto ch = input.GetCharacter();
+
+    if (ch == '+' || ch == '-')
+    {
+        auto copy = input;
+
+        // Check if there is any separator after the + or - sign
+        ++copy;
+        if(isSeparator(copy.GetCharacter()))
+        {
+            // ... if so, create + or - as symbol
+            ezStringBuilder symbol;
+            symbol.Append(ch);
+
+            // ... and don't forget to skip the character!
+            advance(input);
+
+            return m_factory.createSymbol(symbol);
+        }
+    }
+
+    // Try parsing for an integer first, then a number, then a symbol
+    const char* lastPos = nullptr;
+    SchemeInteger::Number_t integer;
+    auto result = to(input, integer, &lastPos);
+
+    // The string contains a number, but it is a floating point number; reparse.
+    if (result.IsSuccess())
+    {
+        LCPP_SCOPE_EXIT{
+            while(input.GetData() != lastPos)
+            {
+                advance(input);
+            }
+        };
+
+        if(lastPos[0] == '.')
+        {
+            SchemeNumber::Number_t number;
+            auto result = to(input, number, &lastPos);
+            EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
+            return m_factory.createNumber(number);
+        }
+
+        return m_factory.createInteger(integer);
+    }
+    return parseSymbol(input);
 }
 
 lcpp::Ptr<lcpp::SchemeInteger>

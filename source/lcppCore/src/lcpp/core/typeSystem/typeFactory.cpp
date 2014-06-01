@@ -62,11 +62,11 @@ lcpp::TypeFactory::createCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr)
 }
 
 lcpp::Ptr<lcpp::SchemeFunction>
-lcpp::TypeFactory::createUserDefinedFunction(const ezString& name,
-                                             Ptr<Environment> pParentEnv,
+lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
+                                             Ptr<SchemeObject> pArgNameList,
                                              Ptr<SchemeCons> pBody)
 {
-    return LCPP_NEW(m_pAllocator, SchemeFunctionUserDefined)(name, pParentEnv, pBody);
+    return LCPP_NEW(m_pAllocator, SchemeFunctionUserDefined)(pParentEnv, pArgNameList, pBody);
 }
 
 lcpp::Ptr<lcpp::SchemeFunction>

@@ -9,7 +9,6 @@ lcpp::RecursiveEvaluator::RecursiveEvaluator() :
     m_syntax(Environment::createTopLevelInstance()),
     m_env("top", &m_syntax)
 {
-    setupSyntax();
 }
 
 lcpp::RecursiveEvaluator::RecursiveEvaluator(const CInfo& cinfo) :
@@ -18,12 +17,17 @@ lcpp::RecursiveEvaluator::RecursiveEvaluator(const CInfo& cinfo) :
     m_syntax(Environment::createTopLevelInstance()),
     m_env("top", &m_syntax)
 {
-    setupSyntax();
 }
 
 lcpp::RecursiveEvaluator::~RecursiveEvaluator()
 {
     m_pFactory = nullptr;
+}
+
+void lcpp::RecursiveEvaluator::initialize()
+{
+    setupSyntax();
+    setupEnvironment();
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -55,6 +59,13 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     }
 
     auto pBody = pObject.cast<SchemeCons>();
+
+    // TODO add support for calling cons!
+    if(!pBody->car()->is<SchemeSymbol>())
+    {
+        throw exceptions::InvalidSyntax("Expected symbol!");
+    }
+
     auto pSymbol = pBody->car().cast<SchemeSymbol>();
 
     Ptr<SchemeObject> pFuncObject;
@@ -79,7 +90,14 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         throw exceptions::InvalidInput(messsage.GetData());
     }
 
-    return pFuncObject.cast<SchemeFunction>()->call(this, pBody->cdr());
+    auto pArgs = pBody->cdr();
+
+    if(!isNil(pArgs))
+    {
+        evaluateEach(pEnv, pArgs);
+    }
+
+    return pFuncObject.cast<SchemeFunction>()->call(this, pArgs);
 }
 
 lcpp::Environment&
@@ -94,15 +112,54 @@ lcpp::RecursiveEvaluator::environment() const
     return m_env;
 }
 
+lcpp::Ptr<lcpp::TypeFactory>
+lcpp::RecursiveEvaluator::factory()
+{
+    return m_pFactory;
+}
+
+lcpp::Ptr<const lcpp::TypeFactory>
+lcpp::RecursiveEvaluator::factory() const
+{
+    return m_pFactory;
+}
+
+void lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons)
+{
+    auto pToEval = pCons->car();
+    auto pEvaluated = evalulate(pEnv, pToEval);
+    pCons->car(pEvaluated);
+
+    if (isNil(pCons->cdr())) { return; }
+
+    evaluateEach(pEnv, pCons->cdr().cast<SchemeCons>());
+}
+
 void lcpp::RecursiveEvaluator::setupSyntax()
 {
     // TODO Fix std::bind not working here for some reason
-    m_syntax.add(m_pFactory->createSymbol("define"), m_pFactory->createBuiltinFunction("define", &m_env,
+    m_syntax.add(m_pFactory->createSymbol("define"), m_pFactory->createBuiltinFunction("syntax:define", &m_env,
         [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
         return builtin::define(pEnv, pEval, pArgs);
     }));
-    m_syntax.add(m_pFactory->createSymbol("exit"), m_pFactory->createBuiltinFunction("exit", &m_env,
+    m_syntax.add(m_pFactory->createSymbol("lambda"), m_pFactory->createBuiltinFunction("syntax:lambda", &m_env,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::lambda(pEnv, pEval, pArgs);
+    }));
+}
+
+void lcpp::RecursiveEvaluator::setupEnvironment()
+{
+    m_env.add(m_pFactory->createSymbol("exit"), m_pFactory->createBuiltinFunction("exit", &m_env,
         [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
         return builtin::exit(pEnv, pEval, pArgs);
+    }));
+    m_env.add(m_pFactory->createSymbol("dump"), m_pFactory->createBuiltinFunction("dump", &m_env,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::dump(pEnv, pEval, pArgs);
+    }));
+    m_env.add(m_pFactory->createSymbol("+"), m_pFactory->createBuiltinFunction("+", &m_env,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::add(pEnv, pEval, pArgs);
     }));
 }

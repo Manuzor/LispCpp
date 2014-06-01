@@ -24,6 +24,8 @@ namespace lcpp
         Interpreter(const CInfo& cinfo);
         ~Interpreter();
 
+        void initialize();
+
         ezInt32 repl();
 
     private:

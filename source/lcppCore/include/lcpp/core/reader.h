@@ -54,6 +54,8 @@ namespace lcpp
         Ptr<SchemeObject> read(const ezString& inputString, bool resetCursor = true);
         Ptr<SchemeObject> read(ezStringIterator& input, bool resetCursor = true);
 
+        Ptr<SchemeObject> parseAtom(ezStringIterator& input);
+
         /// \brief Tries to parse an integer from the string iterator.
         /// \remark Does not reset the cursor.
         Ptr<SchemeInteger> parseInteger(ezStringIterator& input);

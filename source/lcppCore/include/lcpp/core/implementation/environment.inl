@@ -11,7 +11,7 @@ inline
 lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
     m_pParent(pParent),
     m_name(name),
-    m_symbols()
+    m_symbols(defaultAllocator())
 {
 }
 
@@ -19,7 +19,7 @@ inline
 lcpp::Environment::Environment() :
     m_pParent(nullptr),
     m_name(""),
-    m_symbols()
+    m_symbols(defaultAllocator())
 {
 }
 

@@ -69,14 +69,21 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        SchemeFunctionUserDefined(const ezString& name, Ptr<Environment> pParentEnv, Ptr<SchemeCons> pBody);
+        SchemeFunctionUserDefined(Ptr<Environment> pParentEnv, Ptr<SchemeObject> pArgNameList, Ptr<SchemeCons> pBody);
 
         virtual ezString toString() const LCPP_OVERRIDE;
 
         Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
 
     private:
+        Ptr<SchemeObject> m_pArgNameList;
+        ezUInt32 m_numArgs;
         Ptr<SchemeCons> m_pBody;
+        
+        void processArguments(Ptr<SchemeObject> pArgs);
+        /// \return \c true if \a pArgs is a cons, \c false if it is nil.
+        ///         In other words, this returns wether further processing needs to be done.
+        bool checkArgumentCount(Ptr<SchemeObject> pArgs);
     };
 }
 
