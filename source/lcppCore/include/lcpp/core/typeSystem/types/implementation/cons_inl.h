@@ -118,3 +118,27 @@ lcpp::SchemeCons::cdr()
 {
     return m_pCdr;
 }
+
+
+inline
+ezResult
+lcpp::count(Ptr<SchemeCons> pRegularList, ezUInt32& out_count)
+{
+    out_count = 0;
+
+    while(true)
+    {
+        ++out_count;
+        if(isNil(pRegularList->cdr()))
+        {
+            break;
+        }
+        if(!pRegularList->cdr()->is<SchemeCons>())
+        {
+            return EZ_FAILURE;
+        }
+        pRegularList = pRegularList->cdr().cast<SchemeCons>();
+    }
+
+    return EZ_SUCCESS;
+}

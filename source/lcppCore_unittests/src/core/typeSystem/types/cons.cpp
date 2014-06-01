@@ -195,4 +195,36 @@ namespace
             auto cons2 = factory.createCons(v, v);
         }
     });
+
+    UnitTest g_test5(g_group, "Count", [](){
+        TypeFactory factory;
+        ezUInt32 numElements = 0;
+
+        // Regular lists
+        {
+            auto cons = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+            CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(numElements == 1, format("Expected count() to return 1, got %u!", numElements));
+        }
+
+        {
+            auto cons = factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR));
+            CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
+        }
+
+        {
+            auto cons = factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR)));
+            CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(numElements == 3, format("Expected count() to return 3, got %u!", numElements));
+        }
+
+        // Irregular lists
+        {
+            auto cons = factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, SCHEME_VOID_PTR));
+            CUT_ASSERT.isFalse(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 3, got %u!", numElements));
+        }
+
+    });
 }

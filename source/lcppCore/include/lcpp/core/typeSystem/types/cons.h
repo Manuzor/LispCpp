@@ -37,6 +37,9 @@ namespace lcpp
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeCons);
+
+    /// Counts the elements of pRegularList
+    ezResult count(Ptr<SchemeCons> pRegularList, ezUInt32& out_count);
 }
 
 #include "lcpp/core/typeSystem/types/implementation/cons_inl.h"
