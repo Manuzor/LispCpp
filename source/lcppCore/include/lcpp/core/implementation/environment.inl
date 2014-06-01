@@ -34,7 +34,7 @@ inline
 ezResult
 lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
 {
-    if(exists(pKey))
+    if(m_symbols.KeyExists(pKey.get()))
     {
         m_symbols[pKey.get()] = pValue.get();
         return EZ_SUCCESS;

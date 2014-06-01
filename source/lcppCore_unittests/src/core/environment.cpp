@@ -14,7 +14,8 @@ namespace
 
         CUT_ASSERT.isFalse(env.get(factory.createSymbol("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
         CUT_ASSERT.isTrue(pResult.isNull(), "'get' altered the out_value even though it failed!");
-        env.set(factory.createSymbol("x"), factory.createInteger(42));
+        CUT_ASSERT.isFalse(env.set(factory.createSymbol("x"), factory.createInteger(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
+        env.add(factory.createSymbol("x"), factory.createInteger(42));
         CUT_ASSERT.isTrue(env.get(factory.createSymbol("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Wrong type stored in environment!");
         CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Wrong type stored in environment!");
@@ -28,8 +29,8 @@ namespace
         auto pSymbol = factory.createSymbol("x");
         auto pSymbol2 = factory.createSymbol("y");
 
-        topEnv.set(pSymbol, factory.createInteger(42));
-        childEnv.set(pSymbol, factory.createInteger(1337));
+        topEnv.add(pSymbol, factory.createInteger(42));
+        childEnv.add(pSymbol, factory.createInteger(1337));
 
         CUT_ASSERT.isTrue(topEnv.get(pSymbol, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
@@ -41,7 +42,7 @@ namespace
 
         Environment subChildEnv("subChild", &childEnv);
 
-        subChildEnv.set(pSymbol, factory.createInteger(666));
+        subChildEnv.add(pSymbol, factory.createInteger(666));
 
         CUT_ASSERT.isTrue(subChildEnv.get(pSymbol, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
@@ -49,11 +50,20 @@ namespace
 
         // Set in top-level env from child env
 
-        topEnv.set(pSymbol2, factory.createString("hello"));
+        topEnv.add(pSymbol2, factory.createString("hello"));
 
         CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeString>());
         CUT_ASSERT.isTrue(pResult.cast<SchemeString>()->value().IsEqual("hello"));
+
+        childEnv.set(pSymbol2, factory.createInteger(-123));
+
+        CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == -123);
+        CUT_ASSERT.isTrue(topEnv.get(pSymbol2, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == -123);
     });
 
     UnitTest g_test3(g_group, "QualifiedName", [](){
