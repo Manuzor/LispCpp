@@ -17,6 +17,9 @@ namespace lcpp
         bool operator==(const SchemeCons& rhs) const;
 
         virtual ezString toString() const LCPP_OVERRIDE;
+        // Prints the contents of itself to \a builder.
+        // \remark Effectlively omits the enclosing parenthesis.
+        void toStringHelper(ezStringBuilder& builder) const;
 
         /// \brief set car.
         void car(Ptr<SchemeObject> pObject);
@@ -33,7 +36,6 @@ namespace lcpp
         Ptr<SchemeObject> m_pCdr;
 
         SchemeCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr);
-        void toStringHelper(ezStringBuilder& builder) const;
     };
 
     DECLARE_SCHEME_TYPE_INFO(SchemeCons);

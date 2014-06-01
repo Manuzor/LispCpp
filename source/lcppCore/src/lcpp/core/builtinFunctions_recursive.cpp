@@ -73,17 +73,17 @@ lcpp::builtin::lambda(Ptr<Environment> pEnv,
     }
 
     auto pArgList = pArgs.cast<SchemeCons>();
-    auto pArgNames = pArgList->car();
+    auto pArgNameList = pArgList->car();
 
     // Arglist must be either nil or cons
-    if(!isNil(pArgNames) && !pArgNames->is<SchemeCons>())
+    if(!isNil(pArgNameList) && !pArgNameList->is<SchemeCons>())
     {
         throw exceptions::InvalidSyntax("A 'lambda' needs an argument list!");
     }
 
-    if(!isNil(pArgNames))
+    if(!isNil(pArgNameList))
     {
-        checkArgNameList(pArgNames.cast<SchemeCons>());
+        checkArgNameList(pArgNameList.cast<SchemeCons>());
     }
 
     auto pBody = pArgList->cdr();
@@ -93,8 +93,12 @@ lcpp::builtin::lambda(Ptr<Environment> pEnv,
         throw exceptions::InvalidSyntax("Lambda needs to have a body!");
     }
 
-    return pEvaluator->factory()->createUserDefinedFunction(pEnv->parent(), pArgNames, pBody);
+    auto pBodyList = pBody.cast<SchemeCons>();
+
+    return pEvaluator->factory()->createUserDefinedFunction(pEnv->parent(), pArgNameList, pBodyList);
 }
+
+//////////////////////////////////////////////////////////////////////////
 
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::builtin::exit(Ptr<Environment> pEnv,
@@ -135,6 +139,11 @@ lcpp::builtin::dump(Ptr<Environment> pEnv,
     }
 
     auto pToDump = pArgList->car();
+
+    if(pToDump->is<SchemeFunction>())
+    {
+        return pEvaluator->factory()->createString(pToDump.cast<SchemeFunction>()->dump());
+    }
 
     return pEvaluator->factory()->createString(pToDump->toString());
 }

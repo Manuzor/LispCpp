@@ -16,6 +16,8 @@ namespace lcpp
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeFunction& rhs) const;
 
+        virtual ezString dump() const = 0;
+
         virtual Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList) = 0;
 
         ezString& name();
@@ -55,6 +57,7 @@ namespace lcpp
         SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pParentEnv, Executor exec);
 
         virtual ezString toString() const LCPP_OVERRIDE;
+        virtual ezString dump() const LCPP_OVERRIDE;
 
         Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
 
@@ -72,6 +75,7 @@ namespace lcpp
         SchemeFunctionUserDefined(Ptr<Environment> pParentEnv, Ptr<SchemeObject> pArgNameList, Ptr<SchemeCons> pBody);
 
         virtual ezString toString() const LCPP_OVERRIDE;
+        virtual ezString dump() const LCPP_OVERRIDE;
 
         Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
 
@@ -79,7 +83,10 @@ namespace lcpp
         Ptr<SchemeObject> m_pArgNameList;
         ezUInt32 m_numArgs;
         Ptr<SchemeCons> m_pBody;
-        
+#ifdef _DEBUG
+        ezString m_dump;
+#endif // _DEBUG
+
         void processArguments(Ptr<SchemeObject> pArgs);
         /// \return \c true if \a pArgs is a cons, \c false if it is nil.
         ///         In other words, this returns wether further processing needs to be done.

@@ -52,6 +52,12 @@ lcpp::SchemeFunctionBuiltin::toString() const
     return builder;
 }
 
+ezString
+lcpp::SchemeFunctionBuiltin::dump() const
+{
+    return toString();
+}
+
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeFunctionBuiltin::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList)
 {
@@ -68,6 +74,9 @@ lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<Environment> pPar
     m_pArgNameList(pArgNameList),
     m_numArgs(0),
     m_pBody(pBody)
+#ifdef _DEBUG
+    ,m_dump("")
+#endif // _DEBUG
 {
     ezStringBuilder builder;
     builder.AppendFormat("procedure:%s", m_name.GetData());
@@ -75,6 +84,15 @@ lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<Environment> pPar
 
     EZ_ASSERT(m_pArgNameList, "The function body MUST be valid argNameList!");
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
+
+#ifdef _DEBUG
+    {
+        ezStringBuilder builder;
+
+        m_pBody->toStringHelper(builder);
+        m_dump = builder;
+    }
+#endif // _DEBUG
 
     if(isNil(m_pArgNameList))
     {
@@ -106,6 +124,18 @@ lcpp::SchemeFunctionUserDefined::toString() const
 {
     ezStringBuilder builder;
     builder.AppendFormat("<procedure:%s>", m_name.GetData());
+    return builder;
+}
+
+ezString
+lcpp::SchemeFunctionUserDefined::dump() const
+{
+    ezStringBuilder builder;
+    builder.Append("(lambda ");
+    builder.Append(m_pArgNameList->toString().GetData());
+    builder.Append(' ');
+    m_pBody->toStringHelper(builder);
+    builder.Append(')');
     return builder;
 }
 
