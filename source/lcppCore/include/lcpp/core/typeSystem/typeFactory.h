@@ -18,6 +18,8 @@ namespace lcpp
         TypeFactory(ezAllocatorBase* pAllocator = defaultAllocator());
         ~TypeFactory();
 
+        Ptr<Environment>   createEnvironment(const ezString& name, Ptr<Environment> pParent);
+
         Ptr<SchemeInteger>  createInteger(SchemeInteger::Number_t value);
         Ptr<SchemeNumber>   createNumber(SchemeNumber::Number_t value);
         Ptr<SchemeString>   createString(const ezString& str);

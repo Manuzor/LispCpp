@@ -11,7 +11,7 @@ namespace lcpp
     {
     public:
 
-        SchemeFunction(const ezString& name, Ptr<Environment> pParentEnv);
+        SchemeFunction(const ezString& name, Ptr<Environment> pEnv);
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeFunction& rhs) const;
@@ -28,7 +28,7 @@ namespace lcpp
 
     protected:
         ezString m_name;
-        Environment m_env;
+        Ptr<Environment> m_pEnv;
     };
 
     template<>
@@ -54,7 +54,7 @@ namespace lcpp
     public:
         typedef std::function<Ptr<SchemeObject>(Ptr<Environment>, Ptr<IEvaluator>, Ptr<SchemeObject>)> Executor;
 
-        SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pParentEnv, Executor exec);
+        SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, Executor exec);
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
@@ -72,7 +72,7 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        SchemeFunctionUserDefined(Ptr<Environment> pParentEnv, Ptr<SchemeObject> pArgNameList, Ptr<SchemeCons> pBody);
+        SchemeFunctionUserDefined(Ptr<Environment> pEnv, Ptr<SchemeObject> pArgNameList, Ptr<SchemeCons> pBody);
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;

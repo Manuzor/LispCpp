@@ -17,12 +17,12 @@ inline
 lcpp::Ptr<lcpp::Environment>
 lcpp::SchemeFunction::env()
 {
-    return &m_env;
+    return m_pEnv;
 }
 
 inline
 lcpp::Ptr<const lcpp::Environment>
 lcpp::SchemeFunction::env() const
 {
-    return &m_env;
+    return m_pEnv;
 }

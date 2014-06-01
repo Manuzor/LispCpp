@@ -15,6 +15,12 @@ lcpp::TypeFactory::~TypeFactory()
     m_integers.Clear();
 }
 
+lcpp::Ptr<lcpp::Environment>
+lcpp::TypeFactory::createEnvironment(const ezString& name, Ptr<Environment> pParent)
+{
+    return LCPP_NEW(m_pAllocator, Environment)(name, pParent);
+}
+
 lcpp::Ptr<lcpp::SchemeInteger>
 lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
 {
@@ -66,7 +72,7 @@ lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                              Ptr<SchemeObject> pArgNameList,
                                              Ptr<SchemeCons> pBody)
 {
-    return LCPP_NEW(m_pAllocator, SchemeFunctionUserDefined)(pParentEnv, pArgNameList, pBody);
+    return LCPP_NEW(m_pAllocator, SchemeFunctionUserDefined)(createEnvironment("", pParentEnv), pArgNameList, pBody);
 }
 
 lcpp::Ptr<lcpp::SchemeFunction>
@@ -74,5 +80,5 @@ lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          Ptr<Environment> pParentEnv,
                                          SchemeFunctionBuiltin::Executor executor)
 {
-    return LCPP_NEW(m_pAllocator, SchemeFunctionBuiltin)(name, pParentEnv, executor);
+    return LCPP_NEW(m_pAllocator, SchemeFunctionBuiltin)(name, createEnvironment("", pParentEnv), executor);
 }
