@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem.h"
-
+#include "lcpp/core/environment.h"
 
 lcpp::TypeFactory::TypeFactory(ezAllocatorBase* pAllocator) :
     m_pAllocator(pAllocator),
@@ -81,4 +81,12 @@ lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          SchemeFunctionBuiltin::Executor executor)
 {
     return LCPP_NEW(m_pAllocator, SchemeFunctionBuiltin)(name, createEnvironment("", pParentEnv), executor);
+}
+
+lcpp::Ptr<lcpp::SchemeSyntax>
+lcpp::TypeFactory::createSyntax(Ptr<SchemeSymbol> pName,
+                                Ptr<SchemeCons> pUnevaluatedArgList,
+                                SchemeSyntax::HandlerFuncPtr_t pHandler)
+{
+    return LCPP_NEW(m_pAllocator, SchemeSyntax)(pName, pUnevaluatedArgList, pHandler);
 }

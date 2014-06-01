@@ -16,9 +16,6 @@ namespace lcpp
         virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) = 0;
         virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) = 0;
 
-        // \return EZ_SUCCESS if \a pObject is a valid syntax object.
-        virtual ezResult evaluateSyntax(Ptr<SchemeObject> pObject, Ptr<SchemeObject>& out_pResult) = 0;
-
         virtual Ptr<Environment> environment() = 0;
         virtual Ptr<const Environment> environment() const = 0;
 
@@ -47,7 +44,6 @@ namespace lcpp
 
         virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) LCPP_OVERRIDE;
         virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) LCPP_OVERRIDE;
-        virtual ezResult evaluateSyntax(Ptr<SchemeObject> pObject, Ptr<SchemeObject>& out_pResult) LCPP_OVERRIDE;
 
         virtual Ptr<Environment> environment() LCPP_OVERRIDE;
         virtual Ptr<const Environment> environment() const LCPP_OVERRIDE;
@@ -57,14 +53,12 @@ namespace lcpp
 
     private:
         TypeFactory m_defaultFactory;
-        TypeFactory* m_pFactory;
+        Ptr<TypeFactory> m_pFactory;
 
-        Ptr<Environment> m_pSyntax;
         Ptr<Environment> m_pEnv;
 
         void evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons);
 
-        void setupSyntax();
         void setupEnvironment();
     };
     

@@ -40,6 +40,7 @@
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\nil_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\number_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\symbol_inl.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\syntax_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\implementation\void_inl.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\nil.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\number.h" />
@@ -47,6 +48,7 @@
     <ClInclude Include="include\lcpp\core\typeSystem\type.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\string.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\symbol.h" />
+    <ClInclude Include="include\lcpp\core\typeSystem\types\syntax.h" />
     <ClInclude Include="include\lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="include\lcpp\exceptions\exceptions.h" />
     <ClInclude Include="include\lcpp\foundation\common.h" />
@@ -67,6 +69,7 @@
     <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
     <ClCompile Include="src\lcpp\core\reader.cpp" />
     <ClCompile Include="src\lcpp\core\typeSystem\types\function.cpp" />
+    <ClCompile Include="src\lcpp\core\typeSystem\types\syntax.cpp" />
     <ClCompile Include="src\lcpp\foundation\memory\allocator.cpp" />
     <ClCompile Include="src\lcpp\foundation\startup.cpp" />
     <ClCompile Include="src\stdafx.cpp">

@@ -6,9 +6,9 @@
 #include "lcpp/core/evaluator.h"
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::define(Ptr<Environment> pEnv,
-                      Ptr<IEvaluator> pEvaluator,
-                      Ptr<SchemeObject> pArgs)
+lcpp::syntax::define(Ptr<Environment> pEnv,
+                     Ptr<IEvaluator> pEvaluator,
+                     Ptr<SchemeObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -37,9 +37,7 @@ lcpp::builtin::define(Ptr<Environment> pEnv,
 
     value = pEvaluator->evalulate(value);
 
-    // Since pEnv is always the environment of the SchemeFunction that wraps 'define', we need to add the definition to the parent.
-    EZ_ASSERT(pEnv->parent(), "Environment of 'define' must have a parent!");
-    pEnv->parent()->add(symbol, value);
+    pEnv->add(symbol, value);
 
     // If it is a function, give it its new name.
     if(value->is<SchemeFunction>())
@@ -51,9 +49,9 @@ lcpp::builtin::define(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::lambda(Ptr<Environment> pEnv,
-                      Ptr<IEvaluator> pEvaluator,
-                      Ptr<SchemeObject> pArgs)
+lcpp::syntax::lambda(Ptr<Environment> pEnv,
+                     Ptr<IEvaluator> pEvaluator,
+                     Ptr<SchemeObject> pArgs)
 {
     std::function<void(Ptr<SchemeCons>)> checkArgNameList = [&](Ptr<SchemeCons> pCons){
         if(!pCons->car()->is<SchemeSymbol>())
@@ -95,7 +93,7 @@ lcpp::builtin::lambda(Ptr<Environment> pEnv,
 
     auto pBodyList = pBody.cast<SchemeCons>();
 
-    return pEvaluator->factory()->createUserDefinedFunction(pEnv->parent(), pArgNameList, pBodyList);
+    return pEvaluator->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
 }
 
 //////////////////////////////////////////////////////////////////////////

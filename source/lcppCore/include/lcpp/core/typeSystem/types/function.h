@@ -1,11 +1,11 @@
 #pragma once
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/environment.h"
-#include "lcpp/core/typeSystem/types/cons.h"
 
 namespace lcpp
 {
     class IEvaluator;
+    class Environment;
+    class SchemeCons;
 
     class LCPP_CORE_API SchemeFunction : public SchemeExtend<SchemeFunction, SchemeObject>
     {

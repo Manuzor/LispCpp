@@ -51,6 +51,8 @@ namespace lcpp
         explicit Reader(const CInfo& cinfo);
         ~Reader();
 
+        void initialize();
+
         Ptr<SchemeObject> read(const ezString& inputString, bool resetCursor = true);
         Ptr<SchemeObject> read(ezStringIterator& input, bool resetCursor = true);
 
@@ -106,6 +108,8 @@ namespace lcpp
 
         TypeFactory& m_factory;
         SourceCursor& m_cursor;
+
+        ezHashTable<ezString, SchemeSyntax::HandlerFuncPtr_t> m_syntaxHandlers;
 
         ezUInt8 advance(ezStringIterator& iter);
         Ptr<SchemeObject> parseListHelper(ezStringIterator& input);

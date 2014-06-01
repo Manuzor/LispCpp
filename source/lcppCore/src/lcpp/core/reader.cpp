@@ -4,7 +4,7 @@
 #include "lcpp/exceptions/exceptions.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/foundation/stringUtils.h"
-
+#include "lcpp/core/builtinFunctions_recursive.h"
 
 lcpp::Reader::Reader() :
     defaults(),
@@ -24,6 +24,12 @@ lcpp::Reader::Reader(const CInfo& cinfo) :
 
 lcpp::Reader::~Reader()
 {
+}
+
+void lcpp::Reader::initialize()
+{
+    m_syntaxHandlers["define"] = &syntax::define;
+    m_syntaxHandlers["lambda"] = &syntax::lambda;
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -237,8 +243,20 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
         return SCHEME_NIL_PTR;
     }
 
-    auto& car = read(input, false);
-    auto& cdr = parseListHelper(input);
+    auto car = read(input, false);
+    auto cdr = parseListHelper(input);
+
+    if (car->is<SchemeSymbol>())
+    {
+        auto pSymbol = car.cast<SchemeSymbol>();
+        auto& handlerName = pSymbol->value();
+        SchemeSyntax::HandlerFuncPtr_t pSyntaxHandler;
+        if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
+        {
+            EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
+            car = m_factory.createSyntax(pSymbol, cdr, pSyntaxHandler);
+        }
+    }
 
     return m_factory.createCons(car, cdr);
 }

@@ -6,7 +6,6 @@
 lcpp::RecursiveEvaluator::RecursiveEvaluator() :
     m_defaultFactory(),
     m_pFactory(&m_defaultFactory),
-    m_pSyntax(),
     m_pEnv()
 {
 }
@@ -14,21 +13,17 @@ lcpp::RecursiveEvaluator::RecursiveEvaluator() :
 lcpp::RecursiveEvaluator::RecursiveEvaluator(const CInfo& cinfo) :
     m_defaultFactory(),
     m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory),
-    m_pSyntax(),
     m_pEnv()
 {
 }
 
 lcpp::RecursiveEvaluator::~RecursiveEvaluator()
 {
-    m_pFactory = nullptr;
 }
 
 void lcpp::RecursiveEvaluator::initialize()
 {
-    m_pSyntax = m_pFactory->createEnvironment("", nullptr);
-    m_pEnv = m_pFactory->createEnvironment("top", m_pSyntax);
-    setupSyntax();
+    m_pEnv = m_pFactory->createEnvironment("", nullptr);
     setupEnvironment();
 }
 
@@ -60,12 +55,12 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         return pObject;
     }
 
-    if(evaluateSyntax(pObject, pObject).IsSuccess())
-    {
-        return pObject;
-    }
-
     auto pBody = pObject.cast<SchemeCons>();
+
+    if(pBody->car()->is<SchemeSyntax>())
+    {
+        return pBody->car().cast<SchemeSyntax>()->call(pEnv, this);
+    }
 
     // TODO add support for calling cons!
     if(!pBody->car()->is<SchemeSymbol>())
@@ -101,35 +96,6 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     return pFuncObject.cast<SchemeFunction>()->call(this, pArgs);
 }
 
-ezResult
-lcpp::RecursiveEvaluator::evaluateSyntax(Ptr<SchemeObject> pObject, Ptr<SchemeObject>& out_pResult)
-{
-    if (!pObject->is<SchemeCons>())
-    {
-        return EZ_FAILURE;
-    }
-
-    auto pBody = pObject.cast<SchemeCons>();
-
-    if(!pBody->car()->is<SchemeSymbol>())
-    {
-        throw exceptions::InvalidSyntax("Expected symbol!");
-    }
-
-    auto pSymbol = pBody->car().cast<SchemeSymbol>();
-
-    Ptr<SchemeObject> pFuncObject;
-
-    if(m_pSyntax->get(pSymbol, pFuncObject).IsSuccess())
-    {
-        EZ_ASSERT(pFuncObject->is<SchemeFunction>(), "Invalid scheme object in syntax environment.");
-        out_pResult = pFuncObject.cast<SchemeFunction>()->call(this, pBody->cdr());
-        return EZ_SUCCESS;
-    }
-
-    return EZ_FAILURE;
-}
-
 lcpp::Ptr<lcpp::Environment>
 lcpp::RecursiveEvaluator::environment()
 {
@@ -163,19 +129,6 @@ void lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCon
     if (isNil(pCons->cdr())) { return; }
 
     evaluateEach(pEnv, pCons->cdr().cast<SchemeCons>());
-}
-
-void lcpp::RecursiveEvaluator::setupSyntax()
-{
-    // TODO Fix std::bind not working here for some reason
-    m_pSyntax->add(m_pFactory->createSymbol("define"), m_pFactory->createBuiltinFunction("syntax:define", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::define(pEnv, pEval, pArgs);
-    }));
-    m_pSyntax->add(m_pFactory->createSymbol("lambda"), m_pFactory->createBuiltinFunction("syntax:lambda", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::lambda(pEnv, pEval, pArgs);
-    }));
 }
 
 void lcpp::RecursiveEvaluator::setupEnvironment()

@@ -1,6 +1,7 @@
 #pragma once
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/types/function.h"
+#include "lcpp/core/typeSystem/types/syntax.h"
 
 namespace lcpp
 {
@@ -32,6 +33,9 @@ namespace lcpp
         Ptr<SchemeFunction> createBuiltinFunction(const ezString& name,
                                                   Ptr<Environment> pParentEnv,
                                                   SchemeFunctionBuiltin::Executor executor);
+        Ptr<SchemeSyntax>   createSyntax(Ptr<SchemeSymbol> pName,
+                                         Ptr<SchemeCons> pUnevaluatedArgList,
+                                         SchemeSyntax::HandlerFuncPtr_t pHandler);
 
     private:
         ezAllocatorBase* m_pAllocator;

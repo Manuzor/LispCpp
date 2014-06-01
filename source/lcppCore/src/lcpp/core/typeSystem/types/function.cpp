@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-#include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 

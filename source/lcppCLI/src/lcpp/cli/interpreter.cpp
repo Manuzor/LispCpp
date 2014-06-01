@@ -18,6 +18,7 @@ lcpp::Interpreter::~Interpreter()
 
 void lcpp::Interpreter::initialize()
 {
+    m_pReader->initialize();
     m_pEvaluator->initialize();
 }
 
