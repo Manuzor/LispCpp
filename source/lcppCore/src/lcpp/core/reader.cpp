@@ -9,16 +9,16 @@
 lcpp::Reader::Reader() :
     defaults(),
     m_separators(CInfo().separators),
-    m_factory(defaults.factory),
-    m_cursor(defaults.cursor)
+    m_pFactory(&defaults.factory),
+    m_pSyntaxCheckResult(&defaults.syntaxCheckResult)
 {
 }
 
 lcpp::Reader::Reader(const CInfo& cinfo) :
     defaults(),
     m_separators(cinfo.separators),
-    m_factory(cinfo.pFactory ? *cinfo.pFactory : defaults.factory),
-    m_cursor(cinfo.pCursor ? *cinfo.pCursor : defaults.cursor)
+    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &defaults.factory),
+    m_pSyntaxCheckResult(cinfo.pSyntaxCheckResult ? cinfo.pSyntaxCheckResult : &defaults.syntaxCheckResult)
 {
 }
 
@@ -28,23 +28,25 @@ lcpp::Reader::~Reader()
 
 void lcpp::Reader::initialize()
 {
+    m_pSyntaxCheckResult->reset();
+
     m_syntaxHandlers["define"] = &syntax::define;
     m_syntaxHandlers["lambda"] = &syntax::lambda;
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::Reader::read(const ezString& inputString, bool resetCursor)
+lcpp::Reader::read(const ezString& inputString, bool resetSyntaxChecker)
 {
     auto input = inputString.GetIteratorFront();
-    return read(input, resetCursor);
+    return read(input, resetSyntaxChecker);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::Reader::read(ezStringIterator& input, bool resetCursor)
+lcpp::Reader::read(ezStringIterator& input, bool resetSyntaxChecker)
 {
-    if (resetCursor)
+    if(resetSyntaxChecker)
     {
-        m_cursor.reset();
+        m_pSyntaxCheckResult->reset();
     }
 
     skipSeparators(input);
@@ -94,7 +96,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             // ... and don't forget to skip the character!
             advance(input);
 
-            return m_factory.createSymbol(symbol);
+            return m_pFactory->createSymbol(symbol);
         }
     }
 
@@ -118,11 +120,12 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             SchemeNumber::Number_t number;
             auto result = to(input, number, &lastPos);
             EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-            return m_factory.createNumber(number);
+            return m_pFactory->createNumber(number);
         }
 
-        return m_factory.createInteger(integer);
+        return m_pFactory->createInteger(integer);
     }
+
     return parseSymbol(input);
 }
 
@@ -137,7 +140,7 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
     
-    return m_factory.createInteger(integer);
+    return m_pFactory->createInteger(integer);
 }
 
 lcpp::Ptr<lcpp::SchemeNumber>
@@ -150,7 +153,7 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
-    return m_factory.createNumber(number);
+    return m_pFactory->createNumber(number);
 }
 
 lcpp::Ptr<lcpp::SchemeSymbol>
@@ -179,7 +182,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-    return m_factory.createSymbol(symbol);
+    return m_pFactory->createSymbol(symbol);
 }
 
 
@@ -200,7 +203,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
     if(ch == '"')
     {
         advance(input);
-        return m_factory.createString("");
+        return m_pFactory->createString("");
     }
 
     ezStringBuilder str;
@@ -213,7 +216,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
 
     // consume trailing "
     advance(input);
-    return m_factory.createString(str);
+    return m_pFactory->createString(str);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -254,11 +257,11 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
         if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
         {
             EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
-            car = m_factory.createSyntax(pSymbol, cdr, pSyntaxHandler);
+            car = m_pFactory->createSyntax(pSymbol, cdr, pSyntaxHandler);
         }
     }
 
-    return m_factory.createCons(car, cdr);
+    return m_pFactory->createCons(car, cdr);
 }
 
 ezUInt32
@@ -310,11 +313,17 @@ bool lcpp::Reader::isComment(ezUInt32 character)
 lcpp::Reader::SyntaxCheckResult
 lcpp::Reader::checkBasicSyntax(const ezStringIterator& input)
 {
-    m_cursor.reset();
-
+    // Make a copy of the input iterator.
     ezStringIterator iter = input;
+
+    // Save the current pointer to the actual syntax checker...
+    auto temp = m_pSyntaxCheckResult;
+    // ... and restore it before we return.
+    LCPP_SCOPE_EXIT{ m_pSyntaxCheckResult = temp; };
+
     SyntaxCheckResult result;
-    result.pCursor = &m_cursor;
+    // Set the internal syntax checker to our result so it uses the correct cursor.
+    m_pSyntaxCheckResult = &result;
 
     for(; iter.IsValid(); advance(iter))
     {
@@ -355,11 +364,11 @@ lcpp::Reader::advance(ezStringIterator& iter)
     ezUInt8 count = 1;
     if(isNewLine(iter.GetCharacter()))
     {
-        m_cursor.advance();
+        m_pSyntaxCheckResult->cursor.advance();
         ++count;
     }
     ++iter;
-    ++m_cursor;
+    ++m_pSyntaxCheckResult->cursor;
 
     return count;
 }

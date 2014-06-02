@@ -9,19 +9,6 @@ namespace lcpp
     class LCPP_CORE_API Reader
     {
     public:
-        struct CInfo 
-        {
-            const char* separators;
-            TypeFactory* pFactory;
-            SourceCursor* pCursor;
-
-            CInfo() :
-                separators(" \t\r\n\v\f\a"),
-                pFactory(nullptr),
-                pCursor(nullptr)
-            {
-            }
-        };
 
         struct SyntaxCheckResult
         {
@@ -29,20 +16,35 @@ namespace lcpp
             bool hasParenthesis;
             bool isPureWhitespace;
             ezInt32 parenthesisBalance;
-            Ptr<SourceCursor> pCursor;
+            SourceCursor cursor;
             ezString info;
 
-            SyntaxCheckResult() :
-                valid(false),
-                hasParenthesis(false),
-                isPureWhitespace(true),
-                parenthesisBalance(0),
-                pCursor(),
-                info()
+            inline SyntaxCheckResult() { reset(); }
+
+            inline bool isComplete() const { return parenthesisBalance == 0; }
+            inline void reset()
+            {
+                valid = false;
+                hasParenthesis = false;
+                isPureWhitespace = true;
+                parenthesisBalance = 0;
+                cursor.reset();
+                info.Clear();
+            }
+        };
+
+        struct CInfo 
+        {
+            const char* separators;
+            Ptr<TypeFactory> pFactory;
+            Ptr<SyntaxCheckResult> pSyntaxCheckResult;
+
+            CInfo() :
+                separators(" \t\r\n\v\f\a"),
+                pFactory(),
+                pSyntaxCheckResult()
             {
             }
-
-            inline bool isComplete() { return parenthesisBalance == 0; }
         };
         
     public:
@@ -53,8 +55,8 @@ namespace lcpp
 
         void initialize();
 
-        Ptr<SchemeObject> read(const ezString& inputString, bool resetCursor = true);
-        Ptr<SchemeObject> read(ezStringIterator& input, bool resetCursor = true);
+        Ptr<SchemeObject> read(const ezString& inputString, bool resetSyntaxChecker = true);
+        Ptr<SchemeObject> read(ezStringIterator& input, bool resetSyntaxChecker = true);
 
         Ptr<SchemeObject> parseAtom(ezStringIterator& input);
 
@@ -91,23 +93,23 @@ namespace lcpp
         bool isNewLine(ezUInt32 character);
         bool isComment(ezUInt32 character);
 
-        inline const SourceCursor& getCursor() const { return m_cursor; }
-        inline SourceCursor& getCursor() { return m_cursor; }
+        inline       Ptr<SyntaxCheckResult> syntaxCheckResult() { return m_pSyntaxCheckResult; }
+        inline Ptr<const SyntaxCheckResult> syntaxCheckResult() const { return m_pSyntaxCheckResult; }
 
     private:
 
         struct Defaults
         {
             TypeFactory factory;
-            SourceCursor cursor;
+            SyntaxCheckResult syntaxCheckResult;
         };
 
         Defaults defaults;
 
         ezString m_separators;
 
-        TypeFactory& m_factory;
-        SourceCursor& m_cursor;
+        Ptr<TypeFactory> m_pFactory;
+        Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
 
         ezHashTable<ezString, SchemeSyntax::HandlerFuncPtr_t> m_syntaxHandlers;
 

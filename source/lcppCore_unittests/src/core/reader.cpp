@@ -284,7 +284,7 @@ namespace
             CUT_ASSERT.isTrue(result.parenthesisBalance == -1);
             CUT_ASSERT.isFalse(result.isComplete());
             auto iter = input.GetIteratorFront();
-            iter += result.pCursor->currentPosition().streamIndex - 1;
+            iter += result.cursor.currentPosition().streamIndex - 1;
             CUT_ASSERT.isTrue(iter.GetCharacter() == '3');
             ++iter;
             CUT_ASSERT.isTrue(iter.GetCharacter() == ')');
@@ -304,7 +304,6 @@ namespace
             CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 1337, "Wrong value");
         }
     });
-
 
     UnitTest g_test11(g_group, "Detect +- as symbols", [](){
         Reader reader;
