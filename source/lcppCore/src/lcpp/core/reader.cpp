@@ -85,18 +85,31 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
     {
         auto copy = input;
 
-        // Check if there is any separator after the + or - sign
+        ezStringBuilder symbol;
+        symbol.Append(ch);
+
         ++copy;
-        if(isSeparator(copy.GetCharacter()))
+        ch = copy.GetCharacter();
+        while(true)
         {
-            // ... if so, create + or - as symbol
-            ezStringBuilder symbol;
+            if (isSeparator(ch))
+            {
+                // The + or - characters stand alone, which means they're meant to be a symbol.
+                while(input.GetData() != copy.GetData())
+                {
+                    advance(input);
+                }
+                return m_pFactory->createSymbol(symbol);
+            }
+            if (isDigit(ch))
+            {
+                // The +'s or -'s are sign changers of the digit we just encountered.
+                // Abort reading as symbol.
+                break;
+            }
             symbol.Append(ch);
-
-            // ... and don't forget to skip the character!
-            advance(input);
-
-            return m_pFactory->createSymbol(symbol);
+            ++copy;
+            ch = copy.GetCharacter();
         }
     }
 
