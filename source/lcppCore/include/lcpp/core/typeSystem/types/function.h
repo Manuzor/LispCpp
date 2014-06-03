@@ -7,7 +7,7 @@ namespace lcpp
     class Environment;
     class SchemeCons;
 
-    class LCPP_CORE_API SchemeFunction : public SchemeExtend<SchemeFunction, SchemeObject>
+    class LCPP_CORE_API SchemeFunction : public SchemeObject
     {
     public:
 
@@ -15,6 +15,8 @@ namespace lcpp
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeFunction& rhs) const;
+
+        virtual const Type& type() const LCPP_OVERRIDE;
 
         virtual ezString dump() const = 0;
 
@@ -56,6 +58,8 @@ namespace lcpp
 
         SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, Executor exec);
 
+        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
@@ -73,6 +77,8 @@ namespace lcpp
     public:
 
         SchemeFunctionUserDefined(Ptr<Environment> pEnv, Ptr<SchemeObject> pArgNameList, Ptr<SchemeCons> pBody);
+
+        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;

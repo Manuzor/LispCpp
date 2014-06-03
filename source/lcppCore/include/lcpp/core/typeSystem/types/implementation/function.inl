@@ -1,5 +1,12 @@
 
 inline
+const lcpp::Type&
+lcpp::SchemeFunction::type() const
+{
+    return TypeInfo<SchemeFunction>::type();
+}
+
+inline
 ezString&
 lcpp::SchemeFunction::name()
 {

@@ -42,6 +42,16 @@ lcpp::SchemeCons::operator ==(const SchemeCons& rhs) const
 }
 
 inline
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::SchemeCons::clone(ezAllocatorBase* pAllocator) const
+{
+    auto pCloned = LCPP_NEW(pAllocator, SchemeCons)(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+    pCloned->m_pCar = m_pCar->clone(pAllocator);
+    pCloned->m_pCdr = m_pCdr->clone(pAllocator);
+    return pCloned;
+}
+
+inline
 ezString
 lcpp::SchemeCons::toString() const
 {

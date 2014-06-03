@@ -43,6 +43,12 @@ SchemeFunction(name, pEnv),
     EZ_ASSERT(exec, "The function executor must be valid!");
 }
 
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::SchemeFunctionBuiltin::clone(ezAllocatorBase* pAllocator) const
+{
+    return LCPP_NEW(pAllocator, SchemeFunctionBuiltin)(*this);
+}
+
 ezString
 lcpp::SchemeFunctionBuiltin::toString() const
 {
@@ -116,6 +122,12 @@ lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<Environment> pEnv
         EZ_ASSERT(pArgNamePtr->cdr()->is<SchemeCons>(), "Invalid arg name list.");
         pArgNamePtr = pArgNamePtr->cdr().cast<SchemeCons>();
     }
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::SchemeFunctionUserDefined::clone(ezAllocatorBase* pAllocator) const
+{
+    return LCPP_NEW(pAllocator, SchemeFunctionUserDefined)(*this);
 }
 
 ezString

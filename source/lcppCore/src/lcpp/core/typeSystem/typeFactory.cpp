@@ -90,3 +90,19 @@ lcpp::TypeFactory::createSyntax(Ptr<SchemeSymbol> pName,
 {
     return LCPP_NEW(m_pAllocator, SchemeSyntax)(pName, pUnevaluatedArgList, pHandler);
 }
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::TypeFactory::copy(Ptr<SchemeObject> pObject)
+{
+    return pObject->clone(m_pAllocator);
+}
+
+lcpp::Ptr<lcpp::SchemeInteger> lcpp::TypeFactory::copy(Ptr<SchemeInteger> pInteger)
+{
+    return createInteger(pInteger->value());
+}
+
+lcpp::Ptr<lcpp::SchemeSymbol> lcpp::TypeFactory::copy(Ptr<SchemeSymbol> pSymbol)
+{
+    return createSymbol(pSymbol->value());
+}

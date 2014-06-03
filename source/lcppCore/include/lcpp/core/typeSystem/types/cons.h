@@ -16,6 +16,8 @@ namespace lcpp
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeCons& rhs) const;
 
+        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const;
+
         virtual ezString toString() const LCPP_OVERRIDE;
         // Prints the contents of itself to \a builder.
         // \remark Effectlively omits the enclosing parenthesis.

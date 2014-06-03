@@ -25,6 +25,7 @@ namespace lcpp
         virtual ezString toString() const = 0;
 
         virtual const Type& type() const = 0;
+        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const = 0;
         template<typename T_Other>
         bool is() const;
 
@@ -57,6 +58,7 @@ namespace lcpp
         virtual ~SchemeExtend() = 0 {}
 
         virtual const Type& type() const LCPP_OVERRIDE;
+        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeExtend);

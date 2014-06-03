@@ -19,14 +19,13 @@ namespace lcpp
         TypeFactory(ezAllocatorBase* pAllocator = defaultAllocator());
         ~TypeFactory();
 
-        Ptr<Environment>   createEnvironment(const ezString& name, Ptr<Environment> pParent);
+        Ptr<Environment>    createEnvironment(const ezString& name, Ptr<Environment> pParent);
 
         Ptr<SchemeInteger>  createInteger(SchemeInteger::Number_t value);
         Ptr<SchemeNumber>   createNumber(SchemeNumber::Number_t value);
         Ptr<SchemeString>   createString(const ezString& str);
         Ptr<SchemeSymbol>   createSymbol(const ezString& symbol);
         Ptr<SchemeCons>     createCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr);
-
         Ptr<SchemeFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                                       Ptr<SchemeObject> pArgNameList,
                                                       Ptr<SchemeCons> pBody);
@@ -36,6 +35,10 @@ namespace lcpp
         Ptr<SchemeSyntax>   createSyntax(Ptr<SchemeSymbol> pName,
                                          Ptr<SchemeCons> pUnevaluatedArgList,
                                          SchemeSyntax::HandlerFuncPtr_t pHandler);
+
+        Ptr<SchemeInteger> copy(Ptr<SchemeInteger> pInteger);
+        Ptr<SchemeSymbol>  copy(Ptr<SchemeSymbol> pSymbol);
+        Ptr<SchemeObject>  copy(Ptr<SchemeObject> pObject);
 
     private:
         ezAllocatorBase* m_pAllocator;
