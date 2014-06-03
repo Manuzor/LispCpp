@@ -244,7 +244,33 @@ lcpp::Reader::parseList(ezStringIterator& input)
     // skip first ( character
     advance(input);
 
-    return parseListHelper(input);
+
+
+    skipSeparators(input);
+    auto ch = input.GetCharacter();
+
+    if(ch == ')')
+    {
+        advance(input);
+        return SCHEME_NIL_PTR;
+    }
+
+    auto car = read(input, false);
+    auto cdr = parseListHelper(input);
+
+    if(car->is<SchemeSymbol>())
+    {
+        auto pSymbol = car.cast<SchemeSymbol>();
+        auto& handlerName = pSymbol->value();
+        SchemeSyntax::HandlerFuncPtr_t pSyntaxHandler;
+        if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
+        {
+            EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
+            car = m_pFactory->createSyntax(pSymbol, cdr, pSyntaxHandler);
+        }
+    }
+
+    return m_pFactory->createCons(car, cdr);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -261,18 +287,6 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
 
     auto car = read(input, false);
     auto cdr = parseListHelper(input);
-
-    if (car->is<SchemeSymbol>())
-    {
-        auto pSymbol = car.cast<SchemeSymbol>();
-        auto& handlerName = pSymbol->value();
-        SchemeSyntax::HandlerFuncPtr_t pSyntaxHandler;
-        if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
-        {
-            EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
-            car = m_pFactory->createSyntax(pSymbol, cdr, pSyntaxHandler);
-        }
-    }
 
     return m_pFactory->createCons(car, cdr);
 }
