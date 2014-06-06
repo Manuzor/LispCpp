@@ -155,7 +155,7 @@ lcpp::SchemeFunctionUserDefined::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObje
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
 
-    // TODO Process args
+    // Process args
     //////////////////////////////////////////////////////////////////////////
     processArguments(pArgList);
 

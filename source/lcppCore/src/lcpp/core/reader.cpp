@@ -26,7 +26,8 @@ lcpp::Reader::~Reader()
 {
 }
 
-void lcpp::Reader::initialize()
+void
+lcpp::Reader::initialize()
 {
     m_pSyntaxCheckResult->reset();
 

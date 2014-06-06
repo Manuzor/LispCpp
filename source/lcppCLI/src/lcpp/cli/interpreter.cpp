@@ -9,7 +9,9 @@ lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_out(std::cout),
     m_in(std::cin)
 {
-    // TODO assert pointers are valid
+    EZ_ASSERT(m_pReader, "Invalid reader pointer!");
+    EZ_ASSERT(m_pEvaluator, "Invalid evaluator pointer!");
+    EZ_ASSERT(m_pPrinter, "Invalid printer pointer!");
 }
 
 lcpp::Interpreter::~Interpreter()

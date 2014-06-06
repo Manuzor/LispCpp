@@ -20,7 +20,6 @@ namespace lcpp
     inline bool contains(const char* cstr, char character)
     {
         // TODO more efficient implementation?
-        ezStringBuilder b;
         return contains(ezString(cstr), character);
     }
 
