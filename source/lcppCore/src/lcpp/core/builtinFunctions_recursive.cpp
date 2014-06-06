@@ -12,24 +12,24 @@ lcpp::syntax::define(Ptr<Environment> pEnv,
 {
     if(isNil(pArgs))
     {
-        throw exceptions::InvalidSyntax("Built-in function 'define' expects exactly 2 arguments!");
+        throw exceptions::InvalidSyntax("Syntax 'define' expects exactly 2 arguments!");
     }
 
     auto pArgList = pArgs.cast<SchemeCons>();
 
     if(!pArgList->car()->is<SchemeSymbol>())
     {
-        throw exceptions::InvalidSyntax("First argument to built-in function 'define' must be a symbol!");
+        throw exceptions::InvalidSyntax("First argument to syntax 'define' must be a symbol!");
     }
 
     if(isNil(pArgList->cdr()))
     {
-        throw exceptions::InvalidSyntax("Not enough arguments for builtin-in 'define'!");
+        throw exceptions::InvalidSyntax("Not enough arguments for syntax 'define'!");
     }
 
     if(!isNil(pArgList->cdr().cast<SchemeCons>()->cdr()))
     {
-        throw exceptions::InvalidSyntax("Too many arguments for built-in 'define'!");
+        throw exceptions::InvalidSyntax("Too many arguments for syntax 'define'!");
     }
 
     auto symbol = pArgList->car().cast<SchemeSymbol>();
@@ -95,6 +95,47 @@ lcpp::syntax::lambda(Ptr<Environment> pEnv,
 
     return pEvaluator->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
 }
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidSyntax("Syntax 'if' expects exactly 3 arguments!");
+    }
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    {
+        ezUInt32 numArgs = 0;
+        count(pArgList, numArgs);
+        if(numArgs != 3)
+        {
+            ezStringBuilder builder;
+            builder.AppendFormat("Expected 3 argument(s), got %u.", numArgs);
+            throw exceptions::InvalidInput(builder.GetData());
+        }
+    }
+
+    auto expression = pArgList->car();
+    auto thenPart = pArgList->cdr().cast<SchemeCons>()->car();
+    auto elsePart = pArgList->cdr().cast<SchemeCons>()->cdr().cast<SchemeCons>()->car();
+
+    auto expressionResult = pEvaluator->evalulate(expression);
+
+    if (!expressionResult->is<SchemeBool>())
+    {
+        throw exceptions::InvalidInput("Given expression in 'if' does not evaluate to a boolean value!");
+    }
+
+    if(isTrue(expressionResult))
+    {
+        return pEvaluator->evalulate(thenPart);
+    }
+
+    return pEvaluator->evalulate(elsePart);
+}
+
 
 // Built-in functions
 //////////////////////////////////////////////////////////////////////////

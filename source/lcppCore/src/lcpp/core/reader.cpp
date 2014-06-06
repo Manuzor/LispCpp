@@ -33,6 +33,7 @@ lcpp::Reader::initialize()
 
     m_syntaxHandlers["define"] = &syntax::define;
     m_syntaxHandlers["lambda"] = &syntax::lambda;
+    m_syntaxHandlers["if"] = &syntax::if_;
 }
 
 lcpp::Ptr<lcpp::SchemeObject>

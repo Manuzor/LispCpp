@@ -15,6 +15,7 @@ namespace lcpp
     {
         Ptr<SchemeObject> define(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
         Ptr<SchemeObject> lambda(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
     }
 
     // Built-in functions

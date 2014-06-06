@@ -147,6 +147,16 @@ lcpp::RecursiveEvaluator::factory() const
 void
 lcpp::RecursiveEvaluator::setupEnvironment()
 {
+    // constants
+    //////////////////////////////////////////////////////////////////////////
+    m_pEnv->add(m_pFactory->createSymbol("#t"), SCHEME_TRUE_PTR);
+    m_pEnv->add(m_pFactory->createSymbol("#f"), SCHEME_FALSE_PTR);
+    m_pEnv->add(m_pFactory->createSymbol("null"), SCHEME_NIL_PTR);
+    m_pEnv->add(m_pFactory->createSymbol("nil"), SCHEME_NIL_PTR);
+    m_pEnv->add(m_pFactory->createSymbol("#v"), SCHEME_VOID_PTR);
+    
+    // Utility functions
+    //////////////////////////////////////////////////////////////////////////
     m_pEnv->add(m_pFactory->createSymbol("exit"), m_pFactory->createBuiltinFunction("exit", m_pEnv,
         [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
         return builtin::exit(pEnv, pEval, pArgs);
