@@ -56,41 +56,48 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     }
 
     auto pBody = pObject.cast<SchemeCons>();
+    auto pFuncObject = pBody->car();
 
     if(pBody->car()->is<SchemeSyntax>())
     {
         return pBody->car().cast<SchemeSyntax>()->call(pEnv, this);
     }
-
-    // TODO add support for calling cons!
-    if(!pBody->car()->is<SchemeSymbol>())
+    else if(pBody->car()->is<SchemeCons>())
     {
-        throw exceptions::InvalidSyntax("Expected symbol!");
+        pFuncObject = evalulate(pFuncObject);
+
+        if(!pFuncObject->is<SchemeFunction>())
+        {
+            throw exceptions::InvalidInput("Attempt to call non-function object.");
+        }
+    }
+    else if(pBody->car()->is<SchemeSymbol>())
+    {
+        auto pSymbol = pBody->car().cast<SchemeSymbol>();
+
+        if(!m_pEnv->get(pSymbol, pFuncObject).IsSuccess())
+        {
+            ezStringBuilder messsage;
+            messsage.AppendFormat("No function binding found for symbol '%s'.", pSymbol->value().GetData());
+            throw exceptions::InvalidInput(messsage.GetData());
+        }
+
+        if(!pFuncObject->is<SchemeFunction>())
+        {
+            ezStringBuilder messsage;
+            messsage.AppendFormat("Attempt to call non-function object '%s'.", pSymbol->value().GetData());
+            throw exceptions::InvalidInput(messsage.GetData());
+        }
+    }
+    else
+    {
+        throw exceptions::InvalidSyntax("Invalid expression cannot be called!");
     }
 
-    auto pSymbol = pBody->car().cast<SchemeSymbol>();
-
-    Ptr<SchemeObject> pFuncObject;
-
-    if(!m_pEnv->get(pSymbol, pFuncObject).IsSuccess())
-    {
-        ezStringBuilder messsage;
-        messsage.AppendFormat("No function binding found for symbol '%s'.", pSymbol->value().GetData());
-        throw exceptions::InvalidInput(messsage.GetData());
-    }
-
-    if (!pFuncObject->is<SchemeFunction>())
-    {
-        ezStringBuilder messsage;
-        messsage.AppendFormat("Attempt to call non-function object '%s'.", pSymbol->value().GetData());
-        throw exceptions::InvalidInput(messsage.GetData());
-    }
-
-    auto pArgs = pBody->cdr();
+    auto pArgs = m_pFactory->copy(pBody->cdr());
 
     if(!isNil(pArgs))
     {
-        pArgs = m_pFactory->copy(pArgs);
         evaluateEach(pEnv, pArgs);
     }
 
