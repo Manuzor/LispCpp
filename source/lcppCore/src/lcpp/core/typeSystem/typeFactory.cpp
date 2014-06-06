@@ -94,7 +94,18 @@ lcpp::TypeFactory::createSyntax(Ptr<SchemeSymbol> pName,
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::TypeFactory::copy(Ptr<SchemeObject> pObject)
 {
-    return pObject->clone(m_pAllocator);
+    if(pObject->is<SchemeInteger>())  { return copy(pObject.cast<SchemeInteger>()); }
+    if(pObject->is<SchemeNumber>())   { return copy(pObject.cast<SchemeNumber>()); }
+    if(pObject->is<SchemeString>())   { return copy(pObject.cast<SchemeString>()); }
+    if(pObject->is<SchemeSymbol>())   { return copy(pObject.cast<SchemeSymbol>()); }
+    if(pObject->is<SchemeCons>())     { return copy(pObject.cast<SchemeCons>()); }
+    if(pObject->is<SchemeFunction>()) { return copy(pObject.cast<SchemeFunction>()); }
+
+    if(pObject->is<SchemeNil>()) { return copy(pObject.cast<SchemeNil>()); }
+    if(pObject->is<SchemeBool>()) { return copy(pObject.cast<SchemeBool>()); }
+    if(pObject->is<SchemeVoid>()) { return copy(pObject.cast<SchemeVoid>()); }
+    
+    throw exceptions::NotImplemented("Unsupported type to copy!");
 }
 
 lcpp::Ptr<lcpp::SchemeInteger> lcpp::TypeFactory::copy(Ptr<SchemeInteger> pInteger)
@@ -102,7 +113,33 @@ lcpp::Ptr<lcpp::SchemeInteger> lcpp::TypeFactory::copy(Ptr<SchemeInteger> pInteg
     return createInteger(pInteger->value());
 }
 
-lcpp::Ptr<lcpp::SchemeSymbol> lcpp::TypeFactory::copy(Ptr<SchemeSymbol> pSymbol)
+lcpp::Ptr<lcpp::SchemeNumber>
+lcpp::TypeFactory::copy(Ptr<SchemeNumber> pNumber)
+{
+    return createNumber(pNumber->value());
+}
+
+lcpp::Ptr<lcpp::SchemeString>
+lcpp::TypeFactory::copy(Ptr<SchemeString> pString)
+{
+    return createString(pString->value());
+}
+
+lcpp::Ptr<lcpp::SchemeSymbol>
+lcpp::TypeFactory::copy(Ptr<SchemeSymbol> pSymbol)
 {
     return createSymbol(pSymbol->value());
+}
+
+lcpp::Ptr<lcpp::SchemeCons>
+lcpp::TypeFactory::copy(Ptr<SchemeCons> pCons)
+{
+    return createCons(copy(pCons->car()),
+                      copy(pCons->cdr()));
+}
+
+lcpp::Ptr<lcpp::SchemeFunction>
+lcpp::TypeFactory::copy(Ptr<SchemeFunction> pFunc)
+{
+    return pFunc->clone(m_pAllocator);
 }

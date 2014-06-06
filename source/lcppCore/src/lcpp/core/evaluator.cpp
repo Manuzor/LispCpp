@@ -90,10 +90,22 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
 
     if(!isNil(pArgs))
     {
+        pArgs = m_pFactory->copy(pArgs);
         evaluateEach(pEnv, pArgs);
     }
 
     return pFuncObject.cast<SchemeFunction>()->call(this, pArgs);
+}
+
+void lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons)
+{
+    auto pToEval = pCons->car();
+    auto pEvaluated = evalulate(pEnv, pToEval);
+    pCons->car(pEvaluated);
+
+    if (isNil(pCons->cdr())) { return; }
+
+    evaluateEach(pEnv, pCons->cdr().cast<SchemeCons>());
 }
 
 lcpp::Ptr<lcpp::Environment>
@@ -118,17 +130,6 @@ lcpp::Ptr<const lcpp::TypeFactory>
 lcpp::RecursiveEvaluator::factory() const
 {
     return m_pFactory;
-}
-
-void lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons)
-{
-    auto pToEval = pCons->car();
-    auto pEvaluated = evalulate(pEnv, pToEval);
-    pCons->car(pEvaluated);
-
-    if (isNil(pCons->cdr())) { return; }
-
-    evaluateEach(pEnv, pCons->cdr().cast<SchemeCons>());
 }
 
 void lcpp::RecursiveEvaluator::setupEnvironment()

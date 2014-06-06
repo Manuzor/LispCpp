@@ -5,6 +5,10 @@
 
 namespace lcpp
 {
+    class SchemeNil;
+    class SchemeBool;
+    class SchemeVoid;
+
     class SchemeObject;
     class SchemeCons;
     class SchemeString;
@@ -36,9 +40,24 @@ namespace lcpp
                                          Ptr<SchemeCons> pUnevaluatedArgList,
                                          SchemeSyntax::HandlerFuncPtr_t pHandler);
 
-        Ptr<SchemeInteger> copy(Ptr<SchemeInteger> pInteger);
-        Ptr<SchemeSymbol>  copy(Ptr<SchemeSymbol> pSymbol);
-        Ptr<SchemeObject>  copy(Ptr<SchemeObject> pObject);
+        // General copy function
+        //////////////////////////////////////////////////////////////////////////
+        Ptr<SchemeObject> copy(Ptr<SchemeObject> pObject);
+
+        // Specialized copy function for each type
+        //////////////////////////////////////////////////////////////////////////
+        Ptr<SchemeInteger>  copy(Ptr<SchemeInteger> pInteger);
+        Ptr<SchemeNumber>   copy(Ptr<SchemeNumber> pObject);
+        Ptr<SchemeString>   copy(Ptr<SchemeString> pObject);
+        Ptr<SchemeSymbol>   copy(Ptr<SchemeSymbol> pSymbol);
+        Ptr<SchemeCons>     copy(Ptr<SchemeCons> pSymbol);
+        Ptr<SchemeFunction> copy(Ptr<SchemeFunction> pSymbol);
+
+        // Singletons
+        //////////////////////////////////////////////////////////////////////////
+        Ptr<SchemeNil>  copy(Ptr<SchemeNil> pNil) { return pNil; }
+        Ptr<SchemeBool> copy(Ptr<SchemeBool> pBool) { return pBool; }
+        Ptr<SchemeVoid> copy(Ptr<SchemeVoid> pVoid) { return pVoid; }
 
     private:
         ezAllocatorBase* m_pAllocator;
