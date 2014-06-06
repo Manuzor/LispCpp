@@ -96,6 +96,6 @@ ezInt32 lcpp::Interpreter::repl()
             continue;
         }
 
-        m_pPrinter->print(*pResult);
+        m_pPrinter->print(pResult);
     }
 }

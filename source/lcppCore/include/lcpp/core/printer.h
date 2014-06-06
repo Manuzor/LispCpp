@@ -10,7 +10,7 @@ namespace lcpp
         Printer();
         virtual ~Printer();
 
-        virtual void print(SchemeObject& object);
+        virtual void print(Ptr<SchemeObject> object);
         virtual void print(const std::string& object);
         virtual void print(const ezStringBuilder& str);
         virtual void print(const ezString& str);
