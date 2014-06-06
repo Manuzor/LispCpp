@@ -13,6 +13,7 @@ namespace lcpp
     class SchemeCons;
     class SchemeString;
     class SchemeSymbol;
+    class SchemeFile;
 
     class Environment;
     class IEvaluator;
@@ -30,6 +31,7 @@ namespace lcpp
         Ptr<SchemeString>   createString(const ezString& str);
         Ptr<SchemeSymbol>   createSymbol(const ezString& symbol);
         Ptr<SchemeCons>     createCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr);
+        Ptr<SchemeFile>     createFile(const ezString& fileName);
         Ptr<SchemeFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                                       Ptr<SchemeObject> pArgNameList,
                                                       Ptr<SchemeCons> pBody);
@@ -47,11 +49,12 @@ namespace lcpp
         // Specialized copy function for each type
         //////////////////////////////////////////////////////////////////////////
         Ptr<SchemeInteger>  copy(Ptr<SchemeInteger> pInteger);
-        Ptr<SchemeNumber>   copy(Ptr<SchemeNumber> pObject);
-        Ptr<SchemeString>   copy(Ptr<SchemeString> pObject);
+        Ptr<SchemeNumber>   copy(Ptr<SchemeNumber> pNumber);
+        Ptr<SchemeString>   copy(Ptr<SchemeString> pString);
         Ptr<SchemeSymbol>   copy(Ptr<SchemeSymbol> pSymbol);
-        Ptr<SchemeCons>     copy(Ptr<SchemeCons> pSymbol);
-        Ptr<SchemeFunction> copy(Ptr<SchemeFunction> pSymbol);
+        Ptr<SchemeCons>     copy(Ptr<SchemeCons> pCons);
+        Ptr<SchemeFile>     copy(Ptr<SchemeFile> pFile);
+        Ptr<SchemeFunction> copy(Ptr<SchemeFunction> pFunc);
 
         // Singletons
         //////////////////////////////////////////////////////////////////////////

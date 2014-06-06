@@ -26,6 +26,9 @@ namespace lcpp
 
         void initialize();
 
+        void loadBase();
+        void runUnittests();
+
         ezInt32 repl();
 
     private:
@@ -35,6 +38,9 @@ namespace lcpp
 
         std::ostream& m_out;
         std::istream& m_in;
+
+        ezStringBuilder m_szDataDir;
+        ezStringBuilder m_szBaseDir;
     };
     
 }

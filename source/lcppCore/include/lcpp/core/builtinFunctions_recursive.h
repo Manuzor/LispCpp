@@ -23,6 +23,13 @@ namespace lcpp
         Ptr<SchemeObject> exit(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
         Ptr<SchemeObject> dump(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
 
+        // File handling
+        //////////////////////////////////////////////////////////////////////////
+        Ptr<SchemeObject> fileOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileIsOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileClose(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileReadString(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+
         Ptr<SchemeObject> add(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
     }
 }

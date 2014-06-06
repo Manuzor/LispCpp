@@ -67,6 +67,12 @@ lcpp::TypeFactory::createCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr)
     return LCPP_NEW(m_pAllocator, SchemeCons)(pCar, pCdr);
 }
 
+lcpp::Ptr<lcpp::SchemeFile>
+lcpp::TypeFactory::createFile(const ezString& fileName)
+{
+    return LCPP_NEW(m_pAllocator, SchemeFile)(fileName);
+}
+
 lcpp::Ptr<lcpp::SchemeFunction>
 lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                              Ptr<SchemeObject> pArgNameList,
@@ -99,6 +105,7 @@ lcpp::TypeFactory::copy(Ptr<SchemeObject> pObject)
     if(pObject->is<SchemeString>())   { return copy(pObject.cast<SchemeString>()); }
     if(pObject->is<SchemeSymbol>())   { return copy(pObject.cast<SchemeSymbol>()); }
     if(pObject->is<SchemeCons>())     { return copy(pObject.cast<SchemeCons>()); }
+    if(pObject->is<SchemeFile>())     { return copy(pObject.cast<SchemeFile>()); }
     if(pObject->is<SchemeFunction>()) { return copy(pObject.cast<SchemeFunction>()); }
 
     if(pObject->is<SchemeNil>()) { return copy(pObject.cast<SchemeNil>()); }
@@ -137,6 +144,13 @@ lcpp::TypeFactory::copy(Ptr<SchemeCons> pCons)
     return createCons(copy(pCons->car()),
                       copy(pCons->cdr()));
 }
+
+lcpp::Ptr<lcpp::SchemeFile>
+lcpp::TypeFactory::copy(Ptr<SchemeFile> pFile)
+{
+    return createFile(pFile->name());
+}
+
 
 lcpp::Ptr<lcpp::SchemeFunction>
 lcpp::TypeFactory::copy(Ptr<SchemeFunction> pFunc)

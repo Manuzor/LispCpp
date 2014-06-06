@@ -27,10 +27,15 @@ namespace lcpp
 
     DECLARE_SCHEME_TYPE_INFO(SchemeBool);
 
+    bool isTrue(Ptr<SchemeObject> pObject);
+    bool isFalse(Ptr<SchemeObject> pObject);
+
     bool operator ==(const SchemeBool& lhs, const SchemeBool& rhs);
 
 #define SCHEME_TRUE (::lcpp::SchemeBool::trueInstance())
+#define SCHEME_TRUE_PTR (Ptr<SchemeBool>(&SCHEME_TRUE))
 #define SCHEME_FALSE (::lcpp::SchemeBool::falseInstance())
+#define SCHEME_FALSE_PTR (Ptr<SchemeBool>(&SCHEME_FALSE))
 
 }
 

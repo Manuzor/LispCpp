@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/cli/interpreter.h"
+#include "lcpp/cli/ioUtils.h"
 #include <iostream>
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
@@ -7,7 +8,8 @@ lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pEvaluator(cinfo.pEvaluator),
     m_pPrinter(cinfo.pPrinter),
     m_out(std::cout),
-    m_in(std::cin)
+    m_in(std::cin),
+    m_szDataDir()
 {
     EZ_ASSERT(m_pReader, "Invalid reader pointer!");
     EZ_ASSERT(m_pEvaluator, "Invalid evaluator pointer!");
@@ -22,6 +24,75 @@ void lcpp::Interpreter::initialize()
 {
     m_pReader->initialize();
     m_pEvaluator->initialize();
+
+    ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
+
+    ezStringBuilder dataDir;
+    dataDir.AppendPath(ezOSFile::GetApplicationDirectory(), "../../data");
+    dataDir.MakeCleanPath();
+    auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data-root");
+
+    if (!result.IsSuccess())
+    {
+        dataDir.Prepend("Unable add data dir: ");
+        throw std::exception(dataDir.GetData());
+    }
+    m_szDataDir = dataDir;
+
+    dataDir.AppendPath("base");
+
+    result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data/base");
+
+    if(!result.IsSuccess())
+    {
+        dataDir.Prepend("Unable add base dir: ");
+        throw std::exception(dataDir.GetData());
+    }
+
+    m_szBaseDir = dataDir;
+}
+
+void lcpp::Interpreter::loadBase()
+{
+    ezFileReader file_stdlib;
+    if(file_stdlib.Open("stdlib.lisp", ezFileMode::Read) == EZ_FAILURE)
+    {
+        throw std::exception("Unable to load stdlib.lisp!");
+    }
+    auto size = file_stdlib.GetFileSize();
+    auto bufferSize = ezUInt32(size) + 1;
+
+    auto buffer = new char[bufferSize];
+    LCPP_SCOPE_EXIT{ delete[] buffer; };
+
+    // null terminator
+    buffer[bufferSize - 1] = '\0';
+    
+    ezStringBuilder content;
+    content.Reserve(bufferSize);
+
+    file_stdlib.ReadBytes(buffer, bufferSize - 1);
+
+    content.Append(buffer);
+    auto contentIter = content.GetIteratorFront();
+    Ptr<SchemeObject> pResult;
+
+    m_pReader->syntaxCheckResult()->reset();
+
+    while(true)
+    {
+        m_pReader->skipSeparators(contentIter);
+        if(!contentIter.IsValid()) { break; }
+        
+        pResult = m_pReader->read(contentIter, false);
+        pResult = m_pEvaluator->evalulate(pResult);
+        m_pPrinter->print(pResult);
+    }
+}
+
+void lcpp::Interpreter::runUnittests()
+{
+
 }
 
 ezInt32 lcpp::Interpreter::repl()

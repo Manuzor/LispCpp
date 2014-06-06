@@ -5,6 +5,7 @@
 namespace lcpp
 {
     class SchemeObject;
+    class Reader;
 
     class LCPP_CORE_API IEvaluator
     {
@@ -21,6 +22,9 @@ namespace lcpp
 
         virtual Ptr<TypeFactory> factory() = 0;
         virtual Ptr<const TypeFactory> factory() const = 0;
+
+        virtual Ptr<Reader> reader() = 0;
+        virtual Ptr<const Reader> reader() const = 0;
     };
 
     class LCPP_CORE_API RecursiveEvaluator : public IEvaluator
@@ -28,12 +32,8 @@ namespace lcpp
     public:
         struct CInfo
         {
-            TypeFactory* pFactory;
-
-            CInfo() :
-                pFactory(nullptr)
-            {
-            }
+            Ptr<TypeFactory> pFactory;
+            Ptr<Reader> pReader;
         };
     public:
         explicit RecursiveEvaluator();
@@ -51,14 +51,17 @@ namespace lcpp
         virtual Ptr<TypeFactory> factory() LCPP_OVERRIDE;
         virtual Ptr<const TypeFactory> factory() const LCPP_OVERRIDE;
 
+        virtual Ptr<Reader> reader() LCPP_OVERRIDE;
+        virtual Ptr<const Reader> reader() const LCPP_OVERRIDE;
+
     private:
         TypeFactory m_defaultFactory;
         Ptr<TypeFactory> m_pFactory;
+        Ptr<Reader> m_pReader;
 
         Ptr<Environment> m_pEnv;
 
         void evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons);
-
         void setupEnvironment();
     };
     

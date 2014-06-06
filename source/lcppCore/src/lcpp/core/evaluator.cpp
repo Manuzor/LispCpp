@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "lcpp/core/evaluator.h"
+#include "lcpp/core/reader.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/builtinFunctions_recursive.h"
 
 lcpp::RecursiveEvaluator::RecursiveEvaluator() :
     m_defaultFactory(),
     m_pFactory(&m_defaultFactory),
+    m_pReader(nullptr),
     m_pEnv()
 {
 }
@@ -13,6 +15,7 @@ lcpp::RecursiveEvaluator::RecursiveEvaluator() :
 lcpp::RecursiveEvaluator::RecursiveEvaluator(const CInfo& cinfo) :
     m_defaultFactory(),
     m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory),
+    m_pReader(cinfo.pReader),
     m_pEnv()
 {
 }
@@ -21,7 +24,8 @@ lcpp::RecursiveEvaluator::~RecursiveEvaluator()
 {
 }
 
-void lcpp::RecursiveEvaluator::initialize()
+void
+lcpp::RecursiveEvaluator::initialize()
 {
     m_pEnv = m_pFactory->createEnvironment("", nullptr);
     setupEnvironment();
@@ -104,7 +108,8 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     return pFuncObject.cast<SchemeFunction>()->call(this, pArgs);
 }
 
-void lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons)
+void
+lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons)
 {
     auto pToEval = pCons->car();
     auto pEvaluated = evalulate(pEnv, pToEval);
@@ -139,7 +144,8 @@ lcpp::RecursiveEvaluator::factory() const
     return m_pFactory;
 }
 
-void lcpp::RecursiveEvaluator::setupEnvironment()
+void
+lcpp::RecursiveEvaluator::setupEnvironment()
 {
     m_pEnv->add(m_pFactory->createSymbol("exit"), m_pFactory->createBuiltinFunction("exit", m_pEnv,
         [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
@@ -149,8 +155,42 @@ void lcpp::RecursiveEvaluator::setupEnvironment()
         [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
         return builtin::dump(pEnv, pEval, pArgs);
     }));
+
+    // File handling
+    //////////////////////////////////////////////////////////////////////////
+    m_pEnv->add(m_pFactory->createSymbol("file-open"), m_pFactory->createBuiltinFunction("file-open", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::fileOpen(pEnv, pEval, pArgs);
+    }));
+    m_pEnv->add(m_pFactory->createSymbol("file-is-open"), m_pFactory->createBuiltinFunction("file-is-open", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::fileIsOpen(pEnv, pEval, pArgs);
+    }));
+    m_pEnv->add(m_pFactory->createSymbol("file-read-string"), m_pFactory->createBuiltinFunction("file-read-string", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::fileReadString(pEnv, pEval, pArgs);
+    }));
+    m_pEnv->add(m_pFactory->createSymbol("file-close"), m_pFactory->createBuiltinFunction("file-close", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::fileClose(pEnv, pEval, pArgs);
+    }));
+
+    // Basic math
+    //////////////////////////////////////////////////////////////////////////
     m_pEnv->add(m_pFactory->createSymbol("+"), m_pFactory->createBuiltinFunction("+", m_pEnv,
         [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
         return builtin::add(pEnv, pEval, pArgs);
     }));
+}
+
+lcpp::Ptr<lcpp::Reader>
+lcpp::RecursiveEvaluator::reader()
+{
+    return m_pReader;
+}
+
+lcpp::Ptr<const lcpp::Reader>
+lcpp::RecursiveEvaluator::reader() const
+{
+    return m_pReader;
 }

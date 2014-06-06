@@ -58,6 +58,20 @@ lcpp::SchemeBool::value() const
 
 inline
 bool
+lcpp::isTrue(Ptr<SchemeObject> pObject)
+{
+    return pObject == SCHEME_TRUE_PTR;
+}
+
+inline
+bool
+lcpp::isFalse(Ptr<SchemeObject> pObject)
+{
+    return pObject == SCHEME_FALSE_PTR;
+}
+
+inline
+bool
 lcpp::operator ==(const SchemeBool& lhs, const SchemeBool& rhs)
 {
     return lhs.value() == rhs.value();

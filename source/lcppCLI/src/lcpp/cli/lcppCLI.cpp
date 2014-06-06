@@ -70,6 +70,7 @@ ezInt32 run()
     // Evaluator
     RecursiveEvaluator::CInfo evalCinfo;
     evalCinfo.pFactory = &factory;
+    evalCinfo.pReader = &reader;
     RecursiveEvaluator evaluator(evalCinfo);
 
     // Printer
@@ -83,7 +84,13 @@ ezInt32 run()
     Interpreter interpreter(cinfo);
     interpreter.initialize();
 
-    return interpreter.repl();
+    interpreter.loadBase();
+
+    interpreter.runUnittests();
+
+    auto result = interpreter.repl();
+
+    return result;
 }
 
 int main(int argc, const char* argv[])
