@@ -4,6 +4,7 @@
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/environment.h"
 #include "lcpp/core/evaluator.h"
+#include "lcpp/core/reader.h"
 
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::syntax::define(Ptr<Environment> pEnv,
@@ -204,6 +205,38 @@ lcpp::builtin::dump(Ptr<Environment> pEnv,
     }
 
     return pEvaluator->factory()->createString(pToDump->toString());
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::read(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeString);
+
+    return pEvaluator->reader()->read(pArgList->car().cast<SchemeString>()->value());
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::eval(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
+
+    return pEvaluator->evalulate(pArgList->car());
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::print(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+{
+    throw exceptions::NotImplemented("Not implemented..");
+    return SCHEME_VOID_PTR;
 }
 
 lcpp::Ptr<lcpp::SchemeObject>

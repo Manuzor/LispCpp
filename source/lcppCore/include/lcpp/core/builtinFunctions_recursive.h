@@ -24,6 +24,12 @@ namespace lcpp
         Ptr<SchemeObject> exit(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
         Ptr<SchemeObject> dump(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
 
+        // REPL
+        //////////////////////////////////////////////////////////////////////////
+        Ptr<SchemeObject> read(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> eval(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> print(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+
         // File handling
         //////////////////////////////////////////////////////////////////////////
         Ptr<SchemeObject> fileOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);

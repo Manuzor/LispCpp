@@ -166,6 +166,21 @@ lcpp::RecursiveEvaluator::setupEnvironment()
         return builtin::dump(pEnv, pEval, pArgs);
     }));
 
+    // REPL
+    //////////////////////////////////////////////////////////////////////////
+    m_pEnv->add(m_pFactory->createSymbol("read"), m_pFactory->createBuiltinFunction("read", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::read(pEnv, pEval, pArgs);
+    }));
+    m_pEnv->add(m_pFactory->createSymbol("eval"), m_pFactory->createBuiltinFunction("eval", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::eval(pEnv, pEval, pArgs);
+    }));
+    m_pEnv->add(m_pFactory->createSymbol("print"), m_pFactory->createBuiltinFunction("print", m_pEnv,
+        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
+        return builtin::print(pEnv, pEval, pArgs);
+    }));
+
     // File handling
     //////////////////////////////////////////////////////////////////////////
     m_pEnv->add(m_pFactory->createSymbol("file-open"), m_pFactory->createBuiltinFunction("file-open", m_pEnv,
