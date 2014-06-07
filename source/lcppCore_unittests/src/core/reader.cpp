@@ -167,6 +167,13 @@ namespace
                 reader.parseString(input.GetIteratorFront());
             }, "'hello' should not be parsed as string! ('\"hello\"' should)");
         }
+
+        {
+            ezString input("\"hello");
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+                reader.parseString(input.GetIteratorFront());
+            }, "'\"hello' should not be recognized as a complete string! ('\"hello\"' should)");
+        }
     });
 
     UnitTest g_test8(g_group, "parseList", []()

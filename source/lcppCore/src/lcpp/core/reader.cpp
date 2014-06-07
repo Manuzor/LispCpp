@@ -226,8 +226,13 @@ lcpp::Reader::parseString(ezStringIterator& input)
     {
         str.Append(ch);
         advance(input);
+        if (!input.IsValid())
+        {
+            throw exceptions::InvalidInput("No closing \" found for string!");
+        }
+        
         ch = input.GetCharacter();
-    } while(input.IsValid() && ch != '"');
+    } while(ch != '"');
 
     // consume trailing "
     advance(input);
