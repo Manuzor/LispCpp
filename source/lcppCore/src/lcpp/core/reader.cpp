@@ -55,7 +55,7 @@ lcpp::Reader::read(ezStringIterator& input, bool resetSyntaxChecker)
 
     if(!input.IsValid())
     {
-        throw exceptions::InvalidInput("Input string only contained separators!");
+        return SCHEME_VOID_PTR;
     }
 
     switch(input.GetCharacter())
@@ -250,8 +250,6 @@ lcpp::Reader::parseList(ezStringIterator& input)
 
     // skip first ( character
     advance(input);
-
-
 
     skipSeparators(input);
     auto ch = input.GetCharacter();
