@@ -90,11 +90,6 @@ void lcpp::Interpreter::loadBase()
     }
 }
 
-void lcpp::Interpreter::runUnittests()
-{
-
-}
-
 ezInt32 lcpp::Interpreter::repl()
 {
     std::ios_base::sync_with_stdio(false);
@@ -107,6 +102,17 @@ ezInt32 lcpp::Interpreter::repl()
     std::string inputBuffer("");
 
     Reader::SyntaxCheckResult syntaxCheck;
+
+    try
+    {
+        loadBase();
+    }
+    catch(exceptions::ExceptionBase& e)
+    {
+        ezStringBuilder message;
+        message.AppendFormat("Error loading stdlib: %s\n", e.what());
+        m_pPrinter->print(message);
+    }
 
     m_pPrinter->print("=== Scheme interpreter 'lcpp' ===\n");
 
@@ -126,9 +132,8 @@ ezInt32 lcpp::Interpreter::repl()
                 syntaxCheck = m_pReader->checkBasicSyntax(buffer.GetIteratorFront());
 
                 if(syntaxCheck.isPureWhitespace
-                   || syntaxCheck.isComplete()
-                   && (syntaxCheck.hasParenthesis
-                       || syntaxCheck.parenthesisBalance <= 0))
+                   || syntaxCheck.isComplete() && syntaxCheck.valid
+                   || syntaxCheck.parenthesisBalance < 0)
                 {
                     break;
                 }

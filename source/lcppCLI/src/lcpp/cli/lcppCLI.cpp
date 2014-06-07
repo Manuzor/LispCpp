@@ -84,10 +84,6 @@ ezInt32 run()
     Interpreter interpreter(cinfo);
     interpreter.initialize();
 
-    interpreter.loadBase();
-
-    interpreter.runUnittests();
-
     auto result = interpreter.repl();
 
     return result;

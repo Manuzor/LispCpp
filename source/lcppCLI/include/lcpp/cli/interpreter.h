@@ -27,7 +27,6 @@ namespace lcpp
         void initialize();
 
         void loadBase();
-        void runUnittests();
 
         ezInt32 repl();
 

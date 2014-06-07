@@ -111,6 +111,8 @@ lcpp::TypeFactory::copy(Ptr<SchemeObject> pObject)
     if(pObject->is<SchemeNil>()) { return copy(pObject.cast<SchemeNil>()); }
     if(pObject->is<SchemeBool>()) { return copy(pObject.cast<SchemeBool>()); }
     if(pObject->is<SchemeVoid>()) { return copy(pObject.cast<SchemeVoid>()); }
+
+    if(pObject->is<SchemeSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
 }
