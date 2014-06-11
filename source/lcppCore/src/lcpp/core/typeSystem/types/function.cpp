@@ -2,6 +2,7 @@
 
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
+#include "lcpp/core/runtime.h"
 
 lcpp::SchemeFunction::SchemeFunction(const ezString& name,
                                      Ptr<Environment> pEnv) :
@@ -30,9 +31,9 @@ lcpp::SchemeFunction::operator==(const SchemeFunction& rhs) const
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, Executor exec) :
+lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, ExecutorPtr_t pExec) :
 SchemeFunction(name, pEnv),
-    m_exec(exec)
+    m_pExec(pExec)
 {
     EZ_ASSERT(!name.IsEmpty(), "A builtin function needs a name!");
 
@@ -40,7 +41,7 @@ SchemeFunction(name, pEnv),
     builder.AppendFormat("builtin-procedure:%s", m_name.GetData());
     m_pEnv->name() = builder;
 
-    EZ_ASSERT(exec, "The function executor must be valid!");
+    EZ_ASSERT(pExec, "The function executor must be valid!");
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -64,10 +65,10 @@ lcpp::SchemeFunctionBuiltin::dump() const
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionBuiltin::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList)
+lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList)
 {
-    EZ_ASSERT(m_exec, "The executor MUST be valid!");
-    return m_exec(m_pEnv, pEvaluator, pArgList);
+    EZ_ASSERT(m_pExec, "The executor MUST be valid!");
+    return (*m_pExec)(pRuntime, m_pEnv, pArgList);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -151,7 +152,7 @@ lcpp::SchemeFunctionUserDefined::dump() const
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionUserDefined::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList)
+lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
 
@@ -169,7 +170,7 @@ lcpp::SchemeFunctionUserDefined::call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObje
         EZ_ASSERT(pCodePointer->is<SchemeCons>(), "Function body must be a cons.");
 
         auto pCons = pCodePointer.cast<SchemeCons>();
-        pResult = pEvaluator->evalulate(m_pEnv, pCons->car());
+        pResult = pRuntime->evaluator()->evalulate(m_pEnv, pCons->car());
         pCodePointer = pCons->cdr();
     }
 

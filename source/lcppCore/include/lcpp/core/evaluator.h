@@ -4,6 +4,7 @@
 
 namespace lcpp
 {
+    class SchemeRuntime;
     class SchemeObject;
     class Reader;
 
@@ -17,27 +18,14 @@ namespace lcpp
         virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) = 0;
         virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) = 0;
 
-        virtual Ptr<Environment> environment() = 0;
-        virtual Ptr<const Environment> environment() const = 0;
-
-        virtual Ptr<TypeFactory> factory() = 0;
-        virtual Ptr<const TypeFactory> factory() const = 0;
-
-        virtual Ptr<Reader> reader() = 0;
-        virtual Ptr<const Reader> reader() const = 0;
+        virtual Ptr<SchemeRuntime> runtime() = 0;
+        virtual Ptr<const SchemeRuntime> runtime() const = 0;
     };
 
     class LCPP_CORE_API RecursiveEvaluator : public IEvaluator
     {
+        friend class SchemeRuntime;
     public:
-        struct CInfo
-        {
-            Ptr<TypeFactory> pFactory;
-            Ptr<Reader> pReader;
-        };
-    public:
-        explicit RecursiveEvaluator();
-        explicit RecursiveEvaluator(const CInfo& cinfo);
         virtual ~RecursiveEvaluator();
 
         virtual void initialize() LCPP_OVERRIDE;
@@ -45,24 +33,18 @@ namespace lcpp
         virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) LCPP_OVERRIDE;
         virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) LCPP_OVERRIDE;
 
-        virtual Ptr<Environment> environment() LCPP_OVERRIDE;
-        virtual Ptr<const Environment> environment() const LCPP_OVERRIDE;
-
-        virtual Ptr<TypeFactory> factory() LCPP_OVERRIDE;
-        virtual Ptr<const TypeFactory> factory() const LCPP_OVERRIDE;
-
-        virtual Ptr<Reader> reader() LCPP_OVERRIDE;
-        virtual Ptr<const Reader> reader() const LCPP_OVERRIDE;
+        virtual Ptr<SchemeRuntime> runtime() LCPP_OVERRIDE;
+        virtual Ptr<const SchemeRuntime> runtime() const LCPP_OVERRIDE;
 
     private:
-        TypeFactory m_defaultFactory;
-        Ptr<TypeFactory> m_pFactory;
-        Ptr<Reader> m_pReader;
+        Ptr<SchemeRuntime> m_pRuntime;
 
-        Ptr<Environment> m_pEnv;
-
+    private:
+        explicit RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime);
+        
         void evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons);
         void setupEnvironment();
     };
-    
 }
+
+#include "lcpp/core/implementation/evaluator_inl.h"

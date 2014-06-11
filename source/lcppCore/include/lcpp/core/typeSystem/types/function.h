@@ -3,7 +3,7 @@
 
 namespace lcpp
 {
-    class IEvaluator;
+    class SchemeRuntime;
     class Environment;
     class SchemeCons;
 
@@ -20,7 +20,7 @@ namespace lcpp
 
         virtual ezString dump() const = 0;
 
-        virtual Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList) = 0;
+        virtual Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList) = 0;
 
         ezString& name();
         const ezString& name() const;
@@ -54,19 +54,20 @@ namespace lcpp
     {
         friend class TypeFactory;
     public:
-        typedef std::function<Ptr<SchemeObject>(Ptr<Environment>, Ptr<IEvaluator>, Ptr<SchemeObject>)> Executor;
+        //typedef std::function<Ptr<SchemeObject>(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>)> Executor;
+        typedef Ptr<SchemeObject>(*ExecutorPtr_t)(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>);
 
-        SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, Executor exec);
+        SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, ExecutorPtr_t pExec);
 
         virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
-        Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
+        Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList);
 
     private:
-        Executor m_exec;
+        ExecutorPtr_t m_pExec;
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -83,7 +84,7 @@ namespace lcpp
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
-        Ptr<SchemeObject> call(Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
+        Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList);
 
     private:
         Ptr<SchemeObject> m_pArgNameList;

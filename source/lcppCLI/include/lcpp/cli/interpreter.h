@@ -8,16 +8,8 @@ namespace lcpp
 
         struct CInfo
         {
-            Reader* pReader;
-            IEvaluator* pEvaluator;
-            Printer* pPrinter;
-
-            CInfo() :
-                pReader(nullptr),
-                pEvaluator(nullptr),
-                pPrinter(nullptr)
-            {
-            }
+            Ptr<SchemeRuntime> pRuntime;
+            Ptr<Printer> pPrinter;
         };
 
     public:
@@ -31,8 +23,7 @@ namespace lcpp
         ezInt32 repl();
 
     private:
-        Ptr<Reader> m_pReader;
-        Ptr<IEvaluator> m_pEvaluator;
+        Ptr<SchemeRuntime> m_pRuntime;
         Ptr<Printer> m_pPrinter;
 
         std::ostream& m_out;

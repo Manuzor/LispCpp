@@ -15,13 +15,14 @@ namespace lcpp
     class SchemeSymbol;
     class SchemeFile;
 
+    class SchemeRuntime;
     class Environment;
     class IEvaluator;
 
     class LCPP_CORE_API TypeFactory
     {
+        friend class SchemeRuntime;
     public:
-        TypeFactory(ezAllocatorBase* pAllocator = defaultAllocator());
         ~TypeFactory();
 
         Ptr<Environment>    createEnvironment(const ezString& name, Ptr<Environment> pParent);
@@ -37,7 +38,7 @@ namespace lcpp
                                                       Ptr<SchemeCons> pBody);
         Ptr<SchemeFunction> createBuiltinFunction(const ezString& name,
                                                   Ptr<Environment> pParentEnv,
-                                                  SchemeFunctionBuiltin::Executor executor);
+                                                  SchemeFunctionBuiltin::ExecutorPtr_t executor);
         Ptr<SchemeSyntax>   createSyntax(Ptr<SchemeSymbol> pName,
                                          Ptr<SchemeCons> pUnevaluatedArgList,
                                          SchemeSyntax::HandlerFuncPtr_t pHandler);
@@ -63,9 +64,12 @@ namespace lcpp
         Ptr<SchemeVoid> copy(Ptr<SchemeVoid> pVoid) { return pVoid; }
 
     private:
-        ezAllocatorBase* m_pAllocator;
+        Ptr<SchemeRuntime> m_pRuntime;
 
         ezHashTable<ezString, Ptr<SchemeSymbol>> m_symbols;
         ezHashTable<SchemeInteger::Number_t, Ptr<SchemeInteger>> m_integers;
+
+    private:
+        TypeFactory(Ptr<SchemeRuntime> pRuntime);
     };
 }

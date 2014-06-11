@@ -40,7 +40,7 @@ lcpp::SchemeSyntax::toString() const
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeSyntax::call(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator)
+lcpp::SchemeSyntax::call(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv)
 {
-    return (*m_pHandler)(pEnv, pEvaluator, m_pUnevaluatedArgList);
+    return (*m_pHandler)(pRuntime, pEnv, m_pUnevaluatedArgList);
 }

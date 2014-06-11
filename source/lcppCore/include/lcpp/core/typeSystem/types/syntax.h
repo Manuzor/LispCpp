@@ -3,7 +3,7 @@
 
 namespace lcpp
 {
-    class IEvaluator;
+    class SchemeRuntime;
     class Environment;
     class SchemeSymbol;
     class SchemeCons;
@@ -12,7 +12,7 @@ namespace lcpp
         public SchemeExtend<SchemeSyntax, SchemeObject>
     {
     public:
-        typedef Ptr<SchemeObject>(*HandlerFuncPtr_t)(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgList);
+        typedef Ptr<SchemeObject>(*HandlerFuncPtr_t)(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>);
 
         SchemeSyntax(Ptr<SchemeSymbol> pName,
                      Ptr<SchemeCons> pUnevaluatedArgList,
@@ -23,7 +23,7 @@ namespace lcpp
 
         virtual ezString toString() const LCPP_OVERRIDE;
 
-        virtual Ptr<SchemeObject> call(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator);
+        virtual Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv);
 
         Ptr<SchemeSymbol> name();
         Ptr<const SchemeSymbol> name() const;

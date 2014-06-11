@@ -5,10 +5,11 @@
 #include "lcpp/core/environment.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
+#include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::define(Ptr<Environment> pEnv,
-                     Ptr<IEvaluator> pEvaluator,
+lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
+                     Ptr<Environment> pEnv,
                      Ptr<SchemeObject> pArgs)
 {
     if(isNil(pArgs))
@@ -36,7 +37,7 @@ lcpp::syntax::define(Ptr<Environment> pEnv,
     auto symbol = pArgList->car().cast<SchemeSymbol>();
     auto value = pArgList->cdr().cast<SchemeCons>()->car();
 
-    value = pEvaluator->evalulate(value);
+    value = pRuntime->evaluator()->evalulate(value);
 
     pEnv->add(symbol, value);
 
@@ -50,8 +51,8 @@ lcpp::syntax::define(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::lambda(Ptr<Environment> pEnv,
-                     Ptr<IEvaluator> pEvaluator,
+lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
+                     Ptr<Environment> pEnv,
                      Ptr<SchemeObject> pArgs)
 {
     std::function<void(Ptr<SchemeCons>)> checkArgNameList = [&](Ptr<SchemeCons> pCons){
@@ -94,11 +95,11 @@ lcpp::syntax::lambda(Ptr<Environment> pEnv,
 
     auto pBodyList = pBody.cast<SchemeCons>();
 
-    return pEvaluator->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
+    return pRuntime->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -122,7 +123,7 @@ lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeO
     auto thenPart = pArgList->cdr().cast<SchemeCons>()->car();
     auto elsePart = pArgList->cdr().cast<SchemeCons>()->cdr().cast<SchemeCons>()->car();
 
-    auto expressionResult = pEvaluator->evalulate(expression);
+    auto expressionResult = pRuntime->evaluator()->evalulate(expression);
 
     if (!expressionResult->is<SchemeBool>())
     {
@@ -131,10 +132,10 @@ lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeO
 
     if(isTrue(expressionResult))
     {
-        return pEvaluator->evalulate(thenPart);
+        return pRuntime->evaluator()->evalulate(thenPart);
     }
 
-    return pEvaluator->evalulate(elsePart);
+    return pRuntime->evaluator()->evalulate(elsePart);
 }
 
 
@@ -170,8 +171,8 @@ lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeO
     }                                                              \
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::exit(Ptr<Environment> pEnv,
-                    Ptr<IEvaluator> pEvaluator,
+lcpp::builtin::exit(Ptr<SchemeRuntime> pRuntime,
+                    Ptr<Environment> pEnv,
                     Ptr<SchemeObject> pArgs)
 {
     ezInt32 status = 0;
@@ -187,8 +188,8 @@ lcpp::builtin::exit(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::dump(Ptr<Environment> pEnv,
-                    Ptr<IEvaluator> pEvaluator,
+lcpp::builtin::dump(Ptr<SchemeRuntime> pRuntime,
+                    Ptr<Environment> pEnv,
                     Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
@@ -201,14 +202,14 @@ lcpp::builtin::dump(Ptr<Environment> pEnv,
 
     if(pToDump->is<SchemeFunction>())
     {
-        return pEvaluator->factory()->createString(pToDump.cast<SchemeFunction>()->dump());
+        return pRuntime->factory()->createString(pToDump.cast<SchemeFunction>()->dump());
     }
 
-    return pEvaluator->factory()->createString(pToDump->toString());
+    return pRuntime->factory()->createString(pToDump->toString());
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::read(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::read(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -217,11 +218,11 @@ lcpp::builtin::read(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<Schem
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
     LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeString);
 
-    return pEvaluator->reader()->read(pArgList->car().cast<SchemeString>()->value());
+    return pRuntime->reader()->read(pArgList->car().cast<SchemeString>()->value());
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::eval(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::eval(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -229,18 +230,18 @@ lcpp::builtin::eval(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<Schem
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
 
-    return pEvaluator->evalulate(pArgList->car());
+    return pRuntime->evaluator()->evalulate(pArgList->car());
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::print(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     throw exceptions::NotImplemented("Not implemented..");
     return SCHEME_VOID_PTR;
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -271,7 +272,7 @@ lcpp::builtin::fileOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<S
     {
         // create the file object.
         auto pToLoad = pFileNameOrObject.cast<SchemeString>();
-        pFile = pEvaluator->factory()->createFile(pToLoad->value());
+        pFile = pRuntime->factory()->createFile(pToLoad->value());
     }
 
     if(isTrue(pFile->isOpen()))
@@ -294,7 +295,7 @@ lcpp::builtin::fileOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<S
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileIsOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::fileIsOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -309,7 +310,7 @@ lcpp::builtin::fileIsOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileClose(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::fileClose(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -326,7 +327,7 @@ lcpp::builtin::fileClose(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileReadString(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs)
+lcpp::builtin::fileReadString(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -342,12 +343,12 @@ lcpp::builtin::fileReadString(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator,
         throw exceptions::InvalidOperation("Cannot read string from a closed file.");
     }
 
-    return pEvaluator->factory()->createString(pFile->readString());
+    return pRuntime->factory()->createString(pFile->readString());
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::add(Ptr<Environment> pEnv,
-                   Ptr<IEvaluator> pEvaluator,
+lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
+                   Ptr<Environment> pEnv,
                    Ptr<SchemeObject> pArgs)
 {
     if(isNil(pArgs))
@@ -386,10 +387,10 @@ lcpp::builtin::add(Ptr<Environment> pEnv,
 
     if (integerOnly)
     {
-        return pEvaluator->factory()->createInteger(iResult);
+        return pRuntime->factory()->createInteger(iResult);
     }
 
-    return pEvaluator->factory()->createNumber(iResult + nResult);
+    return pRuntime->factory()->createNumber(iResult + nResult);
 }
 
 #undef LCPP_BUILTIN_FUNCTION_CHECK_TYPE

@@ -2,10 +2,10 @@
 
 namespace lcpp
 {
+    class SchemeRuntime;
     class Environment;
-    class IEvaluator;
+
     class SchemeObject;
-    class SchemeCons;
 }
 
 namespace lcpp
@@ -13,30 +13,30 @@ namespace lcpp
     // Syntax handlers
     namespace syntax
     {
-        Ptr<SchemeObject> define(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> lambda(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> if_(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> define(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> lambda(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
     }
 
     // Built-in functions
     namespace builtin
     {
-        Ptr<SchemeObject> exit(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> dump(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> exit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> dump(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
 
         // REPL
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> read(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> eval(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> print(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> read(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> eval(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
 
         // File handling
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> fileOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> fileIsOpen(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> fileClose(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> fileReadString(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileIsOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileClose(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> fileReadString(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
 
-        Ptr<SchemeObject> add(Ptr<Environment> pEnv, Ptr<IEvaluator> pEvaluator, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> add(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
     }
 }

@@ -4,15 +4,13 @@
 #include <iostream>
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
-    m_pReader(cinfo.pReader),
-    m_pEvaluator(cinfo.pEvaluator),
+    m_pRuntime(cinfo.pRuntime),
     m_pPrinter(cinfo.pPrinter),
     m_out(std::cout),
     m_in(std::cin),
     m_szDataDir()
 {
-    EZ_ASSERT(m_pReader, "Invalid reader pointer!");
-    EZ_ASSERT(m_pEvaluator, "Invalid evaluator pointer!");
+    EZ_ASSERT(m_pRuntime, "Invalid runtime pointer!");
     EZ_ASSERT(m_pPrinter, "Invalid printer pointer!");
 }
 
@@ -22,8 +20,7 @@ lcpp::Interpreter::~Interpreter()
 
 void lcpp::Interpreter::initialize()
 {
-    m_pReader->initialize();
-    m_pEvaluator->initialize();
+    m_pRuntime->initialize();
 
     ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
@@ -54,6 +51,9 @@ void lcpp::Interpreter::initialize()
 
 void lcpp::Interpreter::loadBase()
 {
+    auto pReader = m_pRuntime->reader();
+    auto pEvaluator = m_pRuntime->evaluator();
+
     ezFileReader file_stdlib;
     if(file_stdlib.Open("stdlib.lisp", ezFileMode::Read) == EZ_FAILURE)
     {
@@ -77,15 +77,15 @@ void lcpp::Interpreter::loadBase()
     auto contentIter = content.GetIteratorFront();
     Ptr<SchemeObject> pResult;
 
-    m_pReader->syntaxCheckResult()->reset();
+    pReader->syntaxCheckResult()->reset();
 
     while(true)
     {
-        m_pReader->skipSeparators(contentIter);
+        pReader->skipSeparators(contentIter);
         if(!contentIter.IsValid()) { break; }
         
-        pResult = m_pReader->read(contentIter, false);
-        pResult = m_pEvaluator->evalulate(pResult);
+        pResult = pReader->read(contentIter, false);
+        pResult = pEvaluator->evalulate(pResult);
         m_pPrinter->print(pResult);
     }
 }
@@ -93,6 +93,9 @@ void lcpp::Interpreter::loadBase()
 ezInt32 lcpp::Interpreter::repl()
 {
     std::ios_base::sync_with_stdio(false);
+
+    auto pReader = m_pRuntime->reader();
+    auto pEvaluator = m_pRuntime->evaluator();
 
     m_pPrinter->setOutputStream(m_out);
 
@@ -129,7 +132,7 @@ ezInt32 lcpp::Interpreter::repl()
                 buffer.Append(inputBuffer.c_str());
                 buffer.Append('\n');
 
-                syntaxCheck = m_pReader->checkBasicSyntax(buffer.GetIteratorFront());
+                syntaxCheck = pReader->checkBasicSyntax(buffer.GetIteratorFront());
 
                 if(syntaxCheck.isPureWhitespace
                    || syntaxCheck.isComplete() && syntaxCheck.valid
@@ -146,7 +149,7 @@ ezInt32 lcpp::Interpreter::repl()
                 throw exceptions::InvalidSyntax("Invalid syntax!");
             }
 
-            pResult = m_pReader->read(buffer.GetIteratorFront());
+            pResult = pReader->read(buffer.GetIteratorFront());
         }
         catch (exceptions::ExceptionBase& e)
         {
@@ -158,7 +161,7 @@ ezInt32 lcpp::Interpreter::repl()
 
         try
         {
-            pResult = m_pEvaluator->evalulate(pResult);
+            pResult = pEvaluator->evalulate(pResult);
         }
         catch(exceptions::Exit& e)
         {

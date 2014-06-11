@@ -59,26 +59,15 @@ namespace lcpp
 ezInt32 run()
 {
     using namespace lcpp;
-    // Factory
-    TypeFactory factory;
 
-    // Reader
-    Reader::CInfo readerCinfo;
-    readerCinfo.pFactory = &factory;
-    Reader reader(readerCinfo);
-
-    // Evaluator
-    RecursiveEvaluator::CInfo evalCinfo;
-    evalCinfo.pFactory = &factory;
-    evalCinfo.pReader = &reader;
-    RecursiveEvaluator evaluator(evalCinfo);
+    SchemeRuntime runtime;
+    runtime.initialize();
 
     // Printer
     Printer printer;
     
     Interpreter::CInfo cinfo;
-    cinfo.pReader = &reader;
-    cinfo.pEvaluator = &evaluator;
+    cinfo.pRuntime = &runtime;
     cinfo.pPrinter = &printer;
 
     Interpreter interpreter(cinfo);

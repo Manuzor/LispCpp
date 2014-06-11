@@ -5,21 +5,15 @@
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/foundation/stringUtils.h"
 #include "lcpp/core/builtinFunctions_recursive.h"
+#include "lcpp/core/runtime.h"
 
-lcpp::Reader::Reader() :
-    defaults(),
-    m_separators(CInfo().separators),
-    m_pFactory(&defaults.factory),
-    m_pSyntaxCheckResult(&defaults.syntaxCheckResult)
-{
-}
-
-lcpp::Reader::Reader(const CInfo& cinfo) :
-    defaults(),
+lcpp::Reader::Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo) :
+    m_pRuntime(pRuntime),
+    m_defaults(),
     m_separators(cinfo.separators),
-    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &defaults.factory),
-    m_pSyntaxCheckResult(cinfo.pSyntaxCheckResult ? cinfo.pSyntaxCheckResult : &defaults.syntaxCheckResult)
+    m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult)
 {
+    EZ_ASSERT(m_pRuntime, "Need a valid runtime!");
 }
 
 lcpp::Reader::~Reader()
@@ -101,7 +95,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
                 {
                     advance(input);
                 }
-                return m_pFactory->createSymbol(symbol);
+                return m_pRuntime->factory()->createSymbol(symbol);
             }
             if (isDigit(ch))
             {
@@ -135,10 +129,10 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             SchemeNumber::Number_t number;
             auto result = to(input, number, &lastPos);
             EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-            return m_pFactory->createNumber(number);
+            return m_pRuntime->factory()->createNumber(number);
         }
 
-        return m_pFactory->createInteger(integer);
+        return m_pRuntime->factory()->createInteger(integer);
     }
 
     return parseSymbol(input);
@@ -155,7 +149,7 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
     
-    return m_pFactory->createInteger(integer);
+    return m_pRuntime->factory()->createInteger(integer);
 }
 
 lcpp::Ptr<lcpp::SchemeNumber>
@@ -168,7 +162,7 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
-    return m_pFactory->createNumber(number);
+    return m_pRuntime->factory()->createNumber(number);
 }
 
 lcpp::Ptr<lcpp::SchemeSymbol>
@@ -197,7 +191,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-    return m_pFactory->createSymbol(symbol);
+    return m_pRuntime->factory()->createSymbol(symbol);
 }
 
 
@@ -218,7 +212,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
     if(ch == '"')
     {
         advance(input);
-        return m_pFactory->createString("");
+        return m_pRuntime->factory()->createString("");
     }
 
     ezStringBuilder str;
@@ -236,7 +230,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
 
     // consume trailing "
     advance(input);
-    return m_pFactory->createString(str);
+    return m_pRuntime->factory()->createString(str);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -271,11 +265,11 @@ lcpp::Reader::parseList(ezStringIterator& input)
         if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
         {
             EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
-            car = m_pFactory->createSyntax(pSymbol, cdr, pSyntaxHandler);
+            car = m_pRuntime->factory()->createSyntax(pSymbol, cdr, pSyntaxHandler);
         }
     }
 
-    return m_pFactory->createCons(car, cdr);
+    return m_pRuntime->factory()->createCons(car, cdr);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -293,7 +287,7 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
     auto car = read(input, false);
     auto cdr = parseListHelper(input);
 
-    return m_pFactory->createCons(car, cdr);
+    return m_pRuntime->factory()->createCons(car, cdr);
 }
 
 ezUInt32

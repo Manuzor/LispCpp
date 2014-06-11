@@ -4,12 +4,24 @@
 
 namespace lcpp
 {
+    class SchemeRuntime;
     class SchemeObject;
 
     class LCPP_CORE_API Reader
     {
+        friend class SchemeRuntime;
     public:
 
+        struct CInfo 
+        {
+            const char* separators;
+
+            CInfo() :
+                separators(" \t\r\n\v\f\a")
+            {
+            }
+        };
+        
         struct SyntaxCheckResult
         {
             bool valid;
@@ -33,24 +45,8 @@ namespace lcpp
             }
         };
 
-        struct CInfo 
-        {
-            const char* separators;
-            Ptr<TypeFactory> pFactory;
-            Ptr<SyntaxCheckResult> pSyntaxCheckResult;
-
-            CInfo() :
-                separators(" \t\r\n\v\f\a"),
-                pFactory(),
-                pSyntaxCheckResult()
-            {
-            }
-        };
-        
     public:
 
-        Reader();
-        explicit Reader(const CInfo& cinfo);
         ~Reader();
 
         void initialize();
@@ -100,18 +96,21 @@ namespace lcpp
 
         struct Defaults
         {
-            TypeFactory factory;
             SyntaxCheckResult syntaxCheckResult;
         };
 
-        Defaults defaults;
+    private:
+        Ptr<SchemeRuntime> m_pRuntime;
+        
+        Defaults m_defaults;
 
+        Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
         ezString m_separators;
 
-        Ptr<TypeFactory> m_pFactory;
-        Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
-
         ezHashTable<ezString, SchemeSyntax::HandlerFuncPtr_t> m_syntaxHandlers;
+
+    private:
+        explicit Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo);
 
         ezUInt8 advance(ezStringIterator& iter);
         Ptr<SchemeObject> parseListHelper(ezStringIterator& input);

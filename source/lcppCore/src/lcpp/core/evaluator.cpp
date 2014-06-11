@@ -3,20 +3,10 @@
 #include "lcpp/core/reader.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/builtinFunctions_recursive.h"
+#include "lcpp/core/runtime.h"
 
-lcpp::RecursiveEvaluator::RecursiveEvaluator() :
-    m_defaultFactory(),
-    m_pFactory(&m_defaultFactory),
-    m_pReader(nullptr),
-    m_pEnv()
-{
-}
-
-lcpp::RecursiveEvaluator::RecursiveEvaluator(const CInfo& cinfo) :
-    m_defaultFactory(),
-    m_pFactory(cinfo.pFactory ? cinfo.pFactory : &m_defaultFactory),
-    m_pReader(cinfo.pReader),
-    m_pEnv()
+lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime) :
+    m_pRuntime(pRuntime)
 {
 }
 
@@ -27,14 +17,13 @@ lcpp::RecursiveEvaluator::~RecursiveEvaluator()
 void
 lcpp::RecursiveEvaluator::initialize()
 {
-    m_pEnv = m_pFactory->createEnvironment("", nullptr);
     setupEnvironment();
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::RecursiveEvaluator::evalulate(Ptr<SchemeObject> pObject)
 {
-    return evalulate(m_pEnv, pObject);
+    return evalulate(m_pRuntime->globalEnvironment(), pObject);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -64,7 +53,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
 
     if(pBody->car()->is<SchemeSyntax>())
     {
-        return pBody->car().cast<SchemeSyntax>()->call(pEnv, this);
+        return pBody->car().cast<SchemeSyntax>()->call(m_pRuntime, pEnv);
     }
     else if(pBody->car()->is<SchemeCons>())
     {
@@ -79,7 +68,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     {
         auto pSymbol = pBody->car().cast<SchemeSymbol>();
 
-        if(!m_pEnv->get(pSymbol, pFuncObject).IsSuccess())
+        if(!m_pRuntime->globalEnvironment()->get(pSymbol, pFuncObject).IsSuccess())
         {
             ezStringBuilder messsage;
             messsage.AppendFormat("No function binding found for symbol '%s'.", pSymbol->value().GetData());
@@ -98,14 +87,14 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         throw exceptions::InvalidSyntax("Invalid expression cannot be called!");
     }
 
-    auto pArgs = m_pFactory->copy(pBody->cdr());
+    auto pArgs = m_pRuntime->factory()->copy(pBody->cdr());
 
     if(!isNil(pArgs))
     {
         evaluateEach(pEnv, pArgs);
     }
 
-    return pFuncObject.cast<SchemeFunction>()->call(this, pArgs);
+    return pFuncObject.cast<SchemeFunction>()->call(m_pRuntime, pArgs);
 }
 
 void
@@ -120,102 +109,47 @@ lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pC
     evaluateEach(pEnv, pCons->cdr().cast<SchemeCons>());
 }
 
-lcpp::Ptr<lcpp::Environment>
-lcpp::RecursiveEvaluator::environment()
-{
-    return m_pEnv;
-}
-
-lcpp::Ptr<const lcpp::Environment>
-lcpp::RecursiveEvaluator::environment() const
-{
-    return m_pEnv;
-}
-
-lcpp::Ptr<lcpp::TypeFactory>
-lcpp::RecursiveEvaluator::factory()
-{
-    return m_pFactory;
-}
-
-lcpp::Ptr<const lcpp::TypeFactory>
-lcpp::RecursiveEvaluator::factory() const
-{
-    return m_pFactory;
-}
-
 void
 lcpp::RecursiveEvaluator::setupEnvironment()
 {
+    auto pEnv = m_pRuntime->globalEnvironment();
     // constants
     //////////////////////////////////////////////////////////////////////////
-    m_pEnv->add(m_pFactory->createSymbol("#t"), SCHEME_TRUE_PTR);
-    m_pEnv->add(m_pFactory->createSymbol("#f"), SCHEME_FALSE_PTR);
-    m_pEnv->add(m_pFactory->createSymbol("null"), SCHEME_NIL_PTR);
-    m_pEnv->add(m_pFactory->createSymbol("nil"), SCHEME_NIL_PTR);
-    m_pEnv->add(m_pFactory->createSymbol("#v"), SCHEME_VOID_PTR);
+    pEnv->add(m_pRuntime->factory()->createSymbol("#t"), SCHEME_TRUE_PTR);
+    pEnv->add(m_pRuntime->factory()->createSymbol("#f"), SCHEME_FALSE_PTR);
+    pEnv->add(m_pRuntime->factory()->createSymbol("null"), SCHEME_NIL_PTR);
+    pEnv->add(m_pRuntime->factory()->createSymbol("nil"), SCHEME_NIL_PTR);
+    pEnv->add(m_pRuntime->factory()->createSymbol("#v"), SCHEME_VOID_PTR);
     
     // Utility functions
     //////////////////////////////////////////////////////////////////////////
-    m_pEnv->add(m_pFactory->createSymbol("exit"), m_pFactory->createBuiltinFunction("exit", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::exit(pEnv, pEval, pArgs);
-    }));
-    m_pEnv->add(m_pFactory->createSymbol("dump"), m_pFactory->createBuiltinFunction("dump", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::dump(pEnv, pEval, pArgs);
-    }));
+    pEnv->add(m_pRuntime->factory()->createSymbol("exit"),
+              m_pRuntime->factory()->createBuiltinFunction("exit", pEnv, &builtin::exit));
+    pEnv->add(m_pRuntime->factory()->createSymbol("dump"),
+              m_pRuntime->factory()->createBuiltinFunction("dump", pEnv, &builtin::dump));
 
     // REPL
     //////////////////////////////////////////////////////////////////////////
-    m_pEnv->add(m_pFactory->createSymbol("read"), m_pFactory->createBuiltinFunction("read", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::read(pEnv, pEval, pArgs);
-    }));
-    m_pEnv->add(m_pFactory->createSymbol("eval"), m_pFactory->createBuiltinFunction("eval", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::eval(pEnv, pEval, pArgs);
-    }));
-    m_pEnv->add(m_pFactory->createSymbol("print"), m_pFactory->createBuiltinFunction("print", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::print(pEnv, pEval, pArgs);
-    }));
+    pEnv->add(m_pRuntime->factory()->createSymbol("read"),
+              m_pRuntime->factory()->createBuiltinFunction("read", pEnv, &builtin::read));
+    pEnv->add(m_pRuntime->factory()->createSymbol("eval"),
+              m_pRuntime->factory()->createBuiltinFunction("eval", pEnv, &builtin::eval));
+    pEnv->add(m_pRuntime->factory()->createSymbol("print"),
+              m_pRuntime->factory()->createBuiltinFunction("print", pEnv, &builtin::print));
 
     // File handling
     //////////////////////////////////////////////////////////////////////////
-    m_pEnv->add(m_pFactory->createSymbol("file-open"), m_pFactory->createBuiltinFunction("file-open", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::fileOpen(pEnv, pEval, pArgs);
-    }));
-    m_pEnv->add(m_pFactory->createSymbol("file-is-open"), m_pFactory->createBuiltinFunction("file-is-open", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::fileIsOpen(pEnv, pEval, pArgs);
-    }));
-    m_pEnv->add(m_pFactory->createSymbol("file-read-string"), m_pFactory->createBuiltinFunction("file-read-string", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::fileReadString(pEnv, pEval, pArgs);
-    }));
-    m_pEnv->add(m_pFactory->createSymbol("file-close"), m_pFactory->createBuiltinFunction("file-close", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::fileClose(pEnv, pEval, pArgs);
-    }));
+    pEnv->add(m_pRuntime->factory()->createSymbol("file-open"),
+              m_pRuntime->factory()->createBuiltinFunction("file-open", pEnv, &builtin::fileOpen));
+    pEnv->add(m_pRuntime->factory()->createSymbol("file-is-open"),
+              m_pRuntime->factory()->createBuiltinFunction("file-is-open", pEnv, &builtin::fileIsOpen));
+    pEnv->add(m_pRuntime->factory()->createSymbol("file-read-string"),
+              m_pRuntime->factory()->createBuiltinFunction("file-read-string", pEnv, &builtin::fileReadString));
+    pEnv->add(m_pRuntime->factory()->createSymbol("file-close"),
+              m_pRuntime->factory()->createBuiltinFunction("file-close", pEnv, &builtin::fileClose));
 
     // Basic math
     //////////////////////////////////////////////////////////////////////////
-    m_pEnv->add(m_pFactory->createSymbol("+"), m_pFactory->createBuiltinFunction("+", m_pEnv,
-        [](Ptr<Environment> pEnv, Ptr<IEvaluator> pEval, Ptr<SchemeObject> pArgs){
-        return builtin::add(pEnv, pEval, pArgs);
-    }));
-}
-
-lcpp::Ptr<lcpp::Reader>
-lcpp::RecursiveEvaluator::reader()
-{
-    return m_pReader;
-}
-
-lcpp::Ptr<const lcpp::Reader>
-lcpp::RecursiveEvaluator::reader() const
-{
-    return m_pReader;
+    pEnv->add(m_pRuntime->factory()->createSymbol("+"),
+              m_pRuntime->factory()->createBuiltinFunction("+", pEnv, &builtin::add));
 }
