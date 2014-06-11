@@ -11,6 +11,10 @@ namespace lcpp
 
         static Environment createTopLevelInstance();
 
+        /// \brief Creats a top-level environment
+        Environment(const ezString& name, Ptr<ezAllocatorBase> pAllocator);
+
+        /// \brief Creats a child environment
         Environment(const ezString& name, Ptr<Environment> pParent);
 
         /// \brief Adds the key-value pair to this environment.
@@ -46,6 +50,7 @@ namespace lcpp
         ezString qualifiedName() const;
 
     private:
+        Ptr<ezAllocatorBase> m_pAllocator;
         Ptr<Environment> m_pParent;
         ezString m_name;
         ezHashTable<SchemeSymbol*, SchemeObject*> m_symbols;

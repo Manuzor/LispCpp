@@ -68,7 +68,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     {
         auto pSymbol = pBody->car().cast<SchemeSymbol>();
 
-        if(!m_pRuntime->globalEnvironment()->get(pSymbol, pFuncObject).IsSuccess())
+        if(!pEnv->get(pSymbol, pFuncObject).IsSuccess())
         {
             ezStringBuilder messsage;
             messsage.AppendFormat("No function binding found for symbol '%s'.", pSymbol->value().GetData());

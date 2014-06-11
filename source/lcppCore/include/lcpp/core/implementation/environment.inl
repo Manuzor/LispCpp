@@ -8,10 +8,20 @@ lcpp::Environment::createTopLevelInstance()
 }
 
 inline
+lcpp::Environment::Environment(const ezString& name, Ptr<ezAllocatorBase> pAllocator) :
+    m_pAllocator(pAllocator),
+    m_pParent(nullptr),
+    m_name(name),
+    m_symbols(m_pAllocator.get())
+{
+}
+
+inline
 lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
+    m_pAllocator(pParent->m_pAllocator),
     m_pParent(pParent),
     m_name(name),
-    m_symbols(defaultAllocator())
+    m_symbols(m_pAllocator.get())
 {
 }
 

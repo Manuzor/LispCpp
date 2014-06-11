@@ -49,6 +49,12 @@ void lcpp::Interpreter::initialize()
     m_szBaseDir = dataDir;
 }
 
+void
+lcpp::Interpreter::shutdown()
+{
+    m_pRuntime->shutdown();
+}
+
 void lcpp::Interpreter::loadBase()
 {
     auto pReader = m_pRuntime->reader();

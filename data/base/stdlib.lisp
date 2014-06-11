@@ -19,4 +19,4 @@
 
 ;(eval-file "unittests.lisp")
 
-(define x (lambda (n) ((lambda () n))))
+((lambda (n) ((lambda () n))) 42)

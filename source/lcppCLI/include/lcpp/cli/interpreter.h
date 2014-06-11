@@ -17,6 +17,7 @@ namespace lcpp
         ~Interpreter();
 
         void initialize();
+        void shutdown();
 
         void loadBase();
 

@@ -18,6 +18,7 @@ lcpp::Reader::Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo) :
 
 lcpp::Reader::~Reader()
 {
+    m_syntaxHandlers.Clear();
 }
 
 void

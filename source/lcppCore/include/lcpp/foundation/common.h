@@ -23,9 +23,9 @@
 #define LCPP_NEW_ARRAY(allocator, type)         EZ_NEW_ARRAY(allocator, type)
 #define LCPP_NEW_RAW_BUFFER(allocator, type)    EZ_NEW_RAW_BUFFER(allocator, type)
 
-#define LCPP_DELETE(allocator, type)            EZ_DELETE(allocator, type)
-#define LCPP_DELETE_ARRAY(allocator, type)      EZ_DELETE_ARRAY(allocator, type)
-#define LCPP_DELETE_RAW_BUFFER(allocator, type) EZ_DELETE_RAW_BUFFER(allocator, type)
+#define LCPP_DELETE(allocator, ptr)            ezInternal::Delete(allocator, ptr)
+#define LCPP_DELETE_ARRAY(allocator, ptr)      ezInternal::DeleteArray(allocator, ptr)
+#define LCPP_DELETE_RAW_BUFFER(allocator, ptr) ezInternal::DeleteRawBuffer(allocator, ptr)
 
 #include "lcpp/exceptions/exceptions.h"
 

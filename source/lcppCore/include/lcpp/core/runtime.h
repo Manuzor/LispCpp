@@ -13,6 +13,7 @@ namespace lcpp
         SchemeRuntime();
 
         void initialize();
+        void shutdown();
 
         Ptr<ezAllocatorBase> allocator();
         void allocator(Ptr<ezAllocatorBase> value);

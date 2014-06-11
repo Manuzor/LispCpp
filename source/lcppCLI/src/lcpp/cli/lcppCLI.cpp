@@ -74,6 +74,7 @@ ezInt32 run()
     interpreter.initialize();
 
     auto result = interpreter.repl();
+    interpreter.shutdown();
 
     return result;
 }
