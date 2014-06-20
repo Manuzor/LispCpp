@@ -2,7 +2,7 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
 #include "lcpp/core/typeSystem.h"
-#include "lcpp/core/builtinFunctions_recursive.h"
+#include "lcpp/core/builtIn/recursive_functions.h"
 #include "lcpp/core/runtime.h"
 
 lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime) :

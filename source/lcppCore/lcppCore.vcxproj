@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="include\lcpp\api.h" />
     <ClInclude Include="include\lcpp\api_inl.h" />
-    <ClInclude Include="include\lcpp\core\builtinFunctions_recursive.h" />
+    <ClInclude Include="include\lcpp\core\builtIn\recursive_functions.h" />
     <ClInclude Include="include\lcpp\core\environment.h" />
     <ClInclude Include="include\lcpp\core\evaluator.h" />
     <ClInclude Include="include\lcpp\core\implementation\evaluator_inl.h" />
@@ -68,7 +68,7 @@
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\lcpp\core\builtinFunctions_recursive.cpp" />
+    <ClCompile Include="src\lcpp\core\builtIn\recursive_functions.cpp" />
     <ClCompile Include="src\lcpp\core\evaluator.cpp" />
     <ClCompile Include="src\lcpp\core\printer.cpp" />
     <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
