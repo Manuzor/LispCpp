@@ -17,6 +17,6 @@
     )
 )
 
-;(eval-file "unittests.lisp")
+(eval-file "unittests.lisp")
 
 ((lambda (n) ((lambda () n))) 42)

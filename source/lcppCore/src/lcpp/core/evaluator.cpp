@@ -94,7 +94,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         evaluateEach(pEnv, pArgs);
     }
 
-    return pFuncObject.cast<SchemeFunction>()->call(m_pRuntime, pArgs);
+    return pFuncObject.cast<SchemeFunction>()->call(pArgs);
 }
 
 void

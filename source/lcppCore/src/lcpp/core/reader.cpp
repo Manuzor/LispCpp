@@ -11,7 +11,8 @@ lcpp::Reader::Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo) :
     m_pRuntime(pRuntime),
     m_defaults(),
     m_separators(cinfo.separators),
-    m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult)
+    m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult),
+    m_syntaxHandlers(pRuntime->allocator().get())
 {
     EZ_ASSERT(m_pRuntime, "Need a valid runtime!");
 }

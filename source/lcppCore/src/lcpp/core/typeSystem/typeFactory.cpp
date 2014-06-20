@@ -80,7 +80,7 @@ lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                              Ptr<SchemeObject> pArgNameList,
                                              Ptr<SchemeCons> pBody)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFunctionUserDefined)(createEnvironment("", pParentEnv), pArgNameList, pBody);
+    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFunctionUserDefined)(m_pRuntime, createEnvironment("", pParentEnv), pArgNameList, pBody);
 }
 
 lcpp::Ptr<lcpp::SchemeFunction>
@@ -88,7 +88,7 @@ lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          Ptr<Environment> pParentEnv,
                                          SchemeFunctionBuiltin::ExecutorPtr_t executor)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFunctionBuiltin)(name, createEnvironment("", pParentEnv), executor);
+    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFunctionBuiltin)(m_pRuntime, name, createEnvironment("", pParentEnv), executor);
 }
 
 lcpp::Ptr<lcpp::SchemeSyntax>

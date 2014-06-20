@@ -68,13 +68,13 @@ void lcpp::Interpreter::loadBase()
     auto size = file_stdlib.GetFileSize();
     auto bufferSize = ezUInt32(size) + 1;
 
-    auto buffer = new char[bufferSize];
-    LCPP_SCOPE_EXIT{ delete[] buffer; };
+    auto buffer = LCPP_NEW_RAW_BUFFER(m_pRuntime->allocator().get(), char, bufferSize);
+    LCPP_SCOPE_EXIT{ LCPP_DELETE_RAW_BUFFER(m_pRuntime->allocator().get(), buffer); };
 
     // null terminator
     buffer[bufferSize - 1] = '\0';
     
-    ezStringBuilder content;
+    ezStringBuilder content(m_pRuntime->allocator().get());
     content.Reserve(bufferSize);
 
     file_stdlib.ReadBytes(buffer, bufferSize - 1);

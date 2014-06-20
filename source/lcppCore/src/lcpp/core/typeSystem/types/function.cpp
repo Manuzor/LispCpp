@@ -4,9 +4,11 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"
 
-lcpp::SchemeFunction::SchemeFunction(const ezString& name,
+lcpp::SchemeFunction::SchemeFunction(Ptr<SchemeRuntime> pRuntime,
+                                     const ezString& name,
                                      Ptr<Environment> pEnv) :
     m_name(name),
+    m_pRuntime(pRuntime),
     m_pEnv(pEnv)
 {
     m_pEnv->name() = m_name;
@@ -31,13 +33,16 @@ lcpp::SchemeFunction::operator==(const SchemeFunction& rhs) const
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, ExecutorPtr_t pExec) :
-SchemeFunction(name, pEnv),
+lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(Ptr<SchemeRuntime> pRuntime,
+                                                   const ezString& name,
+                                                   Ptr<Environment> pEnv,
+                                                   ExecutorPtr_t pExec) :
+    SchemeFunction(pRuntime, name, pEnv),
     m_pExec(pExec)
 {
     EZ_ASSERT(!name.IsEmpty(), "A builtin function needs a name!");
 
-    ezStringBuilder builder;
+    ezStringBuilder builder(m_pRuntime->allocator().get());
     builder.AppendFormat("builtin-procedure:%s", m_name.GetData());
     m_pEnv->name() = builder;
 
@@ -65,23 +70,24 @@ lcpp::SchemeFunctionBuiltin::dump() const
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList)
+lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
-    return (*m_pExec)(pRuntime, m_pEnv, pArgList);
+    return (*m_pExec)(m_pRuntime, m_pEnv, pArgList);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<Environment> pEnv,
+lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<SchemeRuntime> pRuntime,
+                                                           Ptr<Environment> pEnv,
                                                            Ptr<SchemeObject> pArgNameList,
                                                            Ptr<SchemeCons> pBody) :
-    SchemeFunction("anonymous", pEnv),
+    SchemeFunction(pRuntime, "anonymous", pEnv),
     m_pArgNameList(pArgNameList),
     m_numArgs(0),
     m_pBody(pBody)
 #ifdef _DEBUG
-    ,m_dump("")
+    ,m_dump(m_pRuntime->allocator().get())
 #endif // _DEBUG
 {
     ezStringBuilder builder;
@@ -152,7 +158,7 @@ lcpp::SchemeFunctionUserDefined::dump() const
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList)
+lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
 
@@ -170,7 +176,7 @@ lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObj
         EZ_ASSERT(pCodePointer->is<SchemeCons>(), "Function body must be a cons.");
 
         auto pCons = pCodePointer.cast<SchemeCons>();
-        pResult = pRuntime->evaluator()->evalulate(m_pEnv, pCons->car());
+        pResult = m_pRuntime->evaluator()->evalulate(m_pEnv, pCons->car());
         pCodePointer = pCons->cdr();
     }
 

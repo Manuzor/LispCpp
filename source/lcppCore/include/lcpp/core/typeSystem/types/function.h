@@ -11,7 +11,9 @@ namespace lcpp
     {
     public:
 
-        SchemeFunction(const ezString& name, Ptr<Environment> pEnv);
+        SchemeFunction(Ptr<SchemeRuntime> pRuntime,
+                       const ezString& name,
+                       Ptr<Environment> pEnv);
 
         virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
         bool operator==(const SchemeFunction& rhs) const;
@@ -20,7 +22,7 @@ namespace lcpp
 
         virtual ezString dump() const = 0;
 
-        virtual Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList) = 0;
+        virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) = 0;
 
         ezString& name();
         const ezString& name() const;
@@ -30,6 +32,7 @@ namespace lcpp
 
     protected:
         ezString m_name;
+        Ptr<SchemeRuntime> m_pRuntime;
         Ptr<Environment> m_pEnv;
     };
 
@@ -54,17 +57,19 @@ namespace lcpp
     {
         friend class TypeFactory;
     public:
-        //typedef std::function<Ptr<SchemeObject>(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>)> Executor;
         typedef Ptr<SchemeObject>(*ExecutorPtr_t)(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>);
 
-        SchemeFunctionBuiltin(const ezString& name, Ptr<Environment> pEnv, ExecutorPtr_t pExec);
+        SchemeFunctionBuiltin(Ptr<SchemeRuntime> pRuntime,
+                              const ezString& name,
+                              Ptr<Environment> pEnv,
+                              ExecutorPtr_t pExec);
 
         virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
-        Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList);
+        virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) LCPP_OVERRIDE;
 
     private:
         ExecutorPtr_t m_pExec;
@@ -77,14 +82,17 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        SchemeFunctionUserDefined(Ptr<Environment> pEnv, Ptr<SchemeObject> pArgNameList, Ptr<SchemeCons> pBody);
+        SchemeFunctionUserDefined(Ptr<SchemeRuntime> pRuntime,
+                                  Ptr<Environment> pEnv,
+                                  Ptr<SchemeObject> pArgNameList,
+                                  Ptr<SchemeCons> pBody);
 
         virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
-        Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime, Ptr<SchemeObject> pArgList);
+        virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) LCPP_OVERRIDE;
 
     private:
         Ptr<SchemeObject> m_pArgNameList;
