@@ -4,7 +4,7 @@
 #include "lcpp/exceptions/exceptions.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/foundation/stringUtils.h"
-#include "lcpp/core/builtIn/recursive_functions.h"
+#include "lcpp/core/builtIn/recursive_syntax.h"
 #include "lcpp/core/runtime.h"
 
 lcpp::Reader::Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo) :
