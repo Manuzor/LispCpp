@@ -57,7 +57,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     }
     else if(pBody->car()->is<SchemeCons>())
     {
-        pFuncObject = evalulate(pFuncObject);
+        pFuncObject = evalulate(pEnv, pFuncObject);
 
         if(!pFuncObject->is<SchemeFunction>())
         {
