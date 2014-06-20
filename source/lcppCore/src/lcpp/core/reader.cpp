@@ -262,11 +262,11 @@ lcpp::Reader::parseList(ezStringIterator& input)
     {
         auto pSymbol = car.cast<SchemeSymbol>();
         auto& handlerName = pSymbol->value();
-        SchemeSyntax::HandlerFuncPtr_t pSyntaxHandler;
+        SchemeSyntax_Builtin::HandlerFuncPtr_t pSyntaxHandler;
         if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
         {
             EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
-            car = m_pRuntime->factory()->createSyntax(pSymbol, cdr, pSyntaxHandler);
+            car = m_pRuntime->factory()->createSyntax_Builtin(pSymbol, cdr, pSyntaxHandler);
         }
     }
 

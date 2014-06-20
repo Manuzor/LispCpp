@@ -39,9 +39,9 @@ namespace lcpp
         Ptr<SchemeFunction> createBuiltinFunction(const ezString& name,
                                                   Ptr<Environment> pParentEnv,
                                                   SchemeFunctionBuiltin::ExecutorPtr_t executor);
-        Ptr<SchemeSyntax>   createSyntax(Ptr<SchemeSymbol> pName,
-                                         Ptr<SchemeCons> pUnevaluatedArgList,
-                                         SchemeSyntax::HandlerFuncPtr_t pHandler);
+        Ptr<SchemeSyntax>   createSyntax_Builtin(Ptr<SchemeSymbol> pName,
+                                                 Ptr<SchemeCons> pUnevaluatedArgList,
+                                                 SchemeSyntax_Builtin::HandlerFuncPtr_t pHandler);
 
         // General copy function
         //////////////////////////////////////////////////////////////////////////
@@ -56,6 +56,7 @@ namespace lcpp
         Ptr<SchemeCons>     copy(Ptr<SchemeCons> pCons);
         Ptr<SchemeFile>     copy(Ptr<SchemeFile> pFile);
         Ptr<SchemeFunction> copy(Ptr<SchemeFunction> pFunc);
+        Ptr<SchemeSyntax>   copy(Ptr<SchemeSyntax> pSyntax);
 
         // Singletons
         //////////////////////////////////////////////////////////////////////////
