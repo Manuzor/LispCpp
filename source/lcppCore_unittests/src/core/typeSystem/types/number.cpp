@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;
@@ -11,7 +12,8 @@ namespace
     UnitTestGroup g_group("SchemeNumberTests");
 
     UnitTest g_test1(g_group, "Construction", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
         union
         {
             ezUInt32 i;
@@ -56,7 +58,7 @@ namespace
             CUT_ASSERT.isTrue(floatMax->value() == 1337.0f);
         }
         { // first 255 numbers
-            for (test.i = 0; test.i < 0xFF; test.i++)
+            for(test.i = 0; test.i < 0xFF; test.i++)
             {
                 auto sf = factory.createNumber(test.f);
                 CUT_ASSERT.isTrue(sf->value() == test.f);
@@ -65,7 +67,8 @@ namespace
     });
 
     UnitTest g_test2(g_group, "ToString", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
         // SchemeInteger
         {
             auto int1 = factory.createInteger(1);
@@ -102,7 +105,8 @@ namespace
     });
 
     UnitTest g_test3(g_group, "Instancing", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
 
         auto int1 = factory.createInteger(42);
         auto int2 = factory.createInteger(42);

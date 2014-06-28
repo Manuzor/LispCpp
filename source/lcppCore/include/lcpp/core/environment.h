@@ -55,8 +55,6 @@ namespace lcpp
         ezString m_name;
         ezHashTable<SchemeSymbol*, SchemeObject*> m_symbols;
 
-        Environment();
-
         void qualifiedNameHelper(ezStringBuilder& builder) const;
     };
 

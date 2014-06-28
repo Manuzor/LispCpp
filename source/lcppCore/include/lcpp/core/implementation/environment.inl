@@ -4,7 +4,7 @@ inline
 lcpp::Environment
 lcpp::Environment::createTopLevelInstance()
 {
-    return Environment();
+    return Environment("", defaultAllocator());
 }
 
 inline
@@ -25,16 +25,6 @@ lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
     m_symbols(m_pAllocator.get())
 {
     m_name = name;
-}
-
-inline
-lcpp::Environment::Environment() :
-    m_pParent(nullptr),
-    m_name(""),
-    m_symbols(defaultAllocator())
-{
-    // TODO Remove this constructor.
-    EZ_ASSERT(false, "This constructor should not be used!");
 }
 
 inline

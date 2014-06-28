@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;
@@ -8,29 +9,35 @@ namespace
     UnitTestGroup g_group("EnvironmentTests");
 
     UnitTest g_test1(g_group, "Basics", [](){
-        Environment env = Environment::createTopLevelInstance();
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto pEnv = pRuntime->globalEnvironment();
+        auto pFactory = pRuntime->factory();
+
         Ptr<SchemeObject> pResult;
 
-        CUT_ASSERT.isFalse(env.get(factory.createSymbol("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
+        CUT_ASSERT.isFalse(pEnv->get(pFactory->createSymbol("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
         CUT_ASSERT.isTrue(pResult.isNull(), "'get' altered the out_value even though it failed!");
-        CUT_ASSERT.isFalse(env.set(factory.createSymbol("x"), factory.createInteger(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
-        env.add(factory.createSymbol("x"), factory.createInteger(42));
-        CUT_ASSERT.isTrue(env.get(factory.createSymbol("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
+        CUT_ASSERT.isFalse(pEnv->set(pFactory->createSymbol("x"), pFactory->createInteger(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
+        pEnv->add(pFactory->createSymbol("x"), pFactory->createInteger(42));
+        CUT_ASSERT.isTrue(pEnv->get(pFactory->createSymbol("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Wrong type stored in environment!");
         CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Wrong type stored in environment!");
     });
 
     UnitTest g_test2(g_group, "Parent", [](){
-        Environment topEnv = Environment::createTopLevelInstance();
-        Environment childEnv("child", &topEnv);
-        TypeFactory factory;
-        Ptr<SchemeObject> pResult;
-        auto pSymbol = factory.createSymbol("x");
-        auto pSymbol2 = factory.createSymbol("y");
+        auto pRuntime = createTestRuntime();
+        auto pFactory = pRuntime->factory();
+        
+        auto& topEnv = *pRuntime->globalEnvironment();
+        auto childEnv = Environment("child", &topEnv);
 
-        topEnv.add(pSymbol, factory.createInteger(42));
-        childEnv.add(pSymbol, factory.createInteger(1337));
+        Ptr<SchemeObject> pResult;
+
+        auto pSymbol = pFactory->createSymbol("x");
+        auto pSymbol2 = pFactory->createSymbol("y");
+
+        topEnv.add(pSymbol, pFactory->createInteger(42));
+        childEnv.add(pSymbol, pFactory->createInteger(1337));
 
         CUT_ASSERT.isTrue(topEnv.get(pSymbol, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
@@ -42,7 +49,7 @@ namespace
 
         Environment subChildEnv("subChild", &childEnv);
 
-        subChildEnv.add(pSymbol, factory.createInteger(666));
+        subChildEnv.add(pSymbol, pFactory->createInteger(666));
 
         CUT_ASSERT.isTrue(subChildEnv.get(pSymbol, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
@@ -50,13 +57,13 @@ namespace
 
         // Set in top-level env from child env
 
-        topEnv.add(pSymbol2, factory.createString("hello"));
+        topEnv.add(pSymbol2, pFactory->createString("hello"));
 
         CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeString>());
         CUT_ASSERT.isTrue(pResult.cast<SchemeString>()->value().IsEqual("hello"));
 
-        childEnv.set(pSymbol2, factory.createInteger(-123));
+        childEnv.set(pSymbol2, pFactory->createInteger(-123));
 
         CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
@@ -67,6 +74,12 @@ namespace
     });
 
     UnitTest g_test3(g_group, "QualifiedName", [](){
+        auto pRuntime = createTestRuntime();
+        CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->name().IsEqual("syntax"), "Invalid local name for syntax environment in runtime.");
+        CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->qualifiedName().IsEqual("/"), "Invalid qualified name for syntax environment in runtime.");
+        CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->name().IsEqual("global"), "Invalid local name for global environment in runtime.");
+        CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->qualifiedName().IsEqual("/global"), "Invalid qualified name for global environment in runtime.");
+
         auto topLevelEnv = Environment::createTopLevelInstance();
         Environment sub1("sub1", &topLevelEnv);
         Environment sub2("sub2", &sub1);

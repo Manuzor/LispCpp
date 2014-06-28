@@ -31,9 +31,7 @@ lcpp::SchemeSyntax::operator==(const SchemeSyntax& rhs) const
 ezString
 lcpp::SchemeSyntax::toString() const
 {
-    ezStringBuilder builder;
-    builder.AppendFormat("<syntax:%s>", m_pName->toString().GetData());
-    return builder;
+    return m_pName->toString();
 }
 lcpp::SchemeSyntax_Builtin::SchemeSyntax_Builtin(Ptr<SchemeSymbol> pName,
                                                  Ptr<SchemeCons> pUnevaluatedArgList,

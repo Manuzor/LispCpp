@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;
@@ -9,7 +10,8 @@ namespace
 
     UnitTest g_test1(g_group, "IsSeparator", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         // These should be true.
         CUT_ASSERT.isTrue(reader.isSeparator(' '), "Space should be a default separator!");
@@ -25,7 +27,8 @@ namespace
 
     UnitTest g_test2(g_group, "SkipSeparators", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
         ezString str = "   abc";
         auto iter = str.GetIteratorFront();
 
@@ -35,7 +38,8 @@ namespace
 
     UnitTest g_test3(g_group, "Read", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             auto object = reader.read("42");
@@ -75,7 +79,8 @@ namespace
 
     UnitTest g_test4(g_group, "parseInteger", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString str("123");
@@ -94,7 +99,8 @@ namespace
 
     UnitTest g_test5(g_group, "parseNumber", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString str("3.1415");
@@ -113,7 +119,8 @@ namespace
 
     UnitTest g_test6(g_group, "parseSymbol", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString str("qwerty");
@@ -143,7 +150,8 @@ namespace
 
     UnitTest g_test7(g_group, "parseString", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString input("\"qwerty\"123");
@@ -178,7 +186,8 @@ namespace
 
     UnitTest g_test8(g_group, "parseList", []()
     {
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString input("hello world 123 42");
@@ -195,6 +204,7 @@ namespace
 
         {
             ezString input("(define x 1)");
+            ezString strOutput;
             auto consObject = reader.parseList(input.GetIteratorFront());
             auto cons = consObject.cast<SchemeCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
@@ -245,7 +255,8 @@ namespace
     });
 
     UnitTest g_test9(g_group, "checkSyntax", [](){
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString input("()");
@@ -301,7 +312,8 @@ namespace
     });
 
     UnitTest g_test10(g_group, "skipComments", [](){
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString input(";This is a comment\n1337");
@@ -313,7 +325,8 @@ namespace
     });
 
     UnitTest g_test11(g_group, "Detect +- as symbols", [](){
-        Reader reader;
+        auto pRuntime = createTestRuntime();
+        auto& reader = *pRuntime->reader();
 
         {
             ezString input("(+ 1 2)");

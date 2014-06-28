@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;
@@ -9,15 +10,13 @@ namespace
 
     UnitTest g_test1(g_group, "Recursive_SimpleEval", []()
     {
-        TypeFactory factory;
-        RecursiveEvaluator::CInfo cinfo;
-        RecursiveEvaluator eval;
+        auto pRuntime = createTestRuntime();
 
-        auto& test = factory.createInteger(42);
-        auto& result = eval.evalulate(test);
+        auto& test = pRuntime->factory()->createInteger(42);
+        auto pResult = pRuntime->evaluator()->evalulate(test);
 
-        CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong evaluation result! Expected integer 42.");
-        CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 42, "Expected integer 42.");
-        CUT_ASSERT.isTrue(result == factory.createInteger(42), "Double check if instancing failed.");
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Wrong evaluation result! Expected integer 42.");
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Expected integer 42.");
+        CUT_ASSERT.isTrue(pResult == pRuntime->factory()->createInteger(42), "Double check if instancing failed.");
     });
 }

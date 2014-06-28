@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include <functional>
+#include "testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;
@@ -9,7 +10,8 @@ namespace
     UnitTestGroup g_group("SchemeConsTests");
 
     UnitTest g_test1(g_group, "Construction", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
         // Default construction
         {
             auto cons = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
@@ -36,7 +38,8 @@ namespace
     });
 
     UnitTest g_test2(g_group, "CopyCtorAndCopyAssign", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
         {
             auto t = &SCHEME_TRUE;
 
@@ -56,8 +59,9 @@ namespace
     });
 
     UnitTest g_test3(g_group, "ToString", [](){
-        TypeFactory factory;
-        
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
+
         auto& one = factory.createInteger(1);
         auto& two = factory.createInteger(2);
         auto& three = factory.createInteger(3);
@@ -166,7 +170,8 @@ namespace
     });
 
     UnitTest g_test4(g_group, "ConstructDifferentTypes", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
 
         auto integer = factory.createInteger(42);
         auto t = &SCHEME_TRUE;
@@ -197,7 +202,8 @@ namespace
     });
 
     UnitTest g_test5(g_group, "Count", [](){
-        TypeFactory factory;
+        auto pRuntime = createTestRuntime();
+        auto& factory = *pRuntime->factory();
         ezUInt32 numElements = 0;
 
         // Regular lists

@@ -1,29 +1,39 @@
 ﻿#include "stdafx.h"
+#include "testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;
 
 namespace
 {
+    int g_testData;
+
+    Ptr<SchemeObject> builtin_testFunc(Ptr<SchemeRuntime> pRuntime,
+                                       Ptr<Environment> pEnv,
+                                       Ptr<SchemeObject> pArgs)
+    {
+        g_testData = 1;
+        return pRuntime->factory()->createInteger(42);
+    }
+
     UnitTestGroup g_group("SchemeFunctionTest");
 
     UnitTest g_test1(g_group, "Basics", [](){
-        auto env = Environment::createTopLevelInstance();
-        TypeFactory factory;
-        RecursiveEvaluator eval;
+        auto pRuntime = createTestRuntime();
+        auto pEnv = pRuntime->globalEnvironment();
 
-        int testData = 0;
+        g_testData = 0;
 
-        SchemeFunctionBuiltin func("testFunc", &env, [&](Ptr<Environment>, Ptr<IEvaluator>, Ptr<SchemeObject>) {
-            testData = 1;
-            return factory.createInteger(42);
-        });
+        auto pFunc = pRuntime->factory()->createBuiltinFunction(
+            "testFunc",
+            pRuntime->globalEnvironment(),
+            &builtin_testFunc);
 
-        CUT_ASSERT.isTrue(testData == 0);
+        CUT_ASSERT.isTrue(g_testData == 0);
 
-        auto pResult = func.call(&eval, SCHEME_NIL_PTR);
+        auto pResult = pFunc->call(SCHEME_NIL_PTR);
 
-        CUT_ASSERT.isTrue(testData == 1);
+        CUT_ASSERT.isTrue(g_testData == 1);
         CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
         CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42);
     });
