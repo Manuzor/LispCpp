@@ -203,21 +203,21 @@ namespace
         }
 
         {
-            ezString input("(define x 1)");
+            ezString input("(theSymbol x 1)");
             ezString strOutput;
             auto consObject = reader.parseList(input.GetIteratorFront());
             auto cons = consObject.cast<SchemeCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
-            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
-            auto car = cons->car(); // "define"
-            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
-            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol x 1)"), "Wrong string representation for read list!");
+            auto car = cons->car(); // "theSymbol"
+            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'theSymbol'.");
+            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("theSymbol"), "First car is supposed to be the symbol 'theSymbol'.");
             CUT_ASSERT.isTrue(cons->cdr()->is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
             auto cdr = cons->cdr().cast<SchemeCons>();
             auto cdr_car = cdr->car(); // "x"
             CUT_ASSERT.isTrue(cdr_car->is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
             CUT_ASSERT.isTrue(cdr_car.cast<SchemeSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'theSymbol'.");
             auto cdr_cdr = cdr->cdr().cast<SchemeCons>();
             auto cdr_cdr_car = cdr_cdr->car(); // 1
             CUT_ASSERT.isTrue(cdr_cdr_car->is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
@@ -227,20 +227,20 @@ namespace
 
         // same as above, with more whitespace!
         {
-            ezString input("  \n ( \t \n  \tdefine \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
+            ezString input("  \n ( \t \n  \ttheSymbol \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
             auto consObject = reader.parseList(input.GetIteratorFront());
             auto cons = consObject.cast<SchemeCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
-            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(define x 1)"), "Wrong string representation for read list!");
-            auto car = cons->car(); // "define"
-            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'define'.");
-            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("define"), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol x 1)"), "Wrong string representation for read list!");
+            auto car = cons->car(); // "theSymbol"
+            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'theSymbol'.");
+            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("theSymbol"), "First car is supposed to be the symbol 'theSymbol'.");
             CUT_ASSERT.isTrue(cons->cdr()->is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
             auto cdr = cons->cdr().cast<SchemeCons>();
             auto cdr_car = cdr->car(); // "x"
             CUT_ASSERT.isTrue(cdr_car->is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
             CUT_ASSERT.isTrue(cdr_car.cast<SchemeSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'define'.");
+            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'theSymbol'.");
             auto cdr_cdr = cdr->cdr().cast<SchemeCons>();
             auto cdr_cdr_car = cdr_cdr->car(); // 1
             CUT_ASSERT.isTrue(cdr_cdr_car->is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
@@ -248,9 +248,9 @@ namespace
             CUT_ASSERT.isTrue(isNil(cdr_cdr->cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
         {
-            ezString input("(define (x a b) (+ a b))");
+            ezString input("(theSymbol (x a b) (+ a b))");
             auto consObject = reader.parseList(input.GetIteratorFront());
-            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(define (x a b) (+ a b))"), "Wrong string representation for read list!");
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
     });
 
