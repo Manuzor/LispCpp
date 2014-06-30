@@ -51,6 +51,16 @@ namespace lcpp { namespace exceptions {
         {}
     };
 
+    class NoBindingFound :
+        public InvalidInput
+    {
+    public:
+        inline NoBindingFound(const char* message, const char* file = nullptr, ezUInt32 line = -1) :
+            InvalidInput(message, file, line)
+        {
+        }
+    };
+
     class InvalidOperation :
         public ExceptionBase
     {

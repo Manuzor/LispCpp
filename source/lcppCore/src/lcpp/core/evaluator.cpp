@@ -36,7 +36,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         {
             ezStringBuilder messsage;
             messsage.AppendFormat("No binding found for symbol '%s'.", key->value().GetData());
-            throw exceptions::InvalidInput(messsage.GetData());
+            throw exceptions::NoBindingFound(messsage.GetData());
         }
         Ptr<SchemeObject> pResult;
         pEnv->get(key, pResult);
@@ -72,7 +72,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         {
             ezStringBuilder messsage;
             messsage.AppendFormat("No function binding found for symbol '%s'.", pSymbol->value().GetData());
-            throw exceptions::InvalidInput(messsage.GetData());
+            throw exceptions::NoBindingFound(messsage.GetData());
         }
 
         if(!pFuncObject->is<SchemeFunction>())
