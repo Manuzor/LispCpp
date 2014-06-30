@@ -49,4 +49,29 @@ namespace
             });
         }
     });
+
+    UnitTest g_test2(g_group, "Recursive_SymbolLookup", [](){
+        auto pRuntime = createTestRuntime();
+
+        auto pSymbol = pRuntime->factory()->createSymbol("x");
+
+        // Not found
+        {
+            CUT_ASSERT.throws<lcpp::exceptions::NoBindingFound>([&](){
+                auto pResult = pRuntime->evaluator()->evalulate(pSymbol);
+            });
+        }
+
+        // Define x as integer 1337 in global env
+        pRuntime->globalEnvironment()->add(pSymbol, pRuntime->factory()->createInteger(1337));
+
+        // Lookup symbol x
+        {
+            Ptr<SchemeObject> pResult;
+            pResult = pRuntime->evaluator()->evalulate(pSymbol);
+
+            CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Expected result type to be integer!");
+            CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 1337, cut::format("Expected integer value to be 1337, got %d.", pResult.cast<SchemeInteger>()->value()));
+        }
+    });
 }
