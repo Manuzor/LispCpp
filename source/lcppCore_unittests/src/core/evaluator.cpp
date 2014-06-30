@@ -73,5 +73,25 @@ namespace
             CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Expected result type to be integer!");
             CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 1337, cut::format("Expected integer value to be 1337, got %d.", pResult.cast<SchemeInteger>()->value()));
         }
+
+        // define f as a built-in function
+        pSymbol = pRuntime->factory()->createSymbol("f");
+        auto pLambda = pRuntime->factory()->createBuiltinFunction("testFunc", pRuntime->globalEnvironment(),
+            [](Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs) -> Ptr<SchemeObject>
+        {
+            return pRuntime->factory()->createInteger(42);
+        });
+        pRuntime->globalEnvironment()->add(pSymbol, pLambda);
+
+        {
+            auto pResult = pRuntime->evaluator()->evalulate(pSymbol);
+
+            CUT_ASSERT.isTrue(pResult->is<SchemeFunction>());
+
+            pResult = pRuntime->evaluator()->evalulate(pRuntime->factory()->createCons(pResult, SCHEME_NIL_PTR));
+
+            CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Expected the return value of the function to be an integer!");
+            CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Expected the integer 42!");
+        }
     });
 }
