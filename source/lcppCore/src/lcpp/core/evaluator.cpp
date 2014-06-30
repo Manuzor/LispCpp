@@ -49,42 +49,17 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     }
 
     auto pBody = pObject.cast<SchemeCons>();
-    auto pFuncObject = pBody->car();
+    // Evaluate car in case it is a symbol, cons, etc.
+    auto pFuncObject = evalulate(pBody->car());
 
-    if(pBody->car()->is<SchemeSyntax>())
+    if(pFuncObject->is<SchemeSyntax>())
     {
         return pBody->car().cast<SchemeSyntax>()->call(m_pRuntime, pEnv);
     }
-    else if(pBody->car()->is<SchemeCons>())
+    
+    if (!pFuncObject->is<SchemeFunction>())
     {
-        pFuncObject = evalulate(pEnv, pFuncObject);
-
-        if(!pFuncObject->is<SchemeFunction>())
-        {
-            throw exceptions::InvalidInput("Attempt to call non-function object.");
-        }
-    }
-    else if(pBody->car()->is<SchemeSymbol>())
-    {
-        auto pSymbol = pBody->car().cast<SchemeSymbol>();
-
-        if(!pEnv->get(pSymbol, pFuncObject).IsSuccess())
-        {
-            ezStringBuilder messsage;
-            messsage.AppendFormat("No function binding found for symbol '%s'.", pSymbol->value().GetData());
-            throw exceptions::NoBindingFound(messsage.GetData());
-        }
-
-        if(!pFuncObject->is<SchemeFunction>())
-        {
-            ezStringBuilder messsage;
-            messsage.AppendFormat("Attempt to call non-function object '%s'.", pSymbol->value().GetData());
-            throw exceptions::InvalidInput(messsage.GetData());
-        }
-    }
-    else
-    {
-        throw exceptions::InvalidSyntax("Invalid expression cannot be called!");
+        throw exceptions::InvalidSyntax("Non-syntax of non-function object cannot be called!!");
     }
 
     auto pArgs = m_pRuntime->factory()->copy(pBody->cdr());
