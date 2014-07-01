@@ -101,7 +101,7 @@ lcpp::builtin::eval(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Sche
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
 
-    return pRuntime->evaluator()->evalulate(pArgList->car());
+    return pRuntime->evaluator()->evalulate(pEnv, pArgList->car());
 }
 
 lcpp::Ptr<lcpp::SchemeObject>

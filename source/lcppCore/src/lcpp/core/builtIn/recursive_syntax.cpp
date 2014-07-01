@@ -44,7 +44,7 @@ lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
     auto symbol = pArgList->car().cast<SchemeSymbol>();
     auto value = pArgList->cdr().cast<SchemeCons>()->car();
 
-    value = pRuntime->evaluator()->evalulate(value);
+    value = pRuntime->evaluator()->evalulate(pEnv, value);
 
     pEnv->add(symbol, value);
 

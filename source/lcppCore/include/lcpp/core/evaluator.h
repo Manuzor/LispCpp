@@ -40,6 +40,8 @@ namespace lcpp
         Ptr<SchemeRuntime> m_pRuntime;
 
     private:
+        ezUInt32 m_evalLevel;
+
         explicit RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime);
         
         void evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons);

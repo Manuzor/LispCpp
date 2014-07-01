@@ -9,7 +9,8 @@
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
 lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime) :
-    m_pRuntime(pRuntime)
+    m_pRuntime(pRuntime),
+    m_evalLevel(0)
 {
 }
 
@@ -26,12 +27,18 @@ lcpp::RecursiveEvaluator::initialize()
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::RecursiveEvaluator::evalulate(Ptr<SchemeObject> pObject)
 {
+    EZ_ASSERT(m_evalLevel == 0,
+              "Attempt to recursively call the evaluate function with the default environment (/global)! "
+              "This is not allowed. Call the other evaluate function and supply an environment.");
     return evalulate(m_pRuntime->globalEnvironment(), pObject);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject)
 {
+    m_evalLevel++;
+    LCPP_SCOPE_EXIT{ m_evalLevel--; };
+
     EZ_LOG_BLOCK("RecursiveEvaluator::evalulate");
     ezLog::VerboseDebugMessage("Environment name: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("Evaluating object of type %s: %s",
@@ -61,7 +68,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
 
     auto pBody = pObject.cast<SchemeCons>();
     // Evaluate car in case it is a symbol, cons, etc.
-    auto pFuncObject = evalulate(pBody->car());
+    auto pFuncObject = evalulate(pEnv, pBody->car());
 
     if(pFuncObject->is<SchemeSyntax>())
     {
