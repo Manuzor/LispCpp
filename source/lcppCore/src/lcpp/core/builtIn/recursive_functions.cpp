@@ -7,6 +7,9 @@
 #include "lcpp/core/reader.h"
 #include "lcpp/core/runtime.h"
 
+// Enable this to allow debug messages
+#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+
 // Built-in functions
 //////////////////////////////////////////////////////////////////////////
 

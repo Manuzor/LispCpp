@@ -4,6 +4,9 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/typeSystem/typeFactory.h"
 
+// Enable this to allow debug messages
+#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+
 lcpp::SchemeRuntime::SchemeRuntime()
 {
 }

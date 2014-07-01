@@ -5,6 +5,9 @@
 #include "lcpp/core/builtIn/recursive_functions.h"
 #include "lcpp/core/runtime.h"
 
+// Enable this to allow debug messages
+#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+
 lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime) :
     m_pRuntime(pRuntime)
 {
@@ -29,22 +32,30 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<SchemeObject> pObject)
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject)
 {
+    EZ_LOG_BLOCK("RecursiveEvaluator::evalulate");
+    ezLog::VerboseDebugMessage("Environment name: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("Evaluating object of type %s: %s",
+                               pObject->type().name,
+                               pObject->toString().GetData());
+
     if(pObject->is<SchemeSymbol>())
     {
-        auto key = pObject.cast<SchemeSymbol>();
-        if(!pEnv->exists(key))
+        auto pKey = pObject.cast<SchemeSymbol>();
+        Ptr<SchemeObject> pResult;
+        auto exists = pEnv->get(pKey, pResult);
+        if(!exists.IsSuccess())
         {
             ezStringBuilder messsage;
-            messsage.AppendFormat("No binding found for symbol '%s'.", key->value().GetData());
+            messsage.AppendFormat("No binding found for symbol '%s'.", pKey->value().GetData());
+            ezLog::VerboseDebugMessage(messsage.GetData());
             throw exceptions::NoBindingFound(messsage.GetData());
         }
-        Ptr<SchemeObject> pResult;
-        pEnv->get(key, pResult);
         return pResult;
     }
 
     if(!pObject->is<SchemeCons>())
     {
+        ezLog::VerboseDebugMessage("Object evaluated to itself.");
         return pObject;
     }
 
@@ -54,11 +65,16 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
 
     if(pFuncObject->is<SchemeSyntax>())
     {
+        ezLog::VerboseDebugMessage("Executing syntax object: %s",
+                                   pFuncObject->toString().GetData());
         return pBody->car().cast<SchemeSyntax>()->call(m_pRuntime, pEnv);
     }
     
     if (!pFuncObject->is<SchemeFunction>())
     {
+        ezLog::VerboseDebugMessage("Failed to call object: Type %s: %s",
+                                   pFuncObject->type().name,
+                                   pFuncObject->toString().GetData());
         throw exceptions::InvalidSyntax("Non-syntax of non-function object cannot be called!!");
     }
 
@@ -66,9 +82,14 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
 
     if(!isNil(pArgs))
     {
+        ezLog::VerboseDebugMessage("Evaluating arguments: %s",
+                                   pArgs->toString().GetData());
         evaluateEach(pEnv, pArgs);
     }
 
+    ezLog::VerboseDebugMessage("Calling object: Type %s: %s",
+                               pFuncObject->type().name,
+                               pFuncObject->toString().GetData());
     return pFuncObject.cast<SchemeFunction>()->call(pArgs);
 }
 

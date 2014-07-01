@@ -5,7 +5,7 @@ namespace lcpp
     class SchemeObject;
     class SchemeSymbol;
 
-    class Environment
+    class LCPP_CORE_API Environment
     {
     public:
 

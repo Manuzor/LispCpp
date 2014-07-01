@@ -1,4 +1,3 @@
-#include "lcpp/exceptions/exceptions.h"
 
 inline
 lcpp::Environment
@@ -25,57 +24,6 @@ lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
     m_symbols(m_pAllocator.get())
 {
     m_name = name;
-}
-
-inline
-void
-lcpp::Environment::add(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
-{
-    m_symbols[pKey.get()] = pValue.get();
-}
-
-inline
-ezResult
-lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
-{
-    if(m_symbols.KeyExists(pKey.get()))
-    {
-        m_symbols[pKey.get()] = pValue.get();
-        return EZ_SUCCESS;
-    }
-    
-    if(m_pParent)
-    {
-        return m_pParent->set(pKey, pValue);
-    }
-
-    return EZ_FAILURE;
-}
-
-inline
-ezResult
-lcpp::Environment::get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value)
-{
-    SchemeObject* pResult = nullptr;
-    if(m_symbols.TryGetValue(pKey.get(), pResult))
-    {
-        out_value = pResult;
-        return EZ_SUCCESS;
-    }
-    if (m_pParent)
-    {
-        return m_pParent->get(pKey, out_value);
-    }
-    
-    return EZ_FAILURE;
-}
-
-inline
-bool
-lcpp::Environment::exists(Ptr<SchemeSymbol> pKey)
-{
-    return m_symbols.KeyExists(pKey.get())
-        || m_pParent && m_pParent->exists(pKey);
 }
 
 inline

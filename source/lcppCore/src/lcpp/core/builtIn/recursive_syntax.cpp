@@ -7,11 +7,18 @@
 #include "lcpp/core/reader.h"
 #include "lcpp/core/runtime.h"
 
+// Enable this to allow debug messages
+#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
                      Ptr<Environment> pEnv,
                      Ptr<SchemeObject> pArgs)
 {
+    EZ_LOG_BLOCK("syntax::define");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
     if(isNil(pArgs))
     {
         throw exceptions::InvalidSyntax("Syntax 'define' expects exactly 2 arguments!");
@@ -55,6 +62,10 @@ lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
                      Ptr<Environment> pEnv,
                      Ptr<SchemeObject> pArgs)
 {
+    EZ_LOG_BLOCK("syntax::lambda");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
     std::function<void(Ptr<SchemeCons>)> checkArgNameList = [&](Ptr<SchemeCons> pCons){
         if(!pCons->car()->is<SchemeSymbol>())
         {
@@ -101,6 +112,11 @@ lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
+    EZ_LOG_BLOCK("syntax::if_");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
+
     if(isNil(pArgs))
     {
         throw exceptions::InvalidSyntax("Syntax 'if' expects exactly 3 arguments!");

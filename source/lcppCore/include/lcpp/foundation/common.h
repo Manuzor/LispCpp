@@ -33,6 +33,8 @@
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 #define LCPP_UNUSED(anything) ((void)anything)
 
+#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME Info
+
 namespace lcpp
 {
     template<typename T>

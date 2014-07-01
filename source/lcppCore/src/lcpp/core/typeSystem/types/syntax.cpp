@@ -3,6 +3,9 @@
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 
+// Enable this to allow debug messages
+#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+
 lcpp::SchemeSyntax::SchemeSyntax(Ptr<SchemeSymbol> pName,
                                  Ptr<SchemeCons> pUnevaluatedArgList) :
     m_pName(pName),

@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="src\lcpp\core\builtIn\recursive_functions.cpp" />
     <ClCompile Include="src\lcpp\core\builtIn\recursive_syntax.cpp" />
+    <ClCompile Include="src\lcpp\core\environment.cpp" />
     <ClCompile Include="src\lcpp\core\evaluator.cpp" />
     <ClCompile Include="src\lcpp\core\printer.cpp" />
     <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
