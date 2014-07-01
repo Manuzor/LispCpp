@@ -34,6 +34,13 @@ lcpp::SchemeFunction::operator==(const SchemeFunction& rhs) const
     return &rhs == this;
 }
 
+void
+lcpp::SchemeFunction::name(const ezString& newName)
+{
+    m_name = newName;
+    m_pEnv->name() = newName;
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(Ptr<SchemeRuntime> pRuntime,

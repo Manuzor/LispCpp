@@ -51,7 +51,7 @@ lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
     // If it is a function, give it its new name.
     if(value->is<SchemeFunction>())
     {
-        value.cast<SchemeFunction>()->name() = symbol->value();
+        value.cast<SchemeFunction>()->name(symbol->value());
     }
 
     return SCHEME_VOID_PTR;

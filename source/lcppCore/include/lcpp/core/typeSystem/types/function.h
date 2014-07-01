@@ -24,6 +24,7 @@ namespace lcpp
 
         virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) = 0;
 
+        void name(const ezString& newName);
         ezString& name();
         const ezString& name() const;
 
