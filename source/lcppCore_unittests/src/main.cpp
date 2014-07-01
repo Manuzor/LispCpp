@@ -27,8 +27,8 @@ int main(int argc, const char* argv[])
 
     auto& testManager = cut::IUnitTestManager::instance();
 
-    testManager.initializeFunction() = [](){ lcpp::startup(); };
-    testManager.shutdownFunction() = [](){ lcpp::shutdown(); };
+    testManager.initializeFunction() = []{ lcpp::startup(); };
+    testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
     testManager.runAll();
 

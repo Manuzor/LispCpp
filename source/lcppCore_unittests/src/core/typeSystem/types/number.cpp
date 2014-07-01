@@ -11,7 +11,7 @@ namespace
 {
     UnitTestGroup g_group("SchemeNumberTests");
 
-    UnitTest g_test1(g_group, "Construction", [](){
+    UnitTest g_test1(g_group, "Construction", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         union
@@ -66,7 +66,7 @@ namespace
         }
     });
 
-    UnitTest g_test2(g_group, "ToString", [](){
+    UnitTest g_test2(g_group, "ToString", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         // SchemeInteger
@@ -104,7 +104,7 @@ namespace
         }
     });
 
-    UnitTest g_test3(g_group, "Instancing", [](){
+    UnitTest g_test3(g_group, "Instancing", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 

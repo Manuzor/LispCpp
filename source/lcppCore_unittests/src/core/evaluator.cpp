@@ -44,20 +44,20 @@ namespace
         {
             auto test = pRuntime->factory()->createSymbol("x");
 
-            CUT_ASSERT.throws<lcpp::exceptions::NoBindingFound>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::NoBindingFound>([&]{
                 auto pResult = pRuntime->evaluator()->evalulate(test);
             });
         }
     });
 
-    UnitTest g_test2(g_group, "Recursive_SymbolLookup", [](){
+    UnitTest g_test2(g_group, "Recursive_SymbolLookup", []{
         auto pRuntime = createTestRuntime();
 
         auto pSymbol = pRuntime->factory()->createSymbol("x");
 
         // Not found
         {
-            CUT_ASSERT.throws<lcpp::exceptions::NoBindingFound>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::NoBindingFound>([&]{
                 auto pResult = pRuntime->evaluator()->evalulate(pSymbol);
             });
         }

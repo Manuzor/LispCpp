@@ -8,7 +8,7 @@ namespace
 {
     UnitTestGroup g_group("SchemeSymbolTests");
 
-    UnitTest g_test1(g_group, "Type", [](){
+    UnitTest g_test1(g_group, "Type", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         auto s1 = factory.createSymbol("a");
@@ -17,7 +17,7 @@ namespace
         CUT_ASSERT.isTrue(s1->type() == s2->type(), "Different instances of scheme symbol do not have the same type!");
     });
 
-    UnitTest g_test2(g_group, "Construction", [](){
+    UnitTest g_test2(g_group, "Construction", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         ezString str("Hello World");
@@ -30,7 +30,7 @@ namespace
         CUT_ASSERT.isTrue(s2->value().IsEqual(cstr), "Construction from a c-string failed.");
     });
 
-    UnitTest g_test3(g_group, "Equality", [](){
+    UnitTest g_test3(g_group, "Equality", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         // == with another symbol
@@ -51,7 +51,7 @@ namespace
         }
     });
 
-    UnitTest g_test4(g_group, "ToString", [](){
+    UnitTest g_test4(g_group, "ToString", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         auto s1 = factory.createSymbol("Hello World");
@@ -59,7 +59,7 @@ namespace
         CUT_ASSERT.isTrue(s1->toString().IsEqual(s1->value().GetData()), "s.toString() should return the same thing as s->value()!");
     });
 
-    UnitTest g_test6(g_group, "Instancing", [](){
+    UnitTest g_test6(g_group, "Instancing", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         auto s1 = factory.createSymbol("hello");

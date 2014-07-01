@@ -39,7 +39,7 @@ namespace
 
     UnitTestGroup g_group("RefTests");
 
-    UnitTest g_test1(g_group, "Ptr", [](){
+    UnitTest g_test1(g_group, "Ptr", []{
         A a(42);
         B b(1337);
         Ptr<A> pA;

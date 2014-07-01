@@ -91,7 +91,7 @@ namespace
 
         {
             ezString str("qwerty");
-            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseInteger(str.GetIteratorFront());
             }, "'qwerty' should not be parsed as integer!");
         }
@@ -111,7 +111,7 @@ namespace
 
         {
             ezString str("qwerty");
-            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseNumber(str.GetIteratorFront());
             }, "'qwerty' should not be parsed as number!");
         }
@@ -142,7 +142,7 @@ namespace
 
         {
             ezString str("123");
-            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseSymbol(str.GetIteratorFront());
             }, "'123' should not be parsed as symbol!");
         }
@@ -171,14 +171,14 @@ namespace
 
         {
             ezString input("hello");
-            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseString(input.GetIteratorFront());
             }, "'hello' should not be parsed as string! ('\"hello\"' should)");
         }
 
         {
             ezString input("\"hello");
-            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseString(input.GetIteratorFront());
             }, "'\"hello' should not be recognized as a complete string! ('\"hello\"' should)");
         }
@@ -191,7 +191,7 @@ namespace
 
         {
             ezString input("hello world 123 42");
-            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&](){
+            CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseList(input.GetIteratorFront());
             }, "The input string 'hello world 123 42' should not be read as a valid list!");
         }
@@ -254,7 +254,7 @@ namespace
         }
     });
 
-    UnitTest g_test9(g_group, "checkSyntax", [](){
+    UnitTest g_test9(g_group, "checkSyntax", []{
         auto pRuntime = createTestRuntime();
         auto& reader = *pRuntime->reader();
 
@@ -311,7 +311,7 @@ namespace
         }
     });
 
-    UnitTest g_test10(g_group, "skipComments", [](){
+    UnitTest g_test10(g_group, "skipComments", []{
         auto pRuntime = createTestRuntime();
         auto& reader = *pRuntime->reader();
 
@@ -324,7 +324,7 @@ namespace
         }
     });
 
-    UnitTest g_test11(g_group, "Detect +- as symbols", [](){
+    UnitTest g_test11(g_group, "Detect +- as symbols", []{
         auto pRuntime = createTestRuntime();
         auto& reader = *pRuntime->reader();
 

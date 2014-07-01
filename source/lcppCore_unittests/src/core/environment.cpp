@@ -8,7 +8,7 @@ namespace
 {
     UnitTestGroup g_group("EnvironmentTests");
 
-    UnitTest g_test1(g_group, "Basics", [](){
+    UnitTest g_test1(g_group, "Basics", []{
         auto pRuntime = createTestRuntime();
         auto pEnv = pRuntime->globalEnvironment();
         auto pFactory = pRuntime->factory();
@@ -24,7 +24,7 @@ namespace
         CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Wrong type stored in environment!");
     });
 
-    UnitTest g_test2(g_group, "Parent", [](){
+    UnitTest g_test2(g_group, "Parent", []{
         auto pRuntime = createTestRuntime();
         auto pFactory = pRuntime->factory();
         
@@ -73,7 +73,7 @@ namespace
         CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == -123);
     });
 
-    UnitTest g_test3(g_group, "QualifiedName", [](){
+    UnitTest g_test3(g_group, "QualifiedName", []{
         auto pRuntime = createTestRuntime();
         CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->name().IsEqual("syntax"), "Invalid local name for syntax environment in runtime.");
         CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->qualifiedName().IsEqual("/"), "Invalid qualified name for syntax environment in runtime.");

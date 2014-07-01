@@ -7,7 +7,7 @@ namespace
 {
     UnitTestGroup g_group("TypeTests");
 
-    UnitTest g_test1(g_group, "InstanceIdentity", [](){
+    UnitTest g_test1(g_group, "InstanceIdentity", []{
         CUT_ASSERT.isTrue(TypeInfo<SchemeInteger>::type() == TypeInfo<SchemeInteger>::type());
         CUT_ASSERT.isTrue(TypeInfo<SchemeInteger>::type() == TypeInfo<SchemeInteger>::type());
 
@@ -29,7 +29,7 @@ namespace
         CUT_ASSERT.isTrue(first.id != third.id);
     });
 
-    UnitTest g_test2(g_group, "SingletonTypes", [](){
+    UnitTest g_test2(g_group, "SingletonTypes", []{
         CUT_ASSERT.isTrue(SCHEME_VOID.type() == TypeInfo<SchemeVoid>::type(), "SCHEME_VOID.type() did not return Type::Void!");
         CUT_ASSERT.isTrue(SCHEME_VOID.is<SchemeVoid>(), "SCHEME_VOID.is() does not return true for argument Type::Void!");
         CUT_ASSERT.isTrue(SCHEME_TRUE.type() == TypeInfo<SchemeBool>::type(), "SCHEME_TRUE.type() did not return Type::Bool!");

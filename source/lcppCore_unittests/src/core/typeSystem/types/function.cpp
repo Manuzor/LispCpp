@@ -18,7 +18,7 @@ namespace
 
     UnitTestGroup g_group("SchemeFunctionTest");
 
-    UnitTest g_test1(g_group, "Basics", [](){
+    UnitTest g_test1(g_group, "Basics", []{
         auto pRuntime = createTestRuntime();
         auto pEnv = pRuntime->globalEnvironment();
 

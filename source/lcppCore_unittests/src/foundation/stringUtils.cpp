@@ -8,7 +8,7 @@ namespace
 {
     UnitTestGroup g_group("StringUtils");
 
-    UnitTest g_test1(g_group, "Contains", [](){
+    UnitTest g_test1(g_group, "Contains", []{
         ezString str("abcdef");
         CUT_ASSERT.isTrue(contains(str, 'a'), "String does not contain 'x'!");
         CUT_ASSERT.isFalse(contains(str, 'x'), "String does not contain 'x'!");

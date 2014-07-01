@@ -7,7 +7,7 @@ namespace
 {
     UnitTestGroup g_group("Conversion");
 
-    UnitTest g_test1(g_group, "ToString", [](){
+    UnitTest g_test1(g_group, "ToString", []{
         {
             auto str = toString(1);
             CUT_ASSERT.isTrue(str.IsEqual("1"));
@@ -32,7 +32,7 @@ namespace
         }
     });
 
-    UnitTest g_test2(g_group, "To integer", [](){
+    UnitTest g_test2(g_group, "To integer", []{
         {
             ezString str("42");
             ezInt64 integer;
@@ -42,7 +42,7 @@ namespace
         }
     });
 
-    UnitTest g_test3(g_group, "To number (float)", [](){
+    UnitTest g_test3(g_group, "To number (float)", []{
         {
             ezString str("3.1415");
             double value;

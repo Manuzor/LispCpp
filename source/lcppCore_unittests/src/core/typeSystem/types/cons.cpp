@@ -9,7 +9,7 @@ namespace
 {
     UnitTestGroup g_group("SchemeConsTests");
 
-    UnitTest g_test1(g_group, "Construction", [](){
+    UnitTest g_test1(g_group, "Construction", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         // Default construction
@@ -37,7 +37,7 @@ namespace
         }
     });
 
-    UnitTest g_test2(g_group, "CopyCtorAndCopyAssign", [](){
+    UnitTest g_test2(g_group, "CopyCtorAndCopyAssign", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         {
@@ -58,7 +58,7 @@ namespace
         }
     });
 
-    UnitTest g_test3(g_group, "ToString", [](){
+    UnitTest g_test3(g_group, "ToString", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 
@@ -169,7 +169,7 @@ namespace
         }
     });
 
-    UnitTest g_test4(g_group, "ConstructDifferentTypes", [](){
+    UnitTest g_test4(g_group, "ConstructDifferentTypes", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 
@@ -201,7 +201,7 @@ namespace
         }
     });
 
-    UnitTest g_test5(g_group, "Count", [](){
+    UnitTest g_test5(g_group, "Count", []{
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         ezUInt32 numElements = 0;
