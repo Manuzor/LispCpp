@@ -94,4 +94,29 @@ namespace
             CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Expected the integer 42!");
         }
     });
+
+    UnitTest g_test3(g_group, "Recursive_Clojures", []{
+        auto pRuntime = createTestRuntime();
+
+        auto pSymbol = pRuntime->factory()->createSymbol("x");
+
+        // define x as 123
+        pRuntime->globalEnvironment()->add(pSymbol, pRuntime->factory()->createInteger(123));
+
+        auto pLambda = pRuntime->factory()->createBuiltinFunction("test-clojure", pRuntime->globalEnvironment(),
+                                                                  [](Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs) -> Ptr<SchemeObject>
+        {
+            Ptr<SchemeObject> pResult;
+            auto lookupResult = pEnv->get(pRuntime->factory()->createSymbol("x"), pResult);
+            CUT_ASSERT.isTrue(lookupResult.IsSuccess(), "Failed to find 'x' in environment!");
+            return pResult;
+        });
+
+        auto pFunctionCallObject = pRuntime->factory()->createCons(pLambda, SCHEME_NIL_PTR);
+
+        auto pResult = pRuntime->evaluator()->evalulate(pFunctionCallObject);
+
+        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Failed lookup of 'x' in lambda!");
+        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 123, "Wrong value for 'x'!");
+    });
 }
