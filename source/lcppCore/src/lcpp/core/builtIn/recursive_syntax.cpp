@@ -69,7 +69,7 @@ lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
 
     if(isNil(pArgs))
     {
-        throw exceptions::InvalidSyntax("Built-in function 'define' expects exactly 2 arguments!");
+        throw exceptions::InvalidSyntax("Syntax 'lambda' expects exactly 2 arguments!");
     }
 
     auto pArgList = pArgs.cast<SchemeCons>();
