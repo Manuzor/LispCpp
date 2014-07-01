@@ -76,7 +76,7 @@ namespace
 
         // define f as a built-in function
         pSymbol = pRuntime->factory()->createSymbol("f");
-        auto pLambda = pRuntime->factory()->createBuiltinFunction("testFunc", pRuntime->globalEnvironment(),
+        auto pLambda = pRuntime->factory()->createBuiltinFunction("test-func", pRuntime->globalEnvironment(),
             [](Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs) -> Ptr<SchemeObject>
         {
             return pRuntime->factory()->createInteger(42);
