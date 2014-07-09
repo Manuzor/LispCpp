@@ -117,3 +117,17 @@ lcpp::SchemeRuntime::globalEnvironment(lcpp::Ptr<lcpp::Environment> value)
 {
     m_pGlobalEnvironment = value;
 }
+
+inline
+ezUInt32
+lcpp::SchemeRuntime::recursionDepth() const
+{
+    return m_recursionDepth;
+}
+
+inline
+ezUInt32
+lcpp::SchemeRuntime::recursionLimit() const
+{
+    return m_recursionLimit;
+}

@@ -83,6 +83,7 @@ lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
+    auto counter = m_pRuntime->createRecursionCounter();
     return (*m_pExec)(m_pRuntime, m_pEnv, pArgList);
 }
 
@@ -171,6 +172,7 @@ lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
+    auto counter = m_pRuntime->createRecursionCounter();
 
     // Process args
     //////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,21 @@ namespace lcpp
     class LCPP_CORE_API SchemeRuntime
     {
     public:
+        struct RecursionCounter
+        {
+            ezUInt32& value;
+            RecursionCounter(ezUInt32& value) :
+                value(value)
+            {
+                ++value;
+            }
+
+            ~RecursionCounter()
+            {
+                --value;
+            }
+        };
+    public:
         SchemeRuntime();
 
         void initialize();
@@ -38,6 +53,12 @@ namespace lcpp
         Ptr<Environment> globalEnvironment();
         void globalEnvironment(Ptr<Environment> value);
 
+        ezUInt32 recursionDepth() const;
+        RecursionCounter createRecursionCounter();
+
+        ezUInt32 recursionLimit() const;
+        void recursionLimit(ezUInt32 newLimit);
+
     private:
         Ptr<ezAllocatorBase> m_pAllocator;
         Ptr<TypeFactory> m_pFactory;
@@ -46,6 +67,9 @@ namespace lcpp
         Ptr<IEvaluator> m_pEvaluator;
         Ptr<Environment> m_pSyntaxEnvironment;
         Ptr<Environment> m_pGlobalEnvironment;
+
+        ezUInt32 m_recursionLimit;
+        ezUInt32 m_recursionDepth;
     };
 }
 

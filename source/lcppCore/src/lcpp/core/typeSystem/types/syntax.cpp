@@ -1,7 +1,10 @@
 #include "stdafx.h"
 
+#include "lcpp/foundation/ptr.h"
+
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
+#include "lcpp/core/runtime.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -49,6 +52,7 @@ lcpp::SchemeSyntax_Builtin::SchemeSyntax_Builtin(Ptr<SchemeSymbol> pName,
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeSyntax_Builtin::call(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv)
 {
+    auto counter = pRuntime->createRecursionCounter();
     return (*m_pHandler)(pRuntime, pEnv, m_pUnevaluatedArgList);
 }
 

@@ -82,4 +82,14 @@ namespace lcpp { namespace exceptions {
         ezInt32 m_status;
     };
 
+    class Runtime :
+        public ExceptionBase
+    {
+    public:
+        inline Runtime(const char* message) :
+            ExceptionBase(message, nullptr, -1)
+        {
+        }
+    };
+
 }}
