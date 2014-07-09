@@ -139,7 +139,7 @@ lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Scheme
     auto thenPart = pArgList->cdr().cast<SchemeCons>()->car();
     auto elsePart = pArgList->cdr().cast<SchemeCons>()->cdr().cast<SchemeCons>()->car();
 
-    auto expressionResult = pRuntime->evaluator()->evalulate(expression);
+    auto expressionResult = pRuntime->evaluator()->evalulate(pEnv, expression);
 
     if (!expressionResult->is<SchemeBool>())
     {
@@ -148,8 +148,8 @@ lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Scheme
 
     if(isTrue(expressionResult))
     {
-        return pRuntime->evaluator()->evalulate(thenPart);
+        return pRuntime->evaluator()->evalulate(pEnv, thenPart);
     }
 
-    return pRuntime->evaluator()->evalulate(elsePart);
+    return pRuntime->evaluator()->evalulate(pEnv, elsePart);
 }
