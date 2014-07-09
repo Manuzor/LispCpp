@@ -6,6 +6,7 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/printer.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -107,7 +108,12 @@ lcpp::builtin::eval(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Sche
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::builtin::print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
 {
-    throw exceptions::NotImplemented("Not implemented..");
+    static Printer printer;
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    printer.print(pArgs);
+
     return SCHEME_VOID_PTR;
 }
 
