@@ -19,4 +19,5 @@
 
 (eval-file "unittests.lisp")
 
-(define not (lambda (e) (if e #f #t)))
+(define (not e) (if e #f #t))
+(define (xor a b) (not (or (not (or a b)) (and a b))))
