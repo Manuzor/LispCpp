@@ -153,3 +153,73 @@ lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Scheme
 
     return pRuntime->evaluator()->evalulate(pEnv, elsePart);
 }
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::syntax::and(Ptr<SchemeRuntime> pRuntime,
+                  Ptr<Environment> pEnv,
+                  Ptr<SchemeObject> pArgs)
+{
+    EZ_LOG_BLOCK("syntax::and");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
+    Ptr<SchemeObject> pResult = SCHEME_TRUE_PTR;
+
+    while(!isNil(pArgs))
+    {
+        EZ_ASSERT(pArgs->is<SchemeCons>(), "Parser error?");
+        auto pArg = pArgs.cast<SchemeCons>()->car();
+        pArgs = pArgs.cast<SchemeCons>()->cdr();
+
+        pResult = pRuntime->evaluator()->evalulate(pEnv, pArg);
+
+        if (!pResult->is<SchemeBool>())
+        {
+            ezStringBuilder message;
+            message.Format("Expected bool argument, got %s.", pResult->type().name);
+            throw exceptions::InvalidInput(message.GetData());
+        }
+        
+        if(isFalse(pResult))
+        {
+            break;
+        }
+    }
+
+    return pResult;
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::syntax::or(Ptr<SchemeRuntime> pRuntime,
+                 Ptr<Environment> pEnv,
+                 Ptr<SchemeObject> pArgs)
+{
+    EZ_LOG_BLOCK("syntax::or");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
+    Ptr<SchemeObject> pResult = SCHEME_FALSE_PTR;
+
+    while(!isNil(pArgs))
+    {
+        EZ_ASSERT(pArgs->is<SchemeCons>(), "Parser error?");
+        auto pArg = pArgs.cast<SchemeCons>()->car();
+        pArgs = pArgs.cast<SchemeCons>()->cdr();
+
+        pResult = pRuntime->evaluator()->evalulate(pEnv, pArg);
+
+        if(!pResult->is<SchemeBool>())
+        {
+            ezStringBuilder message;
+            message.Format("Expected bool argument, got %s.", pResult->type().name);
+            throw exceptions::InvalidInput(message.GetData());
+        }
+
+        if(isTrue(pResult))
+        {
+            break;
+        }
+    }
+
+    return pResult;
+}

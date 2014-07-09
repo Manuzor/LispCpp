@@ -30,6 +30,8 @@ lcpp::Reader::initialize()
     m_syntaxHandlers["define"] = &syntax::define;
     m_syntaxHandlers["lambda"] = &syntax::lambda;
     m_syntaxHandlers["if"] = &syntax::if_;
+    m_syntaxHandlers["and"] = &syntax::and;
+    m_syntaxHandlers["or"] = &syntax::or;
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
