@@ -157,4 +157,11 @@ lcpp::RecursiveEvaluator::setupEnvironment()
     //////////////////////////////////////////////////////////////////////////
     pEnv->add(m_pRuntime->factory()->createSymbol("+"),
               m_pRuntime->factory()->createBuiltinFunction("+", pEnv, &builtin::add));
+
+    // Other
+    //////////////////////////////////////////////////////////////////////////
+    pEnv->add(m_pRuntime->factory()->createSymbol("set-recursion-limit"),
+              m_pRuntime->factory()->createBuiltinFunction("set-recursion-limit", pEnv, &builtin::setRecursionLimit));
+    pEnv->add(m_pRuntime->factory()->createSymbol("get-recursion-limit"),
+              m_pRuntime->factory()->createBuiltinFunction("get-recursion-limit", pEnv, &builtin::getRecursionLimit));
 }

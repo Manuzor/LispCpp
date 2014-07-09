@@ -270,6 +270,33 @@ lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
     return pRuntime->factory()->createNumber(iResult + nResult);
 }
 
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::setRecursionLimit(Ptr<SchemeRuntime> pRuntime,
+                                 Ptr<Environment> pEnv,
+                                 Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeInteger);
+
+    auto newLimit = pArgList->car().cast<SchemeInteger>()->value();
+    pRuntime->recursionLimit(ezUInt32(newLimit));
+
+    return SCHEME_VOID_PTR;
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::getRecursionLimit(Ptr<SchemeRuntime> pRuntime,
+                                 Ptr<Environment> pEnv,
+                                 Ptr<SchemeObject> pArgs)
+{
+    auto limit = pRuntime->recursionLimit();
+    return pRuntime->factory()->createInteger(limit);
+}
+
 #undef LCPP_BUILTIN_FUNCTION_CHECK_TYPE
 #undef LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT
 #undef LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL
