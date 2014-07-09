@@ -19,4 +19,4 @@
 
 (eval-file "unittests.lisp")
 
-((lambda (n) ((lambda () n))) 42)
+(define not (lambda (e) (if e #f #t)))
