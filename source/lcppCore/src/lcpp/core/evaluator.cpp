@@ -79,10 +79,12 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     
     if (!pFuncObject->is<SchemeFunction>())
     {
-        ezLog::VerboseDebugMessage("Failed to call object: Type %s: %s",
+        ezStringBuilder message;
+        message.AppendFormat("Failed to call object: Type %s: %s",
                                    pFuncObject->type().name,
                                    pFuncObject->toString().GetData());
-        throw exceptions::InvalidSyntax("Non-syntax of non-function object cannot be called!!");
+        ezLog::VerboseDebugMessage(message.GetData());
+        throw exceptions::InvalidSyntax(message.GetData());
     }
 
     auto pArgs = m_pRuntime->factory()->copy(pBody->cdr());
