@@ -26,6 +26,28 @@ lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
 
     auto pArgList = pArgs.cast<SchemeCons>();
 
+    // Short-hand syntax for lambda definition
+    if (pArgList->car()->is<SchemeCons>())
+    {
+        EZ_LOG_BLOCK("lambda short-hand syntax");
+
+        auto pTheArgs = pArgList->car().cast<SchemeCons>();
+        auto pSymbolObject = pTheArgs->car();
+        if (!pSymbolObject->is<SchemeSymbol>())
+        {
+            throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
+        }
+        auto pSymbol = pSymbolObject.cast<SchemeSymbol>();
+        auto pLambda = lambda(pRuntime, pEnv, pRuntime->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
+
+        pEnv->add(pSymbol, pLambda);
+
+        // Give the new lambda its name.
+        pLambda.cast<SchemeFunction>()->name(pSymbol->value());
+
+        return SCHEME_VOID_PTR;
+    }
+
     if(!pArgList->car()->is<SchemeSymbol>())
     {
         throw exceptions::InvalidSyntax("First argument to syntax 'define' must be a symbol!");
