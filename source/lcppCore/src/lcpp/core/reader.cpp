@@ -28,6 +28,7 @@ lcpp::Reader::initialize()
     m_pSyntaxCheckResult->reset();
 
     m_syntaxHandlers["define"] = &syntax::define;
+    m_syntaxHandlers["set!"] = &syntax::set;
     m_syntaxHandlers["lambda"] = &syntax::lambda;
     m_syntaxHandlers["if"] = &syntax::if_;
     m_syntaxHandlers["and"] = &syntax::and;

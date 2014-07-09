@@ -10,73 +10,117 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
+namespace lcpp
+{
+    Ptr<SchemeObject>
+    defineHelper(Ptr<SchemeRuntime> pRuntime,
+                 Ptr<Environment> pEnv,
+                 Ptr<SchemeObject> pArgs,
+                 std::function<void(Ptr<Environment>, Ptr<SchemeSymbol>, Ptr<SchemeObject>)> envOp)
+    {
+        EZ_LOG_BLOCK("syntax::defineHelper");
+        ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+        ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
+        if(isNil(pArgs))
+        {
+            throw exceptions::InvalidSyntax("Syntax 'define' expects exactly 2 arguments!");
+        }
+
+        auto pArgList = pArgs.cast<SchemeCons>();
+
+        // Short-hand syntax for lambda definition
+        if(pArgList->car()->is<SchemeCons>())
+        {
+            EZ_LOG_BLOCK("lambda short-hand syntax");
+
+            auto pTheArgs = pArgList->car().cast<SchemeCons>();
+            auto pSymbolObject = pTheArgs->car();
+            if(!pSymbolObject->is<SchemeSymbol>())
+            {
+                throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
+            }
+            auto pSymbol = pSymbolObject.cast<SchemeSymbol>();
+            auto pLambda = lcpp::syntax::lambda(pRuntime, pEnv, pRuntime->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
+
+            envOp(pEnv, pSymbol, pLambda);
+
+            // Give the new lambda its name.
+            pLambda.cast<SchemeFunction>()->name(pSymbol->value());
+
+            return SCHEME_VOID_PTR;
+        }
+
+        if(!pArgList->car()->is<SchemeSymbol>())
+        {
+            throw exceptions::InvalidSyntax("First argument to syntax 'define' must be a symbol!");
+        }
+
+        if(isNil(pArgList->cdr()))
+        {
+            throw exceptions::InvalidSyntax("Not enough arguments for syntax 'define'!");
+        }
+
+        if(!isNil(pArgList->cdr().cast<SchemeCons>()->cdr()))
+        {
+            throw exceptions::InvalidSyntax("Too many arguments for syntax 'define'!");
+        }
+
+        auto symbol = pArgList->car().cast<SchemeSymbol>();
+        auto value = pArgList->cdr().cast<SchemeCons>()->car();
+
+        value = pRuntime->evaluator()->evalulate(pEnv, value);
+
+        envOp(pEnv, symbol, value);
+
+        // If it is a function, give it its new name.
+        if(value->is<SchemeFunction>())
+        {
+            value.cast<SchemeFunction>()->name(symbol->value());
+        }
+
+        return SCHEME_VOID_PTR;
+    }
+}
+
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
                      Ptr<Environment> pEnv,
                      Ptr<SchemeObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::define");
-    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
-    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
 
-    if(isNil(pArgs))
-    {
-        throw exceptions::InvalidSyntax("Syntax 'define' expects exactly 2 arguments!");
-    }
-
-    auto pArgList = pArgs.cast<SchemeCons>();
-
-    // Short-hand syntax for lambda definition
-    if (pArgList->car()->is<SchemeCons>())
-    {
-        EZ_LOG_BLOCK("lambda short-hand syntax");
-
-        auto pTheArgs = pArgList->car().cast<SchemeCons>();
-        auto pSymbolObject = pTheArgs->car();
-        if (!pSymbolObject->is<SchemeSymbol>())
+    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<SchemeSymbol> pSymbol, Ptr<SchemeObject> pObject) {
+        pEnv->add(pSymbol, pObject);
+        if(pObject->is<SchemeFunction>())
         {
-            throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
+            pObject.cast<SchemeFunction>()->name(pSymbol->value());
         }
-        auto pSymbol = pSymbolObject.cast<SchemeSymbol>();
-        auto pLambda = lambda(pRuntime, pEnv, pRuntime->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
+    });
+}
 
-        pEnv->add(pSymbol, pLambda);
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::syntax::set(Ptr<SchemeRuntime> pRuntime,
+                  Ptr<Environment> pEnv,
+                  Ptr<SchemeObject> pArgs)
+{
+    EZ_LOG_BLOCK("syntax::set");
 
-        // Give the new lambda its name.
-        pLambda.cast<SchemeFunction>()->name(pSymbol->value());
+    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<SchemeSymbol> pSymbol, Ptr<SchemeObject> pObject) {
+        auto result = pEnv->set(pSymbol, pObject);
 
-        return SCHEME_VOID_PTR;
-    }
-
-    if(!pArgList->car()->is<SchemeSymbol>())
-    {
-        throw exceptions::InvalidSyntax("First argument to syntax 'define' must be a symbol!");
-    }
-
-    if(isNil(pArgList->cdr()))
-    {
-        throw exceptions::InvalidSyntax("Not enough arguments for syntax 'define'!");
-    }
-
-    if(!isNil(pArgList->cdr().cast<SchemeCons>()->cdr()))
-    {
-        throw exceptions::InvalidSyntax("Too many arguments for syntax 'define'!");
-    }
-
-    auto symbol = pArgList->car().cast<SchemeSymbol>();
-    auto value = pArgList->cdr().cast<SchemeCons>()->car();
-
-    value = pRuntime->evaluator()->evalulate(pEnv, value);
-
-    pEnv->add(symbol, value);
-
-    // If it is a function, give it its new name.
-    if(value->is<SchemeFunction>())
-    {
-        value.cast<SchemeFunction>()->name(symbol->value());
-    }
-
-    return SCHEME_VOID_PTR;
+        if (!result.IsSuccess())
+        {
+            ezStringBuilder message;
+            message.Format("Cannot set variable before its definition: %s", pSymbol->value().GetData());
+            throw exceptions::InvalidOperation(message.GetData());
+        }
+        
+        if(pObject->is<SchemeFunction>())
+        {
+            pObject.cast<SchemeFunction>()->name(pSymbol->value());
+        }
+    });
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
