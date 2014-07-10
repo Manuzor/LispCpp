@@ -21,3 +21,6 @@
 
 (define (not e) (if e #f #t))
 (define (xor a b) (not (or (not (or a b)) (and a b))))
+
+; Non-standard
+(define == =)

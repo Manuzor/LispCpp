@@ -109,6 +109,8 @@ void lcpp::SchemeRuntime::registerBuiltInFunctions()
               factory()->createBuiltinFunction("-", pEnv, &builtin::sub));
     pEnv->add(factory()->createSymbol("*"),
               factory()->createBuiltinFunction("*", pEnv, &builtin::mul));
+    pEnv->add(factory()->createSymbol("="),
+              factory()->createBuiltinFunction("=", pEnv, &builtin::equals));
 
     // Other
     //////////////////////////////////////////////////////////////////////////

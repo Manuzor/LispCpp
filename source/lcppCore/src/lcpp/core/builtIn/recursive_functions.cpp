@@ -393,6 +393,44 @@ lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::equals(Ptr<SchemeRuntime> pRuntime,
+                      Ptr<Environment> pEnv,
+                      Ptr<SchemeObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got none.");
+    }
+
+    std::function<Ptr<SchemeBool>(Ptr<SchemeObject>, Ptr<SchemeObject>)> helper;
+    helper = [&](Ptr<SchemeObject> pReference, Ptr<SchemeCons> pRestList)
+    {
+        if (*pReference != *pRestList->car())
+        {
+            return SCHEME_FALSE_PTR;
+        }
+
+        if(!isNil(pRestList->cdr()))
+        {
+            return helper(pReference, pRestList->cdr().cast<SchemeCons>());
+        }
+
+        return SCHEME_TRUE_PTR;
+    };
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    if(isNil(pArgList->cdr()))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got 1.");
+    }
+
+    EZ_ASSERT(pArgList->cdr()->is<SchemeCons>(), "Invalid input.");
+
+    return helper(pArgList->car(), pArgList->cdr().cast<SchemeCons>());
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
 lcpp::builtin::setRecursionLimit(Ptr<SchemeRuntime> pRuntime,
                                  Ptr<Environment> pEnv,
                                  Ptr<SchemeObject> pArgs)

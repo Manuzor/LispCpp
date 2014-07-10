@@ -36,7 +36,7 @@ namespace lcpp
         //Ptr<SchemeObject> div(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         //
         //// Comparison
-        //Ptr<SchemeObject> equals(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> equals(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         //Ptr<SchemeObject> greaterThan(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         //Ptr<SchemeObject> greaterOrEqual(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         //Ptr<SchemeObject> lowerThan(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
