@@ -61,7 +61,7 @@ namespace lcpp
         ezUInt32 m_recursionDepth;
 
         // Called in initialize()
-        void registerBuiltInFunctions();
+        void registerBuiltIns();
 
         // Used by the RecursionCounter
         void increaseRecursionDepth();

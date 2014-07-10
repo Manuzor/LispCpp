@@ -46,5 +46,7 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
         Ptr<SchemeObject> setRecursionLimit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         Ptr<SchemeObject> getRecursionLimit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+
+        Ptr<SchemeObject> cons(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
     }
 }

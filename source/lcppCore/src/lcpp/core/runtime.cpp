@@ -34,7 +34,7 @@ lcpp::SchemeRuntime::initialize()
 
     //////////////////////////////////////////////////////////////////////////
 
-    registerBuiltInFunctions();
+    registerBuiltIns();
 }
 
 void
@@ -63,63 +63,6 @@ lcpp::SchemeRuntime::recursionLimit(ezUInt32 newLimit)
     m_recursionLimit = newLimit;
 }
 
-void lcpp::SchemeRuntime::registerBuiltInFunctions()
-{
-    auto pEnv = globalEnvironment();
-    // constants
-    //////////////////////////////////////////////////////////////////////////
-    pEnv->add(factory()->createSymbol("#t"), SCHEME_TRUE_PTR);
-    pEnv->add(factory()->createSymbol("#f"), SCHEME_FALSE_PTR);
-    pEnv->add(factory()->createSymbol("null"), SCHEME_NIL_PTR);
-    pEnv->add(factory()->createSymbol("nil"), SCHEME_NIL_PTR);
-    pEnv->add(factory()->createSymbol("#v"), SCHEME_VOID_PTR);
-
-    // Utility functions
-    //////////////////////////////////////////////////////////////////////////
-    pEnv->add(factory()->createSymbol("exit"),
-              factory()->createBuiltinFunction("exit", pEnv, &builtin::exit));
-    pEnv->add(factory()->createSymbol("dump"),
-              factory()->createBuiltinFunction("dump", pEnv, &builtin::dump));
-
-    // REPL
-    //////////////////////////////////////////////////////////////////////////
-    pEnv->add(factory()->createSymbol("read"),
-              factory()->createBuiltinFunction("read", pEnv, &builtin::read));
-    pEnv->add(factory()->createSymbol("eval"),
-              factory()->createBuiltinFunction("eval", pEnv, &builtin::eval));
-    pEnv->add(factory()->createSymbol("print"),
-              factory()->createBuiltinFunction("print", pEnv, &builtin::print));
-
-    // File handling
-    //////////////////////////////////////////////////////////////////////////
-    pEnv->add(factory()->createSymbol("file-open"),
-              factory()->createBuiltinFunction("file-open", pEnv, &builtin::fileOpen));
-    pEnv->add(factory()->createSymbol("file-is-open"),
-              factory()->createBuiltinFunction("file-is-open", pEnv, &builtin::fileIsOpen));
-    pEnv->add(factory()->createSymbol("file-read-string"),
-              factory()->createBuiltinFunction("file-read-string", pEnv, &builtin::fileReadString));
-    pEnv->add(factory()->createSymbol("file-close"),
-              factory()->createBuiltinFunction("file-close", pEnv, &builtin::fileClose));
-
-    // Basic math
-    //////////////////////////////////////////////////////////////////////////
-    pEnv->add(factory()->createSymbol("+"),
-              factory()->createBuiltinFunction("+", pEnv, &builtin::add));
-    pEnv->add(factory()->createSymbol("-"),
-              factory()->createBuiltinFunction("-", pEnv, &builtin::sub));
-    pEnv->add(factory()->createSymbol("*"),
-              factory()->createBuiltinFunction("*", pEnv, &builtin::mul));
-    pEnv->add(factory()->createSymbol("="),
-              factory()->createBuiltinFunction("=", pEnv, &builtin::equals));
-
-    // Other
-    //////////////////////////////////////////////////////////////////////////
-    pEnv->add(factory()->createSymbol("set-recursion-limit"),
-              factory()->createBuiltinFunction("set-recursion-limit", pEnv, &builtin::setRecursionLimit));
-    pEnv->add(factory()->createSymbol("get-recursion-limit"),
-              factory()->createBuiltinFunction("get-recursion-limit", pEnv, &builtin::getRecursionLimit));
-}
-
 void lcpp::SchemeRuntime::increaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth < m_recursionLimit, "Invalid current callStackDepth!");
@@ -136,4 +79,55 @@ void lcpp::SchemeRuntime::decreaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth > 0, "Cannot decrease the recursion depth below 0!");
     --m_recursionDepth;
+}
+
+void lcpp::SchemeRuntime::registerBuiltIns()
+{
+#define LCPP_ADD_GLOBAL(name, value) pEnv->add(factory()->createSymbol(name), value)
+#define LCPP_ADD_BUILTIN_FUNCTION(name, funcPtr) \
+    pEnv->add(factory()->createSymbol(name),     \
+              factory()->createBuiltinFunction(name, pEnv, funcPtr))
+
+    auto pEnv = globalEnvironment();
+
+    // Globals
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_ADD_GLOBAL("#t", SCHEME_TRUE_PTR);
+    LCPP_ADD_GLOBAL("#f", SCHEME_FALSE_PTR);
+    LCPP_ADD_GLOBAL("null", SCHEME_NIL_PTR);
+    LCPP_ADD_GLOBAL("nil", SCHEME_NIL_PTR);
+    LCPP_ADD_GLOBAL("#v", SCHEME_VOID_PTR);
+
+    // Utility functions
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_ADD_BUILTIN_FUNCTION("exit", &builtin::exit);
+    LCPP_ADD_BUILTIN_FUNCTION("dump", &builtin::dump);
+
+    // REPL
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_ADD_BUILTIN_FUNCTION("read", &builtin::read);
+    LCPP_ADD_BUILTIN_FUNCTION("eval", &builtin::eval);
+    LCPP_ADD_BUILTIN_FUNCTION("print", &builtin::print);
+
+    // File handling
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_ADD_BUILTIN_FUNCTION("file-open", &builtin::fileOpen);
+    LCPP_ADD_BUILTIN_FUNCTION("file-is-open", &builtin::fileIsOpen);
+    LCPP_ADD_BUILTIN_FUNCTION("file-read-string", &builtin::fileReadString);
+    LCPP_ADD_BUILTIN_FUNCTION("file-close", &builtin::fileClose);
+
+    // Basic math
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_ADD_BUILTIN_FUNCTION("+", &builtin::add);
+    LCPP_ADD_BUILTIN_FUNCTION("-", &builtin::sub);
+    LCPP_ADD_BUILTIN_FUNCTION("*", &builtin::mul);
+    LCPP_ADD_BUILTIN_FUNCTION("=", &builtin::equals);
+
+    // Other
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_ADD_BUILTIN_FUNCTION("set-recursion-limit", &builtin::setRecursionLimit);
+    LCPP_ADD_BUILTIN_FUNCTION("get-recursion-limit", &builtin::getRecursionLimit);
+
+#undef LCPP_ADD_BUILTIN_FUNCTION
+#undef LCPP_ADD_GLOBAL
 }
