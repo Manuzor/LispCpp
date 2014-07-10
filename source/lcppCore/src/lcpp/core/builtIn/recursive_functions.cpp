@@ -431,6 +431,25 @@ lcpp::builtin::equals(Ptr<SchemeRuntime> pRuntime,
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::objectEquals(Ptr<SchemeRuntime> pRuntime,
+                            Ptr<Environment> pEnv,
+                            Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
+
+    if(*pArgList->car() == *pArgList->cdr().cast<SchemeCons>()->car())
+    {
+        return SCHEME_TRUE_PTR;
+    }
+
+    return SCHEME_FALSE_PTR;
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
 lcpp::builtin::setRecursionLimit(Ptr<SchemeRuntime> pRuntime,
                                  Ptr<Environment> pEnv,
                                  Ptr<SchemeObject> pArgs)
@@ -469,6 +488,36 @@ lcpp::builtin::cons(Ptr<SchemeRuntime> pRuntime,
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
 
     return pRuntime->factory()->createCons(pArgList->car(), pArgList->cdr());
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::car(Ptr<SchemeRuntime> pRuntime,
+                   Ptr<Environment> pEnv,
+                   Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeCons);
+
+    return pArgList->car().cast<SchemeCons>()->car();
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::cdr(Ptr<SchemeRuntime> pRuntime,
+                   Ptr<Environment> pEnv,
+                   Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeCons);
+
+    return pArgList->car().cast<SchemeCons>()->cdr();
 }
 
 #undef LCPP_BUILTIN_FUNCTION_CHECK_TYPE

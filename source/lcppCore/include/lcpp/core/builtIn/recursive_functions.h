@@ -41,6 +41,8 @@ namespace lcpp
         //Ptr<SchemeObject> greaterOrEqual(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         //Ptr<SchemeObject> lowerThan(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
         //Ptr<SchemeObject> lowerOrEqual(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        
+        Ptr<SchemeObject> objectEquals(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
 
         // Other
         //////////////////////////////////////////////////////////////////////////
@@ -48,5 +50,7 @@ namespace lcpp
         Ptr<SchemeObject> getRecursionLimit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
 
         Ptr<SchemeObject> cons(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> car(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<SchemeObject> cdr(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
     }
 }

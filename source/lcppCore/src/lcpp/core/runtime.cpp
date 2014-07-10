@@ -123,10 +123,16 @@ void lcpp::SchemeRuntime::registerBuiltIns()
     LCPP_ADD_BUILTIN_FUNCTION("*", &builtin::mul);
     LCPP_ADD_BUILTIN_FUNCTION("=", &builtin::equals);
 
+    LCPP_ADD_BUILTIN_FUNCTION("eq?", &builtin::objectEquals);
+
     // Other
     //////////////////////////////////////////////////////////////////////////
     LCPP_ADD_BUILTIN_FUNCTION("set-recursion-limit", &builtin::setRecursionLimit);
     LCPP_ADD_BUILTIN_FUNCTION("get-recursion-limit", &builtin::getRecursionLimit);
+
+    LCPP_ADD_BUILTIN_FUNCTION("cons", &builtin::cons);
+    LCPP_ADD_BUILTIN_FUNCTION("car", &builtin::car);
+    LCPP_ADD_BUILTIN_FUNCTION("cdr", &builtin::cdr);
 
 #undef LCPP_ADD_BUILTIN_FUNCTION
 #undef LCPP_ADD_GLOBAL
