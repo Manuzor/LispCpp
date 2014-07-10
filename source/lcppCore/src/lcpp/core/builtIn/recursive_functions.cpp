@@ -254,6 +254,81 @@ lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
         }
         else
         {
+            throw exceptions::InvalidInput("Invalid argument type for '+'");
+        }
+
+        if(isNil(pArgList->cdr())) { break; }
+        
+        pArgList = pArgList->cdr().cast<SchemeCons>();
+    }
+
+    if (integerOnly)
+    {
+        return pRuntime->factory()->createInteger(iResult);
+    }
+
+    return pRuntime->factory()->createNumber(iResult + nResult);
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::sub(Ptr<SchemeRuntime> pRuntime,
+                   Ptr<Environment> pEnv,
+                   Ptr<SchemeObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 1 argument, got none.");
+    }
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+    SchemeInteger::Number_t iResult = 0;
+    SchemeNumber::Number_t nResult = 0;
+
+    bool integerOnly = true;
+
+    auto pArg = pArgList->car();
+
+    if(pArg->is<SchemeInteger>())
+    {
+        iResult = pArg.cast<SchemeInteger>()->value();
+    }
+    else if(pArg->is<SchemeNumber>())
+    {
+        integerOnly = false;
+        nResult = pArg.cast<SchemeNumber>()->value();
+    }
+    else
+    {
+        throw exceptions::InvalidInput("Invalid argument type for '-'");
+    }
+
+    if(isNil(pArgList->cdr()))
+    {
+        if(integerOnly)
+        {
+            return pRuntime->factory()->createInteger(-iResult);
+        }
+
+        return pRuntime->factory()->createNumber(-nResult);
+    }
+
+    pArgList = pArgList->cdr().cast<SchemeCons>();
+
+    while(true)
+    {
+        auto pArg = pArgList->car();
+        
+        if (pArg->is<SchemeInteger>())
+        {
+            iResult -= pArg.cast<SchemeInteger>()->value();
+        }
+        else if (pArg->is<SchemeNumber>())
+        {
+            integerOnly = false;
+            nResult -= pArg.cast<SchemeNumber>()->value();
+        }
+        else
+        {
             throw exceptions::InvalidInput("Invalid argument type for 'add'");
         }
 
@@ -268,6 +343,53 @@ lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
     }
 
     return pRuntime->factory()->createNumber(iResult + nResult);
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
+                   Ptr<Environment> pEnv,
+                   Ptr<SchemeObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 1 argument, got none.");
+    }
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+    SchemeInteger::Number_t iResult = 1;
+    SchemeNumber::Number_t nResult = 1;
+
+    bool integerOnly = true;
+
+    while(true)
+    {
+        auto pArg = pArgList->car();
+        
+        if (pArg->is<SchemeInteger>())
+        {
+            iResult *= pArg.cast<SchemeInteger>()->value();
+        }
+        else if (pArg->is<SchemeNumber>())
+        {
+            integerOnly = false;
+            nResult *= pArg.cast<SchemeNumber>()->value();
+        }
+        else
+        {
+            throw exceptions::InvalidInput("Invalid argument type for '*'");
+        }
+
+        if(isNil(pArgList->cdr())) { break; }
+        
+        pArgList = pArgList->cdr().cast<SchemeCons>();
+    }
+
+    if (integerOnly)
+    {
+        return pRuntime->factory()->createInteger(iResult);
+    }
+
+    return pRuntime->factory()->createNumber(iResult * nResult);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>

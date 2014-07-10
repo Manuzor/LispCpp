@@ -157,6 +157,10 @@ lcpp::RecursiveEvaluator::setupEnvironment()
     //////////////////////////////////////////////////////////////////////////
     pEnv->add(m_pRuntime->factory()->createSymbol("+"),
               m_pRuntime->factory()->createBuiltinFunction("+", pEnv, &builtin::add));
+    pEnv->add(m_pRuntime->factory()->createSymbol("-"),
+              m_pRuntime->factory()->createBuiltinFunction("-", pEnv, &builtin::sub));
+    pEnv->add(m_pRuntime->factory()->createSymbol("*"),
+              m_pRuntime->factory()->createBuiltinFunction("*", pEnv, &builtin::mul));
 
     // Other
     //////////////////////////////////////////////////////////////////////////
