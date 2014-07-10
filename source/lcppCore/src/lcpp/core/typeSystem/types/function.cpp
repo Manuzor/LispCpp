@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/recursionCounter.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -83,7 +84,7 @@ lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
-    auto counter = m_pRuntime->createRecursionCounter();
+    RecursionCounter counter(m_pRuntime);
     return (*m_pExec)(m_pRuntime, m_pEnv, pArgList);
 }
 
@@ -172,7 +173,7 @@ lcpp::Ptr<lcpp::SchemeObject>
 lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
-    auto counter = m_pRuntime->createRecursionCounter();
+    RecursionCounter counter(m_pRuntime);
 
     // Process args
     //////////////////////////////////////////////////////////////////////////

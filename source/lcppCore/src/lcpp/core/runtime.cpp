@@ -4,6 +4,7 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/typeSystem/typeFactory.h"
 #include "lcpp/core/builtIn/recursive_functions.h"
+#include "lcpp/core/recursionCounter.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -46,20 +47,6 @@ lcpp::SchemeRuntime::shutdown()
     LCPP_DELETE(m_pAllocator.get(), m_pReader.get());
 
     LCPP_DELETE(m_pAllocator.get(), m_pFactory.get());
-}
-
-lcpp::SchemeRuntime::RecursionCounter
-lcpp::SchemeRuntime::createRecursionCounter()
-{
-    EZ_ASSERT(m_recursionDepth < m_recursionLimit, "Invalid current callStackDepth!");
-    if(m_recursionDepth + 1 >= m_recursionLimit)
-    {
-        ezStringBuilder message;
-        message.Format("Exceeded max call stack depth of %u", m_recursionLimit);
-        throw exceptions::Runtime(message.GetData());
-    }
-    
-    return RecursionCounter(m_recursionDepth);
 }
 
 void
@@ -129,4 +116,22 @@ void lcpp::SchemeRuntime::registerBuiltInFunctions()
               factory()->createBuiltinFunction("set-recursion-limit", pEnv, &builtin::setRecursionLimit));
     pEnv->add(factory()->createSymbol("get-recursion-limit"),
               factory()->createBuiltinFunction("get-recursion-limit", pEnv, &builtin::getRecursionLimit));
+}
+
+void lcpp::SchemeRuntime::increaseRecursionDepth()
+{
+    EZ_ASSERT(m_recursionDepth < m_recursionLimit, "Invalid current callStackDepth!");
+    ++m_recursionDepth;
+    if(m_recursionDepth >= m_recursionLimit)
+    {
+        ezStringBuilder message;
+        message.Format("Exceeded max call stack depth of %u", m_recursionLimit);
+        throw exceptions::Runtime(message.GetData());
+    }
+}
+
+void lcpp::SchemeRuntime::decreaseRecursionDepth()
+{
+    EZ_ASSERT(m_recursionDepth > 0, "Cannot decrease the recursion depth below 0!");
+    --m_recursionDepth;
 }

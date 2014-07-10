@@ -5,6 +5,7 @@
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/recursionCounter.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -54,7 +55,7 @@ lcpp::SchemeSyntax_Builtin::call(Ptr<SchemeRuntime> pRuntime,
                                  Ptr<Environment> pEnv,
                                  Ptr<SchemeObject> pUnevaluatedArgList)
 {
-    auto counter = pRuntime->createRecursionCounter();
+    RecursionCounter counter(pRuntime);
     auto& handler = *m_pHandler;
     return (*m_pHandler)(pRuntime, pEnv, pUnevaluatedArgList);
 }

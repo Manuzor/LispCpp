@@ -26,9 +26,11 @@
     <ClInclude Include="include\lcpp\core\environment.h" />
     <ClInclude Include="include\lcpp\core\evaluator.h" />
     <ClInclude Include="include\lcpp\core\implementation\evaluator_inl.h" />
+    <ClInclude Include="include\lcpp\core\implementation\recursionCounter_inl.h" />
     <ClInclude Include="include\lcpp\core\implementation\runtime_inl.h" />
     <ClInclude Include="include\lcpp\core\printer.h" />
     <ClInclude Include="include\lcpp\core\reader.h" />
+    <ClInclude Include="include\lcpp\core\recursionCounter.h" />
     <ClInclude Include="include\lcpp\core\runtime.h" />
     <ClInclude Include="include\lcpp\core\sourceCursor.h" />
     <ClInclude Include="include\lcpp\core\typeSystem.h" />
