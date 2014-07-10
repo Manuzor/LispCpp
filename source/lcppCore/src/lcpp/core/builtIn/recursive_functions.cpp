@@ -38,7 +38,7 @@
         ezStringBuilder message;                                   \
         message.AppendFormat("Expected type %s, got %s",           \
                               TypeInfo<expectedType>::type().name, \
-                              pArgList->car()->type().name);       \
+                              pObject->type().name);               \
         throw exceptions::InvalidInput(message.GetData());         \
     }                                                              \
 
@@ -413,6 +413,9 @@ lcpp::builtin::modulo(Ptr<SchemeRuntime> pRuntime,
                       Ptr<Environment> pEnv,
                       Ptr<SchemeObject> pArgs)
 {
+    EZ_LOG_BLOCK("builtin::modulo");
+    ezLog::VerboseDebugMessage("Args: %s", pArgs->toString().GetData());
+
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
 
     auto pArgList = pArgs.cast<SchemeCons>();
@@ -421,6 +424,12 @@ lcpp::builtin::modulo(Ptr<SchemeRuntime> pRuntime,
 
     auto pLhs = pArgList->car();
     auto pRhs = pArgList->cdr().cast<SchemeCons>()->car();
+
+    ezLog::VerboseDebugMessage("lhs (%s): %s, rhs (%s): %s",
+                               pLhs->type().name,
+                               pLhs->toString().GetData(),
+                               pRhs->type().name,
+                               pRhs->toString().GetData());
 
     LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pLhs, SchemeInteger);
     LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pRhs, SchemeInteger);
