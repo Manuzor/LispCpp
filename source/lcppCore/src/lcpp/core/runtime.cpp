@@ -122,6 +122,7 @@ void lcpp::SchemeRuntime::registerBuiltIns()
     LCPP_ADD_BUILTIN_FUNCTION("-", &builtin::sub);
     LCPP_ADD_BUILTIN_FUNCTION("*", &builtin::mul);
     LCPP_ADD_BUILTIN_FUNCTION("=", &builtin::equals);
+    LCPP_ADD_BUILTIN_FUNCTION("modulo", &builtin::modulo);
 
     LCPP_ADD_BUILTIN_FUNCTION("eq?", &builtin::objectEquals);
 

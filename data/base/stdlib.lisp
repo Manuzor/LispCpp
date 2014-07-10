@@ -22,5 +22,6 @@
 
 ; Non-standard
 (define == =)
+(define % modulo)
 
 (eval-file "unittests.lisp")

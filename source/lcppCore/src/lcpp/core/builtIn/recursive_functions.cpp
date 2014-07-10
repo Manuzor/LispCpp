@@ -42,6 +42,18 @@
         throw exceptions::InvalidInput(message.GetData());         \
     }                                                              \
 
+#define LCPP_BUILTIN_FUNCTION_CHECK_TYPE_2(pObject, expectedType1, expectedType2)  \
+    if(!pObject->is<expectedType1>()                                \
+    && !pObject->is<expectedType2>())                               \
+    {                                                               \
+        ezStringBuilder message;                                    \
+        message.AppendFormat("Expected type %s or %s, got %s",      \
+                              TypeInfo<expectedType1>::type().name, \
+                              TypeInfo<expectedType2>::type().name, \
+                              pArgList->car()->type().name);        \
+        throw exceptions::InvalidInput(message.GetData());          \
+    }                                                               \
+
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::builtin::exit(Ptr<SchemeRuntime> pRuntime,
                     Ptr<Environment> pEnv,
@@ -112,7 +124,11 @@ lcpp::builtin::print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Sch
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    printer.print(pArgs);
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
+
+    printer.print(pArgList->car());
 
     return SCHEME_VOID_PTR;
 }
@@ -390,6 +406,33 @@ lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
     }
 
     return pRuntime->factory()->createNumber(iResult * nResult);
+}
+
+lcpp::Ptr<lcpp::SchemeObject>
+lcpp::builtin::modulo(Ptr<SchemeRuntime> pRuntime,
+                      Ptr<Environment> pEnv,
+                      Ptr<SchemeObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
+
+    auto pArgList = pArgs.cast<SchemeCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
+
+    auto pLhs = pArgList->car();
+    auto pRhs = pArgList->cdr().cast<SchemeCons>()->car();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pLhs, SchemeInteger);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pRhs, SchemeInteger);
+
+    if (pRhs.cast<SchemeInteger>()->value() == 0)
+    {
+        throw exceptions::InvalidInput("Division by 0!");
+    }
+
+    auto result = pLhs.cast<SchemeInteger>()->value() % pRhs.cast<SchemeInteger>()->value();
+
+    return pRuntime->factory()->createInteger(result);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
