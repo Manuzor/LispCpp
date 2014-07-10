@@ -21,6 +21,8 @@ namespace lcpp
 
         void initialize()
         {
+            ezGlobalLog::SetLogLevel(ezLogMsgType::None);
+
             // set up console and visual studio loggers.
             ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
             ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
@@ -79,6 +81,16 @@ ezInt32 run()
     return result;
 }
 
+void parseCommandLineArgs(int argc, const char* argv[])
+{
+    if(argc == 1) { return; }
+
+    if(ezString(argv[1]) == "-d")
+    {
+        ezGlobalLog::SetLogLevel(ezLogMsgType::All);
+    }
+}
+
 int main(int argc, const char* argv[])
 {
     lcpp::startup();
@@ -87,6 +99,8 @@ int main(int argc, const char* argv[])
     lcpp::LoggingSystem loggingSystem("log/");
     loggingSystem.initialize();
     LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
+
+    parseCommandLineArgs(argc, argv);
 
     EZ_LOG_BLOCK("ezEngine running.");
 
