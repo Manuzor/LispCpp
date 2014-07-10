@@ -35,7 +35,7 @@
 
 // Use VerboseDebugMessage to disable verbose debug loggings,
 // otherwise use something like Info or Debug.
-#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME VerboseDebugMessage
+#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME Info
 
 namespace lcpp
 {

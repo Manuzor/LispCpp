@@ -93,23 +93,22 @@ lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
 
 lcpp::Ptr<lcpp::SchemeSyntax>
 lcpp::TypeFactory::createSyntax_Builtin(Ptr<SchemeSymbol> pName,
-                                        Ptr<SchemeCons> pUnevaluatedArgList,
                                         SchemeSyntax_Builtin::HandlerFuncPtr_t pHandler)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeSyntax_Builtin)(pName, pUnevaluatedArgList, pHandler);
+    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeSyntax_Builtin)(pName, pHandler);
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::TypeFactory::copy(Ptr<SchemeObject> pObject)
 {
-    if(pObject->is<SchemeInteger>())  { return copy(pObject.cast<SchemeInteger>());  }
-    if(pObject->is<SchemeNumber>())   { return copy(pObject.cast<SchemeNumber>());   }
-    if(pObject->is<SchemeString>())   { return copy(pObject.cast<SchemeString>());   }
-    if(pObject->is<SchemeSymbol>())   { return copy(pObject.cast<SchemeSymbol>());   }
-    if(pObject->is<SchemeCons>())     { return copy(pObject.cast<SchemeCons>());     }
-    if(pObject->is<SchemeFile>())     { return copy(pObject.cast<SchemeFile>());     }
-    if(pObject->is<SchemeFunction>()) { return copy(pObject.cast<SchemeFunction>()); }
-    if(pObject->is<SchemeSyntax>())   { return copy(pObject.cast<SchemeSyntax>());   }
+    if(pObject->is<SchemeInteger>())       { return copy(pObject.cast<SchemeInteger>());  }
+    if(pObject->is<SchemeNumber>())        { return copy(pObject.cast<SchemeNumber>());   }
+    if(pObject->is<SchemeString>())        { return copy(pObject.cast<SchemeString>());   }
+    if(pObject->is<SchemeSymbol>())        { return copy(pObject.cast<SchemeSymbol>());   }
+    if(pObject->is<SchemeCons>())          { return copy(pObject.cast<SchemeCons>());     }
+    if(pObject->is<SchemeFile>())          { return copy(pObject.cast<SchemeFile>());     }
+    if(pObject->is<SchemeFunction>())      { return copy(pObject.cast<SchemeFunction>()); }
+    if(pObject->is<SchemeSyntax>())        { return copy(pObject.cast<SchemeSyntax>()); }
 
     if(pObject->is<SchemeNil>()) { return copy(pObject.cast<SchemeNil>()); }
     if(pObject->is<SchemeBool>()) { return copy(pObject.cast<SchemeBool>()); }
@@ -166,5 +165,5 @@ lcpp::TypeFactory::copy(Ptr<SchemeFunction> pFunc)
 lcpp::Ptr<lcpp::SchemeSyntax>
 lcpp::TypeFactory::copy(Ptr<SchemeSyntax> pSyntax)
 {
-    return pSyntax->clone(m_pRuntime->allocator().get());
+    return pSyntax.cast<SchemeObject>()->clone(m_pRuntime->allocator().get());
 }

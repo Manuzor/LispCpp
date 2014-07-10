@@ -27,8 +27,12 @@ namespace lcpp
     public:
         SchemeRuntime();
 
+        // Initialization
+        //////////////////////////////////////////////////////////////////////////
         void initialize();
         void shutdown();
+
+        //////////////////////////////////////////////////////////////////////////
 
         Ptr<ezAllocatorBase> allocator();
         void allocator(Ptr<ezAllocatorBase> value);
@@ -70,6 +74,9 @@ namespace lcpp
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;
+
+        // Called in initialize()
+        void registerBuiltInFunctions();
     };
 }
 

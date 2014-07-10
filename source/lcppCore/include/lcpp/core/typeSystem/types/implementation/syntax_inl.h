@@ -7,6 +7,13 @@ lcpp::SchemeSyntax::type() const
 }
 
 inline
+void
+lcpp::SchemeSyntax::name(Ptr<SchemeSymbol> pName)
+{
+    m_pName = pName;
+}
+
+inline
 lcpp::Ptr<lcpp::SchemeSymbol>
 lcpp::SchemeSyntax::name()
 {

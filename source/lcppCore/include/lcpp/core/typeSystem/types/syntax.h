@@ -12,8 +12,7 @@ namespace lcpp
         public SchemeObject
     {
     public:
-        SchemeSyntax(Ptr<SchemeSymbol> pName,
-                     Ptr<SchemeCons> pUnevaluatedArgList);
+        SchemeSyntax(Ptr<SchemeSymbol> pName);
 
         virtual const Type& type() const LCPP_OVERRIDE;
 
@@ -22,15 +21,16 @@ namespace lcpp
 
         virtual ezString toString() const LCPP_OVERRIDE;
 
+        void lcpp::SchemeSyntax::name(lcpp::Ptr<lcpp::SchemeSymbol> pName);
         lcpp::Ptr<      lcpp::SchemeSymbol> lcpp::SchemeSyntax::name();
         lcpp::Ptr<const lcpp::SchemeSymbol> lcpp::SchemeSyntax::name() const;
 
         virtual Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime,
-                                       Ptr<Environment> pEnv) = 0;
+                                       Ptr<Environment> pEnv,
+                                       Ptr<SchemeObject> pUnevaluatedArgList) = 0;
 
     protected:
         Ptr<SchemeSymbol> m_pName;
-        Ptr<SchemeCons> m_pUnevaluatedArgList;
     };
 
     template<>
@@ -55,13 +55,13 @@ namespace lcpp
         typedef Ptr<SchemeObject>(*HandlerFuncPtr_t)(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>);
 
         SchemeSyntax_Builtin(Ptr<SchemeSymbol> pName,
-                             Ptr<SchemeCons> pUnevaluatedArgList,
                              HandlerFuncPtr_t pHandler);
 
         virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual Ptr<SchemeObject> call(Ptr<SchemeRuntime> pRuntime,
-                                       Ptr<Environment> pEnv) LCPP_OVERRIDE;
+                                       Ptr<Environment> pEnv,
+                                       Ptr<SchemeObject> pUnevaluatedArgList) LCPP_OVERRIDE;
 
     private:
         HandlerFuncPtr_t m_pHandler;

@@ -107,8 +107,6 @@ namespace lcpp
         Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
         ezString m_separators;
 
-        ezHashTable<ezString, SchemeSyntax_Builtin::HandlerFuncPtr_t> m_syntaxHandlers;
-
     private:
         explicit Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo);
 

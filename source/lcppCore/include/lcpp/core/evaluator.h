@@ -45,7 +45,6 @@ namespace lcpp
         explicit RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime);
         
         void evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons);
-        void setupEnvironment();
     };
 }
 

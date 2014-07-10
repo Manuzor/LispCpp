@@ -6,20 +6,19 @@
 #include "lcpp/foundation/stringUtils.h"
 #include "lcpp/core/builtIn/recursive_syntax.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/environment.h"
 
 lcpp::Reader::Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo) :
     m_pRuntime(pRuntime),
     m_defaults(),
     m_separators(cinfo.separators),
-    m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult),
-    m_syntaxHandlers(pRuntime->allocator().get())
+    m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult)
 {
     EZ_ASSERT(m_pRuntime, "Need a valid runtime!");
 }
 
 lcpp::Reader::~Reader()
 {
-    m_syntaxHandlers.Clear();
 }
 
 void
@@ -27,12 +26,21 @@ lcpp::Reader::initialize()
 {
     m_pSyntaxCheckResult->reset();
 
-    m_syntaxHandlers["define"] = &syntax::define;
-    m_syntaxHandlers["set!"] = &syntax::set;
-    m_syntaxHandlers["lambda"] = &syntax::lambda;
-    m_syntaxHandlers["if"] = &syntax::if_;
-    m_syntaxHandlers["and"] = &syntax::and;
-    m_syntaxHandlers["or"] = &syntax::or;
+    auto pEnv = m_pRuntime->syntaxEnvironment();
+    auto pFactory = m_pRuntime->factory();
+    Ptr<SchemeSymbol> pSymbol;
+
+#define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = pFactory->createSymbol(name); \
+    pEnv->add(pSymbol, pFactory->createSyntax_Builtin(pSymbol, funcPtr));
+
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("define", &syntax::define);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("set!", &syntax::set);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("lambda", &syntax::lambda);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("if", &syntax::if_);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("and", &syntax::and);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("or", &syntax::or);
+
+#undef LCPP_ADD_SYNTAX_TO_ENVIRONMENT
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
@@ -268,12 +276,11 @@ lcpp::Reader::parseList(ezStringIterator& input)
     if(car->is<SchemeSymbol>())
     {
         auto pSymbol = car.cast<SchemeSymbol>();
-        auto& handlerName = pSymbol->value();
-        SchemeSyntax_Builtin::HandlerFuncPtr_t pSyntaxHandler;
-        if(m_syntaxHandlers.TryGetValue(handlerName, pSyntaxHandler))
+        Ptr<SchemeObject> pSyntax;
+        auto result = m_pRuntime->syntaxEnvironment()->get(pSymbol, pSyntax);
+        if(result.IsSuccess() && pSyntax->is<SchemeSyntax>())
         {
-            EZ_ASSERT(cdr->is<SchemeCons>(), "Invalid reading?");
-            car = m_pRuntime->factory()->createSyntax_Builtin(pSymbol, cdr, pSyntaxHandler);
+            car = pSyntax;
         }
     }
 
