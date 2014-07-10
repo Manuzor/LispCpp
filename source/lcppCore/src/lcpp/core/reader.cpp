@@ -79,7 +79,7 @@ lcpp::Reader::read(ezStringIterator& input, bool resetSyntaxChecker)
 lcpp::Ptr<lcpp::SchemeObject>
 lcpp::Reader::parseAtom(ezStringIterator& input)
 {
-    // Special case for + and - characters, since the ezEngine parse (+ 1) as +1...
+    // Special case for + and - characters, since the ezEngine parses (+ 1) as +1...
     auto ch = input.GetCharacter();
 
     if (ch == '+' || ch == '-')
@@ -93,7 +93,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
         ch = copy.GetCharacter();
         while(true)
         {
-            if (isSeparator(ch))
+            if(isSeparator(ch) || contains("()", char(ch)) || !copy.IsValid())
             {
                 // The + or - characters stand alone, which means they're meant to be a symbol.
                 while(input.GetData() != copy.GetData())
@@ -110,7 +110,10 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             }
             symbol.Append(ch);
             ++copy;
-            ch = copy.GetCharacter();
+            if(copy.IsValid())
+            {
+                ch = copy.GetCharacter();
+            }
         }
     }
 
