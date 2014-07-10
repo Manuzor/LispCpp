@@ -539,7 +539,7 @@ lcpp::builtin::cons(Ptr<SchemeRuntime> pRuntime,
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
 
-    return pRuntime->factory()->createCons(pArgList->car(), pArgList->cdr());
+    return pRuntime->factory()->createCons(pArgList->car(), pArgList->cdr().cast<SchemeCons>()->car());
 }
 
 lcpp::Ptr<lcpp::SchemeObject>
