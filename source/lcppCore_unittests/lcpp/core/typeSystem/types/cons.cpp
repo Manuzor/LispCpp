@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include <functional>
-#include "testRuntime.h"
+#include "lcpp/testRuntime.h"
 
 using namespace cut;
 using namespace lcpp;

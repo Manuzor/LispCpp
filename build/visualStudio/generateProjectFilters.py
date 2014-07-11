@@ -71,13 +71,13 @@ def createNewFiltersFile(filterFileName, xml_filtersRoot):
     with open(filterFileName, "w") as filterFile:
         filterFile.write(xmlContent)
 
-def writeFiltersFile(xml_root, projFileName, filtersRoot, xml_root):
+def writeFiltersFile(projFileName, filtersRoot, xml_root):
     filterFileName = "{0}.filters".format(projFileName)
 
-    if os.path.isFile(filterFileName):
-        appendToExistingFiltersFile(filterFileName, filterFileRoot, xml_root)
+    if os.path.isfile(filterFileName):
+        appendToExistingFiltersFile(filterFileName, filtersRoot, xml_root)
     else:
-        createNewFiltersFile(filterFileName, filterFileRoot)
+        createNewFiltersFile(filterFileName, filtersRoot)
 
 def main():
     if len(sys.argv) > 1:
@@ -98,7 +98,7 @@ def main():
         print("Filters: {0}".format(filters))
 
         filterFileRoot = generateFilterFileXml()
-        writeFiltersFile(root, projFileName, filterFileRoot)
+        writeFiltersFile(projFileName, filterFileRoot, root)
 
     #for f in filters:
     #    print(f)

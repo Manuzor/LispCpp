@@ -1,6 +1,7 @@
 # Ignored directories
 output/*
 temp/*
+log/
 
 ipch
 

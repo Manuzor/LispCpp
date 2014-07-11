@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="../../source/lcppCLI/lcpp\cli\ioUtils.cpp" />
+    <ClCompile Include="../../source/lcppCLI/lcpp\cli\interpreter.cpp" />
+    <ClCompile Include="../../source/lcppCLI/lcpp\cli\lcppCLI.cpp" />
+    <ClCompile Include="../../source/lcppCLI/stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../source/lcppCLI/lcpp\cli\common.h" />
+    <ClInclude Include="../../source/lcppCLI/lcpp\cli\exceptions.h" />
+    <ClInclude Include="../../source/lcppCLI/lcpp\cli\ioUtils.h" />
+    <ClInclude Include="../../source/lcppCLI/lcpp\cli\interpreter.h" />
+    <ClInclude Include="../../source/lcppCLI/stdafx.h" />
+  </ItemGroup>
+</Project>

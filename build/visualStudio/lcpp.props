@@ -2,26 +2,26 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <LCPP_Root>$(SolutionDir)/../../</LCPP_Root>
-    <LCPP_OutRoot>$(LCPP_Root)/output/</LCPP_OutRoot>
-    <LCPP_TempRoot>$(LCPP_Root)/temp/</LCPP_TempRoot>
-    <LCPP_CoreSourceDir>$(LCPP_Root)/source/lcppCore/</LCPP_CoreSourceDir>
-    <LCPP_ThirdpartyRoot>$(LCPP_Root)/thirdparty/</LCPP_ThirdpartyRoot>
+    <LCPP_Root>$(SolutionDir)../..</LCPP_Root>
+    <LCPP_OutRoot>$(LCPP_Root)/output</LCPP_OutRoot>
+    <LCPP_TempRoot>$(LCPP_Root)/temp</LCPP_TempRoot>
+    <LCPP_CoreSourceDir>$(LCPP_Root)/source/lcppCore</LCPP_CoreSourceDir>
+    <LCPP_ThirdpartyRoot>$(LCPP_Root)/thirdparty</LCPP_ThirdpartyRoot>
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>$(LCPP_OutRoot)/bin$(PlatformArchitecture)/</OutDir>
-    <IntDir>$(LCPP_TempRoot)$(ProjectName)/$(Platform)$(Configuration)/</IntDir>
+    <IntDir>$(LCPP_TempRoot)/$(ProjectName)/$(Platform)$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link />
     <ClCompile>
-      <AdditionalIncludeDirectories>$(LCPP_CoreSourceDir);$(LCPP_ThirdpartyRoot)ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../source/$(ProjectName)/;$(LCPP_CoreSourceDir);$(LCPP_ThirdpartyRoot)/ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(LCPP_OutRoot)lib$(PlatformArchitecture)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(LCPP_OutRoot)/lib$(PlatformArchitecture)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ezFoundation.lib;ezThirdParty.lib;lcppCore$(ConfigurationSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>$(LCPP_OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(LCPP_OutRoot)/lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

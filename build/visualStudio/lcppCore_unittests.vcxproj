@@ -97,7 +97,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -112,7 +111,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -129,7 +127,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -148,7 +145,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -161,21 +157,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="../../source/lcppCore_unittests/core/environment.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/evaluator.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/reader.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/type.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/function.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/symbol.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/void.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/foundation\conversion.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/foundation\ptr.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/foundation\stringUtils.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/main.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/bool.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/cons.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/nil.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/number.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/environment.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/evaluator.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/reader.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/type.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/function.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\conversion.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\ptr.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\stringUtils.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/main.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/bool.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/cons.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/nil.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp" />
     <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -184,8 +180,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../../source/lcppCore_unittests/testRuntime.h" />
-    <ClInclude Include="../../source/lcppCore_unittests/toString.h" />
+    <ClInclude Include="../../source/lcppCore_unittests/lcpp/testRuntime.h" />
+    <ClInclude Include="../../source/lcppCore_unittests/lcpp/toString.h" />
     <ClInclude Include="../../source/lcppCore_unittests/stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

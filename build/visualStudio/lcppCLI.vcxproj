@@ -90,7 +90,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../source/lcppCLI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -115,7 +114,6 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../source/lcppCLI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +128,7 @@ set "OutDir=$(OutDir)"
 set "PlatformArchitecture=$(PlatformArchitecture)"
 
 rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
+$(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <Message>Copying dependencies to target directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -142,7 +140,6 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../source/lcppCLI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,7 +156,7 @@ set "OutDir=$(OutDir)"
 set "PlatformArchitecture=$(PlatformArchitecture)"
 
 rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
+$(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <Message>Copying dependencies to target directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -171,7 +168,6 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../source/lcppCLI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -188,7 +184,7 @@ set "OutDir=$(OutDir)"
 set "PlatformArchitecture=$(PlatformArchitecture)"
 
 rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
+$(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <Message>Copying dependencies to target directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -196,9 +192,7 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
     <ClInclude Include="../../source/lcppCLI/lcpp\cli\common.h" />
     <ClInclude Include="../../source/lcppCLI/lcpp\cli\exceptions.h" />
     <ClInclude Include="../../source/lcppCLI/lcpp\cli\ioUtils.h" />
-    <ClInclude Include="../../source/lcppCLI/lcpp\cli\interpreter.h">
-      <Filter>lcpp</Filter>
-    </ClInclude>
+    <ClInclude Include="../../source/lcppCLI/lcpp\cli\interpreter.h" />
     <ClInclude Include="../../source/lcppCLI/stdafx.h" />
   </ItemGroup>
   <ItemGroup>
