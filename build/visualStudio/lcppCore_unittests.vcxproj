@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{FD563574-8032-44BF-BB84-65A0086CA210}</ProjectGuid>
+    <ProjectGuid>{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>lcppCLI</RootNamespace>
+    <RootNamespace>lcppCore_unittests</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -29,12 +29,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -42,6 +44,7 @@
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -49,27 +52,32 @@
     <PlatformToolset>v110</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lcpp.props" />
-    <Import Project="..\lcpp_d.props" />
+    <Import Project="lcpp.props" />
+    <Import Project="lcpp_d.props" />
+    <Import Project="cut-import.props" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lcpp.props" />
-    <Import Project="..\lcpp_d.props" />
+    <Import Project="lcpp.props" />
+    <Import Project="lcpp_d.props" />
+    <Import Project="cut-import.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lcpp.props" />
+    <Import Project="lcpp.props" />
+    <Import Project="cut-import.props" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\lcpp.props" />
+    <Import Project="lcpp.props" />
+    <Import Project="cut-import.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -89,50 +97,30 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>rem set up environment
-set "OutDir=$(OutDir)"
-set "PlatformArchitecture=$(PlatformArchitecture)"
-
-rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
-      <Message>Copying dependencies to target directory</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>rem set up environment
-set "OutDir=$(OutDir)"
-set "PlatformArchitecture=$(PlatformArchitecture)"
-
-rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
-      <Message>Copying dependencies to target directory</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -141,27 +129,17 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>rem set up environment
-set "OutDir=$(OutDir)"
-set "PlatformArchitecture=$(PlatformArchitecture)"
-
-rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
-      <Message>Copying dependencies to target directory</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,45 +148,45 @@ $(ProjectDir)\scripts\postBuild.bat</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.;include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../source/lcppCore_unittests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>rem set up environment
-set "OutDir=$(OutDir)"
-set "PlatformArchitecture=$(PlatformArchitecture)"
-
-rem call the actual script
-$(ProjectDir)\scripts\postBuild.bat</Command>
-      <Message>Copying dependencies to target directory</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\lcpp\cli\common.h" />
-    <ClInclude Include="include\lcpp\cli\exceptions.h" />
-    <ClInclude Include="include\lcpp\cli\ioUtils.h" />
-    <ClInclude Include="include\lcpp\cli\interpreter.h" />
-    <ClInclude Include="include\stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\lcpp\cli\ioUtils.cpp" />
-    <ClCompile Include="src\lcpp\cli\interpreter.cpp" />
-    <ClCompile Include="src\lcpp\cli\lcppCLI.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="../../source/lcppCore_unittests/core/environment.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/evaluator.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/reader.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/type.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/function.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/symbol.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/void.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/foundation\conversion.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/foundation\ptr.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/foundation\stringUtils.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/main.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/bool.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/cons.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/nil.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/core/typeSystem/types/number.cpp" />
+    <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../source/lcppCore_unittests/testRuntime.h" />
+    <ClInclude Include="../../source/lcppCore_unittests/toString.h" />
+    <ClInclude Include="../../source/lcppCore_unittests/stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,71 +19,71 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\api.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\api_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\builtIn\recursive_functions.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\builtIn\recursive_syntax.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\environment.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\evaluator.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\evaluator_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\recursionCounter_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\runtime_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\printer.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\reader.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\recursionCounter.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\runtime.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\sourceCursor.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\functions.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\type.inl" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\typeFactory.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\bool.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\cons.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\file.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\function.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\syntax_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\nil.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\number.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\object.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\type.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\string.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\symbol.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\syntax.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\void.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\exceptions\exceptions.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\common.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\conversion.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\implementation\rangeUtils_inl.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\memoryInfo.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\memory\allocator.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\ptr.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\rangeUtils.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\startup.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\stringUtils.h" />
-    <ClInclude Include="..\..\source\lcppCore\stdafx.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\api.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\api_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\builtIn\recursive_functions.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\builtIn\recursive_syntax.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\environment.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\evaluator.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\implementation\evaluator_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\implementation\recursionCounter_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\implementation\runtime_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\printer.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\reader.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\recursionCounter.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\runtime.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\sourceCursor.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\functions.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\object_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\type.inl" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\typeFactory.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\bool.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\cons.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\file.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\function.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\bool_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\cons_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\file_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\nil_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\number_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\symbol_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\void_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\nil.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\number.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\object.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\type.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\string.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\symbol.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\syntax.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\void.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\exceptions\exceptions.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\common.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\conversion.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\implementation\rangeUtils_inl.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\memoryInfo.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\memory\allocator.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\ptr.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\rangeUtils.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\startup.h" />
+    <ClInclude Include="../../source/lcppCore/lcpp\foundation\stringUtils.h" />
+    <ClInclude Include="../../source/lcppCore/stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\builtIn\implementation\recursive_functions.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\builtIn\implementation\recursive_syntax.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\environment.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\evaluator.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\printer.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\typeFactory.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\reader.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\function.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\syntax.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\runtime.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\foundation\memory\implementation\allocator.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\lcpp\foundation\implementation\startup.cpp" />
-    <ClCompile Include="..\..\source\lcppCore\stdafx.cpp">
+    <ClCompile Include="../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_syntax.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\environment.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\evaluator.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\printer.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\typeFactory.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\reader.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\runtime.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\foundation\memory\implementation\allocator.cpp" />
+    <ClCompile Include="../../source/lcppCore/lcpp\foundation\implementation\startup.cpp" />
+    <ClCompile Include="../../source/lcppCore/stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -91,10 +91,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\source\lcppCore\lcpp\core\implementation\environment.inl" />
-    <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\function.inl" />
-    <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\string.inl" />
-    <None Include="..\..\source\lcppCore\lcpp\foundation\implementation\ptr.inl" />
+    <None Include="../../source/lcppCore/lcpp\core\implementation\environment.inl" />
+    <None Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.inl" />
+    <None Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl" />
+    <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>
@@ -134,21 +134,21 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(SolutionDir)\lcpp.props" />
-    <Import Project="$(SolutionDir)\lcpp_d.props" />
+    <Import Project="lcpp.props" />
+    <Import Project="lcpp_d.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(SolutionDir)\lcpp.props" />
-    <Import Project="$(SolutionDir)\lcpp_d.props" />
+    <Import Project="lcpp.props" />
+    <Import Project="lcpp_d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(SolutionDir)\lcpp.props" />
+    <Import Project="lcpp.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(SolutionDir)\lcpp.props" />
+    <Import Project="lcpp.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
@@ -166,7 +166,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
-      <ImportLibrary>$(OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(LCPP_OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -180,7 +180,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
-      <ImportLibrary>$(OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(LCPP_OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -198,7 +198,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
-      <ImportLibrary>$(OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(LCPP_OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -216,7 +216,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
-      <ImportLibrary>$(OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <ImportLibrary>$(LCPP_OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

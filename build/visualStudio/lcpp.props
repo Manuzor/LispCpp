@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <LCPP_Root>$(SolutionDir)/../../</LCPP_Root>
+    <LCPP_OutRoot>$(LCPP_Root)/output/</LCPP_OutRoot>
+    <LCPP_TempRoot>$(LCPP_Root)/temp/</LCPP_TempRoot>
+    <LCPP_CoreSourceDir>$(LCPP_Root)/source/lcppCore/</LCPP_CoreSourceDir>
+    <LCPP_ThirdpartyRoot>$(LCPP_Root)/thirdparty/</LCPP_ThirdpartyRoot>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>$(LCPP_OutRoot)/bin$(PlatformArchitecture)/</OutDir>
+    <IntDir>$(LCPP_TempRoot)$(ProjectName)/$(Platform)$(Configuration)/</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link />
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(LCPP_CoreSourceDir);$(LCPP_ThirdpartyRoot)ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(LCPP_OutRoot)lib$(PlatformArchitecture)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ezFoundation.lib;ezThirdParty.lib;lcppCore$(ConfigurationSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(LCPP_OutRoot)lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="LCPP_OutRoot">
+      <Value>$(LCPP_OutRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_TempRoot">
+      <Value>$(LCPP_TempRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_CoreSourceDir">
+      <Value>$(LCPP_CoreSourceDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_ThirdpartyRoot">
+      <Value>$(LCPP_ThirdpartyRoot)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore", "..\build\visualStudio\lcppCore.vcxproj", "{40DE1057-678D-4B34-84C3-F30D8923CE34}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCLI", "lcppCLI\lcppCLI.vcxproj", "{FD563574-8032-44BF-BB84-65A0086CA210}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCLI", "lcppCLI.vcxproj", "{FD563574-8032-44BF-BB84-65A0086CA210}"
 	ProjectSection(ProjectDependencies) = postProject
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppCore_unittests\lcppCore_unittests.vcxproj", "{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore", "lcppCore.vcxproj", "{40DE1057-678D-4B34-84C3-F30D8923CE34}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppCore_unittests.vcxproj", "{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
 	EndProjectSection
