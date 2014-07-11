@@ -71,19 +71,19 @@
     <ClInclude Include="include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\lcpp\core\builtIn\recursive_functions.cpp" />
-    <ClCompile Include="src\lcpp\core\builtIn\recursive_syntax.cpp" />
-    <ClCompile Include="src\lcpp\core\environment.cpp" />
-    <ClCompile Include="src\lcpp\core\evaluator.cpp" />
-    <ClCompile Include="src\lcpp\core\printer.cpp" />
-    <ClCompile Include="src\lcpp\core\typeSystem\typeFactory.cpp" />
-    <ClCompile Include="src\lcpp\core\reader.cpp" />
-    <ClCompile Include="src\lcpp\core\typeSystem\types\function.cpp" />
-    <ClCompile Include="src\lcpp\core\typeSystem\types\syntax.cpp" />
-    <ClCompile Include="src\lcpp\core\runtime.cpp" />
-    <ClCompile Include="src\lcpp\foundation\memory\allocator.cpp" />
-    <ClCompile Include="src\lcpp\foundation\startup.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="include\lcpp\core\builtIn\implementation\recursive_functions.cpp" />
+    <ClCompile Include="include\lcpp\core\builtIn\implementation\recursive_syntax.cpp" />
+    <ClCompile Include="include\lcpp\core\implementation\environment.cpp" />
+    <ClCompile Include="include\lcpp\core\implementation\evaluator.cpp" />
+    <ClCompile Include="include\lcpp\core\implementation\printer.cpp" />
+    <ClCompile Include="include\lcpp\core\typeSystem\implementation\typeFactory.cpp" />
+    <ClCompile Include="include\lcpp\core\implementation\reader.cpp" />
+    <ClCompile Include="include\lcpp\core\typeSystem\types\implementation\function.cpp" />
+    <ClCompile Include="include\lcpp\core\typeSystem\types\implementation\syntax.cpp" />
+    <ClCompile Include="include\lcpp\core\implementation\runtime.cpp" />
+    <ClCompile Include="include\lcpp\foundation\memory\implementation\allocator.cpp" />
+    <ClCompile Include="include\lcpp\foundation\implementation\startup.cpp" />
+    <ClCompile Include="include\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
