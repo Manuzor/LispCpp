@@ -2,6 +2,7 @@
 
 import sys
 import re
+import os
 import xml.etree.ElementTree as Xml
 
 projFileNames = (
@@ -58,15 +59,25 @@ def generateFilterFileXml():
 
     return root
 
-def writeFiltersFile(projFileName, filtersRoot):
+def appendToExistingFiltersFile(filterFileName, xml_filtersRoot, xml_existingRoot):
+    print("Updating filters of existing file.")
 
-    filterFileName = "{0}.filters".format(projFileName)
+def createNewFiltersFile(filterFileName, xml_filtersRoot):
+    print("Creating new filters file.")
 
     xmlContent = """<?xml version="1.0" encoding="utf-8"?>\n"""
-    xmlContent += Xml.tostring(filterFileRoot, encoding="unicode");
+    xmlContent += Xml.tostring(xml_filtersRoot, encoding="unicode");
 
     with open(filterFileName, "w") as filterFile:
         filterFile.write(xmlContent)
+
+def writeFiltersFile(xml_root, projFileName, filtersRoot, xml_root):
+    filterFileName = "{0}.filters".format(projFileName)
+
+    if os.path.isFile(filterFileName):
+        appendToExistingFiltersFile(filterFileName, filterFileRoot, xml_root)
+    else:
+        createNewFiltersFile(filterFileName, filterFileRoot)
 
 def main():
     if len(sys.argv) > 1:
@@ -87,7 +98,7 @@ def main():
         print("Filters: {0}".format(filters))
 
         filterFileRoot = generateFilterFileXml()
-        writeFiltersFile(projFileName, filterFileRoot)
+        writeFiltersFile(root, projFileName, filterFileRoot)
 
     #for f in filters:
     #    print(f)
