@@ -16,7 +16,7 @@ namespace
         CUT_ASSERT.isTrue(SCHEME_VOID == SCHEME_VOID, "Scheme nil must equal itself!");
         CUT_ASSERT.isTrue(&SCHEME_VOID == &SCHEME_VOID, "Something is seriously b0rken!");
 
-        CUT_ASSERT.isTrue(SCHEME_VOID != SCHEME_NIL, "Wrong result for equality operator!");
+        CUT_ASSERT.isTrue(SCHEME_VOID != *LCPP_NIL, "Wrong result for equality operator!");
     });
 
     UnitTest g_test3(g_group, "ToString", []{

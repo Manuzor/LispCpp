@@ -14,26 +14,26 @@ namespace
         auto& factory = *pRuntime->factory();
         // Default construction
         {
-            auto cons = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
-            CUT_ASSERT.isTrue(*cons->car() == SCHEME_NIL, "Car is not nil!");
-            CUT_ASSERT.isTrue(*cons->cdr() == SCHEME_NIL, "Cdr is not nil!");
+            auto cons = factory.createCons(LCPP_NIL, LCPP_NIL);
+            CUT_ASSERT.isTrue(cons->car() == LCPP_NIL, "Car is not nil!");
+            CUT_ASSERT.isTrue(cons->cdr() == LCPP_NIL, "Cdr is not nil!");
         }
 
         // Only car given
         {
-            Ptr<LispBool> pT = &SCHEME_TRUE;
-            auto cons = factory.createCons(pT, SCHEME_NIL_PTR);
-            CUT_ASSERT.isTrue(*cons->car() == SCHEME_TRUE, "Wrong object for car!");
-            CUT_ASSERT.isTrue(*cons->cdr() == SCHEME_NIL, "Cdr should be nil here!");
+            auto pT = SCHEME_TRUE_PTR;
+            auto cons = factory.createCons(pT, LCPP_NIL);
+            CUT_ASSERT.isTrue(cons->car() == pT, "Wrong object for car!");
+            CUT_ASSERT.isTrue(cons->cdr() == LCPP_NIL, "Cdr should be nil here!");
         }
 
         // Car and cdr explicitly given
         {
-            auto t = &SCHEME_TRUE;
-            auto f = &SCHEME_FALSE;
+            auto t = SCHEME_TRUE_PTR;
+            auto f = SCHEME_FALSE_PTR;
             auto cons = factory.createCons(t, f);
-            CUT_ASSERT.isTrue(*cons->car() == SCHEME_TRUE, "Wrong car!");
-            CUT_ASSERT.isTrue(*cons->cdr() == SCHEME_FALSE, "Wrong cdr!");
+            CUT_ASSERT.isTrue(cons->car() == t, "Wrong car!");
+            CUT_ASSERT.isTrue(cons->cdr() == f, "Wrong cdr!");
         }
     });
 
@@ -43,14 +43,14 @@ namespace
         {
             auto t = &SCHEME_TRUE;
 
-            auto first = factory.createCons(t, SCHEME_NIL_PTR);
+            auto first = factory.createCons(t, LCPP_NIL);
             LispCons second = *first;
             CUT_ASSERT.isTrue(*first->car() == SCHEME_TRUE);
             CUT_ASSERT.isTrue(*second.car() == SCHEME_TRUE);
         }
         {
             auto theInt = factory.createInteger(42);
-            auto first = factory.createCons(theInt, SCHEME_NIL_PTR);
+            auto first = factory.createCons(theInt, LCPP_NIL);
             LispCons second = *first;
             CUT_ASSERT.isTrue(first->car() == theInt);
             CUT_ASSERT.isTrue(second.car() == theInt, "Failed to construct 'second' by assigning it 'first'!");
@@ -67,15 +67,15 @@ namespace
         auto& three = factory.createInteger(3);
 
         {
-            auto& test = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+            auto& test = factory.createCons(LCPP_NIL, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(())"));
         }
         {
-            auto& test = factory.createCons(one, SCHEME_NIL_PTR);
+            auto& test = factory.createCons(one, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1)"));
         }
         {
-            auto& test = factory.createCons(SCHEME_NIL_PTR, two);
+            auto& test = factory.createCons(LCPP_NIL, two);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() . 2)"));
         }
         {
@@ -83,22 +83,22 @@ namespace
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 . 2)"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
-            auto& test = factory.createCons(SCHEME_NIL_PTR, inner);
+            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto& test = factory.createCons(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() ())"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
             auto& test = factory.createCons(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 ())"));
         }
         {
-            auto& inner = factory.createCons(two, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(two, LCPP_NIL);
             auto& test = factory.createCons(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 2)"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, three);
+            auto& inner = factory.createCons(LCPP_NIL, three);
             auto& test = factory.createCons(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 () . 3)"));
         }
@@ -108,18 +108,18 @@ namespace
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 2 . 3)"));
         }
         {
-            auto& inner = factory.createCons(two, SCHEME_NIL_PTR);
-            auto& test = factory.createCons(SCHEME_NIL_PTR, inner);
+            auto& inner = factory.createCons(two, LCPP_NIL);
+            auto& test = factory.createCons(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() 2)"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, three);
-            auto& test = factory.createCons(SCHEME_NIL_PTR, inner);
+            auto& inner = factory.createCons(LCPP_NIL, three);
+            auto& test = factory.createCons(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() () . 3)"));
         }
         {
             auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(SCHEME_NIL_PTR, inner);
+            auto& test = factory.createCons(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() 2 . 3)"));
         }
         {
@@ -128,22 +128,22 @@ namespace
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 2 . 3)"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
-            auto& test = factory.createCons(inner, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto& test = factory.createCons(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((()))"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
             auto& test = factory.createCons(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((()) . 1)"));
         }
         {
-            auto& inner = factory.createCons(two, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(two, LCPP_NIL);
             auto& test = factory.createCons(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2) . 1)"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, three);
+            auto& inner = factory.createCons(LCPP_NIL, three);
             auto& test = factory.createCons(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((() . 3) . 1)"));
         }
@@ -153,18 +153,18 @@ namespace
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2 . 3) . 1)"));
         }
         {
-            auto& inner = factory.createCons(two, SCHEME_NIL_PTR);
-            auto& test = factory.createCons(inner, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(two, LCPP_NIL);
+            auto& test = factory.createCons(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2))"));
         }
         {
-            auto& inner = factory.createCons(SCHEME_NIL_PTR, three);
-            auto& test = factory.createCons(inner, SCHEME_NIL_PTR);
+            auto& inner = factory.createCons(LCPP_NIL, three);
+            auto& test = factory.createCons(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((() . 3))"));
         }
         {
             auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(inner, SCHEME_NIL_PTR);
+            auto& test = factory.createCons(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2 . 3))"));
         }
     });
@@ -176,27 +176,26 @@ namespace
         auto integer = factory.createInteger(42);
         auto t = &SCHEME_TRUE;
         auto f = &SCHEME_FALSE;
-        auto nil = SCHEME_NIL_PTR;
         auto v = &SCHEME_VOID;
 
         {
-            auto cons1 = factory.createCons(integer, SCHEME_NIL_PTR);
+            auto cons1 = factory.createCons(integer, LCPP_NIL);
             auto cons2 = factory.createCons(integer, integer);
         }
         {
-            auto cons1 = factory.createCons(t, SCHEME_NIL_PTR);
+            auto cons1 = factory.createCons(t, LCPP_NIL);
             auto cons2 = factory.createCons(t, t);
         }
         {
-            auto cons1 = factory.createCons(f, SCHEME_NIL_PTR);
+            auto cons1 = factory.createCons(f, LCPP_NIL);
             auto cons2 = factory.createCons(f, f);
         }
         {
-            auto cons1 = factory.createCons(nil, SCHEME_NIL_PTR);
-            auto cons2 = factory.createCons(nil, nil);
+            auto cons1 = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto cons2 = factory.createCons(LCPP_NIL, LCPP_NIL);
         }
         {
-            auto cons1 = factory.createCons(v, SCHEME_NIL_PTR);
+            auto cons1 = factory.createCons(v, LCPP_NIL);
             auto cons2 = factory.createCons(v, v);
         }
     });
@@ -208,26 +207,26 @@ namespace
 
         // Regular lists
         {
-            auto cons = factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+            auto cons = factory.createCons(LCPP_NIL, LCPP_NIL);
             CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 1, format("Expected count() to return 1, got %u!", numElements));
         }
 
         {
-            auto cons = factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR));
+            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_NIL));
             CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
         }
 
         {
-            auto cons = factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, SCHEME_NIL_PTR)));
+            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_NIL)));
             CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 3, format("Expected count() to return 3, got %u!", numElements));
         }
 
         // Irregular lists
         {
-            auto cons = factory.createCons(SCHEME_NIL_PTR, factory.createCons(SCHEME_NIL_PTR, SCHEME_VOID_PTR));
+            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, SCHEME_VOID_PTR));
             CUT_ASSERT.isFalse(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 3, got %u!", numElements));
         }

@@ -89,6 +89,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../../source/lcppCore/lcpp\core\implementation\environment.inl" />

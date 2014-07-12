@@ -199,7 +199,7 @@ namespace
         {
             ezString input("()");
             auto consObject = reader.parseList(input.GetIteratorFront());
-            CUT_ASSERT.isTrue(*consObject == SCHEME_NIL, "Invalid result for parsing the list.");
+            CUT_ASSERT.isTrue(consObject == LCPP_NIL, "Invalid result for parsing the list.");
         }
 
         {

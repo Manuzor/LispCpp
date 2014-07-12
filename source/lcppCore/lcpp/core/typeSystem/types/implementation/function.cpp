@@ -131,7 +131,7 @@ lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<LispRuntime> pRuntime
     {
         EZ_ASSERT(pArgNamePtr->car()->is<LispSymbol>(), "All arg names must be symbols!");
         auto pArgName = pArgNamePtr->car().cast<LispSymbol>();
-        m_pEnv->add(pArgName, SCHEME_NIL_PTR);
+        m_pEnv->add(pArgName, LCPP_NIL);
         ++m_numArgs;
 
         if(isNil(pArgNamePtr->cdr()))
@@ -182,7 +182,7 @@ lcpp::LispFunctionUserDefined::call(Ptr<LispObject> pArgList)
     // Process body
     //////////////////////////////////////////////////////////////////////////
     Ptr<LispObject> pCodePointer = m_pBody;
-    Ptr<LispObject> pResult = SCHEME_NIL_PTR;
+    Ptr<LispObject> pResult = LCPP_NIL;
 
     while(!isNil(pCodePointer))
     {

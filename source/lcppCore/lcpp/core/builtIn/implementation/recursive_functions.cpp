@@ -181,7 +181,7 @@ lcpp::builtin::fileOpen(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Li
     if(isFalse(pFile->open(pFileMode)))
     {
         // If opening failed, return nil.
-        return SCHEME_NIL_PTR;
+        return LCPP_NIL;
     }
     
     return pFile;

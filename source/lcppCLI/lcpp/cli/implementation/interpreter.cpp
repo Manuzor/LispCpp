@@ -105,7 +105,7 @@ ezInt32 lcpp::Interpreter::repl()
 
     m_pPrinter->setOutputStream(m_out);
 
-    Ptr<LispObject> pResult = SCHEME_NIL_PTR;
+    Ptr<LispObject> pResult = LCPP_NIL;
 
     ezStringBuilder buffer;
     std::string inputBuffer("");

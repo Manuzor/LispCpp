@@ -31,7 +31,7 @@ namespace
 
         CUT_ASSERT.isTrue(g_testData == 0);
 
-        auto pResult = pFunc->call(SCHEME_NIL_PTR);
+        auto pResult = pFunc->call(LCPP_NIL);
 
         CUT_ASSERT.isTrue(g_testData == 1);
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());

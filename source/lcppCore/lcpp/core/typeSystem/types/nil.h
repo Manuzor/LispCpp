@@ -4,32 +4,39 @@
 namespace lcpp
 {
     class LispNil :
-        public LispExtend<LispNil, LispObject>
+        public LispObject
     {
         friend class TypeFactory;
     public:
 
-        static LispNil& instance();
-        virtual ~LispNil();
+        LCPP_CORE_API static Ptr<LispNil> instance();
+        LCPP_CORE_API static const Type& typeInfo();
 
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual const Type& type() const LCPP_OVERRIDE;
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
     private:
-        // For debugging. Shows that this instance is the real nil
-        const void* const m_pNil;
+        // For debugging. Indicates that this instance is the real thing.
+        const ezUInt8 m_pNil;
 
         LispNil();
+        EZ_DISALLOW_COPY_AND_ASSIGN(LispNil);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispNil);
+    template<>
+    struct TypeInfo <LispNil>
+    {
+        static const Type& type() { return LispNil::typeInfo(); }
+    };
 
-    bool isNil(const LispObject& object);
-    bool isNil(const LispObject* pObject);
     bool isNil(Ptr<LispObject> pObject);
     bool isNil(Ptr<const LispObject> pObject);
+    bool isNil(Ptr<LispNil> pNil);
+    bool isNil(Ptr<const LispNil> pNil);
 }
-#define SCHEME_NIL (::lcpp::LispNil::instance())
-#define SCHEME_NIL_PTR (&SCHEME_NIL)
+
+#define LCPP_NIL (::lcpp::LispNil::instance())
 
 #include "lcpp/core/typeSystem/types/implementation/nil_inl.h"

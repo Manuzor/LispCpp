@@ -7,7 +7,8 @@ lcpp::LispObject::operator !=(const LispObject& rhs) const
 
 template<typename T_Other>
 inline
-bool lcpp::LispObject::is() const
+bool
+lcpp::LispObject::is() const
 {
     return type().id == TypeInfo<T_Other>::type().id;
 }

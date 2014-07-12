@@ -19,20 +19,25 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        virtual ~LispObject() = 0 {}
+        virtual ~LispObject() {}
+
         virtual bool operator ==(const LispObject& other) const = 0;
-        virtual bool operator !=(const LispObject& rhs) const;
+
+        bool operator !=(const LispObject& rhs) const;
+
         virtual ezString toString() const = 0;
 
         virtual const Type& type() const = 0;
+
         virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const = 0;
+
         template<typename T_Other>
         bool is() const;
 
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispObject);
     };
-    
+
     template<>
     struct TypeInfo< LispObject >
     {

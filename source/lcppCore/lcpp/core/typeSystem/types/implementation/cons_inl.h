@@ -18,8 +18,8 @@ lcpp::LispCons::LispCons(LispCons&& toMove) :
     m_pCar(toMove.m_pCar),
     m_pCdr(toMove.m_pCdr)
 {
-    toMove.m_pCar = &SCHEME_NIL;
-    toMove.m_pCdr = &SCHEME_NIL;
+    toMove.m_pCar = LCPP_NIL;
+    toMove.m_pCdr = LCPP_NIL;
 }
 
 inline
@@ -45,7 +45,7 @@ inline
 lcpp::Ptr<lcpp::LispObject>
 lcpp::LispCons::clone(ezAllocatorBase* pAllocator) const
 {
-    auto pCloned = LCPP_NEW(pAllocator, LispCons)(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+    auto pCloned = LCPP_NEW(pAllocator, LispCons)(LCPP_NIL, LCPP_NIL);
     pCloned->m_pCar = m_pCar->clone(pAllocator);
     pCloned->m_pCdr = m_pCdr->clone(pAllocator);
     return pCloned;

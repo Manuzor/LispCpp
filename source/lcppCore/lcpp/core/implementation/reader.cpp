@@ -267,7 +267,7 @@ lcpp::Reader::parseList(ezStringIterator& input)
     if(ch == ')')
     {
         advance(input);
-        return SCHEME_NIL_PTR;
+        return LCPP_NIL;
     }
 
     auto car = read(input, false);
@@ -296,7 +296,7 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
     if(ch == ')')
     {
         advance(input);
-        return SCHEME_NIL_PTR;
+        return LCPP_NIL;
     }
 
     auto car = read(input, false);
