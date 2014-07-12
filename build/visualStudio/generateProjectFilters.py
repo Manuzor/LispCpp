@@ -6,10 +6,13 @@ import os
 import xml.etree.ElementTree as Xml
 
 projFileNames = (
-    'lcppCore.vcxproj',
+    #'lcppCore.vcxproj',
     'lcppCLI.vcxproj',
-    'lcppCore_unittests.vcxproj',
+    #'lcppCore_unittests.vcxproj',
 )
+
+ToolsVersion = "4.0"
+xmlns = "http://schemas.microsoft.com/developer/msbuild/2003"
 
 # Will be overwritten if the user specified anything
 toStringRegexes = [r'..[/\\]..[/\\]source[/\\](lcppCore(_unittests)?|lcppCLI|lcppCore)[/\\]?']
@@ -48,8 +51,8 @@ def processLists():
 
 def generateFilterFileXml():
     root = Xml.Element("Project", {
-        "ToolsVersion" : "4.0",
-        "xmlns" : "http://schemas.microsoft.com/developer/msbuild/2003",
+        "ToolsVersion" : ToolsVersion,
+        "xmlns" : xmlns,
     })
 
     itemGroup = Xml.SubElement(root, "ItemGroup")
@@ -59,8 +62,36 @@ def generateFilterFileXml():
 
     return root
 
-def appendToExistingFiltersFile(filterFileName, xml_filtersRoot, xml_existingRoot):
+def appendToExistingFiltersFile(filterFileName, xml_filtersRoot):
     print("Updating filters of existing file.")
+
+    existingRoot = Xml.parse(filterFileName).getroot()
+    print(Xml.tostring(xml_filtersRoot))
+    existingRoot.set("ToolsVersion", ToolsVersion)
+
+    found = False
+    for itemGroup in existingRoot:
+        for child in itemGroup:
+            if child.tag.endswith("Filter"):
+                print("Removing all existing filters.")
+                found = True
+                itemGroup.clear()
+                toAppendTo = itemGroup
+                break
+        if found: break
+
+    if not found:
+        print("No existing filters found.")
+        toAppendTo = Xml.SubElement(existingRoot, "ItemGroup")
+
+    for itemGroup in xml_filtersRoot:
+        for filterElement in itemGroup:
+            toAppendTo.append(filterElement)
+
+    with open(filterFileName, "w") as filterFile:
+        xmlContent = """<?xml version="1.0" encoding="utf-8"?>\n"""
+        xmlContent += Xml.tostring(existingRoot, encoding="unicode");
+        filterFile.write(xmlContent)
 
 def createNewFiltersFile(filterFileName, xml_filtersRoot):
     print("Creating new filters file.")
@@ -71,11 +102,11 @@ def createNewFiltersFile(filterFileName, xml_filtersRoot):
     with open(filterFileName, "w") as filterFile:
         filterFile.write(xmlContent)
 
-def writeFiltersFile(projFileName, filtersRoot, xml_root):
+def writeFiltersFile(projFileName, filtersRoot):
     filterFileName = "{0}.filters".format(projFileName)
 
     if os.path.isfile(filterFileName):
-        appendToExistingFiltersFile(filterFileName, filtersRoot, xml_root)
+        appendToExistingFiltersFile(filterFileName, filtersRoot)
     else:
         createNewFiltersFile(filterFileName, filtersRoot)
 
@@ -84,6 +115,9 @@ def main():
         global toStringRegexes
         toStringRegexes = sys.argv[1:]
     print("toStringRegexes: {0}".format(toStringRegexes))
+
+    Xml.register_namespace('', xmlns)
+
     for projFileName in projFileNames:
         global clIncludesAndCompiles
         global filters
@@ -98,7 +132,7 @@ def main():
         print("Filters: {0}".format(filters))
 
         filterFileRoot = generateFilterFileXml()
-        writeFiltersFile(projFileName, filterFileRoot, root)
+        writeFiltersFile(projFileName, filterFileRoot)
 
     #for f in filters:
     #    print(f)
