@@ -4,14 +4,15 @@
 lcpp::Ptr<lcpp::LispNil>
 lcpp::LispNil::create()
 {
-    static LispNil nil;
-    return &nil;
+    static auto instance = LispNil();
+    static auto pNil = Ptr<LispNil>(&instance);
+    return pNil;
 }
 
 const lcpp::Type& lcpp::LispNil::typeInfo()
 {
     static auto t = Type::create(EZ_STRINGIZE(LispNil),
-                                 "Nil",
+                                 "nil",
                                  MemoryInfo(sizeof(LispNil),
                                             sizeof(LispNil)));
 
