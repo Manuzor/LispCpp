@@ -19,6 +19,12 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
+        /// \brief Fails an assert and throws exceptions::InvalidOperation()
+        static Ptr<LispObject> create();
+        static const Type& typeInfo();
+
+    public:
+
         virtual ~LispObject() {}
 
         virtual bool operator ==(const LispObject& other) const = 0;
@@ -43,10 +49,11 @@ namespace lcpp
     {
         inline static const Type& type()
         {
-            static_assert(Type::Version == 2,
+            static_assert(Type::Version == 3,
                 "Type version was updated. Adjust your implementation accordingly!");
             static auto theType = Type::create(
                 "LispObject",
+                "object",
                 MemoryInfo(sizeof(LispObject), sizeof(LispObject))
                 );
             return theType;

@@ -3,18 +3,27 @@
 
 namespace lcpp
 {
-    class LispNil :
+    class LCPP_CORE_API LispNil :
         public LispObject
     {
         friend class TypeFactory;
     public:
 
-        LCPP_CORE_API static Ptr<LispNil> instance();
-        LCPP_CORE_API static const Type& typeInfo();
+            /// \brief Returns the singleton instance of this class.
+            ///
+            /// Does not actually create a new instance every time but for the sake of consistency it is still named 'create'
+        static Ptr<LispNil> create();
+
+        static const Type& typeInfo();
+
+    public:
 
         virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+
         virtual const Type& type() const LCPP_OVERRIDE;
+
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
+
         virtual ezString toString() const LCPP_OVERRIDE;
 
     private:
@@ -37,6 +46,6 @@ namespace lcpp
     bool isNil(Ptr<const LispNil> pNil);
 }
 
-#define LCPP_NIL (::lcpp::LispNil::instance())
+#define LCPP_NIL (::lcpp::LispNil::create())
 
 #include "lcpp/core/typeSystem/types/implementation/nil_inl.h"

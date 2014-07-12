@@ -42,10 +42,11 @@ namespace lcpp
     {
         inline static const Type& type()
         {
-            static_assert(Type::Version == 2,
+            static_assert(Type::Version == 3,
                           "Type version was updated. Adjust your implementation accordingly!");
             static auto theType = Type::create(
-                "LispFunction",
+                EZ_STRINGIZE(LispFunction),
+                "function",
                 MemoryInfo(sizeof(LispFunction), sizeof(LispFunction))
                 );
             return theType;

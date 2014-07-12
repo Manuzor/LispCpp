@@ -1,7 +1,8 @@
 ﻿
 inline
-lcpp::Type::Type(ezUInt32 id, const char* name, MemoryInfo memInfo) :
+lcpp::Type::Type(ezUInt32 id, const char* typeName, const char* name, MemoryInfo memInfo) :
     id(id),
+    typeName(typeName),
     name(name),
     memory(memInfo)
 {

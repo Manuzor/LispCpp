@@ -41,6 +41,9 @@
     <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.cpp">
+      <Filter>lcpp\core\typeSystem\implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore/lcpp\api.h">

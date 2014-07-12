@@ -158,10 +158,11 @@ namespace lcpp
     {
         static const Type& type()
         {
-            static_assert(Type::Version == 2,
+            static_assert(Type::Version == 3,
                           "Type version was updated. Adjust your implementation accordingly!");
             static Type integerType = Type::create(
-                "LispInteger",
+                EZ_STRINGIZE(LispInteger),
+                "integer",
                 lcpp::MemoryInfo(sizeof(lcpp::LispInteger), EZ_ALIGNMENT_OF(lcpp::LispInteger))
                 );
             return integerType;
@@ -173,10 +174,11 @@ namespace lcpp
     {
         static const Type& type()
         {
-            static_assert(Type::Version == 2,
+            static_assert(Type::Version == 3,
                           "Type version was updated. Adjust your implementation accordingly!");
             static Type numberInstance = Type::create(
-                "LispNumber",
+                EZ_STRINGIZE(LispNumber),
+                "number",
                 MemoryInfo(sizeof(LispNumber), EZ_ALIGNMENT_OF(LispNumber))
                 );
             return numberInstance;

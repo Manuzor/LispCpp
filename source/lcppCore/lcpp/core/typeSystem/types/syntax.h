@@ -38,10 +38,11 @@ namespace lcpp
     {
         inline static const Type& type()
         {
-            static_assert(Type::Version == 2,
+            static_assert(Type::Version == 3,
                           "Type version was updated. Adjust your implementation accordingly!");
             static auto theType = Type::create(
-                "LispSyntax",
+                EZ_STRINGIZE(LispSyntax),
+                "syntax",
                 MemoryInfo(sizeof(LispSyntax), sizeof(LispSyntax))
                 );
             return theType;
