@@ -17,8 +17,8 @@ namespace
             auto test = pRuntime->factory()->createInteger(42);
             auto pResult = pRuntime->evaluator()->evalulate(test);
 
-            CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Wrong evaluation result! Expected integer 42.");
-            CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Expected integer 42.");
+            CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Wrong evaluation result! Expected integer 42.");
+            CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Expected integer 42.");
             CUT_ASSERT.isTrue(pResult == pRuntime->factory()->createInteger(42), "Double check if instancing failed.");
         }
 
@@ -27,8 +27,8 @@ namespace
             auto test = pRuntime->factory()->createNumber(3.1415f);
             auto pResult = pRuntime->evaluator()->evalulate(test);
 
-            CUT_ASSERT.isTrue(pResult->is<SchemeNumber>(), "Wrong evaluation result! Expected number 3.1415.");
-            CUT_ASSERT.isTrue(pResult.cast<SchemeNumber>()->value() == 3.1415f, "Expected number 3.1415.");
+            CUT_ASSERT.isTrue(pResult->is<LispNumber>(), "Wrong evaluation result! Expected number 3.1415.");
+            CUT_ASSERT.isTrue(pResult.cast<LispNumber>()->value() == 3.1415f, "Expected number 3.1415.");
         }
 
         // String
@@ -36,8 +36,8 @@ namespace
             auto test = pRuntime->factory()->createString("Hello World");
             auto pResult = pRuntime->evaluator()->evalulate(test);
 
-            CUT_ASSERT.isTrue(pResult->is<SchemeString>(), "Wrong evaluation result! Expected string \"Hello World\".");
-            CUT_ASSERT.isTrue(pResult.cast<SchemeString>()->value().IsEqual("Hello World"), "Expected string \"Hello World\".");
+            CUT_ASSERT.isTrue(pResult->is<LispString>(), "Wrong evaluation result! Expected string \"Hello World\".");
+            CUT_ASSERT.isTrue(pResult.cast<LispString>()->value().IsEqual("Hello World"), "Expected string \"Hello World\".");
         }
 
         // Symbol
@@ -67,17 +67,17 @@ namespace
 
         // Lookup symbol x
         {
-            Ptr<SchemeObject> pResult;
+            Ptr<LispObject> pResult;
             pResult = pRuntime->evaluator()->evalulate(pSymbol);
 
-            CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Expected result type to be integer!");
-            CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 1337, cut::format("Expected integer value to be 1337, got %d.", pResult.cast<SchemeInteger>()->value()));
+            CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Expected result type to be integer!");
+            CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 1337, cut::format("Expected integer value to be 1337, got %d.", pResult.cast<LispInteger>()->value()));
         }
 
         // define f as a built-in function
         pSymbol = pRuntime->factory()->createSymbol("f");
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-func", pRuntime->globalEnvironment(),
-            [](Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs) -> Ptr<SchemeObject>
+            [](Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
             return pRuntime->factory()->createInteger(42);
         });
@@ -86,12 +86,12 @@ namespace
         {
             auto pResult = pRuntime->evaluator()->evalulate(pSymbol);
 
-            CUT_ASSERT.isTrue(pResult->is<SchemeFunction>());
+            CUT_ASSERT.isTrue(pResult->is<LispFunction>());
 
             pResult = pRuntime->evaluator()->evalulate(pRuntime->factory()->createCons(pResult, SCHEME_NIL_PTR));
 
-            CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Expected the return value of the function to be an integer!");
-            CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Expected the integer 42!");
+            CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Expected the return value of the function to be an integer!");
+            CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Expected the integer 42!");
         }
     });
 
@@ -104,9 +104,9 @@ namespace
         pRuntime->globalEnvironment()->add(pSymbol, pRuntime->factory()->createInteger(123));
 
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-clojure", pRuntime->globalEnvironment(),
-                                                                  [](Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs) -> Ptr<SchemeObject>
+                                                                  [](Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
-            Ptr<SchemeObject> pResult;
+            Ptr<LispObject> pResult;
             auto lookupResult = pEnv->get(pRuntime->factory()->createSymbol("x"), pResult);
             CUT_ASSERT.isTrue(lookupResult.IsSuccess(), "Failed to find 'x' in environment!");
             return pResult;
@@ -116,7 +116,7 @@ namespace
 
         auto pResult = pRuntime->evaluator()->evalulate(pFunctionCallObject);
 
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Failed lookup of 'x' in lambda!");
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 123, "Wrong value for 'x'!");
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Failed lookup of 'x' in lambda!");
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 123, "Wrong value for 'x'!");
     });
 }

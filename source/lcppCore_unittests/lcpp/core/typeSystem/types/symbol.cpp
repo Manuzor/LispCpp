@@ -6,7 +6,7 @@ using namespace lcpp;
 
 namespace
 {
-    UnitTestGroup g_group("SchemeSymbolTests");
+    UnitTestGroup g_group("LispSymbolTests");
 
     UnitTest g_test1(g_group, "Type", []{
         auto pRuntime = createTestRuntime();

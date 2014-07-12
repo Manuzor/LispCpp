@@ -2,11 +2,11 @@
 
 namespace
 {
-    lcpp::Ptr<lcpp::SchemeRuntime> createTestRuntime()
+    lcpp::Ptr<lcpp::LispRuntime> createTestRuntime()
     {
-        lcpp::Ptr<lcpp::SchemeRuntime> pRuntime =
+        lcpp::Ptr<lcpp::LispRuntime> pRuntime =
             LCPP_NEW(lcpp::defaultAllocator(),
-                     lcpp::SchemeRuntime);
+                     lcpp::LispRuntime);
         pRuntime->initialize();
         return pRuntime;
     }

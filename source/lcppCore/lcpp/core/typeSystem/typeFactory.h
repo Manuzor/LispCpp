@@ -5,71 +5,71 @@
 
 namespace lcpp
 {
-    class SchemeNil;
-    class SchemeBool;
-    class SchemeVoid;
+    class LispNil;
+    class LispBool;
+    class LispVoid;
 
-    class SchemeObject;
-    class SchemeCons;
-    class SchemeString;
-    class SchemeSymbol;
-    class SchemeFile;
+    class LispObject;
+    class LispCons;
+    class LispString;
+    class LispSymbol;
+    class LispFile;
 
-    class SchemeRuntime;
+    class LispRuntime;
     class Environment;
     class IEvaluator;
 
     class LCPP_CORE_API TypeFactory
     {
-        friend class SchemeRuntime;
+        friend class LispRuntime;
     public:
         ~TypeFactory();
 
         Ptr<Environment>    createEnvironment(const ezString& name, Ptr<Environment> pParent);
 
-        Ptr<SchemeInteger>  createInteger(SchemeInteger::Number_t value);
-        Ptr<SchemeNumber>   createNumber(SchemeNumber::Number_t value);
-        Ptr<SchemeString>   createString(const ezString& str);
-        Ptr<SchemeSymbol>   createSymbol(const ezString& symbol);
-        Ptr<SchemeCons>     createCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr);
-        Ptr<SchemeFile>     createFile(const ezString& fileName);
-        Ptr<SchemeFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
-                                                      Ptr<SchemeObject> pArgNameList,
-                                                      Ptr<SchemeCons> pBody);
-        Ptr<SchemeFunction> createBuiltinFunction(const ezString& name,
+        Ptr<LispInteger>  createInteger(LispInteger::Number_t value);
+        Ptr<LispNumber>   createNumber(LispNumber::Number_t value);
+        Ptr<LispString>   createString(const ezString& str);
+        Ptr<LispSymbol>   createSymbol(const ezString& symbol);
+        Ptr<LispCons>     createCons(Ptr<LispObject> car, Ptr<LispObject> cdr);
+        Ptr<LispFile>     createFile(const ezString& fileName);
+        Ptr<LispFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
+                                                      Ptr<LispObject> pArgNameList,
+                                                      Ptr<LispCons> pBody);
+        Ptr<LispFunction> createBuiltinFunction(const ezString& name,
                                                   Ptr<Environment> pParentEnv,
-                                                  SchemeFunctionBuiltin::ExecutorPtr_t executor);
-        Ptr<SchemeSyntax> createSyntax_Builtin(Ptr<SchemeSymbol> pName,
-                                               SchemeSyntax_Builtin::HandlerFuncPtr_t pHandler);
+                                                  LispFunctionBuiltin::ExecutorPtr_t executor);
+        Ptr<LispSyntax> createSyntax_Builtin(Ptr<LispSymbol> pName,
+                                               LispSyntax_Builtin::HandlerFuncPtr_t pHandler);
 
         // General copy function
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> copy(Ptr<SchemeObject> pObject);
+        Ptr<LispObject> copy(Ptr<LispObject> pObject);
 
         // Specialized copy function for each type
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeInteger>  copy(Ptr<SchemeInteger> pInteger);
-        Ptr<SchemeNumber>   copy(Ptr<SchemeNumber> pNumber);
-        Ptr<SchemeString>   copy(Ptr<SchemeString> pString);
-        Ptr<SchemeSymbol>   copy(Ptr<SchemeSymbol> pSymbol);
-        Ptr<SchemeCons>     copy(Ptr<SchemeCons> pCons);
-        Ptr<SchemeFile>     copy(Ptr<SchemeFile> pFile);
-        Ptr<SchemeFunction> copy(Ptr<SchemeFunction> pFunc);
-        Ptr<SchemeSyntax>   copy(Ptr<SchemeSyntax> pSyntax);
+        Ptr<LispInteger>  copy(Ptr<LispInteger> pInteger);
+        Ptr<LispNumber>   copy(Ptr<LispNumber> pNumber);
+        Ptr<LispString>   copy(Ptr<LispString> pString);
+        Ptr<LispSymbol>   copy(Ptr<LispSymbol> pSymbol);
+        Ptr<LispCons>     copy(Ptr<LispCons> pCons);
+        Ptr<LispFile>     copy(Ptr<LispFile> pFile);
+        Ptr<LispFunction> copy(Ptr<LispFunction> pFunc);
+        Ptr<LispSyntax>   copy(Ptr<LispSyntax> pSyntax);
 
         // Singletons
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeNil>  copy(Ptr<SchemeNil> pNil) { return pNil; }
-        Ptr<SchemeBool> copy(Ptr<SchemeBool> pBool) { return pBool; }
-        Ptr<SchemeVoid> copy(Ptr<SchemeVoid> pVoid) { return pVoid; }
+        Ptr<LispNil>  copy(Ptr<LispNil> pNil) { return pNil; }
+        Ptr<LispBool> copy(Ptr<LispBool> pBool) { return pBool; }
+        Ptr<LispVoid> copy(Ptr<LispVoid> pVoid) { return pVoid; }
 
     private:
-        Ptr<SchemeRuntime> m_pRuntime;
+        Ptr<LispRuntime> m_pRuntime;
 
-        ezHashTable<ezString, Ptr<SchemeSymbol>> m_symbols;
-        ezHashTable<SchemeInteger::Number_t, Ptr<SchemeInteger>> m_integers;
+        ezHashTable<ezString, Ptr<LispSymbol>> m_symbols;
+        ezHashTable<LispInteger::Number_t, Ptr<LispInteger>> m_integers;
 
     private:
-        TypeFactory(Ptr<SchemeRuntime> pRuntime);
+        TypeFactory(Ptr<LispRuntime> pRuntime);
     };
 }

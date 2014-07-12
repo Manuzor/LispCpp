@@ -12,11 +12,11 @@
 
 namespace lcpp
 {
-    Ptr<SchemeObject>
-    defineHelper(Ptr<SchemeRuntime> pRuntime,
+    Ptr<LispObject>
+    defineHelper(Ptr<LispRuntime> pRuntime,
                  Ptr<Environment> pEnv,
-                 Ptr<SchemeObject> pArgs,
-                 std::function<void(Ptr<Environment>, Ptr<SchemeSymbol>, Ptr<SchemeObject>)> envOp)
+                 Ptr<LispObject> pArgs,
+                 std::function<void(Ptr<Environment>, Ptr<LispSymbol>, Ptr<LispObject>)> envOp)
     {
         EZ_LOG_BLOCK("syntax::defineHelper");
         ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -27,31 +27,31 @@ namespace lcpp
             throw exceptions::InvalidSyntax("Syntax 'define' expects exactly 2 arguments!");
         }
 
-        auto pArgList = pArgs.cast<SchemeCons>();
+        auto pArgList = pArgs.cast<LispCons>();
 
         // Short-hand syntax for lambda definition
-        if(pArgList->car()->is<SchemeCons>())
+        if(pArgList->car()->is<LispCons>())
         {
             EZ_LOG_BLOCK("lambda short-hand syntax");
 
-            auto pTheArgs = pArgList->car().cast<SchemeCons>();
+            auto pTheArgs = pArgList->car().cast<LispCons>();
             auto pSymbolObject = pTheArgs->car();
-            if(!pSymbolObject->is<SchemeSymbol>())
+            if(!pSymbolObject->is<LispSymbol>())
             {
                 throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
             }
-            auto pSymbol = pSymbolObject.cast<SchemeSymbol>();
+            auto pSymbol = pSymbolObject.cast<LispSymbol>();
             auto pLambda = lcpp::syntax::lambda(pRuntime, pEnv, pRuntime->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
 
             envOp(pEnv, pSymbol, pLambda);
 
             // Give the new lambda its name.
-            pLambda.cast<SchemeFunction>()->name(pSymbol->value());
+            pLambda.cast<LispFunction>()->name(pSymbol->value());
 
             return SCHEME_VOID_PTR;
         }
 
-        if(!pArgList->car()->is<SchemeSymbol>())
+        if(!pArgList->car()->is<LispSymbol>())
         {
             throw exceptions::InvalidSyntax("First argument to syntax 'define' must be a symbol!");
         }
@@ -61,52 +61,52 @@ namespace lcpp
             throw exceptions::InvalidSyntax("Not enough arguments for syntax 'define'!");
         }
 
-        if(!isNil(pArgList->cdr().cast<SchemeCons>()->cdr()))
+        if(!isNil(pArgList->cdr().cast<LispCons>()->cdr()))
         {
             throw exceptions::InvalidSyntax("Too many arguments for syntax 'define'!");
         }
 
-        auto symbol = pArgList->car().cast<SchemeSymbol>();
-        auto value = pArgList->cdr().cast<SchemeCons>()->car();
+        auto symbol = pArgList->car().cast<LispSymbol>();
+        auto value = pArgList->cdr().cast<LispCons>()->car();
 
         value = pRuntime->evaluator()->evalulate(pEnv, value);
 
         envOp(pEnv, symbol, value);
 
         // If it is a function, give it its new name.
-        if(value->is<SchemeFunction>())
+        if(value->is<LispFunction>())
         {
-            value.cast<SchemeFunction>()->name(symbol->value());
+            value.cast<LispFunction>()->name(symbol->value());
         }
 
         return SCHEME_VOID_PTR;
     }
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::define(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::define(Ptr<LispRuntime> pRuntime,
                      Ptr<Environment> pEnv,
-                     Ptr<SchemeObject> pArgs)
+                     Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::define");
 
-    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<SchemeSymbol> pSymbol, Ptr<SchemeObject> pObject) {
+    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         pEnv->add(pSymbol, pObject);
-        if(pObject->is<SchemeFunction>())
+        if(pObject->is<LispFunction>())
         {
-            pObject.cast<SchemeFunction>()->name(pSymbol->value());
+            pObject.cast<LispFunction>()->name(pSymbol->value());
         }
     });
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::set(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::set(Ptr<LispRuntime> pRuntime,
                   Ptr<Environment> pEnv,
-                  Ptr<SchemeObject> pArgs)
+                  Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::set");
 
-    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<SchemeSymbol> pSymbol, Ptr<SchemeObject> pObject) {
+    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         auto result = pEnv->set(pSymbol, pObject);
 
         if (!result.IsSuccess())
@@ -116,32 +116,32 @@ lcpp::syntax::set(Ptr<SchemeRuntime> pRuntime,
             throw exceptions::InvalidOperation(message.GetData());
         }
         
-        if(pObject->is<SchemeFunction>())
+        if(pObject->is<LispFunction>())
         {
-            pObject.cast<SchemeFunction>()->name(pSymbol->value());
+            pObject.cast<LispFunction>()->name(pSymbol->value());
         }
     });
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::lambda(Ptr<LispRuntime> pRuntime,
                      Ptr<Environment> pEnv,
-                     Ptr<SchemeObject> pArgs)
+                     Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::lambda");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
 
-    std::function<void(Ptr<SchemeCons>)> checkArgNameList = [&](Ptr<SchemeCons> pCons){
-        if(!pCons->car()->is<SchemeSymbol>())
+    std::function<void(Ptr<LispCons>)> checkArgNameList = [&](Ptr<LispCons> pCons){
+        if(!pCons->car()->is<LispSymbol>())
         {
             throw exceptions::InvalidSyntax("Lambda argument list only accepts symbols!");
         }
         if(isNil(pCons->cdr())) { return; }
 
-        EZ_ASSERT(pCons->cdr()->is<SchemeCons>(), "Invalid AST!");
+        EZ_ASSERT(pCons->cdr()->is<LispCons>(), "Invalid AST!");
 
-        checkArgNameList(pCons->cdr().cast<SchemeCons>());
+        checkArgNameList(pCons->cdr().cast<LispCons>());
     };
 
     if(isNil(pArgs))
@@ -149,18 +149,18 @@ lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
         throw exceptions::InvalidSyntax("Syntax 'lambda' expects exactly 2 arguments!");
     }
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
     auto pArgNameList = pArgList->car();
 
     // Arglist must be either nil or cons
-    if(!isNil(pArgNameList) && !pArgNameList->is<SchemeCons>())
+    if(!isNil(pArgNameList) && !pArgNameList->is<LispCons>())
     {
         throw exceptions::InvalidSyntax("A 'lambda' needs an argument list!");
     }
 
     if(!isNil(pArgNameList))
     {
-        checkArgNameList(pArgNameList.cast<SchemeCons>());
+        checkArgNameList(pArgNameList.cast<LispCons>());
     }
 
     auto pBody = pArgList->cdr();
@@ -170,13 +170,13 @@ lcpp::syntax::lambda(Ptr<SchemeRuntime> pRuntime,
         throw exceptions::InvalidSyntax("Lambda needs to have a body!");
     }
 
-    auto pBodyList = pBody.cast<SchemeCons>();
+    auto pBodyList = pBody.cast<LispCons>();
 
     return pRuntime->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::if_(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::if_");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -188,7 +188,7 @@ lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Scheme
         throw exceptions::InvalidSyntax("Syntax 'if' expects exactly 3 arguments!");
     }
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     {
         ezUInt32 numArgs = 0;
@@ -202,12 +202,12 @@ lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Scheme
     }
 
     auto expression = pArgList->car();
-    auto thenPart = pArgList->cdr().cast<SchemeCons>()->car();
-    auto elsePart = pArgList->cdr().cast<SchemeCons>()->cdr().cast<SchemeCons>()->car();
+    auto thenPart = pArgList->cdr().cast<LispCons>()->car();
+    auto elsePart = pArgList->cdr().cast<LispCons>()->cdr().cast<LispCons>()->car();
 
     auto expressionResult = pRuntime->evaluator()->evalulate(pEnv, expression);
 
-    if (!expressionResult->is<SchemeBool>())
+    if (!expressionResult->is<LispBool>())
     {
         throw exceptions::InvalidInput("Given expression in 'if' does not evaluate to a boolean value!");
     }
@@ -220,26 +220,26 @@ lcpp::syntax::if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Scheme
     return pRuntime->evaluator()->evalulate(pEnv, elsePart);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::and(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::and(Ptr<LispRuntime> pRuntime,
                   Ptr<Environment> pEnv,
-                  Ptr<SchemeObject> pArgs)
+                  Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::and");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
 
-    Ptr<SchemeObject> pResult = SCHEME_TRUE_PTR;
+    Ptr<LispObject> pResult = SCHEME_TRUE_PTR;
 
     while(!isNil(pArgs))
     {
-        EZ_ASSERT(pArgs->is<SchemeCons>(), "Parser error?");
-        auto pArg = pArgs.cast<SchemeCons>()->car();
-        pArgs = pArgs.cast<SchemeCons>()->cdr();
+        EZ_ASSERT(pArgs->is<LispCons>(), "Parser error?");
+        auto pArg = pArgs.cast<LispCons>()->car();
+        pArgs = pArgs.cast<LispCons>()->cdr();
 
         pResult = pRuntime->evaluator()->evalulate(pEnv, pArg);
 
-        if (!pResult->is<SchemeBool>())
+        if (!pResult->is<LispBool>())
         {
             ezStringBuilder message;
             message.Format("Expected bool argument, got %s.", pResult->type().name);
@@ -255,26 +255,26 @@ lcpp::syntax::and(Ptr<SchemeRuntime> pRuntime,
     return pResult;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::syntax::or(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::or(Ptr<LispRuntime> pRuntime,
                  Ptr<Environment> pEnv,
-                 Ptr<SchemeObject> pArgs)
+                 Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::or");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
 
-    Ptr<SchemeObject> pResult = SCHEME_FALSE_PTR;
+    Ptr<LispObject> pResult = SCHEME_FALSE_PTR;
 
     while(!isNil(pArgs))
     {
-        EZ_ASSERT(pArgs->is<SchemeCons>(), "Parser error?");
-        auto pArg = pArgs.cast<SchemeCons>()->car();
-        pArgs = pArgs.cast<SchemeCons>()->cdr();
+        EZ_ASSERT(pArgs->is<LispCons>(), "Parser error?");
+        auto pArg = pArgs.cast<LispCons>()->car();
+        pArgs = pArgs.cast<LispCons>()->cdr();
 
         pResult = pRuntime->evaluator()->evalulate(pEnv, pArg);
 
-        if(!pResult->is<SchemeBool>())
+        if(!pResult->is<LispBool>())
         {
             ezStringBuilder message;
             message.Format("Expected bool argument, got %s.", pResult->type().name);

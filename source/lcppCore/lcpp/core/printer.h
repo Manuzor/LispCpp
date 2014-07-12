@@ -2,7 +2,7 @@
 
 namespace lcpp
 {
-    class SchemeObject;
+    class LispObject;
     
     class LCPP_CORE_API Printer
     {
@@ -10,7 +10,7 @@ namespace lcpp
         Printer();
         virtual ~Printer();
 
-        virtual void print(Ptr<SchemeObject> object);
+        virtual void print(Ptr<LispObject> object);
         virtual void print(const std::string& object);
         virtual void print(const ezStringBuilder& str);
         virtual void print(const ezString& str);

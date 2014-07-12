@@ -8,7 +8,7 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::SchemeFunction::SchemeFunction(Ptr<SchemeRuntime> pRuntime,
+lcpp::LispFunction::LispFunction(Ptr<LispRuntime> pRuntime,
                                      const ezString& name,
                                      Ptr<Environment> pEnv) :
     m_name(name),
@@ -19,24 +19,24 @@ lcpp::SchemeFunction::SchemeFunction(Ptr<SchemeRuntime> pRuntime,
 }
 
 bool
-lcpp::SchemeFunction::operator==(const SchemeObject& obj) const
+lcpp::LispFunction::operator==(const LispObject& obj) const
 {
-    if (obj.is<SchemeFunction>())
+    if (obj.is<LispFunction>())
     {
-        return *this == static_cast<const SchemeFunction&>(obj);
+        return *this == static_cast<const LispFunction&>(obj);
     }
     return false;
 }
 
 bool
-lcpp::SchemeFunction::operator==(const SchemeFunction& rhs) const
+lcpp::LispFunction::operator==(const LispFunction& rhs) const
 {
     // Identity check.
     return &rhs == this;
 }
 
 void
-lcpp::SchemeFunction::name(const ezString& newName)
+lcpp::LispFunction::name(const ezString& newName)
 {
     m_name = newName;
     m_pEnv->name() = newName;
@@ -44,11 +44,11 @@ lcpp::SchemeFunction::name(const ezString& newName)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(Ptr<SchemeRuntime> pRuntime,
+lcpp::LispFunctionBuiltin::LispFunctionBuiltin(Ptr<LispRuntime> pRuntime,
                                                    const ezString& name,
                                                    Ptr<Environment> pEnv,
                                                    ExecutorPtr_t pExec) :
-    SchemeFunction(pRuntime, name, pEnv),
+    LispFunction(pRuntime, name, pEnv),
     m_pExec(pExec)
 {
     EZ_ASSERT(!name.IsEmpty(), "A builtin function needs a name!");
@@ -60,14 +60,14 @@ lcpp::SchemeFunctionBuiltin::SchemeFunctionBuiltin(Ptr<SchemeRuntime> pRuntime,
     EZ_ASSERT(pExec, "The function executor must be valid!");
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionBuiltin::clone(ezAllocatorBase* pAllocator) const
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispFunctionBuiltin::clone(ezAllocatorBase* pAllocator) const
 {
-    return LCPP_NEW(pAllocator, SchemeFunctionBuiltin)(*this);
+    return LCPP_NEW(pAllocator, LispFunctionBuiltin)(*this);
 }
 
 ezString
-lcpp::SchemeFunctionBuiltin::toString() const
+lcpp::LispFunctionBuiltin::toString() const
 {
     ezStringBuilder builder;
     builder.AppendFormat("<builtin-procedure:%s>", m_name.GetData());
@@ -75,13 +75,13 @@ lcpp::SchemeFunctionBuiltin::toString() const
 }
 
 ezString
-lcpp::SchemeFunctionBuiltin::dump() const
+lcpp::LispFunctionBuiltin::dump() const
 {
     return toString();
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeObject> pArgList)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispFunctionBuiltin::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
     RecursionCounter counter(m_pRuntime);
@@ -90,11 +90,11 @@ lcpp::SchemeFunctionBuiltin::call(Ptr<SchemeObject> pArgList)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<SchemeRuntime> pRuntime,
+lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<LispRuntime> pRuntime,
                                                            Ptr<Environment> pEnv,
-                                                           Ptr<SchemeObject> pArgNameList,
-                                                           Ptr<SchemeCons> pBody) :
-    SchemeFunction(pRuntime, "anonymous", pEnv),
+                                                           Ptr<LispObject> pArgNameList,
+                                                           Ptr<LispCons> pBody) :
+    LispFunction(pRuntime, "anonymous", pEnv),
     m_pArgNameList(pArgNameList),
     m_numArgs(0),
     m_pBody(pBody)
@@ -123,14 +123,14 @@ lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<SchemeRuntime> pR
         return;
     }
 
-    EZ_ASSERT(m_pArgNameList->is<SchemeCons>(), "Invalid arg name list.");
+    EZ_ASSERT(m_pArgNameList->is<LispCons>(), "Invalid arg name list.");
 
-    auto pArgNamePtr = m_pArgNameList.cast<SchemeCons>();
+    auto pArgNamePtr = m_pArgNameList.cast<LispCons>();
 
     while(true)
     {
-        EZ_ASSERT(pArgNamePtr->car()->is<SchemeSymbol>(), "All arg names must be symbols!");
-        auto pArgName = pArgNamePtr->car().cast<SchemeSymbol>();
+        EZ_ASSERT(pArgNamePtr->car()->is<LispSymbol>(), "All arg names must be symbols!");
+        auto pArgName = pArgNamePtr->car().cast<LispSymbol>();
         m_pEnv->add(pArgName, SCHEME_NIL_PTR);
         ++m_numArgs;
 
@@ -138,19 +138,19 @@ lcpp::SchemeFunctionUserDefined::SchemeFunctionUserDefined(Ptr<SchemeRuntime> pR
         {
             break;
         }
-        EZ_ASSERT(pArgNamePtr->cdr()->is<SchemeCons>(), "Invalid arg name list.");
-        pArgNamePtr = pArgNamePtr->cdr().cast<SchemeCons>();
+        EZ_ASSERT(pArgNamePtr->cdr()->is<LispCons>(), "Invalid arg name list.");
+        pArgNamePtr = pArgNamePtr->cdr().cast<LispCons>();
     }
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionUserDefined::clone(ezAllocatorBase* pAllocator) const
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispFunctionUserDefined::clone(ezAllocatorBase* pAllocator) const
 {
-    return LCPP_NEW(pAllocator, SchemeFunctionUserDefined)(*this);
+    return LCPP_NEW(pAllocator, LispFunctionUserDefined)(*this);
 }
 
 ezString
-lcpp::SchemeFunctionUserDefined::toString() const
+lcpp::LispFunctionUserDefined::toString() const
 {
     ezStringBuilder builder;
     builder.AppendFormat("<procedure:%s>", m_name.GetData());
@@ -158,7 +158,7 @@ lcpp::SchemeFunctionUserDefined::toString() const
 }
 
 ezString
-lcpp::SchemeFunctionUserDefined::dump() const
+lcpp::LispFunctionUserDefined::dump() const
 {
     ezStringBuilder builder;
     builder.Append("(lambda ");
@@ -169,8 +169,8 @@ lcpp::SchemeFunctionUserDefined::dump() const
     return builder;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeObject> pArgList)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispFunctionUserDefined::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
     RecursionCounter counter(m_pRuntime);
@@ -181,14 +181,14 @@ lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeObject> pArgList)
 
     // Process body
     //////////////////////////////////////////////////////////////////////////
-    Ptr<SchemeObject> pCodePointer = m_pBody;
-    Ptr<SchemeObject> pResult = SCHEME_NIL_PTR;
+    Ptr<LispObject> pCodePointer = m_pBody;
+    Ptr<LispObject> pResult = SCHEME_NIL_PTR;
 
     while(!isNil(pCodePointer))
     {
-        EZ_ASSERT(pCodePointer->is<SchemeCons>(), "Function body must be a cons.");
+        EZ_ASSERT(pCodePointer->is<LispCons>(), "Function body must be a cons.");
 
-        auto pCons = pCodePointer.cast<SchemeCons>();
+        auto pCons = pCodePointer.cast<LispCons>();
         pResult = m_pRuntime->evaluator()->evalulate(m_pEnv, pCons->car());
         pCodePointer = pCons->cdr();
     }
@@ -197,32 +197,32 @@ lcpp::SchemeFunctionUserDefined::call(Ptr<SchemeObject> pArgList)
 }
 
 void
-lcpp::SchemeFunctionUserDefined::processArguments(Ptr<SchemeObject> pArgs)
+lcpp::LispFunctionUserDefined::processArguments(Ptr<LispObject> pArgs)
 {
     if(!checkArgumentCount(pArgs)) { return; }
 
     // Update environment with argument values
     //////////////////////////////////////////////////////////////////////////
-    EZ_ASSERT(pArgs->is<SchemeCons>(), "pArgs must be a cons if it is not nil!");
+    EZ_ASSERT(pArgs->is<LispCons>(), "pArgs must be a cons if it is not nil!");
 
-    auto pCurrentArgName = m_pArgNameList.cast<SchemeCons>();
-    auto pCurrentArg = pArgs.cast<SchemeCons>();
+    auto pCurrentArgName = m_pArgNameList.cast<LispCons>();
+    auto pCurrentArg = pArgs.cast<LispCons>();
 
     for(auto i = m_numArgs; i > 0; --i)
     {
-        auto setResult = m_pEnv->set(pCurrentArgName->car().cast<SchemeSymbol>(),
+        auto setResult = m_pEnv->set(pCurrentArgName->car().cast<LispSymbol>(),
                                    pCurrentArg->car());
         EZ_ASSERT(setResult.IsSuccess(),
                   "m_pArgNameList was changed after construction of this function object "
                   "or the environment was not properly set up when this function object was constructed.");
 
-        pCurrentArgName = pCurrentArgName->cdr().cast<SchemeCons>();
-        pCurrentArg = pCurrentArg->cdr().cast<SchemeCons>();
+        pCurrentArgName = pCurrentArgName->cdr().cast<LispCons>();
+        pCurrentArg = pCurrentArg->cdr().cast<LispCons>();
     }
 }
 
 bool
-lcpp::SchemeFunctionUserDefined::checkArgumentCount(Ptr<SchemeObject> pArgs)
+lcpp::LispFunctionUserDefined::checkArgumentCount(Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -237,8 +237,8 @@ lcpp::SchemeFunctionUserDefined::checkArgumentCount(Ptr<SchemeObject> pArgs)
     }
 
     // From here on out we know that pArgs MUST be a cons.
-    EZ_ASSERT(pArgs->is<SchemeCons>(), "pArgs must be a cons if it is not nil!");
-    auto pArgList = pArgs.cast<SchemeCons>();
+    EZ_ASSERT(pArgs->is<LispCons>(), "pArgs must be a cons if it is not nil!");
+    auto pArgList = pArgs.cast<LispCons>();
 
     // pArgs is not nil, which means it's a cons, so we count the args
     ezUInt32 numElements = 0;

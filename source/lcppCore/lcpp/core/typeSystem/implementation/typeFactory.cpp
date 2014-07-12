@@ -3,7 +3,7 @@
 #include "lcpp/core/environment.h"
 #include "lcpp/core/runtime.h"
 
-lcpp::TypeFactory::TypeFactory(Ptr<SchemeRuntime> pRuntime) :
+lcpp::TypeFactory::TypeFactory(Ptr<LispRuntime> pRuntime) :
     m_pRuntime(pRuntime),
     m_symbols(pRuntime->allocator().get()),
     m_integers(pRuntime->allocator().get())
@@ -23,13 +23,13 @@ lcpp::TypeFactory::createEnvironment(const ezString& name, Ptr<Environment> pPar
     return LCPP_NEW(m_pRuntime->allocator().get(), Environment)(name, pParent);
 }
 
-lcpp::Ptr<lcpp::SchemeInteger>
-lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
+lcpp::Ptr<lcpp::LispInteger>
+lcpp::TypeFactory::createInteger(LispInteger::Number_t value)
 {
-    Ptr<SchemeInteger> pResult;
+    Ptr<LispInteger> pResult;
     if(!m_integers.TryGetValue(value, pResult))
     {
-        pResult = LCPP_NEW(m_pRuntime->allocator().get(), SchemeInteger)(value);
+        pResult = LCPP_NEW(m_pRuntime->allocator().get(), LispInteger)(value);
         m_integers[value] = pResult;
     }
     EZ_ASSERT(pResult, "The result should never be a nullptr!");
@@ -37,25 +37,25 @@ lcpp::TypeFactory::createInteger(SchemeInteger::Number_t value)
     return pResult;
 }
 
-lcpp::Ptr<lcpp::SchemeNumber>
-lcpp::TypeFactory::createNumber(SchemeNumber::Number_t value)
+lcpp::Ptr<lcpp::LispNumber>
+lcpp::TypeFactory::createNumber(LispNumber::Number_t value)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeNumber)(value);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispNumber)(value);
 }
 
-lcpp::Ptr<lcpp::SchemeString>
+lcpp::Ptr<lcpp::LispString>
 lcpp::TypeFactory::createString(const ezString& str)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeString)(str);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispString)(str);
 }
 
-lcpp::Ptr<lcpp::SchemeSymbol>
+lcpp::Ptr<lcpp::LispSymbol>
 lcpp::TypeFactory::createSymbol(const ezString& symbol)
 {
-    Ptr<SchemeSymbol> pResult;
+    Ptr<LispSymbol> pResult;
     if (!m_symbols.TryGetValue(symbol, pResult))
     {
-        pResult = LCPP_NEW(m_pRuntime->allocator().get(), SchemeSymbol)(symbol);
+        pResult = LCPP_NEW(m_pRuntime->allocator().get(), LispSymbol)(symbol);
         m_symbols[symbol] = pResult;
     }
     EZ_ASSERT(pResult, "The result should never be a nullptr!");
@@ -63,107 +63,107 @@ lcpp::TypeFactory::createSymbol(const ezString& symbol)
     return pResult;
 }
 
-lcpp::Ptr<lcpp::SchemeCons>
-lcpp::TypeFactory::createCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr)
+lcpp::Ptr<lcpp::LispCons>
+lcpp::TypeFactory::createCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeCons)(pCar, pCdr);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispCons)(pCar, pCdr);
 }
 
-lcpp::Ptr<lcpp::SchemeFile>
+lcpp::Ptr<lcpp::LispFile>
 lcpp::TypeFactory::createFile(const ezString& fileName)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFile)(fileName);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispFile)(fileName);
 }
 
-lcpp::Ptr<lcpp::SchemeFunction>
+lcpp::Ptr<lcpp::LispFunction>
 lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
-                                             Ptr<SchemeObject> pArgNameList,
-                                             Ptr<SchemeCons> pBody)
+                                             Ptr<LispObject> pArgNameList,
+                                             Ptr<LispCons> pBody)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFunctionUserDefined)(m_pRuntime, createEnvironment("", pParentEnv), pArgNameList, pBody);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionUserDefined)(m_pRuntime, createEnvironment("", pParentEnv), pArgNameList, pBody);
 }
 
-lcpp::Ptr<lcpp::SchemeFunction>
+lcpp::Ptr<lcpp::LispFunction>
 lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          Ptr<Environment> pParentEnv,
-                                         SchemeFunctionBuiltin::ExecutorPtr_t executor)
+                                         LispFunctionBuiltin::ExecutorPtr_t executor)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeFunctionBuiltin)(m_pRuntime, name, createEnvironment("", pParentEnv), executor);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionBuiltin)(m_pRuntime, name, createEnvironment("", pParentEnv), executor);
 }
 
-lcpp::Ptr<lcpp::SchemeSyntax>
-lcpp::TypeFactory::createSyntax_Builtin(Ptr<SchemeSymbol> pName,
-                                        SchemeSyntax_Builtin::HandlerFuncPtr_t pHandler)
+lcpp::Ptr<lcpp::LispSyntax>
+lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
+                                        LispSyntax_Builtin::HandlerFuncPtr_t pHandler)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), SchemeSyntax_Builtin)(pName, pHandler);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispSyntax_Builtin)(pName, pHandler);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::TypeFactory::copy(Ptr<SchemeObject> pObject)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<SchemeInteger>())       { return copy(pObject.cast<SchemeInteger>());  }
-    if(pObject->is<SchemeNumber>())        { return copy(pObject.cast<SchemeNumber>());   }
-    if(pObject->is<SchemeString>())        { return copy(pObject.cast<SchemeString>());   }
-    if(pObject->is<SchemeSymbol>())        { return copy(pObject.cast<SchemeSymbol>());   }
-    if(pObject->is<SchemeCons>())          { return copy(pObject.cast<SchemeCons>());     }
-    if(pObject->is<SchemeFile>())          { return copy(pObject.cast<SchemeFile>());     }
-    if(pObject->is<SchemeFunction>())      { return copy(pObject.cast<SchemeFunction>()); }
-    if(pObject->is<SchemeSyntax>())        { return copy(pObject.cast<SchemeSyntax>()); }
+    if(pObject->is<LispInteger>())       { return copy(pObject.cast<LispInteger>());  }
+    if(pObject->is<LispNumber>())        { return copy(pObject.cast<LispNumber>());   }
+    if(pObject->is<LispString>())        { return copy(pObject.cast<LispString>());   }
+    if(pObject->is<LispSymbol>())        { return copy(pObject.cast<LispSymbol>());   }
+    if(pObject->is<LispCons>())          { return copy(pObject.cast<LispCons>());     }
+    if(pObject->is<LispFile>())          { return copy(pObject.cast<LispFile>());     }
+    if(pObject->is<LispFunction>())      { return copy(pObject.cast<LispFunction>()); }
+    if(pObject->is<LispSyntax>())        { return copy(pObject.cast<LispSyntax>()); }
 
-    if(pObject->is<SchemeNil>()) { return copy(pObject.cast<SchemeNil>()); }
-    if(pObject->is<SchemeBool>()) { return copy(pObject.cast<SchemeBool>()); }
-    if(pObject->is<SchemeVoid>()) { return copy(pObject.cast<SchemeVoid>()); }
+    if(pObject->is<LispNil>()) { return copy(pObject.cast<LispNil>()); }
+    if(pObject->is<LispBool>()) { return copy(pObject.cast<LispBool>()); }
+    if(pObject->is<LispVoid>()) { return copy(pObject.cast<LispVoid>()); }
 
-    if(pObject->is<SchemeSyntax>()){ return pObject; }
+    if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
 }
 
-lcpp::Ptr<lcpp::SchemeInteger> lcpp::TypeFactory::copy(Ptr<SchemeInteger> pInteger)
+lcpp::Ptr<lcpp::LispInteger> lcpp::TypeFactory::copy(Ptr<LispInteger> pInteger)
 {
     return createInteger(pInteger->value());
 }
 
-lcpp::Ptr<lcpp::SchemeNumber>
-lcpp::TypeFactory::copy(Ptr<SchemeNumber> pNumber)
+lcpp::Ptr<lcpp::LispNumber>
+lcpp::TypeFactory::copy(Ptr<LispNumber> pNumber)
 {
     return createNumber(pNumber->value());
 }
 
-lcpp::Ptr<lcpp::SchemeString>
-lcpp::TypeFactory::copy(Ptr<SchemeString> pString)
+lcpp::Ptr<lcpp::LispString>
+lcpp::TypeFactory::copy(Ptr<LispString> pString)
 {
     return createString(pString->value());
 }
 
-lcpp::Ptr<lcpp::SchemeSymbol>
-lcpp::TypeFactory::copy(Ptr<SchemeSymbol> pSymbol)
+lcpp::Ptr<lcpp::LispSymbol>
+lcpp::TypeFactory::copy(Ptr<LispSymbol> pSymbol)
 {
     return createSymbol(pSymbol->value());
 }
 
-lcpp::Ptr<lcpp::SchemeCons>
-lcpp::TypeFactory::copy(Ptr<SchemeCons> pCons)
+lcpp::Ptr<lcpp::LispCons>
+lcpp::TypeFactory::copy(Ptr<LispCons> pCons)
 {
     return createCons(copy(pCons->car()),
                       copy(pCons->cdr()));
 }
 
-lcpp::Ptr<lcpp::SchemeFile>
-lcpp::TypeFactory::copy(Ptr<SchemeFile> pFile)
+lcpp::Ptr<lcpp::LispFile>
+lcpp::TypeFactory::copy(Ptr<LispFile> pFile)
 {
     return createFile(pFile->name());
 }
 
 
-lcpp::Ptr<lcpp::SchemeFunction>
-lcpp::TypeFactory::copy(Ptr<SchemeFunction> pFunc)
+lcpp::Ptr<lcpp::LispFunction>
+lcpp::TypeFactory::copy(Ptr<LispFunction> pFunc)
 {
     return pFunc->clone(m_pRuntime->allocator().get());
 }
 
-lcpp::Ptr<lcpp::SchemeSyntax>
-lcpp::TypeFactory::copy(Ptr<SchemeSyntax> pSyntax)
+lcpp::Ptr<lcpp::LispSyntax>
+lcpp::TypeFactory::copy(Ptr<LispSyntax> pSyntax)
 {
-    return pSyntax.cast<SchemeObject>()->clone(m_pRuntime->allocator().get());
+    return pSyntax.cast<LispObject>()->clone(m_pRuntime->allocator().get());
 }

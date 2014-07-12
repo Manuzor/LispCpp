@@ -1,7 +1,7 @@
 #include "lcpp/core/runtime.h"
 
 inline
-lcpp::RecursionCounter::RecursionCounter(Ptr<SchemeRuntime> pRunTime) :
+lcpp::RecursionCounter::RecursionCounter(Ptr<LispRuntime> pRunTime) :
     pRunTime(pRunTime)
 {
     pRunTime->increaseRecursionDepth();

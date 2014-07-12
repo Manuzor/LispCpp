@@ -44,35 +44,35 @@ namespace
         {
             auto object = reader.read("42");
 
-            auto& staticType = TypeInfo<SchemeInteger>::type();
+            auto& staticType = TypeInfo<LispInteger>::type();
             auto& type = object->type();
 
             CUT_ASSERT.isTrue(type == staticType, "Type ID mismatch for scheme integer!");
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeInteger*>(object.get()) != nullptr, "Reader did not return a scheme integer instance!");
+            CUT_ASSERT.isTrue(dynamic_cast<LispInteger*>(object.get()) != nullptr, "Reader did not return a scheme integer instance!");
             CUT_ASSERT.isTrue(object->toString().IsEqual("42"), "Wrong string representation");
         }
 
         {
             auto pObject = reader.read("3.1415");
 
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeNumber*>(pObject.get()) != nullptr, "Reader did not return a scheme number instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeNumber>::type(), "Type ID mismatch for scheme number!");
+            CUT_ASSERT.isTrue(dynamic_cast<LispNumber*>(pObject.get()) != nullptr, "Reader did not return a scheme number instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<LispNumber>::type(), "Type ID mismatch for scheme number!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("3.1415"), "Wrong string representation");
         }
 
         {
             auto pObject = reader.read("hello world");
 
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeSymbol*>(pObject.get()) != nullptr, "Reader did not return a scheme symbol instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeSymbol>::type(), "Type ID mismatch for scheme symbol!");
+            CUT_ASSERT.isTrue(dynamic_cast<LispSymbol*>(pObject.get()) != nullptr, "Reader did not return a scheme symbol instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<LispSymbol>::type(), "Type ID mismatch for scheme symbol!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("hello"), "Wrong string representation");
         }
 
         {
             auto pObject = reader.read("\"hello world\"");
 
-            CUT_ASSERT.isTrue(dynamic_cast<SchemeString*>(pObject.get()) != nullptr, "Reader did not return a scheme string instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<SchemeString>::type(), "Type ID mismatch for scheme string!");
+            CUT_ASSERT.isTrue(dynamic_cast<LispString*>(pObject.get()) != nullptr, "Reader did not return a scheme string instance!");
+            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<LispString>::type(), "Type ID mismatch for scheme string!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("\"hello world\""), "Wrong string representation");
         }
     });
@@ -206,22 +206,22 @@ namespace
             ezString input("(theSymbol x 1)");
             ezString strOutput;
             auto consObject = reader.parseList(input.GetIteratorFront());
-            auto cons = consObject.cast<SchemeCons>();
+            auto cons = consObject.cast<LispCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
             CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol x 1)"), "Wrong string representation for read list!");
             auto car = cons->car(); // "theSymbol"
-            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'theSymbol'.");
-            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("theSymbol"), "First car is supposed to be the symbol 'theSymbol'.");
-            CUT_ASSERT.isTrue(cons->cdr()->is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
-            auto cdr = cons->cdr().cast<SchemeCons>();
+            CUT_ASSERT.isTrue(car->is<LispSymbol>(), "First car is supposed to be the symbol 'theSymbol'.");
+            CUT_ASSERT.isTrue(car.cast<LispSymbol>()->value().IsEqual("theSymbol"), "First car is supposed to be the symbol 'theSymbol'.");
+            CUT_ASSERT.isTrue(cons->cdr()->is<LispCons>(), "The Cdr is supposed to be a cons!.");
+            auto cdr = cons->cdr().cast<LispCons>();
             auto cdr_car = cdr->car(); // "x"
-            CUT_ASSERT.isTrue(cdr_car->is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr_car.cast<SchemeSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'theSymbol'.");
-            auto cdr_cdr = cdr->cdr().cast<SchemeCons>();
+            CUT_ASSERT.isTrue(cdr_car->is<LispSymbol>(), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr_car.cast<LispSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr->cdr()->is<LispCons>(), "First car is supposed to be the symbol 'theSymbol'.");
+            auto cdr_cdr = cdr->cdr().cast<LispCons>();
             auto cdr_cdr_car = cdr_cdr->car(); // 1
-            CUT_ASSERT.isTrue(cdr_cdr_car->is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
-            CUT_ASSERT.isTrue(cdr_cdr_car.cast<SchemeInteger>()->value() == 1, "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(cdr_cdr_car->is<LispInteger>(), "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(cdr_cdr_car.cast<LispInteger>()->value() == 1, "Third car is supposed to be the integer 1.");
             CUT_ASSERT.isTrue(isNil(cdr_cdr->cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
 
@@ -229,22 +229,22 @@ namespace
         {
             ezString input("  \n ( \t \n  \ttheSymbol \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
             auto consObject = reader.parseList(input.GetIteratorFront());
-            auto cons = consObject.cast<SchemeCons>();
+            auto cons = consObject.cast<LispCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
             CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol x 1)"), "Wrong string representation for read list!");
             auto car = cons->car(); // "theSymbol"
-            CUT_ASSERT.isTrue(car->is<SchemeSymbol>(), "First car is supposed to be the symbol 'theSymbol'.");
-            CUT_ASSERT.isTrue(car.cast<SchemeSymbol>()->value().IsEqual("theSymbol"), "First car is supposed to be the symbol 'theSymbol'.");
-            CUT_ASSERT.isTrue(cons->cdr()->is<SchemeCons>(), "The Cdr is supposed to be a cons!.");
-            auto cdr = cons->cdr().cast<SchemeCons>();
+            CUT_ASSERT.isTrue(car->is<LispSymbol>(), "First car is supposed to be the symbol 'theSymbol'.");
+            CUT_ASSERT.isTrue(car.cast<LispSymbol>()->value().IsEqual("theSymbol"), "First car is supposed to be the symbol 'theSymbol'.");
+            CUT_ASSERT.isTrue(cons->cdr()->is<LispCons>(), "The Cdr is supposed to be a cons!.");
+            auto cdr = cons->cdr().cast<LispCons>();
             auto cdr_car = cdr->car(); // "x"
-            CUT_ASSERT.isTrue(cdr_car->is<SchemeSymbol>(), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr_car.cast<SchemeSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
-            CUT_ASSERT.isTrue(cdr->cdr()->is<SchemeCons>(), "First car is supposed to be the symbol 'theSymbol'.");
-            auto cdr_cdr = cdr->cdr().cast<SchemeCons>();
+            CUT_ASSERT.isTrue(cdr_car->is<LispSymbol>(), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr_car.cast<LispSymbol>()->value().IsEqual("x"), "Second car is supposed to be the symbol 'x'.");
+            CUT_ASSERT.isTrue(cdr->cdr()->is<LispCons>(), "First car is supposed to be the symbol 'theSymbol'.");
+            auto cdr_cdr = cdr->cdr().cast<LispCons>();
             auto cdr_cdr_car = cdr_cdr->car(); // 1
-            CUT_ASSERT.isTrue(cdr_cdr_car->is<SchemeInteger>(), "Third car is supposed to be the integer 1.");
-            CUT_ASSERT.isTrue(cdr_cdr_car.cast<SchemeInteger>()->value() == 1, "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(cdr_cdr_car->is<LispInteger>(), "Third car is supposed to be the integer 1.");
+            CUT_ASSERT.isTrue(cdr_cdr_car.cast<LispInteger>()->value() == 1, "Third car is supposed to be the integer 1.");
             CUT_ASSERT.isTrue(isNil(cdr_cdr->cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
         {
@@ -319,8 +319,8 @@ namespace
             ezString input(";This is a comment\n1337");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 1337, "Wrong value");
+            CUT_ASSERT.isTrue(result->is<LispInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispInteger>()->value() == 1337, "Wrong value");
         }
     });
 
@@ -332,68 +332,68 @@ namespace
             ezString input("(+ 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected + to be read as symbol!");
+            CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car()->is<LispSymbol>(), "Expected + to be read as symbol!");
         }
 
         {
             ezString input("(++ 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected ++ to be read as symbol!");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car().cast<SchemeSymbol>()->value().IsEqual("++"), "Expected ++ to be the symbol value!");
+            CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car()->is<LispSymbol>(), "Expected ++ to be read as symbol!");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car().cast<LispSymbol>()->value().IsEqual("++"), "Expected ++ to be the symbol value!");
         }
 
         {
             ezString input("(+---++++++--++++----++++ 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected +---++++++--++++----++++ to be read as symbol!");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car().cast<SchemeSymbol>()->value().IsEqual("+---++++++--++++----++++"), "Expected +---++++++--++++----++++ to be the symbol value!");
+            CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car()->is<LispSymbol>(), "Expected +---++++++--++++----++++ to be read as symbol!");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car().cast<LispSymbol>()->value().IsEqual("+---++++++--++++----++++"), "Expected +---++++++--++++----++++ to be the symbol value!");
         }
 
         {
             ezString input("(+-++---+++asbndjkh 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected +-++---+++asbndjkh to be read as symbol!");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car().cast<SchemeSymbol>()->value().IsEqual("+-++---+++asbndjkh"), "Expected +-++---+++asbndjkh to be the symbol value!");
+            CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car()->is<LispSymbol>(), "Expected +-++---+++asbndjkh to be read as symbol!");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car().cast<LispSymbol>()->value().IsEqual("+-++---+++asbndjkh"), "Expected +-++---+++asbndjkh to be the symbol value!");
         }
 
         {
             ezString input("(- 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected - to be read as symbol!");
+            CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car()->is<LispSymbol>(), "Expected - to be read as symbol!");
         }
 
         {
             ezString input("(-- 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeCons>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car()->is<SchemeSymbol>(), "Expected -- to be read as symbol!");
-            CUT_ASSERT.isTrue(result.cast<SchemeCons>()->car().cast<SchemeSymbol>()->value().IsEqual("--"), "Expected -- to be the symbol value!");
+            CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car()->is<LispSymbol>(), "Expected -- to be read as symbol!");
+            CUT_ASSERT.isTrue(result.cast<LispCons>()->car().cast<LispSymbol>()->value().IsEqual("--"), "Expected -- to be the symbol value!");
         }
 
         {
             ezString input("+1");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == 1, "Expected +1 to be read as integer!");
+            CUT_ASSERT.isTrue(result->is<LispInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispInteger>()->value() == 1, "Expected +1 to be read as integer!");
         }
 
         {
             ezString input("-1");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
-            CUT_ASSERT.isTrue(result->is<SchemeInteger>(), "Wrong type");
-            CUT_ASSERT.isTrue(result.cast<SchemeInteger>()->value() == -1, "Expected -1 to be read as integer!");
+            CUT_ASSERT.isTrue(result->is<LispInteger>(), "Wrong type");
+            CUT_ASSERT.isTrue(result.cast<LispInteger>()->value() == -1, "Expected -1 to be read as integer!");
         }
     });
 }

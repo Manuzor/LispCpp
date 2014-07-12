@@ -1,49 +1,49 @@
 
 inline
-    lcpp::SchemeSymbol::SchemeSymbol(const char* symbol) :
+    lcpp::LispSymbol::LispSymbol(const char* symbol) :
     m_symbol(symbol)
 {
 }
 
 inline
-lcpp::SchemeSymbol::SchemeSymbol(const ezString& symbol) :
+lcpp::LispSymbol::LispSymbol(const ezString& symbol) :
     m_symbol(symbol)
 {
 }
 
 inline
-lcpp::SchemeSymbol::~SchemeSymbol()
+lcpp::LispSymbol::~LispSymbol()
 {
 }
 
 inline
 ezString
-lcpp::SchemeSymbol::toString() const
+lcpp::LispSymbol::toString() const
 {
     return m_symbol;
 }
 
 inline
 bool
-lcpp::SchemeSymbol::operator ==(const SchemeObject& rhs) const
+lcpp::LispSymbol::operator ==(const LispObject& rhs) const
 {
-    if(rhs.is<SchemeSymbol>())
+    if(rhs.is<LispSymbol>())
     {
-        return *this == static_cast<const SchemeSymbol&>(rhs);
+        return *this == static_cast<const LispSymbol&>(rhs);
     }
     return false;
 }
 
 inline
 const ezString&
-lcpp::SchemeSymbol::value() const
+lcpp::LispSymbol::value() const
 {
     return m_symbol;
 }
 
 inline
 bool
-lcpp::operator ==(const SchemeSymbol& lhs, const SchemeSymbol& rhs)
+lcpp::operator ==(const LispSymbol& lhs, const LispSymbol& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.value().GetData(),

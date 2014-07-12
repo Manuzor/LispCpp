@@ -8,7 +8,7 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/environment.h"
 
-lcpp::Reader::Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo) :
+lcpp::Reader::Reader(Ptr<LispRuntime> pRuntime, const CInfo& cinfo) :
     m_pRuntime(pRuntime),
     m_defaults(),
     m_separators(cinfo.separators),
@@ -28,7 +28,7 @@ lcpp::Reader::initialize()
 
     auto pEnv = m_pRuntime->syntaxEnvironment();
     auto pFactory = m_pRuntime->factory();
-    Ptr<SchemeSymbol> pSymbol;
+    Ptr<LispSymbol> pSymbol;
 
 #define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = pFactory->createSymbol(name); \
     pEnv->add(pSymbol, pFactory->createSyntax_Builtin(pSymbol, funcPtr));
@@ -43,14 +43,14 @@ lcpp::Reader::initialize()
 #undef LCPP_ADD_SYNTAX_TO_ENVIRONMENT
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Ptr<lcpp::LispObject>
 lcpp::Reader::read(const ezString& inputString, bool resetSyntaxChecker)
 {
     auto input = inputString.GetIteratorFront();
     return read(input, resetSyntaxChecker);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Ptr<lcpp::LispObject>
 lcpp::Reader::read(ezStringIterator& input, bool resetSyntaxChecker)
 {
     if(resetSyntaxChecker)
@@ -84,7 +84,7 @@ lcpp::Reader::read(ezStringIterator& input, bool resetSyntaxChecker)
     return parseAtom(input);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Ptr<lcpp::LispObject>
 lcpp::Reader::parseAtom(ezStringIterator& input)
 {
     // Special case for + and - characters, since the ezEngine parses (+ 1) as +1...
@@ -127,7 +127,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
 
     // Try parsing for an integer first, then a number, then a symbol
     const char* lastPos = nullptr;
-    SchemeInteger::Number_t integer;
+    LispInteger::Number_t integer;
     auto result = to(input, integer, &lastPos);
 
     // The string contains a number, but it is a floating point number; reparse.
@@ -142,7 +142,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
 
         if(lastPos[0] == '.')
         {
-            SchemeNumber::Number_t number;
+            LispNumber::Number_t number;
             auto result = to(input, number, &lastPos);
             EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
             return m_pRuntime->factory()->createNumber(number);
@@ -154,11 +154,11 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
     return parseSymbol(input);
 }
 
-lcpp::Ptr<lcpp::SchemeInteger>
+lcpp::Ptr<lcpp::LispInteger>
 lcpp::Reader::parseInteger(ezStringIterator& input)
 {
     skipSeparators(input);
-    SchemeInteger::Number_t integer;
+    LispInteger::Number_t integer;
     auto result = to(input, integer);
     if (!result.IsSuccess())
     {
@@ -168,11 +168,11 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
     return m_pRuntime->factory()->createInteger(integer);
 }
 
-lcpp::Ptr<lcpp::SchemeNumber>
+lcpp::Ptr<lcpp::LispNumber>
 lcpp::Reader::parseNumber(ezStringIterator& input)
 {
     skipSeparators(input);
-    SchemeNumber::Number_t number;
+    LispNumber::Number_t number;
     auto result = to(input, number);
     if(!result.IsSuccess())
     {
@@ -181,13 +181,13 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     return m_pRuntime->factory()->createNumber(number);
 }
 
-lcpp::Ptr<lcpp::SchemeSymbol>
+lcpp::Ptr<lcpp::LispSymbol>
 lcpp::Reader::parseSymbol(ezStringIterator& input)
 {
     skipSeparators(input);
     {
         // Test if the input string can be parsed as int, which should not be possible
-        SchemeInteger::Number_t integer;
+        LispInteger::Number_t integer;
         if(to(input, integer).IsSuccess())
         {
             throw exceptions::InvalidInput("Invalid input: A number is not a symbol!");
@@ -211,7 +211,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
 }
 
 
-lcpp::Ptr<lcpp::SchemeString>
+lcpp::Ptr<lcpp::LispString>
 lcpp::Reader::parseString(ezStringIterator& input)
 {
     skipSeparators(input);
@@ -249,7 +249,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
     return m_pRuntime->factory()->createString(str);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Ptr<lcpp::LispObject>
 lcpp::Reader::parseList(ezStringIterator& input)
 {
     skipSeparators(input);
@@ -273,12 +273,12 @@ lcpp::Reader::parseList(ezStringIterator& input)
     auto car = read(input, false);
     auto cdr = parseListHelper(input);
 
-    if(car->is<SchemeSymbol>())
+    if(car->is<LispSymbol>())
     {
-        auto pSymbol = car.cast<SchemeSymbol>();
-        Ptr<SchemeObject> pSyntax;
+        auto pSymbol = car.cast<LispSymbol>();
+        Ptr<LispObject> pSyntax;
         auto result = m_pRuntime->syntaxEnvironment()->get(pSymbol, pSyntax);
-        if(result.IsSuccess() && pSyntax->is<SchemeSyntax>())
+        if(result.IsSuccess() && pSyntax->is<LispSyntax>())
         {
             car = pSyntax;
         }
@@ -287,7 +287,7 @@ lcpp::Reader::parseList(ezStringIterator& input)
     return m_pRuntime->factory()->createCons(car, cdr);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
+lcpp::Ptr<lcpp::LispObject>
 lcpp::Reader::parseListHelper(ezStringIterator& input)
 {
     skipSeparators(input);

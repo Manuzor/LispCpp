@@ -1,6 +1,6 @@
 
 inline
-lcpp::SchemeFile::SchemeFile(const char* szFileName) :
+lcpp::LispFile::LispFile(const char* szFileName) :
     m_fileName(szFileName),
     m_file(),
     m_lastFileMode(ezFileMode::None)
@@ -8,14 +8,14 @@ lcpp::SchemeFile::SchemeFile(const char* szFileName) :
 }
 
 inline
-lcpp::SchemeFile::SchemeFile(const ezString& fileName) :
+lcpp::LispFile::LispFile(const ezString& fileName) :
     m_fileName(fileName),
     m_file(),
     m_lastFileMode(ezFileMode::None)
 {
 }
 inline
-lcpp::SchemeFile::SchemeFile(const SchemeFile& toCopy) :
+lcpp::LispFile::LispFile(const LispFile& toCopy) :
     m_fileName(toCopy.m_fileName),
     m_file(),
     m_lastFileMode(toCopy.m_lastFileMode)
@@ -27,14 +27,14 @@ lcpp::SchemeFile::SchemeFile(const SchemeFile& toCopy) :
 }
 
 inline
-lcpp::SchemeFile::~SchemeFile()
+lcpp::LispFile::~LispFile()
 {
     m_file.Close();
 }
 
 inline
 ezString
-lcpp::SchemeFile::toString() const
+lcpp::LispFile::toString() const
 {
     ezStringBuilder out;
     out.AppendFormat("<file:\"%s\">", m_fileName.GetData());
@@ -42,13 +42,13 @@ lcpp::SchemeFile::toString() const
 }
 
 inline
-lcpp::Ptr<lcpp::SchemeBool>
-lcpp::SchemeFile::open(Ptr<SchemeObject> pMode)
+lcpp::Ptr<lcpp::LispBool>
+lcpp::LispFile::open(Ptr<LispObject> pMode)
 {
     if(isNil(pMode)) { m_lastFileMode = ezFileMode::Read; }
     else
     {
-        auto pModeString = pMode.cast<SchemeString>();
+        auto pModeString = pMode.cast<LispString>();
         if     (pModeString->value().IsEqual("r")){ m_lastFileMode = ezFileMode::Read; }
         else if(pModeString->value().IsEqual("w")){ m_lastFileMode = ezFileMode::Write; }
         else if(pModeString->value().IsEqual("a")){ m_lastFileMode = ezFileMode::Append; }
@@ -59,7 +59,7 @@ lcpp::SchemeFile::open(Ptr<SchemeObject> pMode)
 
 inline
 bool
-lcpp::SchemeFile::doOpen()
+lcpp::LispFile::doOpen()
 {
     bool forWriting = m_lastFileMode == ezFileMode::Write || m_lastFileMode == ezFileMode::Append;
 
@@ -69,22 +69,22 @@ lcpp::SchemeFile::doOpen()
 }
 
 inline
-lcpp::Ptr<lcpp::SchemeBool>
-lcpp::SchemeFile::isOpen() const
+lcpp::Ptr<lcpp::LispBool>
+lcpp::LispFile::isOpen() const
 {
     return m_file.IsOpen() ? SCHEME_TRUE_PTR : SCHEME_FALSE_PTR;
 }
 
 inline
 void
-lcpp::SchemeFile::close()
+lcpp::LispFile::close()
 {
     m_file.Close();
 }
 
 inline
 ezString
-lcpp::SchemeFile::readString()
+lcpp::LispFile::readString()
 {
     auto size = m_file.GetFileSize();
     auto bufferSize = ezUInt32(size) + 1;
@@ -107,32 +107,32 @@ lcpp::SchemeFile::readString()
 
 inline
 bool
-lcpp::SchemeFile::operator ==(const SchemeObject& rhs) const
+lcpp::LispFile::operator ==(const LispObject& rhs) const
 {
-    if(rhs.is<SchemeFile>())
+    if(rhs.is<LispFile>())
     {
-        return *this == static_cast<const SchemeFile&>(rhs);
+        return *this == static_cast<const LispFile&>(rhs);
     }
     return false;
 }
 
 inline
 const ezString&
-lcpp::SchemeFile::name() const
+lcpp::LispFile::name() const
 {
     return m_fileName;
 }
 
 inline
 const ezOSFile&
-lcpp::SchemeFile::file() const
+lcpp::LispFile::file() const
 {
     return m_file;
 }
 
 inline
 bool
-lcpp::operator ==(const SchemeFile& lhs, const SchemeFile& rhs)
+lcpp::operator ==(const LispFile& lhs, const LispFile& rhs)
 {
     // Check if the handles are the same.
     return lhs.file().GetFileData().m_pFileHandle

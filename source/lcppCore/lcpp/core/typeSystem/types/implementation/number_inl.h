@@ -2,25 +2,25 @@
 
 template<typename NUMBER_TYPE>
 inline
-lcpp::SchemeNumber_t<NUMBER_TYPE>::SchemeNumber_t(Number_t value) :
+lcpp::LispNumber_t<NUMBER_TYPE>::LispNumber_t(Number_t value) :
     m_value(value)
 {
 }
 
 template<typename NUMBER_TYPE>
 inline
-lcpp::SchemeNumber_t<NUMBER_TYPE>::~SchemeNumber_t()
+lcpp::LispNumber_t<NUMBER_TYPE>::~LispNumber_t()
 {
 }
 
 template<typename NUMBER_TYPE>
 inline
 bool
-lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
+lcpp::LispNumber_t<NUMBER_TYPE>::operator ==(const LispObject& obj) const
 {
-    if(obj.is<SchemeNumber_t<NUMBER_TYPE>>())
+    if(obj.is<LispNumber_t<NUMBER_TYPE>>())
     {
-        return *this == static_cast<const SchemeNumber_t<Number_t>&>(obj); // Call the specialized operator ==
+        return *this == static_cast<const LispNumber_t<Number_t>&>(obj); // Call the specialized operator ==
     }
     return false;
 }
@@ -28,7 +28,7 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::operator ==(const SchemeObject& obj) const
 template<typename NUMBER_TYPE>
 inline
 typename NUMBER_TYPE
-lcpp::SchemeNumber_t<NUMBER_TYPE>::value(void) const
+lcpp::LispNumber_t<NUMBER_TYPE>::value(void) const
 {
     return m_value;
 }
@@ -36,7 +36,7 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::value(void) const
 template<typename NUMBER_TYPE>
 inline
 void
-lcpp::SchemeNumber_t<NUMBER_TYPE>::value(NUMBER_TYPE val)
+lcpp::LispNumber_t<NUMBER_TYPE>::value(NUMBER_TYPE val)
 {
     m_value = val;
 }
@@ -44,7 +44,7 @@ lcpp::SchemeNumber_t<NUMBER_TYPE>::value(NUMBER_TYPE val)
 template<typename NUMBER_TYPE>
 inline
 ezString
-lcpp::SchemeNumber_t<NUMBER_TYPE>::toString() const
+lcpp::LispNumber_t<NUMBER_TYPE>::toString() const
 {
     return lcpp::toString(m_value);
 }

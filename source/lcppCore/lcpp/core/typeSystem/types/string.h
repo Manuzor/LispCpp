@@ -3,15 +3,15 @@
 
 namespace lcpp
 {
-    class SchemeString:
-        public SchemeExtend<SchemeString, SchemeObject>
+    class LispString:
+        public LispExtend<LispString, LispObject>
     {
         friend class TypeFactory;
     public:
 
-        virtual ~SchemeString();
+        virtual ~LispString();
 
-        virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
+        virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
         operator ezString() const;
@@ -23,19 +23,19 @@ namespace lcpp
     private:
         ezString m_string;
 
-        SchemeString(const char* str);
-        SchemeString(const ezString& str);
+        LispString(const char* str);
+        LispString(const ezString& str);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeString);
+    DECLARE_SCHEME_TYPE_INFO(LispString);
 
-    bool operator ==(const SchemeString& lhs, const SchemeString& rhs);
+    bool operator ==(const LispString& lhs, const LispString& rhs);
 
-    bool operator ==(const SchemeString& lhs, const char* rhs);
-    bool operator ==(const char* lhs, const SchemeString& rhs);
+    bool operator ==(const LispString& lhs, const char* rhs);
+    bool operator ==(const char* lhs, const LispString& rhs);
 
-    bool operator ==(const SchemeString& lhs, const ezString& rhs);
-    bool operator ==(const ezString& lhs, const SchemeString& rhs);
+    bool operator ==(const LispString& lhs, const ezString& rhs);
+    bool operator ==(const ezString& lhs, const LispString& rhs);
 
 }
 

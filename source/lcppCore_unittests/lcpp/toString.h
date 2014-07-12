@@ -7,7 +7,7 @@ namespace lcpp { namespace unittests {
     {
         static std::wstring get(const T& object)
         {
-            static_cast<const SchemeObject&>(object);
+            static_cast<const LispObject&>(object);
 
             ezStringWChar result(object.toString().GetData());
             return result.GetData();
@@ -15,9 +15,9 @@ namespace lcpp { namespace unittests {
     };
 
     template<typename T>
-    struct ToStringHelper<SchemeNumber_t<T>>
+    struct ToStringHelper<LispNumber_t<T>>
     {
-        static std::wstring get(const SchemeNumber_t<T>& number)
+        static std::wstring get(const LispNumber_t<T>& number)
         {
             ezStringWChar result = number.toString().GetData();
             return result.GetData();
@@ -36,39 +36,39 @@ namespace Microsoft { namespace VisualStudio { namespace CppUnitTestFramework {
     }
 
     template<>
-    static std::wstring ToString<lcpp::SchemeObject>(const lcpp::SchemeObject& object)
+    static std::wstring ToString<lcpp::LispObject>(const lcpp::LispObject& object)
     {
-        return lcpp::unittests::ToStringHelper<lcpp::SchemeObject>::get(object);
+        return lcpp::unittests::ToStringHelper<lcpp::LispObject>::get(object);
     }
 
     template<>
-    static std::wstring ToString<lcpp::SchemeVoid>(const lcpp::SchemeVoid& theVoid)
+    static std::wstring ToString<lcpp::LispVoid>(const lcpp::LispVoid& theVoid)
     {
-        return lcpp::unittests::ToStringHelper<lcpp::SchemeVoid>::get(theVoid);
+        return lcpp::unittests::ToStringHelper<lcpp::LispVoid>::get(theVoid);
     }
 
     template<>
-    static std::wstring ToString<lcpp::SchemeBool>(const lcpp::SchemeBool& theBool)
+    static std::wstring ToString<lcpp::LispBool>(const lcpp::LispBool& theBool)
     {
-        return lcpp::unittests::ToStringHelper<lcpp::SchemeBool>::get(theBool);
+        return lcpp::unittests::ToStringHelper<lcpp::LispBool>::get(theBool);
     }
 
     template<>
-    static std::wstring ToString<lcpp::SchemeNil>(const lcpp::SchemeNil& nil)
+    static std::wstring ToString<lcpp::LispNil>(const lcpp::LispNil& nil)
     {
-        return lcpp::unittests::ToStringHelper<lcpp::SchemeNil>::get(nil);
+        return lcpp::unittests::ToStringHelper<lcpp::LispNil>::get(nil);
     }
 
     template<typename T>
-    static std::wstring ToString(const lcpp::SchemeNumber_t<T>& number)
+    static std::wstring ToString(const lcpp::LispNumber_t<T>& number)
     {
-        return lcpp::unittests::ToStringHelper< lcpp::SchemeNumber_t<T> >::get(number);
+        return lcpp::unittests::ToStringHelper< lcpp::LispNumber_t<T> >::get(number);
     }
 
     template<>
-    static std::wstring ToString<lcpp::SchemeSymbol>(const lcpp::SchemeSymbol& symbol)
+    static std::wstring ToString<lcpp::LispSymbol>(const lcpp::LispSymbol& symbol)
     {
-        return lcpp::unittests::ToStringHelper<lcpp::SchemeSymbol>::get(symbol);
+        return lcpp::unittests::ToStringHelper<lcpp::LispSymbol>::get(symbol);
     }
 
 }}}

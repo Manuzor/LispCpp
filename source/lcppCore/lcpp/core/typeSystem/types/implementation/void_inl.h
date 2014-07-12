@@ -1,33 +1,33 @@
 ﻿// static
 inline
-lcpp::SchemeVoid&
-lcpp::SchemeVoid::instance()
+lcpp::LispVoid&
+lcpp::LispVoid::instance()
 {
-    static SchemeVoid v;
+    static LispVoid v;
     return v;
 }
 
 
 inline
-lcpp::SchemeVoid::SchemeVoid()
+lcpp::LispVoid::LispVoid()
 {
 }
 
 inline
-lcpp::SchemeVoid::~SchemeVoid()
+lcpp::LispVoid::~LispVoid()
 {
 }
 
 inline
 bool
-lcpp::SchemeVoid::operator ==(const SchemeObject& obj) const
+lcpp::LispVoid::operator ==(const LispObject& obj) const
 {
-    return obj.is<SchemeVoid>();
+    return obj.is<LispVoid>();
 }
 
 inline
 ezString
-lcpp::SchemeVoid::toString() const
+lcpp::LispVoid::toString() const
 {
     static ezString voidString("#v");
     return voidString;

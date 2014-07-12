@@ -7,7 +7,7 @@
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
 void
-lcpp::Environment::add(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
+lcpp::Environment::add(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
 {
     EZ_LOG_BLOCK("Environment::add", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Environment Name: %s", qualifiedName().GetData());
@@ -27,7 +27,7 @@ lcpp::Environment::add(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
 }
 
 ezResult
-lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
+lcpp::Environment::set(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
 {
     EZ_LOG_BLOCK("Environment::set", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Environment Name: %s", qualifiedName().GetData());
@@ -48,12 +48,12 @@ lcpp::Environment::set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue)
 }
 
 ezResult
-lcpp::Environment::get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value)
+lcpp::Environment::get(Ptr<LispSymbol> pKey, Ptr<LispObject>& out_value)
 {
     EZ_LOG_BLOCK("Environment::get", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Environment Name: %s", qualifiedName().GetData());
 
-    SchemeObject* pResult = nullptr;
+    LispObject* pResult = nullptr;
     if(m_symbols.TryGetValue(pKey.get(), pResult))
     {
         out_value = pResult;
@@ -69,7 +69,7 @@ lcpp::Environment::get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value)
 }
 
 bool
-lcpp::Environment::exists(Ptr<SchemeSymbol> pKey)
+lcpp::Environment::exists(Ptr<LispSymbol> pKey)
 {
     EZ_LOG_BLOCK("Environment::exists", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Name: %s", qualifiedName().GetData());

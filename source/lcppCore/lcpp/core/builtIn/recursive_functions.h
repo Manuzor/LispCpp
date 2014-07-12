@@ -2,56 +2,56 @@
 
 namespace lcpp
 {
-    class SchemeRuntime;
+    class LispRuntime;
     class Environment;
 
-    class SchemeObject;
+    class LispObject;
 }
 
 namespace lcpp
 {
     namespace builtin
     {
-        Ptr<SchemeObject> exit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> dump(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> exit(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> dump(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
 
         // REPL
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> read(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> eval(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> read(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> eval(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> print(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
 
         // File handling
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> fileIsOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> fileClose(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> fileReadString(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> fileOpen(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> fileIsOpen(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> fileClose(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> fileReadString(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
 
         // Math
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> add(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> sub(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> mul(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> modulo(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        //Ptr<SchemeObject> div(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> add(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> sub(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> mul(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> modulo(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        //Ptr<LispObject> div(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
         
         // Comparison
-        Ptr<SchemeObject> equals(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        //Ptr<SchemeObject> greaterThan(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        //Ptr<SchemeObject> greaterOrEqual(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        //Ptr<SchemeObject> lowerThan(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        //Ptr<SchemeObject> lowerOrEqual(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> equals(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        //Ptr<LispObject> greaterThan(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        //Ptr<LispObject> greaterOrEqual(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        //Ptr<LispObject> lowerThan(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        //Ptr<LispObject> lowerOrEqual(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
         
-        Ptr<SchemeObject> objectEquals(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> objectEquals(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
 
         // Other
         //////////////////////////////////////////////////////////////////////////
-        Ptr<SchemeObject> setRecursionLimit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> getRecursionLimit(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> setRecursionLimit(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> getRecursionLimit(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
 
-        Ptr<SchemeObject> cons(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> car(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> cdr(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> cons(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> car(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> cdr(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
     }
 }

@@ -54,15 +54,15 @@
         throw exceptions::InvalidInput(message.GetData());          \
     }                                                               \
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::exit(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::exit(Ptr<LispRuntime> pRuntime,
                     Ptr<Environment> pEnv,
-                    Ptr<SchemeObject> pArgs)
+                    Ptr<LispObject> pArgs)
 {
     ezInt32 status = 0;
-    if(!isNil(pArgs) && pArgs->is<SchemeCons>() && pArgs.cast<SchemeCons>()->car()->is<SchemeInteger>())
+    if(!isNil(pArgs) && pArgs->is<LispCons>() && pArgs.cast<LispCons>()->car()->is<LispInteger>())
     {
-        auto tmp = pArgs.cast<SchemeCons>()->car().cast<SchemeInteger>()->value();
+        auto tmp = pArgs.cast<LispCons>()->car().cast<LispInteger>()->value();
         status = ezInt32(tmp);
     }
 
@@ -71,60 +71,60 @@ lcpp::builtin::exit(Ptr<SchemeRuntime> pRuntime,
     return SCHEME_VOID_PTR;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::dump(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::dump(Ptr<LispRuntime> pRuntime,
                     Ptr<Environment> pEnv,
-                    Ptr<SchemeObject> pArgs)
+                    Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
     
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
 
     auto pToDump = pArgList->car();
 
-    if(pToDump->is<SchemeFunction>())
+    if(pToDump->is<LispFunction>())
     {
-        return pRuntime->factory()->createString(pToDump.cast<SchemeFunction>()->dump());
+        return pRuntime->factory()->createString(pToDump.cast<LispFunction>()->dump());
     }
 
     return pRuntime->factory()->createString(pToDump->toString());
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::read(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::read(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeString);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispString);
 
-    return pRuntime->reader()->read(pArgList->car().cast<SchemeString>()->value());
+    return pRuntime->reader()->read(pArgList->car().cast<LispString>()->value());
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::eval(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::eval(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
 
     return pRuntime->evaluator()->evalulate(pEnv, pArgList->car());
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::print(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     static Printer printer;
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
 
@@ -133,12 +133,12 @@ lcpp::builtin::print(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<Sch
     return SCHEME_VOID_PTR;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::fileOpen(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     {
         ezUInt32 numArgs = 0;
@@ -154,17 +154,17 @@ lcpp::builtin::fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<
     auto pFileNameOrObject = pArgList->car();
     auto pFileMode = pArgList->cdr();
 
-    Ptr<SchemeFile> pFile;
+    Ptr<LispFile> pFile;
 
-    if(pFileNameOrObject->is<SchemeFile>())
+    if(pFileNameOrObject->is<LispFile>())
     {
-        pFile = pFileNameOrObject.cast<SchemeFile>();
+        pFile = pFileNameOrObject.cast<LispFile>();
     }
 
-    if(pFileNameOrObject->is<SchemeString>())
+    if(pFileNameOrObject->is<LispString>())
     {
         // create the file object.
-        auto pToLoad = pFileNameOrObject.cast<SchemeString>();
+        auto pToLoad = pFileNameOrObject.cast<LispString>();
         pFile = pRuntime->factory()->createFile(pToLoad->value());
     }
 
@@ -173,7 +173,7 @@ lcpp::builtin::fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<
         throw exceptions::InvalidOperation("Files can not be re-opened.");
     }
 
-    if(!isNil(pFileMode) && !pFileMode->is<SchemeString>())
+    if(!isNil(pFileMode) && !pFileMode->is<LispString>())
     {
         throw exceptions::InvalidInput("Expected either nil or a string as second parameter!");
     }
@@ -187,49 +187,49 @@ lcpp::builtin::fileOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<
     return pFile;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileIsOpen(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::fileIsOpen(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeFile);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispFile);
 
-    auto pFile = pArgList->car().cast<SchemeFile>();
+    auto pFile = pArgList->car().cast<LispFile>();
 
     return pFile->isOpen();
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileClose(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::fileClose(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeFile);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispFile);
 
-    auto pFile = pArgList->car().cast<SchemeFile>();
+    auto pFile = pArgList->car().cast<LispFile>();
 
     pFile->close();
 
     return SCHEME_VOID_PTR;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::fileReadString(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::fileReadString(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeFile);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispFile);
 
-    auto pFile = pArgList->car().cast<SchemeFile>();
+    auto pFile = pArgList->car().cast<LispFile>();
 
     if (pFile->isOpen() != SCHEME_TRUE_PTR)
     {
@@ -239,19 +239,19 @@ lcpp::builtin::fileReadString(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv
     return pRuntime->factory()->createString(pFile->readString());
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::add(Ptr<LispRuntime> pRuntime,
                    Ptr<Environment> pEnv,
-                   Ptr<SchemeObject> pArgs)
+                   Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
         throw exceptions::InvalidInput("Expected at least 1 argument, got none.");
     }
 
-    auto pArgList = pArgs.cast<SchemeCons>();
-    SchemeInteger::Number_t iResult = 0;
-    SchemeNumber::Number_t nResult = 0;
+    auto pArgList = pArgs.cast<LispCons>();
+    LispInteger::Number_t iResult = 0;
+    LispNumber::Number_t nResult = 0;
 
     bool integerOnly = true;
 
@@ -259,14 +259,14 @@ lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
     {
         auto pArg = pArgList->car();
         
-        if (pArg->is<SchemeInteger>())
+        if (pArg->is<LispInteger>())
         {
-            iResult += pArg.cast<SchemeInteger>()->value();
+            iResult += pArg.cast<LispInteger>()->value();
         }
-        else if (pArg->is<SchemeNumber>())
+        else if (pArg->is<LispNumber>())
         {
             integerOnly = false;
-            nResult += pArg.cast<SchemeNumber>()->value();
+            nResult += pArg.cast<LispNumber>()->value();
         }
         else
         {
@@ -275,7 +275,7 @@ lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
 
         if(isNil(pArgList->cdr())) { break; }
         
-        pArgList = pArgList->cdr().cast<SchemeCons>();
+        pArgList = pArgList->cdr().cast<LispCons>();
     }
 
     if (integerOnly)
@@ -286,32 +286,32 @@ lcpp::builtin::add(Ptr<SchemeRuntime> pRuntime,
     return pRuntime->factory()->createNumber(iResult + nResult);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::sub(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::sub(Ptr<LispRuntime> pRuntime,
                    Ptr<Environment> pEnv,
-                   Ptr<SchemeObject> pArgs)
+                   Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
         throw exceptions::InvalidInput("Expected at least 1 argument, got none.");
     }
 
-    auto pArgList = pArgs.cast<SchemeCons>();
-    SchemeInteger::Number_t iResult = 0;
-    SchemeNumber::Number_t nResult = 0;
+    auto pArgList = pArgs.cast<LispCons>();
+    LispInteger::Number_t iResult = 0;
+    LispNumber::Number_t nResult = 0;
 
     bool integerOnly = true;
 
     auto pArg = pArgList->car();
 
-    if(pArg->is<SchemeInteger>())
+    if(pArg->is<LispInteger>())
     {
-        iResult = pArg.cast<SchemeInteger>()->value();
+        iResult = pArg.cast<LispInteger>()->value();
     }
-    else if(pArg->is<SchemeNumber>())
+    else if(pArg->is<LispNumber>())
     {
         integerOnly = false;
-        nResult = pArg.cast<SchemeNumber>()->value();
+        nResult = pArg.cast<LispNumber>()->value();
     }
     else
     {
@@ -328,20 +328,20 @@ lcpp::builtin::sub(Ptr<SchemeRuntime> pRuntime,
         return pRuntime->factory()->createNumber(-nResult);
     }
 
-    pArgList = pArgList->cdr().cast<SchemeCons>();
+    pArgList = pArgList->cdr().cast<LispCons>();
 
     while(true)
     {
         auto pArg = pArgList->car();
         
-        if (pArg->is<SchemeInteger>())
+        if (pArg->is<LispInteger>())
         {
-            iResult -= pArg.cast<SchemeInteger>()->value();
+            iResult -= pArg.cast<LispInteger>()->value();
         }
-        else if (pArg->is<SchemeNumber>())
+        else if (pArg->is<LispNumber>())
         {
             integerOnly = false;
-            nResult -= pArg.cast<SchemeNumber>()->value();
+            nResult -= pArg.cast<LispNumber>()->value();
         }
         else
         {
@@ -350,7 +350,7 @@ lcpp::builtin::sub(Ptr<SchemeRuntime> pRuntime,
 
         if(isNil(pArgList->cdr())) { break; }
         
-        pArgList = pArgList->cdr().cast<SchemeCons>();
+        pArgList = pArgList->cdr().cast<LispCons>();
     }
 
     if (integerOnly)
@@ -361,19 +361,19 @@ lcpp::builtin::sub(Ptr<SchemeRuntime> pRuntime,
     return pRuntime->factory()->createNumber(iResult + nResult);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::mul(Ptr<LispRuntime> pRuntime,
                    Ptr<Environment> pEnv,
-                   Ptr<SchemeObject> pArgs)
+                   Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
         throw exceptions::InvalidInput("Expected at least 1 argument, got none.");
     }
 
-    auto pArgList = pArgs.cast<SchemeCons>();
-    SchemeInteger::Number_t iResult = 1;
-    SchemeNumber::Number_t nResult = 1;
+    auto pArgList = pArgs.cast<LispCons>();
+    LispInteger::Number_t iResult = 1;
+    LispNumber::Number_t nResult = 1;
 
     bool integerOnly = true;
 
@@ -381,14 +381,14 @@ lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
     {
         auto pArg = pArgList->car();
         
-        if (pArg->is<SchemeInteger>())
+        if (pArg->is<LispInteger>())
         {
-            iResult *= pArg.cast<SchemeInteger>()->value();
+            iResult *= pArg.cast<LispInteger>()->value();
         }
-        else if (pArg->is<SchemeNumber>())
+        else if (pArg->is<LispNumber>())
         {
             integerOnly = false;
-            nResult *= pArg.cast<SchemeNumber>()->value();
+            nResult *= pArg.cast<LispNumber>()->value();
         }
         else
         {
@@ -397,7 +397,7 @@ lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
 
         if(isNil(pArgList->cdr())) { break; }
         
-        pArgList = pArgList->cdr().cast<SchemeCons>();
+        pArgList = pArgList->cdr().cast<LispCons>();
     }
 
     if (integerOnly)
@@ -408,22 +408,22 @@ lcpp::builtin::mul(Ptr<SchemeRuntime> pRuntime,
     return pRuntime->factory()->createNumber(iResult * nResult);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::modulo(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::modulo(Ptr<LispRuntime> pRuntime,
                       Ptr<Environment> pEnv,
-                      Ptr<SchemeObject> pArgs)
+                      Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("builtin::modulo");
     ezLog::VerboseDebugMessage("Args: %s", pArgs->toString().GetData());
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
 
     auto pLhs = pArgList->car();
-    auto pRhs = pArgList->cdr().cast<SchemeCons>()->car();
+    auto pRhs = pArgList->cdr().cast<LispCons>()->car();
 
     ezLog::VerboseDebugMessage("lhs (%s): %s, rhs (%s): %s",
                                pLhs->type().name,
@@ -431,31 +431,31 @@ lcpp::builtin::modulo(Ptr<SchemeRuntime> pRuntime,
                                pRhs->type().name,
                                pRhs->toString().GetData());
 
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pLhs, SchemeInteger);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pRhs, SchemeInteger);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pLhs, LispInteger);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pRhs, LispInteger);
 
-    if (pRhs.cast<SchemeInteger>()->value() == 0)
+    if (pRhs.cast<LispInteger>()->value() == 0)
     {
         throw exceptions::InvalidInput("Division by 0!");
     }
 
-    auto result = pLhs.cast<SchemeInteger>()->value() % pRhs.cast<SchemeInteger>()->value();
+    auto result = pLhs.cast<LispInteger>()->value() % pRhs.cast<LispInteger>()->value();
 
     return pRuntime->factory()->createInteger(result);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::equals(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::equals(Ptr<LispRuntime> pRuntime,
                       Ptr<Environment> pEnv,
-                      Ptr<SchemeObject> pArgs)
+                      Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
         throw exceptions::InvalidInput("Expected at least 2 arguments, got none.");
     }
 
-    std::function<Ptr<SchemeBool>(Ptr<SchemeObject>, Ptr<SchemeObject>)> helper;
-    helper = [&](Ptr<SchemeObject> pReference, Ptr<SchemeCons> pRestList)
+    std::function<Ptr<LispBool>(Ptr<LispObject>, Ptr<LispObject>)> helper;
+    helper = [&](Ptr<LispObject> pReference, Ptr<LispCons> pRestList)
     {
         if (*pReference != *pRestList->car())
         {
@@ -464,36 +464,36 @@ lcpp::builtin::equals(Ptr<SchemeRuntime> pRuntime,
 
         if(!isNil(pRestList->cdr()))
         {
-            return helper(pReference, pRestList->cdr().cast<SchemeCons>());
+            return helper(pReference, pRestList->cdr().cast<LispCons>());
         }
 
         return SCHEME_TRUE_PTR;
     };
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     if(isNil(pArgList->cdr()))
     {
         throw exceptions::InvalidInput("Expected at least 2 arguments, got 1.");
     }
 
-    EZ_ASSERT(pArgList->cdr()->is<SchemeCons>(), "Invalid input.");
+    EZ_ASSERT(pArgList->cdr()->is<LispCons>(), "Invalid input.");
 
-    return helper(pArgList->car(), pArgList->cdr().cast<SchemeCons>());
+    return helper(pArgList->car(), pArgList->cdr().cast<LispCons>());
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::objectEquals(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::objectEquals(Ptr<LispRuntime> pRuntime,
                             Ptr<Environment> pEnv,
-                            Ptr<SchemeObject> pArgs)
+                            Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
 
-    if(*pArgList->car() == *pArgList->cdr().cast<SchemeCons>()->car())
+    if(*pArgList->car() == *pArgList->cdr().cast<LispCons>()->car())
     {
         return SCHEME_TRUE_PTR;
     }
@@ -501,75 +501,75 @@ lcpp::builtin::objectEquals(Ptr<SchemeRuntime> pRuntime,
     return SCHEME_FALSE_PTR;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::setRecursionLimit(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::setRecursionLimit(Ptr<LispRuntime> pRuntime,
                                  Ptr<Environment> pEnv,
-                                 Ptr<SchemeObject> pArgs)
+                                 Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeInteger);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispInteger);
 
-    auto newLimit = pArgList->car().cast<SchemeInteger>()->value();
+    auto newLimit = pArgList->car().cast<LispInteger>()->value();
     pRuntime->recursionLimit(ezUInt32(newLimit));
 
     return SCHEME_VOID_PTR;
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::getRecursionLimit(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::getRecursionLimit(Ptr<LispRuntime> pRuntime,
                                  Ptr<Environment> pEnv,
-                                 Ptr<SchemeObject> pArgs)
+                                 Ptr<LispObject> pArgs)
 {
     auto limit = pRuntime->recursionLimit();
     return pRuntime->factory()->createInteger(limit);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::cons(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::cons(Ptr<LispRuntime> pRuntime,
                     Ptr<Environment> pEnv,
-                    Ptr<SchemeObject> pArgs)
+                    Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
 
-    return pRuntime->factory()->createCons(pArgList->car(), pArgList->cdr().cast<SchemeCons>()->car());
+    return pRuntime->factory()->createCons(pArgList->car(), pArgList->cdr().cast<LispCons>()->car());
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::car(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::car(Ptr<LispRuntime> pRuntime,
                    Ptr<Environment> pEnv,
-                   Ptr<SchemeObject> pArgs)
+                   Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeCons);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispCons);
 
-    return pArgList->car().cast<SchemeCons>()->car();
+    return pArgList->car().cast<LispCons>()->car();
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::builtin::cdr(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtin::cdr(Ptr<LispRuntime> pRuntime,
                    Ptr<Environment> pEnv,
-                   Ptr<SchemeObject> pArgs)
+                   Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
-    auto pArgList = pArgs.cast<SchemeCons>();
+    auto pArgList = pArgs.cast<LispCons>();
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
-    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), SchemeCons);
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispCons);
 
-    return pArgList->car().cast<SchemeCons>()->cdr();
+    return pArgList->car().cast<LispCons>()->cdr();
 }
 
 #undef LCPP_BUILTIN_FUNCTION_CHECK_TYPE

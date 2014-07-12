@@ -81,7 +81,7 @@ void lcpp::Interpreter::loadBase()
 
     content.Append(buffer);
     auto contentIter = content.GetIteratorFront();
-    Ptr<SchemeObject> pResult;
+    Ptr<LispObject> pResult;
 
     pReader->syntaxCheckResult()->reset();
 
@@ -105,7 +105,7 @@ ezInt32 lcpp::Interpreter::repl()
 
     m_pPrinter->setOutputStream(m_out);
 
-    Ptr<SchemeObject> pResult = SCHEME_NIL_PTR;
+    Ptr<LispObject> pResult = SCHEME_NIL_PTR;
 
     ezStringBuilder buffer;
     std::string inputBuffer("");

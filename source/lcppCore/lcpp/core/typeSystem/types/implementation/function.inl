@@ -1,35 +1,35 @@
 
 inline
 const lcpp::Type&
-lcpp::SchemeFunction::type() const
+lcpp::LispFunction::type() const
 {
-    return TypeInfo<SchemeFunction>::type();
+    return TypeInfo<LispFunction>::type();
 }
 
 inline
 ezString&
-lcpp::SchemeFunction::name()
+lcpp::LispFunction::name()
 {
     return m_name;
 }
 
 inline
 const ezString&
-lcpp::SchemeFunction::name() const
+lcpp::LispFunction::name() const
 {
     return m_name;
 }
 
 inline
 lcpp::Ptr<lcpp::Environment>
-lcpp::SchemeFunction::env()
+lcpp::LispFunction::env()
 {
     return m_pEnv;
 }
 
 inline
 lcpp::Ptr<const lcpp::Environment>
-lcpp::SchemeFunction::env() const
+lcpp::LispFunction::env() const
 {
     return m_pEnv;
 }

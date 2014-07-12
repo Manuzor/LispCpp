@@ -13,15 +13,15 @@ namespace
         auto pEnv = pRuntime->globalEnvironment();
         auto pFactory = pRuntime->factory();
 
-        Ptr<SchemeObject> pResult;
+        Ptr<LispObject> pResult;
 
         CUT_ASSERT.isFalse(pEnv->get(pFactory->createSymbol("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
         CUT_ASSERT.isTrue(pResult.isNull(), "'get' altered the out_value even though it failed!");
         CUT_ASSERT.isFalse(pEnv->set(pFactory->createSymbol("x"), pFactory->createInteger(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
         pEnv->add(pFactory->createSymbol("x"), pFactory->createInteger(42));
         CUT_ASSERT.isTrue(pEnv->get(pFactory->createSymbol("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>(), "Wrong type stored in environment!");
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42, "Wrong type stored in environment!");
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Wrong type stored in environment!");
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Wrong type stored in environment!");
     });
 
     UnitTest g_test2(g_group, "Parent", []{
@@ -31,7 +31,7 @@ namespace
         auto& topEnv = *pRuntime->globalEnvironment();
         auto childEnv = Environment("child", &topEnv);
 
-        Ptr<SchemeObject> pResult;
+        Ptr<LispObject> pResult;
 
         auto pSymbol = pFactory->createSymbol("x");
         auto pSymbol2 = pFactory->createSymbol("y");
@@ -40,37 +40,37 @@ namespace
         childEnv.add(pSymbol, pFactory->createInteger(1337));
 
         CUT_ASSERT.isTrue(topEnv.get(pSymbol, pResult).IsSuccess());
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42);
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42);
 
         CUT_ASSERT.isTrue(childEnv.get(pSymbol, pResult).IsSuccess());
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 1337);
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 1337);
 
         Environment subChildEnv("subChild", &childEnv);
 
         subChildEnv.add(pSymbol, pFactory->createInteger(666));
 
         CUT_ASSERT.isTrue(subChildEnv.get(pSymbol, pResult).IsSuccess());
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 666);
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 666);
 
         // Set in top-level env from child env
 
         topEnv.add(pSymbol2, pFactory->createString("hello"));
 
         CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
-        CUT_ASSERT.isTrue(pResult->is<SchemeString>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeString>()->value().IsEqual("hello"));
+        CUT_ASSERT.isTrue(pResult->is<LispString>());
+        CUT_ASSERT.isTrue(pResult.cast<LispString>()->value().IsEqual("hello"));
 
         childEnv.set(pSymbol2, pFactory->createInteger(-123));
 
         CUT_ASSERT.isTrue(childEnv.get(pSymbol2, pResult).IsSuccess());
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == -123);
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == -123);
         CUT_ASSERT.isTrue(topEnv.get(pSymbol2, pResult).IsSuccess());
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == -123);
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == -123);
     });
 
     UnitTest g_test3(g_group, "QualifiedName", []{

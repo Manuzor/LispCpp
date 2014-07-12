@@ -4,12 +4,12 @@
 
 namespace lcpp
 {
-    class SchemeRuntime;
-    class SchemeObject;
+    class LispRuntime;
+    class LispObject;
 
     class LCPP_CORE_API Reader
     {
-        friend class SchemeRuntime;
+        friend class LispRuntime;
     public:
 
         struct CInfo 
@@ -51,30 +51,30 @@ namespace lcpp
 
         void initialize();
 
-        Ptr<SchemeObject> read(const ezString& inputString, bool resetSyntaxChecker = true);
-        Ptr<SchemeObject> read(ezStringIterator& input, bool resetSyntaxChecker = true);
+        Ptr<LispObject> read(const ezString& inputString, bool resetSyntaxChecker = true);
+        Ptr<LispObject> read(ezStringIterator& input, bool resetSyntaxChecker = true);
 
-        Ptr<SchemeObject> parseAtom(ezStringIterator& input);
+        Ptr<LispObject> parseAtom(ezStringIterator& input);
 
         /// \brief Tries to parse an integer from the string iterator.
         /// \remark Does not reset the cursor.
-        Ptr<SchemeInteger> parseInteger(ezStringIterator& input);
+        Ptr<LispInteger> parseInteger(ezStringIterator& input);
 
         /// \brief Tries to parse a number from the string iterator.
         /// \remark Does not reset the cursor.
-        Ptr<SchemeNumber>  parseNumber(ezStringIterator& input);
+        Ptr<LispNumber>  parseNumber(ezStringIterator& input);
 
         /// \brief Tries to parse a symbol from the string iterator.
         /// \remark Does not reset the cursor.
-        Ptr<SchemeSymbol>  parseSymbol(ezStringIterator& input);
+        Ptr<LispSymbol>  parseSymbol(ezStringIterator& input);
 
         /// \brief Tries to parse a string from the string iterator.
         /// \remark Does not reset the cursor.
-        Ptr<SchemeString>  parseString(ezStringIterator& input);
+        Ptr<LispString>  parseString(ezStringIterator& input);
 
         /// \brief Tries to parse a list from the string iterator.
         /// \remark Does not reset the cursor.
-        Ptr<SchemeObject>  parseList(ezStringIterator& input);
+        Ptr<LispObject>  parseList(ezStringIterator& input);
 
         /// \brief Checks for correctness of parenthesis
         /// \remark Always resets the cursor.
@@ -100,7 +100,7 @@ namespace lcpp
         };
 
     private:
-        Ptr<SchemeRuntime> m_pRuntime;
+        Ptr<LispRuntime> m_pRuntime;
         
         Defaults m_defaults;
 
@@ -108,9 +108,9 @@ namespace lcpp
         ezString m_separators;
 
     private:
-        explicit Reader(Ptr<SchemeRuntime> pRuntime, const CInfo& cinfo);
+        explicit Reader(Ptr<LispRuntime> pRuntime, const CInfo& cinfo);
 
         ezUInt8 advance(ezStringIterator& iter);
-        Ptr<SchemeObject> parseListHelper(ezStringIterator& input);
+        Ptr<LispObject> parseListHelper(ezStringIterator& input);
     };
 }

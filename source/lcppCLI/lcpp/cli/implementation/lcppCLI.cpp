@@ -62,7 +62,7 @@ ezInt32 run()
 {
     using namespace lcpp;
 
-    SchemeRuntime runtime;
+    LispRuntime runtime;
     runtime.initialize();
 
     // Printer

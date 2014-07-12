@@ -9,14 +9,14 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::SchemeRuntime::SchemeRuntime() :
+lcpp::LispRuntime::LispRuntime() :
     m_recursionDepth(0),
     m_recursionLimit(255)
 {
 }
 
 void
-lcpp::SchemeRuntime::initialize()
+lcpp::LispRuntime::initialize()
 {
     m_pAllocator = defaultAllocator();
     m_pFactory = LCPP_NEW(m_pAllocator, TypeFactory)(this);
@@ -38,7 +38,7 @@ lcpp::SchemeRuntime::initialize()
 }
 
 void
-lcpp::SchemeRuntime::shutdown()
+lcpp::LispRuntime::shutdown()
 {
     LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());
     LCPP_DELETE(m_pAllocator.get(), m_pSyntaxEnvironment.get());
@@ -50,7 +50,7 @@ lcpp::SchemeRuntime::shutdown()
 }
 
 void
-lcpp::SchemeRuntime::recursionLimit(ezUInt32 newLimit)
+lcpp::LispRuntime::recursionLimit(ezUInt32 newLimit)
 {
     if(m_recursionDepth >= newLimit)
     {
@@ -63,7 +63,7 @@ lcpp::SchemeRuntime::recursionLimit(ezUInt32 newLimit)
     m_recursionLimit = newLimit;
 }
 
-void lcpp::SchemeRuntime::increaseRecursionDepth()
+void lcpp::LispRuntime::increaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth < m_recursionLimit, "Invalid current callStackDepth!");
     ++m_recursionDepth;
@@ -75,13 +75,13 @@ void lcpp::SchemeRuntime::increaseRecursionDepth()
     }
 }
 
-void lcpp::SchemeRuntime::decreaseRecursionDepth()
+void lcpp::LispRuntime::decreaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth > 0, "Cannot decrease the recursion depth below 0!");
     --m_recursionDepth;
 }
 
-void lcpp::SchemeRuntime::registerBuiltIns()
+void lcpp::LispRuntime::registerBuiltIns()
 {
 #define LCPP_ADD_GLOBAL(name, value) pEnv->add(factory()->createSymbol(name), value)
 #define LCPP_ADD_BUILTIN_FUNCTION(name, funcPtr) \

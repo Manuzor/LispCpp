@@ -3,33 +3,33 @@
 
 namespace lcpp
 {
-    class SchemeNil :
-        public SchemeExtend<SchemeNil, SchemeObject>
+    class LispNil :
+        public LispExtend<LispNil, LispObject>
     {
         friend class TypeFactory;
     public:
 
-        static SchemeNil& instance();
-        virtual ~SchemeNil();
+        static LispNil& instance();
+        virtual ~LispNil();
 
-        virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
+        virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
     private:
         // For debugging. Shows that this instance is the real nil
         const void* const m_pNil;
 
-        SchemeNil();
+        LispNil();
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeNil);
+    DECLARE_SCHEME_TYPE_INFO(LispNil);
 
-    bool isNil(const SchemeObject& object);
-    bool isNil(const SchemeObject* pObject);
-    bool isNil(Ptr<SchemeObject> pObject);
-    bool isNil(Ptr<const SchemeObject> pObject);
+    bool isNil(const LispObject& object);
+    bool isNil(const LispObject* pObject);
+    bool isNil(Ptr<LispObject> pObject);
+    bool isNil(Ptr<const LispObject> pObject);
 }
-#define SCHEME_NIL (::lcpp::SchemeNil::instance())
+#define SCHEME_NIL (::lcpp::LispNil::instance())
 #define SCHEME_NIL_PTR (&SCHEME_NIL)
 
 #include "lcpp/core/typeSystem/types/implementation/nil_inl.h"

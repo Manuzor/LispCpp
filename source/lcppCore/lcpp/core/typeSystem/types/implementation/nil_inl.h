@@ -1,33 +1,33 @@
 ﻿// Static
 inline
-lcpp::SchemeNil&
-lcpp::SchemeNil::instance()
+lcpp::LispNil&
+lcpp::LispNil::instance()
 {
-    static SchemeNil nil;
+    static LispNil nil;
     return nil;
 }
 
 
 inline
-lcpp::SchemeNil::SchemeNil() :
+lcpp::LispNil::LispNil() :
     m_pNil(nullptr)
 {
 }
 
 inline
-lcpp::SchemeNil::~SchemeNil()
+lcpp::LispNil::~LispNil()
 {
 }
 
 inline
 bool
-lcpp::SchemeNil::operator ==(const SchemeObject& obj) const
+lcpp::LispNil::operator ==(const LispObject& obj) const
 {
-    return obj.is<SchemeNil>();
+    return obj.is<LispNil>();
 }
 inline
 ezString
-lcpp::SchemeNil::toString() const
+lcpp::LispNil::toString() const
 {
     static ezString voidString("()");
     return voidString;
@@ -37,29 +37,29 @@ lcpp::SchemeNil::toString() const
 
 inline
 bool
-lcpp::isNil(const SchemeObject& object)
+lcpp::isNil(const LispObject& object)
 {
     return SCHEME_NIL == object;
 }
 
 inline
 bool
-lcpp::isNil(const SchemeObject* pObject)
+lcpp::isNil(const LispObject* pObject)
 {
-    EZ_ASSERT(pObject != nullptr, "No SchemeObject* should be a nullptr, ever!");
+    EZ_ASSERT(pObject != nullptr, "No LispObject* should be a nullptr, ever!");
     return isNil(*pObject);
 }
 
 inline
 bool
-lcpp::isNil(Ptr<SchemeObject> pObject)
+lcpp::isNil(Ptr<LispObject> pObject)
 {
     return isNil(pObject.get());
 }
 
 inline
 bool
-lcpp::isNil(Ptr<const SchemeObject> pObject)
+lcpp::isNil(Ptr<const LispObject> pObject)
 {
     return isNil(pObject.get());
 }

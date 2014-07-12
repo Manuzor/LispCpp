@@ -13,9 +13,9 @@ lcpp::Printer::~Printer()
 }
 
 void
-lcpp::Printer::print(Ptr<SchemeObject> object)
+lcpp::Printer::print(Ptr<LispObject> object)
 {
-    if(object->is<SchemeVoid>()){ return; }
+    if(object->is<LispVoid>()){ return; }
 
     *m_pOut << object->toString().GetData() << std::endl;
 }

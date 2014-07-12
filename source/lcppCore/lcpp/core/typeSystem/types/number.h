@@ -4,19 +4,19 @@
 namespace lcpp
 {
     template<typename NUMBER_TYPE>
-    class SchemeNumber_t :
-        public SchemeExtend<SchemeNumber_t<NUMBER_TYPE>, SchemeObject>
+    class LispNumber_t :
+        public LispExtend<LispNumber_t<NUMBER_TYPE>, LispObject>
     {
         friend class TypeFactory;
     public:
         typedef NUMBER_TYPE Number_t;
 
         static_assert(std::is_arithmetic<Number_t>::value,
-            "Tried to create SchemeNumber_t of a type other than the built in ones!");
+            "Tried to create LispNumber_t of a type other than the built in ones!");
 
-        virtual ~SchemeNumber_t();
+        virtual ~LispNumber_t();
 
-        virtual bool operator ==(const SchemeObject& obj) const LCPP_OVERRIDE;
+        virtual bool operator ==(const LispObject& obj) const LCPP_OVERRIDE;
 
         Number_t value() const;
         void     value(Number_t val);
@@ -28,28 +28,28 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline SchemeNumber_t<Number_t>& operator +=(T rhs)
+        inline LispNumber_t<Number_t>& operator +=(T rhs)
         {
             m_value = Number_t(m_value + rhs);
             return *this;
         }
 
         template<typename T>
-        inline SchemeNumber_t<Number_t>& operator -=(T rhs)
+        inline LispNumber_t<Number_t>& operator -=(T rhs)
         {
             m_value = Number_t(m_value - rhs);
             return *this;
         }
 
         template<typename T>
-        inline SchemeNumber_t<Number_t>& operator *=(T rhs)
+        inline LispNumber_t<Number_t>& operator *=(T rhs)
         {
             m_value = Number_t(m_value * rhs);
             return *this;
         }
 
         template<typename T>
-        inline SchemeNumber_t<Number_t>& operator /=(T rhs)
+        inline LispNumber_t<Number_t>& operator /=(T rhs)
         {
             m_value = Number_t(m_value / rhs);
             return *this;
@@ -57,20 +57,20 @@ namespace lcpp
 
         // prefix
         //////////////////////////////////////////////////////////////////////////
-        inline SchemeNumber_t<Number_t>& operator ++() { ++m_value; return *this; }
-        inline SchemeNumber_t<Number_t>& operator --() { --m_value; return *this; }
+        inline LispNumber_t<Number_t>& operator ++() { ++m_value; return *this; }
+        inline LispNumber_t<Number_t>& operator --() { --m_value; return *this; }
 
         // postfix
         //////////////////////////////////////////////////////////////////////////
-        inline SchemeNumber_t<Number_t> operator ++(int)
+        inline LispNumber_t<Number_t> operator ++(int)
         {
-            SchemeNumber_t<Number_t> old(*this);
+            LispNumber_t<Number_t> old(*this);
             operator++();
             return old;
         }
-        inline SchemeNumber_t<Number_t> operator --(int)
+        inline LispNumber_t<Number_t> operator --(int)
         {
-            SchemeNumber_t<Number_t> old(*this);
+            LispNumber_t<Number_t> old(*this);
             operator--();
             return old;
         }
@@ -87,7 +87,7 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
 
         template<typename T>
-        inline SchemeNumber_t<Number_t>& operator =(const SchemeNumber_t<T>& rhs)
+        inline LispNumber_t<Number_t>& operator =(const LispNumber_t<T>& rhs)
         {
             m_value = Number_t(rhs.value());
             return *this;
@@ -97,21 +97,21 @@ namespace lcpp
         Number_t m_value;
 
         /// Deliberately not explicit
-        explicit SchemeNumber_t(Number_t value);
-        void operator = (const SchemeNumber_t<Number_t>&);
+        explicit LispNumber_t(Number_t value);
+        void operator = (const LispNumber_t<Number_t>&);
     };
 
-    // SchemeNumber_t<> arithmetic operators
+    // LispNumber_t<> arithmetic operators
     //////////////////////////////////////////////////////////////////////////
 
     template<typename T, typename U>
-    bool operator ==(const SchemeNumber_t<T>& lhs, const SchemeNumber_t<U>& rhs)
+    bool operator ==(const LispNumber_t<T>& lhs, const LispNumber_t<U>& rhs)
     {
         return lhs.value() == rhs.value();
     }
     
     template<typename T, typename U>
-    bool operator ==(SchemeNumber_t<T> lhs, U rhs)
+    bool operator ==(LispNumber_t<T> lhs, U rhs)
     {
         return lhs.value() == rhs;
     }
@@ -119,19 +119,19 @@ namespace lcpp
     
 #define LCPP_DEFINE_SCHEME_NUMBER_ARITHMETIC_OPERATOR(op)                 \
     template<typename T, typename U>                                      \
-    inline auto operator op(SchemeNumber_t<T> lhs, SchemeNumber_t<U> rhs) \
+    inline auto operator op(LispNumber_t<T> lhs, LispNumber_t<U> rhs) \
         -> decltype(lhs.value() op rhs.value())                           \
     {                                                                     \
         return lhs.value() op rhs.value();                                \
     }                                                                     \
     template<typename T, typename U>                                      \
-    inline auto operator op(SchemeNumber_t<T> lhs, U rhs)                 \
+    inline auto operator op(LispNumber_t<T> lhs, U rhs)                 \
         -> decltype(lhs.value() op rhs)                                   \
     {                                                                     \
         return lhs.value() op rhs;                                        \
     }                                                                     \
     template<typename T, typename U>                                      \
-    inline auto operator op(T lhs, SchemeNumber_t<U> rhs)                 \
+    inline auto operator op(T lhs, LispNumber_t<U> rhs)                 \
         -> decltype(lhs op rhs.value())                                   \
     {                                                                     \
         return lhs op rhs.value();                                        \
@@ -147,37 +147,37 @@ namespace lcpp
     // Convenience typedefs
     //////////////////////////////////////////////////////////////////////////
 
-    typedef SchemeNumber_t<ezInt64> SchemeInteger;
-    typedef SchemeNumber_t<double> SchemeNumber;
+    typedef LispNumber_t<ezInt64> LispInteger;
+    typedef LispNumber_t<double> LispNumber;
 
     // Type info definition
     //////////////////////////////////////////////////////////////////////////
 
     template<>
-    struct TypeInfo<SchemeInteger>
+    struct TypeInfo<LispInteger>
     {
         static const Type& type()
         {
             static_assert(Type::Version == 2,
                           "Type version was updated. Adjust your implementation accordingly!");
             static Type integerType = Type::create(
-                "SchemeInteger",
-                lcpp::MemoryInfo(sizeof(lcpp::SchemeInteger), EZ_ALIGNMENT_OF(lcpp::SchemeInteger))
+                "LispInteger",
+                lcpp::MemoryInfo(sizeof(lcpp::LispInteger), EZ_ALIGNMENT_OF(lcpp::LispInteger))
                 );
             return integerType;
         }
     };
 
     template<>
-    struct LCPP_CORE_API TypeInfo<SchemeNumber>
+    struct LCPP_CORE_API TypeInfo<LispNumber>
     {
         static const Type& type()
         {
             static_assert(Type::Version == 2,
                           "Type version was updated. Adjust your implementation accordingly!");
             static Type numberInstance = Type::create(
-                "SchemeNumber",
-                MemoryInfo(sizeof(SchemeNumber), EZ_ALIGNMENT_OF(SchemeNumber))
+                "LispNumber",
+                MemoryInfo(sizeof(LispNumber), EZ_ALIGNMENT_OF(LispNumber))
                 );
             return numberInstance;
         }

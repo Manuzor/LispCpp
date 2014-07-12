@@ -1,133 +1,133 @@
 
 inline
 lcpp::Ptr<ezAllocatorBase>
-lcpp::SchemeRuntime::allocator()
+lcpp::LispRuntime::allocator()
 {
     return m_pAllocator;
 }
 
 inline
 void
-lcpp::SchemeRuntime::allocator(lcpp::Ptr<ezAllocatorBase> value)
+lcpp::LispRuntime::allocator(lcpp::Ptr<ezAllocatorBase> value)
 {
     m_pAllocator = value;
 }
 
 inline
 lcpp::Ptr<const lcpp::TypeFactory>
-lcpp::SchemeRuntime::factory() const
+lcpp::LispRuntime::factory() const
 {
     return m_pFactory;
 }
 
 inline
 lcpp::Ptr<lcpp::TypeFactory>
-lcpp::SchemeRuntime::factory()
+lcpp::LispRuntime::factory()
 {
     return m_pFactory;
 }
 
 inline
 void
-lcpp::SchemeRuntime::factory(lcpp::Ptr<lcpp::TypeFactory> value)
+lcpp::LispRuntime::factory(lcpp::Ptr<lcpp::TypeFactory> value)
 {
     m_pFactory = value;
 }
 
 inline
 lcpp::Ptr<const lcpp::Reader>
-lcpp::SchemeRuntime::reader() const
+lcpp::LispRuntime::reader() const
 {
     return m_pReader;
 }
 
 inline
 lcpp::Ptr<lcpp::Reader>
-lcpp::SchemeRuntime::reader()
+lcpp::LispRuntime::reader()
 {
     return m_pReader;
 }
 
 inline
 void
-lcpp::SchemeRuntime::reader(lcpp::Ptr<lcpp::Reader> value)
+lcpp::LispRuntime::reader(lcpp::Ptr<lcpp::Reader> value)
 {
     m_pReader = value;
 }
 
 inline
 lcpp::Ptr<const lcpp::IEvaluator>
-lcpp::SchemeRuntime::evaluator() const
+lcpp::LispRuntime::evaluator() const
 {
     return m_pEvaluator;
 }
 
 inline
 lcpp::Ptr<lcpp::IEvaluator>
-lcpp::SchemeRuntime::evaluator()
+lcpp::LispRuntime::evaluator()
 {
     return m_pEvaluator;
 }
 
 inline
 void
-lcpp::SchemeRuntime::evaluator(lcpp::Ptr<lcpp::IEvaluator> value)
+lcpp::LispRuntime::evaluator(lcpp::Ptr<lcpp::IEvaluator> value)
 {
     m_pEvaluator = value;
 }
 
 inline
 lcpp::Ptr<const lcpp::Environment>
-lcpp::SchemeRuntime::syntaxEnvironment() const
+lcpp::LispRuntime::syntaxEnvironment() const
 {
     return m_pSyntaxEnvironment;
 }
 
 inline
 lcpp::Ptr<lcpp::Environment>
-lcpp::SchemeRuntime::syntaxEnvironment()
+lcpp::LispRuntime::syntaxEnvironment()
 {
     return m_pSyntaxEnvironment;
 }
 
 inline
 void
-lcpp::SchemeRuntime::syntaxEnvironment(lcpp::Ptr<lcpp::Environment> value)
+lcpp::LispRuntime::syntaxEnvironment(lcpp::Ptr<lcpp::Environment> value)
 {
     m_pSyntaxEnvironment = value;
 }
 
 inline
 lcpp::Ptr<const lcpp::Environment>
-lcpp::SchemeRuntime::globalEnvironment() const
+lcpp::LispRuntime::globalEnvironment() const
 {
     return m_pGlobalEnvironment;
 }
 
 inline
 lcpp::Ptr<lcpp::Environment>
-lcpp::SchemeRuntime::globalEnvironment()
+lcpp::LispRuntime::globalEnvironment()
 {
     return m_pGlobalEnvironment;
 }
 
 inline
 void
-lcpp::SchemeRuntime::globalEnvironment(lcpp::Ptr<lcpp::Environment> value)
+lcpp::LispRuntime::globalEnvironment(lcpp::Ptr<lcpp::Environment> value)
 {
     m_pGlobalEnvironment = value;
 }
 
 inline
 ezUInt32
-lcpp::SchemeRuntime::recursionDepth() const
+lcpp::LispRuntime::recursionDepth() const
 {
     return m_recursionDepth;
 }
 
 inline
 ezUInt32
-lcpp::SchemeRuntime::recursionLimit() const
+lcpp::LispRuntime::recursionLimit() const
 {
     return m_recursionLimit;
 }

@@ -6,62 +6,62 @@ namespace lcpp
     class TypeFactory;
 
     template<typename Derived, typename Base>
-    class SchemeExtend;
+    class LispExtend;
 
     /// \brief Base class for all scheme types
     /// 
     /// Do not directly derive your scheme type from this.
-    /// Use SchemeExtend instead.
+    /// Use LispExtend instead.
     /// Example:
-    /// class SchemeBool : public SchemeExtend<SchemeBool, SchemeObject> { /* ... */ };
-    class LCPP_CORE_API SchemeObject
+    /// class LispBool : public LispExtend<LispBool, LispObject> { /* ... */ };
+    class LCPP_CORE_API LispObject
     {
         friend class TypeFactory;
     public:
 
-        virtual ~SchemeObject() = 0 {}
-        virtual bool operator ==(const SchemeObject& other) const = 0;
-        virtual bool operator !=(const SchemeObject& rhs) const;
+        virtual ~LispObject() = 0 {}
+        virtual bool operator ==(const LispObject& other) const = 0;
+        virtual bool operator !=(const LispObject& rhs) const;
         virtual ezString toString() const = 0;
 
         virtual const Type& type() const = 0;
-        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const = 0;
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const = 0;
         template<typename T_Other>
         bool is() const;
 
     private:
-        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeObject);
+        LCPP_DISALLOW_COPY_ASSIGNMENT(LispObject);
     };
     
     template<>
-    struct TypeInfo< SchemeObject >
+    struct TypeInfo< LispObject >
     {
         inline static const Type& type()
         {
             static_assert(Type::Version == 2,
                 "Type version was updated. Adjust your implementation accordingly!");
             static auto theType = Type::create(
-                "SchemeObject",
-                MemoryInfo(sizeof(SchemeObject), sizeof(SchemeObject))
+                "LispObject",
+                MemoryInfo(sizeof(LispObject), sizeof(LispObject))
                 );
             return theType;
         }
     };
 
-    /// \brief Class used to generate default overrides of SchemeObject.
+    /// \brief Class used to generate default overrides of LispObject.
     ///
-    /// Has to derive from SchemeObject at some point!
+    /// Has to derive from LispObject at some point!
     template<typename T_Derived, typename T_Base>
-    class SchemeExtend : public T_Base
+    class LispExtend : public T_Base
     {
     public:
-        virtual ~SchemeExtend() = 0 {}
+        virtual ~LispExtend() = 0 {}
 
         virtual const Type& type() const LCPP_OVERRIDE;
-        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
     private:
-        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeExtend);
+        LCPP_DISALLOW_COPY_ASSIGNMENT(LispExtend);
     };
 }
 

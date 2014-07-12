@@ -2,8 +2,8 @@
 
 namespace lcpp
 {
-    class SchemeObject;
-    class SchemeSymbol;
+    class LispObject;
+    class LispSymbol;
 
     class LCPP_CORE_API Environment
     {
@@ -19,20 +19,20 @@ namespace lcpp
 
         /// \brief Adds the key-value pair to this environment.
         /// \remark An existing key will be overwritten.
-        void add(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
+        void add(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue);
 
         /// \brief Tries to set the value of an existing key.
         /// \remark Searches the parent environment if the key can not be found in this environment.
         /// \return EZ_FAILURE if the key does not exist in this or the parent environment.
-        ezResult set(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject> pValue);
+        ezResult set(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue);
 
         /// \brief Tries to get the value of the given key.
         /// \return EZ_FAILURE if the key does not exist in this or the parent environment.
-        ezResult get(Ptr<SchemeSymbol> pKey, Ptr<SchemeObject>& out_value);
+        ezResult get(Ptr<LispSymbol> pKey, Ptr<LispObject>& out_value);
 
         /// \brief Checks whether a value exists for \a pKey.
         /// \return \c true if it exists, \c false otherwise.
-        bool exists(Ptr<SchemeSymbol> pKey);
+        bool exists(Ptr<LispSymbol> pKey);
 
         /// \brief Gets a Ptr to the parent environment.
         Ptr<      Environment> parent();
@@ -53,7 +53,7 @@ namespace lcpp
         Ptr<ezAllocatorBase> m_pAllocator;
         Ptr<Environment> m_pParent;
         ezString m_name;
-        ezHashTable<SchemeSymbol*, SchemeObject*> m_symbols;
+        ezHashTable<LispSymbol*, LispObject*> m_symbols;
 
         void qualifiedNameHelper(ezStringBuilder& builder) const;
     };

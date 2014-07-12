@@ -1,20 +1,20 @@
 ﻿
 inline
-lcpp::SchemeCons::SchemeCons(Ptr<SchemeObject> car, Ptr<SchemeObject> cdr) :
+lcpp::LispCons::LispCons(Ptr<LispObject> car, Ptr<LispObject> cdr) :
     m_pCar(car),
     m_pCdr(cdr)
 {
 }
 
 inline
-lcpp::SchemeCons::SchemeCons(const SchemeCons& toCopy) :
+lcpp::LispCons::LispCons(const LispCons& toCopy) :
     m_pCar(toCopy.m_pCar),
     m_pCdr(toCopy.m_pCdr)
 {
 }
 
 inline
-lcpp::SchemeCons::SchemeCons(SchemeCons&& toMove) :
+lcpp::LispCons::LispCons(LispCons&& toMove) :
     m_pCar(toMove.m_pCar),
     m_pCdr(toMove.m_pCdr)
 {
@@ -24,28 +24,28 @@ lcpp::SchemeCons::SchemeCons(SchemeCons&& toMove) :
 
 inline
 bool
-lcpp::SchemeCons::operator ==(const SchemeObject& obj) const
+lcpp::LispCons::operator ==(const LispObject& obj) const
 {
-    if(obj.is<SchemeCons>())
+    if(obj.is<LispCons>())
     {
-        return static_cast<const SchemeCons&>(obj) == *this;
+        return static_cast<const LispCons&>(obj) == *this;
     }
     return false;
 }
 
 inline
 bool
-lcpp::SchemeCons::operator ==(const SchemeCons& rhs) const
+lcpp::LispCons::operator ==(const LispCons& rhs) const
 {
     return *m_pCar == *rhs.m_pCar
         && *m_pCdr == *rhs.m_pCdr;
 }
 
 inline
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeCons::clone(ezAllocatorBase* pAllocator) const
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispCons::clone(ezAllocatorBase* pAllocator) const
 {
-    auto pCloned = LCPP_NEW(pAllocator, SchemeCons)(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
+    auto pCloned = LCPP_NEW(pAllocator, LispCons)(SCHEME_NIL_PTR, SCHEME_NIL_PTR);
     pCloned->m_pCar = m_pCar->clone(pAllocator);
     pCloned->m_pCdr = m_pCdr->clone(pAllocator);
     return pCloned;
@@ -53,7 +53,7 @@ lcpp::SchemeCons::clone(ezAllocatorBase* pAllocator) const
 
 inline
 ezString
-lcpp::SchemeCons::toString() const
+lcpp::LispCons::toString() const
 {
     ezStringBuilder builder;
     builder.Append('(');
@@ -64,14 +64,14 @@ lcpp::SchemeCons::toString() const
 
 inline
 void
-lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
+lcpp::LispCons::toStringHelper(ezStringBuilder& builder) const
 {
     // car
     // \remark This is more efficient than simply calling m_car->toString()
-    if(m_pCar->is<SchemeCons>())
+    if(m_pCar->is<LispCons>())
     {
         builder.Append('(');
-        m_pCar.cast<SchemeCons>()->toStringHelper(builder);
+        m_pCar.cast<LispCons>()->toStringHelper(builder);
         builder.Append(')');
     }
     else
@@ -87,9 +87,9 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 
     builder.Append(' ');
 
-    if(m_pCdr->is<SchemeCons>())
+    if(m_pCdr->is<LispCons>())
     {
-        m_pCdr.cast<SchemeCons>()->toStringHelper(builder);
+        m_pCdr.cast<LispCons>()->toStringHelper(builder);
     }
     else
     {
@@ -100,15 +100,15 @@ lcpp::SchemeCons::toStringHelper(ezStringBuilder& builder) const
 // set car
 inline
 void
-lcpp::SchemeCons::car(Ptr<SchemeObject> pObject)
+lcpp::LispCons::car(Ptr<LispObject> pObject)
 {
     m_pCar = pObject;
 }
 
 // get car
 inline
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeCons::car()
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispCons::car()
 {
     return m_pCar;
 }
@@ -116,15 +116,15 @@ lcpp::SchemeCons::car()
 // set cdr
 inline
 void
-lcpp::SchemeCons::cdr(Ptr<SchemeObject> pObject)
+lcpp::LispCons::cdr(Ptr<LispObject> pObject)
 {
     m_pCdr = pObject;
 }
 
 // get cdr
 inline
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeCons::cdr()
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispCons::cdr()
 {
     return m_pCdr;
 }
@@ -132,7 +132,7 @@ lcpp::SchemeCons::cdr()
 
 inline
 ezResult
-lcpp::count(Ptr<SchemeCons> pRegularList, ezUInt32& out_count)
+lcpp::count(Ptr<LispCons> pRegularList, ezUInt32& out_count)
 {
     out_count = 0;
 
@@ -143,11 +143,11 @@ lcpp::count(Ptr<SchemeCons> pRegularList, ezUInt32& out_count)
         {
             break;
         }
-        if(!pRegularList->cdr()->is<SchemeCons>())
+        if(!pRegularList->cdr()->is<LispCons>())
         {
             return EZ_FAILURE;
         }
-        pRegularList = pRegularList->cdr().cast<SchemeCons>();
+        pRegularList = pRegularList->cdr().cast<LispCons>();
     }
 
     return EZ_SUCCESS;

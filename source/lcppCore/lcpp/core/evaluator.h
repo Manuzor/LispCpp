@@ -4,8 +4,8 @@
 
 namespace lcpp
 {
-    class SchemeRuntime;
-    class SchemeObject;
+    class LispRuntime;
+    class LispObject;
     class Reader;
 
     class LCPP_CORE_API IEvaluator
@@ -15,36 +15,36 @@ namespace lcpp
 
         virtual void initialize() = 0;
 
-        virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) = 0;
-        virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) = 0;
+        virtual Ptr<LispObject> evalulate(Ptr<LispObject> pObject) = 0;
+        virtual Ptr<LispObject> evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObject) = 0;
 
-        virtual Ptr<SchemeRuntime> runtime() = 0;
-        virtual Ptr<const SchemeRuntime> runtime() const = 0;
+        virtual Ptr<LispRuntime> runtime() = 0;
+        virtual Ptr<const LispRuntime> runtime() const = 0;
     };
 
     class LCPP_CORE_API RecursiveEvaluator : public IEvaluator
     {
-        friend class SchemeRuntime;
+        friend class LispRuntime;
     public:
         virtual ~RecursiveEvaluator();
 
         virtual void initialize() LCPP_OVERRIDE;
 
-        virtual Ptr<SchemeObject> evalulate(Ptr<SchemeObject> pObject) LCPP_OVERRIDE;
-        virtual Ptr<SchemeObject> evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject) LCPP_OVERRIDE;
+        virtual Ptr<LispObject> evalulate(Ptr<LispObject> pObject) LCPP_OVERRIDE;
+        virtual Ptr<LispObject> evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObject) LCPP_OVERRIDE;
 
-        virtual Ptr<SchemeRuntime> runtime() LCPP_OVERRIDE;
-        virtual Ptr<const SchemeRuntime> runtime() const LCPP_OVERRIDE;
+        virtual Ptr<LispRuntime> runtime() LCPP_OVERRIDE;
+        virtual Ptr<const LispRuntime> runtime() const LCPP_OVERRIDE;
 
     private:
-        Ptr<SchemeRuntime> m_pRuntime;
+        Ptr<LispRuntime> m_pRuntime;
 
     private:
         ezUInt32 m_evalLevel;
 
-        explicit RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime);
+        explicit RecursiveEvaluator(Ptr<LispRuntime> pRuntime);
         
-        void evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons);
+        void evaluateEach(Ptr<Environment> pEnv, Ptr<LispCons> pCons);
     };
 }
 

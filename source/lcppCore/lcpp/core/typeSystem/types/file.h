@@ -3,19 +3,19 @@
 
 namespace lcpp
 {
-    class SchemeFile :
-        public SchemeExtend<SchemeFile, SchemeObject>
+    class LispFile :
+        public LispExtend<LispFile, LispObject>
     {
         friend class TypeFactory;
     public:
-        SchemeFile(const SchemeFile& toCopy);
-        virtual ~SchemeFile();
+        LispFile(const LispFile& toCopy);
+        virtual ~LispFile();
 
-        virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
+        virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
-        Ptr<SchemeBool> open(Ptr<SchemeObject> pMode);
-        Ptr<SchemeBool> isOpen() const;
+        Ptr<LispBool> open(Ptr<LispObject> pMode);
+        Ptr<LispBool> isOpen() const;
         void close();
 
         ezString readString();
@@ -29,17 +29,17 @@ namespace lcpp
         ezStringBuilder m_content;
         ezFileMode::Enum m_lastFileMode;
 
-        SchemeFile(const char* szFileName);
-        SchemeFile(const ezString& fileName);
+        LispFile(const char* szFileName);
+        LispFile(const ezString& fileName);
 
         bool doOpen();
 
-        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeFile);
+        LCPP_DISALLOW_COPY_ASSIGNMENT(LispFile);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeFile);
+    DECLARE_SCHEME_TYPE_INFO(LispFile);
 
-    bool operator ==(const SchemeFile& lhs, const SchemeFile& rhs);
+    bool operator ==(const LispFile& lhs, const LispFile& rhs);
 
 }
 

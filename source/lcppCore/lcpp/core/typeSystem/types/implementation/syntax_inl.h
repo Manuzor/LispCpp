@@ -1,28 +1,28 @@
 
 inline
 const lcpp::Type&
-lcpp::SchemeSyntax::type() const
+lcpp::LispSyntax::type() const
 {
-    return TypeInfo<SchemeSyntax>::type();
+    return TypeInfo<LispSyntax>::type();
 }
 
 inline
 void
-lcpp::SchemeSyntax::name(Ptr<SchemeSymbol> pName)
+lcpp::LispSyntax::name(Ptr<LispSymbol> pName)
 {
     m_pName = pName;
 }
 
 inline
-lcpp::Ptr<lcpp::SchemeSymbol>
-lcpp::SchemeSyntax::name()
+lcpp::Ptr<lcpp::LispSymbol>
+lcpp::LispSyntax::name()
 {
     return m_pName;
 }
 
 inline
-lcpp::Ptr<const lcpp::SchemeSymbol>
-lcpp::SchemeSyntax::name() const
+lcpp::Ptr<const lcpp::LispSymbol>
+lcpp::LispSyntax::name() const
 {
     return m_pName;
 }

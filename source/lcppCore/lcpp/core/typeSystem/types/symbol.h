@@ -3,15 +3,15 @@
 
 namespace lcpp
 {
-    class SchemeSymbol :
-        public SchemeExtend<SchemeSymbol, SchemeObject>
+    class LispSymbol :
+        public LispExtend<LispSymbol, LispObject>
     {
         friend class TypeFactory;
     public:
 
-        virtual ~SchemeSymbol();
+        virtual ~LispSymbol();
 
-        virtual bool operator ==(const SchemeObject& rhs) const LCPP_OVERRIDE;
+        virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
         const ezString& value() const;
@@ -19,15 +19,15 @@ namespace lcpp
     private:
         const ezString m_symbol;
 
-        SchemeSymbol(const char* symbol);
-        SchemeSymbol(const ezString& symbol);
+        LispSymbol(const char* symbol);
+        LispSymbol(const ezString& symbol);
 
-        LCPP_DISALLOW_COPY_ASSIGNMENT(SchemeSymbol);
+        LCPP_DISALLOW_COPY_ASSIGNMENT(LispSymbol);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeSymbol);
+    DECLARE_SCHEME_TYPE_INFO(LispSymbol);
 
-    bool operator ==(const SchemeSymbol& lhs, const SchemeSymbol& rhs);
+    bool operator ==(const LispSymbol& lhs, const LispSymbol& rhs);
 
 }
 

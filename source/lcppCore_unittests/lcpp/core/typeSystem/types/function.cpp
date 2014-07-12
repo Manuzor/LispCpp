@@ -8,15 +8,15 @@ namespace
 {
     int g_testData;
 
-    Ptr<SchemeObject> builtin_testFunc(Ptr<SchemeRuntime> pRuntime,
+    Ptr<LispObject> builtin_testFunc(Ptr<LispRuntime> pRuntime,
                                        Ptr<Environment> pEnv,
-                                       Ptr<SchemeObject> pArgs)
+                                       Ptr<LispObject> pArgs)
     {
         g_testData = 1;
         return pRuntime->factory()->createInteger(42);
     }
 
-    UnitTestGroup g_group("SchemeFunctionTest");
+    UnitTestGroup g_group("LispFunctionTest");
 
     UnitTest g_test1(g_group, "Basics", []{
         auto pRuntime = createTestRuntime();
@@ -34,7 +34,7 @@ namespace
         auto pResult = pFunc->call(SCHEME_NIL_PTR);
 
         CUT_ASSERT.isTrue(g_testData == 1);
-        CUT_ASSERT.isTrue(pResult->is<SchemeInteger>());
-        CUT_ASSERT.isTrue(pResult.cast<SchemeInteger>()->value() == 42);
+        CUT_ASSERT.isTrue(pResult->is<LispInteger>());
+        CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42);
     });
 }

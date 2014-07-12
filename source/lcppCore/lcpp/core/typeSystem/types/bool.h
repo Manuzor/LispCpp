@@ -3,18 +3,18 @@
 
 namespace lcpp
 {
-    class SchemeBool :
-        public SchemeExtend<SchemeBool, SchemeObject>
+    class LispBool :
+        public LispExtend<LispBool, LispObject>
     {
         friend class TypeFactory;
     public:
 
-        static SchemeBool& trueInstance();
-        static SchemeBool& falseInstance();
+        static LispBool& trueInstance();
+        static LispBool& falseInstance();
 
-        virtual ~SchemeBool();
+        virtual ~LispBool();
 
-        virtual bool operator==(const SchemeObject& rhs) const LCPP_OVERRIDE;
+        virtual bool operator==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
         bool value() const;
@@ -22,20 +22,20 @@ namespace lcpp
     private:
         const bool m_value;
 
-        SchemeBool(bool value);
+        LispBool(bool value);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeBool);
+    DECLARE_SCHEME_TYPE_INFO(LispBool);
 
-    bool isTrue(Ptr<SchemeObject> pObject);
-    bool isFalse(Ptr<SchemeObject> pObject);
+    bool isTrue(Ptr<LispObject> pObject);
+    bool isFalse(Ptr<LispObject> pObject);
 
-    bool operator ==(const SchemeBool& lhs, const SchemeBool& rhs);
+    bool operator ==(const LispBool& lhs, const LispBool& rhs);
 
-#define SCHEME_TRUE (::lcpp::SchemeBool::trueInstance())
-#define SCHEME_TRUE_PTR (Ptr<SchemeBool>(&SCHEME_TRUE))
-#define SCHEME_FALSE (::lcpp::SchemeBool::falseInstance())
-#define SCHEME_FALSE_PTR (Ptr<SchemeBool>(&SCHEME_FALSE))
+#define SCHEME_TRUE (::lcpp::LispBool::trueInstance())
+#define SCHEME_TRUE_PTR (Ptr<LispBool>(&SCHEME_TRUE))
+#define SCHEME_FALSE (::lcpp::LispBool::falseInstance())
+#define SCHEME_FALSE_PTR (Ptr<LispBool>(&SCHEME_FALSE))
 
 }
 

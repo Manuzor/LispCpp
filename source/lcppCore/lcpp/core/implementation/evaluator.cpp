@@ -7,7 +7,7 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<SchemeRuntime> pRuntime) :
+lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<LispRuntime> pRuntime) :
     m_pRuntime(pRuntime),
     m_evalLevel(0)
 {
@@ -22,8 +22,8 @@ lcpp::RecursiveEvaluator::initialize()
 {
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::RecursiveEvaluator::evalulate(Ptr<SchemeObject> pObject)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::RecursiveEvaluator::evalulate(Ptr<LispObject> pObject)
 {
     EZ_ASSERT(m_evalLevel == 0,
               "Attempt to recursively call the evaluate function with the default environment (/global)! "
@@ -31,8 +31,8 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<SchemeObject> pObject)
     return evalulate(m_pRuntime->globalEnvironment(), pObject);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pObject)
+lcpp::Ptr<lcpp::LispObject>
+lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObject)
 {
     m_evalLevel++;
     LCPP_SCOPE_EXIT{ m_evalLevel--; };
@@ -43,10 +43,10 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
                                pObject->type().name,
                                pObject->toString().GetData());
 
-    if(pObject->is<SchemeSymbol>())
+    if(pObject->is<LispSymbol>())
     {
-        auto pKey = pObject.cast<SchemeSymbol>();
-        Ptr<SchemeObject> pResult;
+        auto pKey = pObject.cast<LispSymbol>();
+        Ptr<LispObject> pResult;
         auto exists = pEnv->get(pKey, pResult);
         if(!exists.IsSuccess())
         {
@@ -58,25 +58,25 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
         return pResult;
     }
 
-    if(!pObject->is<SchemeCons>())
+    if(!pObject->is<LispCons>())
     {
         ezLog::VerboseDebugMessage("Object evaluated to itself.");
         return pObject;
     }
 
-    auto pBody = pObject.cast<SchemeCons>();
+    auto pBody = pObject.cast<LispCons>();
     // Evaluate car in case it is a symbol, cons, etc.
     auto pFuncObject = evalulate(pEnv, pBody->car());
 
-    if(pFuncObject->is<SchemeSyntax>())
+    if(pFuncObject->is<LispSyntax>())
     {
         ezLog::VerboseDebugMessage("Executing syntax object: %s",
                                    pFuncObject->toString().GetData());
         auto pUnevaluatedArgList = pBody->cdr();
-        return pFuncObject.cast<SchemeSyntax>()->call(m_pRuntime, pEnv, pUnevaluatedArgList);
+        return pFuncObject.cast<LispSyntax>()->call(m_pRuntime, pEnv, pUnevaluatedArgList);
     }
     
-    if (!pFuncObject->is<SchemeFunction>())
+    if (!pFuncObject->is<LispFunction>())
     {
         ezStringBuilder message;
         message.AppendFormat("Failed to call object: Type %s: %s",
@@ -98,11 +98,11 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<SchemeObject> pOb
     ezLog::VerboseDebugMessage("Calling object: Type %s: %s",
                                pFuncObject->type().name,
                                pFuncObject->toString().GetData());
-    return pFuncObject.cast<SchemeFunction>()->call(pArgs);
+    return pFuncObject.cast<LispFunction>()->call(pArgs);
 }
 
 void
-lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pCons)
+lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<LispCons> pCons)
 {
     auto pToEval = pCons->car();
     auto pEvaluated = evalulate(pEnv, pToEval);
@@ -110,5 +110,5 @@ lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<SchemeCons> pC
 
     if (isNil(pCons->cdr())) { return; }
 
-    evaluateEach(pEnv, pCons->cdr().cast<SchemeCons>());
+    evaluateEach(pEnv, pCons->cdr().cast<LispCons>());
 }

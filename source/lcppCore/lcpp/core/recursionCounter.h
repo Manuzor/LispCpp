@@ -2,13 +2,13 @@
 
 namespace lcpp
 {
-    class SchemeRuntime;
+    class LispRuntime;
 
     struct RecursionCounter
     {
-        Ptr<SchemeRuntime> pRunTime;
+        Ptr<LispRuntime> pRunTime;
 
-        RecursionCounter(Ptr<SchemeRuntime> pRunTime);
+        RecursionCounter(Ptr<LispRuntime> pRunTime);
         ~RecursionCounter();
     };
 }

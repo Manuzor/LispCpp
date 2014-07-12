@@ -2,21 +2,21 @@
 
 namespace lcpp
 {
-    class SchemeRuntime;
+    class LispRuntime;
     class Environment;
 
-    class SchemeObject;
+    class LispObject;
 }
 
 namespace lcpp
 {
     namespace syntax
     {
-        Ptr<SchemeObject> define(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> set(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> lambda(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> if_(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> and(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
-        Ptr<SchemeObject> or(Ptr<SchemeRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<SchemeObject> pArgs);
+        Ptr<LispObject> define(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> set(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> lambda(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> if_(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> and(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> or(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
     }
 }

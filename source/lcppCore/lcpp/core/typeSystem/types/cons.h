@@ -4,19 +4,19 @@
 
 namespace lcpp
 {
-    class SchemeCons :
-        public SchemeExtend<SchemeCons, SchemeObject>
+    class LispCons :
+        public LispExtend<LispCons, LispObject>
     {
         friend class TypeFactory;
     public:
 
-        SchemeCons(const SchemeCons& toCopy);
-        SchemeCons(SchemeCons&& toMove);
+        LispCons(const LispCons& toCopy);
+        LispCons(LispCons&& toMove);
 
-        virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
-        bool operator==(const SchemeCons& rhs) const;
+        virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
+        bool operator==(const LispCons& rhs) const;
 
-        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const;
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         // Prints the contents of itself to \a builder.
@@ -24,26 +24,26 @@ namespace lcpp
         void toStringHelper(ezStringBuilder& builder) const;
 
         /// \brief set car.
-        void car(Ptr<SchemeObject> pObject);
+        void car(Ptr<LispObject> pObject);
         /// \brief get car.
-        Ptr<SchemeObject> car();
+        Ptr<LispObject> car();
 
         /// \brief set cdr.
-        void cdr(Ptr<SchemeObject> pObject);
+        void cdr(Ptr<LispObject> pObject);
         /// \brief get cdr
-        Ptr<SchemeObject> cdr();
+        Ptr<LispObject> cdr();
     private:
 
-        Ptr<SchemeObject> m_pCar;
-        Ptr<SchemeObject> m_pCdr;
+        Ptr<LispObject> m_pCar;
+        Ptr<LispObject> m_pCdr;
 
-        SchemeCons(Ptr<SchemeObject> pCar, Ptr<SchemeObject> pCdr);
+        LispCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(SchemeCons);
+    DECLARE_SCHEME_TYPE_INFO(LispCons);
 
     /// Counts the elements of pRegularList
-    ezResult count(Ptr<SchemeCons> pRegularList, ezUInt32& out_count);
+    ezResult count(Ptr<LispCons> pRegularList, ezUInt32& out_count);
 }
 
 #include "lcpp/core/typeSystem/types/implementation/cons_inl.h"

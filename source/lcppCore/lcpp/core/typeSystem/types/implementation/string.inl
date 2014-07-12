@@ -1,24 +1,24 @@
 
 inline
-    lcpp::SchemeString::SchemeString(const char* str) :
+    lcpp::LispString::LispString(const char* str) :
     m_string(str)
 {
 }
 
 inline
-lcpp::SchemeString::SchemeString(const ezString& str) :
+lcpp::LispString::LispString(const ezString& str) :
     m_string(str)
 {
 }
 
 inline
-lcpp::SchemeString::~SchemeString()
+lcpp::LispString::~LispString()
 {
 }
 
 inline
 ezString
-lcpp::SchemeString::toString() const
+lcpp::LispString::toString() const
 {
     ezStringBuilder builder(m_string.GetIteratorFront());
     builder.Prepend('"');
@@ -27,46 +27,46 @@ lcpp::SchemeString::toString() const
 }
 
 inline
-lcpp::SchemeString::operator ezString() const
+lcpp::LispString::operator ezString() const
 {
     return m_string;
 }
 
 inline
 bool
-lcpp::SchemeString::operator ==(const SchemeObject& rhs) const
+lcpp::LispString::operator ==(const LispObject& rhs) const
 {
-    if(rhs.is<SchemeString>())
+    if(rhs.is<LispString>())
     {
-        return *this == static_cast<const SchemeString&>(rhs);
+        return *this == static_cast<const LispString&>(rhs);
     }
     return false;
 }
 
 inline
 const ezString&
-lcpp::SchemeString::value() const
+lcpp::LispString::value() const
 {
     return m_string;
 }
 
 inline
 void
-lcpp::SchemeString::value(const ezString& newSymbol)
+lcpp::LispString::value(const ezString& newSymbol)
 {
     m_string = newSymbol;
 }
 
 inline
 void
-lcpp::SchemeString::value(const char* newSymbol)
+lcpp::LispString::value(const char* newSymbol)
 {
     m_string = newSymbol;
 }
 
 inline
 bool
-lcpp::operator ==(const SchemeString& lhs, const SchemeString& rhs)
+lcpp::operator ==(const LispString& lhs, const LispString& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.value().GetData(),
@@ -75,7 +75,7 @@ lcpp::operator ==(const SchemeString& lhs, const SchemeString& rhs)
 
 inline
 bool
-lcpp::operator ==(const SchemeString& lhs, const char* rhs)
+lcpp::operator ==(const LispString& lhs, const char* rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.value().GetData(),
@@ -84,7 +84,7 @@ lcpp::operator ==(const SchemeString& lhs, const char* rhs)
 
 inline
 bool
-lcpp::operator ==(const char* lhs, const SchemeString& rhs)
+lcpp::operator ==(const char* lhs, const LispString& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs,
@@ -93,7 +93,7 @@ lcpp::operator ==(const char* lhs, const SchemeString& rhs)
 
 inline
 bool
-lcpp::operator ==(const SchemeString& lhs, const ezString& rhs)
+lcpp::operator ==(const LispString& lhs, const ezString& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.value().GetData(),
@@ -102,7 +102,7 @@ lcpp::operator ==(const SchemeString& lhs, const ezString& rhs)
 
 inline
 bool
-lcpp::operator ==(const ezString& lhs, const SchemeString& rhs)
+lcpp::operator ==(const ezString& lhs, const LispString& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.GetData(),

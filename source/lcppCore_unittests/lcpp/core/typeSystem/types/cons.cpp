@@ -7,7 +7,7 @@ using namespace lcpp;
 
 namespace
 {
-    UnitTestGroup g_group("SchemeConsTests");
+    UnitTestGroup g_group("LispConsTests");
 
     UnitTest g_test1(g_group, "Construction", []{
         auto pRuntime = createTestRuntime();
@@ -21,7 +21,7 @@ namespace
 
         // Only car given
         {
-            Ptr<SchemeBool> pT = &SCHEME_TRUE;
+            Ptr<LispBool> pT = &SCHEME_TRUE;
             auto cons = factory.createCons(pT, SCHEME_NIL_PTR);
             CUT_ASSERT.isTrue(*cons->car() == SCHEME_TRUE, "Wrong object for car!");
             CUT_ASSERT.isTrue(*cons->cdr() == SCHEME_NIL, "Cdr should be nil here!");
@@ -44,14 +44,14 @@ namespace
             auto t = &SCHEME_TRUE;
 
             auto first = factory.createCons(t, SCHEME_NIL_PTR);
-            SchemeCons second = *first;
+            LispCons second = *first;
             CUT_ASSERT.isTrue(*first->car() == SCHEME_TRUE);
             CUT_ASSERT.isTrue(*second.car() == SCHEME_TRUE);
         }
         {
             auto theInt = factory.createInteger(42);
             auto first = factory.createCons(theInt, SCHEME_NIL_PTR);
-            SchemeCons second = *first;
+            LispCons second = *first;
             CUT_ASSERT.isTrue(first->car() == theInt);
             CUT_ASSERT.isTrue(second.car() == theInt, "Failed to construct 'second' by assigning it 'first'!");
             CUT_ASSERT.isTrue(first->car() == second.car(), "Cons is not supposed to make a copy!");

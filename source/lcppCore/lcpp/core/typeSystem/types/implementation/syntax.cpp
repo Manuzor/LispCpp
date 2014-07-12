@@ -12,56 +12,56 @@
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeSyntax::SchemeSyntax(Ptr<SchemeSymbol> pName) :
+lcpp::LispSyntax::LispSyntax(Ptr<LispSymbol> pName) :
     m_pName(pName)
 {
 }
 
 bool
-lcpp::SchemeSyntax::operator==(const SchemeObject& obj) const
+lcpp::LispSyntax::operator==(const LispObject& obj) const
 {
-    if (obj.is<SchemeSyntax>())
+    if (obj.is<LispSyntax>())
     {
-        return *this == static_cast<const SchemeSyntax&>(obj);
+        return *this == static_cast<const LispSyntax&>(obj);
     }
     return false;
 }
 
 bool
-lcpp::SchemeSyntax::operator==(const SchemeSyntax& rhs) const
+lcpp::LispSyntax::operator==(const LispSyntax& rhs) const
 {
     // Identity comparison.
     return m_pName.get() == rhs.m_pName.get();
 }
 
 ezString
-lcpp::SchemeSyntax::toString() const
+lcpp::LispSyntax::toString() const
 {
     return m_pName->toString();
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::SchemeSyntax_Builtin::SchemeSyntax_Builtin(Ptr<SchemeSymbol> pName,
+lcpp::LispSyntax_Builtin::LispSyntax_Builtin(Ptr<LispSymbol> pName,
                                                  HandlerFuncPtr_t pHandler) :
-    SchemeSyntax(pName),
+    LispSyntax(pName),
     m_pHandler(pHandler)
 {
     EZ_ASSERT(m_pHandler, "Invalid syntax handler pointer!");
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeSyntax_Builtin::call(Ptr<SchemeRuntime> pRuntime,
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispSyntax_Builtin::call(Ptr<LispRuntime> pRuntime,
                                  Ptr<Environment> pEnv,
-                                 Ptr<SchemeObject> pUnevaluatedArgList)
+                                 Ptr<LispObject> pUnevaluatedArgList)
 {
     RecursionCounter counter(pRuntime);
     auto& handler = *m_pHandler;
     return (*m_pHandler)(pRuntime, pEnv, pUnevaluatedArgList);
 }
 
-lcpp::Ptr<lcpp::SchemeObject>
-lcpp::SchemeSyntax_Builtin::clone(ezAllocatorBase* pAllocator) const
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispSyntax_Builtin::clone(ezAllocatorBase* pAllocator) const
 {
-    return LCPP_NEW(pAllocator, SchemeSyntax_Builtin)(m_pName, m_pHandler);
+    return LCPP_NEW(pAllocator, LispSyntax_Builtin)(m_pName, m_pHandler);
 }

@@ -3,26 +3,26 @@
 
 namespace lcpp
 {
-    class SchemeRuntime;
+    class LispRuntime;
     class Environment;
-    class SchemeCons;
+    class LispCons;
 
-    class LCPP_CORE_API SchemeFunction : public SchemeObject
+    class LCPP_CORE_API LispFunction : public LispObject
     {
     public:
 
-        SchemeFunction(Ptr<SchemeRuntime> pRuntime,
+        LispFunction(Ptr<LispRuntime> pRuntime,
                        const ezString& name,
                        Ptr<Environment> pEnv);
 
-        virtual bool operator==(const SchemeObject& obj) const LCPP_OVERRIDE;
-        bool operator==(const SchemeFunction& rhs) const;
+        virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
+        bool operator==(const LispFunction& rhs) const;
 
         virtual const Type& type() const LCPP_OVERRIDE;
 
         virtual ezString dump() const = 0;
 
-        virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) = 0;
+        virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) = 0;
 
         void name(const ezString& newName);
         ezString& name();
@@ -33,20 +33,20 @@ namespace lcpp
 
     protected:
         ezString m_name;
-        Ptr<SchemeRuntime> m_pRuntime;
+        Ptr<LispRuntime> m_pRuntime;
         Ptr<Environment> m_pEnv;
     };
 
     template<>
-    struct TypeInfo< SchemeFunction >
+    struct TypeInfo< LispFunction >
     {
         inline static const Type& type()
         {
             static_assert(Type::Version == 2,
                           "Type version was updated. Adjust your implementation accordingly!");
             static auto theType = Type::create(
-                "SchemeFunction",
-                MemoryInfo(sizeof(SchemeFunction), sizeof(SchemeFunction))
+                "LispFunction",
+                MemoryInfo(sizeof(LispFunction), sizeof(LispFunction))
                 );
             return theType;
         }
@@ -54,23 +54,23 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API SchemeFunctionBuiltin : public SchemeFunction
+    class LCPP_CORE_API LispFunctionBuiltin : public LispFunction
     {
         friend class TypeFactory;
     public:
-        typedef Ptr<SchemeObject>(*ExecutorPtr_t)(Ptr<SchemeRuntime>, Ptr<Environment>, Ptr<SchemeObject>);
+        typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<LispRuntime>, Ptr<Environment>, Ptr<LispObject>);
 
-        SchemeFunctionBuiltin(Ptr<SchemeRuntime> pRuntime,
+        LispFunctionBuiltin(Ptr<LispRuntime> pRuntime,
                               const ezString& name,
                               Ptr<Environment> pEnv,
                               ExecutorPtr_t pExec);
 
-        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
-        virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) LCPP_OVERRIDE;
+        virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) LCPP_OVERRIDE;
 
     private:
         ExecutorPtr_t m_pExec;
@@ -78,35 +78,35 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API SchemeFunctionUserDefined : public SchemeFunction
+    class LCPP_CORE_API LispFunctionUserDefined : public LispFunction
     {
         friend class TypeFactory;
     public:
 
-        SchemeFunctionUserDefined(Ptr<SchemeRuntime> pRuntime,
+        LispFunctionUserDefined(Ptr<LispRuntime> pRuntime,
                                   Ptr<Environment> pEnv,
-                                  Ptr<SchemeObject> pArgNameList,
-                                  Ptr<SchemeCons> pBody);
+                                  Ptr<LispObject> pArgNameList,
+                                  Ptr<LispCons> pBody);
 
-        virtual Ptr<SchemeObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
 
-        virtual Ptr<SchemeObject> call(Ptr<SchemeObject> pArgList) LCPP_OVERRIDE;
+        virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) LCPP_OVERRIDE;
 
     private:
-        Ptr<SchemeObject> m_pArgNameList;
+        Ptr<LispObject> m_pArgNameList;
         ezUInt32 m_numArgs;
-        Ptr<SchemeCons> m_pBody;
+        Ptr<LispCons> m_pBody;
 #ifdef _DEBUG
         ezString m_dump;
 #endif // _DEBUG
 
-        void processArguments(Ptr<SchemeObject> pArgs);
+        void processArguments(Ptr<LispObject> pArgs);
         /// \return \c true if \a pArgs is a cons, \c false if it is nil.
         ///         In other words, this returns wether further processing needs to be done.
-        bool checkArgumentCount(Ptr<SchemeObject> pArgs);
+        bool checkArgumentCount(Ptr<LispObject> pArgs);
     };
 }
 
