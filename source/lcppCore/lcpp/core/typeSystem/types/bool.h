@@ -25,7 +25,7 @@ namespace lcpp
         LispBool(bool value);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispBool);
+    LCPP_DECLARE_SCHEME_TYPE_INFO(LispBool, "bool");
 
     bool isTrue(Ptr<LispObject> pObject);
     bool isFalse(Ptr<LispObject> pObject);

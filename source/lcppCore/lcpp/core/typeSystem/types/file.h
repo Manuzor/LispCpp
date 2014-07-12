@@ -37,7 +37,7 @@ namespace lcpp
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispFile);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispFile);
+    LCPP_DECLARE_SCHEME_TYPE_INFO(LispFile, "file");
 
     bool operator ==(const LispFile& lhs, const LispFile& rhs);
 

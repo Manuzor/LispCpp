@@ -20,7 +20,7 @@ namespace lcpp
         LispVoid();
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispVoid);
+    LCPP_DECLARE_SCHEME_TYPE_INFO(LispVoid, "void");
 }
 
 #define SCHEME_VOID (::lcpp::LispVoid::instance())

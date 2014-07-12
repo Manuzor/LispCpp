@@ -27,7 +27,7 @@ namespace lcpp
         LispString(const ezString& str);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispString);
+    LCPP_DECLARE_SCHEME_TYPE_INFO(LispString, "string");
 
     bool operator ==(const LispString& lhs, const LispString& rhs);
 

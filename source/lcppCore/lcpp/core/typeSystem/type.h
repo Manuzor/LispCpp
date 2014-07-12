@@ -49,7 +49,7 @@ namespace lcpp
     };
 }
 
-#define DECLARE_SCHEME_TYPE_INFO_WITH_NAME(theType, theName) template<> \
+#define LCPP_DECLARE_SCHEME_TYPE_INFO(theType, theName) template<> \
     struct TypeInfo<theType>                                            \
     {                                                                   \
         inline static const Type& type()                                \
@@ -65,8 +65,5 @@ namespace lcpp
             return instance;                                            \
         }                                                               \
     }
-
-#define DECLARE_SCHEME_TYPE_INFO(type) DECLARE_SCHEME_TYPE_INFO_WITH_NAME(type, #type)
-
 
 #include "lcpp/core/typeSystem/implementation/type.inl"

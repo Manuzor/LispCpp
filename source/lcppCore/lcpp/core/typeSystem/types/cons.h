@@ -40,7 +40,7 @@ namespace lcpp
         LispCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispCons);
+    LCPP_DECLARE_SCHEME_TYPE_INFO(LispCons, "cons");
 
     /// Counts the elements of pRegularList
     ezResult count(Ptr<LispCons> pRegularList, ezUInt32& out_count);

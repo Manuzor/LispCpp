@@ -25,7 +25,7 @@ namespace lcpp
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispSymbol);
     };
 
-    DECLARE_SCHEME_TYPE_INFO(LispSymbol);
+    LCPP_DECLARE_SCHEME_TYPE_INFO(LispSymbol, "symbol");
 
     bool operator ==(const LispSymbol& lhs, const LispSymbol& rhs);
 
