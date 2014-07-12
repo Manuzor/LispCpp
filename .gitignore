@@ -2,6 +2,7 @@
 output/*
 temp/*
 log/
+build/visualStudio/temp/
 
 ipch
 
