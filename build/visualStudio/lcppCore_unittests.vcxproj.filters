@@ -1,29 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="lcpp\core\typeSystem\types" />
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/main.cpp">
+      <Filter>lcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\ptr.cpp">
+      <Filter>lcpp\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\conversion.cpp">
+      <Filter>lcpp\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\stringUtils.cpp">
+      <Filter>lcpp\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/environment.cpp">
+      <Filter>lcpp\core</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/evaluator.cpp">
+      <Filter>lcpp\core</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/reader.cpp">
+      <Filter>lcpp\core</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/type.cpp">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/bool.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/cons.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/function.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/nil.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/environment.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/evaluator.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/reader.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/type.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/function.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\conversion.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\ptr.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\stringUtils.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/main.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/bool.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/cons.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/nil.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp" />
+    <ClInclude Include="../../source/lcppCore_unittests/lcpp/toString.h">
+      <Filter>lcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="../../source/lcppCore_unittests/lcpp/testRuntime.h">
+      <Filter>lcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="../../source/lcppCore_unittests/stdafx.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../../source/lcppCore_unittests/stdafx.h" />
-    <ClInclude Include="../../source/lcppCore_unittests/lcpp/testRuntime.h" />
-    <ClInclude Include="../../source/lcppCore_unittests/lcpp/toString.h" />
+    <Filter Include="lcpp">
+      <UniqueIdentifier>{af2504b0-f853-442c-8936-accbcb17d4b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core">
+      <UniqueIdentifier>{524152de-3c7c-4cae-9ccd-d4acc9bf4e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation">
+      <UniqueIdentifier>{739920fd-18fb-4a08-b287-8b4e6b014d16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem">
+      <UniqueIdentifier>{c1eb4b59-d0ca-4e51-81c1-995a79c37438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\types">
+      <UniqueIdentifier>{2efa4728-df97-4c6f-89b7-71dc390596c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

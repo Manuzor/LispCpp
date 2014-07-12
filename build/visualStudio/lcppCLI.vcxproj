@@ -18,6 +18,24 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\common.h" />
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\exceptions.h" />
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\interpreter.h" />
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\ioUtils.h" />
+    <ClInclude Include="..\..\source\lcppCLI\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\interpreter.cpp" />
+    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils.cpp" />
+    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\lcppCLI.cpp" />
+    <ClCompile Include="..\..\source\lcppCLI\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FD563574-8032-44BF-BB84-65A0086CA210}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -188,24 +206,6 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <Message>Copying dependencies to target directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="../../source/lcppCLI/lcpp\cli\common.h" />
-    <ClInclude Include="../../source/lcppCLI/lcpp\cli\exceptions.h" />
-    <ClInclude Include="../../source/lcppCLI/lcpp\cli\ioUtils.h" />
-    <ClInclude Include="../../source/lcppCLI/lcpp\cli\interpreter.h" />
-    <ClInclude Include="../../source/lcppCLI/stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="../../source/lcppCLI/lcpp\cli\ioUtils.cpp" />
-    <ClCompile Include="../../source/lcppCLI/lcpp\cli\interpreter.cpp" />
-    <ClCompile Include="../../source/lcppCLI/lcpp\cli\lcppCLI.cpp" />
-    <ClCompile Include="../../source/lcppCLI/stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
