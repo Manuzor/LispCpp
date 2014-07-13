@@ -48,7 +48,7 @@ namespace lcpp
             // Give the new lambda its name.
             pLambda.cast<LispFunction>()->name(pSymbol->value());
 
-            return SCHEME_VOID_PTR;
+            return LCPP_VOID;
         }
 
         if(!pArgList->car()->is<LispSymbol>())
@@ -79,7 +79,7 @@ namespace lcpp
             value.cast<LispFunction>()->name(symbol->value());
         }
 
-        return SCHEME_VOID_PTR;
+        return LCPP_VOID;
     }
 }
 

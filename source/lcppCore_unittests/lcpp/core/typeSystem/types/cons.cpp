@@ -176,7 +176,6 @@ namespace
         auto integer = factory.createInteger(42);
         auto t = &SCHEME_TRUE;
         auto f = &SCHEME_FALSE;
-        auto v = &SCHEME_VOID;
 
         {
             auto cons1 = factory.createCons(integer, LCPP_NIL);
@@ -195,8 +194,8 @@ namespace
             auto cons2 = factory.createCons(LCPP_NIL, LCPP_NIL);
         }
         {
-            auto cons1 = factory.createCons(v, LCPP_NIL);
-            auto cons2 = factory.createCons(v, v);
+            auto cons1 = factory.createCons(LCPP_VOID, LCPP_NIL);
+            auto cons2 = factory.createCons(LCPP_VOID, LCPP_VOID);
         }
     });
 
@@ -226,7 +225,7 @@ namespace
 
         // Irregular lists
         {
-            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, SCHEME_VOID_PTR));
+            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_VOID));
             CUT_ASSERT.isFalse(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 3, got %u!", numElements));
         }

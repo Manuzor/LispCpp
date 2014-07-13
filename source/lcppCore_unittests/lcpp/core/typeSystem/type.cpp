@@ -30,8 +30,8 @@ namespace
     });
 
     UnitTest g_test2(g_group, "SingletonTypes", []{
-        CUT_ASSERT.isTrue(SCHEME_VOID.type() == TypeInfo<LispVoid>::type(), "SCHEME_VOID.type() did not return Type::Void!");
-        CUT_ASSERT.isTrue(SCHEME_VOID.is<LispVoid>(), "SCHEME_VOID.is() does not return true for argument Type::Void!");
+        CUT_ASSERT.isTrue(LCPP_VOID->type() == TypeInfo<LispVoid>::type(), "SCHEME_VOID.type() did not return Type::Void!");
+        CUT_ASSERT.isTrue(LCPP_VOID->is<LispVoid>(), "SCHEME_VOID.is() does not return true for argument Type::Void!");
         CUT_ASSERT.isTrue(SCHEME_TRUE.type() == TypeInfo<LispBool>::type(), "SCHEME_TRUE.type() did not return Type::Bool!");
         CUT_ASSERT.isTrue(SCHEME_TRUE.is<LispBool>(), "SCHEME_TRUE.is() does not return true for argument Type::Bool!");
         CUT_ASSERT.isTrue(SCHEME_FALSE.type() == TypeInfo<LispBool>::type(), "SCHEME_FALSE.type() did not return Type::Bool!");

@@ -1,13 +1,4 @@
-﻿// static
-inline
-lcpp::LispVoid&
-lcpp::LispVoid::instance()
-{
-    static LispVoid v;
-    return v;
-}
-
-
+﻿
 inline
 lcpp::LispVoid::LispVoid()
 {
@@ -16,6 +7,20 @@ lcpp::LispVoid::LispVoid()
 inline
 lcpp::LispVoid::~LispVoid()
 {
+}
+
+inline
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispVoid::clone(ezAllocatorBase* pAllocator) const
+{
+    return LispVoid::create().cast<LispObject>();
+}
+
+inline
+const lcpp::Type&
+lcpp::LispVoid::type() const
+{
+    return LispVoid::typeInfo();
 }
 
 inline

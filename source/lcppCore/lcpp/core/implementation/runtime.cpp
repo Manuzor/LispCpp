@@ -96,7 +96,7 @@ void lcpp::LispRuntime::registerBuiltIns()
     LCPP_ADD_GLOBAL("#f", SCHEME_FALSE_PTR);
     LCPP_ADD_GLOBAL("null", LCPP_NIL);
     LCPP_ADD_GLOBAL("nil", LCPP_NIL);
-    LCPP_ADD_GLOBAL("#v", SCHEME_VOID_PTR);
+    LCPP_ADD_GLOBAL("#v", LCPP_VOID);
 
     // Utility functions
     //////////////////////////////////////////////////////////////////////////

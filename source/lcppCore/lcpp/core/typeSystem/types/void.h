@@ -3,27 +3,39 @@
 
 namespace lcpp
 {
-    class LispVoid :
-        public LispExtend<LispVoid, LispObject>
+    class LCPP_CORE_API LispVoid :
+        public LispObject
     {
         friend class TypeFactory;
     public:
 
-        static LispVoid& instance();
+        static Ptr<LispVoid> create();
+        static const Type& typeInfo();
+
+    public:
 
         virtual ~LispVoid();
 
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+
+        virtual const Type& type() const LCPP_OVERRIDE;
+
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
+
         virtual ezString toString() const LCPP_OVERRIDE;
+
     private:
 
         LispVoid();
     };
 
-    LCPP_DECLARE_SCHEME_TYPE_INFO(LispVoid, "void");
+    template<>
+    struct TypeInfo < LispVoid >
+    {
+        static const Type& type() { return LispVoid::typeInfo(); }
+    };
 }
 
-#define SCHEME_VOID (::lcpp::LispVoid::instance())
-#define SCHEME_VOID_PTR (Ptr<LispVoid>(&SCHEME_VOID))
+#define LCPP_VOID (lcpp::LispVoid::create())
 
 #include "lcpp/core/typeSystem/types/implementation/void_inl.h"

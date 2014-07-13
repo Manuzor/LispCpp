@@ -62,7 +62,7 @@ lcpp::Reader::read(ezStringIterator& input, bool resetSyntaxChecker)
 
     if(!input.IsValid())
     {
-        return SCHEME_VOID_PTR;
+        return LCPP_VOID;
     }
 
     switch(input.GetCharacter())

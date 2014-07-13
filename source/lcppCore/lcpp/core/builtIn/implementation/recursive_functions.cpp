@@ -68,7 +68,7 @@ lcpp::builtin::exit(Ptr<LispRuntime> pRuntime,
 
     throw exceptions::Exit("Goodbye.", status);
 
-    return SCHEME_VOID_PTR;
+    return LCPP_VOID;
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -130,7 +130,7 @@ lcpp::builtin::print(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispO
 
     printer.print(pArgList->car());
 
-    return SCHEME_VOID_PTR;
+    return LCPP_VOID;
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -216,7 +216,7 @@ lcpp::builtin::fileClose(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<L
 
     pFile->close();
 
-    return SCHEME_VOID_PTR;
+    return LCPP_VOID;
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -516,7 +516,7 @@ lcpp::builtin::setRecursionLimit(Ptr<LispRuntime> pRuntime,
     auto newLimit = pArgList->car().cast<LispInteger>()->value();
     pRuntime->recursionLimit(ezUInt32(newLimit));
 
-    return SCHEME_VOID_PTR;
+    return LCPP_VOID;
 }
 
 lcpp::Ptr<lcpp::LispObject>

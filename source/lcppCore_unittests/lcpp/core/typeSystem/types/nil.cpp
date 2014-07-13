@@ -17,7 +17,7 @@ namespace
         CUT_ASSERT.isTrue(*LCPP_NIL == *LCPP_NIL, "Scheme nil must equal itself!");
         CUT_ASSERT.isTrue(LCPP_NIL == LCPP_NIL, "Something is seriously b0rken!");
 
-        CUT_ASSERT.isTrue(*LCPP_NIL != SCHEME_VOID, "Wrong result for equality operator!");
+        CUT_ASSERT.isTrue(*LCPP_NIL != *LCPP_VOID, "Wrong result for equality operator!");
 
         CUT_ASSERT.isTrue(isNil(LCPP_NIL));
     });
