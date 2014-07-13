@@ -9,6 +9,37 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
+lcpp::Ptr<lcpp::LispRuntime> lcpp::LispRuntime::s_pInstance;
+
+lcpp::Ptr<lcpp::LispRuntime>
+lcpp::LispRuntime::defaultInstance()
+{
+    static auto defaultInstance = LispRuntime();
+    static auto pDefaultInstance = Ptr<LispRuntime>(&defaultInstance);
+    return pDefaultInstance;
+}
+
+lcpp::Ptr<lcpp::LispRuntime>
+lcpp::LispRuntime::instance()
+{
+    if (!s_pInstance)
+    {
+        patchInstance(defaultInstance());
+    }
+    
+    return s_pInstance;
+}
+
+void
+lcpp::LispRuntime::patchInstance(Ptr<LispRuntime> pNewInstance)
+{
+    // TODO: Look with mutex here
+    if (!s_pInstance)
+    {
+        s_pInstance = pNewInstance;
+    }
+}
+
 lcpp::LispRuntime::LispRuntime() :
     m_recursionDepth(0),
     m_recursionLimit(255)

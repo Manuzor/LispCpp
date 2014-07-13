@@ -11,6 +11,13 @@ namespace lcpp
     {
         friend struct RecursionCounter;
     public:
+
+        static Ptr<LispRuntime> defaultInstance();
+        static Ptr<LispRuntime> instance();
+        static void patchInstance(Ptr<LispRuntime> pNewInstance);
+
+    public:
+
         LispRuntime();
 
         // Initialization
@@ -49,6 +56,8 @@ namespace lcpp
         void recursionLimit(ezUInt32 newLimit);
 
     private:
+        static Ptr<LispRuntime> s_pInstance;
+
         Ptr<ezAllocatorBase> m_pAllocator;
         Ptr<TypeFactory> m_pFactory;
 
