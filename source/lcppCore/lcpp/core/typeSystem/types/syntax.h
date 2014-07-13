@@ -12,6 +12,12 @@ namespace lcpp
         public LispObject
     {
     public:
+
+        static Ptr<LispSyntax> create(Ptr<LispSymbol> pName);
+        static const Type& typeInfo();
+
+    public:
+
         LispSyntax(Ptr<LispSymbol> pName);
 
         virtual const Type& type() const LCPP_OVERRIDE;
@@ -33,27 +39,18 @@ namespace lcpp
         Ptr<LispSymbol> m_pName;
     };
 
-    template<>
-    struct TypeInfo< LispSyntax >
-    {
-        inline static const Type& type()
-        {
-            static_assert(Type::Version == 3,
-                          "Type version was updated. Adjust your implementation accordingly!");
-            static auto theType = Type::create(
-                EZ_STRINGIZE(LispSyntax),
-                "syntax",
-                MemoryInfo(sizeof(LispSyntax), sizeof(LispSyntax))
-                );
-            return theType;
-        }
-    };
-
     class LispSyntax_Builtin :
         public LispSyntax
     {
     public:
         typedef Ptr<LispObject>(*HandlerFuncPtr_t)(Ptr<LispRuntime>, Ptr<Environment>, Ptr<LispObject>);
+
+
+        static Ptr<LispSyntax_Builtin> create(Ptr<LispSymbol> pName,
+                                              HandlerFuncPtr_t pHandler);
+        static const Type& typeInfo();
+
+    public:
 
         LispSyntax_Builtin(Ptr<LispSymbol> pName,
                              HandlerFuncPtr_t pHandler);

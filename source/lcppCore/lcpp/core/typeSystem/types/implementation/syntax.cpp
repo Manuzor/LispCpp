@@ -10,6 +10,24 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
+lcpp::Ptr<lcpp::LispSyntax>
+lcpp::LispSyntax::create(Ptr<LispSymbol> pName)
+{
+    EZ_REPORT_FAILURE("Not implemented.");
+    return nullptr;
+}
+
+const lcpp::Type&
+lcpp::LispSyntax::typeInfo()
+{
+    static auto t = Type::create(EZ_STRINGIZE(LispSyntax),
+                                 "syntax",
+                                 MemoryInfo(sizeof(LispSyntax),
+                                            sizeof(LispSyntax)));
+
+    return t;
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 lcpp::LispSyntax::LispSyntax(Ptr<LispSymbol> pName) :
@@ -38,6 +56,24 @@ ezString
 lcpp::LispSyntax::toString() const
 {
     return m_pName->toString();
+}
+
+lcpp::Ptr<lcpp::LispSyntax_Builtin>
+lcpp::LispSyntax_Builtin::create(Ptr<LispSymbol> pName, HandlerFuncPtr_t pHandler)
+{
+    EZ_REPORT_FAILURE("Not implemented.");
+    return nullptr;
+}
+
+const lcpp::Type&
+lcpp::LispSyntax_Builtin::typeInfo()
+{
+    static auto t = Type::create(EZ_STRINGIZE(LispSyntax_Builtin),
+                                 "syntax (built-in)",
+                                 MemoryInfo(sizeof(LispSyntax_Builtin),
+                                            EZ_ALIGNMENT_OF(LispSyntax_Builtin)));
+
+    return t;
 }
 
 //////////////////////////////////////////////////////////////////////////
