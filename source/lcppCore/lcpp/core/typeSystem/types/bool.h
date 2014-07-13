@@ -3,18 +3,25 @@
 
 namespace lcpp
 {
-    class LispBool :
-        public LispExtend<LispBool, LispObject>
+    class LCPP_CORE_API LispBool :
+        public LispObject
     {
         friend class TypeFactory;
     public:
 
-        static LispBool& trueInstance();
-        static LispBool& falseInstance();
+        static Ptr<LispBool> trueInstance();
+        static Ptr<LispBool> falseInstance();
 
-        virtual ~LispBool();
+        static const Type& typeInfo();
+
+    public:
+
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+
+        virtual const Type& type() const LCPP_OVERRIDE;
 
         virtual bool operator==(const LispObject& rhs) const LCPP_OVERRIDE;
+
         virtual ezString toString() const LCPP_OVERRIDE;
 
         bool value() const;
@@ -23,20 +30,23 @@ namespace lcpp
         const bool m_value;
 
         LispBool(bool value);
+
     };
 
-    LCPP_DECLARE_SCHEME_TYPE_INFO(LispBool, "bool");
+    template<>
+    struct TypeInfo<LispBool>
+    {
+        static const Type& type() { return LispBool::typeInfo(); }
+    };
 
     bool isTrue(Ptr<LispObject> pObject);
     bool isFalse(Ptr<LispObject> pObject);
 
     bool operator ==(const LispBool& lhs, const LispBool& rhs);
 
-#define SCHEME_TRUE (::lcpp::LispBool::trueInstance())
-#define SCHEME_TRUE_PTR (Ptr<LispBool>(&SCHEME_TRUE))
-#define SCHEME_FALSE (::lcpp::LispBool::falseInstance())
-#define SCHEME_FALSE_PTR (Ptr<LispBool>(&SCHEME_FALSE))
-
 }
+
+#define LCPP_TRUE  (::lcpp::LispBool::trueInstance())
+#define LCPP_FALSE (::lcpp::LispBool::falseInstance())
 
 #include "lcpp/core/typeSystem/types/implementation/bool_inl.h"

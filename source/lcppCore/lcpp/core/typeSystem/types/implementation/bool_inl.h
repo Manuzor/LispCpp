@@ -1,22 +1,4 @@
-﻿// static
-inline
-lcpp::LispBool&
-lcpp::LispBool::trueInstance()
-{
-    static LispBool t(true);
-    return t;
-}
-
-// static
-inline
-lcpp::LispBool&
-lcpp::LispBool::falseInstance()
-{
-    static LispBool f(false);
-    return f;
-}
-
-
+﻿
 inline
 lcpp::LispBool::LispBool(bool value) :
     m_value(value)
@@ -24,8 +6,17 @@ lcpp::LispBool::LispBool(bool value) :
 }
 
 inline
-lcpp::LispBool::~LispBool()
+const lcpp::Type&
+lcpp::LispBool::type() const
 {
+    return LispBool::typeInfo();
+}
+
+inline
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispBool::clone(ezAllocatorBase* pAllocator) const
+{
+    return m_value ? LispBool::trueInstance() : LispBool::falseInstance();
 }
 
 inline
@@ -60,14 +51,14 @@ inline
 bool
 lcpp::isTrue(Ptr<LispObject> pObject)
 {
-    return pObject == SCHEME_TRUE_PTR;
+    return pObject == LCPP_TRUE;
 }
 
 inline
 bool
 lcpp::isFalse(Ptr<LispObject> pObject)
 {
-    return pObject == SCHEME_FALSE_PTR;
+    return pObject == LCPP_FALSE;
 }
 
 inline

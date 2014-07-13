@@ -21,7 +21,7 @@ namespace
 
         // Only car given
         {
-            auto pT = SCHEME_TRUE_PTR;
+            auto pT = LCPP_TRUE;
             auto cons = factory.createCons(pT, LCPP_NIL);
             CUT_ASSERT.isTrue(cons->car() == pT, "Wrong object for car!");
             CUT_ASSERT.isTrue(cons->cdr() == LCPP_NIL, "Cdr should be nil here!");
@@ -29,8 +29,8 @@ namespace
 
         // Car and cdr explicitly given
         {
-            auto t = SCHEME_TRUE_PTR;
-            auto f = SCHEME_FALSE_PTR;
+            auto t = LCPP_TRUE;
+            auto f = LCPP_FALSE;
             auto cons = factory.createCons(t, f);
             CUT_ASSERT.isTrue(cons->car() == t, "Wrong car!");
             CUT_ASSERT.isTrue(cons->cdr() == f, "Wrong cdr!");
@@ -41,12 +41,12 @@ namespace
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
         {
-            auto t = &SCHEME_TRUE;
+            auto t = LCPP_TRUE;
 
             auto first = factory.createCons(t, LCPP_NIL);
             LispCons second = *first;
-            CUT_ASSERT.isTrue(*first->car() == SCHEME_TRUE);
-            CUT_ASSERT.isTrue(*second.car() == SCHEME_TRUE);
+            CUT_ASSERT.isTrue(first->car() == LCPP_TRUE);
+            CUT_ASSERT.isTrue(second.car() == LCPP_TRUE);
         }
         {
             auto theInt = factory.createInteger(42);
@@ -173,21 +173,19 @@ namespace
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 
-        auto integer = factory.createInteger(42);
-        auto t = &SCHEME_TRUE;
-        auto f = &SCHEME_FALSE;
+        auto pInteger = factory.createInteger(42);
 
         {
-            auto cons1 = factory.createCons(integer, LCPP_NIL);
-            auto cons2 = factory.createCons(integer, integer);
+            auto cons1 = factory.createCons(pInteger, LCPP_NIL);
+            auto cons2 = factory.createCons(pInteger, pInteger);
         }
         {
-            auto cons1 = factory.createCons(t, LCPP_NIL);
-            auto cons2 = factory.createCons(t, t);
+            auto cons1 = factory.createCons(LCPP_TRUE, LCPP_NIL);
+            auto cons2 = factory.createCons(LCPP_TRUE, LCPP_TRUE);
         }
         {
-            auto cons1 = factory.createCons(f, LCPP_NIL);
-            auto cons2 = factory.createCons(f, f);
+            auto cons1 = factory.createCons(LCPP_FALSE, LCPP_NIL);
+            auto cons2 = factory.createCons(LCPP_FALSE, LCPP_FALSE);
         }
         {
             auto cons1 = factory.createCons(LCPP_NIL, LCPP_NIL);

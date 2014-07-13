@@ -90,6 +90,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.cpp" />
+    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.cpp" />
     <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.cpp" />
     <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.cpp" />
   </ItemGroup>

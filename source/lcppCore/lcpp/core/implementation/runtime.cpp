@@ -92,8 +92,8 @@ void lcpp::LispRuntime::registerBuiltIns()
 
     // Globals
     //////////////////////////////////////////////////////////////////////////
-    LCPP_ADD_GLOBAL("#t", SCHEME_TRUE_PTR);
-    LCPP_ADD_GLOBAL("#f", SCHEME_FALSE_PTR);
+    LCPP_ADD_GLOBAL("#t", LCPP_TRUE);
+    LCPP_ADD_GLOBAL("#f", LCPP_FALSE);
     LCPP_ADD_GLOBAL("null", LCPP_NIL);
     LCPP_ADD_GLOBAL("nil", LCPP_NIL);
     LCPP_ADD_GLOBAL("#v", LCPP_VOID);

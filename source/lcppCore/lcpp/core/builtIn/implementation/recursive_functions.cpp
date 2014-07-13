@@ -231,7 +231,7 @@ lcpp::builtin::fileReadString(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, 
 
     auto pFile = pArgList->car().cast<LispFile>();
 
-    if (pFile->isOpen() != SCHEME_TRUE_PTR)
+    if (pFile->isOpen() != LCPP_TRUE)
     {
         throw exceptions::InvalidOperation("Cannot read string from a closed file.");
     }
@@ -459,7 +459,7 @@ lcpp::builtin::equals(Ptr<LispRuntime> pRuntime,
     {
         if (*pReference != *pRestList->car())
         {
-            return SCHEME_FALSE_PTR;
+            return LCPP_FALSE;
         }
 
         if(!isNil(pRestList->cdr()))
@@ -467,7 +467,7 @@ lcpp::builtin::equals(Ptr<LispRuntime> pRuntime,
             return helper(pReference, pRestList->cdr().cast<LispCons>());
         }
 
-        return SCHEME_TRUE_PTR;
+        return LCPP_TRUE;
     };
 
     auto pArgList = pArgs.cast<LispCons>();
@@ -495,10 +495,10 @@ lcpp::builtin::objectEquals(Ptr<LispRuntime> pRuntime,
 
     if(*pArgList->car() == *pArgList->cdr().cast<LispCons>()->car())
     {
-        return SCHEME_TRUE_PTR;
+        return LCPP_TRUE;
     }
 
-    return SCHEME_FALSE_PTR;
+    return LCPP_FALSE;
 }
 
 lcpp::Ptr<lcpp::LispObject>

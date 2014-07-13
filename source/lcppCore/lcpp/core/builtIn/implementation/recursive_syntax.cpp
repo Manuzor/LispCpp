@@ -229,7 +229,7 @@ lcpp::syntax::and(Ptr<LispRuntime> pRuntime,
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
 
-    Ptr<LispObject> pResult = SCHEME_TRUE_PTR;
+    Ptr<LispObject> pResult = LCPP_TRUE;
 
     while(!isNil(pArgs))
     {
@@ -264,7 +264,7 @@ lcpp::syntax::or(Ptr<LispRuntime> pRuntime,
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
 
-    Ptr<LispObject> pResult = SCHEME_FALSE_PTR;
+    Ptr<LispObject> pResult = LCPP_FALSE;
 
     while(!isNil(pArgs))
     {
