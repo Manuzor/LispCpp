@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "lcpp/foundation/startup.h"
+#include "lcpp/core/runtime.h"
 
-
-LCPP_CORE_API void lcpp::startup()
+void lcpp::startup()
 {
     ezStartup::StartupCore();
+    LispRuntime::instance()->initialize();
 }
 
-LCPP_CORE_API void lcpp::shutdown()
+void lcpp::shutdown()
 {
+    LispRuntime::instance()->shutdown();
     ezStartup::ShutdownBase();
 }
