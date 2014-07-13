@@ -22,7 +22,7 @@ namespace lcpp
                 None = 0x0000,
 
                 Abstract    = EZ_BIT(0),
-                UserDefined = EZ_BIT(1), ///< If this flag is not set, it is built-in.
+                UserDefined = EZ_BIT(1), ///< If this flag is not set, this type describes a built-in type.
                 Syntax      = EZ_BIT(2),
                 Callable    = EZ_BIT(3),
                 Arithmetic  = EZ_BIT(4),
