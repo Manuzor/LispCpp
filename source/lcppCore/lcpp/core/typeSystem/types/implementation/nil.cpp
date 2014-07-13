@@ -13,7 +13,8 @@ lcpp::LispNil::create()
 const lcpp::Type&
 lcpp::LispNil::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispNil),
+    static auto t = Type::create(Type::Flags::Singleton,
+                                 EZ_STRINGIZE(LispNil),
                                  "nil",
                                  MemoryInfo(sizeof(LispNil),
                                             EZ_ALIGNMENT_OF(LispNil)));

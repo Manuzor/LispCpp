@@ -20,7 +20,8 @@ lcpp::LispBool::falseInstance()
 const lcpp::Type&
 lcpp::LispBool::typeInfo()
 {
-    static auto instance = Type::create(EZ_STRINGIZE(LispBool),
+    static auto instance = Type::create(Type::Flags::Singleton,
+                                        EZ_STRINGIZE(LispBool),
                                         "bool",
                                         MemoryInfo(sizeof(LispBool),
                                         sizeof(LispBool)));

@@ -20,7 +20,8 @@ lcpp::LispSyntax::create(Ptr<LispSymbol> pName)
 const lcpp::Type&
 lcpp::LispSyntax::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispSyntax),
+    static auto t = Type::create(Type::Flags::Abstract | Type::Flags::Callable | Type::Flags::Syntax,
+                                 EZ_STRINGIZE(LispSyntax),
                                  "syntax",
                                  MemoryInfo(sizeof(LispSyntax),
                                             sizeof(LispSyntax)));
@@ -68,7 +69,8 @@ lcpp::LispSyntax_Builtin::create(Ptr<LispSymbol> pName, HandlerFuncPtr_t pHandle
 const lcpp::Type&
 lcpp::LispSyntax_Builtin::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispSyntax_Builtin),
+    static auto t = Type::create(Type::Flags::Callable | Type::Flags::Syntax,
+                                 EZ_STRINGIZE(LispSyntax_Builtin),
                                  "syntax (built-in)",
                                  MemoryInfo(sizeof(LispSyntax_Builtin),
                                             EZ_ALIGNMENT_OF(LispSyntax_Builtin)));

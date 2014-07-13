@@ -19,7 +19,8 @@ lcpp::LispFunction::create(const ezString& name,
 const lcpp::Type&
 lcpp::LispFunction::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispFunction),
+    static auto t = Type::create(Type::Flags::Abstract | Type::Flags::Callable,
+                                 EZ_STRINGIZE(LispFunction),
                                  "function (base)",
                                  MemoryInfo(sizeof(LispFunction),
                                             sizeof(LispFunction)));

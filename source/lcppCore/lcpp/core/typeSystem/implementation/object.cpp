@@ -12,7 +12,8 @@ lcpp::LispObject::create()
 const lcpp::Type&
 lcpp::LispObject::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispObject),
+    static auto t = Type::create(Type::Flags::Abstract,
+                                 EZ_STRINGIZE(LispObject),
                                  "object",
                                  MemoryInfo(sizeof(LispObject),
                                             sizeof(LispObject)));

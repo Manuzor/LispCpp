@@ -12,7 +12,8 @@ lcpp::LispInteger::create(Number_t value)
 const lcpp::Type&
 lcpp::LispInteger::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispInteger),
+    static auto t = Type::create(Type::Flags::Arithmetic,
+                                 EZ_STRINGIZE(LispInteger),
                                  "integer",
                                  MemoryInfo(sizeof(LispInteger),
                                             EZ_ALIGNMENT_OF(LispInteger)));
@@ -38,7 +39,8 @@ lcpp::LispNumber::create(Number_t value)
 const lcpp::Type&
 lcpp::LispNumber::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispNumber),
+    static auto t = Type::create(Type::Flags::Arithmetic,
+                                 EZ_STRINGIZE(LispNumber),
                                  "integer",
                                  MemoryInfo(sizeof(LispNumber),
                                  EZ_ALIGNMENT_OF(LispNumber)));

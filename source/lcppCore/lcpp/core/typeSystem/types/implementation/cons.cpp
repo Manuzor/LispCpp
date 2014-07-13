@@ -11,7 +11,8 @@ lcpp::LispCons::create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
 const lcpp::Type&
 lcpp::LispCons::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispCons),
+    static auto t = Type::create(Type::Flags::None,
+                                 EZ_STRINGIZE(LispCons),
                                  "cons",
                                  MemoryInfo(sizeof(LispCons),
                                             EZ_ALIGNMENT_OF(LispCons)));

@@ -14,7 +14,8 @@ lcpp::LispFile::create(const ezString& fileName)
 const lcpp::Type&
 lcpp::LispFile::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispFile),
+    static auto t = Type::create(Type::Flags::None,
+                                 EZ_STRINGIZE(LispFile),
                                  "file",
                                  MemoryInfo(sizeof(LispFile),
                                  EZ_ALIGNMENT_OF(LispFile)));

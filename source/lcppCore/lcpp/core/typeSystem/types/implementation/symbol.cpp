@@ -12,7 +12,8 @@ lcpp::LispSymbol::create(const ezString& symbol)
 const lcpp::Type&
 lcpp::LispSymbol::typeInfo()
 {
-    static auto t = Type::create(EZ_STRINGIZE(LispSymbol),
+    static auto t = Type::create(Type::Flags::None,
+                                 EZ_STRINGIZE(LispSymbol),
                                  "symbol",
                                  MemoryInfo(sizeof(LispSymbol),
                                  sizeof(LispSymbol)));

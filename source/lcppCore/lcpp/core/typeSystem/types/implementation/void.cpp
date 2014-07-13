@@ -13,10 +13,11 @@ lcpp::LispVoid::create()
 const lcpp::Type&
 lcpp::LispVoid::typeInfo()
 {
-    static auto instance = Type::create(EZ_STRINGIZE(LispVoid),
-                                 "void",
-                                 MemoryInfo(sizeof(LispVoid),
-                                 sizeof(LispVoid)));
+    static auto instance = Type::create(Type::Flags::Singleton,
+                                        EZ_STRINGIZE(LispVoid),
+                                        "void",
+                                        MemoryInfo(sizeof(LispVoid),
+                                                   sizeof(LispVoid)));
 
     return instance;
 }
