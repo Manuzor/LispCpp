@@ -37,19 +37,19 @@
     {                                                              \
         ezStringBuilder message;                                   \
         message.AppendFormat("Expected type %s, got %s",           \
-                              TypeInfo<expectedType>::type().name, \
+                              expectedType::typeInfo().name,       \
                               pObject->type().name);               \
         throw exceptions::InvalidInput(message.GetData());         \
     }                                                              \
 
-#define LCPP_BUILTIN_FUNCTION_CHECK_TYPE_2(pObject, expectedType1, expectedType2)  \
+#define LCPP_BUILTIN_FUNCTION_CHECK_TYPE_2(pObject, expectedType1, expectedType2) \
     if(!pObject->is<expectedType1>()                                \
     && !pObject->is<expectedType2>())                               \
     {                                                               \
         ezStringBuilder message;                                    \
         message.AppendFormat("Expected type %s or %s, got %s",      \
-                              TypeInfo<expectedType1>::type().name, \
-                              TypeInfo<expectedType2>::type().name, \
+                              expectedType1::typeInfo().name,       \
+                              expectedType1::typeInfo().name,       \
                               pArgList->car()->type().name);        \
         throw exceptions::InvalidInput(message.GetData());          \
     }                                                               \

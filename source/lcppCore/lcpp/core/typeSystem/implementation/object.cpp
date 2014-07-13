@@ -8,3 +8,14 @@ lcpp::LispObject::create()
     EZ_REPORT_FAILURE(szMessage);
     throw exceptions::InvalidOperation(szMessage);
 }
+
+const lcpp::Type&
+lcpp::LispObject::typeInfo()
+{
+    static auto t = Type::create(EZ_STRINGIZE(LispObject),
+                                 "object",
+                                 MemoryInfo(sizeof(LispObject),
+                                            sizeof(LispObject)));
+
+    return t;
+}

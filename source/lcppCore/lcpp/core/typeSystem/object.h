@@ -45,22 +45,6 @@ namespace lcpp
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispObject);
     };
 
-    template<>
-    struct TypeInfo< LispObject >
-    {
-        inline static const Type& type()
-        {
-            static_assert(Type::Version == 3,
-                "Type version was updated. Adjust your implementation accordingly!");
-            static auto theType = Type::create(
-                "LispObject",
-                "object",
-                MemoryInfo(sizeof(LispObject), sizeof(LispObject))
-                );
-            return theType;
-        }
-    };
-
         /// \brief Class used to generate default overrides of LispObject.
         ///
         /// Has to derive from LispObject at some point!

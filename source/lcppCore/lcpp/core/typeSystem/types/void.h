@@ -28,12 +28,6 @@ namespace lcpp
 
         LispVoid();
     };
-
-    template<>
-    struct TypeInfo < LispVoid >
-    {
-        static const Type& type() { return LispVoid::typeInfo(); }
-    };
 }
 
 #define LCPP_VOID (lcpp::LispVoid::create())

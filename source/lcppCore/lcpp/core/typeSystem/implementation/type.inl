@@ -19,5 +19,5 @@ inline
 bool
 lcpp::operator !=(const Type& lhs, const Type& rhs)
 {
-    return lhs.id != rhs.id;
+    return !(lhs == rhs);
 }

@@ -44,7 +44,7 @@ namespace
         {
             auto object = reader.read("42");
 
-            auto& staticType = TypeInfo<LispInteger>::type();
+            auto& staticType = LispInteger::typeInfo();
             auto& type = object->type();
 
             CUT_ASSERT.isTrue(type == staticType, "Type ID mismatch for scheme integer!");
@@ -56,7 +56,7 @@ namespace
             auto pObject = reader.read("3.1415");
 
             CUT_ASSERT.isTrue(dynamic_cast<LispNumber*>(pObject.get()) != nullptr, "Reader did not return a scheme number instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<LispNumber>::type(), "Type ID mismatch for scheme number!");
+            CUT_ASSERT.isTrue(pObject->type() == LispNumber::typeInfo(), "Type ID mismatch for scheme number!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("3.1415"), "Wrong string representation");
         }
 
@@ -64,7 +64,7 @@ namespace
             auto pObject = reader.read("hello world");
 
             CUT_ASSERT.isTrue(dynamic_cast<LispSymbol*>(pObject.get()) != nullptr, "Reader did not return a scheme symbol instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<LispSymbol>::type(), "Type ID mismatch for scheme symbol!");
+            CUT_ASSERT.isTrue(pObject->type() == LispSymbol::typeInfo(), "Type ID mismatch for scheme symbol!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("hello"), "Wrong string representation");
         }
 
@@ -72,7 +72,7 @@ namespace
             auto pObject = reader.read("\"hello world\"");
 
             CUT_ASSERT.isTrue(dynamic_cast<LispString*>(pObject.get()) != nullptr, "Reader did not return a scheme string instance!");
-            CUT_ASSERT.isTrue(pObject->type() == TypeInfo<LispString>::type(), "Type ID mismatch for scheme string!");
+            CUT_ASSERT.isTrue(pObject->type() == LispString::typeInfo(), "Type ID mismatch for scheme string!");
             CUT_ASSERT.isTrue(pObject->toString().IsEqual("\"hello world\""), "Wrong string representation");
         }
     });

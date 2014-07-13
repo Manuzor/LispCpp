@@ -10,7 +10,7 @@ inline
 bool
 lcpp::LispObject::is() const
 {
-    return type().id == TypeInfo<T_Other>::type().id;
+    return type() == T_Other::typeInfo();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ inline
 const lcpp::Type&
 lcpp::LispExtend<T_Derived, T_Base>::type() const
 {
-    return TypeInfo<T_Derived>::type();
+    return T_Derived::typeInfo();
 }
 
 template<typename T_Derived, typename T_Base>
