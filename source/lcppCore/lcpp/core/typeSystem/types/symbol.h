@@ -3,14 +3,19 @@
 
 namespace lcpp
 {
-    class LispSymbol :
-        public LispExtend<LispSymbol, LispObject>
+    class LCPP_CORE_API LispSymbol :
+        public LispObject
     {
         friend class TypeFactory;
     public:
+        static Ptr<LispSymbol> create(const ezString& symbol);
 
-        virtual ~LispSymbol();
+        static const Type& typeInfo();
 
+    public:
+
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual const Type& type() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
@@ -25,11 +30,8 @@ namespace lcpp
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispSymbol);
     };
 
-    LCPP_DECLARE_SCHEME_TYPE_INFO(LispSymbol, "symbol");
-
     bool operator ==(const LispSymbol& lhs, const LispSymbol& rhs);
 
 }
-
 
 #include "lcpp/core/typeSystem/types/implementation/symbol_inl.h"

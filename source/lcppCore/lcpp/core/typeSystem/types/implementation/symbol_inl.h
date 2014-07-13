@@ -1,6 +1,6 @@
 
 inline
-    lcpp::LispSymbol::LispSymbol(const char* symbol) :
+lcpp::LispSymbol::LispSymbol(const char* symbol) :
     m_symbol(symbol)
 {
 }
@@ -12,8 +12,17 @@ lcpp::LispSymbol::LispSymbol(const ezString& symbol) :
 }
 
 inline
-lcpp::LispSymbol::~LispSymbol()
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispSymbol::clone(ezAllocatorBase* pAllocator) const
 {
+    return LCPP_NEW(pAllocator, LispSymbol)(m_symbol);
+}
+
+inline
+const lcpp::Type&
+lcpp::LispSymbol::type() const
+{
+    return LispSymbol::typeInfo();
 }
 
 inline
