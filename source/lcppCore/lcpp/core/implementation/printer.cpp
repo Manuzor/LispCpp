@@ -2,6 +2,7 @@
 #include "lcpp/core/printer.h"
 #include "lcpp/core/typeSystem.h"
 #include <iostream>
+#include <string>
 
 lcpp::Printer::Printer() :
     m_pOut(&std::cout)

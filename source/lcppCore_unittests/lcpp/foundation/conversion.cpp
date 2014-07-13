@@ -9,7 +9,7 @@ namespace
 
     UnitTest g_test1(g_group, "ToString", []{
         {
-            auto str = toString(1);
+            auto str = lcpp::toString(1);
             CUT_ASSERT.isTrue(str.IsEqual("1"));
         }
         {

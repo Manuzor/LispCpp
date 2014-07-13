@@ -1,50 +1,104 @@
-﻿#include "lcpp/foundation/conversion.h"
-
-template<typename NUMBER_TYPE>
-inline
-lcpp::LispNumber_t<NUMBER_TYPE>::LispNumber_t(Number_t value) :
+﻿inline
+lcpp::LispInteger::LispInteger(Number_t value) :
     m_value(value)
 {
 }
 
-template<typename NUMBER_TYPE>
 inline
-lcpp::LispNumber_t<NUMBER_TYPE>::~LispNumber_t()
+lcpp::LispInteger::LispInteger(const LispInteger& toCopy) :
+    m_value(toCopy.m_value)
 {
 }
 
-template<typename NUMBER_TYPE>
 inline
 bool
-lcpp::LispNumber_t<NUMBER_TYPE>::operator ==(const LispObject& obj) const
+lcpp::LispInteger::operator ==(const LispObject& obj) const
 {
-    if(obj.is<LispNumber_t<NUMBER_TYPE>>())
+    if(obj.is<LispInteger>())
     {
-        return *this == static_cast<const LispNumber_t<Number_t>&>(obj); // Call the specialized operator ==
+        return *this == static_cast<const LispInteger&>(obj); // Call the specialized operator ==
     }
     return false;
 }
 
-template<typename NUMBER_TYPE>
 inline
-typename NUMBER_TYPE
-lcpp::LispNumber_t<NUMBER_TYPE>::value(void) const
+lcpp::LispInteger::Number_t
+lcpp::LispInteger::value(void) const
 {
     return m_value;
 }
 
-template<typename NUMBER_TYPE>
 inline
 void
-lcpp::LispNumber_t<NUMBER_TYPE>::value(NUMBER_TYPE val)
+lcpp::LispInteger::value(Number_t val)
 {
     m_value = val;
 }
 
-template<typename NUMBER_TYPE>
 inline
-ezString
-lcpp::LispNumber_t<NUMBER_TYPE>::toString() const
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispInteger::clone(ezAllocatorBase* pAllocator) const
 {
-    return lcpp::toString(m_value);
+    return LCPP_NEW(pAllocator, LispInteger)(m_value);
 }
+
+inline
+const lcpp::Type&
+lcpp::LispInteger::type() const
+{
+    return LispInteger::typeInfo();
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+inline
+lcpp::LispNumber::LispNumber(Number_t value) :
+    m_value(value)
+{
+}
+
+inline
+lcpp::LispNumber::LispNumber(const LispNumber& toCopy) :
+    m_value(toCopy.m_value)
+{
+}
+
+inline
+bool
+lcpp::LispNumber::operator ==(const LispObject& obj) const
+{
+    if(obj.is<LispNumber>())
+    {
+        return *this == static_cast<const LispNumber&>(obj); // Call the specialized operator ==
+    }
+    return false;
+}
+
+inline
+lcpp::LispNumber::Number_t
+lcpp::LispNumber::value(void) const
+{
+    return m_value;
+}
+
+inline
+void
+lcpp::LispNumber::value(Number_t val)
+{
+    m_value = val;
+}
+
+inline
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispNumber::clone(ezAllocatorBase* pAllocator) const
+{
+    return LCPP_NEW(pAllocator, LispNumber)(m_value);
+}
+
+inline
+const lcpp::Type&
+lcpp::LispNumber::type() const
+{
+    return LispNumber::typeInfo();
+}
+

@@ -2,6 +2,7 @@
 #include "lcpp/cli/interpreter.h"
 #include "lcpp/cli/ioUtils.h"
 #include <iostream>
+#include <string>
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pRuntime(cinfo.pRuntime),

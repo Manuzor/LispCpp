@@ -8,6 +8,7 @@
 
 #include "lcpp/foundation/common.h"
 #include "lcpp/foundation/startup.h"
+#include "lcpp/foundation/conversion.h"
 
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/reader.h"
