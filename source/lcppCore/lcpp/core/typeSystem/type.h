@@ -21,12 +21,12 @@ namespace lcpp
             {
                 None = 0x0000,
 
-                Abstract,
-                UserDefined, ///< If this flag is not set, it is built-in.
-                Syntax,
-                Callable,
-                Arithmetic,
-                Singleton,
+                Abstract    = EZ_BIT(0),
+                UserDefined = EZ_BIT(1), ///< If this flag is not set, it is built-in.
+                Syntax      = EZ_BIT(2),
+                Callable    = EZ_BIT(3),
+                Arithmetic  = EZ_BIT(4),
+                Singleton   = EZ_BIT(5),
 
                 ALL = 0xFFFF,
             };
