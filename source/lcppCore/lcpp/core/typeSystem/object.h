@@ -8,19 +8,20 @@ namespace lcpp
     template<typename Derived, typename Base>
     class LispExtend;
 
-    /// \brief Base class for all scheme types
-    /// 
-    /// Do not directly derive your scheme type from this.
-    /// Use LispExtend instead.
-    /// Example:
-    /// class LispBool : public LispExtend<LispBool, LispObject> { /* ... */ };
+        /// \brief Base class for all scheme types
+        /// 
+        /// Do not directly derive your scheme type from this.
+        /// Use LispExtend instead.
+        /// Example:
+        /// class LispBool : public LispExtend<LispBool, LispObject> { /* ... */ };
     class LCPP_CORE_API LispObject
     {
         friend class TypeFactory;
     public:
 
-        /// \brief Fails an assert and throws exceptions::InvalidOperation()
+            /// \brief Fails an assert and throws exceptions::InvalidOperation()
         static Ptr<LispObject> create();
+
         static const Type& typeInfo();
 
     public:
@@ -60,9 +61,9 @@ namespace lcpp
         }
     };
 
-    /// \brief Class used to generate default overrides of LispObject.
-    ///
-    /// Has to derive from LispObject at some point!
+        /// \brief Class used to generate default overrides of LispObject.
+        ///
+        /// Has to derive from LispObject at some point!
     template<typename T_Derived, typename T_Base>
     class LispExtend : public T_Base
     {

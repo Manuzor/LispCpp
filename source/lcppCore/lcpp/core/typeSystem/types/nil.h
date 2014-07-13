@@ -34,12 +34,6 @@ namespace lcpp
         EZ_DISALLOW_COPY_AND_ASSIGN(LispNil);
     };
 
-    template<>
-    struct TypeInfo <LispNil>
-    {
-        static const Type& type() { return LispNil::typeInfo(); }
-    };
-
     bool isNil(Ptr<LispObject> pObject);
     bool isNil(Ptr<const LispObject> pObject);
     bool isNil(Ptr<LispNil> pNil);

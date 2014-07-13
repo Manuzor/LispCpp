@@ -4,10 +4,15 @@
 
 namespace lcpp
 {
-    class LispCons :
-        public LispExtend<LispCons, LispObject>
+    class LCPP_CORE_API LispCons :
+        public LispObject
     {
         friend class TypeFactory;
+    public:
+
+        static Ptr<LispCons> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr);
+        static const Type& typeInfo();
+
     public:
 
         LispCons(const LispCons& toCopy);
@@ -18,19 +23,24 @@ namespace lcpp
 
         virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const;
 
+        virtual const Type& type() const LCPP_OVERRIDE;
+
         virtual ezString toString() const LCPP_OVERRIDE;
-        // Prints the contents of itself to \a builder.
-        // \remark Effectlively omits the enclosing parenthesis.
+
+            /// Prints the contents of itself to \a builder.
+            /// \remark Effectlively omits the enclosing parenthesis.
         void toStringHelper(ezStringBuilder& builder) const;
 
-        /// \brief set car.
+            /// \brief set car.
         void car(Ptr<LispObject> pObject);
-        /// \brief get car.
+
+            /// \brief get car.
         Ptr<LispObject> car();
 
-        /// \brief set cdr.
+            /// \brief set cdr.
         void cdr(Ptr<LispObject> pObject);
-        /// \brief get cdr
+
+            /// \brief get cdr
         Ptr<LispObject> cdr();
     private:
 
@@ -39,8 +49,6 @@ namespace lcpp
 
         LispCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr);
     };
-
-    LCPP_DECLARE_SCHEME_TYPE_INFO(LispCons, "cons");
 
     /// Counts the elements of pRegularList
     ezResult count(Ptr<LispCons> pRegularList, ezUInt32& out_count);

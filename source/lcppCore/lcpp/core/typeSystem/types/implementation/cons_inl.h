@@ -52,6 +52,13 @@ lcpp::LispCons::clone(ezAllocatorBase* pAllocator) const
 }
 
 inline
+const lcpp::Type&
+lcpp::LispCons::type() const
+{
+    return LispCons::typeInfo();
+}
+
+inline
 ezString
 lcpp::LispCons::toString() const
 {

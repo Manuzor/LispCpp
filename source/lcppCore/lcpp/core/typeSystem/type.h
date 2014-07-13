@@ -41,11 +41,11 @@ namespace lcpp
         /// \remark You have to specialize this template for all your scheme types!
         ///         In order to make this easier, you can use the macros defined at
         ///         the end of this file.
-    template<typename T>
+    template<typename T_Object>
     struct TypeInfo
     {
             /// \brief Gets the instance of the Type associated with T
-        static const Type& type();
+        static const Type& type() { return T_Object::typeInfo(); }
     };
 }
 

@@ -33,12 +33,6 @@ namespace lcpp
 
     };
 
-    template<>
-    struct TypeInfo<LispBool>
-    {
-        static const Type& type() { return LispBool::typeInfo(); }
-    };
-
     bool isTrue(Ptr<LispObject> pObject);
     bool isFalse(Ptr<LispObject> pObject);
 

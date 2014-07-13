@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
 
-namespace lcpp
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispObject::create()
 {
-    Ptr<LispObject>
-    LispObject::create()
-    {
-        static auto szMessage = "Cannot directly instantiate LispObject";
-        EZ_ASSERT(false, szMessage);
-        throw exceptions::InvalidOperation(szMessage);
-    }
+    static auto szMessage = "Cannot directly instantiate LispObject";
+    EZ_REPORT_FAILURE(szMessage);
+    throw exceptions::InvalidOperation(szMessage);
 }

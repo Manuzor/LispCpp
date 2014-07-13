@@ -1,15 +1,18 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 lcpp::Ptr<lcpp::LispNil>
 lcpp::LispNil::create()
 {
     static auto instance = LispNil();
     static auto pNil = Ptr<LispNil>(&instance);
+    LispCons::typeInfo();
     return pNil;
 }
 
-const lcpp::Type& lcpp::LispNil::typeInfo()
+const lcpp::Type&
+lcpp::LispNil::typeInfo()
 {
     static auto t = Type::create(EZ_STRINGIZE(LispNil),
                                  "nil",
