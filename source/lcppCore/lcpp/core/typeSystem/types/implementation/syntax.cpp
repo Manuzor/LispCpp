@@ -89,13 +89,12 @@ lcpp::LispSyntax_Builtin::LispSyntax_Builtin(Ptr<LispSymbol> pName,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispSyntax_Builtin::call(Ptr<LispRuntime> pRuntime,
-                                 Ptr<Environment> pEnv,
-                                 Ptr<LispObject> pUnevaluatedArgList)
+lcpp::LispSyntax_Builtin::call(Ptr<Environment> pEnv,
+                               Ptr<LispObject> pUnevaluatedArgList)
 {
-    RecursionCounter counter(pRuntime);
+    RecursionCounter counter(LispRuntime::instance());
     auto& handler = *m_pHandler;
-    return (*m_pHandler)(pRuntime, pEnv, pUnevaluatedArgList);
+    return (*m_pHandler)(pEnv, pUnevaluatedArgList);
 }
 
 lcpp::Ptr<lcpp::LispObject>

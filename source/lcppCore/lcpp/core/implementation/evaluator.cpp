@@ -7,8 +7,7 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::RecursiveEvaluator::RecursiveEvaluator(Ptr<LispRuntime> pRuntime) :
-    m_pRuntime(pRuntime),
+lcpp::RecursiveEvaluator::RecursiveEvaluator() :
     m_evalLevel(0)
 {
 }
@@ -28,7 +27,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispObject> pObject)
     EZ_ASSERT(m_evalLevel == 0,
               "Attempt to recursively call the evaluate function with the default environment (/global)! "
               "This is not allowed. Call the other evaluate function and supply an environment.");
-    return evalulate(m_pRuntime->globalEnvironment(), pObject);
+    return evalulate(LispRuntime::instance()->globalEnvironment(), pObject);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -73,7 +72,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObje
         ezLog::VerboseDebugMessage("Executing syntax object: %s",
                                    pFuncObject->toString().GetData());
         auto pUnevaluatedArgList = pBody->cdr();
-        return pFuncObject.cast<LispSyntax>()->call(m_pRuntime, pEnv, pUnevaluatedArgList);
+        return pFuncObject.cast<LispSyntax>()->call(pEnv, pUnevaluatedArgList);
     }
     
     if (!pFuncObject->is<LispFunction>())
@@ -86,7 +85,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObje
         throw exceptions::InvalidSyntax(message.GetData());
     }
 
-    auto pArgs = m_pRuntime->factory()->copy(pBody->cdr());
+    auto pArgs = LispRuntime::instance()->factory()->copy(pBody->cdr());
 
     if(!isNil(pArgs))
     {

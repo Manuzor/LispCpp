@@ -5,13 +5,11 @@
 #include <string>
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
-    m_pRuntime(cinfo.pRuntime),
     m_pPrinter(cinfo.pPrinter),
     m_out(std::cout),
     m_in(std::cin),
     m_szDataDir()
 {
-    EZ_ASSERT(m_pRuntime, "Invalid runtime pointer!");
     EZ_ASSERT(m_pPrinter, "Invalid printer pointer!");
 }
 
@@ -21,8 +19,6 @@ lcpp::Interpreter::~Interpreter()
 
 void lcpp::Interpreter::initialize()
 {
-    m_pRuntime->initialize();
-
     ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
     ezStringBuilder dataDir;
@@ -53,13 +49,12 @@ void lcpp::Interpreter::initialize()
 void
 lcpp::Interpreter::shutdown()
 {
-    m_pRuntime->shutdown();
 }
 
 void lcpp::Interpreter::loadBase()
 {
-    auto pReader = m_pRuntime->reader();
-    auto pEvaluator = m_pRuntime->evaluator();
+    auto pReader = LispRuntime::instance()->reader();
+    auto pEvaluator = LispRuntime::instance()->evaluator();
 
     ezFileReader file_stdlib;
     if(file_stdlib.Open("stdlib.lisp", ezFileMode::Read) == EZ_FAILURE)
@@ -69,13 +64,13 @@ void lcpp::Interpreter::loadBase()
     auto size = file_stdlib.GetFileSize();
     auto bufferSize = ezUInt32(size) + 1;
 
-    auto buffer = LCPP_NEW_RAW_BUFFER(m_pRuntime->allocator().get(), char, bufferSize);
-    LCPP_SCOPE_EXIT{ LCPP_DELETE_RAW_BUFFER(m_pRuntime->allocator().get(), buffer); };
+    auto buffer = LCPP_NEW_RAW_BUFFER(LispRuntime::instance()->allocator().get(), char, bufferSize);
+    LCPP_SCOPE_EXIT{ LCPP_DELETE_RAW_BUFFER(LispRuntime::instance()->allocator().get(), buffer); };
 
     // null terminator
     buffer[bufferSize - 1] = '\0';
     
-    ezStringBuilder content(m_pRuntime->allocator().get());
+    ezStringBuilder content(LispRuntime::instance()->allocator().get());
     content.Reserve(bufferSize);
 
     file_stdlib.ReadBytes(buffer, bufferSize - 1);
@@ -101,8 +96,8 @@ ezInt32 lcpp::Interpreter::repl()
 {
     std::ios_base::sync_with_stdio(false);
 
-    auto pReader = m_pRuntime->reader();
-    auto pEvaluator = m_pRuntime->evaluator();
+    auto pReader = LispRuntime::instance()->reader();
+    auto pEvaluator = LispRuntime::instance()->evaluator();
 
     m_pPrinter->setOutputStream(m_out);
 

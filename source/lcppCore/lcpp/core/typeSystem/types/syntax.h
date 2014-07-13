@@ -31,9 +31,8 @@ namespace lcpp
         lcpp::Ptr<      lcpp::LispSymbol> lcpp::LispSyntax::name();
         lcpp::Ptr<const lcpp::LispSymbol> lcpp::LispSyntax::name() const;
 
-        virtual Ptr<LispObject> call(Ptr<LispRuntime> pRuntime,
-                                       Ptr<Environment> pEnv,
-                                       Ptr<LispObject> pUnevaluatedArgList) = 0;
+        virtual Ptr<LispObject> call(Ptr<Environment> pEnv,
+                                     Ptr<LispObject> pUnevaluatedArgList) = 0;
 
     protected:
         Ptr<LispSymbol> m_pName;
@@ -43,7 +42,7 @@ namespace lcpp
         public LispSyntax
     {
     public:
-        typedef Ptr<LispObject>(*HandlerFuncPtr_t)(Ptr<LispRuntime>, Ptr<Environment>, Ptr<LispObject>);
+        typedef Ptr<LispObject>(*HandlerFuncPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
 
         static Ptr<LispSyntax_Builtin> create(Ptr<LispSymbol> pName,
@@ -57,9 +56,8 @@ namespace lcpp
 
         virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
-        virtual Ptr<LispObject> call(Ptr<LispRuntime> pRuntime,
-                                       Ptr<Environment> pEnv,
-                                       Ptr<LispObject> pUnevaluatedArgList) LCPP_OVERRIDE;
+        virtual Ptr<LispObject> call(Ptr<Environment> pEnv,
+                                     Ptr<LispObject> pUnevaluatedArgList) LCPP_OVERRIDE;
 
     private:
         HandlerFuncPtr_t m_pHandler;

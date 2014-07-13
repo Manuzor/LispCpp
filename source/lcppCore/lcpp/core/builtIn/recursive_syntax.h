@@ -12,11 +12,11 @@ namespace lcpp
 {
     namespace syntax
     {
-        Ptr<LispObject> define(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
-        Ptr<LispObject> set(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
-        Ptr<LispObject> lambda(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
-        Ptr<LispObject> if_(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
-        Ptr<LispObject> and(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
-        Ptr<LispObject> or(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> define(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> set(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> lambda(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> if_(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> and(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> or(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
     }
 }

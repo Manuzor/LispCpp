@@ -50,10 +50,10 @@ void
 lcpp::LispRuntime::initialize()
 {
     m_pAllocator = defaultAllocator();
-    m_pFactory = LCPP_NEW(m_pAllocator, TypeFactory)(this);
+    m_pFactory = LCPP_NEW(m_pAllocator, TypeFactory)();
     
-    m_pReader = LCPP_NEW(m_pAllocator, Reader)(this, Reader::CInfo());
-    m_pEvaluator = LCPP_NEW(m_pAllocator, RecursiveEvaluator)(this);
+    m_pReader = LCPP_NEW(m_pAllocator, Reader)(Reader::CInfo());
+    m_pEvaluator = LCPP_NEW(m_pAllocator, RecursiveEvaluator)();
 
     m_pSyntaxEnvironment = LCPP_NEW(m_pAllocator, Environment)("syntax", m_pAllocator);
     m_pGlobalEnvironment = LCPP_NEW(m_pAllocator, Environment)("global", m_pSyntaxEnvironment);

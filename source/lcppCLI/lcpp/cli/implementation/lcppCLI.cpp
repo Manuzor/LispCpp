@@ -62,14 +62,10 @@ ezInt32 run()
 {
     using namespace lcpp;
 
-    LispRuntime runtime;
-    runtime.initialize();
-
     // Printer
     Printer printer;
     
     Interpreter::CInfo cinfo;
-    cinfo.pRuntime = &runtime;
     cinfo.pPrinter = &printer;
 
     Interpreter interpreter(cinfo);

@@ -64,12 +64,10 @@ namespace lcpp
         Ptr<LispVoid> copy(Ptr<LispVoid> pVoid) { return pVoid; }
 
     private:
-        Ptr<LispRuntime> m_pRuntime;
-
         ezHashTable<ezString, Ptr<LispSymbol>> m_symbols;
         ezHashTable<LispInteger::Number_t, Ptr<LispInteger>> m_integers;
 
     private:
-        TypeFactory(Ptr<LispRuntime> pRuntime);
+        TypeFactory();
     };
 }

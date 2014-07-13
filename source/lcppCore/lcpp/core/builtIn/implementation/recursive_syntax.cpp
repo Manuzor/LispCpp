@@ -13,8 +13,7 @@
 namespace lcpp
 {
     Ptr<LispObject>
-    defineHelper(Ptr<LispRuntime> pRuntime,
-                 Ptr<Environment> pEnv,
+    defineHelper(Ptr<Environment> pEnv,
                  Ptr<LispObject> pArgs,
                  std::function<void(Ptr<Environment>, Ptr<LispSymbol>, Ptr<LispObject>)> envOp)
     {
@@ -41,7 +40,7 @@ namespace lcpp
                 throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
             }
             auto pSymbol = pSymbolObject.cast<LispSymbol>();
-            auto pLambda = lcpp::syntax::lambda(pRuntime, pEnv, pRuntime->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
+            auto pLambda = lcpp::syntax::lambda(pEnv, LispRuntime::instance()->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
 
             envOp(pEnv, pSymbol, pLambda);
 
@@ -69,7 +68,7 @@ namespace lcpp
         auto symbol = pArgList->car().cast<LispSymbol>();
         auto value = pArgList->cdr().cast<LispCons>()->car();
 
-        value = pRuntime->evaluator()->evalulate(pEnv, value);
+        value = LispRuntime::instance()->evaluator()->evalulate(pEnv, value);
 
         envOp(pEnv, symbol, value);
 
@@ -84,13 +83,11 @@ namespace lcpp
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::define(Ptr<LispRuntime> pRuntime,
-                     Ptr<Environment> pEnv,
-                     Ptr<LispObject> pArgs)
+lcpp::syntax::define(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::define");
 
-    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
+    return defineHelper(pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         pEnv->add(pSymbol, pObject);
         if(pObject->is<LispFunction>())
         {
@@ -100,13 +97,11 @@ lcpp::syntax::define(Ptr<LispRuntime> pRuntime,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::set(Ptr<LispRuntime> pRuntime,
-                  Ptr<Environment> pEnv,
-                  Ptr<LispObject> pArgs)
+lcpp::syntax::set(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::set");
 
-    return defineHelper(pRuntime, pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
+    return defineHelper(pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         auto result = pEnv->set(pSymbol, pObject);
 
         if (!result.IsSuccess())
@@ -124,9 +119,7 @@ lcpp::syntax::set(Ptr<LispRuntime> pRuntime,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::lambda(Ptr<LispRuntime> pRuntime,
-                     Ptr<Environment> pEnv,
-                     Ptr<LispObject> pArgs)
+lcpp::syntax::lambda(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::lambda");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -172,11 +165,11 @@ lcpp::syntax::lambda(Ptr<LispRuntime> pRuntime,
 
     auto pBodyList = pBody.cast<LispCons>();
 
-    return pRuntime->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
+    return LispRuntime::instance()->factory()->createUserDefinedFunction(pEnv, pArgNameList, pBodyList);
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::if_(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::if_");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -205,7 +198,7 @@ lcpp::syntax::if_(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObje
     auto thenPart = pArgList->cdr().cast<LispCons>()->car();
     auto elsePart = pArgList->cdr().cast<LispCons>()->cdr().cast<LispCons>()->car();
 
-    auto expressionResult = pRuntime->evaluator()->evalulate(pEnv, expression);
+    auto expressionResult = LispRuntime::instance()->evaluator()->evalulate(pEnv, expression);
 
     if (!expressionResult->is<LispBool>())
     {
@@ -214,16 +207,14 @@ lcpp::syntax::if_(Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObje
 
     if(isTrue(expressionResult))
     {
-        return pRuntime->evaluator()->evalulate(pEnv, thenPart);
+        return LispRuntime::instance()->evaluator()->evalulate(pEnv, thenPart);
     }
 
-    return pRuntime->evaluator()->evalulate(pEnv, elsePart);
+    return LispRuntime::instance()->evaluator()->evalulate(pEnv, elsePart);
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::and(Ptr<LispRuntime> pRuntime,
-                  Ptr<Environment> pEnv,
-                  Ptr<LispObject> pArgs)
+lcpp::syntax::and(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::and");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -237,7 +228,7 @@ lcpp::syntax::and(Ptr<LispRuntime> pRuntime,
         auto pArg = pArgs.cast<LispCons>()->car();
         pArgs = pArgs.cast<LispCons>()->cdr();
 
-        pResult = pRuntime->evaluator()->evalulate(pEnv, pArg);
+        pResult = LispRuntime::instance()->evaluator()->evalulate(pEnv, pArg);
 
         if (!pResult->is<LispBool>())
         {
@@ -256,9 +247,7 @@ lcpp::syntax::and(Ptr<LispRuntime> pRuntime,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::or(Ptr<LispRuntime> pRuntime,
-                 Ptr<Environment> pEnv,
-                 Ptr<LispObject> pArgs)
+lcpp::syntax::or(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::or");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -272,7 +261,7 @@ lcpp::syntax::or(Ptr<LispRuntime> pRuntime,
         auto pArg = pArgs.cast<LispCons>()->car();
         pArgs = pArgs.cast<LispCons>()->cdr();
 
-        pResult = pRuntime->evaluator()->evalulate(pEnv, pArg);
+        pResult = LispRuntime::instance()->evaluator()->evalulate(pEnv, pArg);
 
         if(!pResult->is<LispBool>())
         {

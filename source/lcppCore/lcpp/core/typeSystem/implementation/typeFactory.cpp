@@ -3,24 +3,22 @@
 #include "lcpp/core/environment.h"
 #include "lcpp/core/runtime.h"
 
-lcpp::TypeFactory::TypeFactory(Ptr<LispRuntime> pRuntime) :
-    m_pRuntime(pRuntime),
-    m_symbols(pRuntime->allocator().get()),
-    m_integers(pRuntime->allocator().get())
+lcpp::TypeFactory::TypeFactory() :
+    m_symbols(LispRuntime::instance()->allocator().get()),
+    m_integers(LispRuntime::instance()->allocator().get())
 {
-    EZ_ASSERT(pRuntime, "Invalid runtime!");
 }
 
 lcpp::TypeFactory::~TypeFactory()
 {
-    m_symbols.Clear();
     m_integers.Clear();
+    m_symbols.Clear();
 }
 
 lcpp::Ptr<lcpp::Environment>
 lcpp::TypeFactory::createEnvironment(const ezString& name, Ptr<Environment> pParent)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), Environment)(name, pParent);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(name, pParent);
 }
 
 lcpp::Ptr<lcpp::LispInteger>
@@ -29,7 +27,7 @@ lcpp::TypeFactory::createInteger(LispInteger::Number_t value)
     Ptr<LispInteger> pResult;
     if(!m_integers.TryGetValue(value, pResult))
     {
-        pResult = LCPP_NEW(m_pRuntime->allocator().get(), LispInteger)(value);
+        pResult = LCPP_NEW(LispRuntime::instance()->allocator().get(), LispInteger)(value);
         m_integers[value] = pResult;
     }
     EZ_ASSERT(pResult, "The result should never be a nullptr!");
@@ -40,13 +38,13 @@ lcpp::TypeFactory::createInteger(LispInteger::Number_t value)
 lcpp::Ptr<lcpp::LispNumber>
 lcpp::TypeFactory::createNumber(LispNumber::Number_t value)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispNumber)(value);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispNumber)(value);
 }
 
 lcpp::Ptr<lcpp::LispString>
 lcpp::TypeFactory::createString(const ezString& str)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispString)(str);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispString)(str);
 }
 
 lcpp::Ptr<lcpp::LispSymbol>
@@ -55,7 +53,7 @@ lcpp::TypeFactory::createSymbol(const ezString& symbol)
     Ptr<LispSymbol> pResult;
     if (!m_symbols.TryGetValue(symbol, pResult))
     {
-        pResult = LCPP_NEW(m_pRuntime->allocator().get(), LispSymbol)(symbol);
+        pResult = LCPP_NEW(LispRuntime::instance()->allocator().get(), LispSymbol)(symbol);
         m_symbols[symbol] = pResult;
     }
     EZ_ASSERT(pResult, "The result should never be a nullptr!");
@@ -66,13 +64,13 @@ lcpp::TypeFactory::createSymbol(const ezString& symbol)
 lcpp::Ptr<lcpp::LispCons>
 lcpp::TypeFactory::createCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispCons)(pCar, pCdr);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispCons)(pCar, pCdr);
 }
 
 lcpp::Ptr<lcpp::LispFile>
 lcpp::TypeFactory::createFile(const ezString& fileName)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispFile)(fileName);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispFile)(fileName);
 }
 
 lcpp::Ptr<lcpp::LispFunction>
@@ -80,7 +78,7 @@ lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                              Ptr<LispObject> pArgNameList,
                                              Ptr<LispCons> pBody)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionUserDefined)(createEnvironment("", pParentEnv), pArgNameList, pBody);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispFunctionUserDefined)(createEnvironment("", pParentEnv), pArgNameList, pBody);
 }
 
 lcpp::Ptr<lcpp::LispFunction>
@@ -88,14 +86,14 @@ lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          Ptr<Environment> pParentEnv,
                                          LispFunctionBuiltin::ExecutorPtr_t executor)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionBuiltin)(name, createEnvironment("", pParentEnv), executor);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispFunctionBuiltin)(name, createEnvironment("", pParentEnv), executor);
 }
 
 lcpp::Ptr<lcpp::LispSyntax>
 lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
                                         LispSyntax_Builtin::HandlerFuncPtr_t pHandler)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispSyntax_Builtin)(pName, pHandler);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispSyntax_Builtin)(pName, pHandler);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -159,11 +157,11 @@ lcpp::TypeFactory::copy(Ptr<LispFile> pFile)
 lcpp::Ptr<lcpp::LispFunction>
 lcpp::TypeFactory::copy(Ptr<LispFunction> pFunc)
 {
-    return pFunc->clone(m_pRuntime->allocator().get());
+    return pFunc->clone(LispRuntime::instance()->allocator().get());
 }
 
 lcpp::Ptr<lcpp::LispSyntax>
 lcpp::TypeFactory::copy(Ptr<LispSyntax> pSyntax)
 {
-    return pSyntax.cast<LispObject>()->clone(m_pRuntime->allocator().get());
+    return pSyntax.cast<LispObject>()->clone(LispRuntime::instance()->allocator().get());
 }

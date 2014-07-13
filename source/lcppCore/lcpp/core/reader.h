@@ -99,16 +99,14 @@ namespace lcpp
             SyntaxCheckResult syntaxCheckResult;
         };
 
-    private:
-        Ptr<LispRuntime> m_pRuntime;
-        
+    private:        
         Defaults m_defaults;
 
         Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
         ezString m_separators;
 
     private:
-        explicit Reader(Ptr<LispRuntime> pRuntime, const CInfo& cinfo);
+        explicit Reader(const CInfo& cinfo);
 
         ezUInt8 advance(ezStringIterator& iter);
         Ptr<LispObject> parseListHelper(ezStringIterator& input);

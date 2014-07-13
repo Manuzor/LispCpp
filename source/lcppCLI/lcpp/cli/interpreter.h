@@ -8,7 +8,6 @@ namespace lcpp
 
         struct CInfo
         {
-            Ptr<LispRuntime> pRuntime;
             Ptr<Printer> pPrinter;
         };
 
@@ -24,7 +23,6 @@ namespace lcpp
         ezInt32 repl();
 
     private:
-        Ptr<LispRuntime> m_pRuntime;
         Ptr<Printer> m_pPrinter;
 
         std::ostream& m_out;

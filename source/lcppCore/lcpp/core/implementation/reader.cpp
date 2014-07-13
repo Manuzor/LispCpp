@@ -8,13 +8,11 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/environment.h"
 
-lcpp::Reader::Reader(Ptr<LispRuntime> pRuntime, const CInfo& cinfo) :
-    m_pRuntime(pRuntime),
+lcpp::Reader::Reader(const CInfo& cinfo) :
     m_defaults(),
     m_separators(cinfo.separators),
     m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult)
 {
-    EZ_ASSERT(m_pRuntime, "Need a valid runtime!");
 }
 
 lcpp::Reader::~Reader()
@@ -26,8 +24,8 @@ lcpp::Reader::initialize()
 {
     m_pSyntaxCheckResult->reset();
 
-    auto pEnv = m_pRuntime->syntaxEnvironment();
-    auto pFactory = m_pRuntime->factory();
+    auto pEnv = LispRuntime::instance()->syntaxEnvironment();
+    auto pFactory = LispRuntime::instance()->factory();
     Ptr<LispSymbol> pSymbol;
 
 #define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = pFactory->createSymbol(name); \
@@ -108,7 +106,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
                 {
                     advance(input);
                 }
-                return m_pRuntime->factory()->createSymbol(symbol);
+                return LispRuntime::instance()->factory()->createSymbol(symbol);
             }
             if (isDigit(ch))
             {
@@ -145,10 +143,10 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             LispNumber::Number_t number;
             auto result = to(input, number, &lastPos);
             EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-            return m_pRuntime->factory()->createNumber(number);
+            return LispRuntime::instance()->factory()->createNumber(number);
         }
 
-        return m_pRuntime->factory()->createInteger(integer);
+        return LispRuntime::instance()->factory()->createInteger(integer);
     }
 
     return parseSymbol(input);
@@ -165,7 +163,7 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
     
-    return m_pRuntime->factory()->createInteger(integer);
+    return LispRuntime::instance()->factory()->createInteger(integer);
 }
 
 lcpp::Ptr<lcpp::LispNumber>
@@ -178,7 +176,7 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
-    return m_pRuntime->factory()->createNumber(number);
+    return LispRuntime::instance()->factory()->createNumber(number);
 }
 
 lcpp::Ptr<lcpp::LispSymbol>
@@ -207,7 +205,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-    return m_pRuntime->factory()->createSymbol(symbol);
+    return LispRuntime::instance()->factory()->createSymbol(symbol);
 }
 
 
@@ -228,7 +226,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
     if(ch == '"')
     {
         advance(input);
-        return m_pRuntime->factory()->createString("");
+        return LispRuntime::instance()->factory()->createString("");
     }
 
     ezStringBuilder str;
@@ -246,7 +244,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
 
     // consume trailing "
     advance(input);
-    return m_pRuntime->factory()->createString(str);
+    return LispRuntime::instance()->factory()->createString(str);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -277,14 +275,14 @@ lcpp::Reader::parseList(ezStringIterator& input)
     {
         auto pSymbol = car.cast<LispSymbol>();
         Ptr<LispObject> pSyntax;
-        auto result = m_pRuntime->syntaxEnvironment()->get(pSymbol, pSyntax);
+        auto result = LispRuntime::instance()->syntaxEnvironment()->get(pSymbol, pSyntax);
         if(result.IsSuccess() && pSyntax->is<LispSyntax>())
         {
             car = pSyntax;
         }
     }
 
-    return m_pRuntime->factory()->createCons(car, cdr);
+    return LispRuntime::instance()->factory()->createCons(car, cdr);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -302,7 +300,7 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
     auto car = read(input, false);
     auto cdr = parseListHelper(input);
 
-    return m_pRuntime->factory()->createCons(car, cdr);
+    return LispRuntime::instance()->factory()->createCons(car, cdr);
 }
 
 ezUInt32
