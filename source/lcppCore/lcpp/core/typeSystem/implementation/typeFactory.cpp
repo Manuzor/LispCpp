@@ -80,7 +80,7 @@ lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                              Ptr<LispObject> pArgNameList,
                                              Ptr<LispCons> pBody)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionUserDefined)(m_pRuntime, createEnvironment("", pParentEnv), pArgNameList, pBody);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionUserDefined)(createEnvironment("", pParentEnv), pArgNameList, pBody);
 }
 
 lcpp::Ptr<lcpp::LispFunction>
@@ -88,7 +88,7 @@ lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          Ptr<Environment> pParentEnv,
                                          LispFunctionBuiltin::ExecutorPtr_t executor)
 {
-    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionBuiltin)(m_pRuntime, name, createEnvironment("", pParentEnv), executor);
+    return LCPP_NEW(m_pRuntime->allocator().get(), LispFunctionBuiltin)(name, createEnvironment("", pParentEnv), executor);
 }
 
 lcpp::Ptr<lcpp::LispSyntax>

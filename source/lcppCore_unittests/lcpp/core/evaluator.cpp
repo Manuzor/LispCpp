@@ -77,9 +77,9 @@ namespace
         // define f as a built-in function
         pSymbol = pRuntime->factory()->createSymbol("f");
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-func", pRuntime->globalEnvironment(),
-            [](Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
+            [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
-            return pRuntime->factory()->createInteger(42);
+            return LispRuntime::instance()->factory()->createInteger(42);
         });
         pRuntime->globalEnvironment()->add(pSymbol, pLambda);
 
@@ -104,10 +104,10 @@ namespace
         pRuntime->globalEnvironment()->add(pSymbol, pRuntime->factory()->createInteger(123));
 
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-clojure", pRuntime->globalEnvironment(),
-                                                                  [](Ptr<LispRuntime> pRuntime, Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
+            [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
             Ptr<LispObject> pResult;
-            auto lookupResult = pEnv->get(pRuntime->factory()->createSymbol("x"), pResult);
+            auto lookupResult = pEnv->get(LispRuntime::instance()->factory()->createSymbol("x"), pResult);
             CUT_ASSERT.isTrue(lookupResult.IsSuccess(), "Failed to find 'x' in environment!");
             return pResult;
         });

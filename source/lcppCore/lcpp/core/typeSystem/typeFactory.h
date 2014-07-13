@@ -34,13 +34,13 @@ namespace lcpp
         Ptr<LispCons>     createCons(Ptr<LispObject> car, Ptr<LispObject> cdr);
         Ptr<LispFile>     createFile(const ezString& fileName);
         Ptr<LispFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
-                                                      Ptr<LispObject> pArgNameList,
-                                                      Ptr<LispCons> pBody);
+                                                    Ptr<LispObject> pArgNameList,
+                                                    Ptr<LispCons> pBody);
         Ptr<LispFunction> createBuiltinFunction(const ezString& name,
-                                                  Ptr<Environment> pParentEnv,
-                                                  LispFunctionBuiltin::ExecutorPtr_t executor);
+                                                Ptr<Environment> pParentEnv,
+                                                LispFunctionBuiltin::ExecutorPtr_t executor);
         Ptr<LispSyntax> createSyntax_Builtin(Ptr<LispSymbol> pName,
-                                               LispSyntax_Builtin::HandlerFuncPtr_t pHandler);
+                                             LispSyntax_Builtin::HandlerFuncPtr_t pHandler);
 
         // General copy function
         //////////////////////////////////////////////////////////////////////////

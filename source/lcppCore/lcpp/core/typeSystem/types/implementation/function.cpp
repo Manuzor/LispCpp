@@ -28,11 +28,9 @@ lcpp::LispFunction::typeInfo()
     return t;
 }
 
-lcpp::LispFunction::LispFunction(Ptr<LispRuntime> pRuntime,
-                                     const ezString& name,
-                                     Ptr<Environment> pEnv) :
+lcpp::LispFunction::LispFunction(const ezString& name,
+                                 Ptr<Environment> pEnv) :
     m_name(name),
-    m_pRuntime(pRuntime),
     m_pEnv(pEnv)
 {
     m_pEnv->name() = m_name;
@@ -64,16 +62,15 @@ lcpp::LispFunction::name(const ezString& newName)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::LispFunctionBuiltin::LispFunctionBuiltin(Ptr<LispRuntime> pRuntime,
-                                                   const ezString& name,
-                                                   Ptr<Environment> pEnv,
-                                                   ExecutorPtr_t pExec) :
-    LispFunction(pRuntime, name, pEnv),
+lcpp::LispFunctionBuiltin::LispFunctionBuiltin(const ezString& name,
+                                               Ptr<Environment> pEnv,
+                                               ExecutorPtr_t pExec) :
+    LispFunction(name, pEnv),
     m_pExec(pExec)
 {
     EZ_ASSERT(!name.IsEmpty(), "A builtin function needs a name!");
 
-    ezStringBuilder builder(m_pRuntime->allocator().get());
+    ezStringBuilder builder(LispRuntime::instance()->allocator().get());
     builder.AppendFormat("builtin-procedure:%s", m_name.GetData());
     m_pEnv->name() = builder;
 
@@ -104,22 +101,21 @@ lcpp::Ptr<lcpp::LispObject>
 lcpp::LispFunctionBuiltin::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
-    RecursionCounter counter(m_pRuntime);
-    return (*m_pExec)(m_pRuntime, m_pEnv, pArgList);
+    RecursionCounter counter(LispRuntime::instance());
+    return (*m_pExec)(m_pEnv, pArgList);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<LispRuntime> pRuntime,
-                                                           Ptr<Environment> pEnv,
-                                                           Ptr<LispObject> pArgNameList,
-                                                           Ptr<LispCons> pBody) :
-    LispFunction(pRuntime, "anonymous", pEnv),
+lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<Environment> pEnv,
+                                                       Ptr<LispObject> pArgNameList,
+                                                       Ptr<LispCons> pBody) :
+    LispFunction("anonymous", pEnv),
     m_pArgNameList(pArgNameList),
     m_numArgs(0),
     m_pBody(pBody)
 #ifdef _DEBUG
-    ,m_dump(m_pRuntime->allocator().get())
+    , m_dump(LispRuntime::instance()->allocator().get())
 #endif // _DEBUG
 {
     ezStringBuilder builder;
@@ -193,7 +189,7 @@ lcpp::Ptr<lcpp::LispObject>
 lcpp::LispFunctionUserDefined::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
-    RecursionCounter counter(m_pRuntime);
+    RecursionCounter counter(LispRuntime::instance());
 
     // Process args
     //////////////////////////////////////////////////////////////////////////
@@ -209,7 +205,7 @@ lcpp::LispFunctionUserDefined::call(Ptr<LispObject> pArgList)
         EZ_ASSERT(pCodePointer->is<LispCons>(), "Function body must be a cons.");
 
         auto pCons = pCodePointer.cast<LispCons>();
-        pResult = m_pRuntime->evaluator()->evalulate(m_pEnv, pCons->car());
+        pResult = LispRuntime::instance()->evaluator()->evalulate(m_pEnv, pCons->car());
         pCodePointer = pCons->cdr();
     }
 

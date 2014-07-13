@@ -8,12 +8,11 @@ namespace
 {
     int g_testData;
 
-    Ptr<LispObject> builtin_testFunc(Ptr<LispRuntime> pRuntime,
-                                       Ptr<Environment> pEnv,
-                                       Ptr<LispObject> pArgs)
+    Ptr<LispObject> builtin_testFunc(Ptr<Environment> pEnv,
+                                     Ptr<LispObject> pArgs)
     {
         g_testData = 1;
-        return pRuntime->factory()->createInteger(42);
+        return LispRuntime::instance()->factory()->createInteger(42);
     }
 
     UnitTestGroup g_group("LispFunctionTest");

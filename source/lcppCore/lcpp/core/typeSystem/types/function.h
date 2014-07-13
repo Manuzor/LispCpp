@@ -18,9 +18,8 @@ namespace lcpp
 
     public:
 
-        LispFunction(Ptr<LispRuntime> pRuntime,
-                       const ezString& name,
-                       Ptr<Environment> pEnv);
+        LispFunction(const ezString& name,
+                     Ptr<Environment> pEnv);
 
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
         bool operator==(const LispFunction& rhs) const;
@@ -40,7 +39,6 @@ namespace lcpp
 
     protected:
         ezString m_name;
-        Ptr<LispRuntime> m_pRuntime;
         Ptr<Environment> m_pEnv;
     };
 
@@ -50,12 +48,11 @@ namespace lcpp
     {
         friend class TypeFactory;
     public:
-        typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<LispRuntime>, Ptr<Environment>, Ptr<LispObject>);
+        typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
-        LispFunctionBuiltin(Ptr<LispRuntime> pRuntime,
-                              const ezString& name,
-                              Ptr<Environment> pEnv,
-                              ExecutorPtr_t pExec);
+        LispFunctionBuiltin(const ezString& name,
+                            Ptr<Environment> pEnv,
+                            ExecutorPtr_t pExec);
 
         virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
@@ -75,10 +72,9 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        LispFunctionUserDefined(Ptr<LispRuntime> pRuntime,
-                                  Ptr<Environment> pEnv,
-                                  Ptr<LispObject> pArgNameList,
-                                  Ptr<LispCons> pBody);
+        LispFunctionUserDefined(Ptr<Environment> pEnv,
+                                Ptr<LispObject> pArgNameList,
+                                Ptr<LispCons> pBody);
 
         virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
 
