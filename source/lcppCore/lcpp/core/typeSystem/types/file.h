@@ -3,13 +3,26 @@
 
 namespace lcpp
 {
-    class LispFile :
-        public LispExtend<LispFile, LispObject>
+    class LispBool;
+
+    class LCPP_CORE_API LispFile :
+        public LispObject
     {
         friend class TypeFactory;
     public:
+
+        static Ptr<LispFile> create(const ezString& fileName);
+
+        static const Type& typeInfo();
+
+    public:
+
         LispFile(const LispFile& toCopy);
         virtual ~LispFile();
+
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+
+        virtual const Type& type() const LCPP_OVERRIDE;
 
         virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
@@ -36,8 +49,6 @@ namespace lcpp
 
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispFile);
     };
-
-    LCPP_DECLARE_SCHEME_TYPE_INFO(LispFile, "file");
 
     bool operator ==(const LispFile& lhs, const LispFile& rhs);
 

@@ -33,6 +33,20 @@ lcpp::LispFile::~LispFile()
 }
 
 inline
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispFile::clone(ezAllocatorBase* pAllocator) const
+{
+    return LCPP_NEW(pAllocator, LispFile)(*this);
+}
+
+inline
+const lcpp::Type&
+lcpp::LispFile::type() const
+{
+    return LispFile::typeInfo();
+}
+
+inline
 ezString
 lcpp::LispFile::toString() const
 {

@@ -7,7 +7,6 @@ lcpp::LispNil::create()
 {
     static auto instance = LispNil();
     static auto pNil = Ptr<LispNil>(&instance);
-    LispCons::typeInfo();
     return pNil;
 }
 
