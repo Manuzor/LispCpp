@@ -225,7 +225,7 @@ namespace
         {
             auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_VOID));
             CUT_ASSERT.isFalse(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
-            CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 3, got %u!", numElements));
+            CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
         }
 
     });
