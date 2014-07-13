@@ -4,7 +4,7 @@
 
 namespace lcpp
 {
-        /// \brief Describes a scheme type
+        /// \brief Describes a lisp type
     struct Type
     {
         inline static Type create(const ezUInt32 flags,
