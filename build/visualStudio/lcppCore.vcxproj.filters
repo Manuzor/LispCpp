@@ -59,6 +59,9 @@
     <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\string.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore/lcpp\api.h">

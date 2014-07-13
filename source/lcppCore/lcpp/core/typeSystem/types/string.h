@@ -3,14 +3,19 @@
 
 namespace lcpp
 {
-    class LispString:
-        public LispExtend<LispString, LispObject>
+    class LCPP_CORE_API LispString:
+        public LispObject
     {
         friend class TypeFactory;
     public:
 
-        virtual ~LispString();
+        static Ptr<LispString> create(const ezString& value);
+        static const Type& typeInfo();
 
+    public:
+
+        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual const Type& type() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
 
@@ -26,8 +31,6 @@ namespace lcpp
         LispString(const char* str);
         LispString(const ezString& str);
     };
-
-    LCPP_DECLARE_SCHEME_TYPE_INFO(LispString, "string");
 
     bool operator ==(const LispString& lhs, const LispString& rhs);
 

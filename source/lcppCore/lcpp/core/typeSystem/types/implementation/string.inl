@@ -12,8 +12,17 @@ lcpp::LispString::LispString(const ezString& str) :
 }
 
 inline
-lcpp::LispString::~LispString()
+lcpp::Ptr<lcpp::LispObject>
+lcpp::LispString::clone(ezAllocatorBase* pAllocator) const
 {
+    return LCPP_NEW(pAllocator, LispString)(m_string);
+}
+
+inline
+const lcpp::Type&
+lcpp::LispString::type() const
+{
+    return LispString::typeInfo();
 }
 
 inline
