@@ -16,7 +16,7 @@ lcpp::LispNil::typeInfo()
     static auto t = Type::create(EZ_STRINGIZE(LispNil),
                                  "nil",
                                  MemoryInfo(sizeof(LispNil),
-                                            sizeof(LispNil)));
+                                            EZ_ALIGNMENT_OF(LispNil)));
 
     return t;
 }

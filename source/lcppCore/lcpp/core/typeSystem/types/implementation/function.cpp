@@ -8,6 +8,25 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
+lcpp::Ptr<lcpp::LispFunction>
+lcpp::LispFunction::create(const ezString& name,
+                           Ptr<Environment> pEnv)
+{
+    EZ_REPORT_FAILURE("Not implemented");
+    return nullptr;
+}
+
+const lcpp::Type&
+lcpp::LispFunction::typeInfo()
+{
+    static auto t = Type::create(EZ_STRINGIZE(LispFunction),
+                                 "function (base)",
+                                 MemoryInfo(sizeof(LispFunction),
+                                            sizeof(LispFunction)));
+
+    return t;
+}
+
 lcpp::LispFunction::LispFunction(Ptr<LispRuntime> pRuntime,
                                      const ezString& name,
                                      Ptr<Environment> pEnv) :

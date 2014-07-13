@@ -14,7 +14,7 @@ lcpp::LispCons::typeInfo()
     static auto t = Type::create(EZ_STRINGIZE(LispCons),
                                  "cons",
                                  MemoryInfo(sizeof(LispCons),
-                                 EZ_ALIGNMENT_OF(LispCons)));
+                                            EZ_ALIGNMENT_OF(LispCons)));
 
     return t;
 }

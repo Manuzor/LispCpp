@@ -3,7 +3,7 @@ inline
 const lcpp::Type&
 lcpp::LispFunction::type() const
 {
-    return TypeInfo<LispFunction>::type();
+    return LispFunction::typeInfo();
 }
 
 inline

@@ -11,6 +11,13 @@ namespace lcpp
     {
     public:
 
+        static Ptr<LispFunction> create(const ezString& name,
+                                        Ptr<Environment> pEnv);
+
+        static const Type& typeInfo();
+
+    public:
+
         LispFunction(Ptr<LispRuntime> pRuntime,
                        const ezString& name,
                        Ptr<Environment> pEnv);
@@ -35,22 +42,6 @@ namespace lcpp
         ezString m_name;
         Ptr<LispRuntime> m_pRuntime;
         Ptr<Environment> m_pEnv;
-    };
-
-    template<>
-    struct TypeInfo< LispFunction >
-    {
-        inline static const Type& type()
-        {
-            static_assert(Type::Version == 3,
-                          "Type version was updated. Adjust your implementation accordingly!");
-            static auto theType = Type::create(
-                EZ_STRINGIZE(LispFunction),
-                "function",
-                MemoryInfo(sizeof(LispFunction), sizeof(LispFunction))
-                );
-            return theType;
-        }
     };
 
     //////////////////////////////////////////////////////////////////////////
