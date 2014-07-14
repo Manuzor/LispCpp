@@ -517,7 +517,7 @@ lcpp::builtin::cons(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 2);
 
-    return LispRuntime::instance()->factory()->createCons(pArgList->car(), pArgList->cdr().cast<LispCons>()->car());
+    return LispCons::create(pArgList->car(), pArgList->cdr().cast<LispCons>()->car());
 }
 
 lcpp::Ptr<lcpp::LispObject>

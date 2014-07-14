@@ -15,12 +15,6 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispCons>
-lcpp::TypeFactory::createCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
-{
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispCons)(pCar, pCdr);
-}
-
 lcpp::Ptr<lcpp::LispFile>
 lcpp::TypeFactory::createFile(const ezString& fileName)
 {
@@ -53,7 +47,6 @@ lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
 lcpp::Ptr<lcpp::LispObject>
 lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<LispCons>())          { return copy(pObject.cast<LispCons>());     }
     if(pObject->is<LispFile>())          { return copy(pObject.cast<LispFile>());     }
     if(pObject->is<LispFunction>())      { return copy(pObject.cast<LispFunction>()); }
     if(pObject->is<LispSyntax>())        { return copy(pObject.cast<LispSyntax>()); }
@@ -65,13 +58,6 @@ lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
     if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
-}
-
-lcpp::Ptr<lcpp::LispCons>
-lcpp::TypeFactory::copy(Ptr<LispCons> pCons)
-{
-    return createCons(copy(pCons->car()),
-                      copy(pCons->cdr()));
 }
 
 lcpp::Ptr<lcpp::LispFile>

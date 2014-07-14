@@ -14,7 +14,7 @@ namespace
         auto& factory = *pRuntime->factory();
         // Default construction
         {
-            auto cons = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto cons = LispCons::create(LCPP_NIL, LCPP_NIL);
             CUT_ASSERT.isTrue(cons->car() == LCPP_NIL, "Car is not nil!");
             CUT_ASSERT.isTrue(cons->cdr() == LCPP_NIL, "Cdr is not nil!");
         }
@@ -22,7 +22,7 @@ namespace
         // Only car given
         {
             auto pT = LCPP_TRUE;
-            auto cons = factory.createCons(pT, LCPP_NIL);
+            auto cons = LispCons::create(pT, LCPP_NIL);
             CUT_ASSERT.isTrue(cons->car() == pT, "Wrong object for car!");
             CUT_ASSERT.isTrue(cons->cdr() == LCPP_NIL, "Cdr should be nil here!");
         }
@@ -31,7 +31,7 @@ namespace
         {
             auto t = LCPP_TRUE;
             auto f = LCPP_FALSE;
-            auto cons = factory.createCons(t, f);
+            auto cons = LispCons::create(t, f);
             CUT_ASSERT.isTrue(cons->car() == t, "Wrong car!");
             CUT_ASSERT.isTrue(cons->cdr() == f, "Wrong cdr!");
         }
@@ -43,14 +43,14 @@ namespace
         {
             auto t = LCPP_TRUE;
 
-            auto first = factory.createCons(t, LCPP_NIL);
+            auto first = LispCons::create(t, LCPP_NIL);
             LispCons second = *first;
             CUT_ASSERT.isTrue(first->car() == LCPP_TRUE);
             CUT_ASSERT.isTrue(second.car() == LCPP_TRUE);
         }
         {
             auto theInt = LispInteger::create(42);
-            auto first = factory.createCons(theInt, LCPP_NIL);
+            auto first = LispCons::create(theInt, LCPP_NIL);
             LispCons second = *first;
             CUT_ASSERT.isTrue(first->car() == theInt);
             CUT_ASSERT.isTrue(second.car() == theInt, "Failed to construct 'second' by assigning it 'first'!");
@@ -67,104 +67,104 @@ namespace
         auto& three = LispInteger::create(3);
 
         {
-            auto& test = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto& test = LispCons::create(LCPP_NIL, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(())"));
         }
         {
-            auto& test = factory.createCons(one, LCPP_NIL);
+            auto& test = LispCons::create(one, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1)"));
         }
         {
-            auto& test = factory.createCons(LCPP_NIL, two);
+            auto& test = LispCons::create(LCPP_NIL, two);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() . 2)"));
         }
         {
-            auto& test = factory.createCons(one, two);
+            auto& test = LispCons::create(one, two);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 . 2)"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
-            auto& test = factory.createCons(LCPP_NIL, inner);
+            auto& inner = LispCons::create(LCPP_NIL, LCPP_NIL);
+            auto& test = LispCons::create(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() ())"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
-            auto& test = factory.createCons(one, inner);
+            auto& inner = LispCons::create(LCPP_NIL, LCPP_NIL);
+            auto& test = LispCons::create(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 ())"));
         }
         {
-            auto& inner = factory.createCons(two, LCPP_NIL);
-            auto& test = factory.createCons(one, inner);
+            auto& inner = LispCons::create(two, LCPP_NIL);
+            auto& test = LispCons::create(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 2)"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, three);
-            auto& test = factory.createCons(one, inner);
+            auto& inner = LispCons::create(LCPP_NIL, three);
+            auto& test = LispCons::create(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 () . 3)"));
         }
         {
-            auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(one, inner);
+            auto& inner = LispCons::create(two, three);
+            auto& test = LispCons::create(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 2 . 3)"));
         }
         {
-            auto& inner = factory.createCons(two, LCPP_NIL);
-            auto& test = factory.createCons(LCPP_NIL, inner);
+            auto& inner = LispCons::create(two, LCPP_NIL);
+            auto& test = LispCons::create(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() 2)"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, three);
-            auto& test = factory.createCons(LCPP_NIL, inner);
+            auto& inner = LispCons::create(LCPP_NIL, three);
+            auto& test = LispCons::create(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() () . 3)"));
         }
         {
-            auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(LCPP_NIL, inner);
+            auto& inner = LispCons::create(two, three);
+            auto& test = LispCons::create(LCPP_NIL, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(() 2 . 3)"));
         }
         {
-            auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(one, inner);
+            auto& inner = LispCons::create(two, three);
+            auto& test = LispCons::create(one, inner);
             CUT_ASSERT.isTrue(test->toString().IsEqual("(1 2 . 3)"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
-            auto& test = factory.createCons(inner, LCPP_NIL);
+            auto& inner = LispCons::create(LCPP_NIL, LCPP_NIL);
+            auto& test = LispCons::create(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((()))"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, LCPP_NIL);
-            auto& test = factory.createCons(inner, one);
+            auto& inner = LispCons::create(LCPP_NIL, LCPP_NIL);
+            auto& test = LispCons::create(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((()) . 1)"));
         }
         {
-            auto& inner = factory.createCons(two, LCPP_NIL);
-            auto& test = factory.createCons(inner, one);
+            auto& inner = LispCons::create(two, LCPP_NIL);
+            auto& test = LispCons::create(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2) . 1)"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, three);
-            auto& test = factory.createCons(inner, one);
+            auto& inner = LispCons::create(LCPP_NIL, three);
+            auto& test = LispCons::create(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((() . 3) . 1)"));
         }
         {
-            auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(inner, one);
+            auto& inner = LispCons::create(two, three);
+            auto& test = LispCons::create(inner, one);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2 . 3) . 1)"));
         }
         {
-            auto& inner = factory.createCons(two, LCPP_NIL);
-            auto& test = factory.createCons(inner, LCPP_NIL);
+            auto& inner = LispCons::create(two, LCPP_NIL);
+            auto& test = LispCons::create(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2))"));
         }
         {
-            auto& inner = factory.createCons(LCPP_NIL, three);
-            auto& test = factory.createCons(inner, LCPP_NIL);
+            auto& inner = LispCons::create(LCPP_NIL, three);
+            auto& test = LispCons::create(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((() . 3))"));
         }
         {
-            auto& inner = factory.createCons(two, three);
-            auto& test = factory.createCons(inner, LCPP_NIL);
+            auto& inner = LispCons::create(two, three);
+            auto& test = LispCons::create(inner, LCPP_NIL);
             CUT_ASSERT.isTrue(test->toString().IsEqual("((2 . 3))"));
         }
     });
@@ -176,24 +176,24 @@ namespace
         auto pInteger = LispInteger::create(42);
 
         {
-            auto cons1 = factory.createCons(pInteger, LCPP_NIL);
-            auto cons2 = factory.createCons(pInteger, pInteger);
+            auto cons1 = LispCons::create(pInteger, LCPP_NIL);
+            auto cons2 = LispCons::create(pInteger, pInteger);
         }
         {
-            auto cons1 = factory.createCons(LCPP_TRUE, LCPP_NIL);
-            auto cons2 = factory.createCons(LCPP_TRUE, LCPP_TRUE);
+            auto cons1 = LispCons::create(LCPP_TRUE, LCPP_NIL);
+            auto cons2 = LispCons::create(LCPP_TRUE, LCPP_TRUE);
         }
         {
-            auto cons1 = factory.createCons(LCPP_FALSE, LCPP_NIL);
-            auto cons2 = factory.createCons(LCPP_FALSE, LCPP_FALSE);
+            auto cons1 = LispCons::create(LCPP_FALSE, LCPP_NIL);
+            auto cons2 = LispCons::create(LCPP_FALSE, LCPP_FALSE);
         }
         {
-            auto cons1 = factory.createCons(LCPP_NIL, LCPP_NIL);
-            auto cons2 = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto cons1 = LispCons::create(LCPP_NIL, LCPP_NIL);
+            auto cons2 = LispCons::create(LCPP_NIL, LCPP_NIL);
         }
         {
-            auto cons1 = factory.createCons(LCPP_VOID, LCPP_NIL);
-            auto cons2 = factory.createCons(LCPP_VOID, LCPP_VOID);
+            auto cons1 = LispCons::create(LCPP_VOID, LCPP_NIL);
+            auto cons2 = LispCons::create(LCPP_VOID, LCPP_VOID);
         }
     });
 
@@ -204,26 +204,26 @@ namespace
 
         // Regular lists
         {
-            auto cons = factory.createCons(LCPP_NIL, LCPP_NIL);
+            auto cons = LispCons::create(LCPP_NIL, LCPP_NIL);
             CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 1, format("Expected count() to return 1, got %u!", numElements));
         }
 
         {
-            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_NIL));
+            auto cons = LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LCPP_NIL));
             CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
         }
 
         {
-            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_NIL)));
+            auto cons = LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LCPP_NIL)));
             CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 3, format("Expected count() to return 3, got %u!", numElements));
         }
 
         // Irregular lists
         {
-            auto cons = factory.createCons(LCPP_NIL, factory.createCons(LCPP_NIL, LCPP_VOID));
+            auto cons = LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LCPP_VOID));
             CUT_ASSERT.isFalse(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
         }

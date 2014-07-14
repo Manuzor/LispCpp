@@ -40,7 +40,7 @@ namespace lcpp
                 throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
             }
             auto pSymbol = pSymbolObject.cast<LispSymbol>();
-            auto pLambda = lcpp::syntax::lambda(pEnv, LispRuntime::instance()->factory()->createCons(pTheArgs->cdr(), pArgList->cdr()));
+            auto pLambda = lcpp::syntax::lambda(pEnv, LispCons::create(pTheArgs->cdr(), pArgList->cdr()));
 
             envOp(pEnv, pSymbol, pLambda);
 

@@ -283,7 +283,7 @@ lcpp::Reader::parseList(ezStringIterator& input)
         }
     }
 
-    return LispRuntime::instance()->factory()->createCons(car, cdr);
+    return LispCons::create(car, cdr);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -301,7 +301,7 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
     auto car = read(input, false);
     auto cdr = parseListHelper(input);
 
-    return LispRuntime::instance()->factory()->createCons(car, cdr);
+    return LispCons::create(car, cdr);
 }
 
 ezUInt32

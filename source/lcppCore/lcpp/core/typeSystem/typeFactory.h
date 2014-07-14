@@ -25,7 +25,6 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<LispCons>     createCons(Ptr<LispObject> car, Ptr<LispObject> cdr);
         Ptr<LispFile>     createFile(const ezString& fileName);
         Ptr<LispFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
                                                     Ptr<LispObject> pArgNameList,
@@ -42,7 +41,6 @@ namespace lcpp
 
         // Specialized copy function for each type
         //////////////////////////////////////////////////////////////////////////
-        Ptr<LispCons>     copy(Ptr<LispCons> pCons);
         Ptr<LispFile>     copy(Ptr<LispFile> pFile);
         Ptr<LispFunction> copy(Ptr<LispFunction> pFunc);
         Ptr<LispSyntax>   copy(Ptr<LispSyntax> pSyntax);

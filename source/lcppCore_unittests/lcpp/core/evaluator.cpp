@@ -88,7 +88,7 @@ namespace
 
             CUT_ASSERT.isTrue(pResult->is<LispFunction>());
 
-            pResult = pRuntime->evaluator()->evalulate(pRuntime->factory()->createCons(pResult, LCPP_NIL));
+            pResult = pRuntime->evaluator()->evalulate(LispCons::create(pResult, LCPP_NIL));
 
             CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Expected the return value of the function to be an integer!");
             CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Expected the integer 42!");
@@ -112,7 +112,7 @@ namespace
             return pResult;
         });
 
-        auto pFunctionCallObject = pRuntime->factory()->createCons(pLambda, LCPP_NIL);
+        auto pFunctionCallObject = LispCons::create(pLambda, LCPP_NIL);
 
         auto pResult = pRuntime->evaluator()->evalulate(pFunctionCallObject);
 

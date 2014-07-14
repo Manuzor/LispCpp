@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::LispCons>
 lcpp::LispCons::create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
 {
-    EZ_REPORT_FAILURE("Not implemented.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispCons)(pCar, pCdr);
 }
 
 const lcpp::Type&
