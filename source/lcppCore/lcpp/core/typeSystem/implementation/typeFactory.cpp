@@ -15,14 +15,6 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispFunction>
-lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
-                                         Ptr<Environment> pParentEnv,
-                                         LispFunctionBuiltin::ExecutorPtr_t executor)
-{
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispFunctionBuiltin)(name, Environment::create(pParentEnv), executor);
-}
-
 lcpp::Ptr<lcpp::LispSyntax>
 lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
                                         LispSyntax_Builtin::HandlerFuncPtr_t pHandler)

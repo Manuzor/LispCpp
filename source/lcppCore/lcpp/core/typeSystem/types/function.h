@@ -50,6 +50,14 @@ namespace lcpp
     public:
         typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
+        static Ptr<LispFunction> create(const ezString& name,
+                                        Ptr<Environment> pParentEnv,
+                                        ExecutorPtr_t executor);
+
+        static const Type& typeInfo();
+
+    public:
+
         LispFunctionBuiltin(const ezString& name,
                             Ptr<Environment> pEnv,
                             ExecutorPtr_t pExec);

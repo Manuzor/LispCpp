@@ -76,7 +76,7 @@ namespace
 
         // define f as a built-in function
         pSymbol = LispSymbol::create("f");
-        auto pLambda = pRuntime->factory()->createBuiltinFunction("test-func", pRuntime->globalEnvironment(),
+        auto pLambda = LispFunctionBuiltin::create("test-func", pRuntime->globalEnvironment(),
             [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
             return LispInteger::create(42);
@@ -103,7 +103,7 @@ namespace
         // define x as 123
         pRuntime->globalEnvironment()->add(pSymbol, LispInteger::create(123));
 
-        auto pLambda = pRuntime->factory()->createBuiltinFunction("test-clojure", pRuntime->globalEnvironment(),
+        auto pLambda = LispFunctionBuiltin::create("test-clojure", pRuntime->globalEnvironment(),
             [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
             Ptr<LispObject> pResult;

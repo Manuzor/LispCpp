@@ -25,9 +25,6 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<LispFunction> createBuiltinFunction(const ezString& name,
-                                                Ptr<Environment> pParentEnv,
-                                                LispFunctionBuiltin::ExecutorPtr_t executor);
         Ptr<LispSyntax> createSyntax_Builtin(Ptr<LispSymbol> pName,
                                              LispSyntax_Builtin::HandlerFuncPtr_t pHandler);
 

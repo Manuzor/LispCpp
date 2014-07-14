@@ -62,6 +62,29 @@ lcpp::LispFunction::name(const ezString& newName)
 
 //////////////////////////////////////////////////////////////////////////
 
+lcpp::Ptr<lcpp::LispFunction>
+lcpp::LispFunctionBuiltin::create(const ezString& name,
+                                  Ptr<Environment> pParentEnv,
+                                  ExecutorPtr_t executor)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    auto pNewEnv = Environment::create(pParentEnv);
+    return LCPP_NEW(pAllocator, LispFunctionBuiltin)(name, pNewEnv, executor);
+}
+
+const lcpp::Type&
+lcpp::LispFunctionBuiltin::typeInfo()
+{
+    static auto t = Type::create(Type::Flags::Callable,
+                                 EZ_STRINGIZE(LispFunctionBuiltin),
+                                 "function (built-in)",
+                                 MemoryInfo(sizeof(LispFunctionBuiltin),
+                                 sizeof(LispFunctionBuiltin)));
+
+    return t;
+}
+
 lcpp::LispFunctionBuiltin::LispFunctionBuiltin(const ezString& name,
                                                Ptr<Environment> pEnv,
                                                ExecutorPtr_t pExec) :
