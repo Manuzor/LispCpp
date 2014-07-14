@@ -277,7 +277,7 @@ lcpp::builtin::add(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
         return LispInteger::create(iResult);
     }
 
-    return LispRuntime::instance()->factory()->createNumber(iResult + nResult);
+    return LispNumber::create(iResult + nResult);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -317,7 +317,7 @@ lcpp::builtin::sub(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
             return LispInteger::create(-iResult);
         }
 
-        return LispRuntime::instance()->factory()->createNumber(-nResult);
+        return LispNumber::create(-nResult);
     }
 
     pArgList = pArgList->cdr().cast<LispCons>();
@@ -350,7 +350,7 @@ lcpp::builtin::sub(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
         return LispInteger::create(iResult);
     }
 
-    return LispRuntime::instance()->factory()->createNumber(iResult + nResult);
+    return LispNumber::create(iResult + nResult);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -395,7 +395,7 @@ lcpp::builtin::mul(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
         return LispInteger::create(iResult);
     }
 
-    return LispRuntime::instance()->factory()->createNumber(iResult * nResult);
+    return LispNumber::create(iResult * nResult);
 }
 
 lcpp::Ptr<lcpp::LispObject>

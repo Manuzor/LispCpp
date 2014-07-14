@@ -43,8 +43,9 @@ lcpp::LispInteger::toString() const
 lcpp::Ptr<lcpp::LispNumber>
 lcpp::LispNumber::create(Number_t value)
 {
-    EZ_REPORT_FAILURE("Not implemented.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispNumber)(value);
 }
 
 const lcpp::Type&
@@ -52,9 +53,9 @@ lcpp::LispNumber::typeInfo()
 {
     static auto t = Type::create(Type::Flags::Arithmetic,
                                  EZ_STRINGIZE(LispNumber),
-                                 "integer",
+                                 "number",
                                  MemoryInfo(sizeof(LispNumber),
-                                 EZ_ALIGNMENT_OF(LispNumber)));
+                                            EZ_ALIGNMENT_OF(LispNumber)));
 
     return t;
 }

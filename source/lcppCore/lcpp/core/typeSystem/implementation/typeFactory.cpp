@@ -15,12 +15,6 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispNumber>
-lcpp::TypeFactory::createNumber(LispNumber::Number_t value)
-{
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispNumber)(value);
-}
-
 lcpp::Ptr<lcpp::LispString>
 lcpp::TypeFactory::createString(const ezString& str)
 {
@@ -79,7 +73,6 @@ lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
 lcpp::Ptr<lcpp::LispObject>
 lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<LispNumber>())        { return copy(pObject.cast<LispNumber>());   }
     if(pObject->is<LispString>())        { return copy(pObject.cast<LispString>());   }
     if(pObject->is<LispSymbol>())        { return copy(pObject.cast<LispSymbol>());   }
     if(pObject->is<LispCons>())          { return copy(pObject.cast<LispCons>());     }
@@ -94,12 +87,6 @@ lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
     if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
-}
-
-lcpp::Ptr<lcpp::LispNumber>
-lcpp::TypeFactory::copy(Ptr<LispNumber> pNumber)
-{
-    return createNumber(pNumber->value());
 }
 
 lcpp::Ptr<lcpp::LispString>

@@ -144,7 +144,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             LispNumber::Number_t number;
             auto result = to(input, number, &lastPos);
             EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-            return LispRuntime::instance()->factory()->createNumber(number);
+            return LispNumber::create(number);
         }
 
         return LispInteger::create(integer);
@@ -177,7 +177,7 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
-    return LispRuntime::instance()->factory()->createNumber(number);
+    return LispNumber::create(number);
 }
 
 lcpp::Ptr<lcpp::LispSymbol>

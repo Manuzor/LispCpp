@@ -24,7 +24,7 @@ namespace
 
         // Number
         {
-            auto test = pRuntime->factory()->createNumber(3.1415f);
+            auto test = LispNumber::create(3.1415f);
             auto pResult = pRuntime->evaluator()->evalulate(test);
 
             CUT_ASSERT.isTrue(pResult->is<LispNumber>(), "Wrong evaluation result! Expected number 3.1415.");

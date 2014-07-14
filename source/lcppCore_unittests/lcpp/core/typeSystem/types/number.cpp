@@ -42,25 +42,25 @@ namespace
 
         // LispNumber
         { // 1.0f
-            auto float1_0 = factory.createNumber(1.0f);
+            auto float1_0 = LispNumber::create(1.0f);
             CUT_ASSERT.isTrue(float1_0->value() == 1.0f);
         }
         { // 2.0f
-            auto float2_0 = factory.createNumber(2.0f);
+            auto float2_0 = LispNumber::create(2.0f);
             CUT_ASSERT.isTrue(float2_0->value() == 2.0f);
         }
         { // min
-            auto floatMin = factory.createNumber(0.0001f);
+            auto floatMin = LispNumber::create(0.0001f);
             CUT_ASSERT.isTrue(floatMin->value() == 0.0001f);
         }
         { // max
-            auto floatMax = factory.createNumber(1337.0f);
+            auto floatMax = LispNumber::create(1337.0f);
             CUT_ASSERT.isTrue(floatMax->value() == 1337.0f);
         }
         { // first 255 numbers
             for(test.i = 0; test.i < 0xFF; test.i++)
             {
-                auto sf = factory.createNumber(test.f);
+                auto sf = LispNumber::create(test.f);
                 CUT_ASSERT.isTrue(sf->value() == test.f);
             }
         }
@@ -93,12 +93,12 @@ namespace
 
         // LispNumber
         {
-            auto number1 = factory.createNumber(1.0f);
+            auto number1 = LispNumber::create(1.0f);
             ezString str = number1->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1"), "LispNumber::toString is broken!");
         }
         {
-            auto number1 = factory.createNumber(1.1f);
+            auto number1 = LispNumber::create(1.1f);
             ezString str = number1->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1.1"), "LispNumber::toString is broken!");
         }
