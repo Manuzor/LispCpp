@@ -252,6 +252,11 @@ namespace
             auto consObject = reader.parseList(input.GetIteratorFront());
             CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
+        {
+            ezString input("(lambda(x a b) (+ a b))");
+            auto consObject = reader.parseList(input.GetIteratorFront());
+            CUT_ASSERT.isTrue(consObject->toString().IsEqual("(lambda (x a b) (+ a b))"), "Wrong string representation for read list!");
+        }
     });
 
     UnitTest g_test9(g_group, "checkSyntax", []{

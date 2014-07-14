@@ -15,9 +15,11 @@ namespace lcpp
         struct CInfo 
         {
             const char* separators;
+            const char* symbolDelimiters;
 
             CInfo() :
-                separators(" \t\r\n\v\f\a")
+                separators(" \t\r\n\v\f\a"),
+                symbolDelimiters("()")
             {
             }
         };
@@ -86,6 +88,7 @@ namespace lcpp
         void skipToFirstNewLine(ezStringIterator& iter);
 
         bool isSeparator(ezUInt32 character);
+        bool isSymbolDelimiter(ezUInt32 character);
         bool isNewLine(ezUInt32 character);
         bool isComment(ezUInt32 character);
 
@@ -104,6 +107,7 @@ namespace lcpp
 
         Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
         ezString m_separators;
+        ezString m_symbolDelimiters;
 
     private:
         explicit Reader(const CInfo& cinfo);

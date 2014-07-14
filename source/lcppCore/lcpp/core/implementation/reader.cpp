@@ -11,6 +11,7 @@
 lcpp::Reader::Reader(const CInfo& cinfo) :
     m_defaults(),
     m_separators(cinfo.separators),
+    m_symbolDelimiters(cinfo.symbolDelimiters),
     m_pSyntaxCheckResult(&m_defaults.syntaxCheckResult)
 {
 }
@@ -196,7 +197,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
     ezStringBuilder symbol;
 
     auto ch = input.GetCharacter();
-    while(input.IsValid() && ch != ')' && !isSeparator(ch))
+    while(input.IsValid() && !isSymbolDelimiter(ch))
     {
         symbol.Append(ch);
         advance(input);
@@ -336,6 +337,12 @@ bool
 lcpp::Reader::isSeparator(ezUInt32 character)
 {
     return contains(m_separators, character);
+}
+
+bool
+lcpp::Reader::isSymbolDelimiter(ezUInt32 character)
+{
+    return contains(m_symbolDelimiters, character) || isSeparator(character);
 }
 
 bool
