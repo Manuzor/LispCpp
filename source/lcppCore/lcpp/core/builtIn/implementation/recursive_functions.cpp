@@ -82,10 +82,10 @@ lcpp::builtin::dump(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     if(pToDump->is<LispFunction>())
     {
-        return LispRuntime::instance()->factory()->createString(pToDump.cast<LispFunction>()->dump());
+        return LispString::create(pToDump.cast<LispFunction>()->dump());
     }
 
-    return LispRuntime::instance()->factory()->createString(pToDump->toString());
+    return LispString::create(pToDump->toString());
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -232,7 +232,7 @@ lcpp::builtin::fileReadString(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
         throw exceptions::InvalidOperation("Cannot read string from a closed file.");
     }
 
-    return LispRuntime::instance()->factory()->createString(pFile->readString());
+    return LispString::create(pFile->readString());
 }
 
 lcpp::Ptr<lcpp::LispObject>

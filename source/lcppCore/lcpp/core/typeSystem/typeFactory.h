@@ -25,7 +25,6 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<LispString>   createString(const ezString& str);
         Ptr<LispSymbol>   createSymbol(const ezString& symbol);
         Ptr<LispCons>     createCons(Ptr<LispObject> car, Ptr<LispObject> cdr);
         Ptr<LispFile>     createFile(const ezString& fileName);
@@ -44,7 +43,6 @@ namespace lcpp
 
         // Specialized copy function for each type
         //////////////////////////////////////////////////////////////////////////
-        Ptr<LispString>   copy(Ptr<LispString> pString);
         Ptr<LispSymbol>   copy(Ptr<LispSymbol> pSymbol);
         Ptr<LispCons>     copy(Ptr<LispCons> pCons);
         Ptr<LispFile>     copy(Ptr<LispFile> pFile);

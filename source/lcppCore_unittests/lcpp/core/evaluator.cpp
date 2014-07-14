@@ -33,7 +33,7 @@ namespace
 
         // String
         {
-            auto test = pRuntime->factory()->createString("Hello World");
+            auto test = LispString::create("Hello World");
             auto pResult = pRuntime->evaluator()->evalulate(test);
 
             CUT_ASSERT.isTrue(pResult->is<LispString>(), "Wrong evaluation result! Expected string \"Hello World\".");

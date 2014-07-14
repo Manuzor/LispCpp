@@ -227,7 +227,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
     if(ch == '"')
     {
         advance(input);
-        return LispRuntime::instance()->factory()->createString("");
+        return LispString::create("");
     }
 
     ezStringBuilder str;
@@ -245,7 +245,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
 
     // consume trailing "
     advance(input);
-    return LispRuntime::instance()->factory()->createString(str);
+    return LispString::create(str);
 }
 
 lcpp::Ptr<lcpp::LispObject>

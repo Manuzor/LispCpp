@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::LispString>
 lcpp::LispString::create(const ezString& value)
 {
-    EZ_REPORT_FAILURE("Not implemeneted.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispString)(value);
 }
 
 const lcpp::Type&

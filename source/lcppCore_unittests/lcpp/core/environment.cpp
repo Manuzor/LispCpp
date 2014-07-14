@@ -57,7 +57,7 @@ namespace
 
         // Set in top-level env from child env
 
-        pTopEnv->add(pSymbol2, pFactory->createString("hello"));
+        pTopEnv->add(pSymbol2, LispString::create("hello"));
 
         CUT_ASSERT.isTrue(pChildEnv->get(pSymbol2, pResult).IsSuccess());
         CUT_ASSERT.isTrue(pResult->is<LispString>());
