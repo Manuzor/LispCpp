@@ -3,12 +3,14 @@
 #include "lcpp/core/typeSystem/types/bool.h"
 #include "lcpp/core/typeSystem/types/string.h"
 #include "lcpp/core/typeSystem/types/file.h"
+#include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::LispFile>
 lcpp::LispFile::create(const ezString& fileName)
 {
-    EZ_REPORT_FAILURE("Not implemented.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispFile)(fileName);
 }
 
 const lcpp::Type&

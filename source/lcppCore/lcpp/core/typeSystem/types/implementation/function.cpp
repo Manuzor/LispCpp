@@ -107,6 +107,29 @@ lcpp::LispFunctionBuiltin::call(Ptr<LispObject> pArgList)
 
 //////////////////////////////////////////////////////////////////////////
 
+lcpp::Ptr<lcpp::LispFunction>
+lcpp::LispFunctionUserDefined::create(Ptr<Environment> pEnv,
+                           Ptr<LispObject> pArgNameList,
+                           Ptr<LispCons> pBody)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    auto pNewEnv = Environment::create(pEnv);
+    return LCPP_NEW(pAllocator, LispFunctionUserDefined)(pNewEnv, pArgNameList, pBody);
+}
+
+const lcpp::Type&
+lcpp::LispFunctionUserDefined::typeInfo()
+{
+    static auto t = Type::create(Type::Flags::Callable,
+                                 EZ_STRINGIZE(LispFunctionUserDefined),
+                                 "function (userdefined)",
+                                 MemoryInfo(sizeof(LispFunctionUserDefined),
+                                            sizeof(LispFunctionUserDefined)));
+
+    return t;
+}
+
 lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<Environment> pEnv,
                                                        Ptr<LispObject> pArgNameList,
                                                        Ptr<LispCons> pBody) :

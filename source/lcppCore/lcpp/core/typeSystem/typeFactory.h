@@ -25,10 +25,6 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<LispFile>     createFile(const ezString& fileName);
-        Ptr<LispFunction> createUserDefinedFunction(Ptr<Environment> pParentEnv,
-                                                    Ptr<LispObject> pArgNameList,
-                                                    Ptr<LispCons> pBody);
         Ptr<LispFunction> createBuiltinFunction(const ezString& name,
                                                 Ptr<Environment> pParentEnv,
                                                 LispFunctionBuiltin::ExecutorPtr_t executor);
@@ -41,8 +37,6 @@ namespace lcpp
 
         // Specialized copy function for each type
         //////////////////////////////////////////////////////////////////////////
-        Ptr<LispFile>     copy(Ptr<LispFile> pFile);
-        Ptr<LispFunction> copy(Ptr<LispFunction> pFunc);
         Ptr<LispSyntax>   copy(Ptr<LispSyntax> pSyntax);
 
         // Singletons

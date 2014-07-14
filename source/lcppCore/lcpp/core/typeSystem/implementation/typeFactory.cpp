@@ -15,20 +15,6 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispFile>
-lcpp::TypeFactory::createFile(const ezString& fileName)
-{
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispFile)(fileName);
-}
-
-lcpp::Ptr<lcpp::LispFunction>
-lcpp::TypeFactory::createUserDefinedFunction(Ptr<Environment> pParentEnv,
-                                             Ptr<LispObject> pArgNameList,
-                                             Ptr<LispCons> pBody)
-{
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispFunctionUserDefined)(Environment::create(pParentEnv), pArgNameList, pBody);
-}
-
 lcpp::Ptr<lcpp::LispFunction>
 lcpp::TypeFactory::createBuiltinFunction(const ezString& name,
                                          Ptr<Environment> pParentEnv,
@@ -47,8 +33,6 @@ lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
 lcpp::Ptr<lcpp::LispObject>
 lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<LispFile>())          { return copy(pObject.cast<LispFile>());     }
-    if(pObject->is<LispFunction>())      { return copy(pObject.cast<LispFunction>()); }
     if(pObject->is<LispSyntax>())        { return copy(pObject.cast<LispSyntax>()); }
 
     if(pObject->is<LispNil>()) { return copy(pObject.cast<LispNil>()); }
@@ -58,19 +42,6 @@ lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
     if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
-}
-
-lcpp::Ptr<lcpp::LispFile>
-lcpp::TypeFactory::copy(Ptr<LispFile> pFile)
-{
-    return createFile(pFile->name());
-}
-
-
-lcpp::Ptr<lcpp::LispFunction>
-lcpp::TypeFactory::copy(Ptr<LispFunction> pFunc)
-{
-    return pFunc->clone(LispRuntime::instance()->allocator().get());
 }
 
 lcpp::Ptr<lcpp::LispSyntax>

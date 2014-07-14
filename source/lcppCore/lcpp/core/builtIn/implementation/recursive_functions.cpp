@@ -161,7 +161,7 @@ lcpp::builtin::fileOpen(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
     {
         // create the file object.
         auto pToLoad = pFileNameOrObject.cast<LispString>();
-        pFile = LispRuntime::instance()->factory()->createFile(pToLoad->value());
+        pFile = LispFile::create(pToLoad->value());
     }
 
     if(isTrue(pFile->isOpen()))

@@ -72,6 +72,14 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
+        static Ptr<LispFunction> create(Ptr<Environment> pEnv,
+                                        Ptr<LispObject> pArgNameList,
+                                        Ptr<LispCons> pBody);
+
+        static const Type& typeInfo();
+
+    public:
+
         LispFunctionUserDefined(Ptr<Environment> pEnv,
                                 Ptr<LispObject> pArgNameList,
                                 Ptr<LispCons> pBody);
