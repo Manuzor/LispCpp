@@ -2,9 +2,44 @@
 #include "lcpp/core/environment.h"
 
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/runtime.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+
+lcpp::Ptr<lcpp::Environment>
+lcpp::Environment::createTopLevel(const ezString& name)
+{
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(name);
+}
+
+lcpp::Ptr<lcpp::Environment>
+lcpp::Environment::create(const ezString& name, Ptr<Environment> pParent)
+{
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(name, pParent);
+}
+
+lcpp::Ptr<lcpp::Environment>
+lcpp::Environment::create(Ptr<Environment> pParent)
+{
+    return create("", pParent);
+}
+
+lcpp::Environment::Environment(const ezString& name) :
+    m_pParent(),
+    m_name(LispRuntime::instance()->allocator().get()),
+    m_symbols(LispRuntime::instance()->allocator().get())
+{
+    m_name = name;
+}
+
+lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
+    m_pParent(pParent),
+    m_name(LispRuntime::instance()->allocator().get()),
+    m_symbols(LispRuntime::instance()->allocator().get())
+{
+    m_name = name;
+}
 
 void
 lcpp::Environment::add(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)

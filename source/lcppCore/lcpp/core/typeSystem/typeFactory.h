@@ -25,8 +25,6 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<Environment>    createEnvironment(const ezString& name, Ptr<Environment> pParent);
-
         Ptr<LispInteger>  createInteger(LispInteger::Number_t value);
         Ptr<LispNumber>   createNumber(LispNumber::Number_t value);
         Ptr<LispString>   createString(const ezString& str);
