@@ -42,7 +42,7 @@ namespace
 
         // Symbol
         {
-            auto test = pRuntime->factory()->createSymbol("x");
+            auto test = LispSymbol::create("x");
 
             CUT_ASSERT.throws<lcpp::exceptions::NoBindingFound>([&]{
                 auto pResult = pRuntime->evaluator()->evalulate(test);
@@ -53,7 +53,7 @@ namespace
     UnitTest g_test2(g_group, "Recursive_SymbolLookup", []{
         auto pRuntime = createTestRuntime();
 
-        auto pSymbol = pRuntime->factory()->createSymbol("x");
+        auto pSymbol = LispSymbol::create("x");
 
         // Not found
         {
@@ -75,7 +75,7 @@ namespace
         }
 
         // define f as a built-in function
-        pSymbol = pRuntime->factory()->createSymbol("f");
+        pSymbol = LispSymbol::create("f");
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-func", pRuntime->globalEnvironment(),
             [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
@@ -98,7 +98,7 @@ namespace
     UnitTest g_test3(g_group, "Recursive_Clojures", []{
         auto pRuntime = createTestRuntime();
 
-        auto pSymbol = pRuntime->factory()->createSymbol("x");
+        auto pSymbol = LispSymbol::create("x");
 
         // define x as 123
         pRuntime->globalEnvironment()->add(pSymbol, LispInteger::create(123));
@@ -107,7 +107,7 @@ namespace
             [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
             Ptr<LispObject> pResult;
-            auto lookupResult = pEnv->get(LispRuntime::instance()->factory()->createSymbol("x"), pResult);
+            auto lookupResult = pEnv->get(LispSymbol::create("x"), pResult);
             CUT_ASSERT.isTrue(lookupResult.IsSuccess(), "Failed to find 'x' in environment!");
             return pResult;
         });

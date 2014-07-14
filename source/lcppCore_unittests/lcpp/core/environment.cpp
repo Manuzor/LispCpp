@@ -15,11 +15,11 @@ namespace
 
         Ptr<LispObject> pResult;
 
-        CUT_ASSERT.isFalse(pEnv->get(pFactory->createSymbol("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
+        CUT_ASSERT.isFalse(pEnv->get(LispSymbol::create("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
         CUT_ASSERT.isTrue(pResult.isNull(), "'get' altered the out_value even though it failed!");
-        CUT_ASSERT.isFalse(pEnv->set(pFactory->createSymbol("x"), LispInteger::create(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
-        pEnv->add(pFactory->createSymbol("x"), LispInteger::create(42));
-        CUT_ASSERT.isTrue(pEnv->get(pFactory->createSymbol("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
+        CUT_ASSERT.isFalse(pEnv->set(LispSymbol::create("x"), LispInteger::create(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
+        pEnv->add(LispSymbol::create("x"), LispInteger::create(42));
+        CUT_ASSERT.isTrue(pEnv->get(LispSymbol::create("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
         CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Wrong type stored in environment!");
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Wrong type stored in environment!");
     });
@@ -33,8 +33,8 @@ namespace
 
         Ptr<LispObject> pResult;
 
-        auto pSymbol = pFactory->createSymbol("x");
-        auto pSymbol2 = pFactory->createSymbol("y");
+        auto pSymbol = LispSymbol::create("x");
+        auto pSymbol2 = LispSymbol::create("y");
 
         pTopEnv->add(pSymbol, LispInteger::create(42));
         pChildEnv->add(pSymbol, LispInteger::create(1337));

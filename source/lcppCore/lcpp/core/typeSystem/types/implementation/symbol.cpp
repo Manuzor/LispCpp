@@ -1,12 +1,23 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/runtime.h"
 
 
 lcpp::Ptr<lcpp::LispSymbol>
 lcpp::LispSymbol::create(const ezString& symbol)
 {
-    EZ_REPORT_FAILURE("Not implemented.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto instanceTables = pRuntime->instanceTables();
+    auto pSymbolTable = instanceTables.pSymbols;
+    return pSymbolTable->get(symbol);
+}
+
+lcpp::Ptr<lcpp::LispSymbol>
+lcpp::LispSymbol::createNew(const ezString& value)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispSymbol)(value);
 }
 
 const lcpp::Type&

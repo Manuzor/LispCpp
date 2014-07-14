@@ -15,20 +15,6 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispSymbol>
-lcpp::TypeFactory::createSymbol(const ezString& symbol)
-{
-    Ptr<LispSymbol> pResult;
-    if (!m_symbols.TryGetValue(symbol, pResult))
-    {
-        pResult = LCPP_NEW(LispRuntime::instance()->allocator().get(), LispSymbol)(symbol);
-        m_symbols[symbol] = pResult;
-    }
-    EZ_ASSERT(pResult, "The result should never be a nullptr!");
-
-    return pResult;
-}
-
 lcpp::Ptr<lcpp::LispCons>
 lcpp::TypeFactory::createCons(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
 {
@@ -67,7 +53,6 @@ lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
 lcpp::Ptr<lcpp::LispObject>
 lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<LispSymbol>())        { return copy(pObject.cast<LispSymbol>());   }
     if(pObject->is<LispCons>())          { return copy(pObject.cast<LispCons>());     }
     if(pObject->is<LispFile>())          { return copy(pObject.cast<LispFile>());     }
     if(pObject->is<LispFunction>())      { return copy(pObject.cast<LispFunction>()); }
@@ -80,12 +65,6 @@ lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
     if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
-}
-
-lcpp::Ptr<lcpp::LispSymbol>
-lcpp::TypeFactory::copy(Ptr<LispSymbol> pSymbol)
-{
-    return createSymbol(pSymbol->value());
 }
 
 lcpp::Ptr<lcpp::LispCons>

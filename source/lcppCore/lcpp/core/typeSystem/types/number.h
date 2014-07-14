@@ -8,12 +8,18 @@ namespace lcpp
     class LCPP_CORE_API LispInteger :
         public LispObject
     {
+        friend InstanceTable_Integers;
     public:
 
         typedef LispIntegerType Number_t;
 
         static Ptr<LispInteger> create(Number_t value);
         static const Type& typeInfo();
+
+    private:
+
+            /// \brief Creates a new instance without checking for an existing instance for the given \a value.
+        static Ptr<LispInteger> createNew(Number_t value);
 
     public:
 
@@ -24,12 +30,6 @@ namespace lcpp
 
         Number_t value() const;
         void     value(Number_t val);
-
-    private:
-        friend InstanceTable_Integers;
-
-        /// \brief Creates a new instance without checking for an existing instance for the given \a value.
-        static Ptr<LispInteger> createNew(Number_t value);
 
     private:
 

@@ -120,9 +120,9 @@ void lcpp::LispRuntime::decreaseRecursionDepth()
 
 void lcpp::LispRuntime::registerBuiltIns()
 {
-#define LCPP_ADD_GLOBAL(name, value) pEnv->add(factory()->createSymbol(name), value)
+#define LCPP_ADD_GLOBAL(name, value) pEnv->add(LispSymbol::create(name), value)
 #define LCPP_ADD_BUILTIN_FUNCTION(name, funcPtr) \
-    pEnv->add(factory()->createSymbol(name),     \
+    pEnv->add(LispSymbol::create(name),     \
               factory()->createBuiltinFunction(name, pEnv, funcPtr))
 
     auto pEnv = globalEnvironment();

@@ -29,7 +29,7 @@ lcpp::Reader::initialize()
     auto pFactory = LispRuntime::instance()->factory();
     Ptr<LispSymbol> pSymbol;
 
-#define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = pFactory->createSymbol(name); \
+#define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = LispSymbol::create(name); \
     pEnv->add(pSymbol, pFactory->createSyntax_Builtin(pSymbol, funcPtr));
 
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("define", &syntax::define);
@@ -107,7 +107,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
                 {
                     advance(input);
                 }
-                return LispRuntime::instance()->factory()->createSymbol(symbol);
+                return LispSymbol::create(symbol);
             }
             if (isDigit(ch))
             {
@@ -206,7 +206,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-    return LispRuntime::instance()->factory()->createSymbol(symbol);
+    return LispSymbol::create(symbol);
 }
 
 

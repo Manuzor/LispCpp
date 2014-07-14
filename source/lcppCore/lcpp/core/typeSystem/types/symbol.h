@@ -1,16 +1,23 @@
 #pragma once
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/instancing.h"
 
 namespace lcpp
 {
     class LCPP_CORE_API LispSymbol :
         public LispObject
     {
-        friend class TypeFactory;
+        friend InstanceTable_Symbols;
     public:
+
         static Ptr<LispSymbol> create(const ezString& symbol);
 
         static const Type& typeInfo();
+
+    private:
+
+            /// \brief Creates a new instance without checking for an existing instance for the given \a value.
+        static Ptr<LispSymbol> createNew(const ezString& value);
 
     public:
 
