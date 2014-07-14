@@ -25,16 +25,9 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<LispSyntax> createSyntax_Builtin(Ptr<LispSymbol> pName,
-                                             LispSyntax_Builtin::HandlerFuncPtr_t pHandler);
-
         // General copy function
         //////////////////////////////////////////////////////////////////////////
         Ptr<LispObject> copy(Ptr<LispObject> pObject);
-
-        // Specialized copy function for each type
-        //////////////////////////////////////////////////////////////////////////
-        Ptr<LispSyntax>   copy(Ptr<LispSyntax> pSyntax);
 
         // Singletons
         //////////////////////////////////////////////////////////////////////////

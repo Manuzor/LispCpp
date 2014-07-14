@@ -15,18 +15,9 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispSyntax>
-lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
-                                        LispSyntax_Builtin::HandlerFuncPtr_t pHandler)
-{
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispSyntax_Builtin)(pName, pHandler);
-}
-
 lcpp::Ptr<lcpp::LispObject>
 lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<LispSyntax>())        { return copy(pObject.cast<LispSyntax>()); }
-
     if(pObject->is<LispNil>()) { return copy(pObject.cast<LispNil>()); }
     if(pObject->is<LispBool>()) { return copy(pObject.cast<LispBool>()); }
     if(pObject->is<LispVoid>()) { return copy(pObject.cast<LispVoid>()); }
@@ -34,10 +25,4 @@ lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
     if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
-}
-
-lcpp::Ptr<lcpp::LispSyntax>
-lcpp::TypeFactory::copy(Ptr<LispSyntax> pSyntax)
-{
-    return pSyntax.cast<LispObject>()->clone(LispRuntime::instance()->allocator().get());
 }

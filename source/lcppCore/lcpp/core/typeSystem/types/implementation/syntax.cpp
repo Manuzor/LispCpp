@@ -62,8 +62,9 @@ lcpp::LispSyntax::toString() const
 lcpp::Ptr<lcpp::LispSyntax_Builtin>
 lcpp::LispSyntax_Builtin::create(Ptr<LispSymbol> pName, HandlerFuncPtr_t pHandler)
 {
-    EZ_REPORT_FAILURE("Not implemented.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispSyntax_Builtin)(pName, pHandler);
 }
 
 const lcpp::Type&
