@@ -49,7 +49,7 @@ namespace
             CUT_ASSERT.isTrue(second.car() == LCPP_TRUE);
         }
         {
-            auto theInt = factory.createInteger(42);
+            auto theInt = LispInteger::create(42);
             auto first = factory.createCons(theInt, LCPP_NIL);
             LispCons second = *first;
             CUT_ASSERT.isTrue(first->car() == theInt);
@@ -62,9 +62,9 @@ namespace
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 
-        auto& one = factory.createInteger(1);
-        auto& two = factory.createInteger(2);
-        auto& three = factory.createInteger(3);
+        auto& one = LispInteger::create(1);
+        auto& two = LispInteger::create(2);
+        auto& three = LispInteger::create(3);
 
         {
             auto& test = factory.createCons(LCPP_NIL, LCPP_NIL);
@@ -173,7 +173,7 @@ namespace
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 
-        auto pInteger = factory.createInteger(42);
+        auto pInteger = LispInteger::create(42);
 
         {
             auto cons1 = factory.createCons(pInteger, LCPP_NIL);

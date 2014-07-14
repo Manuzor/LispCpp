@@ -22,20 +22,20 @@ namespace
 
         // LispInteger
         { // 1
-            auto int1 = factory.createInteger(1);
+            auto int1 = LispInteger::create(1);
             CUT_ASSERT.isTrue(int1->value() == 1);
         }
         { // 2
-            auto int2 = factory.createInteger(2);
+            auto int2 = LispInteger::create(2);
             CUT_ASSERT.isTrue(int2->value() == 2);
         }
         { // min
-            auto intMin = factory.createInteger(-0xFFFF);
+            auto intMin = LispInteger::create(-0xFFFF);
             CUT_ASSERT.isTrue(intMin->value() < 0);
             CUT_ASSERT.isTrue(intMin->value() == -0xFFFF);
         }
         { // max
-            auto intMax = factory.createInteger(0xFFFF);
+            auto intMax = LispInteger::create(0xFFFF);
             CUT_ASSERT.isTrue(intMax->value() > 0);
             CUT_ASSERT.isTrue(intMax->value() == 0xFFFF);
         }
@@ -71,22 +71,22 @@ namespace
         auto& factory = *pRuntime->factory();
         // LispInteger
         {
-            auto int1 = factory.createInteger(1);
+            auto int1 = LispInteger::create(1);
             ezString str = int1->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1"), "LispInteger::toString is broken!");
         }
         {
-            auto int1337 = factory.createInteger(1337);
+            auto int1337 = LispInteger::create(1337);
             ezString str = int1337->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1337"), "LispInteger::toString is broken!");
         }
         {
-            auto intMax = factory.createInteger(std::numeric_limits<LispInteger::Number_t>::max());
+            auto intMax = LispInteger::create(std::numeric_limits<LispInteger::Number_t>::max());
             ezString str = intMax->toString();
             CUT_ASSERT.isTrue(str.IsEqual("9223372036854775807"), "LispInteger::toString is broken!");
         }
         {
-            auto intMin = factory.createInteger(std::numeric_limits<LispInteger::Number_t>::min());
+            auto intMin = LispInteger::create(std::numeric_limits<LispInteger::Number_t>::min());
             ezString str = intMin->toString();
             CUT_ASSERT.isTrue(str.IsEqual("-9223372036854775808"), "LispInteger::toString is broken!");
         }
@@ -108,8 +108,8 @@ namespace
         auto pRuntime = createTestRuntime();
         auto& factory = *pRuntime->factory();
 
-        auto int1 = factory.createInteger(42);
-        auto int2 = factory.createInteger(42);
+        auto int1 = LispInteger::create(42);
+        auto int2 = LispInteger::create(42);
 
         CUT_ASSERT.isTrue(int1 == int2, "Scheme integers with the same value should be the same object!");
     });

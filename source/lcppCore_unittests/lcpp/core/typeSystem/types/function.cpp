@@ -12,7 +12,7 @@ namespace
                                      Ptr<LispObject> pArgs)
     {
         g_testData = 1;
-        return LispRuntime::instance()->factory()->createInteger(42);
+        return LispInteger::create(42);
     }
 
     UnitTestGroup g_group("LispFunctionTest");

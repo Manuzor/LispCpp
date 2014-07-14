@@ -25,7 +25,6 @@ namespace lcpp
     public:
         ~TypeFactory();
 
-        Ptr<LispInteger>  createInteger(LispInteger::Number_t value);
         Ptr<LispNumber>   createNumber(LispNumber::Number_t value);
         Ptr<LispString>   createString(const ezString& str);
         Ptr<LispSymbol>   createSymbol(const ezString& symbol);
@@ -46,7 +45,6 @@ namespace lcpp
 
         // Specialized copy function for each type
         //////////////////////////////////////////////////////////////////////////
-        Ptr<LispInteger>  copy(Ptr<LispInteger> pInteger);
         Ptr<LispNumber>   copy(Ptr<LispNumber> pNumber);
         Ptr<LispString>   copy(Ptr<LispString> pString);
         Ptr<LispSymbol>   copy(Ptr<LispSymbol> pSymbol);

@@ -274,7 +274,7 @@ lcpp::builtin::add(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     if (integerOnly)
     {
-        return LispRuntime::instance()->factory()->createInteger(iResult);
+        return LispInteger::create(iResult);
     }
 
     return LispRuntime::instance()->factory()->createNumber(iResult + nResult);
@@ -314,7 +314,7 @@ lcpp::builtin::sub(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
     {
         if(integerOnly)
         {
-            return LispRuntime::instance()->factory()->createInteger(-iResult);
+            return LispInteger::create(-iResult);
         }
 
         return LispRuntime::instance()->factory()->createNumber(-nResult);
@@ -347,7 +347,7 @@ lcpp::builtin::sub(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     if (integerOnly)
     {
-        return LispRuntime::instance()->factory()->createInteger(iResult);
+        return LispInteger::create(iResult);
     }
 
     return LispRuntime::instance()->factory()->createNumber(iResult + nResult);
@@ -392,7 +392,7 @@ lcpp::builtin::mul(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     if (integerOnly)
     {
-        return LispRuntime::instance()->factory()->createInteger(iResult);
+        return LispInteger::create(iResult);
     }
 
     return LispRuntime::instance()->factory()->createNumber(iResult * nResult);
@@ -429,7 +429,7 @@ lcpp::builtin::modulo(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     auto result = pLhs.cast<LispInteger>()->value() % pRhs.cast<LispInteger>()->value();
 
-    return LispRuntime::instance()->factory()->createInteger(result);
+    return LispInteger::create(result);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -505,7 +505,7 @@ lcpp::Ptr<lcpp::LispObject>
 lcpp::builtin::getRecursionLimit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 {
     auto limit = LispRuntime::instance()->recursionLimit();
-    return LispRuntime::instance()->factory()->createInteger(limit);
+    return LispInteger::create(limit);
 }
 
 lcpp::Ptr<lcpp::LispObject>

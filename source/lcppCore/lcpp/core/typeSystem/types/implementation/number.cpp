@@ -1,12 +1,23 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/foundation/conversion.h"
+#include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::LispInteger>
 lcpp::LispInteger::create(Number_t value)
 {
-    EZ_REPORT_FAILURE("Not implemented.");
-    return nullptr;
+    auto pRuntime = LispRuntime::instance();
+    auto instanceTables = pRuntime->instanceTables();
+    auto pIntegerTable = instanceTables.pIntegers;
+    return pIntegerTable->get(value);
+}
+
+lcpp::Ptr<lcpp::LispInteger>
+lcpp::LispInteger::createNew(Number_t value)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispInteger)(value);
 }
 
 const lcpp::Type&

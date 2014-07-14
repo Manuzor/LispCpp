@@ -147,7 +147,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             return LispRuntime::instance()->factory()->createNumber(number);
         }
 
-        return LispRuntime::instance()->factory()->createInteger(integer);
+        return LispInteger::create(integer);
     }
 
     return parseSymbol(input);
@@ -164,7 +164,7 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
     
-    return LispRuntime::instance()->factory()->createInteger(integer);
+    return LispInteger::create(integer);
 }
 
 lcpp::Ptr<lcpp::LispNumber>

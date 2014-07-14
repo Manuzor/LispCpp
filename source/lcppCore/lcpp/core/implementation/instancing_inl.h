@@ -1,7 +1,7 @@
 
 template<typename T_Key, typename T_Value>
 inline
-lcpp::InsanceTable::InsanceTable(Ptr<LispRuntime> pRuntime) :
+lcpp::InsanceTable<T_Key, T_Value>::InsanceTable(Ptr<LispRuntime> pRuntime) :
     m_table(pRuntime->allocator().get())
 {
 }
@@ -9,12 +9,12 @@ lcpp::InsanceTable::InsanceTable(Ptr<LispRuntime> pRuntime) :
 template<typename T_Key, typename T_Value>
 inline
 lcpp::Ptr<T_Value>
-lcpp::InsanceTable::get(const T_Key& key)
+lcpp::InsanceTable<T_Key, T_Value>::get(const T_Key& key)
 {
     Ptr<T_Value> pResult;
     if(!m_table.TryGetValue(key, pResult))
     {
-        pResult = T_Value::createInstance(key);
+        pResult = T_Value::createNew(key);
         m_table[key] = pResult;
     }
     EZ_ASSERT(pResult, "The result should never be a nullptr!");

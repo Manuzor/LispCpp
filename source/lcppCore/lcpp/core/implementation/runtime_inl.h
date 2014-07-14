@@ -119,6 +119,13 @@ lcpp::LispRuntime::globalEnvironment(lcpp::Ptr<lcpp::Environment> value)
 }
 
 inline
+const lcpp::LispRuntime::InstanceTables&
+lcpp::LispRuntime::instanceTables() const
+{
+    return m_instanceTables;
+}
+
+inline
 ezUInt32
 lcpp::LispRuntime::recursionDepth() const
 {

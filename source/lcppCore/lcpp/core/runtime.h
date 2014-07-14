@@ -1,5 +1,7 @@
 #pragma once
 
+#include "lcpp/core/instancing.h"
+
 namespace lcpp
 {
     class Reader;
@@ -15,6 +17,14 @@ namespace lcpp
         static Ptr<LispRuntime> defaultInstance();
         static Ptr<LispRuntime> instance();
         static void patchInstance(Ptr<LispRuntime> pNewInstance);
+
+    public:
+
+        struct InstanceTables
+        {
+            Ptr<InstanceTable_Symbols> pSymbols;
+            Ptr<InstanceTable_Integers> pIntegers;
+        };
 
     public:
 
@@ -50,6 +60,8 @@ namespace lcpp
         Ptr<Environment> globalEnvironment();
         void globalEnvironment(Ptr<Environment> value);
 
+        const InstanceTables& instanceTables() const;
+
         ezUInt32 recursionDepth() const;
 
         ezUInt32 recursionLimit() const;
@@ -65,6 +77,8 @@ namespace lcpp
         Ptr<IEvaluator> m_pEvaluator;
         Ptr<Environment> m_pSyntaxEnvironment;
         Ptr<Environment> m_pGlobalEnvironment;
+
+        InstanceTables m_instanceTables;
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;

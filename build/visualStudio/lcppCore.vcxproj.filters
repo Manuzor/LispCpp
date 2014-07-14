@@ -221,6 +221,9 @@
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\instancing.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">

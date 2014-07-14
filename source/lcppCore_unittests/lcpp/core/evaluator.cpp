@@ -14,12 +14,12 @@ namespace
 
         // Integer
         {
-            auto test = pRuntime->factory()->createInteger(42);
+            auto test = LispInteger::create(42);
             auto pResult = pRuntime->evaluator()->evalulate(test);
 
             CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Wrong evaluation result! Expected integer 42.");
             CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Expected integer 42.");
-            CUT_ASSERT.isTrue(pResult == pRuntime->factory()->createInteger(42), "Double check if instancing failed.");
+            CUT_ASSERT.isTrue(pResult == LispInteger::create(42), "Double check if instancing failed.");
         }
 
         // Number
@@ -63,7 +63,7 @@ namespace
         }
 
         // Define x as integer 1337 in global env
-        pRuntime->globalEnvironment()->add(pSymbol, pRuntime->factory()->createInteger(1337));
+        pRuntime->globalEnvironment()->add(pSymbol, LispInteger::create(1337));
 
         // Lookup symbol x
         {
@@ -79,7 +79,7 @@ namespace
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-func", pRuntime->globalEnvironment(),
             [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>
         {
-            return LispRuntime::instance()->factory()->createInteger(42);
+            return LispInteger::create(42);
         });
         pRuntime->globalEnvironment()->add(pSymbol, pLambda);
 
@@ -101,7 +101,7 @@ namespace
         auto pSymbol = pRuntime->factory()->createSymbol("x");
 
         // define x as 123
-        pRuntime->globalEnvironment()->add(pSymbol, pRuntime->factory()->createInteger(123));
+        pRuntime->globalEnvironment()->add(pSymbol, LispInteger::create(123));
 
         auto pLambda = pRuntime->factory()->createBuiltinFunction("test-clojure", pRuntime->globalEnvironment(),
             [](Ptr<Environment> pEnv, Ptr<LispObject> pArgs) -> Ptr<LispObject>

@@ -58,6 +58,9 @@ lcpp::LispRuntime::initialize()
     m_pSyntaxEnvironment = Environment::createTopLevel("syntax");
     m_pGlobalEnvironment = Environment::create("global", m_pSyntaxEnvironment);
 
+    m_instanceTables.pSymbols = LCPP_NEW(m_pAllocator, InstanceTable_Symbols)(this);
+    m_instanceTables.pIntegers = LCPP_NEW(m_pAllocator, InstanceTable_Integers)(this);
+
     //////////////////////////////////////////////////////////////////////////
     
     m_pReader->initialize();
@@ -71,6 +74,9 @@ lcpp::LispRuntime::initialize()
 void
 lcpp::LispRuntime::shutdown()
 {
+    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.pIntegers.get());
+    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.pSymbols.get());
+
     LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());
     LCPP_DELETE(m_pAllocator.get(), m_pSyntaxEnvironment.get());
 

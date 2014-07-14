@@ -15,20 +15,6 @@ lcpp::TypeFactory::~TypeFactory()
     m_symbols.Clear();
 }
 
-lcpp::Ptr<lcpp::LispInteger>
-lcpp::TypeFactory::createInteger(LispInteger::Number_t value)
-{
-    Ptr<LispInteger> pResult;
-    if(!m_integers.TryGetValue(value, pResult))
-    {
-        pResult = LCPP_NEW(LispRuntime::instance()->allocator().get(), LispInteger)(value);
-        m_integers[value] = pResult;
-    }
-    EZ_ASSERT(pResult, "The result should never be a nullptr!");
-
-    return pResult;
-}
-
 lcpp::Ptr<lcpp::LispNumber>
 lcpp::TypeFactory::createNumber(LispNumber::Number_t value)
 {
@@ -93,7 +79,6 @@ lcpp::TypeFactory::createSyntax_Builtin(Ptr<LispSymbol> pName,
 lcpp::Ptr<lcpp::LispObject>
 lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
 {
-    if(pObject->is<LispInteger>())       { return copy(pObject.cast<LispInteger>());  }
     if(pObject->is<LispNumber>())        { return copy(pObject.cast<LispNumber>());   }
     if(pObject->is<LispString>())        { return copy(pObject.cast<LispString>());   }
     if(pObject->is<LispSymbol>())        { return copy(pObject.cast<LispSymbol>());   }
@@ -109,11 +94,6 @@ lcpp::TypeFactory::copy(Ptr<LispObject> pObject)
     if(pObject->is<LispSyntax>()){ return pObject; }
     
     throw exceptions::NotImplemented("Unsupported type to copy!");
-}
-
-lcpp::Ptr<lcpp::LispInteger> lcpp::TypeFactory::copy(Ptr<LispInteger> pInteger)
-{
-    return createInteger(pInteger->value());
 }
 
 lcpp::Ptr<lcpp::LispNumber>
