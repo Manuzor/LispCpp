@@ -215,6 +215,12 @@
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\functions.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\instancing_inl.h">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\instancing.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">

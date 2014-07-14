@@ -69,6 +69,8 @@
     <ClInclude Include="../../source/lcppCore/lcpp\foundation\startup.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\foundation\stringUtils.h" />
     <ClInclude Include="../../source/lcppCore/stdafx.h" />
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\instancing_inl.h" />
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\instancing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp" />
