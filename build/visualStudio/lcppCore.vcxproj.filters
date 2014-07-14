@@ -29,9 +29,6 @@
     <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\runtime.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\typeFactory.cpp">
-      <Filter>lcpp\core\typeSystem\implementation</Filter>
-    </ClCompile>
     <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
@@ -147,9 +144,6 @@
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\type.h">
-      <Filter>lcpp\core\typeSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\typeFactory.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\object_inl.h">

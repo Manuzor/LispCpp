@@ -10,7 +10,7 @@ namespace
 
     UnitTest g_test1(g_group, "Type", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
+        
         auto s1 = LispSymbol::create("a");
         auto s2 = LispSymbol::create("b");
 
@@ -19,7 +19,7 @@ namespace
 
     UnitTest g_test2(g_group, "Construction", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
+        
         ezString str("Hello World");
         const char* cstr = "Goodbye Cruel World";
 
@@ -32,7 +32,7 @@ namespace
 
     UnitTest g_test3(g_group, "Equality", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
+        
         // == with another symbol
         {
             auto s1 = LispSymbol::create("Hello World");
@@ -53,7 +53,7 @@ namespace
 
     UnitTest g_test4(g_group, "ToString", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
+        
         auto s1 = LispSymbol::create("Hello World");
 
         CUT_ASSERT.isTrue(s1->toString().IsEqual(s1->value().GetData()), "s.toString() should return the same thing as s->value()!");
@@ -61,7 +61,7 @@ namespace
 
     UnitTest g_test6(g_group, "Instancing", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
+        
         auto s1 = LispSymbol::create("hello");
         auto s2 = LispSymbol::create("hello");
 

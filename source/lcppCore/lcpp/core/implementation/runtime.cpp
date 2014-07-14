@@ -50,7 +50,6 @@ void
 lcpp::LispRuntime::initialize()
 {
     m_pAllocator = defaultAllocator();
-    m_pFactory = LCPP_NEW(m_pAllocator, TypeFactory)();
     
     m_pReader = LCPP_NEW(m_pAllocator, Reader)(Reader::CInfo());
     m_pEvaluator = LCPP_NEW(m_pAllocator, RecursiveEvaluator)();
@@ -82,8 +81,6 @@ lcpp::LispRuntime::shutdown()
 
     LCPP_DELETE(m_pAllocator.get(), m_pEvaluator.get());
     LCPP_DELETE(m_pAllocator.get(), m_pReader.get());
-
-    LCPP_DELETE(m_pAllocator.get(), m_pFactory.get());
 }
 
 void

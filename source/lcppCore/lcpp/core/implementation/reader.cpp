@@ -26,7 +26,6 @@ lcpp::Reader::initialize()
     m_pSyntaxCheckResult->reset();
 
     auto pEnv = LispRuntime::instance()->syntaxEnvironment();
-    auto pFactory = LispRuntime::instance()->factory();
     Ptr<LispSymbol> pSymbol;
 
 #define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = LispSymbol::create(name); \

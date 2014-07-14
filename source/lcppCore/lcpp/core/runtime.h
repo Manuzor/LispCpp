@@ -40,10 +40,6 @@ namespace lcpp
         Ptr<ezAllocatorBase> allocator();
         void allocator(Ptr<ezAllocatorBase> value);
 
-        Ptr<const TypeFactory> factory() const;
-        Ptr<TypeFactory> factory();
-        void factory(Ptr<TypeFactory> value);
-
         Ptr<const Reader> reader() const;
         Ptr<Reader> reader();
         void reader(Ptr<Reader> value);
@@ -71,7 +67,6 @@ namespace lcpp
         static Ptr<LispRuntime> s_pInstance;
 
         Ptr<ezAllocatorBase> m_pAllocator;
-        Ptr<TypeFactory> m_pFactory;
 
         Ptr<Reader> m_pReader;
         Ptr<IEvaluator> m_pEvaluator;

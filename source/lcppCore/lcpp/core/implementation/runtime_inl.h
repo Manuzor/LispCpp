@@ -14,27 +14,6 @@ lcpp::LispRuntime::allocator(lcpp::Ptr<ezAllocatorBase> value)
 }
 
 inline
-lcpp::Ptr<const lcpp::TypeFactory>
-lcpp::LispRuntime::factory() const
-{
-    return m_pFactory;
-}
-
-inline
-lcpp::Ptr<lcpp::TypeFactory>
-lcpp::LispRuntime::factory()
-{
-    return m_pFactory;
-}
-
-inline
-void
-lcpp::LispRuntime::factory(lcpp::Ptr<lcpp::TypeFactory> value)
-{
-    m_pFactory = value;
-}
-
-inline
 lcpp::Ptr<const lcpp::Reader>
 lcpp::LispRuntime::reader() const
 {

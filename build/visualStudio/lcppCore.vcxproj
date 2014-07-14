@@ -37,7 +37,6 @@
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\functions.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\object_inl.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\type.inl" />
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\typeFactory.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\bool.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\cons.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\file.h" />
@@ -79,7 +78,6 @@
     <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\environment.cpp" />
     <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\evaluator.cpp" />
     <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\printer.cpp" />
-    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\typeFactory.cpp" />
     <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\reader.cpp" />
     <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp" />
     <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax.cpp" />

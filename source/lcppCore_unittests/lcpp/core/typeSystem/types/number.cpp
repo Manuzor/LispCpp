@@ -13,7 +13,6 @@ namespace
 
     UnitTest g_test1(g_group, "Construction", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
         union
         {
             ezUInt32 i;
@@ -68,7 +67,6 @@ namespace
 
     UnitTest g_test2(g_group, "ToString", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
         // LispInteger
         {
             auto int1 = LispInteger::create(1);
@@ -106,7 +104,6 @@ namespace
 
     UnitTest g_test3(g_group, "Instancing", []{
         auto pRuntime = createTestRuntime();
-        auto& factory = *pRuntime->factory();
 
         auto int1 = LispInteger::create(42);
         auto int2 = LispInteger::create(42);

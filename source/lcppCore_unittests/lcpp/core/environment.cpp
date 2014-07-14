@@ -11,7 +11,6 @@ namespace
     UnitTest g_test1(g_group, "Basics", []{
         auto pRuntime = createTestRuntime();
         auto pEnv = pRuntime->globalEnvironment();
-        auto pFactory = pRuntime->factory();
 
         Ptr<LispObject> pResult;
 
@@ -26,7 +25,6 @@ namespace
 
     UnitTest g_test2(g_group, "Parent", []{
         auto pRuntime = createTestRuntime();
-        auto pFactory = pRuntime->factory();
 
         auto pTopEnv = pRuntime->globalEnvironment();
         auto pChildEnv = Environment::create("child", pTopEnv);
