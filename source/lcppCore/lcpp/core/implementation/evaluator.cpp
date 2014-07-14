@@ -85,7 +85,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObje
         throw exceptions::InvalidSyntax(message.GetData());
     }
 
-    auto pArgs = LispRuntime::instance()->factory()->copy(pBody->cdr());
+    auto pArgs = pBody->cdr()->copy();
 
     if(!isNil(pArgs))
     {

@@ -21,7 +21,7 @@ namespace lcpp
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
         bool operator==(const LispCons& rhs) const;
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual const Type& type() const LCPP_OVERRIDE;
 

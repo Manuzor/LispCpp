@@ -26,7 +26,7 @@ lcpp::LispExtend<T_Derived, T_Base>::type() const
 template<typename T_Derived, typename T_Base>
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispExtend<T_Derived, T_Base>::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispExtend<T_Derived, T_Base>::copy() const
 {
     return LCPP_NEW(pAllocator, T_Derived)(static_cast<const T_Derived&>(*this));
 }

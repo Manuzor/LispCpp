@@ -62,7 +62,7 @@ lcpp::LispFunction::name(const ezString& newName)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::Ptr<lcpp::LispFunction>
+lcpp::Ptr<lcpp::LispFunctionBuiltin>
 lcpp::LispFunctionBuiltin::create(const ezString& name,
                                   Ptr<Environment> pParentEnv,
                                   ExecutorPtr_t executor)
@@ -71,6 +71,14 @@ lcpp::LispFunctionBuiltin::create(const ezString& name,
     auto pAllocator = pRuntime->allocator().get();
     auto pNewEnv = Environment::create(pParentEnv);
     return LCPP_NEW(pAllocator, LispFunctionBuiltin)(name, pNewEnv, executor);
+}
+
+lcpp::Ptr<lcpp::LispFunctionBuiltin>
+lcpp::LispFunctionBuiltin::copy(const LispFunctionBuiltin& toCopy)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispFunctionBuiltin)(toCopy);
 }
 
 const lcpp::Type&
@@ -101,9 +109,9 @@ lcpp::LispFunctionBuiltin::LispFunctionBuiltin(const ezString& name,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFunctionBuiltin::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispFunctionBuiltin::copy() const
 {
-    return LCPP_NEW(pAllocator, LispFunctionBuiltin)(*this);
+    return copy(*this);
 }
 
 ezString
@@ -130,7 +138,7 @@ lcpp::LispFunctionBuiltin::call(Ptr<LispObject> pArgList)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::Ptr<lcpp::LispFunction>
+lcpp::Ptr<lcpp::LispFunctionUserDefined>
 lcpp::LispFunctionUserDefined::create(Ptr<Environment> pEnv,
                            Ptr<LispObject> pArgNameList,
                            Ptr<LispCons> pBody)
@@ -139,6 +147,14 @@ lcpp::LispFunctionUserDefined::create(Ptr<Environment> pEnv,
     auto pAllocator = pRuntime->allocator().get();
     auto pNewEnv = Environment::create(pEnv);
     return LCPP_NEW(pAllocator, LispFunctionUserDefined)(pNewEnv, pArgNameList, pBody);
+}
+
+lcpp::Ptr<lcpp::LispFunctionUserDefined>
+lcpp::LispFunctionUserDefined::copy(const LispFunctionUserDefined& toCopy)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispFunctionUserDefined)(toCopy);
 }
 
 const lcpp::Type&
@@ -206,9 +222,9 @@ lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFunctionUserDefined::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispFunctionUserDefined::copy() const
 {
-    return LCPP_NEW(pAllocator, LispFunctionUserDefined)(*this);
+    return copy(*this);
 }
 
 ezString

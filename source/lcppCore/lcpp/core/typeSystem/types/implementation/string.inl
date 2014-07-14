@@ -13,9 +13,9 @@ lcpp::LispString::LispString(const ezString& str) :
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispString::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispString::copy() const
 {
-    return LCPP_NEW(pAllocator, LispString)(m_string);
+    return create(m_string);
 }
 
 inline

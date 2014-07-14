@@ -37,9 +37,9 @@ lcpp::LispInteger::value(Number_t val)
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispInteger::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispInteger::copy() const
 {
-    return LCPP_NEW(pAllocator, LispInteger)(m_value);
+    return create(m_value);
 }
 
 inline
@@ -90,9 +90,9 @@ lcpp::LispNumber::value(Number_t val)
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispNumber::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispNumber::copy() const
 {
-    return LCPP_NEW(pAllocator, LispNumber)(m_value);
+    return create(m_value);
 }
 
 inline

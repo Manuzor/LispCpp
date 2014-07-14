@@ -12,6 +12,7 @@ namespace lcpp
     public:
 
         static Ptr<LispFile> create(const ezString& fileName);
+        static Ptr<LispFile> copy(const LispFile& toCopy);
 
         static const Type& typeInfo();
 
@@ -20,7 +21,7 @@ namespace lcpp
         LispFile(const LispFile& toCopy);
         virtual ~LispFile();
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual const Type& type() const LCPP_OVERRIDE;
 

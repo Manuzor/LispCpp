@@ -13,6 +13,14 @@ lcpp::LispFile::create(const ezString& fileName)
     return LCPP_NEW(pAllocator, LispFile)(fileName);
 }
 
+lcpp::Ptr<lcpp::LispFile>
+lcpp::LispFile::copy(const LispFile& toCopy)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    return LCPP_NEW(pAllocator, LispFile)(toCopy);
+}
+
 const lcpp::Type&
 lcpp::LispFile::typeInfo()
 {

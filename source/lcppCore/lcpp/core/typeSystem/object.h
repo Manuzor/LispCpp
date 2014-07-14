@@ -36,7 +36,7 @@ namespace lcpp
 
         virtual const Type& type() const = 0;
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const = 0;
+        virtual Ptr<LispObject> copy() const = 0;
 
         template<typename T_Other>
         bool is() const;
@@ -55,7 +55,7 @@ namespace lcpp
         virtual ~LispExtend() = 0 {}
 
         virtual const Type& type() const LCPP_OVERRIDE;
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispExtend);

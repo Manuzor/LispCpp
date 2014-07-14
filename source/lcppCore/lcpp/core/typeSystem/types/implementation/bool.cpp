@@ -2,19 +2,14 @@
 #include "lcpp/core/typeSystem/types/bool.h"
 
 lcpp::Ptr<lcpp::LispBool>
-lcpp::LispBool::trueInstance()
+lcpp::LispBool::create(bool value)
 {
-    static auto instance = LispBool(true);
-    static auto pTrue = Ptr<LispBool>(&instance);
-    return pTrue;
-}
+    static auto trueInstance = LispBool(true);
+    static auto pTrue = Ptr<LispBool>(&trueInstance);
+    static auto falseInstance = LispBool(false);
+    static auto pFalse = Ptr<LispBool>(&falseInstance);
 
-lcpp::Ptr<lcpp::LispBool>
-lcpp::LispBool::falseInstance()
-{
-    static auto instance = LispBool(false);
-    static auto pFalse = Ptr<LispBool>(&instance);
-    return pFalse;
+    return value ? pTrue : pFalse;
 }
 
 const lcpp::Type&

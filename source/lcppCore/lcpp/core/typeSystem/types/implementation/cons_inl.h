@@ -43,11 +43,11 @@ lcpp::LispCons::operator ==(const LispCons& rhs) const
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispCons::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispCons::copy() const
 {
-    auto pCloned = LCPP_NEW(pAllocator, LispCons)(LCPP_NIL, LCPP_NIL);
-    pCloned->m_pCar = m_pCar->clone(pAllocator);
-    pCloned->m_pCdr = m_pCdr->clone(pAllocator);
+    auto pCloned = create(LCPP_NIL, LCPP_NIL);
+    pCloned->m_pCar = m_pCar->copy();
+    pCloned->m_pCdr = m_pCdr->copy();
     return pCloned;
 }
 

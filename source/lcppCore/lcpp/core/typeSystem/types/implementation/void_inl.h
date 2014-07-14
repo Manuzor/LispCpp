@@ -11,9 +11,9 @@ lcpp::LispVoid::~LispVoid()
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispVoid::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispVoid::copy() const
 {
-    return LispVoid::create().cast<LispObject>();
+    return create();
 }
 
 inline

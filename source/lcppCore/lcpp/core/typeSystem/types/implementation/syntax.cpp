@@ -99,7 +99,7 @@ lcpp::LispSyntax_Builtin::call(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispSyntax_Builtin::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispSyntax_Builtin::copy() const
 {
-    return LCPP_NEW(pAllocator, LispSyntax_Builtin)(m_pName, m_pHandler);
+    return create(m_pName, m_pHandler);
 }

@@ -27,13 +27,13 @@ namespace lcpp
 
         // General copy function
         //////////////////////////////////////////////////////////////////////////
-        Ptr<LispObject> copy(Ptr<LispObject> pObject);
+        //Ptr<LispObject> copy(Ptr<LispObject> pObject);
 
         // Singletons
         //////////////////////////////////////////////////////////////////////////
-        Ptr<LispNil>  copy(Ptr<LispNil> pNil) { return pNil; }
-        Ptr<LispBool> copy(Ptr<LispBool> pBool) { return pBool; }
-        Ptr<LispVoid> copy(Ptr<LispVoid> pVoid) { return pVoid; }
+        //Ptr<LispNil>  copy(Ptr<LispNil> pNil) { return pNil; }
+        //Ptr<LispBool> copy(Ptr<LispBool> pBool) { return pBool; }
+        //Ptr<LispVoid> copy(Ptr<LispVoid> pVoid) { return pVoid; }
 
     private:
         ezHashTable<ezString, Ptr<LispSymbol>> m_symbols;

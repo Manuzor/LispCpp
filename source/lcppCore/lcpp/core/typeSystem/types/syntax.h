@@ -54,7 +54,7 @@ namespace lcpp
         LispSyntax_Builtin(Ptr<LispSymbol> pName,
                              HandlerFuncPtr_t pHandler);
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual Ptr<LispObject> call(Ptr<Environment> pEnv,
                                      Ptr<LispObject> pUnevaluatedArgList) LCPP_OVERRIDE;

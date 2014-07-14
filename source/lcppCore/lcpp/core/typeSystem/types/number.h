@@ -23,7 +23,7 @@ namespace lcpp
 
     public:
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
         virtual const Type& type() const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& obj) const LCPP_OVERRIDE;
@@ -54,7 +54,7 @@ namespace lcpp
 
     public:
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
         virtual const Type& type() const LCPP_OVERRIDE;
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& obj) const LCPP_OVERRIDE;

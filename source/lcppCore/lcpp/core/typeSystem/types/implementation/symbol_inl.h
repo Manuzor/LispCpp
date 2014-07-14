@@ -13,9 +13,9 @@ lcpp::LispSymbol::LispSymbol(const ezString& symbol) :
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispSymbol::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispSymbol::copy() const
 {
-    return LCPP_NEW(pAllocator, LispSymbol)(m_symbol);
+    return create(m_symbol);
 }
 
 inline

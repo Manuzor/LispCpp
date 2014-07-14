@@ -7,7 +7,7 @@ lcpp::LispNil::LispNil() :
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispNil::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispNil::copy() const
 {
     return LCPP_NIL;
 }

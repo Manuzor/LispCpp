@@ -50,9 +50,11 @@ namespace lcpp
     public:
         typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
-        static Ptr<LispFunction> create(const ezString& name,
-                                        Ptr<Environment> pParentEnv,
-                                        ExecutorPtr_t executor);
+        static Ptr<LispFunctionBuiltin> create(const ezString& name,
+                                               Ptr<Environment> pParentEnv,
+                                               ExecutorPtr_t executor);
+
+        static Ptr<LispFunctionBuiltin> copy(const LispFunctionBuiltin& toCopy);
 
         static const Type& typeInfo();
 
@@ -62,7 +64,7 @@ namespace lcpp
                             Ptr<Environment> pEnv,
                             ExecutorPtr_t pExec);
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;
@@ -80,9 +82,11 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        static Ptr<LispFunction> create(Ptr<Environment> pEnv,
-                                        Ptr<LispObject> pArgNameList,
-                                        Ptr<LispCons> pBody);
+        static Ptr<LispFunctionUserDefined> create(Ptr<Environment> pEnv,
+                                                   Ptr<LispObject> pArgNameList,
+                                                   Ptr<LispCons> pBody);
+
+        static Ptr<LispFunctionUserDefined> copy(const LispFunctionUserDefined& toCopy);
 
         static const Type& typeInfo();
 
@@ -92,7 +96,7 @@ namespace lcpp
                                 Ptr<LispObject> pArgNameList,
                                 Ptr<LispCons> pBody);
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
         virtual ezString dump() const LCPP_OVERRIDE;

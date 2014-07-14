@@ -14,9 +14,9 @@ lcpp::LispBool::type() const
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispBool::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispBool::copy() const
 {
-    return m_value ? LispBool::trueInstance() : LispBool::falseInstance();
+    return create(m_value);
 }
 
 inline
@@ -34,8 +34,8 @@ inline
 ezString
 lcpp::LispBool::toString() const
 {
-    static ezString trueString("#t");
-    static ezString falseString("#f");
+    static auto trueString = ezString("#t");
+    static auto falseString = ezString("#f");
 
     return m_value ? trueString : falseString;
 }

@@ -34,9 +34,9 @@ lcpp::LispFile::~LispFile()
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFile::clone(ezAllocatorBase* pAllocator) const
+lcpp::LispFile::copy() const
 {
-    return LCPP_NEW(pAllocator, LispFile)(*this);
+    return copy(*this);
 }
 
 inline

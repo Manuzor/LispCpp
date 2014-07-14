@@ -18,7 +18,7 @@ namespace lcpp
 
     public:
 
-        virtual Ptr<LispObject> clone(ezAllocatorBase* pAllocator) const LCPP_OVERRIDE;
+        virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual const Type& type() const LCPP_OVERRIDE;
 
