@@ -10,7 +10,7 @@ namespace lcpp
     template<typename T_Key, typename T_Value>
     struct InsanceTable
     {
-        InsanceTable(Ptr<LispRuntime> pRuntime);
+        InsanceTable();
 
         Ptr<T_Value> get(const T_Key& key);
 
