@@ -2,7 +2,6 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/reader.h"
 #include "lcpp/core/evaluator.h"
-#include "lcpp/core/typeSystem/typeFactory.h"
 #include "lcpp/core/builtIn/recursive_functions.h"
 #include "lcpp/core/recursionCounter.h"
 

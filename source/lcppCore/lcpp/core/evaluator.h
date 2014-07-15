@@ -1,11 +1,11 @@
 #pragma once
-#include "lcpp/core/typeSystem/typeFactory.h"
 #include "lcpp/core/environment.h"
 
 namespace lcpp
 {
     class LispRuntime;
     class LispObject;
+    class LispCons;
     class Reader;
 
     class LCPP_CORE_API IEvaluator

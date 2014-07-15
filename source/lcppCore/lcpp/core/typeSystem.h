@@ -17,5 +17,3 @@
 #include "lcpp/core/typeSystem/types/function.h"
 #include "lcpp/core/typeSystem/types/syntax.h"
 #include "lcpp/core/typeSystem/types/file.h"
-
-#include "lcpp/core/typeSystem/typeFactory.h"
