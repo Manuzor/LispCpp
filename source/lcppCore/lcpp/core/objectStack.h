@@ -42,6 +42,8 @@ namespace lcpp
             /// \brief Whether this stack is empty or not.
         bool isEmpty();
 
+        void clear();
+
         ezString& name();
         const ezString& name() const;
         void name(const ezString& name);

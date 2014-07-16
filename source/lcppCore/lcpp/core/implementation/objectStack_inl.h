@@ -41,6 +41,11 @@ lcpp::LispObjectStack::isEmpty()
     return m_stack.IsEmpty();
 }
 
+void lcpp::LispObjectStack::clear()
+{
+    m_stack.Clear();
+}
+
 inline
 ezString&
 lcpp::LispObjectStack::name()
