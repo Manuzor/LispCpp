@@ -49,6 +49,9 @@
     <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCore_unittests\lcpp\core\objectStack.cpp">
+      <Filter>lcpp\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore_unittests/lcpp/toString.h">
