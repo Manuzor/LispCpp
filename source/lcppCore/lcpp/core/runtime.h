@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lcpp/core/instancing.h"
+#include "lcpp/core/objectStack.h"
 
 namespace lcpp
 {

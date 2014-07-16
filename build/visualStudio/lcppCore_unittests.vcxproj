@@ -178,6 +178,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCore_unittests\lcpp\core\objectStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore_unittests/lcpp/testRuntime.h" />
