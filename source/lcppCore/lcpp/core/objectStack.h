@@ -40,7 +40,7 @@ namespace lcpp
         ezUInt32 size();
 
             /// \brief Whether this stack is empty or not.
-        bool empty();
+        bool isEmpty();
 
         ezString& name();
         const ezString& name() const;

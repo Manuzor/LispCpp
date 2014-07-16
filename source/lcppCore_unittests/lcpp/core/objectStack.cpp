@@ -12,7 +12,7 @@ namespace
     {
         auto pStack = LispObjectStack::create("stack");
 
-        CUT_ASSERT.isTrue(pStack->empty(), "A new stack instance is supposed to be empty.");
+        CUT_ASSERT.isTrue(pStack->isEmpty(), "A new stack instance is supposed to be empty.");
         CUT_ASSERT.isTrue(pStack->size() == 0, "The size of a new stack instance is supposed to be 0.");
         CUT_ASSERT.isTrue(pStack->top() == 0, "The top of a new stack instance is supposed to be 0.");
         CUT_ASSERT.throwsNothing([&]{ pStack->pop(); }, "Pop on an empty stack should not throw an exception.");
@@ -33,7 +33,7 @@ namespace
 
         pStack->push(one);
 
-        CUT_ASSERT.isFalse(pStack->empty());
+        CUT_ASSERT.isFalse(pStack->isEmpty());
         CUT_ASSERT.isTrue(pStack->size() == 1);
         CUT_ASSERT.isTrue(pStack->top() == 0);
         CUT_ASSERT.isTrue(pStack->get(0) == one);
@@ -66,12 +66,12 @@ namespace
         // pop 'two'
         CUT_ASSERT.isTrue(pStack->pop().IsSuccess());
         CUT_ASSERT.isTrue(pStack->get(-1) == one);
-        CUT_ASSERT.isFalse(pStack->empty());
+        CUT_ASSERT.isFalse(pStack->isEmpty());
 
         // pop 'one'
         CUT_ASSERT.isTrue(pStack->pop().IsSuccess());
         CUT_ASSERT.isTrue(pStack->get(-1) == LCPP_NIL);
-        CUT_ASSERT.isTrue(pStack->empty());
+        CUT_ASSERT.isTrue(pStack->isEmpty());
     });
 
     UnitTest g_test3(g_group, "Name", []()

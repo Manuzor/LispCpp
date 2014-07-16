@@ -23,7 +23,7 @@ inline
 ezUInt32
 lcpp::LispObjectStack::top()
 {
-    if(empty()) { return 0; }
+    if(isEmpty()) { return 0; }
     return size() - 1;
 }
 
@@ -36,7 +36,7 @@ lcpp::LispObjectStack::size()
 
 inline
 bool
-lcpp::LispObjectStack::empty()
+lcpp::LispObjectStack::isEmpty()
 {
     return m_stack.IsEmpty();
 }

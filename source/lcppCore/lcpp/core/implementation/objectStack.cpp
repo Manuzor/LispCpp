@@ -18,7 +18,7 @@ lcpp::LispObjectStack::LispObjectStack(const ezString& name) :
 lcpp::Ptr<lcpp::LispObject>
 lcpp::LispObjectStack::get(ezInt32 relativeIndex)
 {
-    if(empty()) { return LCPP_NIL; }
+    if(isEmpty()) { return LCPP_NIL; }
 
     auto index = convertToAbsolute(relativeIndex);
     if(index > top())
