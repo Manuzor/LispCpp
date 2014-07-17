@@ -38,20 +38,20 @@ namespace lcpp
         Ptr<LispSymbol> m_pName;
     };
 
-    class LispSyntax_Builtin :
+    class LispSyntax_BuiltIn :
         public LispSyntax
     {
     public:
         typedef Ptr<LispObject>(*HandlerFuncPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
 
-        static Ptr<LispSyntax_Builtin> create(Ptr<LispSymbol> pName,
+        static Ptr<LispSyntax_BuiltIn> create(Ptr<LispSymbol> pName,
                                               HandlerFuncPtr_t pHandler);
         static const Type& typeInfo();
 
     public:
 
-        LispSyntax_Builtin(Ptr<LispSymbol> pName,
+        LispSyntax_BuiltIn(Ptr<LispSymbol> pName,
                              HandlerFuncPtr_t pHandler);
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;

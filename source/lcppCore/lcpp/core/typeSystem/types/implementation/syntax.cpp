@@ -59,29 +59,29 @@ lcpp::LispSyntax::toString() const
     return m_pName->toString();
 }
 
-lcpp::Ptr<lcpp::LispSyntax_Builtin>
-lcpp::LispSyntax_Builtin::create(Ptr<LispSymbol> pName, HandlerFuncPtr_t pHandler)
+lcpp::Ptr<lcpp::LispSyntax_BuiltIn>
+lcpp::LispSyntax_BuiltIn::create(Ptr<LispSymbol> pName, HandlerFuncPtr_t pHandler)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    return LCPP_NEW(pAllocator, LispSyntax_Builtin)(pName, pHandler);
+    return LCPP_NEW(pAllocator, LispSyntax_BuiltIn)(pName, pHandler);
 }
 
 const lcpp::Type&
-lcpp::LispSyntax_Builtin::typeInfo()
+lcpp::LispSyntax_BuiltIn::typeInfo()
 {
     static auto t = Type::create(Type::Flags::Callable | Type::Flags::Syntax,
-                                 EZ_STRINGIZE(LispSyntax_Builtin),
+                                 EZ_STRINGIZE(LispSyntax_BuiltIn),
                                  "syntax (built-in)",
-                                 MemoryInfo(sizeof(LispSyntax_Builtin),
-                                            EZ_ALIGNMENT_OF(LispSyntax_Builtin)));
+                                 MemoryInfo(sizeof(LispSyntax_BuiltIn),
+                                            EZ_ALIGNMENT_OF(LispSyntax_BuiltIn)));
 
     return t;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::LispSyntax_Builtin::LispSyntax_Builtin(Ptr<LispSymbol> pName,
+lcpp::LispSyntax_BuiltIn::LispSyntax_BuiltIn(Ptr<LispSymbol> pName,
                                                  HandlerFuncPtr_t pHandler) :
     LispSyntax(pName),
     m_pHandler(pHandler)
@@ -90,7 +90,7 @@ lcpp::LispSyntax_Builtin::LispSyntax_Builtin(Ptr<LispSymbol> pName,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispSyntax_Builtin::call(Ptr<Environment> pEnv,
+lcpp::LispSyntax_BuiltIn::call(Ptr<Environment> pEnv,
                                Ptr<LispObject> pUnevaluatedArgList)
 {
     RecursionCounter counter(LispRuntime::instance());
@@ -99,7 +99,7 @@ lcpp::LispSyntax_Builtin::call(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispSyntax_Builtin::copy() const
+lcpp::LispSyntax_BuiltIn::copy() const
 {
     return create(m_pName, m_pHandler);
 }

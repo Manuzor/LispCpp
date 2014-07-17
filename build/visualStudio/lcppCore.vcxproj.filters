@@ -197,9 +197,6 @@
     <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\implementation\rangeUtils.inl">
       <Filter>lcpp\foundation\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\api.inl">
-      <Filter>lcpp</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.inl">
       <Filter>lcpp\core\typeSystem\implementation</Filter>
     </ClInclude>
@@ -240,6 +237,9 @@
     </None>
     <None Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </None>
+    <None Include="..\..\source\lcppCore\lcpp\api.inl">
+      <Filter>lcpp</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
