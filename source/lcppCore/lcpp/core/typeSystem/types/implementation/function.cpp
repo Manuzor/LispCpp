@@ -99,10 +99,10 @@ lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(const ezString& name,
     LispFunction(name, pEnv),
     m_pExec(pExec)
 {
-    EZ_ASSERT(!name.IsEmpty(), "A builtin function needs a name!");
+    EZ_ASSERT(!name.IsEmpty(), "A built-in function needs a name!");
 
     ezStringBuilder builder(LispRuntime::instance()->allocator().get());
-    builder.AppendFormat("builtin-procedure:%s", m_name.GetData());
+    builder.AppendFormat("built-in procedure:%s", m_name.GetData());
     m_pEnv->name() = builder;
 
     EZ_ASSERT(pExec, "The function executor must be valid!");
@@ -118,7 +118,7 @@ ezString
 lcpp::LispFunction_BuiltIn::toString() const
 {
     ezStringBuilder builder;
-    builder.AppendFormat("<builtin-procedure:%s>", m_name.GetData());
+    builder.AppendFormat("<built-in procedure:%s>", m_name.GetData());
     return builder;
 }
 

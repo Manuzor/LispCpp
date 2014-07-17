@@ -8,7 +8,7 @@ namespace
 {
     int g_testData;
 
-    Ptr<LispObject> builtin_testFunc(Ptr<Environment> pEnv,
+    Ptr<LispObject> builtIn_testFunc(Ptr<Environment> pEnv,
                                      Ptr<LispObject> pArgs)
     {
         g_testData = 1;
@@ -26,7 +26,7 @@ namespace
         auto pFunc = LispFunction_BuiltIn::create(
             "testFunc",
             pRuntime->globalEnvironment(),
-            &builtin_testFunc);
+            &builtIn_testFunc);
 
         CUT_ASSERT.isTrue(g_testData == 0);
 
