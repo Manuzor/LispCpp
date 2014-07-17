@@ -44,25 +44,25 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispFunctionBuiltin : public LispFunction
+    class LCPP_CORE_API LispFunction_BuiltIn : public LispFunction
     {
         friend class TypeFactory;
     public:
         typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
-        static Ptr<LispFunctionBuiltin> create(const ezString& name,
-                                               Ptr<Environment> pParentEnv,
-                                               ExecutorPtr_t executor);
+        static Ptr<LispFunction_BuiltIn> create(const ezString& name,
+                                                Ptr<Environment> pParentEnv,
+                                                ExecutorPtr_t executor);
 
-        static Ptr<LispFunctionBuiltin> copy(const LispFunctionBuiltin& toCopy);
+        static Ptr<LispFunction_BuiltIn> copy(const LispFunction_BuiltIn& toCopy);
 
         static const Type& typeInfo();
 
     public:
 
-        LispFunctionBuiltin(const ezString& name,
-                            Ptr<Environment> pEnv,
-                            ExecutorPtr_t pExec);
+        LispFunction_BuiltIn(const ezString& name,
+                             Ptr<Environment> pEnv,
+                             ExecutorPtr_t pExec);
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
@@ -77,24 +77,24 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispFunctionUserDefined : public LispFunction
+    class LCPP_CORE_API LispFunction_UserDefined : public LispFunction
     {
         friend class TypeFactory;
     public:
 
-        static Ptr<LispFunctionUserDefined> create(Ptr<Environment> pEnv,
-                                                   Ptr<LispObject> pArgNameList,
-                                                   Ptr<LispCons> pBody);
+        static Ptr<LispFunction_UserDefined> create(Ptr<Environment> pEnv,
+                                                    Ptr<LispObject> pArgNameList,
+                                                    Ptr<LispCons> pBody);
 
-        static Ptr<LispFunctionUserDefined> copy(const LispFunctionUserDefined& toCopy);
+        static Ptr<LispFunction_UserDefined> copy(const LispFunction_UserDefined& toCopy);
 
         static const Type& typeInfo();
 
     public:
 
-        LispFunctionUserDefined(Ptr<Environment> pEnv,
-                                Ptr<LispObject> pArgNameList,
-                                Ptr<LispCons> pBody);
+        LispFunction_UserDefined(Ptr<Environment> pEnv,
+                                 Ptr<LispObject> pArgNameList,
+                                 Ptr<LispCons> pBody);
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 

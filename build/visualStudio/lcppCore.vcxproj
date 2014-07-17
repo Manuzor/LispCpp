@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore/lcpp\api.h" />
-    <ClInclude Include="..\..\source\lcppCore\lcpp\api.inl" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\builtIn\recursive_functions.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\builtIn\recursive_syntax.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\environment.h" />
@@ -114,6 +113,9 @@
       <FileType>CppHeader</FileType>
     </None>
     <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">
+      <FileType>CppHeader</FileType>
+    </None>
+    <None Include="..\..\source\lcppCore\lcpp\api.inl">
       <FileType>CppHeader</FileType>
     </None>
   </ItemGroup>

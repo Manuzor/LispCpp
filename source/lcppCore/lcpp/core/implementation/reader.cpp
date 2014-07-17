@@ -35,7 +35,7 @@ lcpp::Reader::initialize()
     Ptr<LispSymbol> pSymbol;
 
 #define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = LispSymbol::create(name); \
-    pEnv->add(pSymbol, LispSyntax_Builtin::create(pSymbol, funcPtr));
+    pEnv->add(pSymbol, LispSyntax_BuiltIn::create(pSymbol, funcPtr));
 
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("define", &syntax::define);
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("set!", &syntax::set);
