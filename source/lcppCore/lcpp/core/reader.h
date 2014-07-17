@@ -9,7 +9,6 @@ namespace lcpp
 
     class LCPP_CORE_API Reader
     {
-        friend class LispRuntime;
     public:
 
         struct CInfo 
@@ -46,6 +45,10 @@ namespace lcpp
                 info.Clear();
             }
         };
+
+    public:
+
+        static Ptr<Reader> create(const CInfo& cinfo);
 
     public:
 
