@@ -1,6 +1,14 @@
 
 template<typename T_Key, typename T_Value>
 inline
+lcpp::Ptr<lcpp::InsanceTable<T_Key, T_Value>>
+lcpp::InsanceTable<T_Key, T_Value>::create()
+{
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), InsanceTable);
+}
+
+template<typename T_Key, typename T_Value>
+inline
 lcpp::InsanceTable<T_Key, T_Value>::InsanceTable() :
     m_table(LispRuntime::instance()->allocator().get())
 {
