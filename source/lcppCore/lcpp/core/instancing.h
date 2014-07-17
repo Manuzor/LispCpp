@@ -10,12 +10,16 @@ namespace lcpp
     template<typename T_Key, typename T_Value>
     struct InsanceTable
     {
-        InsanceTable();
+
+        static Ptr<InsanceTable> create();
 
         Ptr<T_Value> get(const T_Key& key);
 
     private:
+
         ezHashTable<T_Key, Ptr<T_Value>> m_table;
+
+        InsanceTable();
     };
 
     typedef InsanceTable<ezString, LispSymbol>         InstanceTable_Symbols;

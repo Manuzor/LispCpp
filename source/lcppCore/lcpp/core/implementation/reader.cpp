@@ -8,6 +8,12 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/environment.h"
 
+lcpp::Ptr<lcpp::Reader>
+lcpp::Reader::create(const CInfo& cinfo)
+{
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Reader)(cinfo);
+}
+
 lcpp::Reader::Reader(const CInfo& cinfo) :
     m_defaults(),
     m_separators(cinfo.separators),
