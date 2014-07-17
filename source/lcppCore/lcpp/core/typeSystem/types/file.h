@@ -55,4 +55,4 @@ namespace lcpp
 
 }
 
-#include "lcpp/core/typeSystem/types/implementation/file_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/file.inl"

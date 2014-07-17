@@ -70,4 +70,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/typeSystem/types/implementation/number_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/number.inl"

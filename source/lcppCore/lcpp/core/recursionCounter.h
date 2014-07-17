@@ -13,4 +13,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/implementation/recursionCounter_inl.h"
+#include "lcpp/core/implementation/recursionCounter.inl"

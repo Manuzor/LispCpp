@@ -64,4 +64,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/typeSystem/types/implementation/syntax_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/syntax.inl"

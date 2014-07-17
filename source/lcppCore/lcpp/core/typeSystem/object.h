@@ -62,4 +62,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/typeSystem/implementation/object_inl.h"
+#include "lcpp/core/typeSystem/implementation/object.inl"

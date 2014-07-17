@@ -62,4 +62,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/implementation/objectStack_inl.h"
+#include "lcpp/core/implementation/objectStack.inl"

@@ -42,4 +42,4 @@ namespace lcpp
 #define LCPP_TRUE  (::lcpp::LispBool::create(true))
 #define LCPP_FALSE (::lcpp::LispBool::create(false))
 
-#include "lcpp/core/typeSystem/types/implementation/bool_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/bool.inl"

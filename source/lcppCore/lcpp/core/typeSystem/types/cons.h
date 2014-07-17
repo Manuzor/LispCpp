@@ -54,4 +54,4 @@ namespace lcpp
     ezResult count(Ptr<LispCons> pRegularList, ezUInt32& out_count);
 }
 
-#include "lcpp/core/typeSystem/types/implementation/cons_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/cons.inl"

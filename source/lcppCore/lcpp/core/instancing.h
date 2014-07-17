@@ -26,4 +26,4 @@ namespace lcpp
     typedef InsanceTable<LispIntegerType, LispInteger> InstanceTable_Integers;
 }
 
-#include "lcpp/core/implementation/instancing_inl.h"
+#include "lcpp/core/implementation/instancing.inl"

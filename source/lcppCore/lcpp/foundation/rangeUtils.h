@@ -14,4 +14,4 @@ T* end(ezArrayBase<T, Derived>& arr);
 template<typename T, typename Derived>
 const T* end(const ezArrayBase<T, Derived>& arr);
 
-#include "lcpp/foundation/implementation/rangeUtils_inl.h"
+#include "lcpp/foundation/implementation/rangeUtils.inl"

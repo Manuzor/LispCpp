@@ -32,4 +32,4 @@ namespace lcpp
 
 #define LCPP_VOID (lcpp::LispVoid::create())
 
-#include "lcpp/core/typeSystem/types/implementation/void_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/void.inl"

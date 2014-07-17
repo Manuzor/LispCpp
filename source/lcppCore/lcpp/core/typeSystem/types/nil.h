@@ -42,4 +42,4 @@ namespace lcpp
 
 #define LCPP_NIL (::lcpp::LispNil::create())
 
-#include "lcpp/core/typeSystem/types/implementation/nil_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/nil.inl"

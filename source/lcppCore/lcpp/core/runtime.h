@@ -89,4 +89,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/implementation/runtime_inl.h"
+#include "lcpp/core/implementation/runtime.inl"

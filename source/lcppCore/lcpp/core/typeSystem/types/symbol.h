@@ -41,4 +41,4 @@ namespace lcpp
 
 }
 
-#include "lcpp/core/typeSystem/types/implementation/symbol_inl.h"
+#include "lcpp/core/typeSystem/types/implementation/symbol.inl"
