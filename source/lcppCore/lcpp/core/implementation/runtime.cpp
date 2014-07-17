@@ -133,40 +133,40 @@ void lcpp::LispRuntime::registerBuiltIns()
 
     // Utility functions
     //////////////////////////////////////////////////////////////////////////
-    LCPP_ADD_BUILTIN_FUNCTION("exit", &builtin::exit);
-    LCPP_ADD_BUILTIN_FUNCTION("dump", &builtin::dump);
+    LCPP_ADD_BUILTIN_FUNCTION("exit", &builtIn::exit);
+    LCPP_ADD_BUILTIN_FUNCTION("dump", &builtIn::dump);
 
     // REPL
     //////////////////////////////////////////////////////////////////////////
-    LCPP_ADD_BUILTIN_FUNCTION("read", &builtin::read);
-    LCPP_ADD_BUILTIN_FUNCTION("eval", &builtin::eval);
-    LCPP_ADD_BUILTIN_FUNCTION("print", &builtin::print);
+    LCPP_ADD_BUILTIN_FUNCTION("read", &builtIn::read);
+    LCPP_ADD_BUILTIN_FUNCTION("eval", &builtIn::eval);
+    LCPP_ADD_BUILTIN_FUNCTION("print", &builtIn::print);
 
     // File handling
     //////////////////////////////////////////////////////////////////////////
-    LCPP_ADD_BUILTIN_FUNCTION("file-open", &builtin::fileOpen);
-    LCPP_ADD_BUILTIN_FUNCTION("file-is-open", &builtin::fileIsOpen);
-    LCPP_ADD_BUILTIN_FUNCTION("file-read-string", &builtin::fileReadString);
-    LCPP_ADD_BUILTIN_FUNCTION("file-close", &builtin::fileClose);
+    LCPP_ADD_BUILTIN_FUNCTION("file-open", &builtIn::fileOpen);
+    LCPP_ADD_BUILTIN_FUNCTION("file-is-open", &builtIn::fileIsOpen);
+    LCPP_ADD_BUILTIN_FUNCTION("file-read-string", &builtIn::fileReadString);
+    LCPP_ADD_BUILTIN_FUNCTION("file-close", &builtIn::fileClose);
 
     // Basic math
     //////////////////////////////////////////////////////////////////////////
-    LCPP_ADD_BUILTIN_FUNCTION("+", &builtin::add);
-    LCPP_ADD_BUILTIN_FUNCTION("-", &builtin::sub);
-    LCPP_ADD_BUILTIN_FUNCTION("*", &builtin::mul);
-    LCPP_ADD_BUILTIN_FUNCTION("=", &builtin::equals);
-    LCPP_ADD_BUILTIN_FUNCTION("modulo", &builtin::modulo);
+    LCPP_ADD_BUILTIN_FUNCTION("+", &builtIn::add);
+    LCPP_ADD_BUILTIN_FUNCTION("-", &builtIn::sub);
+    LCPP_ADD_BUILTIN_FUNCTION("*", &builtIn::mul);
+    LCPP_ADD_BUILTIN_FUNCTION("=", &builtIn::equals);
+    LCPP_ADD_BUILTIN_FUNCTION("modulo", &builtIn::modulo);
 
-    LCPP_ADD_BUILTIN_FUNCTION("eq?", &builtin::objectEquals);
+    LCPP_ADD_BUILTIN_FUNCTION("eq?", &builtIn::objectEquals);
 
     // Other
     //////////////////////////////////////////////////////////////////////////
-    LCPP_ADD_BUILTIN_FUNCTION("set-recursion-limit", &builtin::setRecursionLimit);
-    LCPP_ADD_BUILTIN_FUNCTION("get-recursion-limit", &builtin::getRecursionLimit);
+    LCPP_ADD_BUILTIN_FUNCTION("set-recursion-limit", &builtIn::setRecursionLimit);
+    LCPP_ADD_BUILTIN_FUNCTION("get-recursion-limit", &builtIn::getRecursionLimit);
 
-    LCPP_ADD_BUILTIN_FUNCTION("cons", &builtin::cons);
-    LCPP_ADD_BUILTIN_FUNCTION("car", &builtin::car);
-    LCPP_ADD_BUILTIN_FUNCTION("cdr", &builtin::cdr);
+    LCPP_ADD_BUILTIN_FUNCTION("cons", &builtIn::cons);
+    LCPP_ADD_BUILTIN_FUNCTION("car", &builtIn::car);
+    LCPP_ADD_BUILTIN_FUNCTION("cdr", &builtIn::cdr);
 
 #undef LCPP_ADD_BUILTIN_FUNCTION
 #undef LCPP_ADD_GLOBAL

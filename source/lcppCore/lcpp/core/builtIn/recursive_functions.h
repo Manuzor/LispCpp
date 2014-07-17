@@ -10,7 +10,7 @@ namespace lcpp
 
 namespace lcpp
 {
-    namespace builtin
+    namespace builtIn
     {
         Ptr<LispObject> exit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> dump(Ptr<Environment> pEnv, Ptr<LispObject> pArgs);
