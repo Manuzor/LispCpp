@@ -165,7 +165,7 @@ lcpp::syntax::lambda(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 
     auto pBodyList = pBody.cast<LispCons>();
 
-    return LispFunctionUserDefined::create(pEnv, pArgNameList, pBodyList);
+    return LispFunction_UserDefined::create(pEnv, pArgNameList, pBodyList);
 }
 
 lcpp::Ptr<lcpp::LispObject>

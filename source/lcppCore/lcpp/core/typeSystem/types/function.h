@@ -77,22 +77,22 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispFunctionUserDefined : public LispFunction
+    class LCPP_CORE_API LispFunction_UserDefined : public LispFunction
     {
         friend class TypeFactory;
     public:
 
-        static Ptr<LispFunctionUserDefined> create(Ptr<Environment> pEnv,
+        static Ptr<LispFunction_UserDefined> create(Ptr<Environment> pEnv,
                                                    Ptr<LispObject> pArgNameList,
                                                    Ptr<LispCons> pBody);
 
-        static Ptr<LispFunctionUserDefined> copy(const LispFunctionUserDefined& toCopy);
+        static Ptr<LispFunction_UserDefined> copy(const LispFunction_UserDefined& toCopy);
 
         static const Type& typeInfo();
 
     public:
 
-        LispFunctionUserDefined(Ptr<Environment> pEnv,
+        LispFunction_UserDefined(Ptr<Environment> pEnv,
                                 Ptr<LispObject> pArgNameList,
                                 Ptr<LispCons> pBody);
 

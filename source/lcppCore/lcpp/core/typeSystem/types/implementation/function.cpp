@@ -138,38 +138,38 @@ lcpp::LispFunction_BuiltIn::call(Ptr<LispObject> pArgList)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::Ptr<lcpp::LispFunctionUserDefined>
-lcpp::LispFunctionUserDefined::create(Ptr<Environment> pEnv,
+lcpp::Ptr<lcpp::LispFunction_UserDefined>
+lcpp::LispFunction_UserDefined::create(Ptr<Environment> pEnv,
                            Ptr<LispObject> pArgNameList,
                            Ptr<LispCons> pBody)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
     auto pNewEnv = Environment::create(pEnv);
-    return LCPP_NEW(pAllocator, LispFunctionUserDefined)(pNewEnv, pArgNameList, pBody);
+    return LCPP_NEW(pAllocator, LispFunction_UserDefined)(pNewEnv, pArgNameList, pBody);
 }
 
-lcpp::Ptr<lcpp::LispFunctionUserDefined>
-lcpp::LispFunctionUserDefined::copy(const LispFunctionUserDefined& toCopy)
+lcpp::Ptr<lcpp::LispFunction_UserDefined>
+lcpp::LispFunction_UserDefined::copy(const LispFunction_UserDefined& toCopy)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    return LCPP_NEW(pAllocator, LispFunctionUserDefined)(toCopy);
+    return LCPP_NEW(pAllocator, LispFunction_UserDefined)(toCopy);
 }
 
 const lcpp::Type&
-lcpp::LispFunctionUserDefined::typeInfo()
+lcpp::LispFunction_UserDefined::typeInfo()
 {
     static auto t = Type::create(Type::Flags::Callable,
-                                 EZ_STRINGIZE(LispFunctionUserDefined),
+                                 EZ_STRINGIZE(LispFunction_UserDefined),
                                  "function (userdefined)",
-                                 MemoryInfo(sizeof(LispFunctionUserDefined),
-                                            sizeof(LispFunctionUserDefined)));
+                                 MemoryInfo(sizeof(LispFunction_UserDefined),
+                                            sizeof(LispFunction_UserDefined)));
 
     return t;
 }
 
-lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<Environment> pEnv,
+lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<Environment> pEnv,
                                                        Ptr<LispObject> pArgNameList,
                                                        Ptr<LispCons> pBody) :
     LispFunction("anonymous", pEnv),
@@ -222,13 +222,13 @@ lcpp::LispFunctionUserDefined::LispFunctionUserDefined(Ptr<Environment> pEnv,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFunctionUserDefined::copy() const
+lcpp::LispFunction_UserDefined::copy() const
 {
     return copy(*this);
 }
 
 ezString
-lcpp::LispFunctionUserDefined::toString() const
+lcpp::LispFunction_UserDefined::toString() const
 {
     ezStringBuilder builder;
     builder.AppendFormat("<procedure:%s>", m_name.GetData());
@@ -236,7 +236,7 @@ lcpp::LispFunctionUserDefined::toString() const
 }
 
 ezString
-lcpp::LispFunctionUserDefined::dump() const
+lcpp::LispFunction_UserDefined::dump() const
 {
     ezStringBuilder builder;
     builder.Append("(lambda ");
@@ -248,7 +248,7 @@ lcpp::LispFunctionUserDefined::dump() const
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFunctionUserDefined::call(Ptr<LispObject> pArgList)
+lcpp::LispFunction_UserDefined::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
     RecursionCounter counter(LispRuntime::instance());
@@ -275,7 +275,7 @@ lcpp::LispFunctionUserDefined::call(Ptr<LispObject> pArgList)
 }
 
 void
-lcpp::LispFunctionUserDefined::processArguments(Ptr<LispObject> pArgs)
+lcpp::LispFunction_UserDefined::processArguments(Ptr<LispObject> pArgs)
 {
     if(!checkArgumentCount(pArgs)) { return; }
 
@@ -300,7 +300,7 @@ lcpp::LispFunctionUserDefined::processArguments(Ptr<LispObject> pArgs)
 }
 
 bool
-lcpp::LispFunctionUserDefined::checkArgumentCount(Ptr<LispObject> pArgs)
+lcpp::LispFunction_UserDefined::checkArgumentCount(Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
