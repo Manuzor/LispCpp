@@ -23,7 +23,7 @@ namespace
 
         g_testData = 0;
 
-        auto pFunc = LispFunctionBuiltin::create(
+        auto pFunc = LispFunction_BuiltIn::create(
             "testFunc",
             pRuntime->globalEnvironment(),
             &builtin_testFunc);

@@ -62,38 +62,38 @@ lcpp::LispFunction::name(const ezString& newName)
 
 //////////////////////////////////////////////////////////////////////////
 
-lcpp::Ptr<lcpp::LispFunctionBuiltin>
-lcpp::LispFunctionBuiltin::create(const ezString& name,
+lcpp::Ptr<lcpp::LispFunction_BuiltIn>
+lcpp::LispFunction_BuiltIn::create(const ezString& name,
                                   Ptr<Environment> pParentEnv,
                                   ExecutorPtr_t executor)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
     auto pNewEnv = Environment::create(pParentEnv);
-    return LCPP_NEW(pAllocator, LispFunctionBuiltin)(name, pNewEnv, executor);
+    return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(name, pNewEnv, executor);
 }
 
-lcpp::Ptr<lcpp::LispFunctionBuiltin>
-lcpp::LispFunctionBuiltin::copy(const LispFunctionBuiltin& toCopy)
+lcpp::Ptr<lcpp::LispFunction_BuiltIn>
+lcpp::LispFunction_BuiltIn::copy(const LispFunction_BuiltIn& toCopy)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    return LCPP_NEW(pAllocator, LispFunctionBuiltin)(toCopy);
+    return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(toCopy);
 }
 
 const lcpp::Type&
-lcpp::LispFunctionBuiltin::typeInfo()
+lcpp::LispFunction_BuiltIn::typeInfo()
 {
     static auto t = Type::create(Type::Flags::Callable,
-                                 EZ_STRINGIZE(LispFunctionBuiltin),
+                                 EZ_STRINGIZE(LispFunction_BuiltIn),
                                  "function (built-in)",
-                                 MemoryInfo(sizeof(LispFunctionBuiltin),
-                                 sizeof(LispFunctionBuiltin)));
+                                 MemoryInfo(sizeof(LispFunction_BuiltIn),
+                                 sizeof(LispFunction_BuiltIn)));
 
     return t;
 }
 
-lcpp::LispFunctionBuiltin::LispFunctionBuiltin(const ezString& name,
+lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(const ezString& name,
                                                Ptr<Environment> pEnv,
                                                ExecutorPtr_t pExec) :
     LispFunction(name, pEnv),
@@ -109,13 +109,13 @@ lcpp::LispFunctionBuiltin::LispFunctionBuiltin(const ezString& name,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFunctionBuiltin::copy() const
+lcpp::LispFunction_BuiltIn::copy() const
 {
     return copy(*this);
 }
 
 ezString
-lcpp::LispFunctionBuiltin::toString() const
+lcpp::LispFunction_BuiltIn::toString() const
 {
     ezStringBuilder builder;
     builder.AppendFormat("<builtin-procedure:%s>", m_name.GetData());
@@ -123,13 +123,13 @@ lcpp::LispFunctionBuiltin::toString() const
 }
 
 ezString
-lcpp::LispFunctionBuiltin::dump() const
+lcpp::LispFunction_BuiltIn::dump() const
 {
     return toString();
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispFunctionBuiltin::call(Ptr<LispObject> pArgList)
+lcpp::LispFunction_BuiltIn::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
     RecursionCounter counter(LispRuntime::instance());

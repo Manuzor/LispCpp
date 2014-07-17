@@ -119,7 +119,7 @@ void lcpp::LispRuntime::registerBuiltIns()
 #define LCPP_ADD_GLOBAL(name, value) pEnv->add(LispSymbol::create(name), value)
 #define LCPP_ADD_BUILTIN_FUNCTION(name, funcPtr) \
     pEnv->add(LispSymbol::create(name),     \
-              LispFunctionBuiltin::create(name, pEnv, funcPtr))
+              LispFunction_BuiltIn::create(name, pEnv, funcPtr))
 
     auto pEnv = globalEnvironment();
 

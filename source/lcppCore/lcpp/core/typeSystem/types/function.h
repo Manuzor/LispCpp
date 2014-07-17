@@ -44,23 +44,23 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispFunctionBuiltin : public LispFunction
+    class LCPP_CORE_API LispFunction_BuiltIn : public LispFunction
     {
         friend class TypeFactory;
     public:
         typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
-        static Ptr<LispFunctionBuiltin> create(const ezString& name,
+        static Ptr<LispFunction_BuiltIn> create(const ezString& name,
                                                Ptr<Environment> pParentEnv,
                                                ExecutorPtr_t executor);
 
-        static Ptr<LispFunctionBuiltin> copy(const LispFunctionBuiltin& toCopy);
+        static Ptr<LispFunction_BuiltIn> copy(const LispFunction_BuiltIn& toCopy);
 
         static const Type& typeInfo();
 
     public:
 
-        LispFunctionBuiltin(const ezString& name,
+        LispFunction_BuiltIn(const ezString& name,
                             Ptr<Environment> pEnv,
                             ExecutorPtr_t pExec);
 
