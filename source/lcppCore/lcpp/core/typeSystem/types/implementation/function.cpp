@@ -64,8 +64,8 @@ lcpp::LispFunction::name(const ezString& newName)
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
 lcpp::LispFunction_BuiltIn::create(const ezString& name,
-                                  Ptr<Environment> pParentEnv,
-                                  ExecutorPtr_t executor)
+                                   Ptr<Environment> pParentEnv,
+                                   ExecutorPtr_t executor)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
@@ -94,8 +94,8 @@ lcpp::LispFunction_BuiltIn::typeInfo()
 }
 
 lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(const ezString& name,
-                                               Ptr<Environment> pEnv,
-                                               ExecutorPtr_t pExec) :
+                                                 Ptr<Environment> pEnv,
+                                                 ExecutorPtr_t pExec) :
     LispFunction(name, pEnv),
     m_pExec(pExec)
 {
@@ -140,8 +140,8 @@ lcpp::LispFunction_BuiltIn::call(Ptr<LispObject> pArgList)
 
 lcpp::Ptr<lcpp::LispFunction_UserDefined>
 lcpp::LispFunction_UserDefined::create(Ptr<Environment> pEnv,
-                           Ptr<LispObject> pArgNameList,
-                           Ptr<LispCons> pBody)
+                                       Ptr<LispObject> pArgNameList,
+                                       Ptr<LispCons> pBody)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
@@ -170,8 +170,8 @@ lcpp::LispFunction_UserDefined::typeInfo()
 }
 
 lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<Environment> pEnv,
-                                                       Ptr<LispObject> pArgNameList,
-                                                       Ptr<LispCons> pBody) :
+                                                         Ptr<LispObject> pArgNameList,
+                                                         Ptr<LispCons> pBody) :
     LispFunction("anonymous", pEnv),
     m_pArgNameList(pArgNameList),
     m_numArgs(0),

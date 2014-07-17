@@ -51,8 +51,8 @@ namespace lcpp
         typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
         static Ptr<LispFunction_BuiltIn> create(const ezString& name,
-                                               Ptr<Environment> pParentEnv,
-                                               ExecutorPtr_t executor);
+                                                Ptr<Environment> pParentEnv,
+                                                ExecutorPtr_t executor);
 
         static Ptr<LispFunction_BuiltIn> copy(const LispFunction_BuiltIn& toCopy);
 
@@ -61,8 +61,8 @@ namespace lcpp
     public:
 
         LispFunction_BuiltIn(const ezString& name,
-                            Ptr<Environment> pEnv,
-                            ExecutorPtr_t pExec);
+                             Ptr<Environment> pEnv,
+                             ExecutorPtr_t pExec);
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
@@ -83,8 +83,8 @@ namespace lcpp
     public:
 
         static Ptr<LispFunction_UserDefined> create(Ptr<Environment> pEnv,
-                                                   Ptr<LispObject> pArgNameList,
-                                                   Ptr<LispCons> pBody);
+                                                    Ptr<LispObject> pArgNameList,
+                                                    Ptr<LispCons> pBody);
 
         static Ptr<LispFunction_UserDefined> copy(const LispFunction_UserDefined& toCopy);
 
@@ -93,8 +93,8 @@ namespace lcpp
     public:
 
         LispFunction_UserDefined(Ptr<Environment> pEnv,
-                                Ptr<LispObject> pArgNameList,
-                                Ptr<LispCons> pBody);
+                                 Ptr<LispObject> pArgNameList,
+                                 Ptr<LispCons> pBody);
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
