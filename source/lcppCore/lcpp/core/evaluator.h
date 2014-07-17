@@ -21,8 +21,12 @@ namespace lcpp
 
     class LCPP_CORE_API RecursiveEvaluator : public IEvaluator
     {
-        friend class LispRuntime;
     public:
+
+        static Ptr<RecursiveEvaluator> create();
+
+    public:
+
         virtual ~RecursiveEvaluator();
 
         virtual void initialize() LCPP_OVERRIDE;

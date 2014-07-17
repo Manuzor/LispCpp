@@ -51,7 +51,7 @@ lcpp::LispRuntime::initialize()
     m_pAllocator = defaultAllocator();
     
     m_pReader = LCPP_NEW(m_pAllocator, Reader)(Reader::CInfo());
-    m_pEvaluator = LCPP_NEW(m_pAllocator, RecursiveEvaluator)();
+    m_pEvaluator = RecursiveEvaluator::create();
 
     m_pSyntaxEnvironment = Environment::createTopLevel("syntax");
     m_pGlobalEnvironment = Environment::create("global", m_pSyntaxEnvironment);

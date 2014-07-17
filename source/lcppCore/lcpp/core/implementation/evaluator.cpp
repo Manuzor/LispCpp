@@ -7,6 +7,12 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
+lcpp::Ptr<lcpp::RecursiveEvaluator>
+lcpp::RecursiveEvaluator::create()
+{
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), RecursiveEvaluator)();
+}
+
 lcpp::RecursiveEvaluator::RecursiveEvaluator() :
     m_evalLevel(0)
 {
