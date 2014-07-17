@@ -18,7 +18,7 @@ namespace
     UnitTestGroup g_group("LispFunctionTest");
 
     UnitTest g_test1(g_group, "Basics", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto pEnv = pRuntime->globalEnvironment();
 
         g_testData = 0;

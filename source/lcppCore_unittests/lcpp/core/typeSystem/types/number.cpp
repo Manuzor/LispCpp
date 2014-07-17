@@ -12,7 +12,7 @@ namespace
     UnitTestGroup g_group("LispNumberTests");
 
     UnitTest g_test1(g_group, "Construction", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         union
         {
             ezUInt32 i;
@@ -66,7 +66,7 @@ namespace
     });
 
     UnitTest g_test2(g_group, "ToString", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         // LispInteger
         {
             auto int1 = LispInteger::create(1);
@@ -103,7 +103,7 @@ namespace
     });
 
     UnitTest g_test3(g_group, "Instancing", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         auto int1 = LispInteger::create(42);
         auto int2 = LispInteger::create(42);

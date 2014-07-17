@@ -9,7 +9,7 @@ namespace
     UnitTestGroup g_group("LispSymbolTests");
 
     UnitTest g_test1(g_group, "Type", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         
         auto s1 = LispSymbol::create("a");
         auto s2 = LispSymbol::create("b");
@@ -18,7 +18,7 @@ namespace
     });
 
     UnitTest g_test2(g_group, "Construction", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         
         ezString str("Hello World");
         const char* cstr = "Goodbye Cruel World";
@@ -31,7 +31,7 @@ namespace
     });
 
     UnitTest g_test3(g_group, "Equality", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         
         // == with another symbol
         {
@@ -52,7 +52,7 @@ namespace
     });
 
     UnitTest g_test4(g_group, "ToString", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         
         auto s1 = LispSymbol::create("Hello World");
 
@@ -60,7 +60,7 @@ namespace
     });
 
     UnitTest g_test6(g_group, "Instancing", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         
         auto s1 = LispSymbol::create("hello");
         auto s2 = LispSymbol::create("hello");

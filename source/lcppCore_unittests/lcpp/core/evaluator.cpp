@@ -10,7 +10,7 @@ namespace
 
     UnitTest g_test1(g_group, "Recursive_Atoms", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         // Integer
         {
@@ -51,7 +51,7 @@ namespace
     });
 
     UnitTest g_test2(g_group, "Recursive_SymbolLookup", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         auto pSymbol = LispSymbol::create("x");
 
@@ -96,7 +96,7 @@ namespace
     });
 
     UnitTest g_test3(g_group, "Recursive_Clojures", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         auto pSymbol = LispSymbol::create("x");
 

@@ -9,7 +9,7 @@ namespace
     UnitTestGroup g_group("EnvironmentTests");
 
     UnitTest g_test1(g_group, "Basics", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto pEnv = pRuntime->globalEnvironment();
 
         Ptr<LispObject> pResult;
@@ -24,7 +24,7 @@ namespace
     });
 
     UnitTest g_test2(g_group, "Parent", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         auto pTopEnv = pRuntime->globalEnvironment();
         auto pChildEnv = Environment::create("child", pTopEnv);
@@ -72,7 +72,7 @@ namespace
     });
 
     UnitTest g_test3(g_group, "QualifiedName", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->name().IsEqual("syntax"), "Invalid local name for syntax environment in runtime.");
         CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->qualifiedName().IsEqual("/"), "Invalid qualified name for syntax environment in runtime.");

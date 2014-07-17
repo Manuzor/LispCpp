@@ -10,7 +10,7 @@ namespace
 
     UnitTest g_test1(g_group, "IsSeparator", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         // These should be true.
@@ -27,7 +27,7 @@ namespace
 
     UnitTest g_test2(g_group, "SkipSeparators", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
         ezString str = "   abc";
         auto iter = str.GetIteratorFront();
@@ -38,7 +38,7 @@ namespace
 
     UnitTest g_test3(g_group, "Read", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -79,7 +79,7 @@ namespace
 
     UnitTest g_test4(g_group, "parseInteger", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -99,7 +99,7 @@ namespace
 
     UnitTest g_test5(g_group, "parseNumber", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -119,7 +119,7 @@ namespace
 
     UnitTest g_test6(g_group, "parseSymbol", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -150,7 +150,7 @@ namespace
 
     UnitTest g_test7(g_group, "parseString", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -186,7 +186,7 @@ namespace
 
     UnitTest g_test8(g_group, "parseList", []()
     {
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -260,7 +260,7 @@ namespace
     });
 
     UnitTest g_test9(g_group, "checkSyntax", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -317,7 +317,7 @@ namespace
     });
 
     UnitTest g_test10(g_group, "skipComments", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {
@@ -330,7 +330,7 @@ namespace
     });
 
     UnitTest g_test11(g_group, "Detect +- as symbols", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
 
         {

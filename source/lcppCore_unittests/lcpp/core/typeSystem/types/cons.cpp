@@ -10,7 +10,7 @@ namespace
     UnitTestGroup g_group("LispConsTests");
 
     UnitTest g_test1(g_group, "Construction", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         // Default construction
         {
@@ -38,7 +38,7 @@ namespace
     });
 
     UnitTest g_test2(g_group, "CopyCtorAndCopyAssign", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         {
             auto t = LCPP_TRUE;
@@ -59,7 +59,7 @@ namespace
     });
 
     UnitTest g_test3(g_group, "ToString", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         auto& one = LispInteger::create(1);
         auto& two = LispInteger::create(2);
@@ -169,7 +169,7 @@ namespace
     });
 
     UnitTest g_test4(g_group, "ConstructDifferentTypes", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
 
         auto pInteger = LispInteger::create(42);
 
@@ -196,7 +196,7 @@ namespace
     });
 
     UnitTest g_test5(g_group, "Count", []{
-        auto pRuntime = createTestRuntime();
+        auto pRuntime = resetRuntime();
         ezUInt32 numElements = 0;
 
         // Regular lists
