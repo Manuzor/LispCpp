@@ -44,3 +44,31 @@ lcpp::Environment::qualifiedName() const
     qualifiedNameHelper(builder);
     return builder;
 }
+
+inline
+ezString
+lcpp::Environment::toString() const
+{
+    return qualifiedName();
+}
+
+inline
+const lcpp::Type&
+lcpp::Environment::type() const
+{
+    return Environment::typeInfo();
+}
+
+inline
+lcpp::Ptr<lcpp::LispObject>
+lcpp::Environment::copy() const
+{
+    return Environment::createCopy(*this);
+}
+
+inline
+bool
+lcpp::operator==(const Environment& lhs, const Environment& rhs)
+{
+    return lhs.qualifiedName().IsEqual(rhs.qualifiedName().GetData());
+}

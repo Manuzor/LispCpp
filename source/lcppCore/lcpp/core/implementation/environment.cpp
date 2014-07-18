@@ -33,6 +33,24 @@ lcpp::Environment::create(const ezString& name, Ptr<Environment> pParent)
 }
 
 
+lcpp::Ptr<lcpp::Environment>
+lcpp::Environment::createCopy(const Environment& toCopy)
+{
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(toCopy);
+}
+
+const lcpp::Type&
+lcpp::Environment::typeInfo()
+{
+    static auto t = Type::create(Type::Flags::None,
+                                 EZ_STRINGIZE(Environment),
+                                 "environment",
+                                 MemoryInfo(sizeof(Environment),
+                                            EZ_ALIGNMENT_OF(Environment)));
+
+    return t;
+}
+
 lcpp::Environment::Environment(Ptr<LispSymbol> pName) :
     m_pParent(),
     m_pName(pName),

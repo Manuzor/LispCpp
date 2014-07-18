@@ -1,11 +1,13 @@
 #pragma once
+#include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
 {
     class LispObject;
     class LispSymbol;
 
-    class LCPP_CORE_API Environment
+    class LCPP_CORE_API Environment :
+        public LispObject
     {
     public:
 
@@ -15,6 +17,10 @@ namespace lcpp
 
             /// \brief Used for testing purposes only. Creates a LispSymbol internally.
         static Ptr<Environment> create(const ezString& name, Ptr<Environment> pParent);
+
+        static Ptr<Environment> createCopy(const Environment& toCopy);
+
+        static const Type& typeInfo();
 
     public:
 
@@ -70,8 +76,24 @@ namespace lcpp
         Environment(Ptr<LispSymbol> pName, Ptr<Environment> pParent);
 
         void qualifiedNameHelper(ezStringBuilder& builder) const;
+
+        virtual bool operator ==(const LispObject& other) const override
+        {
+            throw std::logic_error("The method or operation is not implemented.");
+        }
+
+        virtual ezString toString() const override;
+
+        virtual const Type& type() const override;
+
+        virtual Ptr<LispObject> copy() const override;
+
+
+
+
     };
 
+    bool operator ==(const Environment& lhs, const Environment& rhs);
 
 }
 
