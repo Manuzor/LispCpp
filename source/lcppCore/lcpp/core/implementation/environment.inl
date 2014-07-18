@@ -14,17 +14,24 @@ lcpp::Environment::parent() const
 }
 
 inline
-const ezString&
-lcpp::Environment::name() const
+void
+lcpp::Environment::name(Ptr<LispSymbol> pName)
 {
-    return m_name;
+    m_pName = pName;
 }
 
 inline
-ezString&
+lcpp::Ptr<const lcpp::LispSymbol>
+lcpp::Environment::name() const
+{
+    return m_pName;
+}
+
+inline
+lcpp::Ptr<lcpp::LispSymbol>
 lcpp::Environment::name()
 {
-    return m_name;
+    return m_pName;
 }
 
 inline
@@ -37,16 +44,3 @@ lcpp::Environment::qualifiedName() const
     qualifiedNameHelper(builder);
     return builder;
 }
-
-inline
-void
-lcpp::Environment::qualifiedNameHelper(ezStringBuilder& builder) const
-{
-    if (!m_pParent) { return; }
-
-    m_pParent->qualifiedNameHelper(builder);
-    builder.Append('/');
-    builder.Append(m_name.GetData());
-}
-
-

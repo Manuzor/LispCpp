@@ -7,17 +7,17 @@ lcpp::LispFunction::type() const
 }
 
 inline
-ezString&
+lcpp::Ptr<lcpp::LispSymbol>
 lcpp::LispFunction::name()
 {
-    return m_name;
+    return m_pName;
 }
 
 inline
-const ezString&
+lcpp::Ptr<const lcpp::LispSymbol>
 lcpp::LispFunction::name() const
 {
-    return m_name;
+    return m_pName;
 }
 
 inline

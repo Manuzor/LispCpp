@@ -74,9 +74,9 @@ namespace
     UnitTest g_test3(g_group, "QualifiedName", []{
         auto pRuntime = resetRuntime();
 
-        CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->name().IsEqual("syntax"), "Invalid local name for syntax environment in runtime.");
+        CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->name()->value().IsEqual("syntax"), "Invalid local name for syntax environment in runtime.");
         CUT_ASSERT.isTrue(pRuntime->syntaxEnvironment()->qualifiedName().IsEqual("/"), "Invalid qualified name for syntax environment in runtime.");
-        CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->name().IsEqual("global"), "Invalid local name for global environment in runtime.");
+        CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->name()->value().IsEqual("global"), "Invalid local name for global environment in runtime.");
         CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->qualifiedName().IsEqual("/global"), "Invalid qualified name for global environment in runtime.");
 
         auto topLevelEnv = Environment::createTopLevel();
@@ -84,10 +84,10 @@ namespace
         auto sub2 = Environment::create("sub2", sub1);
         auto sub3 = Environment::create("sub3", sub2);
 
-        CUT_ASSERT.isTrue(topLevelEnv->name().IsEqual(""));
-        CUT_ASSERT.isTrue(sub1->name().IsEqual("sub1"));
-        CUT_ASSERT.isTrue(sub2->name().IsEqual("sub2"));
-        CUT_ASSERT.isTrue(sub3->name().IsEqual("sub3"));
+        CUT_ASSERT.isTrue(topLevelEnv->name()->value().IsEqual(""));
+        CUT_ASSERT.isTrue(sub1->name()->value().IsEqual("sub1"));
+        CUT_ASSERT.isTrue(sub2->name()->value().IsEqual("sub2"));
+        CUT_ASSERT.isTrue(sub3->name()->value().IsEqual("sub3"));
 
         CUT_ASSERT.isTrue(topLevelEnv->qualifiedName().IsEqual("/"));
         CUT_ASSERT.isTrue(sub1->qualifiedName().IsEqual("/sub1"));

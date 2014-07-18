@@ -9,8 +9,11 @@ namespace lcpp
     {
     public:
 
-        static Ptr<Environment> createTopLevel(const ezString& name = ezString());
+        static Ptr<Environment> createTopLevel(Ptr<LispSymbol> pName = Ptr<LispSymbol>());
         static Ptr<Environment> create(Ptr<Environment> pParent);
+        static Ptr<Environment> create(Ptr<LispSymbol> pName, Ptr<Environment> pParent);
+
+            /// \brief Used for testing purposes only. Creates a LispSymbol internally.
         static Ptr<Environment> create(const ezString& name, Ptr<Environment> pParent);
 
     public:
@@ -38,11 +41,14 @@ namespace lcpp
             /// \brief Gets a Ptr to the const parent environment.
         Ptr<const Environment> parent() const;
 
-            /// \brief Gets the a ref to the name of this environment.
-        ezString& name();
+        /// \brief Sets the name of this environment.
+        void name(Ptr<LispSymbol> pName);
 
-            /// \brief Gets the a const ref  to the name of this environment.
-        const ezString& name() const;
+            /// \brief Gets the pointer to the name of this environment.
+        Ptr<      LispSymbol> name();
+
+            /// \brief Gets the const pointer to the name of this environment.
+        Ptr<const LispSymbol> name() const;
 
             /// \brief Constructs and returns the fully qualified name of this environment.
             /// If there is no parent, the name will be "/<name>".
@@ -52,16 +58,16 @@ namespace lcpp
     private:
 
         Ptr<Environment> m_pParent;
-        ezString m_name;
+        Ptr<LispSymbol> m_pName;
         ezHashTable<LispSymbol*, LispObject*> m_symbols;
 
     private:
 
         /// \brief Creats a top-level environment
-        explicit Environment(const ezString& name);
+        explicit Environment(Ptr<LispSymbol> pName);
 
         /// \brief Creats a child environment
-        Environment(const ezString& name, Ptr<Environment> pParent);
+        Environment(Ptr<LispSymbol> pName, Ptr<Environment> pParent);
 
         void qualifiedNameHelper(ezStringBuilder& builder) const;
     };

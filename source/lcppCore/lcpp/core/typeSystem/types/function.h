@@ -11,15 +11,11 @@ namespace lcpp
     {
     public:
 
-        static Ptr<LispFunction> create(const ezString& name,
-                                        Ptr<Environment> pEnv);
-
         static const Type& typeInfo();
 
     public:
 
-        LispFunction(const ezString& name,
-                     Ptr<Environment> pEnv);
+        LispFunction(Ptr<Environment> pEnv);
 
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
         bool operator==(const LispFunction& rhs) const;
@@ -30,15 +26,15 @@ namespace lcpp
 
         virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) = 0;
 
-        void name(const ezString& newName);
-        ezString& name();
-        const ezString& name() const;
+        void name(Ptr<LispSymbol> pNewName);
+        Ptr<const LispSymbol> name() const;
+        Ptr<LispSymbol> name();
 
         Ptr<Environment> env();
         Ptr<const Environment> env() const;
 
     protected:
-        ezString m_name;
+        Ptr<LispSymbol> m_pName;
         Ptr<Environment> m_pEnv;
     };
 
@@ -46,10 +42,16 @@ namespace lcpp
 
     class LCPP_CORE_API LispFunction_BuiltIn : public LispFunction
     {
-        friend class TypeFactory;
     public:
+
         typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
 
+    public:
+
+        static Ptr<LispFunction_BuiltIn> create(Ptr<Environment> pParentEnv,
+                                                ExecutorPtr_t executor);
+
+            /// \brief Used for testing purposes only.
         static Ptr<LispFunction_BuiltIn> create(const ezString& name,
                                                 Ptr<Environment> pParentEnv,
                                                 ExecutorPtr_t executor);
@@ -60,10 +62,6 @@ namespace lcpp
 
     public:
 
-        LispFunction_BuiltIn(const ezString& name,
-                             Ptr<Environment> pEnv,
-                             ExecutorPtr_t pExec);
-
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
         virtual ezString toString() const LCPP_OVERRIDE;
@@ -73,13 +71,17 @@ namespace lcpp
 
     private:
         ExecutorPtr_t m_pExec;
+
+    private:
+
+        LispFunction_BuiltIn(Ptr<Environment> pEnv,
+                             ExecutorPtr_t pExec);
     };
 
     //////////////////////////////////////////////////////////////////////////
 
     class LCPP_CORE_API LispFunction_UserDefined : public LispFunction
     {
-        friend class TypeFactory;
     public:
 
         static Ptr<LispFunction_UserDefined> create(Ptr<Environment> pEnv,
@@ -91,10 +93,6 @@ namespace lcpp
         static const Type& typeInfo();
 
     public:
-
-        LispFunction_UserDefined(Ptr<Environment> pEnv,
-                                 Ptr<LispObject> pArgNameList,
-                                 Ptr<LispCons> pBody);
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
@@ -110,6 +108,12 @@ namespace lcpp
 #ifdef _DEBUG
         ezString m_dump;
 #endif // _DEBUG
+
+    private:
+
+        LispFunction_UserDefined(Ptr<Environment> pEnv,
+                                 Ptr<LispObject> pArgNameList,
+                                 Ptr<LispCons> pBody);
 
         void processArguments(Ptr<LispObject> pArgs);
         /// \return \c true if \a pArgs is a cons, \c false if it is nil.

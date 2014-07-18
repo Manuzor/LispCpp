@@ -45,7 +45,7 @@ namespace lcpp
             envOp(pEnv, pSymbol, pLambda);
 
             // Give the new lambda its name.
-            pLambda.cast<LispFunction>()->name(pSymbol->value());
+            pLambda.cast<LispFunction>()->name(pSymbol);
 
             return LCPP_VOID;
         }
@@ -75,7 +75,7 @@ namespace lcpp
         // If it is a function, give it its new name.
         if(value->is<LispFunction>())
         {
-            value.cast<LispFunction>()->name(symbol->value());
+            value.cast<LispFunction>()->name(symbol);
         }
 
         return LCPP_VOID;
@@ -91,7 +91,7 @@ lcpp::syntax::define(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
         pEnv->add(pSymbol, pObject);
         if(pObject->is<LispFunction>())
         {
-            pObject.cast<LispFunction>()->name(pSymbol->value());
+            pObject.cast<LispFunction>()->name(pSymbol);
         }
     });
 }
@@ -113,7 +113,7 @@ lcpp::syntax::set(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
         
         if(pObject->is<LispFunction>())
         {
-            pObject.cast<LispFunction>()->name(pSymbol->value());
+            pObject.cast<LispFunction>()->name(pSymbol);
         }
     });
 }

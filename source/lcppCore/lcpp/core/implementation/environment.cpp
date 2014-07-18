@@ -3,42 +3,48 @@
 
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
 lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::createTopLevel(const ezString& name)
+lcpp::Environment::createTopLevel(Ptr<LispSymbol> pName)
 {
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(name);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(pName ? pName : LispSymbol::create(""));
 }
 
 lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::create(const ezString& name, Ptr<Environment> pParent)
+lcpp::Environment::create(Ptr<LispSymbol> pName, Ptr<Environment> pParent)
 {
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(name, pParent);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(pName, pParent);
 }
 
 lcpp::Ptr<lcpp::Environment>
 lcpp::Environment::create(Ptr<Environment> pParent)
 {
-    return create("", pParent);
+    return create(LispSymbol::create("anonymous"), pParent);
 }
 
-lcpp::Environment::Environment(const ezString& name) :
+lcpp::Ptr<lcpp::Environment>
+lcpp::Environment::create(const ezString& name, Ptr<Environment> pParent)
+{
+    return create(LispSymbol::create(name), pParent);
+}
+
+
+lcpp::Environment::Environment(Ptr<LispSymbol> pName) :
     m_pParent(),
-    m_name(LispRuntime::instance()->allocator().get()),
+    m_pName(pName),
     m_symbols(LispRuntime::instance()->allocator().get())
 {
-    m_name = name;
 }
 
-lcpp::Environment::Environment(const ezString& name, Ptr<Environment> pParent) :
+lcpp::Environment::Environment(Ptr<LispSymbol> pName, Ptr<Environment> pParent) :
     m_pParent(pParent),
-    m_name(LispRuntime::instance()->allocator().get()),
+    m_pName(pName),
     m_symbols(LispRuntime::instance()->allocator().get())
 {
-    m_name = name;
 }
 
 void
@@ -118,4 +124,14 @@ lcpp::Environment::exists(Ptr<LispSymbol> pKey)
 
     return existsLocally
         || m_pParent && m_pParent->exists(pKey);
+}
+
+void
+lcpp::Environment::qualifiedNameHelper(ezStringBuilder& builder) const
+{
+    if(!m_pParent) { return; }
+
+    m_pParent->qualifiedNameHelper(builder);
+    builder.Append('/');
+    builder.Append(m_pName->value().GetData());
 }

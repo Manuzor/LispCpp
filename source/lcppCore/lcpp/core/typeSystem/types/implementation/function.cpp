@@ -8,14 +8,6 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::Ptr<lcpp::LispFunction>
-lcpp::LispFunction::create(const ezString& name,
-                           Ptr<Environment> pEnv)
-{
-    EZ_REPORT_FAILURE("Not implemented");
-    return nullptr;
-}
-
 const lcpp::Type&
 lcpp::LispFunction::typeInfo()
 {
@@ -28,12 +20,10 @@ lcpp::LispFunction::typeInfo()
     return t;
 }
 
-lcpp::LispFunction::LispFunction(const ezString& name,
-                                 Ptr<Environment> pEnv) :
-    m_name(name),
+lcpp::LispFunction::LispFunction(Ptr<Environment> pEnv) :
+    m_pName(),
     m_pEnv(pEnv)
 {
-    m_pEnv->name() = m_name;
 }
 
 bool
@@ -54,24 +44,35 @@ lcpp::LispFunction::operator==(const LispFunction& rhs) const
 }
 
 void
-lcpp::LispFunction::name(const ezString& newName)
+lcpp::LispFunction::name(Ptr<LispSymbol> pName)
 {
-    m_name = newName;
-    m_pEnv->name() = newName;
+    EZ_ASSERT(pName, "The passed symbol instance is invalid!");
+    m_pName = pName;
+    m_pEnv->name(pName);
 }
 
 //////////////////////////////////////////////////////////////////////////
+
+lcpp::Ptr<lcpp::LispFunction_BuiltIn>
+lcpp::LispFunction_BuiltIn::create(Ptr<Environment> pParentEnv,
+                                   ExecutorPtr_t executor)
+{
+    auto pRuntime = LispRuntime::instance();
+    auto pAllocator = pRuntime->allocator().get();
+    auto pNewEnv = Environment::create(pParentEnv);
+    return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(pNewEnv, executor);
+}
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
 lcpp::LispFunction_BuiltIn::create(const ezString& name,
                                    Ptr<Environment> pParentEnv,
                                    ExecutorPtr_t executor)
 {
-    auto pRuntime = LispRuntime::instance();
-    auto pAllocator = pRuntime->allocator().get();
-    auto pNewEnv = Environment::create(pParentEnv);
-    return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(name, pNewEnv, executor);
+    auto pFunction = create(pParentEnv, executor);
+    pFunction->name(LispSymbol::create(name));
+    return pFunction;
 }
+
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
 lcpp::LispFunction_BuiltIn::copy(const LispFunction_BuiltIn& toCopy)
@@ -93,18 +94,11 @@ lcpp::LispFunction_BuiltIn::typeInfo()
     return t;
 }
 
-lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(const ezString& name,
-                                                 Ptr<Environment> pEnv,
+lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(Ptr<Environment> pEnv,
                                                  ExecutorPtr_t pExec) :
-    LispFunction(name, pEnv),
+    LispFunction(pEnv),
     m_pExec(pExec)
 {
-    EZ_ASSERT(!name.IsEmpty(), "A built-in function needs a name!");
-
-    ezStringBuilder builder(LispRuntime::instance()->allocator().get());
-    builder.AppendFormat("built-in procedure:%s", m_name.GetData());
-    m_pEnv->name() = builder;
-
     EZ_ASSERT(pExec, "The function executor must be valid!");
 }
 
@@ -117,8 +111,9 @@ lcpp::LispFunction_BuiltIn::copy() const
 ezString
 lcpp::LispFunction_BuiltIn::toString() const
 {
+    EZ_ASSERT(m_pName, "A built-in function needs to have a name!");
     ezStringBuilder builder;
-    builder.AppendFormat("<built-in procedure:%s>", m_name.GetData());
+    builder.AppendFormat("<procedure (built-in):%s>", m_pName->value().GetData());
     return builder;
 }
 
@@ -172,7 +167,7 @@ lcpp::LispFunction_UserDefined::typeInfo()
 lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<Environment> pEnv,
                                                          Ptr<LispObject> pArgNameList,
                                                          Ptr<LispCons> pBody) :
-    LispFunction("anonymous", pEnv),
+    LispFunction(pEnv),
     m_pArgNameList(pArgNameList),
     m_numArgs(0),
     m_pBody(pBody)
@@ -180,10 +175,6 @@ lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<Environment> pEnv,
     , m_dump(LispRuntime::instance()->allocator().get())
 #endif // _DEBUG
 {
-    ezStringBuilder builder;
-    builder.AppendFormat("procedure:%s", m_name.GetData());
-    m_pEnv->name() = builder;
-
     EZ_ASSERT(m_pArgNameList, "The function body MUST be valid argNameList!");
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
 
@@ -230,8 +221,16 @@ lcpp::LispFunction_UserDefined::copy() const
 ezString
 lcpp::LispFunction_UserDefined::toString() const
 {
-    ezStringBuilder builder;
-    builder.AppendFormat("<procedure:%s>", m_name.GetData());
+    static auto anonymous = ezString("<procedure>");
+    static auto nonAnonymousFormat = ezString("<procedure:%s>");
+
+    if (!m_pName)
+    {
+        return "<procedure>";
+    }
+
+    auto builder = ezStringBuilder();
+    builder.AppendFormat("<procedure:%s>", m_pName->value().GetData());
     return builder;
 }
 

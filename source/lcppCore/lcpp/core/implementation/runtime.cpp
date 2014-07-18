@@ -53,11 +53,11 @@ lcpp::LispRuntime::initialize()
     m_pReader = Reader::create(Reader::CInfo());
     m_pEvaluator = RecursiveEvaluator::create();
 
-    m_pSyntaxEnvironment = Environment::createTopLevel("syntax");
-    m_pGlobalEnvironment = Environment::create("global", m_pSyntaxEnvironment);
-
     m_instanceTables.pSymbols = InstanceTable_Symbols::create();
     m_instanceTables.pIntegers = InstanceTable_Integers::create();
+
+    m_pSyntaxEnvironment = Environment::createTopLevel(LispSymbol::create("syntax"));
+    m_pGlobalEnvironment = Environment::create(LispSymbol::create("global"), m_pSyntaxEnvironment);
 
     //////////////////////////////////////////////////////////////////////////
     
@@ -116,12 +116,16 @@ void lcpp::LispRuntime::decreaseRecursionDepth()
 
 void lcpp::LispRuntime::registerBuiltIns()
 {
-#define LCPP_ADD_GLOBAL(name, value) pEnv->add(LispSymbol::create(name), value)
-#define LCPP_ADD_BUILTIN_FUNCTION(name, funcPtr) \
-    pEnv->add(LispSymbol::create(name),     \
-              LispFunction_BuiltIn::create(name, pEnv, funcPtr))
+#define LCPP_ADD_GLOBAL(nameString, value) pEnv->add(LispSymbol::create(nameString), value)
+#define LCPP_ADD_BUILTIN_FUNCTION(nameString, functionPointer)              \
+    pSymbol = LispSymbol::create(nameString);                               \
+    pBuiltInFunction = LispFunction_BuiltIn::create(pEnv, functionPointer); \
+    pBuiltInFunction->name(pSymbol);                                        \
+    pEnv->add(pSymbol, pBuiltInFunction);
 
     auto pEnv = globalEnvironment();
+    Ptr<LispFunction_BuiltIn> pBuiltInFunction;
+    Ptr<LispSymbol> pSymbol;
 
     // Globals
     //////////////////////////////////////////////////////////////////////////
