@@ -4,7 +4,7 @@
 namespace lcpp
 {
     class LispRuntime;
-    class Environment;
+    class LispEnvironment;
     class LispCons;
 
     class LCPP_CORE_API LispFunction : public LispObject
@@ -15,7 +15,7 @@ namespace lcpp
 
     public:
 
-        LispFunction(Ptr<Environment> pEnv);
+        LispFunction(Ptr<LispEnvironment> pEnv);
 
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
 
@@ -29,12 +29,12 @@ namespace lcpp
         Ptr<const LispSymbol> name() const;
         Ptr<LispSymbol> name();
 
-        Ptr<Environment> env();
-        Ptr<const Environment> env() const;
+        Ptr<LispEnvironment> env();
+        Ptr<const LispEnvironment> env() const;
 
     protected:
         Ptr<LispSymbol> m_pName;
-        Ptr<Environment> m_pEnv;
+        Ptr<LispEnvironment> m_pEnv;
     };
 
     bool operator==(const LispFunction& lhs, const LispFunction& rhs);
@@ -45,16 +45,16 @@ namespace lcpp
     {
     public:
 
-        typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<Environment>, Ptr<LispObject>);
+        typedef Ptr<LispObject>(*ExecutorPtr_t)(Ptr<LispEnvironment>, Ptr<LispObject>);
 
     public:
 
-        static Ptr<LispFunction_BuiltIn> create(Ptr<Environment> pParentEnv,
+        static Ptr<LispFunction_BuiltIn> create(Ptr<LispEnvironment> pParentEnv,
                                                 ExecutorPtr_t executor);
 
             /// \brief Used for testing purposes only.
         static Ptr<LispFunction_BuiltIn> create(const ezString& name,
-                                                Ptr<Environment> pParentEnv,
+                                                Ptr<LispEnvironment> pParentEnv,
                                                 ExecutorPtr_t executor);
 
         static Ptr<LispFunction_BuiltIn> copy(const LispFunction_BuiltIn& toCopy);
@@ -75,7 +75,7 @@ namespace lcpp
 
     private:
 
-        LispFunction_BuiltIn(Ptr<Environment> pEnv,
+        LispFunction_BuiltIn(Ptr<LispEnvironment> pEnv,
                              ExecutorPtr_t pExec);
     };
 
@@ -85,7 +85,7 @@ namespace lcpp
     {
     public:
 
-        static Ptr<LispFunction_UserDefined> create(Ptr<Environment> pEnv,
+        static Ptr<LispFunction_UserDefined> create(Ptr<LispEnvironment> pEnv,
                                                     Ptr<LispObject> pArgNameList,
                                                     Ptr<LispCons> pBody);
 
@@ -112,7 +112,7 @@ namespace lcpp
 
     private:
 
-        LispFunction_UserDefined(Ptr<Environment> pEnv,
+        LispFunction_UserDefined(Ptr<LispEnvironment> pEnv,
                                  Ptr<LispObject> pArgNameList,
                                  Ptr<LispCons> pBody);
 

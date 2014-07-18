@@ -20,7 +20,7 @@ lcpp::LispFunction::typeInfo()
     return t;
 }
 
-lcpp::LispFunction::LispFunction(Ptr<Environment> pEnv) :
+lcpp::LispFunction::LispFunction(Ptr<LispEnvironment> pEnv) :
     m_pName(),
     m_pEnv(pEnv)
 {
@@ -47,18 +47,18 @@ lcpp::LispFunction::name(Ptr<LispSymbol> pName)
 //////////////////////////////////////////////////////////////////////////
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
-lcpp::LispFunction_BuiltIn::create(Ptr<Environment> pParentEnv,
+lcpp::LispFunction_BuiltIn::create(Ptr<LispEnvironment> pParentEnv,
                                    ExecutorPtr_t executor)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    auto pNewEnv = Environment::create(pParentEnv);
+    auto pNewEnv = LispEnvironment::create(pParentEnv);
     return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(pNewEnv, executor);
 }
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
 lcpp::LispFunction_BuiltIn::create(const ezString& name,
-                                   Ptr<Environment> pParentEnv,
+                                   Ptr<LispEnvironment> pParentEnv,
                                    ExecutorPtr_t executor)
 {
     auto pFunction = create(pParentEnv, executor);
@@ -87,7 +87,7 @@ lcpp::LispFunction_BuiltIn::typeInfo()
     return t;
 }
 
-lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(Ptr<Environment> pEnv,
+lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(Ptr<LispEnvironment> pEnv,
                                                  ExecutorPtr_t pExec) :
     LispFunction(pEnv),
     m_pExec(pExec)
@@ -127,13 +127,13 @@ lcpp::LispFunction_BuiltIn::call(Ptr<LispObject> pArgList)
 //////////////////////////////////////////////////////////////////////////
 
 lcpp::Ptr<lcpp::LispFunction_UserDefined>
-lcpp::LispFunction_UserDefined::create(Ptr<Environment> pEnv,
+lcpp::LispFunction_UserDefined::create(Ptr<LispEnvironment> pEnv,
                                        Ptr<LispObject> pArgNameList,
                                        Ptr<LispCons> pBody)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    auto pNewEnv = Environment::create(pEnv);
+    auto pNewEnv = LispEnvironment::create(pEnv);
     return LCPP_NEW(pAllocator, LispFunction_UserDefined)(pNewEnv, pArgNameList, pBody);
 }
 
@@ -157,7 +157,7 @@ lcpp::LispFunction_UserDefined::typeInfo()
     return t;
 }
 
-lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<Environment> pEnv,
+lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<LispEnvironment> pEnv,
                                                          Ptr<LispObject> pArgNameList,
                                                          Ptr<LispCons> pBody) :
     LispFunction(pEnv),

@@ -29,14 +29,14 @@ lcpp::LispFunction::name() const
 }
 
 inline
-lcpp::Ptr<lcpp::Environment>
+lcpp::Ptr<lcpp::LispEnvironment>
 lcpp::LispFunction::env()
 {
     return m_pEnv;
 }
 
 inline
-lcpp::Ptr<const lcpp::Environment>
+lcpp::Ptr<const lcpp::LispEnvironment>
 lcpp::LispFunction::env() const
 {
     return m_pEnv;

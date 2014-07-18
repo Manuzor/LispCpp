@@ -90,7 +90,7 @@ lcpp::LispSyntax_BuiltIn::LispSyntax_BuiltIn(Ptr<LispSymbol> pName,
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::LispSyntax_BuiltIn::call(Ptr<Environment> pEnv,
+lcpp::LispSyntax_BuiltIn::call(Ptr<LispEnvironment> pEnv,
                                Ptr<LispObject> pUnevaluatedArgList)
 {
     RecursionCounter counter(LispRuntime::instance());

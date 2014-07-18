@@ -8,7 +8,7 @@ namespace
 {
     int g_testData;
 
-    Ptr<LispObject> builtIn_testFunc(Ptr<Environment> pEnv,
+    Ptr<LispObject> builtIn_testFunc(Ptr<LispEnvironment> pEnv,
                                      Ptr<LispObject> pArgs)
     {
         g_testData = 1;

@@ -13,9 +13,9 @@
 namespace lcpp
 {
     Ptr<LispObject>
-    defineHelper(Ptr<Environment> pEnv,
+    defineHelper(Ptr<LispEnvironment> pEnv,
                  Ptr<LispObject> pArgs,
-                 std::function<void(Ptr<Environment>, Ptr<LispSymbol>, Ptr<LispObject>)> envOp)
+                 std::function<void(Ptr<LispEnvironment>, Ptr<LispSymbol>, Ptr<LispObject>)> envOp)
     {
         EZ_LOG_BLOCK("syntax::defineHelper");
         ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -83,11 +83,11 @@ namespace lcpp
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::define(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::define(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::define");
 
-    return defineHelper(pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
+    return defineHelper(pEnv, pArgs, [](Ptr<LispEnvironment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         pEnv->add(pSymbol, pObject);
         if(pObject->is<LispFunction>())
         {
@@ -97,11 +97,11 @@ lcpp::syntax::define(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::set(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::set(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::set");
 
-    return defineHelper(pEnv, pArgs, [](Ptr<Environment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
+    return defineHelper(pEnv, pArgs, [](Ptr<LispEnvironment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         auto result = pEnv->set(pSymbol, pObject);
 
         if (!result.IsSuccess())
@@ -119,7 +119,7 @@ lcpp::syntax::set(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::lambda(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::lambda(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::lambda");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -169,7 +169,7 @@ lcpp::syntax::lambda(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::if_(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::if_");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -214,7 +214,7 @@ lcpp::syntax::if_(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::and(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::and(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::and");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -247,7 +247,7 @@ lcpp::syntax::and(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::or(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::or(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::or");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());

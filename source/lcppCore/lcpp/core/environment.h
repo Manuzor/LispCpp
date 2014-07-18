@@ -6,19 +6,19 @@ namespace lcpp
     class LispObject;
     class LispSymbol;
 
-    class LCPP_CORE_API Environment :
+    class LCPP_CORE_API LispEnvironment :
         public LispObject
     {
     public:
 
-        static Ptr<Environment> createTopLevel(Ptr<LispSymbol> pName = Ptr<LispSymbol>());
-        static Ptr<Environment> create(Ptr<Environment> pParent);
-        static Ptr<Environment> create(Ptr<LispSymbol> pName, Ptr<Environment> pParent);
+        static Ptr<LispEnvironment> createTopLevel(Ptr<LispSymbol> pName = Ptr<LispSymbol>());
+        static Ptr<LispEnvironment> create(Ptr<LispEnvironment> pParent);
+        static Ptr<LispEnvironment> create(Ptr<LispSymbol> pName, Ptr<LispEnvironment> pParent);
 
             /// \brief Used for testing purposes only. Creates a LispSymbol internally.
-        static Ptr<Environment> create(const ezString& name, Ptr<Environment> pParent);
+        static Ptr<LispEnvironment> create(const ezString& name, Ptr<LispEnvironment> pParent);
 
-        static Ptr<Environment> createCopy(const Environment& toCopy);
+        static Ptr<LispEnvironment> createCopy(const LispEnvironment& toCopy);
 
         static const Type& typeInfo();
 
@@ -42,10 +42,10 @@ namespace lcpp
         bool exists(Ptr<LispSymbol> pKey);
 
             /// \brief Gets a Ptr to the parent environment.
-        Ptr<      Environment> parent();
+        Ptr<      LispEnvironment> parent();
 
             /// \brief Gets a Ptr to the const parent environment.
-        Ptr<const Environment> parent() const;
+        Ptr<const LispEnvironment> parent() const;
 
         /// \brief Sets the name of this environment.
         void name(Ptr<LispSymbol> pName);
@@ -63,17 +63,17 @@ namespace lcpp
 
     private:
 
-        Ptr<Environment> m_pParent;
+        Ptr<LispEnvironment> m_pParent;
         Ptr<LispSymbol> m_pName;
         ezHashTable<LispSymbol*, LispObject*> m_symbols;
 
     private:
 
         /// \brief Creats a top-level environment
-        explicit Environment(Ptr<LispSymbol> pName);
+        explicit LispEnvironment(Ptr<LispSymbol> pName);
 
         /// \brief Creats a child environment
-        Environment(Ptr<LispSymbol> pName, Ptr<Environment> pParent);
+        LispEnvironment(Ptr<LispSymbol> pName, Ptr<LispEnvironment> pParent);
 
         void qualifiedNameHelper(ezStringBuilder& builder) const;
 
@@ -93,7 +93,7 @@ namespace lcpp
 
     };
 
-    bool operator ==(const Environment& lhs, const Environment& rhs);
+    bool operator ==(const LispEnvironment& lhs, const LispEnvironment& rhs);
 
 }
 

@@ -4,7 +4,7 @@
 namespace lcpp
 {
     class LispRuntime;
-    class Environment;
+    class LispEnvironment;
     class LispSymbol;
     class LispCons;
 
@@ -31,7 +31,7 @@ namespace lcpp
         lcpp::Ptr<      lcpp::LispSymbol> lcpp::LispSyntax::name();
         lcpp::Ptr<const lcpp::LispSymbol> lcpp::LispSyntax::name() const;
 
-        virtual Ptr<LispObject> call(Ptr<Environment> pEnv,
+        virtual Ptr<LispObject> call(Ptr<LispEnvironment> pEnv,
                                      Ptr<LispObject> pUnevaluatedArgList) = 0;
 
     protected:
@@ -42,7 +42,7 @@ namespace lcpp
         public LispSyntax
     {
     public:
-        typedef Ptr<LispObject>(*HandlerFuncPtr_t)(Ptr<Environment>, Ptr<LispObject>);
+        typedef Ptr<LispObject>(*HandlerFuncPtr_t)(Ptr<LispEnvironment>, Ptr<LispObject>);
 
 
         static Ptr<LispSyntax_BuiltIn> create(Ptr<LispSymbol> pName,
@@ -56,7 +56,7 @@ namespace lcpp
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
-        virtual Ptr<LispObject> call(Ptr<Environment> pEnv,
+        virtual Ptr<LispObject> call(Ptr<LispEnvironment> pEnv,
                                      Ptr<LispObject> pUnevaluatedArgList) LCPP_OVERRIDE;
 
     private:

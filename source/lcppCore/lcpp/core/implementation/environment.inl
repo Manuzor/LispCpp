@@ -1,42 +1,42 @@
 
 inline
-lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::parent()
+lcpp::Ptr<lcpp::LispEnvironment>
+lcpp::LispEnvironment::parent()
 {
     return m_pParent;
 }
 
 inline
-lcpp::Ptr<const lcpp::Environment>
-lcpp::Environment::parent() const
+lcpp::Ptr<const lcpp::LispEnvironment>
+lcpp::LispEnvironment::parent() const
 {
     return m_pParent;
 }
 
 inline
 void
-lcpp::Environment::name(Ptr<LispSymbol> pName)
+lcpp::LispEnvironment::name(Ptr<LispSymbol> pName)
 {
     m_pName = pName;
 }
 
 inline
 lcpp::Ptr<const lcpp::LispSymbol>
-lcpp::Environment::name() const
+lcpp::LispEnvironment::name() const
 {
     return m_pName;
 }
 
 inline
 lcpp::Ptr<lcpp::LispSymbol>
-lcpp::Environment::name()
+lcpp::LispEnvironment::name()
 {
     return m_pName;
 }
 
 inline
 ezString
-lcpp::Environment::qualifiedName() const
+lcpp::LispEnvironment::qualifiedName() const
 {
     if(!m_pParent) { return "/"; }
 
@@ -47,28 +47,28 @@ lcpp::Environment::qualifiedName() const
 
 inline
 ezString
-lcpp::Environment::toString() const
+lcpp::LispEnvironment::toString() const
 {
     return qualifiedName();
 }
 
 inline
 const lcpp::Type&
-lcpp::Environment::type() const
+lcpp::LispEnvironment::type() const
 {
-    return Environment::typeInfo();
+    return LispEnvironment::typeInfo();
 }
 
 inline
 lcpp::Ptr<lcpp::LispObject>
-lcpp::Environment::copy() const
+lcpp::LispEnvironment::copy() const
 {
-    return Environment::createCopy(*this);
+    return LispEnvironment::createCopy(*this);
 }
 
 inline
 bool
-lcpp::operator==(const Environment& lhs, const Environment& rhs)
+lcpp::operator==(const LispEnvironment& lhs, const LispEnvironment& rhs)
 {
     return lhs.qualifiedName().IsEqual(rhs.qualifiedName().GetData());
 }

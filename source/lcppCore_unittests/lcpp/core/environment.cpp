@@ -6,7 +6,7 @@ using namespace lcpp;
 
 namespace
 {
-    UnitTestGroup g_group("EnvironmentTests");
+    UnitTestGroup g_group("LispEnvironmentTests");
 
     UnitTest g_test1(g_group, "Basics", []{
         auto pRuntime = resetRuntime();
@@ -27,7 +27,7 @@ namespace
         auto pRuntime = resetRuntime();
 
         auto pTopEnv = pRuntime->globalEnvironment();
-        auto pChildEnv = Environment::create("child", pTopEnv);
+        auto pChildEnv = LispEnvironment::create("child", pTopEnv);
 
         Ptr<LispObject> pResult;
 
@@ -45,7 +45,7 @@ namespace
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 1337);
 
-        auto pSubChildEnv = Environment::create("subChild", pChildEnv);
+        auto pSubChildEnv = LispEnvironment::create("subChild", pChildEnv);
 
         pSubChildEnv->add(pSymbol, LispInteger::create(666));
 
@@ -79,10 +79,10 @@ namespace
         CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->name()->value().IsEqual("global"), "Invalid local name for global environment in runtime.");
         CUT_ASSERT.isTrue(pRuntime->globalEnvironment()->qualifiedName().IsEqual("/global"), "Invalid qualified name for global environment in runtime.");
 
-        auto topLevelEnv = Environment::createTopLevel();
-        auto sub1 = Environment::create("sub1", topLevelEnv);
-        auto sub2 = Environment::create("sub2", sub1);
-        auto sub3 = Environment::create("sub3", sub2);
+        auto topLevelEnv = LispEnvironment::createTopLevel();
+        auto sub1 = LispEnvironment::create("sub1", topLevelEnv);
+        auto sub2 = LispEnvironment::create("sub2", sub1);
+        auto sub3 = LispEnvironment::create("sub3", sub2);
 
         CUT_ASSERT.isTrue(topLevelEnv->name()->value().IsEqual(""));
         CUT_ASSERT.isTrue(sub1->name()->value().IsEqual("sub1"));

@@ -37,13 +37,13 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispObject> pObject)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObject)
+lcpp::RecursiveEvaluator::evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pObject)
 {
     m_evalLevel++;
     LCPP_SCOPE_EXIT{ m_evalLevel--; };
 
     EZ_LOG_BLOCK("RecursiveEvaluator::evalulate");
-    ezLog::VerboseDebugMessage("Environment name: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("LispEnvironment name: %s", pEnv->qualifiedName().GetData());
     ezLog::VerboseDebugMessage("Evaluating object of type %s: %s",
                                pObject->type().name,
                                pObject->toString().GetData());
@@ -107,7 +107,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObje
 }
 
 void
-lcpp::RecursiveEvaluator::evaluateEach(Ptr<Environment> pEnv, Ptr<LispCons> pCons)
+lcpp::RecursiveEvaluator::evaluateEach(Ptr<LispEnvironment> pEnv, Ptr<LispCons> pCons)
 {
     auto pToEval = pCons->car();
     auto pEvaluated = evalulate(pEnv, pToEval);

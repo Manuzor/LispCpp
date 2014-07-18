@@ -16,7 +16,7 @@ namespace lcpp
         virtual void initialize() = 0;
 
         virtual Ptr<LispObject> evalulate(Ptr<LispObject> pObject) = 0;
-        virtual Ptr<LispObject> evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObject) = 0;
+        virtual Ptr<LispObject> evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pObject) = 0;
     };
 
     class LCPP_CORE_API RecursiveEvaluator : public IEvaluator
@@ -32,14 +32,14 @@ namespace lcpp
         virtual void initialize() LCPP_OVERRIDE;
 
         virtual Ptr<LispObject> evalulate(Ptr<LispObject> pObject) LCPP_OVERRIDE;
-        virtual Ptr<LispObject> evalulate(Ptr<Environment> pEnv, Ptr<LispObject> pObject) LCPP_OVERRIDE;
+        virtual Ptr<LispObject> evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pObject) LCPP_OVERRIDE;
 
     private:
         ezUInt32 m_evalLevel;
 
         RecursiveEvaluator();
 
-        void evaluateEach(Ptr<Environment> pEnv, Ptr<LispCons> pCons);
+        void evaluateEach(Ptr<LispEnvironment> pEnv, Ptr<LispCons> pCons);
     };
 }
 

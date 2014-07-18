@@ -55,7 +55,7 @@
     }                                                               \
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::exit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::exit(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     ezInt32 status = 0;
     if(!isNil(pArgs) && pArgs->is<LispCons>() && pArgs.cast<LispCons>()->car()->is<LispInteger>())
@@ -70,7 +70,7 @@ lcpp::builtIn::exit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::dump(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::dump(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
     
@@ -89,7 +89,7 @@ lcpp::builtIn::dump(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::read(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::read(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -102,7 +102,7 @@ lcpp::builtIn::read(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::eval(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::eval(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -114,7 +114,7 @@ lcpp::builtIn::eval(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::print(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::print(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     static Printer printer;
 
@@ -130,7 +130,7 @@ lcpp::builtIn::print(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::fileOpen(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::fileOpen(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -184,7 +184,7 @@ lcpp::builtIn::fileOpen(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::fileIsOpen(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::fileIsOpen(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -199,7 +199,7 @@ lcpp::builtIn::fileIsOpen(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::fileClose(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::fileClose(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -216,7 +216,7 @@ lcpp::builtIn::fileClose(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::fileReadString(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::fileReadString(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -236,7 +236,7 @@ lcpp::builtIn::fileReadString(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::add(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::add(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -281,7 +281,7 @@ lcpp::builtIn::add(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::sub(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::sub(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -354,7 +354,7 @@ lcpp::builtIn::sub(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::mul(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::mul(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -399,7 +399,7 @@ lcpp::builtIn::mul(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::modulo(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::modulo(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("builtIn::modulo");
     ezLog::VerboseDebugMessage("Args: %s", pArgs->toString().GetData());
@@ -433,7 +433,7 @@ lcpp::builtIn::modulo(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::equals(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::equals(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     if(isNil(pArgs))
     {
@@ -469,7 +469,7 @@ lcpp::builtIn::equals(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::objectEquals(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::objectEquals(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
 
@@ -486,7 +486,7 @@ lcpp::builtIn::objectEquals(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::setRecursionLimit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::setRecursionLimit(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -502,14 +502,14 @@ lcpp::builtIn::setRecursionLimit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::getRecursionLimit(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::getRecursionLimit(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     auto limit = LispRuntime::instance()->recursionLimit();
     return LispInteger::create(limit);
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::cons(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::cons(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
 
@@ -521,7 +521,7 @@ lcpp::builtIn::cons(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::car(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::car(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 
@@ -534,7 +534,7 @@ lcpp::builtIn::car(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::builtIn::cdr(Ptr<Environment> pEnv, Ptr<LispObject> pArgs)
+lcpp::builtIn::cdr(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
 

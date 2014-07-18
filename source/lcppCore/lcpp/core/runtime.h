@@ -7,7 +7,7 @@ namespace lcpp
     class Reader;
     class IEvaluator;
     class TypeFactory;
-    class Environment;
+    class LispEnvironment;
 
     class LCPP_CORE_API LispRuntime
     {
@@ -48,13 +48,13 @@ namespace lcpp
         Ptr<IEvaluator> evaluator();
         void evaluator(Ptr<IEvaluator> value);
 
-        Ptr<const Environment> syntaxEnvironment() const;
-        Ptr<Environment> syntaxEnvironment();
-        void syntaxEnvironment(Ptr<Environment> value);
+        Ptr<const LispEnvironment> syntaxEnvironment() const;
+        Ptr<LispEnvironment> syntaxEnvironment();
+        void syntaxEnvironment(Ptr<LispEnvironment> value);
 
-        Ptr<const Environment> globalEnvironment() const;
-        Ptr<Environment> globalEnvironment();
-        void globalEnvironment(Ptr<Environment> value);
+        Ptr<const LispEnvironment> globalEnvironment() const;
+        Ptr<LispEnvironment> globalEnvironment();
+        void globalEnvironment(Ptr<LispEnvironment> value);
 
         const InstanceTables& instanceTables() const;
 
@@ -70,8 +70,8 @@ namespace lcpp
 
         Ptr<Reader> m_pReader;
         Ptr<IEvaluator> m_pEvaluator;
-        Ptr<Environment> m_pSyntaxEnvironment;
-        Ptr<Environment> m_pGlobalEnvironment;
+        Ptr<LispEnvironment> m_pSyntaxEnvironment;
+        Ptr<LispEnvironment> m_pGlobalEnvironment;
 
         InstanceTables m_instanceTables;
 

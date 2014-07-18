@@ -8,57 +8,57 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::createTopLevel(Ptr<LispSymbol> pName)
+lcpp::Ptr<lcpp::LispEnvironment>
+lcpp::LispEnvironment::createTopLevel(Ptr<LispSymbol> pName)
 {
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(pName ? pName : LispSymbol::create(""));
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispEnvironment)(pName ? pName : LispSymbol::create(""));
 }
 
-lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::create(Ptr<LispSymbol> pName, Ptr<Environment> pParent)
+lcpp::Ptr<lcpp::LispEnvironment>
+lcpp::LispEnvironment::create(Ptr<LispSymbol> pName, Ptr<LispEnvironment> pParent)
 {
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(pName, pParent);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispEnvironment)(pName, pParent);
 }
 
-lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::create(Ptr<Environment> pParent)
+lcpp::Ptr<lcpp::LispEnvironment>
+lcpp::LispEnvironment::create(Ptr<LispEnvironment> pParent)
 {
     return create(LispSymbol::create("anonymous"), pParent);
 }
 
-lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::create(const ezString& name, Ptr<Environment> pParent)
+lcpp::Ptr<lcpp::LispEnvironment>
+lcpp::LispEnvironment::create(const ezString& name, Ptr<LispEnvironment> pParent)
 {
     return create(LispSymbol::create(name), pParent);
 }
 
 
-lcpp::Ptr<lcpp::Environment>
-lcpp::Environment::createCopy(const Environment& toCopy)
+lcpp::Ptr<lcpp::LispEnvironment>
+lcpp::LispEnvironment::createCopy(const LispEnvironment& toCopy)
 {
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), Environment)(toCopy);
+    return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispEnvironment)(toCopy);
 }
 
 const lcpp::Type&
-lcpp::Environment::typeInfo()
+lcpp::LispEnvironment::typeInfo()
 {
     static auto t = Type::create(Type::Flags::None,
-                                 EZ_STRINGIZE(Environment),
+                                 EZ_STRINGIZE(LispEnvironment),
                                  "environment",
-                                 MemoryInfo(sizeof(Environment),
-                                            EZ_ALIGNMENT_OF(Environment)));
+                                 MemoryInfo(sizeof(LispEnvironment),
+                                            EZ_ALIGNMENT_OF(LispEnvironment)));
 
     return t;
 }
 
-lcpp::Environment::Environment(Ptr<LispSymbol> pName) :
+lcpp::LispEnvironment::LispEnvironment(Ptr<LispSymbol> pName) :
     m_pParent(),
     m_pName(pName),
     m_symbols(LispRuntime::instance()->allocator().get())
 {
 }
 
-lcpp::Environment::Environment(Ptr<LispSymbol> pName, Ptr<Environment> pParent) :
+lcpp::LispEnvironment::LispEnvironment(Ptr<LispSymbol> pName, Ptr<LispEnvironment> pParent) :
     m_pParent(pParent),
     m_pName(pName),
     m_symbols(LispRuntime::instance()->allocator().get())
@@ -66,9 +66,9 @@ lcpp::Environment::Environment(Ptr<LispSymbol> pName, Ptr<Environment> pParent) 
 }
 
 void
-lcpp::Environment::add(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
+lcpp::LispEnvironment::add(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
 {
-    EZ_LOG_BLOCK("Environment::add", pKey->value().GetData());
+    EZ_LOG_BLOCK("LispEnvironment::add", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Environment Name: %s", qualifiedName().GetData());
 
     if (m_symbols.KeyExists(pKey.get()))
@@ -86,9 +86,9 @@ lcpp::Environment::add(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
 }
 
 ezResult
-lcpp::Environment::set(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
+lcpp::LispEnvironment::set(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
 {
-    EZ_LOG_BLOCK("Environment::set", pKey->value().GetData());
+    EZ_LOG_BLOCK("LispEnvironment::set", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Environment Name: %s", qualifiedName().GetData());
 
     if(m_symbols.KeyExists(pKey.get()))
@@ -107,9 +107,9 @@ lcpp::Environment::set(Ptr<LispSymbol> pKey, Ptr<LispObject> pValue)
 }
 
 ezResult
-lcpp::Environment::get(Ptr<LispSymbol> pKey, Ptr<LispObject>& out_value)
+lcpp::LispEnvironment::get(Ptr<LispSymbol> pKey, Ptr<LispObject>& out_value)
 {
-    EZ_LOG_BLOCK("Environment::get", pKey->value().GetData());
+    EZ_LOG_BLOCK("LispEnvironment::get", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Environment Name: %s", qualifiedName().GetData());
 
     LispObject* pResult = nullptr;
@@ -128,9 +128,9 @@ lcpp::Environment::get(Ptr<LispSymbol> pKey, Ptr<LispObject>& out_value)
 }
 
 bool
-lcpp::Environment::exists(Ptr<LispSymbol> pKey)
+lcpp::LispEnvironment::exists(Ptr<LispSymbol> pKey)
 {
-    EZ_LOG_BLOCK("Environment::exists", pKey->value().GetData());
+    EZ_LOG_BLOCK("LispEnvironment::exists", pKey->value().GetData());
     ezLog::VerboseDebugMessage("Name: %s", qualifiedName().GetData());
 
     auto existsLocally = m_symbols.KeyExists(pKey.get());
@@ -145,7 +145,7 @@ lcpp::Environment::exists(Ptr<LispSymbol> pKey)
 }
 
 void
-lcpp::Environment::qualifiedNameHelper(ezStringBuilder& builder) const
+lcpp::LispEnvironment::qualifiedNameHelper(ezStringBuilder& builder) const
 {
     if(!m_pParent) { return; }
 

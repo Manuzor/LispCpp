@@ -56,14 +56,14 @@ lcpp::LispRuntime::evaluator(lcpp::Ptr<lcpp::IEvaluator> value)
 }
 
 inline
-lcpp::Ptr<const lcpp::Environment>
+lcpp::Ptr<const lcpp::LispEnvironment>
 lcpp::LispRuntime::syntaxEnvironment() const
 {
     return m_pSyntaxEnvironment;
 }
 
 inline
-lcpp::Ptr<lcpp::Environment>
+lcpp::Ptr<lcpp::LispEnvironment>
 lcpp::LispRuntime::syntaxEnvironment()
 {
     return m_pSyntaxEnvironment;
@@ -71,20 +71,20 @@ lcpp::LispRuntime::syntaxEnvironment()
 
 inline
 void
-lcpp::LispRuntime::syntaxEnvironment(lcpp::Ptr<lcpp::Environment> value)
+lcpp::LispRuntime::syntaxEnvironment(lcpp::Ptr<lcpp::LispEnvironment> value)
 {
     m_pSyntaxEnvironment = value;
 }
 
 inline
-lcpp::Ptr<const lcpp::Environment>
+lcpp::Ptr<const lcpp::LispEnvironment>
 lcpp::LispRuntime::globalEnvironment() const
 {
     return m_pGlobalEnvironment;
 }
 
 inline
-lcpp::Ptr<lcpp::Environment>
+lcpp::Ptr<lcpp::LispEnvironment>
 lcpp::LispRuntime::globalEnvironment()
 {
     return m_pGlobalEnvironment;
@@ -92,7 +92,7 @@ lcpp::LispRuntime::globalEnvironment()
 
 inline
 void
-lcpp::LispRuntime::globalEnvironment(lcpp::Ptr<lcpp::Environment> value)
+lcpp::LispRuntime::globalEnvironment(lcpp::Ptr<lcpp::LispEnvironment> value)
 {
     m_pGlobalEnvironment = value;
 }

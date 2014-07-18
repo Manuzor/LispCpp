@@ -56,8 +56,8 @@ lcpp::LispRuntime::initialize()
     m_instanceTables.pSymbols = InstanceTable_Symbols::create();
     m_instanceTables.pIntegers = InstanceTable_Integers::create();
 
-    m_pSyntaxEnvironment = Environment::createTopLevel(LispSymbol::create("syntax"));
-    m_pGlobalEnvironment = Environment::create(LispSymbol::create("global"), m_pSyntaxEnvironment);
+    m_pSyntaxEnvironment = LispEnvironment::createTopLevel(LispSymbol::create("syntax"));
+    m_pGlobalEnvironment = LispEnvironment::create(LispSymbol::create("global"), m_pSyntaxEnvironment);
 
     //////////////////////////////////////////////////////////////////////////
     
