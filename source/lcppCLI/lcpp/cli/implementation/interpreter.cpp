@@ -106,6 +106,9 @@ ezInt32 lcpp::Interpreter::repl()
     ezStringBuilder buffer;
     std::string inputBuffer("");
 
+    auto prompt = ezStringBuilder();
+    auto currentLine = ezUInt32(0);
+
     Reader::SyntaxCheckResult syntaxCheck;
 
     try
@@ -123,8 +126,10 @@ ezInt32 lcpp::Interpreter::repl()
 
     while(true)
     {
+        ++currentLine;
         buffer.Clear();
-        m_pPrinter->print("> ");
+        prompt.Format("%u> ", currentLine);
+        m_pPrinter->print(prompt);
 
         try
         {
@@ -142,6 +147,16 @@ ezInt32 lcpp::Interpreter::repl()
                 {
                     break;
                 }
+
+                ++currentLine;
+
+                auto leftPadding = ezStringBuilder();
+                for(auto i = prompt.GetCharacterCount(); i > 0; --i)
+                {
+                    leftPadding.Append(' ');
+                }
+                
+                m_pPrinter->print(leftPadding);
             }
 
             if(syntaxCheck.isPureWhitespace) { continue; }
@@ -155,8 +170,12 @@ ezInt32 lcpp::Interpreter::repl()
         }
         catch (exceptions::ExceptionBase& e)
         {
-            ezStringBuilder message;
-            message.AppendFormat("Input error: %s\n", e.what());
+            auto message = ezStringBuilder();
+            auto& sourcePos = syntaxCheck.cursor.currentPosition();
+            message.AppendFormat("StdIn(%u:%u): Input error: %s\n",
+                                 currentLine,
+                                 sourcePos.posInLine + 1,
+                                 e.what());
             m_pPrinter->print(message);
             continue;
         }

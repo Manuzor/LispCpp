@@ -4,9 +4,9 @@ namespace lcpp
 {
     struct SourcePosition
     {
-        ezUInt32 line;
-        ezUInt32 posInLine;
-        ezUInt32 streamIndex;
+        ezUInt32 line;        ///< 0-based
+        ezUInt32 posInLine;   ///< 0-based
+        ezUInt32 streamIndex; ///< 0-based
 
         SourcePosition() :
             line(0),
