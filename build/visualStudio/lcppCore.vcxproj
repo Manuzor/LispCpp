@@ -34,6 +34,7 @@
     <ClInclude Include="../../source/lcppCore/lcpp\core\sourceCursor.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem.h" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\functions.h" />
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\nameable.h" />
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.inl" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\type.inl" />
     <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\bool.h" />
@@ -118,6 +119,7 @@
     <None Include="..\..\source\lcppCore\lcpp\api.inl">
       <FileType>CppHeader</FileType>
     </None>
+    <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>

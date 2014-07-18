@@ -1,5 +1,6 @@
 #pragma once
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/baseTypes/nameable.h"
 
 namespace lcpp
 {
@@ -7,7 +8,9 @@ namespace lcpp
     class LispEnvironment;
     class LispCons;
 
-    class LCPP_CORE_API LispFunction : public LispObject
+    class LCPP_CORE_API LispFunction :
+        public LispObject,
+        public NameableBase
     {
     public:
 
@@ -25,15 +28,12 @@ namespace lcpp
 
         virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) = 0;
 
-        void name(Ptr<LispSymbol> pNewName);
-        Ptr<const LispSymbol> name() const;
-        Ptr<LispSymbol> name();
+        virtual void name(Ptr<LispSymbol> pNewName) LCPP_OVERRIDE;
 
         Ptr<LispEnvironment> env();
         Ptr<const LispEnvironment> env() const;
 
     protected:
-        Ptr<LispSymbol> m_pName;
         Ptr<LispEnvironment> m_pEnv;
     };
 

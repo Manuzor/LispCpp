@@ -8,6 +8,13 @@ namespace lcpp
     template<typename Derived, typename Base>
     class LispExtend;
 
+    class LCPP_CORE_API ComponentBase
+    {
+    public:
+    protected:
+    private:
+    };
+
         /// \brief Base class for all scheme types
         /// 
         /// Do not directly derive your scheme type from this.

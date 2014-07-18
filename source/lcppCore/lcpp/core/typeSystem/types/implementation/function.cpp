@@ -21,7 +21,7 @@ lcpp::LispFunction::typeInfo()
 }
 
 lcpp::LispFunction::LispFunction(Ptr<LispEnvironment> pEnv) :
-    m_pName(),
+    NameableBase(),
     m_pEnv(pEnv)
 {
 }
@@ -40,7 +40,7 @@ void
 lcpp::LispFunction::name(Ptr<LispSymbol> pName)
 {
     EZ_ASSERT(pName, "The passed symbol instance is invalid!");
-    m_pName = pName;
+    NameableBase::name(pName);
     m_pEnv->name(pName);
 }
 
@@ -78,7 +78,7 @@ lcpp::LispFunction_BuiltIn::copy(const LispFunction_BuiltIn& toCopy)
 const lcpp::Type&
 lcpp::LispFunction_BuiltIn::typeInfo()
 {
-    static auto t = Type::create(Type::Flags::Callable,
+    static auto t = Type::create(Type::Flags::Callable | Type::Flags::Nameable,
                                  EZ_STRINGIZE(LispFunction_BuiltIn),
                                  "function (built-in)",
                                  MemoryInfo(sizeof(LispFunction_BuiltIn),
@@ -148,7 +148,7 @@ lcpp::LispFunction_UserDefined::copy(const LispFunction_UserDefined& toCopy)
 const lcpp::Type&
 lcpp::LispFunction_UserDefined::typeInfo()
 {
-    static auto t = Type::create(Type::Flags::Callable,
+    static auto t = Type::create(Type::Flags::Callable | Type::Flags::Nameable | Type::Flags::UserDefined,
                                  EZ_STRINGIZE(LispFunction_UserDefined),
                                  "function (userdefined)",
                                  MemoryInfo(sizeof(LispFunction_UserDefined),

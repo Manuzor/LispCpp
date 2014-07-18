@@ -27,6 +27,7 @@ namespace lcpp
                 Callable    = EZ_BIT(3),
                 Arithmetic  = EZ_BIT(4),
                 Singleton   = EZ_BIT(5),
+                Nameable    = EZ_BIT(6),
 
                 ALL = 0xFFFF,
             };
@@ -45,6 +46,16 @@ namespace lcpp
         const char* const name;
 
         const MemoryInfo memory;
+
+        // Convenience functions so the user does not have to use bitwise operators
+
+        bool isAbstract() const;
+        bool isUserDefined() const;
+        bool isSyntax() const;
+        bool isCallable() const;
+        bool isArithmetic() const;
+        bool isSingleton() const;
+        bool isNameable() const;
 
     private:
         Type(ezUInt32 id,

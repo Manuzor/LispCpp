@@ -72,12 +72,6 @@ namespace lcpp
 
         envOp(pEnv, symbol, value);
 
-        // If it is a function, give it its new name.
-        if(value->is<LispFunction>())
-        {
-            value.cast<LispFunction>()->name(symbol);
-        }
-
         return LCPP_VOID;
     }
 }
@@ -91,7 +85,11 @@ lcpp::syntax::define(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
         pEnv->add(pSymbol, pObject);
         if(pObject->is<LispFunction>())
         {
-            pObject.cast<LispFunction>()->name(pSymbol);
+            auto pNameable = pObject.cast<LispFunction>();
+            if(!pNameable->hasName())
+            {
+                pNameable->name(pSymbol);
+            }
         }
     });
 }
@@ -109,11 +107,6 @@ lcpp::syntax::set(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
             ezStringBuilder message;
             message.Format("Cannot set variable before its definition: %s", pSymbol->value().GetData());
             throw exceptions::InvalidOperation(message.GetData());
-        }
-        
-        if(pObject->is<LispFunction>())
-        {
-            pObject.cast<LispFunction>()->name(pSymbol);
         }
     });
 }

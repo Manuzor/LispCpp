@@ -15,20 +15,6 @@ lcpp::operator==(const LispFunction& lhs, const LispFunction& rhs)
 }
 
 inline
-lcpp::Ptr<lcpp::LispSymbol>
-lcpp::LispFunction::name()
-{
-    return m_pName;
-}
-
-inline
-lcpp::Ptr<const lcpp::LispSymbol>
-lcpp::LispFunction::name() const
-{
-    return m_pName;
-}
-
-inline
 lcpp::Ptr<lcpp::LispEnvironment>
 lcpp::LispFunction::env()
 {

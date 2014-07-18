@@ -224,6 +224,9 @@
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\nameable.h">
+      <Filter>lcpp\core\typeSystem\baseTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">
@@ -240,6 +243,9 @@
     </None>
     <None Include="..\..\source\lcppCore\lcpp\api.inl">
       <Filter>lcpp</Filter>
+    </None>
+    <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl">
+      <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +290,12 @@
     </Filter>
     <Filter Include="lcpp\core\typeSystem\types\implementation">
       <UniqueIdentifier>{208cc2a7-1d6e-4e75-b4b9-5e75c58c49e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\baseTypes">
+      <UniqueIdentifier>{9b94ea1b-f717-4f5c-8c54-e49433667a4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\baseTypes\implementation">
+      <UniqueIdentifier>{cc33a59f-1388-470e-814b-9b29302a8300}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
