@@ -7,6 +7,14 @@ lcpp::LispFunction::type() const
 }
 
 inline
+bool
+lcpp::operator==(const LispFunction& lhs, const LispFunction& rhs)
+{
+    // Identity check.
+    return &lhs == &rhs;
+}
+
+inline
 lcpp::Ptr<lcpp::LispSymbol>
 lcpp::LispFunction::name()
 {

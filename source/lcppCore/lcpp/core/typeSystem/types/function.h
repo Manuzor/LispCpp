@@ -18,7 +18,6 @@ namespace lcpp
         LispFunction(Ptr<Environment> pEnv);
 
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
-        bool operator==(const LispFunction& rhs) const;
 
         virtual const Type& type() const LCPP_OVERRIDE;
 
@@ -37,6 +36,8 @@ namespace lcpp
         Ptr<LispSymbol> m_pName;
         Ptr<Environment> m_pEnv;
     };
+
+    bool operator==(const LispFunction& lhs, const LispFunction& rhs);
 
     //////////////////////////////////////////////////////////////////////////
 

@@ -36,13 +36,6 @@ lcpp::LispFunction::operator==(const LispObject& obj) const
     return false;
 }
 
-bool
-lcpp::LispFunction::operator==(const LispFunction& rhs) const
-{
-    // Identity check.
-    return &rhs == this;
-}
-
 void
 lcpp::LispFunction::name(Ptr<LispSymbol> pName)
 {
