@@ -65,6 +65,9 @@
     <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\objectStack.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.cpp">
+      <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore/lcpp\api.h">

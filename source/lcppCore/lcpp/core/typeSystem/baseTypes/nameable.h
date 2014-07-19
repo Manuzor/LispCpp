@@ -2,11 +2,14 @@
 
 namespace lcpp
 {
+    class Type;
     class LispSymbol;
 
     class LCPP_CORE_API NameableBase
     {
     public:
+
+        static const Type& typeInfo();
 
         explicit NameableBase(Ptr<LispSymbol> pName = Ptr<LispSymbol>());
 
