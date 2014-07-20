@@ -162,6 +162,7 @@ void lcpp::LispRuntime::registerBuiltIns()
     LCPP_ADD_BUILTIN_FUNCTION("modulo", &builtIn::modulo);
 
     LCPP_ADD_BUILTIN_FUNCTION("eq?", &builtIn::objectEquals);
+    LCPP_ADD_BUILTIN_FUNCTION(">", &builtIn::greaterThan);
 
     // Other
     //////////////////////////////////////////////////////////////////////////

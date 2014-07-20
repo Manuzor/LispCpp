@@ -38,7 +38,7 @@ namespace lcpp
         
         // Comparison
         Ptr<LispObject> equals(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
-        //Ptr<LispObject> greaterThan(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> greaterThan(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         //Ptr<LispObject> greaterOrEqual(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         //Ptr<LispObject> lowerThan(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         //Ptr<LispObject> lowerOrEqual(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);

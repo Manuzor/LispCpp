@@ -468,6 +468,77 @@ lcpp::builtIn::equals(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
     return helper(pArgList->car(), pArgList->cdr().cast<LispCons>());
 }
 
+namespace lcpp
+{
+    template<typename T_Number>
+    Ptr<LispBool> comparisonHelper(Ptr<T_Number> pReferenceNumber,
+                                   Ptr<LispCons> pRestArgs,
+                                   std::function<bool(typename T_Number::Number_t, typename T_Number::Number_t)> comparer)
+    {
+        auto pToTest = pRestArgs->car();
+        if (!pToTest->type().isArithmetic())
+        {
+            ezStringBuilder message;
+            message.AppendFormat("Expected arithmetic type, got %s.", pToTest->type().name);
+            throw exceptions::InvalidInput(message.GetData());
+        }
+
+        if(!comparer(pReferenceNumber->value(), pToTest.cast<T_Number>()->value()))
+        {
+            return LCPP_FALSE;
+        }
+
+        auto pRest = pRestArgs->cdr();
+
+        if(!isNil(pRest))
+        {
+            return comparisonHelper(pReferenceNumber, pRest.cast<LispCons>(), comparer);
+        }
+
+        return LCPP_TRUE;
+    }
+}
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::greaterThan(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got none.");
+    }
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    if(isNil(pArgList->cdr()))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got 1.");
+    }
+
+    auto pFirst = pArgList->car();
+
+    if (!pFirst->type().isArithmetic())
+    {
+        throw exceptions::InvalidInput("Expected arithmetic type as first argument.");
+    }
+
+    EZ_ASSERT(pArgList->cdr()->is<LispCons>(), "Invalid input.");
+
+    if (pFirst->is<LispNumber>())
+    {
+        auto comparer = [](LispNumber::Number_t lhs, LispNumber::Number_t rhs){ return lhs > rhs; };
+
+        return comparisonHelper<LispNumber>(pFirst.cast<LispNumber>(),
+                                            pArgList->cdr().cast<LispCons>(),
+                                            comparer);
+    }
+    
+    auto comparer = [](LispIntegerType lhs, LispIntegerType rhs){ return lhs > rhs; };
+
+    return comparisonHelper<LispInteger>(pFirst.cast<LispInteger>(),
+                                         pArgList->cdr().cast<LispCons>(),
+                                         comparer);
+}
+
 lcpp::Ptr<lcpp::LispObject>
 lcpp::builtIn::objectEquals(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
