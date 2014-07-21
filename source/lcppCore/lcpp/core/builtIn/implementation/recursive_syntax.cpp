@@ -328,3 +328,31 @@ lcpp::syntax::assertion(Ptr<LispEnvironment> pEnv,
 
     return LCPP_VOID;
 }
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::begin(Ptr<LispEnvironment> pEnv,
+                    Ptr<LispObject> pArgs)
+{
+    auto pResult = Ptr<LispObject>();
+
+    if(isNil(pArgs))
+    {
+        return LCPP_VOID;
+    }
+
+    while(true)
+    {
+        EZ_ASSERT(pArgs->is<LispCons>(), "Invalid input.");
+        auto pArgList = pArgs.cast<LispCons>();
+
+        pResult = LispRuntime::instance()->evaluator()->evalulate(pEnv, pArgList->car());
+        pArgs = pArgList->cdr();
+
+        if(isNil(pArgs))
+        {
+            break;
+        }
+    }
+
+    return pResult;
+}
