@@ -15,7 +15,7 @@ lcpp::LispString::typeInfo()
 {
     static auto t = Type::create(Type::Flags::None,
                                  EZ_STRINGIZE(LispString),
-                                 "function (base)",
+                                 "string",
                                  MemoryInfo(sizeof(LispString),
                                  sizeof(LispString)));
 

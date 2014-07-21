@@ -53,5 +53,7 @@ namespace lcpp
         Ptr<LispObject> cons(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> car(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> cdr(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
+
+        Ptr<LispObject> format(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
     }
 }

@@ -68,7 +68,7 @@ lcpp::LispFile::open(Ptr<LispObject> pMode)
         else if(pModeString->value().IsEqual("a")){ m_lastFileMode = ezFileMode::Append; }
     }
 
-    return doOpen() ? LCPP_TRUE : LCPP_FALSE;
+    return LispBool::create(doOpen());
 }
 
 inline
@@ -86,7 +86,7 @@ inline
 lcpp::Ptr<lcpp::LispBool>
 lcpp::LispFile::isOpen() const
 {
-    return m_file.IsOpen() ? LCPP_TRUE : LCPP_FALSE;
+    return LispBool::create(m_file.IsOpen());
 }
 
 inline

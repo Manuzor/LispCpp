@@ -159,3 +159,20 @@ lcpp::count(Ptr<LispCons> pRegularList, ezUInt32& out_count)
 
     return EZ_SUCCESS;
 }
+
+template<typename T_Array>
+inline
+void
+lcpp::toArray(Ptr<LispObject> pObject, T_Array& out_array)
+{
+    if(!pObject->is<LispCons>())
+    {
+        return;
+    }
+
+    auto pCons = pObject.cast<LispCons>();
+
+    out_array.PushBack(pCons->car());
+    toArray(pCons->cdr(), out_array);
+}
+

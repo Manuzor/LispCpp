@@ -231,7 +231,7 @@ lcpp::builtIn::fileReadString(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 
     auto pFile = pArgList->car().cast<LispFile>();
 
-    if (pFile->isOpen() != LCPP_TRUE)
+    if(isFalse(pFile->isOpen()))
     {
         throw exceptions::InvalidOperation("Cannot read string from a closed file.");
     }
@@ -739,6 +739,39 @@ lcpp::builtIn::cdr(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
     LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispCons);
 
     return pArgList->car().cast<LispCons>()->cdr();
+}
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::format(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispString);
+
+    auto& formatString = pArgList->car().cast<LispString>()->value();
+
+    auto pFormatArgsObject = pArgList->cdr();
+
+    typedef ezHybridArray<Ptr<LispObject>, 32> FormatArray_t;
+
+    auto pAllocator = LispRuntime::instance()->allocator().get();
+    auto formatArgs = FormatArray_t(pAllocator);
+
+    toArray(pFormatArgsObject, formatArgs);
+
+    auto result = ezStringBuilder(pAllocator);
+    result.Append(formatString.GetData());
+
+    for(auto i = ezUInt32(0); i < formatArgs.GetCount(); ++i)
+    {
+        auto toReplace = ezStringBuilder(pAllocator);
+        toReplace.AppendFormat("{%u}", i);
+        result.ReplaceAll(toReplace.GetData(), formatArgs[i]->toString().GetData());
+    }
+
+    return LispString::create(result);
 }
 
 #undef LCPP_BUILTIN_FUNCTION_CHECK_TYPE

@@ -52,6 +52,9 @@ namespace lcpp
 
     /// Counts the elements of pRegularList
     ezResult count(Ptr<LispCons> pRegularList, ezUInt32& out_count);
+
+    template<typename T_Array>
+    void toArray(Ptr<LispObject> pObject, T_Array& out_array);
 }
 
 #include "lcpp/core/typeSystem/types/implementation/cons.inl"

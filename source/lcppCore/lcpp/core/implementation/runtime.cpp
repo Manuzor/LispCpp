@@ -176,6 +176,8 @@ void lcpp::LispRuntime::registerBuiltIns()
     LCPP_ADD_BUILTIN_FUNCTION("car", &builtIn::car);
     LCPP_ADD_BUILTIN_FUNCTION("cdr", &builtIn::cdr);
 
+    LCPP_ADD_BUILTIN_FUNCTION("format", &builtIn::format);
+
 #undef LCPP_ADD_BUILTIN_FUNCTION
 #undef LCPP_ADD_GLOBAL
 }
