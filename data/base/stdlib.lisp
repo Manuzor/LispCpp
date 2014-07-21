@@ -1,17 +1,10 @@
 
-(define eval-file
-    (lambda (fileName)
-        (eval
-            (read
-                ((lambda ()
-                    (define f (file-open fileName))
-                    (define content (file-read-string f))
-                    (file-close f)
-                    content
-                ))
-            )
-        )
-    )
+(define (eval-file fileName)
+    (define f (file-open fileName))
+    (define content (file-read-string f))
+    (define result (eval (read content)))
+    (file-close f)
+    result
 )
 
 (define (not e) (if e #f #t))
