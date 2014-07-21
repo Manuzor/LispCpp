@@ -1,17 +1,5 @@
 
 inline
-    lcpp::LispString::LispString(const char* str) :
-    m_string(str)
-{
-}
-
-inline
-lcpp::LispString::LispString(const ezString& str) :
-    m_string(str)
-{
-}
-
-inline
 lcpp::Ptr<lcpp::LispObject>
 lcpp::LispString::copy() const
 {

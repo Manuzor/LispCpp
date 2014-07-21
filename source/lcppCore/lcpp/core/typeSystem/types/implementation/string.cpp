@@ -21,3 +21,15 @@ lcpp::LispString::typeInfo()
 
     return t;
 }
+
+lcpp::LispString::LispString(const char* str) :
+    m_string(LispRuntime::instance()->allocator().get())
+{
+    m_string = str;
+}
+
+lcpp::LispString::LispString(const ezString& str) :
+    m_string(LispRuntime::instance()->allocator().get())
+{
+    m_string = str;
+}
