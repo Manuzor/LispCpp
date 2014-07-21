@@ -30,24 +30,3 @@ lcpp::LispExtend<T_Derived, T_Base>::copy() const
 {
     return LCPP_NEW(pAllocator, T_Derived)(static_cast<const T_Derived&>(*this));
 }
-
-inline
-lcpp::SourcePosition&
-lcpp::LispObject::sourcePosition()
-{
-    return m_sourcePosition;
-}
-
-inline
-const lcpp::SourcePosition&
-lcpp::LispObject::sourcePosition() const
-{
-    return m_sourcePosition;
-}
-
-inline
-void
-lcpp::LispObject::sourcePosition(const lcpp::SourcePosition& sourcePosition)
-{
-    m_sourcePosition = sourcePosition;
-}

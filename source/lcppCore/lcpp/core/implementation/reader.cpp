@@ -34,8 +34,8 @@ lcpp::Reader::initialize()
     auto pEnv = LispRuntime::instance()->syntaxEnvironment();
     Ptr<LispSymbol> pSymbol;
 
-#define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = LispSymbol::create(name); \
-    pEnv->add(pSymbol, LispSyntax_BuiltIn::create(pSymbol, funcPtr));
+#define LCPP_ADD_SYNTAX_TO_ENVIRONMENT(name, funcPtr) pSymbol = create<LispSymbol>(name); \
+    pEnv->add(pSymbol, create<LispSyntax_BuiltIn>(pSymbol, funcPtr));
 
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("define", &syntax::define);
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("set!", &syntax::set);
@@ -115,7 +115,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
                 {
                     advance(input);
                 }
-                return LispSymbol::create(symbol);
+                return create<LispSymbol>(symbol);
             }
             if (isDigit(ch))
             {
@@ -152,10 +152,10 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
             LispNumber::Number_t number;
             auto result = to(input, number, &lastPos);
             EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
-            return LispNumber::create(number);
+            return create<LispNumber>(number);
         }
 
-        return LispInteger::create(integer);
+        return create<LispInteger>(integer);
     }
 
     return parseSymbol(input);
@@ -172,7 +172,7 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
     
-    return LispInteger::create(integer);
+    return create<LispInteger>(integer);
 }
 
 lcpp::Ptr<lcpp::LispNumber>
@@ -185,7 +185,7 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
-    return LispNumber::create(number);
+    return create<LispNumber>(number);
 }
 
 lcpp::Ptr<lcpp::LispSymbol>
@@ -214,7 +214,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
 
     EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-    return LispSymbol::create(symbol);
+    return create<LispSymbol>(symbol);
 }
 
 

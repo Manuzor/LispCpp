@@ -1,7 +1,6 @@
 
 inline
 lcpp::SourcePosition::SourcePosition() :
-    context(),
     line(0),
     posInLine(0),
     streamIndex(0)

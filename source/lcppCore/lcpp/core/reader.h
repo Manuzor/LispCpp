@@ -98,10 +98,6 @@ namespace lcpp
         inline       Ptr<SyntaxCheckResult> syntaxCheckResult() { return m_pSyntaxCheckResult; }
         inline Ptr<const SyntaxCheckResult> syntaxCheckResult() const { return m_pSyntaxCheckResult; }
 
-        ezString& context();
-        const ezString& context() const;
-        void context(const ezString& newContext);
-
     private:
 
         struct Defaults

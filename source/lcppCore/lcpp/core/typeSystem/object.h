@@ -42,14 +42,6 @@ namespace lcpp
         template<typename T_Other>
         bool is() const;
 
-        SourcePosition& sourcePosition();
-        const SourcePosition& sourcePosition() const;
-        void sourcePosition(const SourcePosition& sourcePosition);
-
-    protected:
-
-        SourcePosition m_sourcePosition;
-
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispObject);
     };

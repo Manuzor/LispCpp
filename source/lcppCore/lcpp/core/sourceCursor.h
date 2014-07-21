@@ -4,7 +4,6 @@ namespace lcpp
 {
     struct SourcePosition
     {
-        ezString context;     ///< Could be the name of the file of the source, or stdin, etc.
         ezUInt32 line;        ///< 0-based
         ezUInt32 posInLine;   ///< 0-based
         ezUInt32 streamIndex; ///< 0-based
