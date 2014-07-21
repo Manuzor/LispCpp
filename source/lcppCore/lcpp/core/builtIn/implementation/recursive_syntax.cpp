@@ -317,7 +317,13 @@ lcpp::syntax::assertion(Ptr<LispEnvironment> pEnv,
 
     if(isFalse(pEvaluatedCondition))
     {
-        throw exceptions::Assertion(pMessage ? pMessage->value().GetData() : nullptr);
+        auto message = ezStringBuilder();
+        message.AppendFormat("Expression: %s", pCondition->toString().GetData());
+        if (pMessage)
+        {
+            message.AppendFormat("; Message: %s", pMessage->value().GetData());
+        }
+        throw exceptions::Assertion(message.GetData());
     }
 
     return LCPP_VOID;

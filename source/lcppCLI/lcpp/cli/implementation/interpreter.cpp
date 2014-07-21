@@ -115,6 +115,22 @@ ezInt32 lcpp::Interpreter::repl()
     {
         loadBase();
     }
+    catch(exceptions::Assertion& assertionException)
+    {
+        auto message = ezStringBuilder("Assertion failed in stdlib");
+        if(assertionException.message())
+        {
+            message.AppendFormat(": %s", assertionException.message());
+        }
+        else
+        {
+            message.Append('.');
+        }
+
+        message.Append('\n');
+
+        m_pPrinter->print(message);
+    }
     catch(exceptions::ExceptionBase& e)
     {
         ezStringBuilder message;
