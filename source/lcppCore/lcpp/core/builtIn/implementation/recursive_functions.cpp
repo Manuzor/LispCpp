@@ -540,6 +540,126 @@ lcpp::builtIn::greaterThan(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::greaterOrEqual(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got none.");
+    }
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    if(isNil(pArgList->cdr()))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got 1.");
+    }
+
+    auto pFirst = pArgList->car();
+
+    if (!pFirst->type().isArithmetic())
+    {
+        throw exceptions::InvalidInput("Expected arithmetic type as first argument.");
+    }
+
+    EZ_ASSERT(pArgList->cdr()->is<LispCons>(), "Invalid input.");
+
+    if (pFirst->is<LispNumber>())
+    {
+        auto comparer = [](LispNumber::Number_t lhs, LispNumber::Number_t rhs){ return lhs >= rhs; };
+
+        return comparisonHelper<LispNumber>(pFirst.cast<LispNumber>(),
+                                            pArgList->cdr().cast<LispCons>(),
+                                            comparer);
+    }
+    
+    auto comparer = [](LispIntegerType lhs, LispIntegerType rhs){ return lhs >= rhs; };
+
+    return comparisonHelper<LispInteger>(pFirst.cast<LispInteger>(),
+                                         pArgList->cdr().cast<LispCons>(),
+                                         comparer);
+}
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::lowerThan(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got none.");
+    }
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    if(isNil(pArgList->cdr()))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got 1.");
+    }
+
+    auto pFirst = pArgList->car();
+
+    if(!pFirst->type().isArithmetic())
+    {
+        throw exceptions::InvalidInput("Expected arithmetic type as first argument.");
+    }
+
+    EZ_ASSERT(pArgList->cdr()->is<LispCons>(), "Invalid input.");
+
+    if(pFirst->is<LispNumber>())
+    {
+        auto comparer = [](LispNumber::Number_t lhs, LispNumber::Number_t rhs){ return lhs < rhs; };
+
+        return comparisonHelper<LispNumber>(pFirst.cast<LispNumber>(),
+                                            pArgList->cdr().cast<LispCons>(),
+                                            comparer);
+    }
+
+    auto comparer = [](LispIntegerType lhs, LispIntegerType rhs){ return lhs < rhs; };
+
+    return comparisonHelper<LispInteger>(pFirst.cast<LispInteger>(),
+                                         pArgList->cdr().cast<LispCons>(),
+                                         comparer);
+}
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::lowerOrEqual(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    if(isNil(pArgs))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got none.");
+    }
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    if(isNil(pArgList->cdr()))
+    {
+        throw exceptions::InvalidInput("Expected at least 2 arguments, got 1.");
+    }
+
+    auto pFirst = pArgList->car();
+
+    if(!pFirst->type().isArithmetic())
+    {
+        throw exceptions::InvalidInput("Expected arithmetic type as first argument.");
+    }
+
+    EZ_ASSERT(pArgList->cdr()->is<LispCons>(), "Invalid input.");
+
+    if(pFirst->is<LispNumber>())
+    {
+        auto comparer = [](LispNumber::Number_t lhs, LispNumber::Number_t rhs){ return lhs <= rhs; };
+
+        return comparisonHelper<LispNumber>(pFirst.cast<LispNumber>(),
+                                            pArgList->cdr().cast<LispCons>(),
+                                            comparer);
+    }
+
+    auto comparer = [](LispIntegerType lhs, LispIntegerType rhs){ return lhs <= rhs; };
+
+    return comparisonHelper<LispInteger>(pFirst.cast<LispInteger>(),
+                                         pArgList->cdr().cast<LispCons>(),
+                                         comparer);
+}
+
+lcpp::Ptr<lcpp::LispObject>
 lcpp::builtIn::objectEquals(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(2);
