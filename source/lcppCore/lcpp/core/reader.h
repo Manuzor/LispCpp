@@ -98,6 +98,10 @@ namespace lcpp
         inline       Ptr<SyntaxCheckResult> syntaxCheckResult() { return m_pSyntaxCheckResult; }
         inline Ptr<const SyntaxCheckResult> syntaxCheckResult() const { return m_pSyntaxCheckResult; }
 
+        ezString& context();
+        const ezString& context() const;
+        void context(const ezString& newContext);
+
     private:
 
         struct Defaults
@@ -117,5 +121,16 @@ namespace lcpp
 
         ezUInt8 advance(ezStringIterator& iter);
         Ptr<LispObject> parseListHelper(ezStringIterator& input);
+
+        template<typename T_Object>
+        Ptr<T_Object> create();
+
+        template<typename T_Object, typename T_Arg0>
+        Ptr<T_Object> create(T_Arg0 arg0);
+
+        template<typename T_Object, typename T_Arg0, typename T_Arg1>
+        Ptr<T_Object> create(T_Arg0, T_Arg1 arg1);
     };
 }
+
+#include "lcpp/core/implementation/reader.inl"

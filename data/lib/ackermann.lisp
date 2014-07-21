@@ -1,0 +1,6 @@
+(define (ack m n)
+        (if (= m 0)
+            (+ n 1)
+            (if (and (> m 0) (= n 0))
+                (ack (- m 1) 1)
+                (ack (- m 1) (ack m (- n 1))))))

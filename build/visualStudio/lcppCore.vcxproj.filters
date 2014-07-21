@@ -230,6 +230,9 @@
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\nameable.h">
       <Filter>lcpp\core\typeSystem\baseTypes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\wrapper.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">
@@ -249,6 +252,15 @@
     </None>
     <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl">
       <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
+    </None>
+    <None Include="..\..\source\lcppCore\lcpp\foundation\memory\implementation\allocator.inl">
+      <Filter>lcpp\foundation\memory\implementation</Filter>
+    </None>
+    <None Include="..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </None>
+    <None Include="..\..\source\lcppCore\lcpp\core\implementation\reader.inl">
+      <Filter>lcpp\core\implementation</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,22 @@
 
+(define (eval-string-in env str)
+        (eval-in env (read str)))
+
+(define (eval-string str)
+        (eval (read str)))
+
+(define eval-file-handle null)
 (define (eval-file fileName)
-    (define f (file-open fileName))
-    (if (eq? f null)
+    (if (not (eq? eval-file-handle null))
+        (file-close eval-file-handle))
+    (set! eval-file-handle (file-open fileName))
+    (if (eq? eval-file-handle null)
         null
         (begin
-            (define content (file-read-string f))
-            (define result (eval (read content)))
-            (file-close f)
+            (define content (file-read-string eval-file-handle))
+            (define result (eval-string-in (env-get-global) content))
+            (file-close eval-file-handle)
+            (set! eval-file-handle null)
             result
         )
     )
@@ -22,4 +32,4 @@
 (define == =)
 (define % modulo)
 
-(eval-file "base/unittests.lisp")
+;(eval-file "base/unittests.lisp")

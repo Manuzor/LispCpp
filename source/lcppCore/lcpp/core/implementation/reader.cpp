@@ -45,6 +45,7 @@ lcpp::Reader::initialize()
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("or", &syntax::or);
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("assert", &syntax::assertion);
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("begin", &syntax::begin);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("env-get-current", &syntax::envGetCurrent);
 
 #undef LCPP_ADD_SYNTAX_TO_ENVIRONMENT
 }
@@ -234,7 +235,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
     if(ch == '"')
     {
         advance(input);
-        return LispString::create("");
+        return create<LispString>("");
     }
 
     ezStringBuilder str;
@@ -252,7 +253,7 @@ lcpp::Reader::parseString(ezStringIterator& input)
 
     // consume trailing "
     advance(input);
-    return LispString::create(str);
+    return create<LispString>(str);
 }
 
 lcpp::Ptr<lcpp::LispObject>
@@ -268,6 +269,12 @@ lcpp::Reader::parseList(ezStringIterator& input)
     advance(input);
 
     skipSeparators(input);
+
+    if(!input.IsValid())
+    {
+        return LCPP_VOID;
+    }
+
     auto ch = input.GetCharacter();
 
     if(ch == ')')
@@ -277,6 +284,12 @@ lcpp::Reader::parseList(ezStringIterator& input)
     }
 
     auto car = read(input, false);
+
+    if(!input.IsValid())
+    {
+        return LCPP_VOID;
+    }
+
     auto cdr = parseListHelper(input);
 
     if(car->is<LispSymbol>())
@@ -290,13 +303,19 @@ lcpp::Reader::parseList(ezStringIterator& input)
         }
     }
 
-    return LispCons::create(car, cdr);
+    return create<LispCons>(car, cdr);
 }
 
 lcpp::Ptr<lcpp::LispObject>
 lcpp::Reader::parseListHelper(ezStringIterator& input)
 {
     skipSeparators(input);
+
+    if(!input.IsValid())
+    {
+        return LCPP_VOID;
+    }
+
     auto ch = input.GetCharacter();
 
     if(ch == ')')
@@ -308,7 +327,7 @@ lcpp::Reader::parseListHelper(ezStringIterator& input)
     auto car = read(input, false);
     auto cdr = parseListHelper(input);
 
-    return LispCons::create(car, cdr);
+    return create<LispCons>(car, cdr);
 }
 
 ezUInt32
@@ -417,11 +436,11 @@ lcpp::Reader::advance(ezStringIterator& iter)
     ezUInt8 count = 1;
     if(isNewLine(iter.GetCharacter()))
     {
-        m_pSyntaxCheckResult->cursor.advance();
+        m_pSyntaxCheckResult->cursor.lineBreak();
         ++count;
     }
     ++iter;
-    ++m_pSyntaxCheckResult->cursor;
+    m_pSyntaxCheckResult->cursor.advance();
 
     return count;
 }

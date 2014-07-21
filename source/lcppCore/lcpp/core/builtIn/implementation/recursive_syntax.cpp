@@ -77,7 +77,8 @@ namespace lcpp
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::define(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::define(Ptr<LispEnvironment> pEnv,
+                     Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::define");
 
@@ -95,7 +96,8 @@ lcpp::syntax::define(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::set(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::set(Ptr<LispEnvironment> pEnv,
+                  Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::set");
 
@@ -112,7 +114,8 @@ lcpp::syntax::set(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::lambda(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::lambda(Ptr<LispEnvironment> pEnv,
+                     Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::lambda");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -162,7 +165,8 @@ lcpp::syntax::lambda(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::if_(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::if_(Ptr<LispEnvironment> pEnv,
+                  Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::if_");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -177,19 +181,20 @@ lcpp::syntax::if_(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
     auto pArgList = pArgs.cast<LispCons>();
 
     {
-        ezUInt32 numArgs = 0;
+        auto numArgs = ezUInt32(0);
+
         count(pArgList, numArgs);
-        if(numArgs != 3)
+        if(numArgs < 2 || numArgs > 3)
         {
             ezStringBuilder builder;
-            builder.AppendFormat("Expected 3 argument(s), got %u.", numArgs);
+            builder.AppendFormat("Expected 2 or 3 argument(s), got %u.", numArgs);
             throw exceptions::InvalidInput(builder.GetData());
         }
     }
 
     auto expression = pArgList->car();
-    auto thenPart = pArgList->cdr().cast<LispCons>()->car();
-    auto elsePart = pArgList->cdr().cast<LispCons>()->cdr().cast<LispCons>()->car();
+    pArgList = pArgList->cdr().cast<LispCons>();
+    auto thenPart = pArgList->car();
 
     auto expressionResult = LispRuntime::instance()->evaluator()->evalulate(pEnv, expression);
 
@@ -203,11 +208,19 @@ lcpp::syntax::if_(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
         return LispRuntime::instance()->evaluator()->evalulate(pEnv, thenPart);
     }
 
+    if(isNil(pArgList->cdr()))
+    {
+        return LCPP_VOID;
+    }
+
+    auto elsePart = pArgList->cdr().cast<LispCons>()->car();
+
     return LispRuntime::instance()->evaluator()->evalulate(pEnv, elsePart);
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::and(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::and(Ptr<LispEnvironment> pEnv,
+                  Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::and");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -240,7 +253,8 @@ lcpp::syntax::and(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::syntax::or(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+lcpp::syntax::or(Ptr<LispEnvironment> pEnv,
+                 Ptr<LispObject> pArgs)
 {
     EZ_LOG_BLOCK("syntax::or");
     ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
@@ -359,4 +373,10 @@ lcpp::syntax::begin(Ptr<LispEnvironment> pEnv,
     }
 
     return pResult;
+}
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::syntax::envGetCurrent(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    return pEnv;
 }

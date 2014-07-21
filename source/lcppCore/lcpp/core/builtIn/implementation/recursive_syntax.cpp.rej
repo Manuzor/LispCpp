@@ -1,0 +1,25 @@
+diff a/source/lcppCore/lcpp/core/builtIn/implementation/recursive_syntax.cpp b/source/lcppCore/lcpp/core/builtIn/implementation/recursive_syntax.cpp	(rejected hunks)
+@@ -93,12 +93,23 @@
+         }
+     });
+ }
+ 
+ lcpp::Ptr<lcpp::LispObject>
+ lcpp::syntax::set(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
++lcpp::syntax::defineGlobal(Ptr<LispEnvironment> pEnv,
++                           Ptr<LispObject> pArgs)
++{
++    EZ_LOG_BLOCK("syntax::defineGlobal");
++
++    pEnv = LispRuntime::instance()->globalEnvironment();
++
++    return define(pEnv, pArgs);
++}
++
++lcpp::Ptr<lcpp::LispObject>
+ {
+     EZ_LOG_BLOCK("syntax::set");
+ 
+     return defineHelper(pEnv, pArgs, [](Ptr<LispEnvironment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
+         auto result = pEnv->set(pSymbol, pObject);
+ 

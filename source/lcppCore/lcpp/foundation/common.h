@@ -37,6 +37,8 @@
 // otherwise use something like Info or Debug.
 #define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME VerboseDebugMessage
 
+#include "lcpp/foundation/wrapper.h"
+
 namespace lcpp
 {
     template<typename T>

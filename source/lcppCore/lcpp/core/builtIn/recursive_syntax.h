@@ -20,5 +20,6 @@ namespace lcpp
         Ptr<LispObject> or(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> assertion(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> begin(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<LispObject> envGetCurrent(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
     }
 }

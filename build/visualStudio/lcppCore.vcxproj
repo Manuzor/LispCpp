@@ -73,6 +73,7 @@
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\instancing.inl" />
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\instancing.h" />
     <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h" />
+    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\wrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp" />
@@ -120,7 +121,10 @@
     <None Include="..\..\source\lcppCore\lcpp\api.inl">
       <FileType>CppHeader</FileType>
     </None>
+    <None Include="..\..\source\lcppCore\lcpp\core\implementation\reader.inl" />
+    <None Include="..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl" />
     <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl" />
+    <None Include="..\..\source\lcppCore\lcpp\foundation\memory\implementation\allocator.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>
@@ -193,6 +197,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
       <ImportLibrary>$(LCPP_OutRoot)/lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -207,6 +212,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
       <ImportLibrary>$(LCPP_OutRoot)/lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -225,6 +231,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
       <ImportLibrary>$(LCPP_OutRoot)/lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -243,6 +250,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ezFoundation.lib;ezThirdParty.lib</AdditionalDependencies>
       <ImportLibrary>$(LCPP_OutRoot)/lib$(PlatformArchitecture)/$(TargetName).lib</ImportLibrary>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

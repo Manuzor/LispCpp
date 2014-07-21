@@ -118,6 +118,18 @@ lcpp::builtIn::eval(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 }
 
 lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::evalIn(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    LCPP_BUILTIN_FUNCTION_CHECK_ARG_NOT_NIL(1);
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispEnvironment);
+
+    return eval(pArgList->car().cast<LispEnvironment>(), pArgList->cdr());
+}
+
+lcpp::Ptr<lcpp::LispObject>
 lcpp::builtIn::print(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     static Printer printer;
@@ -772,6 +784,12 @@ lcpp::builtIn::format(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
     }
 
     return LispString::create(result);
+}
+
+lcpp::Ptr<lcpp::LispObject>
+lcpp::builtIn::envGetGlobal(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
+{
+    return LispRuntime::instance()->globalEnvironment();
 }
 
 #undef LCPP_BUILTIN_FUNCTION_CHECK_TYPE

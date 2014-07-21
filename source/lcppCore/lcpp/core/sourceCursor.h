@@ -1,63 +1,37 @@
-#pragma
+#pragma once
 
 namespace lcpp
 {
     struct SourcePosition
     {
+        ezString context;     ///< Could be the name of the file of the source, or stdin, etc.
         ezUInt32 line;        ///< 0-based
         ezUInt32 posInLine;   ///< 0-based
         ezUInt32 streamIndex; ///< 0-based
 
-        SourcePosition() :
-            line(0),
-            posInLine(0),
-            streamIndex(0)
-        {
-        }
+        SourcePosition();
     };
 
     struct SourceCursor
     {
     public:
-        inline SourceCursor() :
-            position()
-        {
-        }
+        SourceCursor();
 
-        inline void reset()
-        {
-            position = SourcePosition();
-        }
+        void reset();
 
-        inline void lineBreak()
-        {
-            position.line++;
-            position.posInLine = ezUInt32(-1);// will be corrected with the next call of advance()
-            position.streamIndex++;
-        }
+        void lineBreak();
 
-        inline void advance()
-        {
-            position.posInLine++;
-            position.streamIndex++;
-        }
+        void advance();
 
-        inline void operator ++()
-        {
-            advance();
-        }
+        void operator ++();
 
-        inline SourcePosition& currentPosition()
-        {
-            return position;
-        }
+        SourcePosition& currentPosition();
 
-        inline const SourcePosition& currentPosition() const
-        {
-            return position;
-        }
+        const SourcePosition& currentPosition() const;
 
     private:
         SourcePosition position;
     };
 }
+
+#include "lcpp/core/implementation/sourceCursor.inl"

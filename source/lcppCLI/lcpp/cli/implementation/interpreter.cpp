@@ -75,6 +75,7 @@ void lcpp::Interpreter::loadBase()
 
     pReader->syntaxCheckResult()->reset();
 
+    pReader->context("base/stdlib.lisp");
     pResult = pReader->read(contentIter, false);
     pResult = pEvaluator->evalulate(pResult);
     m_pPrinter->print(pResult);
@@ -88,6 +89,8 @@ ezInt32 lcpp::Interpreter::repl()
     auto pEvaluator = LispRuntime::instance()->evaluator();
 
     m_pPrinter->setOutputStream(m_out);
+
+    pReader->context("<std-in>");
 
     Ptr<LispObject> pResult = LCPP_NIL;
 

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/sourceCursor.h"
 
 namespace lcpp
 {
@@ -7,13 +8,6 @@ namespace lcpp
 
     template<typename Derived, typename Base>
     class LispExtend;
-
-    class LCPP_CORE_API ComponentBase
-    {
-    public:
-    protected:
-    private:
-    };
 
         /// \brief Base class for all scheme types
         /// 
@@ -47,6 +41,14 @@ namespace lcpp
 
         template<typename T_Other>
         bool is() const;
+
+        SourcePosition& sourcePosition();
+        const SourcePosition& sourcePosition() const;
+        void sourcePosition(const SourcePosition& sourcePosition);
+
+    protected:
+
+        SourcePosition m_sourcePosition;
 
     private:
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispObject);

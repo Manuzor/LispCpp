@@ -115,6 +115,7 @@
       <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment
@@ -139,6 +140,7 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment
@@ -167,6 +169,7 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment
@@ -195,6 +198,7 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment

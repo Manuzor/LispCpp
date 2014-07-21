@@ -144,6 +144,7 @@ void lcpp::LispRuntime::registerBuiltIns()
     //////////////////////////////////////////////////////////////////////////
     LCPP_ADD_BUILTIN_FUNCTION("read", &builtIn::read);
     LCPP_ADD_BUILTIN_FUNCTION("eval", &builtIn::eval);
+    LCPP_ADD_BUILTIN_FUNCTION("eval-in", &builtIn::evalIn);
     LCPP_ADD_BUILTIN_FUNCTION("print", &builtIn::print);
 
     // File handling
@@ -177,6 +178,9 @@ void lcpp::LispRuntime::registerBuiltIns()
     LCPP_ADD_BUILTIN_FUNCTION("cdr", &builtIn::cdr);
 
     LCPP_ADD_BUILTIN_FUNCTION("format", &builtIn::format);
+
+    LCPP_ADD_BUILTIN_FUNCTION("env-get-global", &builtIn::envGetGlobal);
+
 
 #undef LCPP_ADD_BUILTIN_FUNCTION
 #undef LCPP_ADD_GLOBAL

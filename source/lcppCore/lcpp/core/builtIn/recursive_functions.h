@@ -19,6 +19,7 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
         Ptr<LispObject> read(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> eval(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
+        Ptr<lcpp::LispObject> evalIn(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         Ptr<LispObject> print(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
 
         // File handling
@@ -55,5 +56,7 @@ namespace lcpp
         Ptr<LispObject> cdr(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
 
         Ptr<LispObject> format(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
+
+        Ptr<LispObject> envGetGlobal(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
     }
 }
