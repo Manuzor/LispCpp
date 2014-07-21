@@ -39,6 +39,8 @@ namespace lcpp
         LispInteger(const LispInteger& toCopy);
     };
 
+    bool operator ==(const LispInteger& lhs, const LispInteger& rhs);
+
     //////////////////////////////////////////////////////////////////////////
 
     class LCPP_CORE_API LispNumber :
@@ -68,6 +70,10 @@ namespace lcpp
         explicit LispNumber(Number_t value);
         LispNumber(const LispNumber& toCopy);
     };
+
+    bool operator ==(const LispNumber& lhs, const LispNumber& rhs);
+    bool operator ==(const LispInteger& lhs, const LispNumber& rhs);
+    bool operator ==(const LispNumber& lhs, const LispInteger& rhs);
 }
 
 #include "lcpp/core/typeSystem/types/implementation/number.inl"

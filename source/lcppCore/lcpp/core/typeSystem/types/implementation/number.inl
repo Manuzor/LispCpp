@@ -49,6 +49,13 @@ lcpp::LispInteger::type() const
     return LispInteger::typeInfo();
 }
 
+inline
+bool
+lcpp::operator==(const LispInteger& lhs, const LispInteger& rhs)
+{
+    return lhs.value() == rhs.value();
+}
+
 //////////////////////////////////////////////////////////////////////////
 
 inline
@@ -102,3 +109,23 @@ lcpp::LispNumber::type() const
     return LispNumber::typeInfo();
 }
 
+inline
+bool
+lcpp::operator==(const LispNumber& lhs, const LispNumber& rhs)
+{
+    return lhs.value() == rhs.value();
+}
+
+inline
+bool
+lcpp::operator==(const LispInteger& lhs, const LispNumber& rhs)
+{
+    return lhs.value() == rhs.value();
+}
+
+inline
+bool
+lcpp::operator==(const LispNumber& lhs, const LispInteger& rhs)
+{
+    return lhs.value() == rhs.value();
+}
