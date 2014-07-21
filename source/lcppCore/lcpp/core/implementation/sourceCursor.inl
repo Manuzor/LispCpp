@@ -11,7 +11,7 @@ lcpp::SourcePosition::SourcePosition() :
 
 inline
 lcpp::SourceCursor::SourceCursor() :
-position()
+    position()
 {
 }
 
