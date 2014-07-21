@@ -62,7 +62,8 @@ void lcpp::Interpreter::loadBase()
         throw std::exception("Unable to load stdlib.lisp!");
     }
     auto size = file_stdlib.GetFileSize();
-    auto bufferSize = ezUInt32(size) + 1;
+    auto bufferSize = ezUInt32(size)
+                    + 1; // null terminator
 
     auto buffer = LCPP_NEW_RAW_BUFFER(LispRuntime::instance()->allocator().get(), char, bufferSize);
     LCPP_SCOPE_EXIT{ LCPP_DELETE_RAW_BUFFER(LispRuntime::instance()->allocator().get(), buffer); };
@@ -75,21 +76,17 @@ void lcpp::Interpreter::loadBase()
 
     file_stdlib.ReadBytes(buffer, bufferSize - 1);
 
+    content.Append("(begin ");
     content.Append(buffer);
+    content.Append(')');
     auto contentIter = content.GetIteratorFront();
     Ptr<LispObject> pResult;
 
     pReader->syntaxCheckResult()->reset();
 
-    while(true)
-    {
-        pReader->skipSeparators(contentIter);
-        if(!contentIter.IsValid()) { break; }
-        
-        pResult = pReader->read(contentIter, false);
-        pResult = pEvaluator->evalulate(pResult);
-        m_pPrinter->print(pResult);
-    }
+    pResult = pReader->read(contentIter, false);
+    pResult = pEvaluator->evalulate(pResult);
+    m_pPrinter->print(pResult);
 }
 
 ezInt32 lcpp::Interpreter::repl()

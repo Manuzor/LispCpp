@@ -98,7 +98,11 @@ lcpp::builtIn::read(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
     LCPP_BUILTIN_FUNCTION_CHECK_ARG_COUNT(pArgList, 1);
     LCPP_BUILTIN_FUNCTION_CHECK_TYPE(pArgList->car(), LispString);
 
-    return LispRuntime::instance()->reader()->read(pArgList->car().cast<LispString>()->value());
+    auto toRead = ezStringBuilder(pArgList->car().cast<LispString>()->value().GetData());
+    toRead.Prepend("(begin ");
+    toRead.Append(')');
+
+    return LispRuntime::instance()->reader()->read(toRead.GetIteratorFront());
 }
 
 lcpp::Ptr<lcpp::LispObject>
