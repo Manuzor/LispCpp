@@ -333,6 +333,10 @@ lcpp::Ptr<lcpp::LispObject>
 lcpp::syntax::begin(Ptr<LispEnvironment> pEnv,
                     Ptr<LispObject> pArgs)
 {
+    EZ_LOG_BLOCK("syntax::assertion");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
     auto pResult = Ptr<LispObject>();
 
     if(isNil(pArgs))

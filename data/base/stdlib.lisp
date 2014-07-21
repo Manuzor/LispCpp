@@ -1,10 +1,15 @@
 
 (define (eval-file fileName)
     (define f (file-open fileName))
-    (define content (file-read-string f))
-    (define result (eval (read content)))
-    (file-close f)
-    result
+    (if (eq? f null)
+        null
+        (begin
+            (define content (file-read-string f))
+            (define result (eval (read content)))
+            (file-close f)
+            result
+        )
+    )
 )
 
 (define (not e) (if e #f #t))
@@ -17,4 +22,4 @@
 (define == =)
 (define % modulo)
 
-(eval-file "unittests.lisp")
+(eval-file "base/unittests.lisp")

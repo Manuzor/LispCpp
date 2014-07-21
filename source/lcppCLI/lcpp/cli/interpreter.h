@@ -29,7 +29,6 @@ namespace lcpp
         std::istream& m_in;
 
         ezStringBuilder m_szDataDir;
-        ezStringBuilder m_szBaseDir;
     };
     
 }

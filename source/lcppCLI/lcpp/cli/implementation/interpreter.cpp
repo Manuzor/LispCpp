@@ -24,7 +24,7 @@ void lcpp::Interpreter::initialize()
     ezStringBuilder dataDir;
     dataDir.AppendPath(ezOSFile::GetApplicationDirectory(), "../../data");
     dataDir.MakeCleanPath();
-    auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data-root");
+    auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
 
     if (!result.IsSuccess())
     {
@@ -32,18 +32,6 @@ void lcpp::Interpreter::initialize()
         throw std::exception(dataDir.GetData());
     }
     m_szDataDir = dataDir;
-
-    dataDir.AppendPath("base");
-
-    result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data/base");
-
-    if(!result.IsSuccess())
-    {
-        dataDir.Prepend("Unable add base dir: ");
-        throw std::exception(dataDir.GetData());
-    }
-
-    m_szBaseDir = dataDir;
 }
 
 void
@@ -56,10 +44,13 @@ void lcpp::Interpreter::loadBase()
     auto pReader = LispRuntime::instance()->reader();
     auto pEvaluator = LispRuntime::instance()->evaluator();
 
+    static auto stdlibDir = "base/stdlib.lisp";
     ezFileReader file_stdlib;
-    if(file_stdlib.Open("stdlib.lisp", ezFileMode::Read) == EZ_FAILURE)
+    if(file_stdlib.Open(stdlibDir, ezFileMode::Read) == EZ_FAILURE)
     {
-        throw std::exception("Unable to load stdlib.lisp!");
+        auto message = ezStringBuilder();
+        message.AppendFormat("Unable to load %s!", stdlibDir);
+        throw std::exception(message.GetData());
     }
     auto size = file_stdlib.GetFileSize();
     auto bufferSize = ezUInt32(size)
