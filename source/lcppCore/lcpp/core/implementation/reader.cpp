@@ -43,6 +43,7 @@ lcpp::Reader::initialize()
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("if", &syntax::if_);
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("and", &syntax::and);
     LCPP_ADD_SYNTAX_TO_ENVIRONMENT("or", &syntax::or);
+    LCPP_ADD_SYNTAX_TO_ENVIRONMENT("assert", &syntax::assertion);
 
 #undef LCPP_ADD_SYNTAX_TO_ENVIRONMENT
 }

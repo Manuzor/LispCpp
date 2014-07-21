@@ -271,3 +271,54 @@ lcpp::syntax::or(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 
     return pResult;
 }
+
+lcpp::Ptr<lcpp::LispObject> 
+lcpp::syntax::assertion(Ptr<LispEnvironment> pEnv,
+                        Ptr<LispObject> pArgs)
+{
+    EZ_LOG_BLOCK("syntax::assertion");
+    ezLog::VerboseDebugMessage("env: %s", pEnv->qualifiedName().GetData());
+    ezLog::VerboseDebugMessage("args: %s", pArgs->toString().GetData());
+
+    auto argCount = ezUInt32();
+    auto result = count(pArgs, argCount);
+
+    EZ_ASSERT(result.IsSuccess(), "Invalid input.");
+
+    if (argCount < 1 || argCount > 2)
+    {
+        ezStringBuilder message;
+        message.AppendFormat("Expected at least 1 [2] argument, got %u.", argCount);
+        throw exceptions::InvalidInput(message.GetData());
+    }
+
+    auto pArgList = pArgs.cast<LispCons>();
+
+    auto pCondition = pArgList->car();
+
+    auto pMessage = Ptr<LispString>();
+
+    if(!isNil(pArgList->cdr()))
+    {
+        pArgList = pArgList->cdr().cast<LispCons>();
+        auto pMessageObject = pArgList->car();
+
+        if(!pMessageObject->is<LispString>())
+        {
+            auto exceptionMessage = ezStringBuilder();
+            exceptionMessage.AppendFormat("Expected string type, got %s", pMessageObject->type().name);
+            throw exceptions::InvalidInput(exceptionMessage.GetData());
+        }
+
+        pMessage = pMessageObject.cast<LispString>();
+    }
+
+    auto pEvaluatedCondition = LispRuntime::instance()->evaluator()->evalulate(pEnv, pCondition);
+
+    if(isFalse(pEvaluatedCondition))
+    {
+        throw exceptions::Assertion(pMessage ? pMessage->value().GetData() : nullptr);
+    }
+
+    return LCPP_VOID;
+}

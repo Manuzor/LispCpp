@@ -188,6 +188,23 @@ ezInt32 lcpp::Interpreter::repl()
         {
             return e.m_status;
         }
+        catch(exceptions::Assertion& assertionException)
+        {
+            auto message = ezStringBuilder("Assertion failed");
+            if (assertionException.message())
+            {
+                message.AppendFormat(": %s", assertionException.message());
+            }
+            else
+            {
+                message.Append('.');
+            }
+
+            message.Append('\n');
+
+            m_pPrinter->print(message);
+            continue;
+        }
         catch(exceptions::ExceptionBase& e)
         {
             ezStringBuilder message;

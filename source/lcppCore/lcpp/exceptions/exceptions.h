@@ -92,4 +92,14 @@ namespace lcpp { namespace exceptions {
         }
     };
 
+    class Assertion :
+        public ExceptionBase
+    {
+    public:
+        inline Assertion(const char* message) :
+            ExceptionBase(message, nullptr, -1)
+        {
+        }
+    };
+    
 }}
