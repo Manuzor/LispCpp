@@ -15,7 +15,7 @@ ezResult lcpp::findDirectory(const char* szDirName, const char* szStartPath, ezS
     for(ezUInt8 maxNumRetries = 10; maxNumRetries > 0; --maxNumRetries)
     {
         for(auto result = iter.StartSearch(searchThis.GetData(), false, true);
-            result.IsSuccess();
+            result.Succeeded();
             result = iter.Next())
         {
             auto& stats = iter.GetStats();

@@ -282,7 +282,7 @@ lcpp::LispFunction_UserDefined::processArguments(Ptr<LispObject> pArgs)
     {
         auto setResult = m_pEnv->set(pCurrentArgName->car().cast<LispSymbol>(),
                                    pCurrentArg->car());
-        EZ_ASSERT(setResult.IsSuccess(),
+        EZ_ASSERT(setResult.Succeeded(),
                   "m_pArgNameList was changed after construction of this function object "
                   "or the environment was not properly set up when this function object was constructed.");
 
@@ -313,7 +313,7 @@ lcpp::LispFunction_UserDefined::checkArgumentCount(Ptr<LispObject> pArgs)
     // pArgs is not nil, which means it's a cons, so we count the args
     ezUInt32 numElements = 0;
     auto res = count(pArgList, numElements);
-    EZ_ASSERT(res.IsSuccess(), "pArgList is not a regular list!");
+    EZ_ASSERT(res.Succeeded(), "pArgList is not a regular list!");
 
     // pArgs is not nil but we don't expect any arguments
     if(m_numArgs == 0)

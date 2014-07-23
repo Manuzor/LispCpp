@@ -53,7 +53,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> p
         auto pKey = pObject.cast<LispSymbol>();
         Ptr<LispObject> pResult;
         auto exists = pEnv->get(pKey, pResult);
-        if(!exists.IsSuccess())
+        if(!exists.Succeeded())
         {
             ezStringBuilder messsage;
             messsage.AppendFormat("No binding found for symbol '%s'.", pKey->value().GetData());

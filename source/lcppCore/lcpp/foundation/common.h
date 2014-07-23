@@ -12,7 +12,7 @@
 // ezEngine stuff
 #include <Foundation/Basics/IncludeAll.cpp>
 
-#define LCPP_OVERRIDE EZ_OVERRIDE
+#define LCPP_OVERRIDE override
 #define LCPP_FINAL final
 
 #include "lcpp/foundation/memory/allocator.h"

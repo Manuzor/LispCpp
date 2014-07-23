@@ -79,7 +79,7 @@ lcpp::LispFile::doOpen()
 
     ezString absoluteFileName;
     ezFileSystem::ResolvePath(m_fileName.GetData(), forWriting, &absoluteFileName, nullptr);
-    return m_file.Open(absoluteFileName.GetData(), m_lastFileMode).IsSuccess();
+    return m_file.Open(absoluteFileName.GetData(), m_lastFileMode).Succeeded();
 }
 
 inline

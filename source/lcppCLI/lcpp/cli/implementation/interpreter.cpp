@@ -26,7 +26,7 @@ void lcpp::Interpreter::initialize()
     dataDir.MakeCleanPath();
     auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
 
-    if (!result.IsSuccess())
+    if (!result.Succeeded())
     {
         dataDir.Prepend("Unable add data dir: ");
         throw std::exception(dataDir.GetData());

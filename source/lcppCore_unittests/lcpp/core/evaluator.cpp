@@ -108,7 +108,7 @@ namespace
         {
             Ptr<LispObject> pResult;
             auto lookupResult = pEnv->get(LispSymbol::create("x"), pResult);
-            CUT_ASSERT.isTrue(lookupResult.IsSuccess(), "Failed to find 'x' in environment!");
+            CUT_ASSERT.isTrue(lookupResult.Succeeded(), "Failed to find 'x' in environment!");
             return pResult;
         });
 

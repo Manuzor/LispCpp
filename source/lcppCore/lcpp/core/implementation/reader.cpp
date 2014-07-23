@@ -138,7 +138,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
     auto result = to(input, integer, &lastPos);
 
     // The string contains a number, but it is a floating point number; reparse.
-    if (result.IsSuccess())
+    if (result.Succeeded())
     {
         LCPP_SCOPE_EXIT{
             while(input.GetData() != lastPos)
@@ -151,7 +151,7 @@ lcpp::Reader::parseAtom(ezStringIterator& input)
         {
             LispNumber::Number_t number;
             auto result = to(input, number, &lastPos);
-            EZ_ASSERT(result.IsSuccess(), "An integer of the form '123.' should be parsed as float!");
+            EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
             return create<LispNumber>(number);
         }
 
@@ -167,7 +167,7 @@ lcpp::Reader::parseInteger(ezStringIterator& input)
     skipSeparators(input);
     LispInteger::Number_t integer;
     auto result = to(input, integer);
-    if (!result.IsSuccess())
+    if (!result.Succeeded())
     {
         throw exceptions::InvalidInput("Unable to parse an integer from the input.");
     }
@@ -181,7 +181,7 @@ lcpp::Reader::parseNumber(ezStringIterator& input)
     skipSeparators(input);
     LispNumber::Number_t number;
     auto result = to(input, number);
-    if(!result.IsSuccess())
+    if(!result.Succeeded())
     {
         throw exceptions::InvalidInput("Unable to parse a number from the input.");
     }
@@ -195,7 +195,7 @@ lcpp::Reader::parseSymbol(ezStringIterator& input)
     {
         // Test if the input string can be parsed as int, which should not be possible
         LispInteger::Number_t integer;
-        if(to(input, integer).IsSuccess())
+        if(to(input, integer).Succeeded())
         {
             throw exceptions::InvalidInput("Invalid input: A number is not a symbol!");
         }
@@ -297,7 +297,7 @@ lcpp::Reader::parseList(ezStringIterator& input)
         auto pSymbol = car.cast<LispSymbol>();
         Ptr<LispObject> pSyntax;
         auto result = LispRuntime::instance()->syntaxEnvironment()->get(pSymbol, pSyntax);
-        if(result.IsSuccess() && pSyntax->is<LispSyntax>())
+        if(result.Succeeded() && pSyntax->is<LispSyntax>())
         {
             car = pSyntax;
         }

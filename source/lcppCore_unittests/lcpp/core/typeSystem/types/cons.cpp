@@ -202,26 +202,26 @@ namespace
         // Regular lists
         {
             auto cons = LispCons::create(LCPP_NIL, LCPP_NIL);
-            CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(count(cons, numElements).Succeeded(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 1, format("Expected count() to return 1, got %u!", numElements));
         }
 
         {
             auto cons = LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LCPP_NIL));
-            CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(count(cons, numElements).Succeeded(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
         }
 
         {
             auto cons = LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LCPP_NIL)));
-            CUT_ASSERT.isTrue(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isTrue(count(cons, numElements).Succeeded(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 3, format("Expected count() to return 3, got %u!", numElements));
         }
 
         // Irregular lists
         {
             auto cons = LispCons::create(LCPP_NIL, LispCons::create(LCPP_NIL, LCPP_VOID));
-            CUT_ASSERT.isFalse(count(cons, numElements).IsSuccess(), "count() did not recognize (()) as regular list!");
+            CUT_ASSERT.isFalse(count(cons, numElements).Succeeded(), "count() did not recognize (()) as regular list!");
             CUT_ASSERT.isTrue(numElements == 2, format("Expected count() to return 2, got %u!", numElements));
         }
 

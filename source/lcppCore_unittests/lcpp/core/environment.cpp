@@ -14,11 +14,11 @@ namespace
 
         Ptr<LispObject> pResult;
 
-        CUT_ASSERT.isFalse(pEnv->get(LispSymbol::create("x"), pResult).IsSuccess(), "'get' returned true for a non-existant key!");
+        CUT_ASSERT.isFalse(pEnv->get(LispSymbol::create("x"), pResult).Succeeded(), "'get' returned true for a non-existant key!");
         CUT_ASSERT.isTrue(pResult.isNull(), "'get' altered the out_value even though it failed!");
-        CUT_ASSERT.isFalse(pEnv->set(LispSymbol::create("x"), LispInteger::create(42)).IsSuccess(), "Set can NOT succeed if there is existing key to set!");
+        CUT_ASSERT.isFalse(pEnv->set(LispSymbol::create("x"), LispInteger::create(42)).Succeeded(), "Set can NOT succeed if there is existing key to set!");
         pEnv->add(LispSymbol::create("x"), LispInteger::create(42));
-        CUT_ASSERT.isTrue(pEnv->get(LispSymbol::create("x"), pResult).IsSuccess(), "'get' returned false for an existing key!");
+        CUT_ASSERT.isTrue(pEnv->get(LispSymbol::create("x"), pResult).Succeeded(), "'get' returned false for an existing key!");
         CUT_ASSERT.isTrue(pResult->is<LispInteger>(), "Wrong type stored in environment!");
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42, "Wrong type stored in environment!");
     });
@@ -37,11 +37,11 @@ namespace
         pTopEnv->add(pSymbol, LispInteger::create(42));
         pChildEnv->add(pSymbol, LispInteger::create(1337));
 
-        CUT_ASSERT.isTrue(pTopEnv->get(pSymbol, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pTopEnv->get(pSymbol, pResult).Succeeded());
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 42);
 
-        CUT_ASSERT.isTrue(pChildEnv->get(pSymbol, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pChildEnv->get(pSymbol, pResult).Succeeded());
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 1337);
 
@@ -49,7 +49,7 @@ namespace
 
         pSubChildEnv->add(pSymbol, LispInteger::create(666));
 
-        CUT_ASSERT.isTrue(pSubChildEnv->get(pSymbol, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pSubChildEnv->get(pSymbol, pResult).Succeeded());
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == 666);
 
@@ -57,16 +57,16 @@ namespace
 
         pTopEnv->add(pSymbol2, LispString::create("hello"));
 
-        CUT_ASSERT.isTrue(pChildEnv->get(pSymbol2, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pChildEnv->get(pSymbol2, pResult).Succeeded());
         CUT_ASSERT.isTrue(pResult->is<LispString>());
         CUT_ASSERT.isTrue(pResult.cast<LispString>()->value().IsEqual("hello"));
 
         pChildEnv->set(pSymbol2, LispInteger::create(-123));
 
-        CUT_ASSERT.isTrue(pChildEnv->get(pSymbol2, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pChildEnv->get(pSymbol2, pResult).Succeeded());
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == -123);
-        CUT_ASSERT.isTrue(pTopEnv->get(pSymbol2, pResult).IsSuccess());
+        CUT_ASSERT.isTrue(pTopEnv->get(pSymbol2, pResult).Succeeded());
         CUT_ASSERT.isTrue(pResult->is<LispInteger>());
         CUT_ASSERT.isTrue(pResult.cast<LispInteger>()->value() == -123);
     });

@@ -104,7 +104,7 @@ lcpp::syntax::set(Ptr<LispEnvironment> pEnv,
     return defineHelper(pEnv, pArgs, [](Ptr<LispEnvironment> pEnv, Ptr<LispSymbol> pSymbol, Ptr<LispObject> pObject) {
         auto result = pEnv->set(pSymbol, pObject);
 
-        if (!result.IsSuccess())
+        if (!result.Succeeded())
         {
             ezStringBuilder message;
             message.Format("Cannot set variable before its definition: %s", pSymbol->value().GetData());
@@ -297,7 +297,7 @@ lcpp::syntax::assertion(Ptr<LispEnvironment> pEnv,
     auto argCount = ezUInt32();
     auto result = count(pArgs, argCount);
 
-    EZ_ASSERT(result.IsSuccess(), "Invalid input.");
+    EZ_ASSERT(result.Succeeded(), "Invalid input.");
 
     if (argCount < 1 || argCount > 2)
     {
