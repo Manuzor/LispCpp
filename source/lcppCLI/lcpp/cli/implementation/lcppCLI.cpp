@@ -106,7 +106,7 @@ int main(int argc, const char* argv[])
 
     {
         EZ_LOG_BLOCK("Loading plugin", "ezInspectorPlugin");
-        //ezPlugin::LoadPlugin("ezInspectorPlugin");
+        ezPlugin::LoadPlugin("ezInspectorPlugin");
     }
 
     EZ_LOG_BLOCK("ezEngine running.");

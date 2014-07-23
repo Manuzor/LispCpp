@@ -132,7 +132,7 @@ ezInt32 lcpp::Interpreter::repl()
 
     while(true)
     {
-        LCPP_SCOPE_EXIT{ ezTelemetry::PerFrameUpdate(); };
+        ezTelemetry::PerFrameUpdate();
 
         ++currentLine;
         buffer.Clear();
