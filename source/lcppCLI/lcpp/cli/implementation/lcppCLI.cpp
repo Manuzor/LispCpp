@@ -5,6 +5,7 @@
 #include <functional>
 #include "lcpp/cli/exceptions.h"
 #include "lcpp/cli/interpreter.h"
+#include "lcpp/cli/ioUtils.h"
 
 namespace lcpp
 {
@@ -16,13 +17,11 @@ namespace lcpp
         LoggingSystem(const char* logFilesDirectory) :
             m_absoluteLogFilesDir(logFilesDirectory)
         {
-            m_absoluteLogFilesDir.MakeAbsolutePath(ezOSFile::GetApplicationDirectory());
+            m_absoluteLogFilesDir.MakeAbsolutePath(getCurrentWorkingDirectory().GetData());
         }
 
         void initialize()
         {
-            ezGlobalLog::SetLogLevel(ezLogMsgType::None);
-
             // set up console and visual studio loggers.
             ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
             ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
@@ -85,6 +84,10 @@ void parseCommandLineArgs(int argc, const char* argv[])
     {
         ezGlobalLog::SetLogLevel(ezLogMsgType::All);
     }
+    else
+    {
+        ezGlobalLog::SetLogLevel(ezLogMsgType::None);
+    }
 }
 
 int main(int argc, const char* argv[])
@@ -92,7 +95,7 @@ int main(int argc, const char* argv[])
     lcpp::startup();
     LCPP_SCOPE_EXIT{ lcpp::shutdown(); };
 
-    lcpp::LoggingSystem loggingSystem("log/");
+    lcpp::LoggingSystem loggingSystem("temp/log/");
     loggingSystem.initialize();
     LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
 
