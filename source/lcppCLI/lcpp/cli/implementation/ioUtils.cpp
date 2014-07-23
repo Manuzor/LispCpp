@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "lcpp/cli/ioUtils.h"
 
-ezResult lcpp::findDirectory(const char* szDirName, const char* szStartPath, ezString* out_pParentPath)
+ezResult
+lcpp::findDirectory(const char* szDirName, const char* szStartPath, ezString* out_pParentPath)
 {
     ezStringBuilder searchThis;
     ezFileSystem::ResolvePath(szStartPath, false, out_pParentPath, nullptr);
@@ -33,3 +34,9 @@ ezResult lcpp::findDirectory(const char* szDirName, const char* szStartPath, ezS
 
     return EZ_FAILURE;
 }
+
+#if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
+#include "lcpp/cli/implementation/ioUtils_win.h"
+#else
+#pragma error Unsupported platform
+#endif

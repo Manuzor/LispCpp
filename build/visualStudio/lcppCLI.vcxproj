@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\common.h" />
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\exceptions.h" />
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h" />
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\interpreter.h" />
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\ioUtils.h" />
     <ClInclude Include="..\..\source\lcppCLI\stdafx.h" />

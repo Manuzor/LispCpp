@@ -14,9 +14,11 @@
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\ioUtils.h">
       <Filter>lcpp\cli</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h">
+      <Filter>lcpp\cli\implementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\lcppCLI\stdafx.cpp" />
     <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\lcppCLI.cpp">
       <Filter>lcpp\cli\implementation</Filter>
     </ClCompile>
@@ -26,6 +28,7 @@
     <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\interpreter.cpp">
       <Filter>lcpp\cli\implementation</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\lcppCLI\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="lcpp">
