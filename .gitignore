@@ -17,3 +17,5 @@ unit-tests.log
 *.exp
 *.*sdf
 *.suo
+
+CMakeLists.txt
