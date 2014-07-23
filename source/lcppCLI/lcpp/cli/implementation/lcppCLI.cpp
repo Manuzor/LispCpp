@@ -6,6 +6,7 @@
 #include "lcpp/cli/exceptions.h"
 #include "lcpp/cli/interpreter.h"
 #include "lcpp/cli/ioUtils.h"
+#include <Foundation/Communication/Telemetry.h>
 
 namespace lcpp
 {
@@ -95,11 +96,18 @@ int main(int argc, const char* argv[])
     lcpp::startup();
     LCPP_SCOPE_EXIT{ lcpp::shutdown(); };
 
+    ezTelemetry::CreateServer();
+
     lcpp::LoggingSystem loggingSystem("temp/log/");
     loggingSystem.initialize();
     LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
 
     parseCommandLineArgs(argc, argv);
+
+    {
+        EZ_LOG_BLOCK("Loading plugin", "ezInspectorPlugin");
+        //ezPlugin::LoadPlugin("ezInspectorPlugin");
+    }
 
     EZ_LOG_BLOCK("ezEngine running.");
 

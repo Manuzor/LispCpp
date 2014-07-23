@@ -3,6 +3,7 @@
 #include "lcpp/cli/ioUtils.h"
 #include <iostream>
 #include <string>
+#include <Foundation/Communication/Telemetry.h>
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pPrinter(cinfo.pPrinter),
@@ -131,6 +132,8 @@ ezInt32 lcpp::Interpreter::repl()
 
     while(true)
     {
+        LCPP_SCOPE_EXIT{ ezTelemetry::PerFrameUpdate(); };
+
         ++currentLine;
         buffer.Clear();
         prompt.Format("%u> ", currentLine);

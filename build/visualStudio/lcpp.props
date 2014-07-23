@@ -27,7 +27,7 @@
       <AdditionalDependencies>ezFoundation.lib;ezThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(ProjectName)' != 'lcppCore'">lcppCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(LCPP_LibDir)/$(TargetName).lib</ImportLibrary>
-      <StackReserveSize>1073741824</StackReserveSize>
+      <StackReserveSize>134217728</StackReserveSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
