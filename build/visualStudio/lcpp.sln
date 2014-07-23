@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCLI", "lcppCLI.vcxproj", "{FD563574-8032-44BF-BB84-65A0086CA210}"
 	ProjectSection(ProjectDependencies) = postProject
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
@@ -13,6 +15,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppC
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8290744C-8870-4C45-BE14-D16573B9E775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{64D43FB0-E5D3-4CC7-AAF2-70E9EBBEB0EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,14 +29,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|Win32.ActiveCfg = Debug|Win32
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|Win32.Build.0 = Debug|Win32
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|x64.ActiveCfg = Debug|x64
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|x64.Build.0 = Debug|x64
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|Win32.ActiveCfg = Release|Win32
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|Win32.Build.0 = Release|Win32
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|x64.ActiveCfg = Release|x64
-		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|x64.Build.0 = Release|x64
 		{FD563574-8032-44BF-BB84-65A0086CA210}.Debug|Win32.ActiveCfg = Debug|Win32
 		{FD563574-8032-44BF-BB84-65A0086CA210}.Debug|Win32.Build.0 = Debug|Win32
 		{FD563574-8032-44BF-BB84-65A0086CA210}.Debug|x64.ActiveCfg = Debug|x64
@@ -37,6 +37,14 @@ Global
 		{FD563574-8032-44BF-BB84-65A0086CA210}.Release|Win32.Build.0 = Release|Win32
 		{FD563574-8032-44BF-BB84-65A0086CA210}.Release|x64.ActiveCfg = Release|x64
 		{FD563574-8032-44BF-BB84-65A0086CA210}.Release|x64.Build.0 = Release|x64
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|Win32.ActiveCfg = Debug|Win32
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|Win32.Build.0 = Debug|Win32
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|x64.ActiveCfg = Debug|x64
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Debug|x64.Build.0 = Debug|x64
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|Win32.ActiveCfg = Release|Win32
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|Win32.Build.0 = Release|Win32
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|x64.ActiveCfg = Release|x64
+		{40DE1057-678D-4B34-84C3-F30D8923CE34}.Release|x64.Build.0 = Release|x64
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}.Debug|Win32.Build.0 = Debug|Win32
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}.Debug|x64.ActiveCfg = Debug|x64
@@ -48,5 +56,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD563574-8032-44BF-BB84-65A0086CA210} = {64D43FB0-E5D3-4CC7-AAF2-70E9EBBEB0EE}
+		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}
+		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6} = {8290744C-8870-4C45-BE14-D16573B9E775}
 	EndGlobalSection
 EndGlobal
