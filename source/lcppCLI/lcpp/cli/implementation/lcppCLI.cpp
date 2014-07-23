@@ -114,14 +114,14 @@ int main(int argc, const char* argv[])
     }
     catch (std::exception& e)
     {
-        EZ_ASSERT(false, "Uncaught std::exception!");
         ezLog::Error(e.what());
+        EZ_ASSERT(false, "Uncaught std::exception!");
         return -2;
     }
     catch(...)
     {
-        EZ_ASSERT(false, "Something was thrown and it was not caught!");
         ezLog::Error("Something was thrown and it was not caught!");
+        EZ_ASSERT(false, "Something was thrown and it was not caught!");
         return -4;
     }
 

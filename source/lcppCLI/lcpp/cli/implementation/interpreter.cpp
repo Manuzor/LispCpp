@@ -22,7 +22,7 @@ void lcpp::Interpreter::initialize()
     ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
     ezStringBuilder dataDir;
-    dataDir.AppendPath(ezOSFile::GetApplicationDirectory(), "../../data");
+    dataDir.AppendPath(ezOSFile::GetApplicationDirectory(), "../../../data");
     dataDir.MakeCleanPath();
     auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
 
