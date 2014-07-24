@@ -32,7 +32,7 @@ lcpp::LispInteger::typeInfo()
     return t;
 }
 
-ezString
+lcpp::String
 lcpp::LispInteger::toString() const
 {
     return lcpp::toString(m_value);
@@ -60,7 +60,7 @@ lcpp::LispNumber::typeInfo()
     return t;
 }
 
-ezString
+lcpp::String
 lcpp::LispNumber::toString() const
 {
     return lcpp::toString(m_value);

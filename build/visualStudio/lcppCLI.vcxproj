@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\common.h" />
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\exceptions.h" />
+    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h" />
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\interpreter.h" />
     <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\ioUtils.h" />
     <ClInclude Include="..\..\source\lcppCLI\stdafx.h" />
@@ -45,26 +46,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -112,10 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment
@@ -137,10 +135,7 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment
@@ -166,10 +161,7 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment
@@ -195,10 +187,7 @@ $(ProjectDir)\lcppCLI_postBuild.bat</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>$(IntDir)$(TargetName)$(TargetExt)</ImportLibrary>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <StackReserveSize>1073741824</StackReserveSize>
     </Link>
     <PostBuildEvent>
       <Command>rem set up environment

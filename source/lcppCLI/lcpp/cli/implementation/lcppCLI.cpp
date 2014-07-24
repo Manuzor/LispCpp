@@ -5,6 +5,8 @@
 #include <functional>
 #include "lcpp/cli/exceptions.h"
 #include "lcpp/cli/interpreter.h"
+#include "lcpp/cli/ioUtils.h"
+#include <Foundation/Communication/Telemetry.h>
 
 namespace lcpp
 {
@@ -16,13 +18,11 @@ namespace lcpp
         LoggingSystem(const char* logFilesDirectory) :
             m_absoluteLogFilesDir(logFilesDirectory)
         {
-            m_absoluteLogFilesDir.MakeAbsolutePath(ezOSFile::GetApplicationDirectory());
+            m_absoluteLogFilesDir.MakeAbsolutePath(getCurrentWorkingDirectory().GetData());
         }
 
         void initialize()
         {
-            ezGlobalLog::SetLogLevel(ezLogMsgType::None);
-
             // set up console and visual studio loggers.
             ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
             ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
@@ -81,9 +81,13 @@ void parseCommandLineArgs(int argc, const char* argv[])
 {
     if(argc == 1) { return; }
 
-    if(ezString(argv[1]) == "-d")
+    if(lcpp::String(argv[1]).IsEqual("-d"))
     {
         ezGlobalLog::SetLogLevel(ezLogMsgType::All);
+    }
+    else
+    {
+        ezGlobalLog::SetLogLevel(ezLogMsgType::None);
     }
 }
 
@@ -92,11 +96,18 @@ int main(int argc, const char* argv[])
     lcpp::startup();
     LCPP_SCOPE_EXIT{ lcpp::shutdown(); };
 
-    lcpp::LoggingSystem loggingSystem("log/");
+    ezTelemetry::CreateServer();
+
+    lcpp::LoggingSystem loggingSystem("temp/log/");
     loggingSystem.initialize();
     LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
 
     parseCommandLineArgs(argc, argv);
+
+    {
+        EZ_LOG_BLOCK("Loading plugin", "ezInspectorPlugin");
+        ezPlugin::LoadPlugin("ezInspectorPlugin");
+    }
 
     EZ_LOG_BLOCK("ezEngine running.");
 
@@ -114,14 +125,14 @@ int main(int argc, const char* argv[])
     }
     catch (std::exception& e)
     {
-        EZ_ASSERT(false, "Uncaught std::exception!");
         ezLog::Error(e.what());
+        EZ_ASSERT(false, "Uncaught std::exception!");
         return -2;
     }
     catch(...)
     {
-        EZ_ASSERT(false, "Something was thrown and it was not caught!");
         ezLog::Error("Something was thrown and it was not caught!");
+        EZ_ASSERT(false, "Something was thrown and it was not caught!");
         return -4;
     }
 

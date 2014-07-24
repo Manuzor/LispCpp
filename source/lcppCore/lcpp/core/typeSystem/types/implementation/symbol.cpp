@@ -4,7 +4,7 @@
 
 
 lcpp::Ptr<lcpp::LispSymbol>
-lcpp::LispSymbol::create(const ezString& symbol)
+lcpp::LispSymbol::create(const String& symbol)
 {
     auto pRuntime = LispRuntime::instance();
     auto instanceTables = pRuntime->instanceTables();
@@ -13,7 +13,7 @@ lcpp::LispSymbol::create(const ezString& symbol)
 }
 
 lcpp::Ptr<lcpp::LispSymbol>
-lcpp::LispSymbol::createNew(const ezString& value)
+lcpp::LispSymbol::createNew(const String& value)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();

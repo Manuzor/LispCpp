@@ -9,7 +9,7 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        static Ptr<LispString> create(const ezString& value);
+        static Ptr<LispString> create(const String& value);
         static const Type& typeInfo();
 
     public:
@@ -17,19 +17,19 @@ namespace lcpp
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
         virtual const Type& type() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
-        operator ezString() const;
+        operator String() const;
 
-        const ezString& value() const;
-        void value(const ezString& newSymbol);
+        const String& value() const;
+        void value(const String& newSymbol);
         void value(const char* newSymbol);
 
     private:
-        ezString m_string;
+        String m_string;
 
         LispString(const char* str);
-        LispString(const ezString& str);
+        LispString(const String& str);
     };
 
     bool operator ==(const LispString& lhs, const LispString& rhs);
@@ -37,8 +37,8 @@ namespace lcpp
     bool operator ==(const LispString& lhs, const char* rhs);
     bool operator ==(const char* lhs, const LispString& rhs);
 
-    bool operator ==(const LispString& lhs, const ezString& rhs);
-    bool operator ==(const ezString& lhs, const LispString& rhs);
+    bool operator ==(const LispString& lhs, const String& rhs);
+    bool operator ==(const String& lhs, const LispString& rhs);
 
 }
 

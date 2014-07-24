@@ -57,7 +57,7 @@ lcpp::LispFunction_BuiltIn::create(Ptr<LispEnvironment> pParentEnv,
 }
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
-lcpp::LispFunction_BuiltIn::create(const ezString& name,
+lcpp::LispFunction_BuiltIn::create(const String& name,
                                    Ptr<LispEnvironment> pParentEnv,
                                    ExecutorPtr_t executor)
 {
@@ -101,7 +101,7 @@ lcpp::LispFunction_BuiltIn::copy() const
     return copy(*this);
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_BuiltIn::toString() const
 {
     EZ_ASSERT(m_pName, "A built-in function needs to have a name!");
@@ -110,7 +110,7 @@ lcpp::LispFunction_BuiltIn::toString() const
     return builder;
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_BuiltIn::dump() const
 {
     return toString();
@@ -211,11 +211,11 @@ lcpp::LispFunction_UserDefined::copy() const
     return copy(*this);
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_UserDefined::toString() const
 {
-    static auto anonymous = ezString("<procedure>");
-    static auto nonAnonymousFormat = ezString("<procedure:%s>");
+    static auto anonymous = String("<procedure>");
+    static auto nonAnonymousFormat = String("<procedure:%s>");
 
     if (!m_pName)
     {
@@ -227,7 +227,7 @@ lcpp::LispFunction_UserDefined::toString() const
     return builder;
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_UserDefined::dump() const
 {
     ezStringBuilder builder;
@@ -282,7 +282,7 @@ lcpp::LispFunction_UserDefined::processArguments(Ptr<LispObject> pArgs)
     {
         auto setResult = m_pEnv->set(pCurrentArgName->car().cast<LispSymbol>(),
                                    pCurrentArg->car());
-        EZ_ASSERT(setResult.IsSuccess(),
+        EZ_ASSERT(setResult.Succeeded(),
                   "m_pArgNameList was changed after construction of this function object "
                   "or the environment was not properly set up when this function object was constructed.");
 
@@ -313,7 +313,7 @@ lcpp::LispFunction_UserDefined::checkArgumentCount(Ptr<LispObject> pArgs)
     // pArgs is not nil, which means it's a cons, so we count the args
     ezUInt32 numElements = 0;
     auto res = count(pArgList, numElements);
-    EZ_ASSERT(res.IsSuccess(), "pArgList is not a regular list!");
+    EZ_ASSERT(res.Succeeded(), "pArgList is not a regular list!");
 
     // pArgs is not nil but we don't expect any arguments
     if(m_numArgs == 0)

@@ -16,7 +16,7 @@ namespace
         CUT_ASSERT.isTrue(pStack->size() == 0, "The size of a new stack instance is supposed to be 0.");
         CUT_ASSERT.isTrue(pStack->top() == 0, "The top of a new stack instance is supposed to be 0.");
         CUT_ASSERT.throwsNothing([&]{ pStack->pop(); }, "Pop on an empty stack should not throw an exception.");
-        CUT_ASSERT.isFalse(pStack->pop().IsSuccess(), "Pop on an empty stack should yield EZ_FAILURE.");
+        CUT_ASSERT.isFalse(pStack->pop().Succeeded(), "Pop on an empty stack should yield EZ_FAILURE.");
         CUT_ASSERT.throwsNothing([&]{ pStack->get(-1); }, "Get on an empty stack should not throw an exception.");
         CUT_ASSERT.isTrue(isNil(pStack->get(-1)), "Get on an empty stack should always yield LCPP_NIL, regardless of the index argument.");
         CUT_ASSERT.isTrue(isNil(pStack->get(0)), "Get on an empty stack should always yield LCPP_NIL, regardless of the index argument.");
@@ -56,20 +56,20 @@ namespace
         // Clear the stack
 
         // pop 'four'
-        CUT_ASSERT.isTrue(pStack->pop().IsSuccess());
+        CUT_ASSERT.isTrue(pStack->pop().Succeeded());
         CUT_ASSERT.isTrue(pStack->get(-1) == three);
 
         // pop 'three'
-        CUT_ASSERT.isTrue(pStack->pop().IsSuccess());
+        CUT_ASSERT.isTrue(pStack->pop().Succeeded());
         CUT_ASSERT.isTrue(pStack->get(-1) == two);
 
         // pop 'two'
-        CUT_ASSERT.isTrue(pStack->pop().IsSuccess());
+        CUT_ASSERT.isTrue(pStack->pop().Succeeded());
         CUT_ASSERT.isTrue(pStack->get(-1) == one);
         CUT_ASSERT.isFalse(pStack->isEmpty());
 
         // pop 'one'
-        CUT_ASSERT.isTrue(pStack->pop().IsSuccess());
+        CUT_ASSERT.isTrue(pStack->pop().Succeeded());
         CUT_ASSERT.isTrue(pStack->get(-1) == LCPP_NIL);
         CUT_ASSERT.isTrue(pStack->isEmpty());
     });

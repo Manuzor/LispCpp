@@ -6,7 +6,7 @@ lcpp::LispSymbol::LispSymbol(const char* symbol) :
 }
 
 inline
-lcpp::LispSymbol::LispSymbol(const ezString& symbol) :
+lcpp::LispSymbol::LispSymbol(const String& symbol) :
     m_symbol(symbol)
 {
 }
@@ -26,7 +26,7 @@ lcpp::LispSymbol::type() const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispSymbol::toString() const
 {
     return m_symbol;
@@ -44,7 +44,7 @@ lcpp::LispSymbol::operator ==(const LispObject& rhs) const
 }
 
 inline
-const ezString&
+const lcpp::String&
 lcpp::LispSymbol::value() const
 {
     return m_symbol;

@@ -3,6 +3,7 @@
 
 ezAllocatorBase* lcpp::defaultAllocator()
 {
-    static NonTrackingHeapAllocator allocator("NonTrackingHeapAllocator");
+    static NonTrackingHeapAllocator allocator("lcpp/NonTrackingHeapAllocator");
+
     return &allocator;
 }

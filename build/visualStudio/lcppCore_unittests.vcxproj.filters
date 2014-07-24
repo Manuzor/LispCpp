@@ -40,9 +40,6 @@
     <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp">
-      <Filter>lcpp\core\typeSystem\types</Filter>
-    </ClCompile>
     <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
@@ -52,6 +49,7 @@
     <ClCompile Include="..\..\source\lcppCore_unittests\lcpp\core\objectStack.cpp">
       <Filter>lcpp\core</Filter>
     </ClCompile>
+    <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../source/lcppCore_unittests/lcpp/toString.h">
@@ -60,9 +58,7 @@
     <ClInclude Include="../../source/lcppCore_unittests/lcpp/testRuntime.h">
       <Filter>lcpp</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore_unittests/stdafx.h">
-      <Filter>lcpp\core\typeSystem\types</Filter>
-    </ClInclude>
+    <ClInclude Include="../../source/lcppCore_unittests/stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="lcpp">

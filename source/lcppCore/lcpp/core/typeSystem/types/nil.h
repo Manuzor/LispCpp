@@ -24,7 +24,7 @@ namespace lcpp
 
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
     private:
         // For debugging. Indicates that this instance is the real thing.

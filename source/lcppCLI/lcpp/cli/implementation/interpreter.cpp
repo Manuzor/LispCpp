@@ -3,6 +3,7 @@
 #include "lcpp/cli/ioUtils.h"
 #include <iostream>
 #include <string>
+#include <Foundation/Communication/Telemetry.h>
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pPrinter(cinfo.pPrinter),
@@ -21,12 +22,13 @@ void lcpp::Interpreter::initialize()
 {
     ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
-    ezStringBuilder dataDir;
-    dataDir.AppendPath(ezOSFile::GetApplicationDirectory(), "../../data");
+    auto dataDir = ezStringBuilder();
+    auto applicationDir = getCurrentWorkingDirectory();
+    dataDir.AppendPath(applicationDir.GetData(), "data");
     dataDir.MakeCleanPath();
     auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
 
-    if (!result.IsSuccess())
+    if (!result.Succeeded())
     {
         dataDir.Prepend("Unable add data dir: ");
         throw std::exception(dataDir.GetData());
@@ -130,6 +132,8 @@ ezInt32 lcpp::Interpreter::repl()
 
     while(true)
     {
+        ezTelemetry::PerFrameUpdate();
+
         ++currentLine;
         buffer.Clear();
         prompt.Format("%u> ", currentLine);

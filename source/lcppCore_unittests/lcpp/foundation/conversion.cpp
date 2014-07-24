@@ -34,34 +34,34 @@ namespace
 
     UnitTest g_test2(g_group, "To integer", []{
         {
-            ezString str("42");
+            String str("42");
             ezInt64 integer;
             ezResult result = to(str, integer);
-            CUT_ASSERT.isTrue(result.IsSuccess(), "Conversion failed.");
+            CUT_ASSERT.isTrue(result.Succeeded(), "Conversion failed.");
             CUT_ASSERT.isTrue(integer == 42, "Conversion yields wrong result.");
         }
     });
 
     UnitTest g_test3(g_group, "To number (float)", []{
         {
-            ezString str("3.1415");
+            String str("3.1415");
             double value;
             ezResult result = to(str, value);
-            CUT_ASSERT.isTrue(result.IsSuccess(), "Conversion failed.");
+            CUT_ASSERT.isTrue(result.Succeeded(), "Conversion failed.");
             CUT_ASSERT.isTrue(value == 3.1415, "Conversion yields wrong result.");
         }
         {
-            ezString str("3.000");
+            String str("3.000");
             double value;
             ezResult result = to(str, value);
-            CUT_ASSERT.isTrue(result.IsSuccess(), "Conversion failed.");
+            CUT_ASSERT.isTrue(result.Succeeded(), "Conversion failed.");
             CUT_ASSERT.isTrue(value == 3.000, "Conversion yields wrong result.");
         }
         {
-            ezString str("1337.");
+            String str("1337.");
             double value;
             ezResult result = to(str, value);
-            CUT_ASSERT.isTrue(result.IsSuccess(), "Conversion failed.");
+            CUT_ASSERT.isTrue(result.Succeeded(), "Conversion failed.");
             CUT_ASSERT.isTrue(value == 1337, "Conversion yields wrong result.");
         }
     });

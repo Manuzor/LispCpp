@@ -2,5 +2,7 @@
 
 namespace lcpp
 {
-    ezResult findDirectory(const char* szDirName, const char* szStartPath, ezString* out_pParentPath);
+    ezResult findDirectory(const char* szDirName, const char* szStartPath, String* out_pParentPath);
+
+    String getCurrentWorkingDirectory();
 }

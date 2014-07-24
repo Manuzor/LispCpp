@@ -10,7 +10,7 @@ namespace lcpp
         friend LispRuntime;
     public:
 
-        static Ptr<LispObjectStack> create(const ezString& name);
+        static Ptr<LispObjectStack> create(const String& name);
 
     public:
 
@@ -44,19 +44,19 @@ namespace lcpp
 
         void clear();
 
-        ezString& name();
-        const ezString& name() const;
-        void name(const ezString& name);
+        String& name();
+        const String& name() const;
+        void name(const String& name);
 
     private:
 
-        ezString m_name;
+        String m_name;
 
         ezHybridArray<Ptr<LispObject>, 64> m_stack;
 
     private:
 
-        LispObjectStack(const ezString& name);
+        LispObjectStack(const String& name);
 
         ezUInt32 convertToAbsolute(ezInt32 relativeIndex);
     };

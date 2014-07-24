@@ -33,7 +33,7 @@ namespace lcpp
 
         bool operator !=(const LispObject& rhs) const;
 
-        virtual ezString toString() const = 0;
+        virtual String toString() const = 0;
 
         virtual const Type& type() const = 0;
 

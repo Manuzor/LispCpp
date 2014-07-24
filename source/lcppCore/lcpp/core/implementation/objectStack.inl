@@ -49,14 +49,14 @@ lcpp::LispObjectStack::clear()
 }
 
 inline
-ezString&
+lcpp::String&
 lcpp::LispObjectStack::name()
 {
     return m_name;
 }
 
 inline
-const ezString&
+const lcpp::String&
 lcpp::LispObjectStack::name() const
 {
     return m_name;
@@ -64,7 +64,7 @@ lcpp::LispObjectStack::name() const
 
 inline
 void
-lcpp::LispObjectStack::name(const ezString& name)
+lcpp::LispObjectStack::name(const lcpp::String& name)
 {
     m_name = name;
 }

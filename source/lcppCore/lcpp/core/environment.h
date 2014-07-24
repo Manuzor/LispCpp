@@ -16,7 +16,7 @@ namespace lcpp
         static Ptr<LispEnvironment> create(Ptr<LispSymbol> pName, Ptr<LispEnvironment> pParent);
 
             /// \brief Used for testing purposes only. Creates a LispSymbol internally.
-        static Ptr<LispEnvironment> create(const ezString& name, Ptr<LispEnvironment> pParent);
+        static Ptr<LispEnvironment> create(const String& name, Ptr<LispEnvironment> pParent);
 
         static Ptr<LispEnvironment> createCopy(const LispEnvironment& toCopy);
 
@@ -59,7 +59,7 @@ namespace lcpp
             /// \brief Constructs and returns the fully qualified name of this environment.
             /// If there is no parent, the name will be "/<name>".
             /// If there is a parent, the name will be something like "/<parent0>/<parent1>/.../<name>".
-        ezString qualifiedName() const;
+        String qualifiedName() const;
 
     private:
 
@@ -82,7 +82,7 @@ namespace lcpp
             throw std::logic_error("The method or operation is not implemented.");
         }
 
-        virtual ezString toString() const override;
+        virtual String toString() const override;
 
         virtual const Type& type() const override;
 

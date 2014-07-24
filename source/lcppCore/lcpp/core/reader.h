@@ -30,7 +30,7 @@ namespace lcpp
             bool isPureWhitespace;
             ezInt32 parenthesisBalance;
             SourceCursor cursor;
-            ezString info;
+            String info;
 
             inline SyntaxCheckResult() { reset(); }
 
@@ -56,7 +56,7 @@ namespace lcpp
 
         void initialize();
 
-        Ptr<LispObject> read(const ezString& inputString, bool resetSyntaxChecker = true);
+        Ptr<LispObject> read(const String& inputString, bool resetSyntaxChecker = true);
         Ptr<LispObject> read(ezStringIterator& input, bool resetSyntaxChecker = true);
 
         Ptr<LispObject> parseAtom(ezStringIterator& input);
@@ -109,8 +109,8 @@ namespace lcpp
         Defaults m_defaults;
 
         Ptr<SyntaxCheckResult> m_pSyntaxCheckResult;
-        ezString m_separators;
-        ezString m_symbolDelimiters;
+        String m_separators;
+        String m_symbolDelimiters;
 
     private:
         explicit Reader(const CInfo& cinfo);

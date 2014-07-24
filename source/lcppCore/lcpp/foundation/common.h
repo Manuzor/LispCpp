@@ -12,7 +12,7 @@
 // ezEngine stuff
 #include <Foundation/Basics/IncludeAll.cpp>
 
-#define LCPP_OVERRIDE EZ_OVERRIDE
+#define LCPP_OVERRIDE override
 #define LCPP_FINAL final
 
 #include "lcpp/foundation/memory/allocator.h"
@@ -35,7 +35,7 @@
 
 // Use VerboseDebugMessage to disable verbose debug loggings,
 // otherwise use something like Info or Debug.
-#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME VerboseDebugMessage
+#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME Debug
 
 #include "lcpp/foundation/wrapper.h"
 

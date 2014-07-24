@@ -11,5 +11,5 @@ void lcpp::startup()
 void lcpp::shutdown()
 {
     LispRuntime::instance()->shutdown();
-    ezStartup::ShutdownBase();
+    ezStartup::ShutdownCore();
 }

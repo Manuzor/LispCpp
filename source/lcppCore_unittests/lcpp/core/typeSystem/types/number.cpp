@@ -70,34 +70,34 @@ namespace
         // LispInteger
         {
             auto int1 = LispInteger::create(1);
-            ezString str = int1->toString();
+            String str = int1->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1"), "LispInteger::toString is broken!");
         }
         {
             auto int1337 = LispInteger::create(1337);
-            ezString str = int1337->toString();
+            String str = int1337->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1337"), "LispInteger::toString is broken!");
         }
         {
             auto intMax = LispInteger::create(std::numeric_limits<LispInteger::Number_t>::max());
-            ezString str = intMax->toString();
+            String str = intMax->toString();
             CUT_ASSERT.isTrue(str.IsEqual("9223372036854775807"), "LispInteger::toString is broken!");
         }
         {
             auto intMin = LispInteger::create(std::numeric_limits<LispInteger::Number_t>::min());
-            ezString str = intMin->toString();
+            String str = intMin->toString();
             CUT_ASSERT.isTrue(str.IsEqual("-9223372036854775808"), "LispInteger::toString is broken!");
         }
 
         // LispNumber
         {
             auto number1 = LispNumber::create(1.0f);
-            ezString str = number1->toString();
+            String str = number1->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1"), "LispNumber::toString is broken!");
         }
         {
             auto number1 = LispNumber::create(1.1f);
-            ezString str = number1->toString();
+            String str = number1->toString();
             CUT_ASSERT.isTrue(str.IsEqual("1.1"), "LispNumber::toString is broken!");
         }
     });

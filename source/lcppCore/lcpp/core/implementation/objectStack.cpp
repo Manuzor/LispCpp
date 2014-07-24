@@ -4,12 +4,12 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 
 lcpp::Ptr<lcpp::LispObjectStack>
-lcpp::LispObjectStack::create(const ezString& name)
+lcpp::LispObjectStack::create(const String& name)
 {
     return LCPP_NEW(LispRuntime::instance()->allocator().get(), LispObjectStack)(name);
 }
 
-lcpp::LispObjectStack::LispObjectStack(const ezString& name) :
+lcpp::LispObjectStack::LispObjectStack(const String& name) :
     m_name(name),
     m_stack(LispRuntime::instance()->allocator().get())
 {

@@ -8,7 +8,7 @@ lcpp::LispFile::LispFile(const char* szFileName) :
 }
 
 inline
-lcpp::LispFile::LispFile(const ezString& fileName) :
+lcpp::LispFile::LispFile(const String& fileName) :
     m_fileName(fileName),
     m_file(),
     m_lastFileMode(ezFileMode::None)
@@ -47,7 +47,7 @@ lcpp::LispFile::type() const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispFile::toString() const
 {
     ezStringBuilder out;
@@ -79,7 +79,7 @@ lcpp::LispFile::doOpen()
 
     ezString absoluteFileName;
     ezFileSystem::ResolvePath(m_fileName.GetData(), forWriting, &absoluteFileName, nullptr);
-    return m_file.Open(absoluteFileName.GetData(), m_lastFileMode).IsSuccess();
+    return m_file.Open(absoluteFileName.GetData(), m_lastFileMode).Succeeded();
 }
 
 inline
@@ -97,7 +97,7 @@ lcpp::LispFile::close()
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispFile::readString()
 {
     auto size = m_file.GetFileSize();
@@ -131,7 +131,7 @@ lcpp::LispFile::operator ==(const LispObject& rhs) const
 }
 
 inline
-const ezString&
+const lcpp::String&
 lcpp::LispFile::name() const
 {
     return m_fileName;

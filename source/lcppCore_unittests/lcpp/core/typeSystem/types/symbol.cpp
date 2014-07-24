@@ -20,13 +20,13 @@ namespace
     UnitTest g_test2(g_group, "Construction", []{
         auto pRuntime = resetRuntime();
         
-        ezString str("Hello World");
+        String str("Hello World");
         const char* cstr = "Goodbye Cruel World";
 
         auto s1 = LispSymbol::create(str);
         auto s2 = LispSymbol::create(cstr);
 
-        CUT_ASSERT.isTrue(s1->value().IsEqual(str.GetData()), "Construction from another ezString failed.");
+        CUT_ASSERT.isTrue(s1->value().IsEqual(str.GetData()), "Construction from another String failed.");
         CUT_ASSERT.isTrue(s2->value().IsEqual(cstr), "Construction from a c-string failed.");
     });
 

@@ -3,7 +3,7 @@
 #include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::LispString>
-lcpp::LispString::create(const ezString& value)
+lcpp::LispString::create(const String& value)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
@@ -28,7 +28,7 @@ lcpp::LispString::LispString(const char* str) :
     m_string = str;
 }
 
-lcpp::LispString::LispString(const ezString& str) :
+lcpp::LispString::LispString(const String& str) :
     m_string(LispRuntime::instance()->allocator().get())
 {
     m_string = str;

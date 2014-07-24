@@ -53,7 +53,7 @@ lcpp::LispSyntax::operator==(const LispSyntax& rhs) const
     return m_pName.get() == rhs.m_pName.get();
 }
 
-ezString
+lcpp::String
 lcpp::LispSyntax::toString() const
 {
     return m_pName->toString();

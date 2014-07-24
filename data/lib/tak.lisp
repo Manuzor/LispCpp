@@ -1,4 +1,4 @@
-(set-recursion-limit 100)
+(set-recursion-limit 10)
 (set! counter 0)
 (define (tak x y z)
     (set! counter (+ counter 1))
@@ -8,4 +8,4 @@
           (tak (tak (- x 1) y z)
                (tak (- y 1) z x)
              (tak (- z 1) x y))))
-(tak 4 1 0)
+(tak 1 0 0)

@@ -24,7 +24,7 @@ namespace lcpp
 
         virtual const Type& type() const LCPP_OVERRIDE;
 
-        virtual ezString dump() const = 0;
+        virtual String dump() const = 0;
 
         virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) = 0;
 
@@ -53,7 +53,7 @@ namespace lcpp
                                                 ExecutorPtr_t executor);
 
             /// \brief Used for testing purposes only.
-        static Ptr<LispFunction_BuiltIn> create(const ezString& name,
+        static Ptr<LispFunction_BuiltIn> create(const String& name,
                                                 Ptr<LispEnvironment> pParentEnv,
                                                 ExecutorPtr_t executor);
 
@@ -65,8 +65,8 @@ namespace lcpp
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
-        virtual ezString dump() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
+        virtual String dump() const LCPP_OVERRIDE;
 
         virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) LCPP_OVERRIDE;
 
@@ -97,8 +97,8 @@ namespace lcpp
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
-        virtual ezString dump() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
+        virtual String dump() const LCPP_OVERRIDE;
 
         virtual Ptr<LispObject> call(Ptr<LispObject> pArgList) LCPP_OVERRIDE;
 
@@ -107,7 +107,7 @@ namespace lcpp
         ezUInt32 m_numArgs;
         Ptr<LispCons> m_pBody;
 #ifdef _DEBUG
-        ezString m_dump;
+        String m_dump;
 #endif // _DEBUG
 
     private:

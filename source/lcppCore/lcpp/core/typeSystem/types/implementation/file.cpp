@@ -6,7 +6,7 @@
 #include "lcpp/core/runtime.h"
 
 lcpp::Ptr<lcpp::LispFile>
-lcpp::LispFile::create(const ezString& fileName)
+lcpp::LispFile::create(const String& fileName)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
