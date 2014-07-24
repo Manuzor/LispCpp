@@ -3,7 +3,7 @@
 #include "lcpp/cli/ioUtils.h"
 #include <iostream>
 #include <string>
-#include <Foundation/Communication/Telemetry.h>
+#include "lcpp/exceptions/exceptions.h"
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pPrinter(cinfo.pPrinter),

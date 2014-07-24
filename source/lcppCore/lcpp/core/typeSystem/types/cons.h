@@ -4,7 +4,7 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API LispCons :
+    class LCPP_API_CORE LispCons :
         public LispObject
     {
         friend class TypeFactory;

@@ -2,7 +2,7 @@
 
 namespace lcpp
 {
-    LCPP_CORE_API ezAllocatorBase* defaultAllocator();
+    LCPP_API_FOUNDATION ezAllocatorBase* defaultAllocator();
 
     enum { NonTrackingHeapAllocatorFlags = (ezMemoryTrackingFlags::Enum)0 };
     typedef ezAllocator<ezMemoryPolicies::ezHeapAllocation, NonTrackingHeapAllocatorFlags> NonTrackingHeapAllocator;

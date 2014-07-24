@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "lcpp/exceptions/exceptions.h"
 
 namespace lcpp { namespace exceptions {
 

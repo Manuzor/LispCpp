@@ -7,6 +7,7 @@
     <LCPP_TempRoot>$(LCPP_Root)/temp</LCPP_TempRoot>
     <LCPP_SourceRoot>$(LCPP_Root)/source</LCPP_SourceRoot>
     <LCPP_CoreSourceDir>$(LCPP_Root)/source/lcppCore</LCPP_CoreSourceDir>
+    <LCPP_FoundationSourceDir>$(LCPP_Root)/source/lcppFoundation</LCPP_FoundationSourceDir>
     <LCPP_ThirdpartyRoot>$(LCPP_Root)/thirdparty</LCPP_ThirdpartyRoot>
     <LCPP_BinDir>$(LCPP_OutRoot)/bin/WinVs2013$(Configuration)$(PlatformArchitecture)</LCPP_BinDir>
     <LCPP_LibDir>$(LCPP_OutRoot)/lib/WinVs2013$(Configuration)$(PlatformArchitecture)</LCPP_LibDir>
@@ -19,13 +20,14 @@
   <ItemDefinitionGroup>
     <Link />
     <ClCompile>
-      <AdditionalIncludeDirectories>$(LCPP_SourceRoot)/$(ProjectName)/;$(LCPP_CoreSourceDir);$(LCPP_ThirdpartyRoot)/ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(LCPP_SourceRoot)/$(ProjectName)/;$(LCPP_CoreSourceDir);$(LCPP_FoundationSourceDir);$(LCPP_ThirdpartyRoot)/ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(LCPP_LibDir)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ezFoundation.lib;ezThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalDependencies Condition="'$(ProjectName)' != 'lcppCore'">lcppCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(ProjectName)' != 'lcppFoundation'">lcppFoundation.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(LCPP_LibDir)/$(TargetName).lib</ImportLibrary>
       <StackReserveSize>134217728</StackReserveSize>
     </Link>
@@ -42,6 +44,9 @@
     </BuildMacro>
     <BuildMacro Include="LCPP_SourceRoot">
       <Value>$(LCPP_SourceRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_FoundationSourceDir">
+      <Value>$(LCPP_FoundationSourceDir)</Value>
     </BuildMacro>
     <BuildMacro Include="LCPP_CoreSourceDir">
       <Value>$(LCPP_CoreSourceDir)</Value>

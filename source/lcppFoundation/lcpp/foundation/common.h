@@ -1,16 +1,16 @@
 ﻿#pragma once
 
-#ifdef LCPP_CORE_EXPORT
-#define LCPP_CORE_API __declspec(dllexport)
+#ifdef LCPP_EXPORT_FOUNDATION
+#define LCPP_API_FOUNDATION __declspec(dllexport)
 #else
-#define LCPP_CORE_API __declspec(dllimport)
-#endif // LCPP_CORE_EXPORT
+#define LCPP_API_FOUNDATION __declspec(dllimport)
+#endif // LCPP_EXPORT_FOUNDATION
 
 // stl dependencies
 #include <iostream>
 
 // ezEngine stuff
-#include <Foundation/Basics/IncludeAll.cpp>
+#include "lcpp/foundation/dependencies/ezEngine.h"
 
 #define LCPP_OVERRIDE override
 #define LCPP_FINAL final
@@ -26,8 +26,6 @@
 #define LCPP_DELETE(allocator, ptr)            ezInternal::Delete(allocator, ptr)
 #define LCPP_DELETE_ARRAY(allocator, ptr)      ezInternal::DeleteArray(allocator, ptr)
 #define LCPP_DELETE_RAW_BUFFER(allocator, ptr) ezInternal::DeleteRawBuffer(allocator, ptr)
-
-#include "lcpp/exceptions/exceptions.h"
 
 #define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()

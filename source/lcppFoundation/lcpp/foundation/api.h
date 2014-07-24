@@ -9,11 +9,3 @@
 #include "lcpp/foundation/common.h"
 #include "lcpp/foundation/startup.h"
 #include "lcpp/foundation/conversion.h"
-
-#include "lcpp/core/typeSystem.h"
-#include "lcpp/core/reader.h"
-#include "lcpp/core/environment.h"
-#include "lcpp/core/evaluator.h"
-#include "lcpp/core/printer.h"
-#include "lcpp/core/runtime.h"
-#include "lcpp/core/objectStack.h"

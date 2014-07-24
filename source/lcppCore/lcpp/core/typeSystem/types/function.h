@@ -8,7 +8,7 @@ namespace lcpp
     class LispEnvironment;
     class LispCons;
 
-    class LCPP_CORE_API LispFunction :
+    class LCPP_API_CORE LispFunction :
         public LispObject,
         public NameableBase
     {
@@ -41,7 +41,7 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispFunction_BuiltIn : public LispFunction
+    class LCPP_API_CORE LispFunction_BuiltIn : public LispFunction
     {
     public:
 
@@ -81,7 +81,7 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispFunction_UserDefined : public LispFunction
+    class LCPP_API_CORE LispFunction_UserDefined : public LispFunction
     {
     public:
 

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "lcpp/exceptions/exceptions.h"
+
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"

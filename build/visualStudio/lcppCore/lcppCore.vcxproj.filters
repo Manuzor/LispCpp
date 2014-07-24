@@ -1,265 +1,226 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="../../source/lcppCore/stdafx.cpp" />
-    <ClCompile Include="../../source/lcppCore/lcpp\foundation\memory\implementation\allocator.cpp">
-      <Filter>lcpp\foundation\memory\implementation</Filter>
-    </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\foundation\implementation\startup.cpp">
-      <Filter>lcpp\foundation\implementation</Filter>
-    </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_syntax.cpp">
+    <ClCompile Include="../../../source/lcppCore/stdafx.cpp" />
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_syntax.cpp">
       <Filter>lcpp\core\builtIn\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp">
       <Filter>lcpp\core\builtIn\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\environment.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\environment.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\evaluator.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\evaluator.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\printer.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\printer.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\reader.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\reader.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\implementation\runtime.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\runtime.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax.cpp">
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.cpp">
       <Filter>lcpp\core\typeSystem\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\string.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\string.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\implementation\objectStack.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.cpp">
       <Filter>lcpp\core\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.cpp">
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.cpp">
       <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../../source/lcppCore/lcpp\api.h">
-      <Filter>lcpp</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/stdafx.h" />
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\memory\allocator.h">
-      <Filter>lcpp\foundation\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\common.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\exceptions\exceptions.h">
+    <ClInclude Include="../../../source/lcppCore/stdafx.h" />
+    <ClInclude Include="../../../source/lcppCore/lcpp\exceptions\exceptions.h">
       <Filter>lcpp\exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\conversion.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\memoryInfo.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\ptr.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\rangeUtils.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\startup.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\foundation\stringUtils.h">
-      <Filter>lcpp\foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\environment.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\environment.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\evaluator.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\evaluator.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\printer.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\printer.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\reader.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\reader.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\recursionCounter.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\recursionCounter.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\runtime.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\runtime.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\sourceCursor.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\sourceCursor.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\builtIn\recursive_functions.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\builtIn\recursive_functions.h">
       <Filter>lcpp\core\builtIn</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\builtIn\recursive_syntax.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\builtIn\recursive_syntax.h">
       <Filter>lcpp\core\builtIn</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\object.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\object.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\type.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\type.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\implementation\type.inl">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\implementation\type.inl">
       <Filter>lcpp\core\typeSystem\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\bool.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\bool.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\cons.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\cons.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\file.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\file.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\function.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\function.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\nil.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\nil.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\number.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\number.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\string.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\string.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\symbol.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\symbol.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\syntax.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\syntax.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\types\void.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\void.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="../../source/lcppCore/lcpp\core\typeSystem\functions.h">
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\functions.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\instancing.h">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\instancing.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\objectStack.h">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\objectStack.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\evaluator.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\evaluator.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\instancing.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\instancing.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\objectStack.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\recursionCounter.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\recursionCounter.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\implementation\runtime.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\runtime.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\implementation\rangeUtils.inl">
-      <Filter>lcpp\foundation\implementation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.inl">
       <Filter>lcpp\core\typeSystem\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\syntax.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\syntax.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.inl">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\nameable.h">
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\nameable.h">
       <Filter>lcpp\core\typeSystem\baseTypes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCore\lcpp\foundation\wrapper.h">
-      <Filter>lcpp\foundation</Filter>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\common.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\api.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\dependencies\ezEngine.h">
+      <Filter>lcpp\core\dependencies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">
-      <Filter>lcpp\foundation\implementation</Filter>
-    </None>
-    <None Include="../../source/lcppCore/lcpp\core\implementation\environment.inl">
+    <None Include="../../../source/lcppCore/lcpp\core\implementation\environment.inl">
       <Filter>lcpp\core\implementation</Filter>
     </None>
-    <None Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.inl">
+    <None Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </None>
-    <None Include="../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl">
+    <None Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </None>
-    <None Include="..\..\source\lcppCore\lcpp\api.inl">
-      <Filter>lcpp</Filter>
-    </None>
-    <None Include="..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl">
+    <None Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl">
       <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
     </None>
-    <None Include="..\..\source\lcppCore\lcpp\foundation\memory\implementation\allocator.inl">
-      <Filter>lcpp\foundation\memory\implementation</Filter>
-    </None>
-    <None Include="..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl">
+    <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl">
       <Filter>lcpp\core\implementation</Filter>
     </None>
-    <None Include="..\..\source\lcppCore\lcpp\core\implementation\reader.inl">
+    <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\reader.inl">
       <Filter>lcpp\core\implementation</Filter>
     </None>
   </ItemGroup>
@@ -270,23 +231,11 @@
     <Filter Include="lcpp\core">
       <UniqueIdentifier>{aa7e57c4-63ba-46ed-954c-754a0818956b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lcpp\foundation">
-      <UniqueIdentifier>{e241466b-4fc5-45ec-9cc3-5008c789752e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lcpp\core\implementation">
       <UniqueIdentifier>{71ee4ac5-b071-4bc1-84b7-5b4e8c28c312}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lcpp\foundation\implementation">
-      <UniqueIdentifier>{f79520c9-09ac-4c89-bf13-9488a8bab97e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lcpp\exceptions">
       <UniqueIdentifier>{349a1280-d6cb-441d-8107-49b90ed137e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lcpp\foundation\memory">
-      <UniqueIdentifier>{8782e185-a969-4caf-a119-6a5362b1026c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lcpp\foundation\memory\implementation">
-      <UniqueIdentifier>{ac54089b-335a-49ca-8c3f-55d0b8c8fcf5}</UniqueIdentifier>
     </Filter>
     <Filter Include="lcpp\core\builtIn">
       <UniqueIdentifier>{ab5b6491-bbfb-452d-ab21-f930368bfb73}</UniqueIdentifier>
@@ -311,6 +260,9 @@
     </Filter>
     <Filter Include="lcpp\core\typeSystem\baseTypes\implementation">
       <UniqueIdentifier>{cc33a59f-1388-470e-814b-9b29302a8300}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\dependencies">
+      <UniqueIdentifier>{3a09585e-f19a-457f-8e7d-ea8b2e52d5ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ namespace lcpp
     class LispRuntime;
     class LispObject;
 
-    class LCPP_CORE_API LispObjectStack
+    class LCPP_API_CORE LispObjectStack
     {
         friend LispRuntime;
     public:

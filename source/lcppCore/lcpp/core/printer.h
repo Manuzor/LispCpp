@@ -4,7 +4,7 @@ namespace lcpp
 {
     class LispObject;
     
-    class LCPP_CORE_API Printer
+    class LCPP_API_CORE Printer
     {
     public:
         Printer();

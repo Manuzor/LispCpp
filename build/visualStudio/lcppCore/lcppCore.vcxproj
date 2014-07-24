@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../../../source/lcppCore/lcpp\api.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\core\builtIn\recursive_functions.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\core\builtIn\recursive_syntax.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\core\environment.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\core\evaluator.h" />
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\api.h" />
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\common.h" />
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\evaluator.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\recursionCounter.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\runtime.inl" />
@@ -58,22 +60,12 @@
     <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\syntax.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\exceptions\exceptions.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\common.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\conversion.h" />
-    <ClInclude Include="..\..\..\source\lcppCore\lcpp\foundation\implementation\rangeUtils.inl" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\memoryInfo.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\memory\allocator.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\ptr.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\rangeUtils.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\startup.h" />
-    <ClInclude Include="../../../source/lcppCore/lcpp\foundation\stringUtils.h" />
     <ClInclude Include="../../../source/lcppCore/stdafx.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\objectStack.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\instancing.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\instancing.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h" />
-    <ClInclude Include="..\..\..\source\lcppCore\lcpp\foundation\wrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="../../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp" />
@@ -85,8 +77,6 @@
     <ClCompile Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp" />
     <ClCompile Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax.cpp" />
     <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\runtime.cpp" />
-    <ClCompile Include="../../../source/lcppCore/lcpp\foundation\memory\implementation\allocator.cpp" />
-    <ClCompile Include="../../../source/lcppCore/lcpp\foundation\implementation\startup.cpp" />
     <ClCompile Include="../../../source/lcppCore/stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -115,16 +105,9 @@
     <None Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl">
       <FileType>CppHeader</FileType>
     </None>
-    <None Include="../../../source/lcppCore/lcpp\foundation\implementation\ptr.inl">
-      <FileType>CppHeader</FileType>
-    </None>
-    <None Include="..\..\..\source\lcppCore\lcpp\api.inl">
-      <FileType>CppHeader</FileType>
-    </None>
     <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\reader.inl" />
     <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl" />
     <None Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl" />
-    <None Include="..\..\..\source\lcppCore\lcpp\foundation\memory\implementation\allocator.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40DE1057-678D-4B34-84C3-F30D8923CE34}</ProjectGuid>
@@ -190,7 +173,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>LCPP_CORE_EXPORT;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LCPP_EXPORT_CORE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -202,7 +185,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>LCPP_CORE_EXPORT;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LCPP_EXPORT_CORE;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -216,7 +199,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>LCPP_CORE_EXPORT;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LCPP_EXPORT_CORE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -232,7 +215,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>LCPP_CORE_EXPORT;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LCPP_EXPORT_CORE;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

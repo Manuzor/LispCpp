@@ -18,5 +18,4 @@
 
 #include <windows.h>
 
-#include "lcpp/foundation/api.h"
-#include "lcpp/core/common.h"
+#include "lcpp/foundation/common.h"

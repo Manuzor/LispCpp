@@ -5,7 +5,7 @@ namespace lcpp
 {
     class LispBool;
 
-    class LCPP_CORE_API LispFile :
+    class LCPP_API_CORE LispFile :
         public LispObject
     {
         friend class TypeFactory;

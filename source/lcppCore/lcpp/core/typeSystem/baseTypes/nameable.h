@@ -5,7 +5,7 @@ namespace lcpp
     struct Type;
     class LispSymbol;
 
-    class LCPP_CORE_API NameableBase
+    class LCPP_API_CORE NameableBase
     {
     public:
 

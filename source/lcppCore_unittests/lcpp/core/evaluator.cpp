@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/testRuntime.h"
+#include "lcpp/exceptions/exceptions.h"
 
 using namespace cut;
 using namespace lcpp;

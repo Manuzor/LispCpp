@@ -4,7 +4,7 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API LispSymbol :
+    class LCPP_API_CORE LispSymbol :
         public LispObject
     {
         friend InstanceTable_Symbols;

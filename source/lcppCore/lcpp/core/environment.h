@@ -6,7 +6,7 @@ namespace lcpp
     class LispObject;
     class LispSymbol;
 
-    class LCPP_CORE_API LispEnvironment :
+    class LCPP_API_CORE LispEnvironment :
         public LispObject
     {
     public:

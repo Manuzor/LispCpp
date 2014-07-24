@@ -8,7 +8,7 @@ namespace lcpp
     class LispCons;
     class Reader;
 
-    class LCPP_CORE_API IEvaluator
+    class LCPP_API_CORE IEvaluator
     {
     public:
         virtual ~IEvaluator() {}
@@ -19,7 +19,7 @@ namespace lcpp
         virtual Ptr<LispObject> evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pObject) = 0;
     };
 
-    class LCPP_CORE_API RecursiveEvaluator : public IEvaluator
+    class LCPP_API_CORE RecursiveEvaluator : public IEvaluator
     {
     public:
 

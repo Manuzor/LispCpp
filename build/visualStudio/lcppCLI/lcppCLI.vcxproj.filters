@@ -1,34 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <ItemGroup>
-    <ClInclude Include="..\..\source\lcppCLI\stdafx.h" />
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\common.h">
+    <ClInclude Include="..\..\..\source\lcppCLI\stdafx.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\common.h">
       <Filter>lcpp\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\exceptions.h">
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\exceptions.h">
       <Filter>lcpp\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\interpreter.h">
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\interpreter.h">
       <Filter>lcpp\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\ioUtils.h">
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\ioUtils.h">
       <Filter>lcpp\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h">
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h">
       <Filter>lcpp\cli\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\dependencies\ezEngine.h">
+      <Filter>lcpp\cli\dependencies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\lcppCLI.cpp">
+    <ClCompile Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\lcppCLI.cpp">
       <Filter>lcpp\cli\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils.cpp">
+    <ClCompile Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils.cpp">
       <Filter>lcpp\cli\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\interpreter.cpp">
+    <ClCompile Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\interpreter.cpp">
       <Filter>lcpp\cli\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCLI\stdafx.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCLI\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="lcpp">
@@ -39,6 +42,9 @@
     </Filter>
     <Filter Include="lcpp\cli\implementation">
       <UniqueIdentifier>{1c2f1ef8-7a01-496f-8fcc-b626503b1655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\cli\dependencies">
+      <UniqueIdentifier>{f7bdc118-8dc2-449b-9fb5-f3081b64131b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

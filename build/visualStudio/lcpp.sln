@@ -15,11 +15,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCLI", "lcppCLI\lcppCLI.
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore", "lcppCore\lcppCore.vcxproj", "{40DE1057-678D-4B34-84C3-F30D8923CE34}"
+	ProjectSection(ProjectDependencies) = postProject
+		{23004569-586C-4358-A97D-E13BE9E0F531} = {23004569-586C-4358-A97D-E13BE9E0F531}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppCore_unittests\lcppCore_unittests.vcxproj", "{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppFoundation", "lcppFoundation\lcppFoundation.vcxproj", "{23004569-586C-4358-A97D-E13BE9E0F531}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +58,14 @@ Global
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}.Release|Win32.Build.0 = Release|Win32
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}.Release|x64.ActiveCfg = Release|x64
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}.Release|x64.Build.0 = Release|x64
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Debug|Win32.ActiveCfg = Debug|Win32
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Debug|Win32.Build.0 = Debug|Win32
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Debug|x64.ActiveCfg = Debug|x64
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Debug|x64.Build.0 = Debug|x64
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|Win32.ActiveCfg = Release|Win32
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|Win32.Build.0 = Release|Win32
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|x64.ActiveCfg = Release|x64
+		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,5 +74,6 @@ Global
 		{FD563574-8032-44BF-BB84-65A0086CA210} = {64D43FB0-E5D3-4CC7-AAF2-70E9EBBEB0EE}
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6} = {8290744C-8870-4C45-BE14-D16573B9E775}
+		{23004569-586C-4358-A97D-E13BE9E0F531} = {C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}
 	EndGlobalSection
 EndGlobal

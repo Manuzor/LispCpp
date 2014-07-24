@@ -9,7 +9,7 @@ namespace lcpp
     class TypeFactory;
     class LispEnvironment;
 
-    class LCPP_CORE_API LispRuntime
+    class LCPP_API_CORE LispRuntime
     {
         friend struct RecursionCounter;
     public:

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "lcpp/exceptions/exceptions.h"
+
 #include "lcpp/core/builtIn/recursive_syntax.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/environment.h"

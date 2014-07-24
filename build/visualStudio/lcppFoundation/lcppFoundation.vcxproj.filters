@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\allocator.h">
+      <Filter>lcpp\foundation\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\common.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\conversion.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\memoryInfo.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\ptr.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\rangeUtils.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\startup.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\stringUtils.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\wrapper.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\stdafx.h" />
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\api.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\dependencies\ezEngine.h">
+      <Filter>lcpp\foundation\dependencies</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.cpp">
+      <Filter>lcpp\foundation\memory\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\startup.cpp">
+      <Filter>lcpp\foundation\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppFoundation\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="lcpp">
+      <UniqueIdentifier>{6775d980-9a05-4118-b71d-54a785d5df69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation">
+      <UniqueIdentifier>{98b414b9-d7a2-4578-8346-972af0575350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation\implementation">
+      <UniqueIdentifier>{b90fe8e3-7c6c-466a-961c-483158b9593f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation\memory">
+      <UniqueIdentifier>{d92a5cea-ecf4-445c-844f-61d889fd5552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation\memory\implementation">
+      <UniqueIdentifier>{5a39ec13-af3b-4fb9-a4cc-e4aff6e1b4bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation\dependencies">
+      <UniqueIdentifier>{c5c7ceda-6123-4a76-a4b0-2e3c7671fe1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.inl">
+      <Filter>lcpp\foundation\memory\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\ptr.inl">
+      <Filter>lcpp\foundation\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\rangeUtils.inl">
+      <Filter>lcpp\foundation\implementation</Filter>
+    </None>
+  </ItemGroup>
+</Project>
