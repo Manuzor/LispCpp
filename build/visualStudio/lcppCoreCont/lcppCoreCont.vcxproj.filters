@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lcpp">
+      <UniqueIdentifier>{c5899f27-33be-4a07-8cb8-1cdbfdc38d89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core">
+      <UniqueIdentifier>{6fbf1205-7b2e-400e-bf63-d172bd4b5243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\impl">
+      <UniqueIdentifier>{24c9448c-f66c-44da-82b8-1d983a0ba672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem">
+      <UniqueIdentifier>{9a359474-f1e7-41a5-9d72-a61eb5846b06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\impl">
+      <UniqueIdentifier>{a02d8017-ad3f-4509-867a-a48ce591a8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\types">
+      <UniqueIdentifier>{c40d177f-0cc4-42ee-92cd-78a019bc20e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\types\impl">
+      <UniqueIdentifier>{755d8558-7c9e-446e-8e66-52d0a1c5fb94}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\stdafx.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeInfo.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\bool.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\cons.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\nil.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\number.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\void.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\continuation.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeInfo.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+  </ItemGroup>
+</Project>

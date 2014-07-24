@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "lcpp/exceptions/exceptions.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 
 lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pPrinter(cinfo.pPrinter),

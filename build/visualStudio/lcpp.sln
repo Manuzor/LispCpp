@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppFoundation", "lcppFoundation\lcppFoundation.vcxproj", "{23004569-586C-4358-A97D-E13BE9E0F531}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCoreCont", "lcppCoreCont\lcppCoreCont.vcxproj", "{37E54245-C756-4BD6-9BB4-ABA3C22444BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -66,6 +68,14 @@ Global
 		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|Win32.Build.0 = Release|Win32
 		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|x64.ActiveCfg = Release|x64
 		{23004569-586C-4358-A97D-E13BE9E0F531}.Release|x64.Build.0 = Release|x64
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Debug|Win32.Build.0 = Debug|Win32
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Debug|x64.ActiveCfg = Debug|x64
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Debug|x64.Build.0 = Debug|x64
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Release|Win32.ActiveCfg = Release|Win32
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Release|Win32.Build.0 = Release|Win32
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Release|x64.ActiveCfg = Release|x64
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,5 +85,6 @@ Global
 		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}
 		{1C5D6412-87B3-493B-A8DC-B9C10EF323B6} = {8290744C-8870-4C45-BE14-D16573B9E775}
 		{23004569-586C-4358-A97D-E13BE9E0F531} = {C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}
+		{37E54245-C756-4BD6-9BB4-ABA3C22444BF} = {C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}
 	EndGlobalSection
 EndGlobal
