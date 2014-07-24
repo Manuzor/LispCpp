@@ -59,25 +59,25 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
-    <Import Project="lcpp_d.props" />
-    <Import Project="cut-import.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
+    <Import Project="$(SolutionDir)/props/lcpp_d.props" />
+    <Import Project="$(SolutionDir)/props/cut-import.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
-    <Import Project="lcpp_d.props" />
-    <Import Project="cut-import.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
+    <Import Project="$(SolutionDir)/props/lcpp_d.props" />
+    <Import Project="$(SolutionDir)/props/cut-import.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
-    <Import Project="cut-import.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
+    <Import Project="$(SolutionDir)/props/cut-import.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
-    <Import Project="cut-import.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
+    <Import Project="$(SolutionDir)/props/cut-import.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -157,33 +157,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/environment.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/evaluator.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/reader.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/type.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/function.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\conversion.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\ptr.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/foundation\stringUtils.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/main.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/bool.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/cons.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/nil.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp" />
-    <ClCompile Include="../../source/lcppCore_unittests/stdafx.cpp">
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/environment.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/evaluator.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/reader.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/type.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/function.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/foundation\conversion.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/foundation\ptr.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/foundation\stringUtils.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/main.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/bool.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/cons.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/nil.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp" />
+    <ClCompile Include="../../../source/lcppCore_unittests/stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\source\lcppCore_unittests\lcpp\core\objectStack.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCore_unittests\lcpp\core\objectStack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="../../source/lcppCore_unittests/lcpp/testRuntime.h" />
-    <ClInclude Include="../../source/lcppCore_unittests/lcpp/toString.h" />
-    <ClInclude Include="../../source/lcppCore_unittests/stdafx.h" />
+    <ClInclude Include="../../../source/lcppCore_unittests/lcpp/testRuntime.h" />
+    <ClInclude Include="../../../source/lcppCore_unittests/lcpp/toString.h" />
+    <ClInclude Include="../../../source/lcppCore_unittests/stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

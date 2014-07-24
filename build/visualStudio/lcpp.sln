@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCLI", "lcppCLI.vcxproj", "{FD563574-8032-44BF-BB84-65A0086CA210}"
-	ProjectSection(ProjectDependencies) = postProject
-		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore", "lcppCore.vcxproj", "{40DE1057-678D-4B34-84C3-F30D8923CE34}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppCore_unittests.vcxproj", "{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{8290744C-8870-4C45-BE14-D16573B9E775}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{64D43FB0-E5D3-4CC7-AAF2-70E9EBBEB0EE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C2B0EF13-145D-42D7-9DD1-6FA0990A0DE5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCLI", "lcppCLI\lcppCLI.vcxproj", "{FD563574-8032-44BF-BB84-65A0086CA210}"
+	ProjectSection(ProjectDependencies) = postProject
+		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore", "lcppCore\lcppCore.vcxproj", "{40DE1057-678D-4B34-84C3-F30D8923CE34}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lcppCore_unittests", "lcppCore_unittests\lcppCore_unittests.vcxproj", "{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{40DE1057-678D-4B34-84C3-F30D8923CE34} = {40DE1057-678D-4B34-84C3-F30D8923CE34}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

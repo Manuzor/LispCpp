@@ -19,18 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\common.h" />
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\exceptions.h" />
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h" />
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\interpreter.h" />
-    <ClInclude Include="..\..\source\lcppCLI\lcpp\cli\ioUtils.h" />
-    <ClInclude Include="..\..\source\lcppCLI\stdafx.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\common.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\exceptions.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils_win.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\interpreter.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\lcpp\cli\ioUtils.h" />
+    <ClInclude Include="..\..\..\source\lcppCLI\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\interpreter.cpp" />
-    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils.cpp" />
-    <ClCompile Include="..\..\source\lcppCLI\lcpp\cli\implementation\lcppCLI.cpp" />
-    <ClCompile Include="..\..\source\lcppCLI\stdafx.cpp">
+    <ClCompile Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\interpreter.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\ioUtils.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCLI\lcpp\cli\implementation\lcppCLI.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCLI\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -74,21 +74,21 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
-    <Import Project="lcpp_d.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
+    <Import Project="$(SolutionDir)/props/lcpp_d.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
-    <Import Project="lcpp_d.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
+    <Import Project="$(SolutionDir)/props/lcpp_d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="lcpp.props" />
+    <Import Project="$(SolutionDir)/props/lcpp.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
