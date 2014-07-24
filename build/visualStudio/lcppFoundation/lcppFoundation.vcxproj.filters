@@ -35,6 +35,9 @@
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\dependencies\ezEngine.h">
       <Filter>lcpp\foundation\dependencies</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stack.h">
+      <Filter>lcpp\foundation\containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.cpp">
@@ -64,6 +67,12 @@
     <Filter Include="lcpp\foundation\dependencies">
       <UniqueIdentifier>{c5c7ceda-6123-4a76-a4b0-2e3c7671fe1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\foundation\containers">
+      <UniqueIdentifier>{29745507-7ceb-4419-b2dd-eb94bdc71da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation\containers\implementation">
+      <UniqueIdentifier>{9d5b69d9-9d63-470a-a1f4-571ba914d4e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.inl">
@@ -74,6 +83,9 @@
     </None>
     <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\rangeUtils.inl">
       <Filter>lcpp\foundation\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\implementation\stack.inl">
+      <Filter>lcpp\foundation\containers\implementation</Filter>
     </None>
   </ItemGroup>
 </Project>

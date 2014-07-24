@@ -56,11 +56,11 @@
     <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.cpp">
       <Filter>lcpp\core\typeSystem\types\implementation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.cpp">
-      <Filter>lcpp\core\implementation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.cpp">
       <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\containers\implementation\objectStack.cpp">
+      <Filter>lcpp\core\containers\implementation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,16 +146,10 @@
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\objectStack.h">
-      <Filter>lcpp\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\evaluator.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\instancing.inl">
-      <Filter>lcpp\core\implementation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.inl">
       <Filter>lcpp\core\implementation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\recursionCounter.inl">
@@ -203,6 +197,9 @@
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\dependencies\ezEngine.h">
       <Filter>lcpp\core\dependencies</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\containers\objectStack.h">
+      <Filter>lcpp\core\containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="../../../source/lcppCore/lcpp\core\implementation\environment.inl">
@@ -222,6 +219,9 @@
     </None>
     <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\reader.inl">
       <Filter>lcpp\core\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCore\lcpp\core\containers\implementation\objectStack.inl">
+      <Filter>lcpp\core\containers\implementation</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +263,12 @@
     </Filter>
     <Filter Include="lcpp\core\dependencies">
       <UniqueIdentifier>{3a09585e-f19a-457f-8e7d-ea8b2e52d5ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\containers">
+      <UniqueIdentifier>{2cbc08a4-035e-47b7-933d-c543dda57764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\containers\implementation">
+      <UniqueIdentifier>{736b6bd0-649e-4f99-8b23-27113a39ccb2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

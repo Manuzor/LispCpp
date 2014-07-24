@@ -25,6 +25,7 @@
     <ClInclude Include="../../../source/lcppCore/lcpp\core\evaluator.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\api.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\common.h" />
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\containers\objectStack.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\evaluator.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\recursionCounter.inl" />
@@ -61,8 +62,6 @@
     <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="../../../source/lcppCore/lcpp\exceptions\exceptions.h" />
     <ClInclude Include="../../../source/lcppCore/stdafx.h" />
-    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\objectStack.h" />
-    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\instancing.inl" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\instancing.h" />
     <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h" />
@@ -83,7 +82,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\implementation\objectStack.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\containers\implementation\objectStack.cpp" />
     <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.cpp" />
     <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.cpp" />
     <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.cpp" />
@@ -105,6 +104,7 @@
     <None Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl">
       <FileType>CppHeader</FileType>
     </None>
+    <None Include="..\..\..\source\lcppCore\lcpp\core\containers\implementation\objectStack.inl" />
     <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\reader.inl" />
     <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl" />
     <None Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl" />

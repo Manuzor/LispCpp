@@ -2,23 +2,16 @@
 
 namespace lcpp
 {
-    class LispRuntime;
-    class LispObject;
-
-    class LCPP_API_CORE LispObjectStack
+    template<typename T_Element, ezUInt32 N_StaticSize>
+    class StackBase
     {
-        friend LispRuntime;
-    public:
-
-        static Ptr<LispObjectStack> create(const String& name);
-
     public:
 
             /// \brief Pops the element from the stack at the given index.
         ezResult pop();
 
-            /// \brief Pushes \a pObject onto the top of the stack.
-        void push(Ptr<LispObject> pObject);
+            /// \brief Pushes \a newElement onto the top of the stack.
+        void push(const T_Element& newElement);
 
             /// \brief Random access into the stack.
             ///
@@ -30,36 +23,41 @@ namespace lcpp
             ///
             /// This means that -1 is always the top of the stack.
             /// \return LCPP_NIL if the index is out of bounds.
-        Ptr<LispObject> get(ezInt32 relativeIndex);
+        T_Element& get(ezInt32 relativeIndex);
+        const T_Element& get(ezInt32 relativeIndex) const;
 
             /// \brief The absolute index of the top of the stack.
             /// \remark Is basically size() - 1
-        ezUInt32 top();
+        ezUInt32 top() const;
 
             /// \brief The current size of the stack.
-        ezUInt32 size();
+        ezUInt32 size() const;
 
             /// \brief Whether this stack is empty or not.
-        bool isEmpty();
+        bool isEmpty() const;
 
         void clear();
 
-        String& name();
-        const String& name() const;
-        void name(const String& name);
+        void setNilElement(const T_Element& newNilElement);
+        const T_Element& getNilElement() const;
+        T_Element& getNilElement();
 
     private:
 
-        String m_name;
+        Ptr<ezAllocatorBase> m_pAllocator;
 
-        ezHybridArray<Ptr<LispObject>, 64> m_stack;
+        ezHybridArray<T_Element, N_StaticSize> m_stack;
+
+        T_Element m_nilElement;
+
+    protected:
+
+        StackBase(Ptr<ezAllocatorBase> pAllocator);
 
     private:
 
-        LispObjectStack(const String& name);
-
-        ezUInt32 convertToAbsolute(ezInt32 relativeIndex);
+        ezUInt32 convertToAbsolute(ezInt32 relativeIndex) const;
     };
 }
 
-#include "lcpp/core/implementation/objectStack.inl"
+#include "lcpp/foundation/containers/implementation/stack.inl"
