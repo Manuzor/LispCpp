@@ -7,13 +7,13 @@ namespace lcpp
     {
         template<typename T_Target>
         struct ConvertTo {};
-        // Special case for ezString. The convert function never fails.
+        // Special case for String. The convert function never fails.
 
         template<>
-        struct ConvertTo<ezString>
+        struct ConvertTo<String>
         {
             template<typename T>
-            inline static ezString convert(const T& value)
+            inline static String convert(const T& value)
             {
                 return ezConversionUtils::ToString(value);
             }
@@ -22,7 +22,7 @@ namespace lcpp
         template<>
         struct ConvertTo<ezInt64>
         {
-            inline static ezResult convert(const ezString& str, ezInt64& out, const char** out_lastParsePos)
+            inline static ezResult convert(const String& str, ezInt64& out, const char** out_lastParsePos)
             {
                 return ezConversionUtils::StringToInt64(str.GetData(), out, out_lastParsePos);
             }
@@ -35,7 +35,7 @@ namespace lcpp
         template<>
         struct ConvertTo<double>
         {
-            inline static ezResult convert(const ezString& str, double& out, const char** out_lastParsePos = nullptr)
+            inline static ezResult convert(const String& str, double& out, const char** out_lastParsePos = nullptr)
             {
                 return ezConversionUtils::StringToFloat(str.GetData(), out, out_lastParsePos);
             }
@@ -55,7 +55,7 @@ namespace lcpp
 
     template<typename T_To>
     inline
-    ezResult to(const ezString& from, T_To& out_to, const char** out_lastParsePos = nullptr)
+    ezResult to(const String& from, T_To& out_to, const char** out_lastParsePos = nullptr)
     {
         return detail::ConvertTo<T_To>::convert(from, out_to, out_lastParsePos);
     }
@@ -69,8 +69,8 @@ namespace lcpp
 
     template<typename T>
     inline
-    ezString toString(T value)
+    String toString(T value)
     {
-        return detail::ConvertTo<ezString>::convert(value);
+        return detail::ConvertTo<String>::convert(value);
     }
 }

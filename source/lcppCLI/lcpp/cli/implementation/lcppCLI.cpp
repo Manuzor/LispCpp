@@ -81,7 +81,7 @@ void parseCommandLineArgs(int argc, const char* argv[])
 {
     if(argc == 1) { return; }
 
-    if(ezString(argv[1]) == "-d")
+    if(lcpp::String(argv[1]).IsEqual("-d"))
     {
         ezGlobalLog::SetLogLevel(ezLogMsgType::All);
     }

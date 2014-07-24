@@ -57,7 +57,7 @@ lcpp::LispFunction_BuiltIn::create(Ptr<LispEnvironment> pParentEnv,
 }
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
-lcpp::LispFunction_BuiltIn::create(const ezString& name,
+lcpp::LispFunction_BuiltIn::create(const String& name,
                                    Ptr<LispEnvironment> pParentEnv,
                                    ExecutorPtr_t executor)
 {
@@ -101,7 +101,7 @@ lcpp::LispFunction_BuiltIn::copy() const
     return copy(*this);
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_BuiltIn::toString() const
 {
     EZ_ASSERT(m_pName, "A built-in function needs to have a name!");
@@ -110,7 +110,7 @@ lcpp::LispFunction_BuiltIn::toString() const
     return builder;
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_BuiltIn::dump() const
 {
     return toString();
@@ -211,11 +211,11 @@ lcpp::LispFunction_UserDefined::copy() const
     return copy(*this);
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_UserDefined::toString() const
 {
-    static auto anonymous = ezString("<procedure>");
-    static auto nonAnonymousFormat = ezString("<procedure:%s>");
+    static auto anonymous = String("<procedure>");
+    static auto nonAnonymousFormat = String("<procedure:%s>");
 
     if (!m_pName)
     {
@@ -227,7 +227,7 @@ lcpp::LispFunction_UserDefined::toString() const
     return builder;
 }
 
-ezString
+lcpp::String
 lcpp::LispFunction_UserDefined::dump() const
 {
     ezStringBuilder builder;

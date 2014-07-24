@@ -29,7 +29,7 @@ namespace
     {
         auto pRuntime = resetRuntime();
         auto& reader = *pRuntime->reader();
-        ezString str = "   abc";
+        String str = "   abc";
         auto iter = str.GetIteratorFront();
 
         reader.skipSeparators(iter);
@@ -83,14 +83,14 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString str("123");
+            String str("123");
             auto i = reader.parseInteger(str.GetIteratorFront());
             CUT_ASSERT.isTrue(i->value() == 123, "Invalid value of parsed integer.");
             CUT_ASSERT.isTrue(i->toString().IsEqual("123"), "Invalid string representation of parsed integer.");
         }
 
         {
-            ezString str("qwerty");
+            String str("qwerty");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseInteger(str.GetIteratorFront());
             }, "'qwerty' should not be parsed as integer!");
@@ -103,14 +103,14 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString str("3.1415");
+            String str("3.1415");
             auto number = reader.parseNumber(str.GetIteratorFront());
             CUT_ASSERT.isTrue(number->value() == 3.1415, "Invalid value of parsed number.");
             CUT_ASSERT.isTrue(number->toString().IsEqual("3.1415"), "Invalid string representation of parsed number.");
         }
 
         {
-            ezString str("qwerty");
+            String str("qwerty");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseNumber(str.GetIteratorFront());
             }, "'qwerty' should not be parsed as number!");
@@ -123,25 +123,25 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString str("qwerty");
+            String str("qwerty");
             auto symbol = reader.parseSymbol(str.GetIteratorFront());
             CUT_ASSERT.isTrue(symbol->value().IsEqual("qwerty"), "Invalid value of parsed symbol.");
         }
 
         {
-            ezString str("hello world with spaces");
+            String str("hello world with spaces");
             auto symbol = reader.parseSymbol(str.GetIteratorFront());
             CUT_ASSERT.isTrue(symbol->value().IsEqual("hello"), "Invalid value of parsed symbol. It should not consume spaces");
         }
 
         {
-            ezString str("    leadingWhiteSpace");
+            String str("    leadingWhiteSpace");
             auto symbol = reader.parseSymbol(str.GetIteratorFront());
             CUT_ASSERT.isTrue(symbol->value().IsEqual("leadingWhiteSpace"), "Invalid value of parsed symbol.");
         }
 
         {
-            ezString str("123");
+            String str("123");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseSymbol(str.GetIteratorFront());
             }, "'123' should not be parsed as symbol!");
@@ -154,7 +154,7 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString input("\"qwerty\"123");
+            String input("\"qwerty\"123");
             auto iter = input.GetIteratorFront();
             auto str = reader.parseString(iter);
             CUT_ASSERT.isTrue(str->value().IsEqual("qwerty"), "Invalid value of parsed string.");
@@ -163,21 +163,21 @@ namespace
         }
 
         {
-            ezString input("\"123\"");
+            String input("\"123\"");
             auto str = reader.parseString(input.GetIteratorFront());
             CUT_ASSERT.isTrue(str->value().IsEqual("123"), "Invalid value of parsed string.");
             CUT_ASSERT.isTrue(str->toString().IsEqual("\"123\""), "Invalid value of parsed string.");
         }
 
         {
-            ezString input("hello");
+            String input("hello");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseString(input.GetIteratorFront());
             }, "'hello' should not be parsed as string! ('\"hello\"' should)");
         }
 
         {
-            ezString input("\"hello");
+            String input("\"hello");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseString(input.GetIteratorFront());
             }, "'\"hello' should not be recognized as a complete string! ('\"hello\"' should)");
@@ -190,21 +190,21 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString input("hello world 123 42");
+            String input("hello world 123 42");
             CUT_ASSERT.throws<lcpp::exceptions::InvalidInput>([&]{
                 reader.parseList(input.GetIteratorFront());
             }, "The input string 'hello world 123 42' should not be read as a valid list!");
         }
 
         {
-            ezString input("()");
+            String input("()");
             auto consObject = reader.parseList(input.GetIteratorFront());
             CUT_ASSERT.isTrue(consObject == LCPP_NIL, "Invalid result for parsing the list.");
         }
 
         {
-            ezString input("(theSymbol x 1)");
-            ezString strOutput;
+            String input("(theSymbol x 1)");
+            String strOutput;
             auto consObject = reader.parseList(input.GetIteratorFront());
             auto cons = consObject.cast<LispCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
@@ -227,7 +227,7 @@ namespace
 
         // same as above, with more whitespace!
         {
-            ezString input("  \n ( \t \n  \ttheSymbol \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
+            String input("  \n ( \t \n  \ttheSymbol \t\t    \n\r\n\n\n \r   x \t  \t\t1   )   \r\r\r\r   \t\t ");
             auto consObject = reader.parseList(input.GetIteratorFront());
             auto cons = consObject.cast<LispCons>();
             CUT_ASSERT.isTrue(!isNil(consObject), "Invalid result for parsing the list. (expected cons, got nil)");
@@ -248,12 +248,12 @@ namespace
             CUT_ASSERT.isTrue(isNil(cdr_cdr->cdr()), "Cdr or Cdr of Cdr is supposed to be nil!");
         }
         {
-            ezString input("(theSymbol (x a b) (+ a b))");
+            String input("(theSymbol (x a b) (+ a b))");
             auto consObject = reader.parseList(input.GetIteratorFront());
             CUT_ASSERT.isTrue(consObject->toString().IsEqual("(theSymbol (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
         {
-            ezString input("(lambda(x a b) (+ a b))");
+            String input("(lambda(x a b) (+ a b))");
             auto consObject = reader.parseList(input.GetIteratorFront());
             CUT_ASSERT.isTrue(consObject->toString().IsEqual("(lambda (x a b) (+ a b))"), "Wrong string representation for read list!");
         }
@@ -264,35 +264,35 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString input("()");
+            String input("()");
             auto result = reader.checkBasicSyntax(input.GetIteratorFront());
             CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
             CUT_ASSERT.isTrue(result.isComplete());
         }
         {
-            ezString input("())");
+            String input("())");
             auto result = reader.checkBasicSyntax(input.GetIteratorFront());
             CUT_ASSERT.isFalse(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == -1);
             CUT_ASSERT.isFalse(result.isComplete());
         }
         {
-            ezString input("(()");
+            String input("(()");
             auto result = reader.checkBasicSyntax(input.GetIteratorFront());
             CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 1);
             CUT_ASSERT.isFalse(result.isComplete());
         }
         {
-            ezString input("()()");
+            String input("()()");
             auto result = reader.checkBasicSyntax(input.GetIteratorFront());
             CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
             CUT_ASSERT.isTrue(result.isComplete());
         }
         {
-            ezString input("(define (a b c) (* (+ b 1) ( - 1 c)))");
+            String input("(define (a b c) (* (+ b 1) ( - 1 c)))");
             auto result = reader.checkBasicSyntax(input.GetIteratorFront());
             CUT_ASSERT.isTrue(result.valid);
             CUT_ASSERT.isTrue(result.parenthesisBalance == 0);
@@ -300,7 +300,7 @@ namespace
         }
         {
             // ----------------------------v one closing bracket too much
-            ezString input("(define (a b c)) (* (+ b 1) ( - 1 c)) '123)456");
+            String input("(define (a b c)) (* (+ b 1) ( - 1 c)) '123)456");
             // --------------------------------------------------^ cursor should point to this ')' character
             auto result = reader.checkBasicSyntax(input.GetIteratorFront());
             CUT_ASSERT.isFalse(result.valid);
@@ -321,7 +321,7 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString input(";This is a comment\n1337");
+            String input(";This is a comment\n1337");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispInteger>(), "Wrong type");
@@ -334,7 +334,7 @@ namespace
         auto& reader = *pRuntime->reader();
 
         {
-            ezString input("(+ 1 2)");
+            String input("(+ 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
@@ -342,7 +342,7 @@ namespace
         }
 
         {
-            ezString input("(++ 1 2)");
+            String input("(++ 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
@@ -351,7 +351,7 @@ namespace
         }
 
         {
-            ezString input("(+---++++++--++++----++++ 1 2)");
+            String input("(+---++++++--++++----++++ 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
@@ -360,7 +360,7 @@ namespace
         }
 
         {
-            ezString input("(+-++---+++asbndjkh 1 2)");
+            String input("(+-++---+++asbndjkh 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
@@ -369,7 +369,7 @@ namespace
         }
 
         {
-            ezString input("(- 1 2)");
+            String input("(- 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
@@ -377,7 +377,7 @@ namespace
         }
 
         {
-            ezString input("(-- 1 2)");
+            String input("(-- 1 2)");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispCons>(), "Wrong type");
@@ -386,7 +386,7 @@ namespace
         }
 
         {
-            ezString input("+1");
+            String input("+1");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispInteger>(), "Wrong type");
@@ -394,7 +394,7 @@ namespace
         }
 
         {
-            ezString input("-1");
+            String input("-1");
             auto iter = input.GetIteratorFront();
             auto result = reader.read(iter);
             CUT_ASSERT.isTrue(result->is<LispInteger>(), "Wrong type");

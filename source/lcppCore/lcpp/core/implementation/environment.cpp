@@ -27,7 +27,7 @@ lcpp::LispEnvironment::create(Ptr<LispEnvironment> pParent)
 }
 
 lcpp::Ptr<lcpp::LispEnvironment>
-lcpp::LispEnvironment::create(const ezString& name, Ptr<LispEnvironment> pParent)
+lcpp::LispEnvironment::create(const String& name, Ptr<LispEnvironment> pParent)
 {
     return create(LispSymbol::create(name), pParent);
 }

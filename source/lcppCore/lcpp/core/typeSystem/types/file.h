@@ -11,7 +11,7 @@ namespace lcpp
         friend class TypeFactory;
     public:
 
-        static Ptr<LispFile> create(const ezString& fileName);
+        static Ptr<LispFile> create(const String& fileName);
         static Ptr<LispFile> copy(const LispFile& toCopy);
 
         static const Type& typeInfo();
@@ -26,25 +26,25 @@ namespace lcpp
         virtual const Type& type() const LCPP_OVERRIDE;
 
         virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
         Ptr<LispBool> open(Ptr<LispObject> pMode);
         Ptr<LispBool> isOpen() const;
         void close();
 
-        ezString readString();
+        String readString();
 
-        const ezString& name() const;
+        const String& name() const;
         const ezOSFile& file() const;
 
     private:
-        const ezString m_fileName;
+        const String m_fileName;
         ezOSFile m_file;
         ezStringBuilder m_content;
         ezFileMode::Enum m_lastFileMode;
 
         LispFile(const char* szFileName);
-        LispFile(const ezString& fileName);
+        LispFile(const String& fileName);
 
         bool doOpen();
 

@@ -21,7 +21,7 @@ namespace lcpp
 
         virtual bool operator==(const LispObject& rhs) const LCPP_OVERRIDE;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
         bool value() const;
 

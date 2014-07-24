@@ -22,7 +22,7 @@ namespace lcpp
         InsanceTable();
     };
 
-    typedef InsanceTable<ezString, LispSymbol>         InstanceTable_Symbols;
+    typedef InsanceTable<String, LispSymbol>         InstanceTable_Symbols;
     typedef InsanceTable<LispIntegerType, LispInteger> InstanceTable_Integers;
 }
 

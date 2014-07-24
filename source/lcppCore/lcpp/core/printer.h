@@ -13,7 +13,7 @@ namespace lcpp
         virtual void print(Ptr<LispObject> object);
         virtual void print(const std::string& object);
         virtual void print(const ezStringBuilder& str);
-        virtual void print(const ezString& str);
+        virtual void print(const String& str);
         virtual void print(const char* str);
 
         virtual void setOutputStream(std::ostream& out);

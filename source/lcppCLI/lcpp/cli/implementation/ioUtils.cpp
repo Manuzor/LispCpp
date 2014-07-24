@@ -2,10 +2,12 @@
 #include "lcpp/cli/ioUtils.h"
 
 ezResult
-lcpp::findDirectory(const char* szDirName, const char* szStartPath, ezString* out_pParentPath)
+lcpp::findDirectory(const char* szDirName, const char* szStartPath, String* out_pParentPath)
 {
     ezStringBuilder searchThis;
-    ezFileSystem::ResolvePath(szStartPath, false, out_pParentPath, nullptr);
+    auto parentPathProxy = ezString();
+    ezFileSystem::ResolvePath(szStartPath, false, &parentPathProxy, nullptr);
+    *out_pParentPath = parentPathProxy.GetData();
     searchThis.Append(out_pParentPath->GetData());
     searchThis.MakeCleanPath();
 

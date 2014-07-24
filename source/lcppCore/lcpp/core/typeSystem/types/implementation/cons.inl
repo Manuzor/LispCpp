@@ -59,7 +59,7 @@ lcpp::LispCons::type() const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispCons::toString() const
 {
     ezStringBuilder builder;

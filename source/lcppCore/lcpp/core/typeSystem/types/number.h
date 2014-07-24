@@ -25,7 +25,7 @@ namespace lcpp
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
         virtual const Type& type() const LCPP_OVERRIDE;
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& obj) const LCPP_OVERRIDE;
 
         Number_t value() const;
@@ -58,7 +58,7 @@ namespace lcpp
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
         virtual const Type& type() const LCPP_OVERRIDE;
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& obj) const LCPP_OVERRIDE;
 
         Number_t value() const;

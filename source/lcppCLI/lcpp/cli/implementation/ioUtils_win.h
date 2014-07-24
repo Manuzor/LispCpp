@@ -1,8 +1,8 @@
 
-ezString
+lcpp::String
 lcpp::getCurrentWorkingDirectory()
 {
-    static auto workingDirectory = ezString();
+    static auto workingDirectory = String();
 
     if (workingDirectory.IsEmpty())
     {

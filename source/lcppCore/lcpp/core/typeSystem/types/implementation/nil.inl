@@ -27,10 +27,10 @@ lcpp::LispNil::operator ==(const LispObject& obj) const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispNil::toString() const
 {
-    static ezString voidString("()");
+    static String voidString("()");
     return voidString;
 }
 

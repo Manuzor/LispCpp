@@ -31,9 +31,9 @@ lcpp::LispVoid::operator ==(const LispObject& obj) const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispVoid::toString() const
 {
-    static ezString voidString("#v");
+    static String voidString("#v");
     return voidString;
 }

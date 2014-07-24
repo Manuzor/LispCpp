@@ -51,7 +51,7 @@ lcpp::Reader::initialize()
 }
 
 lcpp::Ptr<lcpp::LispObject>
-lcpp::Reader::read(const ezString& inputString, bool resetSyntaxChecker)
+lcpp::Reader::read(const String& inputString, bool resetSyntaxChecker)
 {
     auto input = inputString.GetIteratorFront();
     return read(input, resetSyntaxChecker);

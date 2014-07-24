@@ -31,11 +31,11 @@ lcpp::LispBool::operator ==( const LispObject& rhs ) const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispBool::toString() const
 {
-    static auto trueString = ezString("#t");
-    static auto falseString = ezString("#f");
+    static auto trueString = String("#t");
+    static auto falseString = String("#f");
 
     return m_value ? trueString : falseString;
 }

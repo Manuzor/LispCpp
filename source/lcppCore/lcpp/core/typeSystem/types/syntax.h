@@ -25,7 +25,7 @@ namespace lcpp
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
         bool operator==(const LispSyntax& rhs) const;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
         void lcpp::LispSyntax::name(lcpp::Ptr<lcpp::LispSymbol> pName);
         lcpp::Ptr<      lcpp::LispSymbol> lcpp::LispSyntax::name();

@@ -10,29 +10,29 @@ namespace lcpp
         friend InstanceTable_Symbols;
     public:
 
-        static Ptr<LispSymbol> create(const ezString& symbol);
+        static Ptr<LispSymbol> create(const String& symbol);
 
         static const Type& typeInfo();
 
     private:
 
             /// \brief Creates a new instance without checking for an existing instance for the given \a value.
-        static Ptr<LispSymbol> createNew(const ezString& value);
+        static Ptr<LispSymbol> createNew(const String& value);
 
     public:
 
         virtual Ptr<LispObject> copy() const LCPP_OVERRIDE;
         virtual const Type& type() const LCPP_OVERRIDE;
         virtual bool operator ==(const LispObject& rhs) const LCPP_OVERRIDE;
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
-        const ezString& value() const;
+        const String& value() const;
 
     private:
-        const ezString m_symbol;
+        const String m_symbol;
 
         LispSymbol(const char* symbol);
-        LispSymbol(const ezString& symbol);
+        LispSymbol(const String& symbol);
 
         LCPP_DISALLOW_COPY_ASSIGNMENT(LispSymbol);
     };

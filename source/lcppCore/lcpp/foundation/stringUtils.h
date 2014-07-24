@@ -2,7 +2,7 @@
 
 namespace lcpp
 {
-    inline bool contains(const ezString& str, ezUInt32 character)
+    inline bool contains(const String& str, ezUInt32 character)
     {
         auto iter = str.GetIteratorFront();
 
@@ -20,7 +20,7 @@ namespace lcpp
     inline bool contains(const char* cstr, char character)
     {
         // TODO more efficient implementation?
-        return contains(ezString(cstr), character);
+        return contains(String(cstr), character);
     }
 
     inline bool isDigit(ezUInt32 character)
@@ -28,7 +28,7 @@ namespace lcpp
         return character >= '0' && character <= '9';
     }
 
-    inline bool isAllDigits(const ezString& str)
+    inline bool isAllDigits(const String& str)
     {
         isAllDigits(str.GetData());
     }

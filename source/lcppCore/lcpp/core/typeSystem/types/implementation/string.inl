@@ -14,7 +14,7 @@ lcpp::LispString::type() const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispString::toString() const
 {
     ezStringBuilder builder(m_string.GetIteratorFront());
@@ -24,7 +24,7 @@ lcpp::LispString::toString() const
 }
 
 inline
-lcpp::LispString::operator ezString() const
+lcpp::LispString::operator lcpp::String() const
 {
     return m_string;
 }
@@ -41,7 +41,7 @@ lcpp::LispString::operator ==(const LispObject& rhs) const
 }
 
 inline
-const ezString&
+const lcpp::String&
 lcpp::LispString::value() const
 {
     return m_string;
@@ -49,7 +49,7 @@ lcpp::LispString::value() const
 
 inline
 void
-lcpp::LispString::value(const ezString& newSymbol)
+lcpp::LispString::value(const String& newSymbol)
 {
     m_string = newSymbol;
 }
@@ -90,7 +90,7 @@ lcpp::operator ==(const char* lhs, const LispString& rhs)
 
 inline
 bool
-lcpp::operator ==(const LispString& lhs, const ezString& rhs)
+lcpp::operator ==(const LispString& lhs, const String& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.value().GetData(),
@@ -99,7 +99,7 @@ lcpp::operator ==(const LispString& lhs, const ezString& rhs)
 
 inline
 bool
-lcpp::operator ==(const ezString& lhs, const LispString& rhs)
+lcpp::operator ==(const String& lhs, const LispString& rhs)
 {
     return ezStringUtils::IsEqual(
         lhs.GetData(),

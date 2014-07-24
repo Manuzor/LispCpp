@@ -36,9 +36,9 @@ lcpp::Printer::print(const std::string& str)
 }
 
 void
-lcpp::Printer::print(const ezString& str)
+lcpp::Printer::print(const String& str)
 {
-    EZ_LOG_BLOCK("Printer::print", "ezString");
+    EZ_LOG_BLOCK("Printer::print", "String");
 
     print(str.GetData());
 }

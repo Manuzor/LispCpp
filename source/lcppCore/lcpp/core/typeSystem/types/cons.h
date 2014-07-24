@@ -25,7 +25,7 @@ namespace lcpp
 
         virtual const Type& type() const LCPP_OVERRIDE;
 
-        virtual ezString toString() const LCPP_OVERRIDE;
+        virtual String toString() const LCPP_OVERRIDE;
 
             /// Prints the contents of itself to \a builder.
             /// \remark Effectlively omits the enclosing parenthesis.

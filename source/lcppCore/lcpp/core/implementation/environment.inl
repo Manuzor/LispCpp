@@ -35,7 +35,7 @@ lcpp::LispEnvironment::name()
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispEnvironment::qualifiedName() const
 {
     if(!m_pParent) { return "/"; }
@@ -46,7 +46,7 @@ lcpp::LispEnvironment::qualifiedName() const
 }
 
 inline
-ezString
+lcpp::String
 lcpp::LispEnvironment::toString() const
 {
     return qualifiedName();
