@@ -18,8 +18,24 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\conversion.cpp" />
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\ptr.cpp" />
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\stringUtils.cpp" />
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\main.cpp" />
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\lcpp\toString.h" />
+    <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\stdafx.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1C5D6412-87B3-493B-A8DC-B9C10EF323B6}</ProjectGuid>
+    <ProjectGuid>{00022739-0156-4461-8799-193BB4C30DBB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>lcppCore_unittests</RootNamespace>
   </PropertyGroup>
@@ -164,32 +180,6 @@
       <AdditionalDependencies>lcppCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/environment.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/evaluator.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/reader.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/type.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/function.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/symbol.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/void.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/main.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/bool.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/cons.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/nil.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/typeSystem/types/number.cpp" />
-    <ClCompile Include="../../../source/lcppCore_unittests/stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCore_unittests\lcpp\core\objectStack.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="../../../source/lcppCore_unittests/lcpp/testRuntime.h" />
-    <ClInclude Include="../../../source/lcppCore_unittests/lcpp/toString.h" />
-    <ClInclude Include="../../../source/lcppCore_unittests/stdafx.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

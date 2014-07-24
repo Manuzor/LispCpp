@@ -4,15 +4,6 @@
     <ClCompile Include="../../../source/lcppCore_unittests/lcpp/main.cpp">
       <Filter>lcpp</Filter>
     </ClCompile>
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/foundation\ptr.cpp">
-      <Filter>lcpp\foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/foundation\conversion.cpp">
-      <Filter>lcpp\foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="../../../source/lcppCore_unittests/lcpp/foundation\stringUtils.cpp">
-      <Filter>lcpp\foundation</Filter>
-    </ClCompile>
     <ClCompile Include="../../../source/lcppCore_unittests/lcpp/core/environment.cpp">
       <Filter>lcpp\core</Filter>
     </ClCompile>
@@ -66,9 +57,6 @@
     </Filter>
     <Filter Include="lcpp\core">
       <UniqueIdentifier>{524152de-3c7c-4cae-9ccd-d4acc9bf4e88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lcpp\foundation">
-      <UniqueIdentifier>{739920fd-18fb-4a08-b287-8b4e6b014d16}</UniqueIdentifier>
     </Filter>
     <Filter Include="lcpp\core\typeSystem">
       <UniqueIdentifier>{c1eb4b59-d0ca-4e51-81c1-995a79c37438}</UniqueIdentifier>

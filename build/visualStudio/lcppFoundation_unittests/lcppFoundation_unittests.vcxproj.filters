@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lcpp">
+      <UniqueIdentifier>{9e2d0023-d83f-4426-93cf-989d100db19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\foundation">
+      <UniqueIdentifier>{69d1e9b3-4afc-43db-a4c4-cf7ae394920c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\main.cpp">
+      <Filter>lcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\conversion.cpp">
+      <Filter>lcpp\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\ptr.cpp">
+      <Filter>lcpp\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\stringUtils.cpp">
+      <Filter>lcpp\foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\lcpp\toString.h">
+      <Filter>lcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\stdafx.h" />
+  </ItemGroup>
+</Project>
