@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lcpp">
+      <UniqueIdentifier>{527e3b78-b77b-47f2-984d-83f2c358943b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core">
+      <UniqueIdentifier>{f255b344-2f7f-4d06-8a0e-b26d6035918e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\test">
+      <UniqueIdentifier>{0e5bd7cf-61c8-4a75-88c3-9f3a53072c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\test\impl">
+      <UniqueIdentifier>{7ccb568f-f5df-40ba-89a6-499d01c0c65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\containers">
+      <UniqueIdentifier>{b64d1979-8ddc-4374-8e38-327ceeea6275}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\stdafx.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\common.h">
+      <Filter>lcpp\test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\stdafx.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\common.cpp">
+      <Filter>lcpp\test\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\containers\test_stack.cpp">
+      <Filter>lcpp\core\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\main.cpp">
+      <Filter>lcpp\test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\testMacros.inl">
+      <Filter>lcpp\test\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\testGroupMacros.inl">
+      <Filter>lcpp\test\impl</Filter>
+    </None>
+  </ItemGroup>
+</Project>

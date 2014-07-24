@@ -22,6 +22,12 @@
     <Filter Include="lcpp\core\typeSystem\types\impl">
       <UniqueIdentifier>{755d8558-7c9e-446e-8e66-52d0a1c5fb94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\containers">
+      <UniqueIdentifier>{0ad1781f-efb2-4078-9b13-86da38f1efdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\containers\impl">
+      <UniqueIdentifier>{a101b313-1250-4e91-be0c-ce820f92ecc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -52,9 +58,15 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\continuation.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h">
+      <Filter>lcpp\core\containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
+      <Filter>lcpp\core\containers\impl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
@@ -62,6 +74,9 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeInfo.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.inl">
+      <Filter>lcpp\core\containers\impl</Filter>
     </None>
   </ItemGroup>
 </Project>
