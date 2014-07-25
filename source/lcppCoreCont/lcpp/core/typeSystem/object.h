@@ -7,8 +7,10 @@ namespace lcpp
     {
     public:
 
+        bool isType(const Type& type);
+
     protected:
 
-
+        Ptr<TypeInfo> m_pTypeInfo;
     };
 }

@@ -31,7 +31,9 @@ int main(int argc, const char* argv[])
 
     testManager.runAll();
 
-    if(g_pauseBeforeExit)
+    auto& stats = testManager.statistics();
+
+    if(g_pauseBeforeExit && stats.testsFailed > 0)
     {
         system("pause");
     }
