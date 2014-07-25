@@ -15,7 +15,7 @@
 #include "lcpp/core/sourceCursor.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/typeSystem/typeInfo.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/types/bool.h"
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/nil.h"

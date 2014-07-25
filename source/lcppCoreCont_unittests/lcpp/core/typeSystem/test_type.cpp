@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/typeInfo.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 
 LCPP_TEST_GROUP(Type);

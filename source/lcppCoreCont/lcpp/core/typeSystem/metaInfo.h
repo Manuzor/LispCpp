@@ -6,13 +6,13 @@ namespace lcpp
 {
 
     /// \brief This class is meant to have a unique, immutable instance for every needed type in the system.
-    class TypeInfo
+    class MetaInfo
     {
     public:
 
-        TypeInfo(const Type& type);
+        MetaInfo(const Type& type);
 
-        TypeInfo(const Type& type, const String& prettyName);
+        MetaInfo(const Type& type, const String& prettyName);
 
         const Type& getType() const;
 
@@ -27,4 +27,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/typeSystem/impl/typeInfo.inl"
+#include "lcpp/core/typeSystem/impl/metaInfo.inl"

@@ -40,9 +40,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeInfo.h">
-      <Filter>lcpp\core\typeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\bool.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
@@ -91,6 +88,12 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypes.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\metaInfo.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -118,9 +121,6 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeInfo.inl">
-      <Filter>lcpp\core\typeSystem\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.inl">
       <Filter>lcpp\core\containers\impl</Filter>
     </None>
@@ -141,6 +141,9 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl">
       <Filter>lcpp\core\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

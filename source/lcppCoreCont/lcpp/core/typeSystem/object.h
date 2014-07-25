@@ -1,7 +1,9 @@
 #pragma once
 
 #include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/typeSystem/typeInfo.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
+
+#include "lcpp/core/typeSystem/includeAllTypes.h"
 
 namespace lcpp
 {
@@ -9,16 +11,25 @@ namespace lcpp
     {
     public:
 
+        LispObject(const MetaInfo& metaInfo);
+
+        ~LispObject();
+
         bool isType(const Type& type) const;
         const Type& getType() const;
 
-    private:
-
-        Ptr<TypeInfo> m_pTypeInfo;
+        const MetaInfo& getMetaInfo() const;
 
     private:
 
-        LispObject();
+        const MetaInfo* m_pMetaInfo;
+
+        union
+        {
+            LispBool* m_pNil;
+        };
+
+    private:
 
     };
 }
