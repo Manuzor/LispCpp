@@ -60,7 +60,6 @@
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\environment.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl" />
