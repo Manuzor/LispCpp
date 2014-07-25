@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/runtime.h"
 
 namespace lcpp
@@ -14,8 +15,7 @@ namespace lcpp
             static auto meta = MetaInfo(Type::Nil, "nil");
 
             auto pAllocator = LispRuntime::instance()->allocator();
-            auto pMem = pAllocator->Allocate(sizeof(LispObject), sizeof(LispObject));
-            pInstance = new (pMem) LispObject(meta);
+            pInstance = LCPP_NEW(pAllocator.get(), LispObject)(meta);
         }
 
         return pInstance;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "lcpp/core/typeSystem/type.h"
-
 namespace lcpp
 {
     class LispObject;
