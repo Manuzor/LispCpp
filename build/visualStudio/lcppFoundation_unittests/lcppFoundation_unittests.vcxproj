@@ -31,7 +31,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\lcpp\toString.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -5,19 +5,7 @@
 
 namespace lcpp
 {
-    class LispNilMeta
-    {
-    public:
-
-        MetaInfo m_typeInfo;
-
-        LispNilMeta() :
-            m_typeInfo(Type::Nil, "nil")
-        {
-        }
-    };
-
-    Ptr<LispObject> LispNil::create()
+    Ptr<LispObject> nil::create()
     {
         static auto pInstance = Ptr<LispObject>();
 

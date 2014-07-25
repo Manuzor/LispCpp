@@ -26,7 +26,6 @@ namespace lcpp
 
         union
         {
-            LispBool* m_pNil;
         };
 
     private:
