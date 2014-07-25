@@ -28,6 +28,9 @@
     <Filter Include="lcpp\core\containers\impl">
       <UniqueIdentifier>{a101b313-1250-4e91-be0c-ce820f92ecc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\exceptions">
+      <UniqueIdentifier>{bb4ec964-ad3c-4471-8100-2b31ed5cb3a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -64,13 +67,47 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\type.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\runtime.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h">
+      <Filter>lcpp\core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\recursionCounter.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\environment.h">
+      <Filter>lcpp\core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbol.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h">
+      <Filter>lcpp\core\exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
       <Filter>lcpp\core\containers\impl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\includeAll.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp">
+      <Filter>lcpp\core\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\environment.cpp">
+      <Filter>lcpp\core\containers\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,11 +121,23 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.inl">
       <Filter>lcpp\core\containers\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl">
+      <Filter>lcpp\core\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl">
+      <Filter>lcpp\core\containers\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\environment.inl">
+      <Filter>lcpp\core\containers\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl">
+      <Filter>lcpp\core\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl">
+      <Filter>lcpp\core\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/bool.h"
 
-namespace lcpp
+LCPP_TEST_GROUP(Object);
+
+LCPP_TEST(Object, Basics)
 {
-    Ptr<LispObject> LispNil::create()
-    {
-        LCPP_NOT_IMPLEMENTED;
-    }
 }

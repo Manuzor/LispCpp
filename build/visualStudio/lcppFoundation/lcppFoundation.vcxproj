@@ -126,6 +126,7 @@
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\api.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stack.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\dependencies\ezEngine.h" />
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\exceptionBase.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\stdafx.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\common.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\conversion.h" />

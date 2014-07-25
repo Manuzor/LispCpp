@@ -38,6 +38,9 @@
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stack.h">
       <Filter>lcpp\foundation\containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\exceptionBase.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.cpp">

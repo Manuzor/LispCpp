@@ -24,8 +24,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\containers\test_stack.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_object.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_type.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeInfo.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_bool.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_nil.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\common.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\main.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\stdafx.cpp">
@@ -126,6 +129,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lcppCoreCont.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -141,6 +145,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lcppCoreCont.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -160,6 +165,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lcppCoreCont.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -179,6 +185,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lcppCoreCont.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

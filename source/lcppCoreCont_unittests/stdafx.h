@@ -13,8 +13,9 @@
 
 #include <windows.h>
 
-#include "lcpp/foundation/api.h"
-
 #include "cut/api.h"
+
+#include "lcpp/foundation/api.h"
+#include "lcpp/core/common.h"
 
 #include "lcpp/test/common.h"

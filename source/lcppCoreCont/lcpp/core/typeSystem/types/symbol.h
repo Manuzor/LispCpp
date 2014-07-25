@@ -4,12 +4,11 @@
 
 namespace lcpp
 {
-    class LCPP_API_CORE_CONT LispBool
+    class LispSymbol
     {
     public:
 
-        static Ptr<LispObject> create(bool value);
+        static LCPP_API_CORE_CONT Ptr<LispObject> create(const String& value);
 
     };
-    
 }
