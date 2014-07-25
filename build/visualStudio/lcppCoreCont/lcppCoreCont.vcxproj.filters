@@ -157,5 +157,8 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -2,15 +2,9 @@
 namespace lcpp
 {
     inline
-    LispObject::LispObject(const MetaInfo& metaInfo) :
-        m_pMetaInfo(&metaInfo)
+    LispObject::LispObject(const MetaInfo& metaInfo)
     {
-    }
-
-    inline
-    LispObject::~LispObject()
-    {
-        m_pMetaInfo = nullptr;
+        m_header.m_pMetaInfo = &metaInfo;
     }
 
     inline
@@ -22,15 +16,15 @@ namespace lcpp
     inline
     const Type& LispObject::getType() const
     {
-        EZ_ASSERT(m_pMetaInfo, "No valid type info.");
-        return m_pMetaInfo->getType();
+        EZ_ASSERT(m_header.m_pMetaInfo, "No valid type info.");
+        return m_header.m_pMetaInfo->getType();
     }
 
     inline
     const MetaInfo& LispObject::getMetaInfo() const
     {
-        EZ_ASSERT(m_pMetaInfo, "No valid type info.");
-        return *m_pMetaInfo;
+        EZ_ASSERT(m_header.m_pMetaInfo, "No valid type info.");
+        return *m_header.m_pMetaInfo;
     }
 
 }

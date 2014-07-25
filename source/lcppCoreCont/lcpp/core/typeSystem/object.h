@@ -7,13 +7,19 @@
 
 namespace lcpp
 {
+    class LispObjectHeader
+    {
+    public:
+
+        Ptr<const MetaInfo> m_pMetaInfo;
+
+    };
+
     class LCPP_API_CORE_CONT LispObject
     {
     public:
 
         LispObject(const MetaInfo& metaInfo);
-
-        ~LispObject();
 
         bool isType(const Type& type) const;
         const Type& getType() const;
@@ -22,14 +28,14 @@ namespace lcpp
 
     private:
 
-        const MetaInfo* m_pMetaInfo;
+        LispObjectHeader m_header;
+
+    public:
 
         union
         {
+            number::Data m_number;
         };
-
-    private:
-
     };
 }
 
