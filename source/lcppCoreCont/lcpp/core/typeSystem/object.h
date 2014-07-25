@@ -15,8 +15,23 @@ namespace lcpp
 
     };
 
+    class LispObjectBody
+    {
+    public:
+
+        union
+        {
+            number::Data m_number;
+        };
+    };
+
     class LCPP_API_CORE_CONT LispObject
     {
+    public:
+
+        template<typename T_Data>
+        static Ptr<LispObject> create(const MetaInfo& metaInfo);
+
     public:
 
         LispObject(const MetaInfo& metaInfo);
@@ -26,17 +41,22 @@ namespace lcpp
 
         const MetaInfo& getMetaInfo() const;
 
+        const LispObjectHeader& getHeader() const;
+
+        const LispObjectBody& getBody() const;
+        LispObjectBody& getBody();
+
     private:
 
         LispObjectHeader m_header;
 
-    public:
+        LispObjectBody m_body;
 
-        union
-        {
-            number::Data m_number;
-        };
     };
+
+    //static_assert(sizeof(LispObject) == sizeof(LispObjectHeader)
+    //                                  + sizeof(LispObjectBody),
+    //              "Add some padding so the alignment is perfect again");
 }
 
 #include "lcpp/core/typeSystem/impl/object.inl"
