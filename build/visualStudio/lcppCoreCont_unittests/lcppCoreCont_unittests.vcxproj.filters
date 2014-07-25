@@ -16,6 +16,9 @@
     <Filter Include="lcpp\core\containers">
       <UniqueIdentifier>{b64d1979-8ddc-4374-8e38-327ceeea6275}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\typeSystem">
+      <UniqueIdentifier>{bde7d949-bdfd-4de7-b415-d73cbe8f23aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\stdafx.h" />
@@ -33,6 +36,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\main.cpp">
       <Filter>lcpp\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeSystemBasics.cpp">
+      <Filter>lcpp\core\typeSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

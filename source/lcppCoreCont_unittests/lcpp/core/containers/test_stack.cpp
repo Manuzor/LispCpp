@@ -5,5 +5,5 @@ LCPP_TEST_GROUP(Stack);
 
 LCPP_TEST(Stack, Basics)
 {
-    CUT_ASSERT.succeed("yay!");
+    cut::logMessage("Not implemented.");
 }

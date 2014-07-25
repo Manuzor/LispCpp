@@ -8,7 +8,7 @@ namespace lcpp { namespace test {                               \
     public:                                                     \
                                                                 \
         UnitTest_##groupName##testName() :                      \
-            UnitTest(g_UnitTestGroup_##groupName) {} \
+            UnitTest(g_UnitTestGroup_##groupName) {}            \
                                                                 \
         virtual void doRun() override;                          \
                                                                 \

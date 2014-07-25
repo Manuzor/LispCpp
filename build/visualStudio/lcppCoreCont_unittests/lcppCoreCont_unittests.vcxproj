@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\containers\test_stack.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeSystemBasics.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\common.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\main.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\stdafx.cpp">

@@ -61,6 +61,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h">
       <Filter>lcpp\core\containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeTags.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp" />
@@ -77,6 +80,9 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.inl">
       <Filter>lcpp\core\containers\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeTags.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
   </ItemGroup>
 </Project>
