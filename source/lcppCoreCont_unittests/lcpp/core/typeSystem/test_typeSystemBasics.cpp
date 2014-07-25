@@ -25,5 +25,17 @@ LCPP_TEST(TypeSystem, Type)
 
 LCPP_TEST(TypeSystem, TypeInfo)
 {
-    //auto info = TypeInfo("TypeName", "PrettyName");
+    {
+        auto info = TypeInfo(Type::Bool);
+
+        CUT_ASSERT.isTrue(info.getType() == Type::Bool);
+        CUT_ASSERT.isTrue(info.getPrettyName().IsEqual(info.getType().toString()));
+    }
+
+    {
+        auto info = TypeInfo(Type::Bool, "boolean");
+
+        CUT_ASSERT.isTrue(info.getType() == Type::Bool);
+        CUT_ASSERT.isTrue(info.getPrettyName().IsEqual("boolean"));
+    }
 }

@@ -34,13 +34,17 @@ namespace lcpp
 
         Enum getId() const;
 
-        bool operator ==(const Type& rhs);
-        bool operator !=(const Type& rhs);
+        const char* toString() const;
 
     private:
 
-        const Enum m_id;
+        Enum m_id;
     };
+
+    bool operator ==(const Type& rhs, const Type& lhs);
+    bool operator !=(const Type& rhs, const Type& lhs);
+
+    const char* toString(Type::Enum value);
 }
 
 #include "lcpp/core/typeSystem/impl/type.inl"

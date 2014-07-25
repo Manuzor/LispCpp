@@ -4,21 +4,26 @@
 
 namespace lcpp
 {
+
+    /// \brief This class is meant to have a unique, immutable instance for every needed type in the system.
     class TypeInfo
     {
     public:
 
-        const Type& getType() const;
+        TypeInfo(const Type& type);
 
-        const String& getTypeName() const;
+        TypeInfo(const Type& type, const String& prettyName);
+
+        const Type& getType() const;
 
         const String& getPrettyName() const;
 
     private:
 
         Type m_type;
-        String m_typeName;
+
         String m_prettyName;
+
     };
 }
 
