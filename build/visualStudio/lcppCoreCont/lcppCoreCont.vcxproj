@@ -49,6 +49,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -68,6 +69,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{37E54245-C756-4BD6-9BB4-ABA3C22444BF}</ProjectGuid>

@@ -13,6 +13,7 @@ namespace lcpp
 
     bool isNil(Ptr<LispObject> pObject);
 }
+
 #define LCPP_NIL ::lcpp::nil::create()
 
 #include "lcpp/core/typeSystem/types/impl/nil.inl"
