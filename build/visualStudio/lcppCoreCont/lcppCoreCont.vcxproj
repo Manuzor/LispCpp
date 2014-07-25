@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\environment.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
