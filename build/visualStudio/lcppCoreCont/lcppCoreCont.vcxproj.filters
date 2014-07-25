@@ -145,5 +145,8 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
   </ItemGroup>
 </Project>

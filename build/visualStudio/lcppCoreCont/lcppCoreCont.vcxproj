@@ -66,6 +66,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{37E54245-C756-4BD6-9BB4-ABA3C22444BF}</ProjectGuid>
