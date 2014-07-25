@@ -41,7 +41,8 @@ namespace lcpp
         {
         case Type::Nil:  return "Nil";
         case Type::Void: return "Void";
-        case Type::Bool: return "Bool";
+        case Type::True: return "True";
+        case Type::False: return "False";
 
         case Type::Number: return "Number";
 
