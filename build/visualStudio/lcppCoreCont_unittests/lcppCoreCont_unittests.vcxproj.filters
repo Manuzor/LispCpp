@@ -37,7 +37,10 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\main.cpp">
       <Filter>lcpp\test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeSystemBasics.cpp">
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeInfo.cpp">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_type.cpp">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClCompile>
   </ItemGroup>
