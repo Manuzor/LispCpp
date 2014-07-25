@@ -24,6 +24,7 @@ namespace cut
 	private:
 		void writeToStdOut(LogMode mode, const std::ostringstream& formattedString);
 		void writeToFile(LogMode mode, const std::ostringstream& formattedMessage);
+		void writeToVisualStudioOutput(LogMode mode, const std::ostringstream& formattedMessage);
 
 		virtual std::size_t getBlockIndentation() const override;
 		virtual void setBlockIndentation(std::size_t value) override;
