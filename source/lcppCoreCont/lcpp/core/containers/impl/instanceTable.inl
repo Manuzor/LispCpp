@@ -1,31 +1,27 @@
 
-template<typename T_Key, typename T_Value>
-inline
-lcpp::Ptr<lcpp::InsanceTable<T_Key, T_Value>>
-lcpp::InsanceTable<T_Key, T_Value>::create()
+namespace lcpp
 {
-    return LCPP_NEW(LispRuntime::instance()->allocator().get(), InsanceTable);
-}
-
-template<typename T_Key, typename T_Value>
-inline
-lcpp::InsanceTable<T_Key, T_Value>::InsanceTable() :
-    m_table(LispRuntime::instance()->allocator().get())
-{
-}
-
-template<typename T_Key, typename T_Value>
-inline
-lcpp::Ptr<T_Value>
-lcpp::InsanceTable<T_Key, T_Value>::get(const T_Key& key)
-{
-    Ptr<T_Value> pResult;
-    if(!m_table.TryGetValue(key, pResult))
+    template<typename T_Key>
+    inline
+    InsanceTable<T_Key>::InsanceTable(createNew_t pFunctor_createNew) :
+        m_pFunctor_createNew(pFunctor_createNew),
+        m_table(LispRuntime::instance()->allocator().get())
     {
-        pResult = T_Value::createNew(key);
-        m_table[key] = pResult;
+        EZ_ASSERT(m_pFunctor_createNew, "Invalid createNew function pointer.");
     }
-    EZ_ASSERT(pResult, "The result should never be a nullptr!");
 
-    return pResult;
+    template<typename T_Key>
+    inline
+    Ptr<LispObject> InsanceTable<T_Key>::get(const T_Key& key)
+    {
+        auto pResult = Ptr<LispObject>();
+        if(!m_table.TryGetValue(key, pResult))
+        {
+            pResult = (*m_pFunctor_createNew)(key);
+            m_table[key] = pResult;
+        }
+        EZ_ASSERT(pResult, "The result should never be a nullptr!");
+
+        return pResult;
+    }
 }

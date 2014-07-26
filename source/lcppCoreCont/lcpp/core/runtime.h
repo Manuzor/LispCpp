@@ -26,7 +26,7 @@ namespace lcpp
 
         struct InstanceTables
         {
-            // TODO Add tables.
+            Ptr<InsanceTable<symbol::String>> m_pSymbolTable;
         };
 
     public:

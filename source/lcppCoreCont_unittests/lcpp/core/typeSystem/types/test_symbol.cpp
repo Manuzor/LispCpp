@@ -31,5 +31,5 @@ LCPP_TestCase(Symbol, Instancing)
     auto pSymbol1 = symbol::create("hello");
     auto pSymbol2 = symbol::create("hello");
 
-    CUT_ASSERT.succeed("Not implemented. Depends on symbol::value()");
+    CUT_ASSERT.isTrue(pSymbol1 == pSymbol2);
 }

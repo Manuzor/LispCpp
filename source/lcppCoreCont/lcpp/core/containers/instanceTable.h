@@ -3,22 +3,27 @@
 namespace lcpp
 {
     class LispRuntime;
+    class LispObject;
 
-    template<typename T_Key, typename T_Value>
+    template<typename T_Key>
     class InsanceTable
     {
     public:
-        static Ptr<InsanceTable> create();
+
+        typedef Ptr<LispObject>(*createNew_t)(const T_Key& value);
 
     public:
 
-        Ptr<T_Value> get(const T_Key& key);
+        InsanceTable(createNew_t pFunctor_createNew);
+
+        Ptr<LispObject> get(const T_Key& key);
 
     private:
 
-        ezHashTable<T_Key, Ptr<T_Value>> m_table;
+        createNew_t m_pFunctor_createNew;
 
-        InsanceTable();
+        ezHashTable<T_Key, Ptr<LispObject>> m_table;
+
     };
 }
 

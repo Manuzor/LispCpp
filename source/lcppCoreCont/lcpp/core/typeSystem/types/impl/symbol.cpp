@@ -17,6 +17,13 @@ namespace lcpp
 
         Ptr<LispObject> create(const String& value)
         {
+            auto pSymbolTable = LCPP_pRuntime->instanceTables().m_pSymbolTable;
+
+            return pSymbolTable->get(value);
+        }
+
+        Ptr<LispObject> createNew(const String& value)
+        {
             // TODO Allocate enough memory so the object and the ezString can live in the same block.
 
             auto pInstance = LispObject::create<Data>(metaInfo());

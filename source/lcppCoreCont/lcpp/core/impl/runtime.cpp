@@ -89,6 +89,7 @@ lcpp::LispRuntime::initialize()
     // TODO instanciate reader, evaluator, ...
 
     // TODO create instance tables
+    m_instanceTables.m_pSymbolTable = LCPP_NEW(m_pAllocator.get(), InsanceTable<symbol::String>)(&symbol::createNew);
 
     //m_pSyntaxEnvironment = LispEnvironment::createTopLevel(LispSymbol::create("syntax"));
     //m_pGlobalEnvironment = LispEnvironment::create(LispSymbol::create("global"), m_pSyntaxEnvironment);
@@ -111,6 +112,8 @@ lcpp::LispRuntime::shutdown()
               "The LCPP_pRuntime was not shut down often enough!");
 
     ++m_stats.m_shutdownCount;
+
+    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.m_pSymbolTable.get());
 
     LCPP_DELETE(m_pAllocator.get(), m_pDefaultStack.get());
 
