@@ -10,7 +10,7 @@ namespace lcpp
     inline
     bool isFalse(Ptr<LispObject> pObject)
     {
-        return pObject == LCPP_FALSE;
+        return pObject == LCPP_pFalse;
     }
 
 }

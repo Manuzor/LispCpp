@@ -7,12 +7,12 @@ LCPP_TEST(Nil, Basics)
 {
     auto pNil = nil::create();
 
-    CUT_ASSERT.isTrue(pNil == LCPP_NIL);
+    CUT_ASSERT.isTrue(pNil == LCPP_pNil);
 }
 
 LCPP_TEST(Nil, isNil)
 {
-    auto pNil = LCPP_NIL;
+    auto pNil = LCPP_pNil;
 
     CUT_ASSERT.isTrue(isNil(pNil));
     CUT_ASSERT.isFalse(isNil(nullptr));

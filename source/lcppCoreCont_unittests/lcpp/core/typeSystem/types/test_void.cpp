@@ -7,12 +7,12 @@ LCPP_TEST(Void, Basics)
 {
     auto pVoid = void_::create();
 
-    CUT_ASSERT.isTrue(pVoid == LCPP_VOID);
+    CUT_ASSERT.isTrue(pVoid == LCPP_pVoid);
 }
 
 LCPP_TEST(Void, isVoid)
 {
-    auto pVoid = LCPP_VOID;
+    auto pVoid = LCPP_pVoid;
 
     CUT_ASSERT.isTrue(isVoid(pVoid));
     CUT_ASSERT.isFalse(isVoid(nullptr));

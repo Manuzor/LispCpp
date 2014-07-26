@@ -14,6 +14,6 @@ namespace lcpp
     bool isVoid(Ptr<LispObject> pObject);
 }
 
-#define LCPP_VOID ::lcpp::void_::create()
+#define LCPP_pVoid ::lcpp::void_::create()
 
 #include "lcpp/core/typeSystem/types/impl/void.inl"

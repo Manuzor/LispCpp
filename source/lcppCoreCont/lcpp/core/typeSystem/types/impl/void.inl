@@ -5,6 +5,6 @@ namespace lcpp
     bool isVoid(Ptr<LispObject> pObject)
     {
         // Idenity check.
-        return pObject == LCPP_VOID;
+        return pObject == LCPP_pVoid;
     }
 }

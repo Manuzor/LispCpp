@@ -27,9 +27,9 @@ LCPP_TEST(Stack, Manipulation)
 {
     auto stack = Stack();
     auto pStack = &stack;
-    auto one = LCPP_TRUE;
-    auto two = LCPP_VOID;
-    auto three = LCPP_FALSE;
+    auto one = LCPP_pTrue;
+    auto two = LCPP_pVoid;
+    auto three = LCPP_pFalse;
 
     pStack->push(one);
 
@@ -48,8 +48,8 @@ LCPP_TEST(Stack, Manipulation)
     CUT_ASSERT.isTrue(pStack->get(-2) == two);
     CUT_ASSERT.isTrue(pStack->get(1) == two);
     CUT_ASSERT.isTrue(pStack->get(-3) == one);
-    CUT_ASSERT.isTrue(pStack->get(-4) == LCPP_NIL);
-    CUT_ASSERT.isTrue(pStack->get(3) == LCPP_NIL);
+    CUT_ASSERT.isTrue(pStack->get(-4) == LCPP_pNil);
+    CUT_ASSERT.isTrue(pStack->get(3) == LCPP_pNil);
 
     // Clear the stack one by one
 
@@ -64,7 +64,7 @@ LCPP_TEST(Stack, Manipulation)
 
     // pop 'one'
     CUT_ASSERT.isTrue(pStack->pop().Succeeded());
-    CUT_ASSERT.isTrue(pStack->get(-1) == LCPP_NIL);
+    CUT_ASSERT.isTrue(pStack->get(-1) == LCPP_pNil);
     CUT_ASSERT.isTrue(pStack->isEmpty());
 }
 

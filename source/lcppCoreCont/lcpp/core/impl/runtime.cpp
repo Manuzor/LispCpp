@@ -7,6 +7,7 @@
 
 #include "lcpp/core/containers/environment.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/containers/stack.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -67,6 +68,9 @@ void
 lcpp::LispRuntime::initialize()
 {
     m_pAllocator = defaultAllocator();
+
+    m_pDefaultStack = LCPP_NEW(m_pAllocator.get(), Stack)();
+    m_pStack = m_pDefaultStack;
     
     // TODO instanciate reader, evaluator, ...
 
@@ -87,6 +91,8 @@ lcpp::LispRuntime::initialize()
 void
 lcpp::LispRuntime::shutdown()
 {
+    LCPP_DELETE(m_pAllocator.get(), m_pDefaultStack.get());
+
     LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());
     LCPP_DELETE(m_pAllocator.get(), m_pSyntaxEnvironment.get());
 }

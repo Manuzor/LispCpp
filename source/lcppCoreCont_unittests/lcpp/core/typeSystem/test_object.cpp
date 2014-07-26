@@ -6,7 +6,7 @@ LCPP_TEST_GROUP(Object);
 
 LCPP_TEST(Object, Basics)
 {
-    auto pObject = LCPP_NIL;
+    auto pObject = LCPP_pNil;
 
     CUT_ASSERT.isTrue(pObject->isType(Type::Nil));
     CUT_ASSERT.isTrue(pObject->getType() == Type(Type::Nil));

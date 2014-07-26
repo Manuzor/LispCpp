@@ -5,6 +5,6 @@ namespace lcpp
     bool isNil(Ptr<LispObject> pObject)
     {
         // Idenity check.
-        return pObject == LCPP_NIL;
+        return pObject == LCPP_pNil;
     }
 }

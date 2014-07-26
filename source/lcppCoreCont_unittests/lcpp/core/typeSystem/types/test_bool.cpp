@@ -5,30 +5,30 @@ LCPP_TEST_GROUP(Bool);
 
 LCPP_TEST(Bool, Basics)
 {
-    auto pTrue = LCPP_TRUE;
-    auto pFalse = LCPP_FALSE;
+    auto pTrue = LCPP_pTrue;
+    auto pFalse = LCPP_pFalse;
 
     CUT_ASSERT.isTrue(pTrue, "Invalid pointer");
     CUT_ASSERT.isTrue(pFalse, "Invalid pointer");
 
-    CUT_ASSERT.isTrue(LCPP_TRUE == true_::create());
-    CUT_ASSERT.isTrue(LCPP_FALSE == false_::create());
+    CUT_ASSERT.isTrue(LCPP_pTrue == true_::create());
+    CUT_ASSERT.isTrue(LCPP_pFalse == false_::create());
 
-    CUT_ASSERT.isTrue(pTrue == LCPP_TRUE);
-    CUT_ASSERT.isFalse(pFalse == LCPP_TRUE);
+    CUT_ASSERT.isTrue(pTrue == LCPP_pTrue);
+    CUT_ASSERT.isFalse(pFalse == LCPP_pTrue);
 
-    CUT_ASSERT.isTrue(pFalse == LCPP_FALSE);
-    CUT_ASSERT.isFalse(pTrue == LCPP_FALSE);
+    CUT_ASSERT.isTrue(pFalse == LCPP_pFalse);
+    CUT_ASSERT.isFalse(pTrue == LCPP_pFalse);
 }
 
 LCPP_TEST(Bool, isTrue)
 {
-    CUT_ASSERT.isTrue(isTrue(LCPP_TRUE));
-    CUT_ASSERT.isFalse(isTrue(LCPP_FALSE));
+    CUT_ASSERT.isTrue(isTrue(LCPP_pTrue));
+    CUT_ASSERT.isFalse(isTrue(LCPP_pFalse));
 }
 
 LCPP_TEST(Bool, isFalse)
 {
-    CUT_ASSERT.isTrue(isFalse(LCPP_FALSE));
-    CUT_ASSERT.isFalse(isFalse(LCPP_TRUE));
+    CUT_ASSERT.isTrue(isFalse(LCPP_pFalse));
+    CUT_ASSERT.isFalse(isFalse(LCPP_pTrue));
 }

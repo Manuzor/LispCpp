@@ -4,6 +4,7 @@
 
 namespace lcpp
 {
+    class Stack;
     class LispObject;
 
     class LCPP_API_CORE_CONT LispRuntime
@@ -36,6 +37,9 @@ namespace lcpp
         Ptr<ezAllocatorBase> allocator();
         void allocator(Ptr<ezAllocatorBase> value);
 
+        Ptr<Stack> getStack();
+        Ptr<const Stack> getStack() const;
+
         Ptr<const LispObject> syntaxEnvironment() const;
         Ptr<LispObject> syntaxEnvironment();
         void syntaxEnvironment(Ptr<LispObject> value);
@@ -52,9 +56,13 @@ namespace lcpp
         void recursionLimit(ezUInt32 newLimit);
 
     private:
+
         static Ptr<LispRuntime> s_pInstance;
 
         Ptr<ezAllocatorBase> m_pAllocator;
+
+        Ptr<Stack> m_pDefaultStack;
+        Ptr<Stack> m_pStack;
 
         Ptr<LispObject> m_pSyntaxEnvironment;
         Ptr<LispObject> m_pGlobalEnvironment;
@@ -63,6 +71,8 @@ namespace lcpp
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;
+
+    private:
 
         // Called in initialize()
         void registerBuiltIns();
@@ -74,5 +84,8 @@ namespace lcpp
         void decreaseRecursionDepth();
     };
 }
+
+#define LCPP_pRuntime ::lcpp::LispRuntime::instance()
+#define LCPP_pStack LCPP_pRuntime->getStack()
 
 #include "lcpp/core/impl/runtime.inl"
