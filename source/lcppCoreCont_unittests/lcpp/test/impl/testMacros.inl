@@ -1,6 +1,6 @@
 
 // The arguments are not strings, use them like this: LCPP_TEST(Hello, World)
-#define LCPP_TEST(groupName, testName)                          \
+#define LCPP_TestCase(groupName, testName)                          \
 namespace lcpp { namespace test {                               \
     class UnitTest_##groupName##testName :                      \
         public UnitTest                                         \
@@ -8,7 +8,7 @@ namespace lcpp { namespace test {                               \
     public:                                                     \
                                                                 \
         UnitTest_##groupName##testName() :                      \
-            UnitTest(g_UnitTestGroup_##groupName) {} \
+            UnitTest(g_UnitTestGroup_##groupName) {}            \
                                                                 \
         virtual void doRun() override;                          \
                                                                 \

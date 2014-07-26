@@ -2,8 +2,10 @@
 
 namespace lcpp
 {
-    class Stack :
-        public StackBase<Ptr<ezUInt32>, 32>
+    class LispObject;
+
+    class LCPP_API_CORE_CONT Stack :
+        public StackBase<Ptr<LispObject>, 32>
     {
     public:
 

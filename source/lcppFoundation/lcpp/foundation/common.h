@@ -16,6 +16,9 @@
 #define LCPP_FINAL final
 
 #include "lcpp/foundation/memory/allocator.h"
+
+#include "lcpp/foundation/wrapper.h"
+
 #include "lcpp/foundation/rangeUtils.h"
 #include "lcpp/foundation/ptr.h"
 
@@ -30,12 +33,13 @@
 #define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 #define LCPP_UNUSED(anything) ((void)anything)
+#define LCPP_NOT_IMPLEMENTED EZ_REPORT_FAILURE("Not implemented."); throw exceptions::NotImplemented()
 
 // Use VerboseDebugMessage to disable verbose debug loggings,
 // otherwise use something like Info or Debug.
 #define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME Debug
 
-#include "lcpp/foundation/wrapper.h"
+#include "lcpp/foundation/exceptionBase.h"
 
 namespace lcpp
 {

@@ -60,4 +60,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/foundation/containers/implementation/stack.inl"
+#include "lcpp/foundation/containers/implementation/stackBase.inl"

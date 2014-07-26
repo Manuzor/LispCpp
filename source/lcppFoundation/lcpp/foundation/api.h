@@ -10,4 +10,4 @@
 #include "lcpp/foundation/startup.h"
 #include "lcpp/foundation/conversion.h"
 
-#include "lcpp/foundation/containers/stack.h"
+#include "lcpp/foundation/containers/stackBase.h"

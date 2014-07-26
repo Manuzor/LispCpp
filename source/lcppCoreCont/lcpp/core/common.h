@@ -5,3 +5,5 @@
 #else
 #define LCPP_API_CORE_CONT __declspec(dllimport)
 #endif // LCPP_EXPORT_FOUNDATION
+
+#include "lcpp/core/config.h"

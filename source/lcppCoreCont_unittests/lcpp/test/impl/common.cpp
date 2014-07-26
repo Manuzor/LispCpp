@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/test/common.h"
+#include "lcpp/core/runtime.h"
 
 using namespace lcpp::test;
 
@@ -10,7 +11,7 @@ UnitTest::UnitTest(cut::UnitTestGroup& group)
 
 void UnitTest::inititialize()
 {
-    // TODO init stuff here on a per-test basis
+    LCPP_pRuntime->initialize();
 }
 
 void UnitTest::shutdown()

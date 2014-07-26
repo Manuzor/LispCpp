@@ -24,9 +24,6 @@
     <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\lcpp\toString.h">
-      <Filter>lcpp</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\stdafx.h" />
   </ItemGroup>
 </Project>

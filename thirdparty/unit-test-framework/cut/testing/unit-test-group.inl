@@ -40,10 +40,8 @@ cut::UnitTestGroup::runAllTests()
 		auto unitTestName = unitTest->getName().cString();
 		try
 		{
-			//logMessage(format("Running unit test \"%s\"...\n", unitTestName));
 			LogBlock runSingleTest(format("Running test \"%s\"", unitTestName));
 			unitTest->run();
-			//logSuccess(format("Unit test \"%s\" succeeded!\n", unitTestName));
 		}
 		catch (exceptions::UnitTestFailure& failure)
 		{
@@ -51,44 +49,48 @@ cut::UnitTestGroup::runAllTests()
 
 			if (failure.message().empty())
 			{
-				logFailure(format("Unit test \"%s\" failed in file %s at line %d.\n",
-								  unitTestName,
-								  failure.file(),
-								  failure.line()));
+				logFailure(format("%s(%d): Unit test \"%s\" failed.\n",
+				                  failure.file(),
+				                  failure.line(),
+				                  unitTestName
+				                  ));
 			}
 			else
 			{
-				logFailure(format("Unit test \"%s\" failed in file %s at line %d:\n  %s\n",
-								  unitTestName,
-								  failure.file(),
-								  failure.line(),
-								  failure.message().cString()));
+				logFailure(format("%s(%d): Unit test \"%s\" failed:\n  %s\n",
+				                  failure.file(),
+				                  failure.line(),
+				                  unitTestName,
+				                  failure.message().cString()
+				                  ));
 			}
 		}
 		catch (exceptions::UnitTestSuccess& success)
 		{
 			if(success.message().empty())
 			{
-				logSuccess(format("Unit test \"%s\" succeeded prematurely in file %s at line %d.\n",
-					unitTestName,
-					success.file(),
-					success.line()));
+				logSuccess(format("%s(%d): Unit test \"%s\" succeeded prematurely.\n",
+				                  success.file(),
+				                  success.line(),
+				                  unitTestName
+				                  ));
 			}
 			else
 			{
-				logSuccess(format("Unit test \"%s\" succeeded prematurely in file %s at line %d:\n  %s\n",
-					unitTestName,
-					success.file(),
-					success.line(),
-					success.message().cString()));
+				logSuccess(format("%s(%d): Unit test \"%s\" succeeded prematurely:\n  %s\n",
+				                  success.file(),
+				                  success.line(),
+				                  unitTestName,
+				                  success.message().cString()
+				                  ));
 			}
 		}
 		catch (std::exception& ex)
 		{
 			++failed;
 			logFailure(format("Unit test \"%s\" failed due to an unhandled std::exception: %s\n",
-							  unitTestName,
-							  ex.what()));
+			                  unitTestName,
+			                  ex.what()));
 		}
 		catch (...)
 		{

@@ -21,6 +21,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(LCPP_SourceRoot)/$(ProjectName)/;$(LCPP_FoundationSourceDir);$(LCPP_ThirdpartyRoot)/ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(LCPP_LibDir)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

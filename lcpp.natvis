@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+	<Type Name="lcpp::Ptr&lt;*&gt;">
+		<DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
+		<DisplayString>{m_pPtr}</DisplayString>
+		<Expand>
+			<Item Name="[ptr]">m_pPtr</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
+		<DisplayString>{m_pPtr}</DisplayString>
+		<Expand>
+			<Item Name="Header">m_pPtr->m_header</Item>
+			<Item Name="Body">m_pPtr->m_body</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::LispObject">
+		<DisplayString>{*m_header.m_pMetaInfo.m_pPtr}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::LispObjectHeader">
+		<DisplayString>{*m_pMetaInfo.m_pPtr}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::MetaInfo">
+		<DisplayString>{m_type} {m_prettyName}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::Type">
+		<DisplayString>{m_id}</DisplayString>
+	</Type>
+
+</AutoVisualizer>

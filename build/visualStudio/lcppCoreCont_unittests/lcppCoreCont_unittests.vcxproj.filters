@@ -16,6 +16,12 @@
     <Filter Include="lcpp\core\containers">
       <UniqueIdentifier>{b64d1979-8ddc-4374-8e38-327ceeea6275}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\typeSystem">
+      <UniqueIdentifier>{bde7d949-bdfd-4de7-b415-d73cbe8f23aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\types">
+      <UniqueIdentifier>{1b9d66ce-9ffd-4c9d-aa19-448e2445d59e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\stdafx.h" />
@@ -33,6 +39,33 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\main.cpp">
       <Filter>lcpp\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeInfo.cpp">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_type.cpp">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_nil.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_object.cpp">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_bool.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_void.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_number.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_runtime.cpp">
+      <Filter>lcpp\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_symbol.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
