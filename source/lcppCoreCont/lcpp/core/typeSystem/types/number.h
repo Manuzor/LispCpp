@@ -7,38 +7,13 @@ namespace lcpp
 
     namespace number
     {
-        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+        LCPP_API_CORE_CONT const MetaInfo& metaInfoInteger();
+        LCPP_API_CORE_CONT const MetaInfo& metaInfoFloat();
+
         LCPP_API_CORE_CONT Ptr<LispObject> create(Integer_t value);
-
-        class NumberType
-        {
-        public:
-            enum Enum
-            {
-                ENUM_MIN = -1,
-
-                Invalid,
-
-                Integer,
-                Float,
-
-                ENUM_MAX
-            };
-        };
-
-        class Data
-        {
-        public:
-
-            NumberType::Enum m_type;
-
-            union
-            {
-                Integer_t m_integer;
-                Float_t m_float;
-            };
-        };
+        LCPP_API_CORE_CONT Ptr<LispObject> create(Float_t value);
     }
 }
 
 #include "lcpp/core/typeSystem/types/impl/number.inl"
+#include "lcpp/core/typeSystem/types/numberHelpers.h"

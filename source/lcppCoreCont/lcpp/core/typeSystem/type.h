@@ -15,7 +15,8 @@ namespace lcpp
             True,
             False,
 
-            Number,
+            Integer,
+            Float,
 
             Symbol,
             String,

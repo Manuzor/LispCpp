@@ -11,5 +11,6 @@ namespace lcpp
     {
         typedef ezInt64 Integer_t;
         typedef double Float_t;
+        typedef float FloatAlternative_t;
     }
 }

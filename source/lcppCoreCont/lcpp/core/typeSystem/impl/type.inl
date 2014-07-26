@@ -44,7 +44,8 @@ namespace lcpp
         case Type::True: return "True";
         case Type::False: return "False";
 
-        case Type::Number: return "Number";
+        case Type::Integer: return "Integer";
+        case Type::Float: return "Float";
 
         case Type::Symbol: return "Symbol";
         case Type::String: return "String";

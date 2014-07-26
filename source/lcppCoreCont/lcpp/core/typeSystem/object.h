@@ -21,7 +21,8 @@ namespace lcpp
 
         union
         {
-            number::Data m_number;
+            number::Integer_t m_integer;
+            number::Float_t m_float;
         };
     };
 
@@ -53,10 +54,6 @@ namespace lcpp
         LispObjectBody m_body;
 
     };
-
-    //static_assert(sizeof(LispObject) == sizeof(LispObjectHeader)
-    //                                  + sizeof(LispObjectBody),
-    //              "Add some padding so the alignment is perfect again");
 }
 
 #include "lcpp/core/typeSystem/impl/object.inl"

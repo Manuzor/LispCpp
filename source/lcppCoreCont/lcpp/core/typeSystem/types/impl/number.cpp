@@ -8,22 +8,32 @@ namespace lcpp
 {
     namespace number
     {
-        const MetaInfo& metaInfo()
+        const MetaInfo& metaInfoInteger()
         {
-            static auto meta = MetaInfo(Type::Number, "number");
+            static auto meta = MetaInfo(Type::Integer, "integer");
+            return meta;
+        }
 
+        const MetaInfo& metaInfoFloat()
+        {
+            static auto meta = MetaInfo(Type::Float, "float");
             return meta;
         }
 
         Ptr<LispObject> create(Integer_t value)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = LispObject::create<Integer_t>(metaInfoInteger());
 
-            auto& data = pInstance->getBody().m_number;
+            pInstance->getBody().m_integer = value;
 
-            // Initialization
-            data.m_type = NumberType::Integer;
-            data.m_integer = value;
+            return pInstance;
+        }
+
+        Ptr<LispObject> create(Float_t value)
+        {
+            auto pInstance = LispObject::create<Float_t>(metaInfoFloat());
+
+            pInstance->getBody().m_float = value;
 
             return pInstance;
         }
