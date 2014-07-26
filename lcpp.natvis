@@ -9,8 +9,20 @@
 		</Expand>
 	</Type>
 
+	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
+		<DisplayString>{m_pPtr}</DisplayString>
+		<Expand>
+			<Item Name="Header">m_pPtr->m_header</Item>
+			<Item Name="Body">m_pPtr->m_body</Item>
+		</Expand>
+	</Type>
+
 	<Type Name="lcpp::LispObject">
 		<DisplayString>{*m_header.m_pMetaInfo.m_pPtr}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::LispObjectHeader">
+		<DisplayString>{*m_pMetaInfo.m_pPtr}</DisplayString>
 	</Type>
 
 	<Type Name="lcpp::MetaInfo">
