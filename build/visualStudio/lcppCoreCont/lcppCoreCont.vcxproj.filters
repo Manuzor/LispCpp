@@ -175,5 +175,8 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
   </ItemGroup>
 </Project>

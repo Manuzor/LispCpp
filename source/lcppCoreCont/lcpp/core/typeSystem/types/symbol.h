@@ -1,14 +1,26 @@
 #pragma once
 
-#include "lcpp/core/typeSystem/type.h"
-
 namespace lcpp
 {
-    class LispSymbol
+    class LispObject;
+    class MetaInfo;
+
+    namespace symbol
     {
-    public:
+        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
-        static LCPP_API_CORE_CONT Ptr<LispObject> create(const String& value);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(const String& value);
 
-    };
+        class Data
+        {
+        public:
+
+            void initialize(String* pSymbol);
+            void deinitialize();
+
+            String* m_pValue;
+        };
+    }
 }
+
+#include "lcpp/core/typeSystem/types/impl/symbol.inl"
