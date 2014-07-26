@@ -12,6 +12,9 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(Integer_t value);
         LCPP_API_CORE_CONT Ptr<LispObject> create(Float_t value);
+
+        LCPP_API_CORE_CONT Integer_t integerValue(ezInt32 index = -1);
+        LCPP_API_CORE_CONT Float_t floatValue(ezInt32 index = -1);
     }
 }
 

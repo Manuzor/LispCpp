@@ -35,11 +35,11 @@
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\dependencies\ezEngine.h">
       <Filter>lcpp\foundation\dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stack.h">
-      <Filter>lcpp\foundation\containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\exceptionBase.h">
       <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stackBase.h">
+      <Filter>lcpp\foundation\containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +87,7 @@
     <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\rangeUtils.inl">
       <Filter>lcpp\foundation\implementation</Filter>
     </None>
-    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\implementation\stack.inl">
+    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\implementation\stackBase.inl">
       <Filter>lcpp\foundation\containers\implementation</Filter>
     </None>
   </ItemGroup>

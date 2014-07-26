@@ -124,7 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\api.h" />
-    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stack.h" />
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stackBase.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\exceptionBase.h" />
     <ClInclude Include="..\..\..\source\lcppFoundation\stdafx.h" />
@@ -149,7 +149,7 @@
     <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\implementation\stack.inl" />
+    <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\implementation\stackBase.inl" />
     <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\ptr.inl" />
     <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\rangeUtils.inl" />
     <None Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.inl" />

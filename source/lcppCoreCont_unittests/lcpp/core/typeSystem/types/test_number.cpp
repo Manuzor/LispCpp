@@ -3,6 +3,9 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
 
+#include "lcpp/core/runtime.h"
+#include "lcpp/core/containers/stack.h"
+
 LCPP_TestGroup(Number);
 
 LCPP_TestCase(Number, Basics)
@@ -22,12 +25,16 @@ LCPP_TestCase(Number, Basics)
     //CUT_ASSERT.isTrue(number::asFloat(pOne) == 1.0f);
 }
 
-LCPP_TestCase(Number, asInteger)
+LCPP_TestCase(Number, integerValue)
 {
+    LCPP_pStack->push(number::create(42));
 
+    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
+    CUT_ASSERT.isTrue(number::integerValue(-1) == 42);
+    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1, "number::*Value should not pop the object from the stack!");
 }
 
-LCPP_TestCase(Number, asFloat)
+LCPP_TestCase(Number, floatValue)
 {
 
 }

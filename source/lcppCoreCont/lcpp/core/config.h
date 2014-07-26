@@ -3,7 +3,7 @@
 #endif
 #define LCPP_CORE_CONT_CONFIG_INCLUDED
 
-#define LCPP_RUNTIME_TYPE_CHECK_ENABLED EZ_ON
+#define LCPP_RUNTIME_TYPE_CHECK EZ_ON
 
 namespace lcpp
 {

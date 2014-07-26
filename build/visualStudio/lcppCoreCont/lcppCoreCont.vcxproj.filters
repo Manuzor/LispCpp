@@ -97,6 +97,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\numberHelpers.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeCheck.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +171,9 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\numberHelpers.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
   </ItemGroup>
 </Project>
