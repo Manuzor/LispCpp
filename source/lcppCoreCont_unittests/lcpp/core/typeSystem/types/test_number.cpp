@@ -20,9 +20,6 @@ LCPP_TestCase(Number, Basics)
 
     CUT_ASSERT.isTrue(pFloat_One->isType(Type::Float));
     CUT_ASSERT.isTrue(pFloat_Two->isType(Type::Float));
-
-    //CUT_ASSERT.isTrue(number::asInteger(pOne) == 1);
-    //CUT_ASSERT.isTrue(number::asFloat(pOne) == 1.0f);
 }
 
 LCPP_TestCase(Number, integerValue)
@@ -30,11 +27,17 @@ LCPP_TestCase(Number, integerValue)
     LCPP_pStack->push(number::create(42));
 
     CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
+    CUT_ASSERT.isTrue(number::integerValue() == 42);
     CUT_ASSERT.isTrue(number::integerValue(-1) == 42);
     CUT_ASSERT.isTrue(LCPP_pStack->size() == 1, "number::*Value should not pop the object from the stack!");
 }
 
 LCPP_TestCase(Number, floatValue)
 {
+    LCPP_pStack->push(number::create(3.1415));
 
+    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
+    CUT_ASSERT.isTrue(number::floatValue() == 3.1415);
+    CUT_ASSERT.isTrue(number::floatValue(-1) == 3.1415);
+    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1, "number::*Value should not pop the object from the stack!");
 }
