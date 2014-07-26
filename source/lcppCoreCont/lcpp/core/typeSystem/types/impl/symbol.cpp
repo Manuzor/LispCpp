@@ -2,6 +2,8 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/containers/stack.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
 
 namespace lcpp
 {
@@ -25,5 +27,14 @@ namespace lcpp
 
             return pInstance;
         }
-}
+
+        const String& value(ezInt32 index /*= -1*/)
+        {
+            auto pObject = LCPP_pStack->get(index);
+            typeCheck(pObject, Type::Symbol);
+
+            return *pObject->getBody().m_symbol.m_pValue;
+        }
+
+    }
 }

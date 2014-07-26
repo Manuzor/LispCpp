@@ -15,7 +15,15 @@ LCPP_TestCase(Symbol, Basics)
 
 LCPP_TestCase(Symbol, value)
 {
-    CUT_ASSERT.succeed("Not implemented.");
+    auto pSymbol = symbol::create("hello-world");
+
+    LCPP_pStack->push(pSymbol);
+
+    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
+    auto& value = symbol::value(-1);
+    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
+
+    CUT_ASSERT.isTrue(value.IsEqual("hello-world"));
 }
 
 LCPP_TestCase(Symbol, Instancing)

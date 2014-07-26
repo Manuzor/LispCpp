@@ -20,6 +20,9 @@ namespace lcpp
 
             String* m_pValue;
         };
+
+        LCPP_API_CORE_CONT const String& value(ezInt32 index = -1);
+
     }
 }
 
