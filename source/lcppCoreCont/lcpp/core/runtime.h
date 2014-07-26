@@ -18,6 +18,12 @@ namespace lcpp
 
     public:
 
+        struct Statistics
+        {
+            ezUInt32 m_initializationCount;
+            ezUInt32 m_shutdownCount;
+        };
+
         struct InstanceTables
         {
             // TODO Add tables.
@@ -33,6 +39,8 @@ namespace lcpp
         void shutdown();
 
         //////////////////////////////////////////////////////////////////////////
+
+        Statistics m_stats;
 
         Ptr<ezAllocatorBase> allocator();
         void allocator(Ptr<ezAllocatorBase> value);

@@ -59,6 +59,7 @@ lcpp::LispRuntime::patchInstance(Ptr<LispRuntime> pNewInstance)
 }
 
 lcpp::LispRuntime::LispRuntime() :
+    m_stats(),
     m_recursionDepth(0),
     m_recursionLimit(255)
 {
@@ -67,6 +68,19 @@ lcpp::LispRuntime::LispRuntime() :
 void
 lcpp::LispRuntime::initialize()
 {
+    EZ_ASSERT(m_stats.m_shutdownCount <= m_stats.m_initializationCount,
+              "LCPP_pRuntime was shut down more often than it was initialized!");
+
+    if (m_stats.m_shutdownCount < m_stats.m_initializationCount)
+    {
+        shutdown();
+    }
+
+    EZ_ASSERT(m_stats.m_initializationCount == m_stats.m_shutdownCount,
+              "LCPP_pRuntime initialization and shutdown count must be balanced!");
+
+    ++m_stats.m_initializationCount;
+
     m_pAllocator = defaultAllocator();
 
     m_pDefaultStack = LCPP_NEW(m_pAllocator.get(), Stack)();
@@ -91,6 +105,13 @@ lcpp::LispRuntime::initialize()
 void
 lcpp::LispRuntime::shutdown()
 {
+    EZ_ASSERT(m_stats.m_initializationCount > 0,
+              "LCPP_pRuntime was never initialized.");
+    EZ_ASSERT(m_stats.m_initializationCount > m_stats.m_shutdownCount,
+              "The LCPP_pRuntime was not shut down often enough!");
+
+    ++m_stats.m_shutdownCount;
+
     LCPP_DELETE(m_pAllocator.get(), m_pDefaultStack.get());
 
     LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());

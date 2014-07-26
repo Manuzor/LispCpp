@@ -1,8 +1,25 @@
 #include "stdafx.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/containers/stack.h"
+#include "lcpp/core/typeSystem/types/bool.h"
 
 LCPP_TestGroup(Runtime);
+
+LCPP_TestCase(Runtime, GlobalStateReset1)
+{
+    CUT_ASSERT.isTrue(LCPP_pStack->isEmpty());
+    LCPP_pStack->push(LCPP_pTrue);
+    CUT_ASSERT.isFalse(LCPP_pStack->isEmpty());
+    CUT_ASSERT.isTrue(LCPP_pStack->get(-1) == LCPP_pTrue);
+}
+
+LCPP_TestCase(Runtime, GlobalStateReset2)
+{
+    CUT_ASSERT.isTrue(LCPP_pStack->isEmpty());
+    LCPP_pStack->push(LCPP_pFalse);
+    CUT_ASSERT.isFalse(LCPP_pStack->isEmpty());
+    CUT_ASSERT.isTrue(LCPP_pStack->get(-1) == LCPP_pFalse);
+}
 
 LCPP_TestCase(Runtime, Basics)
 {
