@@ -3,9 +3,9 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
 
-LCPP_TEST_GROUP(Number);
+LCPP_TestGroup(Number);
 
-LCPP_TEST(Number, Basics)
+LCPP_TestCase(Number, Basics)
 {
     auto pInteger_One = number::create(1);
     auto pInteger_Two = number::create(2U);
@@ -22,12 +22,12 @@ LCPP_TEST(Number, Basics)
     //CUT_ASSERT.isTrue(number::asFloat(pOne) == 1.0f);
 }
 
-LCPP_TEST(Number, asInteger)
+LCPP_TestCase(Number, asInteger)
 {
 
 }
 
-LCPP_TEST(Number, asFloat)
+LCPP_TestCase(Number, asFloat)
 {
 
 }

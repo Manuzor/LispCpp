@@ -2,9 +2,9 @@
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 
-LCPP_TEST_GROUP(Type);
+LCPP_TestGroup(Type);
 
-LCPP_TEST(Type, Basics)
+LCPP_TestCase(Type, Basics)
 {
     auto type1 = Type(Type::Nil); ///< Arbitrarily chosen.
     auto type2 = Type(Type::Cons); ///< Arbitrarily chosen.

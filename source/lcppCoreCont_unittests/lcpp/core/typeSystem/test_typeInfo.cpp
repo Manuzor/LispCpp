@@ -2,9 +2,9 @@
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 
-LCPP_TEST_GROUP(MetaInfo);
+LCPP_TestGroup(MetaInfo);
 
-LCPP_TEST(MetaInfo, Basics)
+LCPP_TestCase(MetaInfo, Basics)
 {
     {
         auto info = MetaInfo(Type::True);

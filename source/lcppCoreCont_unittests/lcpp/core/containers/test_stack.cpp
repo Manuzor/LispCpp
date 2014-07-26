@@ -4,9 +4,9 @@
 #include "lcpp/core/typeSystem/types/bool.h"
 #include "lcpp/core/typeSystem/types/void.h"
 
-LCPP_TEST_GROUP(Stack);
+LCPP_TestGroup(Stack);
 
-LCPP_TEST(Stack, EmptyStack)
+LCPP_TestCase(Stack, EmptyStack)
 {
     auto stack = Stack();
     auto pStack = &stack;
@@ -23,7 +23,7 @@ LCPP_TEST(Stack, EmptyStack)
 
 }
 
-LCPP_TEST(Stack, Manipulation)
+LCPP_TestCase(Stack, Manipulation)
 {
     auto stack = Stack();
     auto pStack = &stack;

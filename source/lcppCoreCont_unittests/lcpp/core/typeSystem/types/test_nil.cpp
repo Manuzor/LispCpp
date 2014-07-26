@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 
-LCPP_TEST_GROUP(Nil);
+LCPP_TestGroup(Nil);
 
-LCPP_TEST(Nil, Basics)
+LCPP_TestCase(Nil, Basics)
 {
     auto pNil = nil::create();
 
     CUT_ASSERT.isTrue(pNil == LCPP_pNil);
 }
 
-LCPP_TEST(Nil, isNil)
+LCPP_TestCase(Nil, isNil)
 {
     auto pNil = LCPP_pNil;
 

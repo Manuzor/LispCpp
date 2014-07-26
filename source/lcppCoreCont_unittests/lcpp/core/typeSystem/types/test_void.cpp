@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/void.h"
 
-LCPP_TEST_GROUP(Void);
+LCPP_TestGroup(Void);
 
-LCPP_TEST(Void, Basics)
+LCPP_TestCase(Void, Basics)
 {
     auto pVoid = void_::create();
 
     CUT_ASSERT.isTrue(pVoid == LCPP_pVoid);
 }
 
-LCPP_TEST(Void, isVoid)
+LCPP_TestCase(Void, isVoid)
 {
     auto pVoid = LCPP_pVoid;
 

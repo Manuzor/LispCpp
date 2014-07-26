@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/bool.h"
 
-LCPP_TEST_GROUP(Bool);
+LCPP_TestGroup(Bool);
 
-LCPP_TEST(Bool, Basics)
+LCPP_TestCase(Bool, Basics)
 {
     auto pTrue = LCPP_pTrue;
     auto pFalse = LCPP_pFalse;
@@ -21,13 +21,13 @@ LCPP_TEST(Bool, Basics)
     CUT_ASSERT.isFalse(pTrue == LCPP_pFalse);
 }
 
-LCPP_TEST(Bool, isTrue)
+LCPP_TestCase(Bool, isTrue)
 {
     CUT_ASSERT.isTrue(isTrue(LCPP_pTrue));
     CUT_ASSERT.isFalse(isTrue(LCPP_pFalse));
 }
 
-LCPP_TEST(Bool, isFalse)
+LCPP_TestCase(Bool, isFalse)
 {
     CUT_ASSERT.isTrue(isFalse(LCPP_pFalse));
     CUT_ASSERT.isFalse(isFalse(LCPP_pTrue));

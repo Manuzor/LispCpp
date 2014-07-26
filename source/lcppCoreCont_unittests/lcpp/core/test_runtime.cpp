@@ -2,9 +2,9 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/containers/stack.h"
 
-LCPP_TEST_GROUP(Runtime);
+LCPP_TestGroup(Runtime);
 
-LCPP_TEST(Runtime, Basics)
+LCPP_TestCase(Runtime, Basics)
 {
     auto pRuntime = LCPP_pRuntime;
 
@@ -12,7 +12,7 @@ LCPP_TEST(Runtime, Basics)
     CUT_ASSERT.isTrue(pRuntime == LispRuntime::instance());
 }
 
-LCPP_TEST(Runtime, Stack)
+LCPP_TestCase(Runtime, Stack)
 {
     auto pStack = LCPP_pRuntime->getStack();
 

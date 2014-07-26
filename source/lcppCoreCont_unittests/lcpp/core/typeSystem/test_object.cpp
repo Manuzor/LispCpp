@@ -2,9 +2,9 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 
-LCPP_TEST_GROUP(Object);
+LCPP_TestGroup(Object);
 
-LCPP_TEST(Object, Basics)
+LCPP_TestCase(Object, Basics)
 {
     auto pObject = LCPP_pNil;
 
