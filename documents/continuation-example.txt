@@ -1,0 +1,51 @@
+
+struct continuation
+{
+	continuation* parent;
+
+	continuation*(*next)(continuation*);
+
+	array_t args;
+	int index;
+	int returnIndex;
+}
+
+continuation* accu(continuation* data)
+{
+	if(data.index >= args.length())
+	{
+		return data->parent;
+	}
+
+	data->parent->args[data->returnIndex] += data->args[index];
+	data->index += 1;
+
+	return data;
+}
+
+void trampoline(continuation* data)
+{
+	while (data)
+	{
+		data = data->next(data);
+	}
+}
+
+continuation* print(continuation* data)
+{
+	printf("...", data->args[1]);
+}
+
+void main()
+{
+	continuation printCont;
+	continuation accuCont;
+
+	printCont.next = print;
+
+	accuCont.parent = printCont;
+	accuCont.next = accu;
+	accuCont.returnIndex = 1;
+
+	trampoline(&accuCont);
+}
