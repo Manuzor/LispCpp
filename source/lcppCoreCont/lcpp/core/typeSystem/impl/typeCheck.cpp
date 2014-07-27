@@ -3,6 +3,8 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
 
+#include "lcpp/core/exceptions/typeCheckFailedException.h"
+
 namespace lcpp
 {
 #if EZ_ENABLED(LCPP_RUNTIME_TYPE_CHECK)
@@ -18,7 +20,7 @@ namespace lcpp
             message.Format("Type check failed, expected '%s' got '%s'.",
                             expectedType.toString(),
                             actualType.toString());
-            EZ_REPORT_FAILURE(message.GetData());
+            LCPP_THROW(exceptions::TypeCheckFailed, message.GetData());
         }
     }
 

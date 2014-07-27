@@ -24,6 +24,7 @@ namespace lcpp
             number::Integer_t m_integer;
             number::Float_t m_float;
             symbol::Data m_symbol;
+            env::Data m_env;
         };
     };
 

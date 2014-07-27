@@ -7,7 +7,7 @@ namespace lcpp
 
     /// \brief Checks whether the given \a pObject is of type \a expectedType.
     ///
-    /// Raises an assert when LCPP_RUNTIME_TYPE_CHECK
+    /// In case the type check fails, throws exceptions::TypeCheckFailed
     LCPP_API_CORE_CONT void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType);
 }
 

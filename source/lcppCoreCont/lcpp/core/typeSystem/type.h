@@ -24,6 +24,7 @@ namespace lcpp
             Cons,
             Lambda,
             Syntax,
+            Environment,
 
             File,
 

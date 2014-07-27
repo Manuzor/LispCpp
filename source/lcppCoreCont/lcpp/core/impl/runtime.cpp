@@ -5,7 +5,7 @@
 
 #include "lcpp/core/exceptions/runtimeException.h"
 
-#include "lcpp/core/containers/environment.h"
+#include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/containers/stack.h"
 

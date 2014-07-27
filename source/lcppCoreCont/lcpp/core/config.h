@@ -1,12 +1,11 @@
-#ifdef LCPP_CORE_CONT_CONFIG_INCLUDED
-#error Config file is not supposed to be included more than once!
-#endif
-#define LCPP_CORE_CONT_CONFIG_INCLUDED
+#pragma once
 
 #define LCPP_RUNTIME_TYPE_CHECK EZ_ON
 
 namespace lcpp
 {
+    class LispObject;
+
     namespace number
     {
         typedef ezInt64 Integer_t;
@@ -17,5 +16,11 @@ namespace lcpp
     namespace symbol
     {
         typedef ezHybridString<32, AllocatorWrapper_Default> String;
+    }
+
+    namespace env
+    {
+        //typedef ezHashTable<Ptr<LispObject>, Ptr<LispObject>, ezHashHelper<Ptr<LispObject>>, AllocatorWrapper_Default> HashTable;
+        typedef int HashTable;
     }
 }

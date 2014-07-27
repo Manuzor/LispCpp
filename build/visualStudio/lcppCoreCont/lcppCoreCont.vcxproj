@@ -21,11 +21,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\environment.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\continuation.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\typeCheckFailedException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\recursionCounter.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\runtime.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h" />
@@ -36,6 +36,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeCheck.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\bool.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\cons.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environment.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\nil.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\number.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\numberHelpers.h" />
@@ -45,11 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\includeAll.cpp" />
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\environment.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.cpp" />
@@ -62,7 +63,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\environment.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
@@ -72,6 +72,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\numberHelpers.inl" />

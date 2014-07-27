@@ -3,9 +3,11 @@
 namespace lcpp
 {
     class LispObject;
+    class MetaInfo;
 
     namespace env
     {
+        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pName, Ptr<LispObject> pParent);
 
@@ -19,8 +21,18 @@ namespace lcpp
         {
         public:
 
-            void initialize(Ptr<LispObject> pName, Ptr<LispObject> pParent);
+            void initialize(Ptr<LispObject> pName,
+                            Ptr<LispObject> pParent,
+                            Ptr<HashTable> pTable);
             void destroy();
+
+        public:
+
+            LispObject* m_pName;
+
+            LispObject* m_pParent;
+
+            HashTable* m_pTable;
 
         };
 
@@ -41,4 +53,4 @@ namespace lcpp
     };
 }
 
-#include "lcpp/core/typeSystem/types/impl/nil.inl"
+#include "lcpp/core/typeSystem/types/impl/environment.inl"
