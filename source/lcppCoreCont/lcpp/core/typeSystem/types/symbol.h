@@ -19,7 +19,7 @@ namespace lcpp
         public:
 
             void initialize(String* pSymbol);
-            void deinitialize();
+            void destroy();
 
             String* m_pValue;
         };

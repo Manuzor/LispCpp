@@ -10,7 +10,7 @@ namespace lcpp
         }
 
         inline
-        void Data::deinitialize()
+        void Data::destroy()
         {
             m_pValue = nullptr;
         }
