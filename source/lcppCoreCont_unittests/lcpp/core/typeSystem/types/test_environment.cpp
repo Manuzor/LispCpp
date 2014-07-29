@@ -17,7 +17,7 @@ LCPP_TestCase(Environment, Basics)
     
     auto pName = env::getName(pEnv);
     CUT_ASSERT.throwsNothing([&]{ typeCheck(pName, Type::Symbol); });
-    CUT_ASSERT.isTrue(symbol::value(pName).IsEqual("top-level-env"));
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("top-level-env"));
 
     auto pParent = env::getParent(pEnv);
     CUT_ASSERT.isTrue(isNil(pParent));

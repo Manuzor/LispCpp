@@ -16,7 +16,7 @@ LCPP_TestCase(Symbol, value)
 {
     auto pSymbol = symbol::create("hello-world");
 
-    auto& value = symbol::value(pSymbol);
+    auto& value = symbol::getValue(pSymbol);
 
     CUT_ASSERT.isTrue(value.IsEqual("hello-world"));
 }

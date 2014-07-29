@@ -32,7 +32,7 @@ namespace lcpp
             return pInstance;
         }
 
-        const String& value(Ptr<LispObject> pObject)
+        const String& getValue(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Symbol);
 
