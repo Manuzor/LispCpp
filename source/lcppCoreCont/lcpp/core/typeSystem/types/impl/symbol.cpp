@@ -27,7 +27,7 @@ namespace lcpp
         {
             auto pInstance = LispObject::create<Data>(metaInfo());
 
-            new (pInstance->getBody().m_symbol.m_pRawData) String(value);
+            new (pInstance->m_symbol.m_pRawData) String(value);
 
             return pInstance;
         }
@@ -36,7 +36,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Symbol);
 
-            return pObject->getBody().m_symbol.getValue();
+            return pObject->m_symbol.getValue();
         }
 
     }

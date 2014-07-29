@@ -57,16 +57,4 @@ namespace lcpp
     {
         return m_header;
     }
-
-    inline
-    const LispObjectBody& LispObject::getBody() const
-    {
-        return m_body;
-    }
-
-    inline
-    LispObjectBody& LispObject::getBody()
-    {
-        return m_body;
-    }
 }

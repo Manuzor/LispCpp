@@ -25,7 +25,7 @@ namespace lcpp
         {
             auto pInstance = LispObject::create<Integer_t>(metaInfoInteger());
 
-            pInstance->getBody().m_integer = value;
+            pInstance->m_integer = value;
 
             return pInstance;
         }
@@ -34,7 +34,7 @@ namespace lcpp
         {
             auto pInstance = LispObject::create<Float_t>(metaInfoFloat());
 
-            pInstance->getBody().m_float = value;
+            pInstance->m_float = value;
 
             return pInstance;
         }
@@ -43,14 +43,14 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Integer);
 
-            return pObject->getBody().m_integer;
+            return pObject->m_integer;
         }
 
         Float_t getFloat(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Float);
 
-            return pObject->getBody().m_float;
+            return pObject->m_float;
         }
 
 

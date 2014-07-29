@@ -25,7 +25,7 @@ namespace lcpp
         {
             auto pInstance = LispObject::create<Data>(metaInfo());
 
-            auto& data = pInstance->getBody().m_env;
+            auto& data = pInstance->m_env;
 
             new (data.m_pName) Ptr<LispObject>(pName);
             new (data.m_pParent) Ptr<LispObject>(pParent);
@@ -50,7 +50,7 @@ namespace lcpp
         {
             typeCheck(pEnv, Type::Environment);
 
-            return pEnv->getBody().m_env.getName();
+            return pEnv->m_env.getName();
         }
 
         static void getQualifiedNameHelper(Ptr<LispObject> pEnv, ezStringBuilder& name)
@@ -81,7 +81,7 @@ namespace lcpp
         {
             typeCheck(pEnv, Type::Environment);
 
-            return pEnv->getBody().m_env.getParent();
+            return pEnv->m_env.getParent();
         }
 
         void addBinding(Ptr<LispObject> pEnv,
@@ -178,7 +178,7 @@ namespace lcpp
         {
             HashTable& getTable(Ptr<LispObject> pEnv)
             {
-                return pEnv->getBody().m_env.getTable();
+                return pEnv->m_env.getTable();
             }
         }
     }

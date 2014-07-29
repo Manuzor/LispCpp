@@ -15,19 +15,6 @@ namespace lcpp
 
     };
 
-    class LispObjectBody
-    {
-    public:
-
-        union
-        {
-            number::Integer_t m_integer;
-            number::Float_t m_float;
-            symbol::Data m_symbol;
-            env::Data m_env;
-        };
-    };
-
     class LCPP_API_CORE_CONT LispObject
     {
     public:
@@ -46,14 +33,19 @@ namespace lcpp
 
         const LispObjectHeader& getHeader() const;
 
-        const LispObjectBody& getBody() const;
-        LispObjectBody& getBody();
-
     private:
 
         LispObjectHeader m_header;
 
-        LispObjectBody m_body;
+    public:
+
+        union
+        {
+            number::Integer_t m_integer;
+            number::Float_t m_float;
+            symbol::Data m_symbol;
+            env::Data m_env;
+        };
 
     };
 }
