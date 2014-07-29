@@ -3,10 +3,9 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
 
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/containers/stack.h"
-#include "lcpp/core/typeSystem/typeCheck.h"
 
 LCPP_TestGroup(Environment);
 
@@ -27,25 +26,21 @@ LCPP_TestCase(Environment, add)
     auto pSymbol = symbol::create("key-symbol");
     auto pInteger = number::create(42);
 
-    LCPP_pStack->push(pEnv);
-    LCPP_pStack->push(pSymbol);
-    LCPP_pStack->push(pInteger);
+    // TODO Implement this test.
 
-    CUT_ASSERT.isTrue(LCPP_pStack->size() == 3);
-
-    env::add();
-
-    CUT_ASSERT.isTrue(LCPP_pStack->isEmpty());
-
-    CUT_ASSERT.succeed("Not fully implemented.");
+    CUT_ASSERT.fail("Not implemented.");
 }
 
 LCPP_TestCase(Environment, get)
 {
-    CUT_ASSERT.succeed("Not implemented.");
+    // TODO Implement this test.
+
+    CUT_ASSERT.fail("Not implemented.");
 }
 
 LCPP_TestCase(Environment, set)
 {
-    CUT_ASSERT.succeed("Not implemented.");
+    // TODO Implement this test.
+
+    CUT_ASSERT.fail("Not implemented.");
 }

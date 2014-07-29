@@ -82,9 +82,6 @@ lcpp::LispRuntime::initialize()
     ++m_stats.m_initializationCount;
 
     m_pAllocator = defaultAllocator();
-
-    m_pDefaultStack = LCPP_NEW(m_pAllocator.get(), Stack)();
-    m_pStack = m_pDefaultStack;
     
     // TODO instanciate reader, evaluator, ...
 
@@ -114,8 +111,6 @@ lcpp::LispRuntime::shutdown()
     ++m_stats.m_shutdownCount;
 
     LCPP_DELETE(m_pAllocator.get(), m_instanceTables.m_pSymbolTable.get());
-
-    LCPP_DELETE(m_pAllocator.get(), m_pDefaultStack.get());
 
     LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());
     LCPP_DELETE(m_pAllocator.get(), m_pSyntaxEnvironment.get());

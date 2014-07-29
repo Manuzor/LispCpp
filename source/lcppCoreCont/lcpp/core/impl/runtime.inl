@@ -9,18 +9,6 @@ namespace lcpp
     }
 
     inline
-    Ptr<Stack> lcpp::LispRuntime::getStack()
-    {
-        return m_pStack;
-    }
-
-    inline
-    Ptr<const Stack> lcpp::LispRuntime::getStack() const
-    {
-        return m_pStack;
-    }
-
-    inline
     void LispRuntime::allocator(Ptr<ezAllocatorBase> value)
     {
         m_pAllocator = value;

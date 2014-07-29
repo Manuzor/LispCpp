@@ -5,20 +5,30 @@
 
 LCPP_TestGroup(Runtime);
 
+auto g_pRuntimeStateCheck = static_cast<void*>(nullptr);
+
 LCPP_TestCase(Runtime, GlobalStateReset1)
 {
-    CUT_ASSERT.isTrue(LCPP_pStack->isEmpty());
-    LCPP_pStack->push(LCPP_pTrue);
-    CUT_ASSERT.isFalse(LCPP_pStack->isEmpty());
-    CUT_ASSERT.isTrue(LCPP_pStack->get(-1) == LCPP_pTrue);
+    if(g_pRuntimeStateCheck == nullptr)
+    {
+        g_pRuntimeStateCheck = LCPP_pRuntime->syntaxEnvironment().get();
+        CUT_ASSERT.succeed("Finished preparing for other unit test.");
+        return;
+    }
+
+    CUT_ASSERT.isTrue(LCPP_pRuntime->syntaxEnvironment().get() != g_pRuntimeStateCheck);
 }
 
 LCPP_TestCase(Runtime, GlobalStateReset2)
 {
-    CUT_ASSERT.isTrue(LCPP_pStack->isEmpty());
-    LCPP_pStack->push(LCPP_pFalse);
-    CUT_ASSERT.isFalse(LCPP_pStack->isEmpty());
-    CUT_ASSERT.isTrue(LCPP_pStack->get(-1) == LCPP_pFalse);
+    if(g_pRuntimeStateCheck == nullptr)
+    {
+        g_pRuntimeStateCheck = LCPP_pRuntime->syntaxEnvironment().get();
+        CUT_ASSERT.succeed("Finished preparing for other unit test.");
+        return;
+    }
+
+    CUT_ASSERT.isTrue(LCPP_pRuntime->syntaxEnvironment().get() != g_pRuntimeStateCheck);
 }
 
 LCPP_TestCase(Runtime, Basics)
@@ -27,11 +37,4 @@ LCPP_TestCase(Runtime, Basics)
 
     CUT_ASSERT.isTrue(pRuntime == LCPP_pRuntime, "Pointers should be the same.");
     CUT_ASSERT.isTrue(pRuntime == LispRuntime::instance());
-}
-
-LCPP_TestCase(Runtime, Stack)
-{
-    auto pStack = LCPP_pRuntime->getStack();
-
-    CUT_ASSERT.isTrue(pStack == LCPP_pStack);
 }
