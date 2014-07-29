@@ -147,6 +147,33 @@ namespace lcpp
             return EZ_FAILURE;
         }
 
+        BindingLocation existsBinding(Ptr<LispObject> pEnv,
+                                      Ptr<LispObject> pSymbol)
+        {
+            typeCheck(pEnv, Type::Environment);
+            typeCheck(pSymbol, Type::Symbol);
+
+            auto& table = detail::getTable(pEnv);
+
+            if(table.KeyExists(pSymbol))
+            {
+                return BindingLocation::Local;
+            }
+
+            auto pParent = env::getParent(pEnv);
+
+            if (!isNil(pParent))
+            {
+                auto location = existsBinding(pParent, pSymbol);
+                if (location)
+                {
+                    return BindingLocation::Parent;
+                }
+            }
+
+            return BindingLocation::None;
+        }
+
         namespace detail
         {
             HashTable& getTable(Ptr<LispObject> pEnv)
@@ -154,6 +181,5 @@ namespace lcpp
                 return pEnv->getBody().m_env.getTable();
             }
         }
-
     }
 }

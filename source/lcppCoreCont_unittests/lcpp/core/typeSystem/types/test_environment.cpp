@@ -137,3 +137,37 @@ LCPP_TestCase(Environment, qualifiedName)
     pName = env::getQualifiedName(pEnvChild3);
     CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1/child2/child3"));
 }
+
+LCPP_TestCase(Environment, existsBinding)
+{
+    auto pEnvParent = env::createTopLevel(symbol::create("parent"));
+    auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
+    auto pSymbol_a = symbol::create("a");
+    auto pSymbol_b = symbol::create("b");
+    auto pInteger_42 = number::create(42);
+    auto pInteger_1337 = number::create(1337);
+
+    auto result = env::BindingLocation(env::BindingLocation::None);
+
+    result = env::existsBinding(pEnvParent, pSymbol_a);
+    CUT_ASSERT.isFalse(result);
+
+    env::addBinding(pEnvParent, pSymbol_a, pInteger_42);
+
+    result = env::existsBinding(pEnvParent, pSymbol_a);
+    CUT_ASSERT.isTrue(result);
+    CUT_ASSERT.isTrue(result.locally());
+
+    result = env::existsBinding(pEnvChild, pSymbol_a);
+    CUT_ASSERT.isTrue(result);
+    CUT_ASSERT.isTrue(result.inParent());
+
+    env::addBinding(pEnvChild, pSymbol_b, pInteger_1337);
+
+    result = env::existsBinding(pEnvParent, pSymbol_b);
+    CUT_ASSERT.isFalse(result);
+
+    result = env::existsBinding(pEnvChild, pSymbol_b);
+    CUT_ASSERT.isTrue(result);
+    CUT_ASSERT.isTrue(result.locally());
+}

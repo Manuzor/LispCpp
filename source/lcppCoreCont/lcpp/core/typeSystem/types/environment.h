@@ -34,6 +34,30 @@ namespace lcpp
             LCPP_DeclareRawDataMember(HashTable, m_table);
         };
 
+        class BindingLocation
+        {
+        public:
+
+            enum Enum
+            {
+                None,
+                Local,
+                Parent,
+            };
+
+            BindingLocation(Enum value);
+
+            bool locally() const;
+            bool inParent() const;
+
+            operator bool() const;
+
+        private:
+
+            Enum m_value;
+        };
+        
+
         //////////////////////////////////////////////////////////////////////////
 
         LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pEnv);
@@ -51,6 +75,9 @@ namespace lcpp
         LCPP_API_CORE_CONT ezResult getBinding(Ptr<LispObject> pEnv,
                                                Ptr<LispObject> pSymbol,
                                                Ptr<LispObject>& out_pValue);
+
+        LCPP_API_CORE_CONT BindingLocation existsBinding(Ptr<LispObject> pEnv,
+                                                         Ptr<LispObject> pSymbol);
 
         namespace detail
         {
