@@ -28,6 +28,8 @@ namespace lcpp
 
             File,
 
+            Continuation,
+
             ENUM_COUNT
         };
 
