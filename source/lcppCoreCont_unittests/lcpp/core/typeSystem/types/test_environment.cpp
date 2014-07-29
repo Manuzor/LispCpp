@@ -15,6 +15,11 @@ LCPP_TestCase(Environment, getName)
     auto pName = env::getName(pEnvParent);
 
     CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("the-env"));
+
+    auto pEnvChild = env::create(symbol::create("the-child"), pEnvParent);
+    pName = env::getName(pEnvChild);
+
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("the-child"));
 }
 
 LCPP_TestCase(Environment, getParent)
@@ -107,4 +112,28 @@ LCPP_TestCase(Environment, getBinding_addBinding_setBinding)
 
     result = env::getBinding(pEnvParent, pSymbol_b, pResultObject);
     CUT_ASSERT.isTrue(result.Failed());
+}
+
+LCPP_TestCase(Environment, qualifiedName)
+{
+    auto pEnvParent = env::createTopLevel(symbol::create("parent"));     ///< parent
+    auto pEnvChild1 = env::create(symbol::create("child1"), pEnvParent); ///< parent/child1
+    auto pEnvChild2 = env::create(symbol::create("child2"), pEnvChild1); ///< parent/child1/child2
+    auto pEnvChild3 = env::create(symbol::create("child3"), pEnvChild2); ///< parent/child1/child2/child3
+
+    auto pName = Ptr<LispObject>();
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pName = env::getQualifiedName(pEnvParent);
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent"));
+
+    pName = env::getQualifiedName(pEnvChild1);
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1"));
+
+    pName = env::getQualifiedName(pEnvChild2);
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1/child2"));
+
+    pName = env::getQualifiedName(pEnvChild3);
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1/child2/child3"));
 }

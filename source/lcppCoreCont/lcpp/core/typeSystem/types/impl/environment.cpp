@@ -46,18 +46,42 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
-        Ptr<LispObject> getName(Ptr<LispObject> pObject)
+        Ptr<LispObject> getName(Ptr<LispObject> pEnv)
         {
-            typeCheck(pObject, Type::Environment);
+            typeCheck(pEnv, Type::Environment);
 
-            return pObject->getBody().m_env.getName();
+            return pEnv->getBody().m_env.getName();
         }
 
-        Ptr<LispObject> getParent(Ptr<LispObject> pObject)
+        static void getQualifiedNameHelper(Ptr<LispObject> pEnv, ezStringBuilder& name)
         {
-            typeCheck(pObject, Type::Environment);
+            auto pParent = getParent(pEnv);
 
-            return pObject->getBody().m_env.getParent();
+            if (!isNil(pParent))
+            {
+                getQualifiedNameHelper(pParent, name);
+                name.Append('/');
+            }
+
+            name.Append(symbol::getValue(getName(pEnv)).GetData());
+        }
+
+        Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv)
+        {
+            typeCheck(pEnv, Type::Environment);
+
+            auto name = ezStringBuilder();
+
+            getQualifiedNameHelper(pEnv, name);
+
+            return symbol::create(name);
+        }
+
+        Ptr<LispObject> getParent(Ptr<LispObject> pEnv)
+        {
+            typeCheck(pEnv, Type::Environment);
+
+            return pEnv->getBody().m_env.getParent();
         }
 
         void addBinding(Ptr<LispObject> pEnv,
@@ -125,9 +149,9 @@ namespace lcpp
 
         namespace detail
         {
-            HashTable& getTable(Ptr<LispObject> pObject)
+            HashTable& getTable(Ptr<LispObject> pEnv)
             {
-                return pObject->getBody().m_env.getTable();
+                return pEnv->getBody().m_env.getTable();
             }
         }
 

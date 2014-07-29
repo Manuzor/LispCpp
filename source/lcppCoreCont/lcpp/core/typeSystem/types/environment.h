@@ -36,24 +36,25 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
-        LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pEnv);
+        LCPP_API_CORE_CONT Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv);
+        LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pEnv);
 
         LCPP_API_CORE_CONT void addBinding(Ptr<LispObject> pEnv,
-                                    Ptr<LispObject> pSymbol,
-                                    Ptr<LispObject> pValue);
+                                           Ptr<LispObject> pSymbol,
+                                           Ptr<LispObject> pValue);
 
         LCPP_API_CORE_CONT ezResult setBinding(Ptr<LispObject> pEnv,
                                                Ptr<LispObject> pSymbol,
                                                Ptr<LispObject> pValue);
 
         LCPP_API_CORE_CONT ezResult getBinding(Ptr<LispObject> pEnv,
-                                        Ptr<LispObject> pSymbol,
-                                        Ptr<LispObject>& out_pValue);
+                                               Ptr<LispObject> pSymbol,
+                                               Ptr<LispObject>& out_pValue);
 
         namespace detail
         {
-            LCPP_API_CORE_CONT HashTable& getTable(Ptr<LispObject> pObject);
+            LCPP_API_CORE_CONT HashTable& getTable(Ptr<LispObject> pEnv);
         }
     };
 }
