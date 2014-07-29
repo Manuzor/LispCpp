@@ -38,7 +38,7 @@ namespace lcpp
             auto pObject = LCPP_pStack->get(index);
             typeCheck(pObject, Type::Symbol);
 
-            return pObject->getBody().m_symbol.getString();
+            return pObject->getBody().m_symbol.getValue();
         }
 
     }

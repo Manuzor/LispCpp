@@ -18,12 +18,9 @@ namespace lcpp
         {
         public:
 
-            void initialize(const String& symbol);
-            void destroy();
-
-            const String& getString() const;
-            String& getString();
-            void setString(const String& newString);
+            const String& getValue() const;
+            String& getValue();
+            void setValue(const String& newString);
 
             char m_pRawData[sizeof(String)];
         };
