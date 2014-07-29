@@ -17,6 +17,15 @@ namespace cut
 
 		virtual void registerUnitTestGroup(IUnitTestGroup* testGroup) = 0;
 
+		virtual void disableUnitTestOrGroup(StringRef groupName) = 0;
+		virtual void disableUnitTestOrGroup(StringRef groupName, StringRef testName) = 0;
+
+		virtual void enableUnitTestOrGroup(StringRef groupName) = 0;
+		virtual void enableUnitTestOrGroup(StringRef groupName, StringRef testName) = 0;
+
+		virtual bool isUnitTestOrGroupEnabled(StringRef groupName) = 0;
+		virtual bool isUnitTestOrGroupEnabled(StringRef groupName, StringRef testName) = 0;
+
 		virtual void runAll() = 0;
 
 		virtual void updateStatistics() = 0;

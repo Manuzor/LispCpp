@@ -38,6 +38,15 @@ cut::UnitTestGroup::runAllTests()
 	for (auto unitTest : m_unitTests)
 	{
 		auto unitTestName = unitTest->getName().cString();
+
+		if(!IUnitTestManager::instance().isUnitTestOrGroupEnabled(getName(), unitTestName))
+		{
+			logMessage(format(
+				"Skipping disabled unit test \"%s\".\n",
+				unitTestName));
+			continue;
+		}
+
 		try
 		{
 			LogBlock runSingleTest(format("Running test \"%s\"", unitTestName));
