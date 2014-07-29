@@ -55,4 +55,12 @@ namespace lcpp
     bool operator != (Ptr<T_Lhs> lhs, Ptr<T_Rhs> rhs);
 }
 
+/// Template specialization so Ptr<...> can be used in ezHashTable.
+template<typename T>
+struct ezHashHelper<lcpp::Ptr<T>>
+{
+    static ezUInt32 Hash(lcpp::Ptr<T> value);
+    static bool Equal(lcpp::Ptr<T> a, lcpp::Ptr<T> b);
+};
+
 #include "lcpp/foundation/implementation/ptr.inl"

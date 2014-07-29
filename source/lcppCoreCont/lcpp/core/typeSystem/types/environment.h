@@ -42,6 +42,11 @@ namespace lcpp
         LCPP_API_CORE_CONT void add(Ptr<LispObject> pEnv,
                                     Ptr<LispObject> pSymbol,
                                     Ptr<LispObject> pValue);
+
+        namespace detail
+        {
+            LCPP_API_CORE_CONT HashTable& getTable(Ptr<LispObject> pObject);
+        }
     };
 }
 

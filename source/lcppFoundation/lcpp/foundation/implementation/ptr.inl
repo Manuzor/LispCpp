@@ -151,3 +151,15 @@ lcpp::operator != (Ptr<T_Lhs> lhs, Ptr<T_Rhs> rhs)
 {
     return lhs.get() != rhs.get();
 }
+
+template<typename T>
+ezUInt32 ezHashHelper<lcpp::Ptr<T>>::Hash(lcpp::Ptr<T> value)
+{
+    return ezHashHelper<T*>::Hash(value.get());
+}
+
+template<typename T>
+bool ezHashHelper<lcpp::Ptr<T>>::Equal(lcpp::Ptr<T> a, lcpp::Ptr<T> b)
+{
+    return ezHashHelper<T*>::Equal(a.get(), b.get());
+}

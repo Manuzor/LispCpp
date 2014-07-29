@@ -64,8 +64,20 @@ namespace lcpp
                  Ptr<LispObject> pSymbol,
                  Ptr<LispObject> pValue)
         {
-            LCPP_NOT_IMPLEMENTED;
+            typeCheck(pEnv, Type::Environment);
+            typeCheck(pSymbol, Type::Symbol);
+
+            auto& table = detail::getTable(pEnv);
+
+            table[pSymbol] = pValue;
         }
 
+        namespace detail
+        {
+            HashTable& getTable(Ptr<LispObject> pObject)
+            {
+                return pObject->getBody().m_env.getTable();
+            }
+        }
     }
 }

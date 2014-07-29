@@ -29,6 +29,8 @@ LCPP_TestCase(Environment, add)
     auto pSymbol = symbol::create("key-symbol");
     auto pInteger = number::create(42);
 
+    env::add(pEnv, pSymbol, pInteger);
+
     // TODO Implement this test.
 
     CUT_ASSERT.fail("Not implemented.");
