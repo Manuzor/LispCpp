@@ -10,15 +10,24 @@
 	</Type>
 
 	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
-		<DisplayString>{m_pPtr}</DisplayString>
-		<Expand>
-			<Item Name="Header">m_pPtr->m_header</Item>
-			<Item Name="Body">m_pPtr->m_body</Item>
-		</Expand>
+		<DisplayString>{*m_pPtr}</DisplayString>
 	</Type>
 
 	<Type Name="lcpp::LispObject">
-		<DisplayString>{*m_header.m_pMetaInfo.m_pPtr}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  0">Nil '()</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  1">Void #v</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  2">True #t</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  3">False #f</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">{m_header}: {m_integer}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">{m_header}: {m_float}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">{m_header}: {m_symbol}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">{m_header}: {m_env}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString>[Unknown Type]{m_header}</DisplayString>
 	</Type>
 
 	<Type Name="lcpp::LispObjectHeader">
@@ -26,11 +35,26 @@
 	</Type>
 
 	<Type Name="lcpp::MetaInfo">
-		<DisplayString>{m_type} {m_prettyName}</DisplayString>
+		<DisplayString>{m_type}</DisplayString>
 	</Type>
 
 	<Type Name="lcpp::Type">
 		<DisplayString>{m_id}</DisplayString>
+	</Type>
+
+	<!-- type specific data -->
+
+	<Type Name="lcpp::symbol::Data">
+		<DisplayString>{*((String*)m_pRawData)}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::env::Data">
+		<DisplayString>{((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)->m_pPtr->m_symbol}</DisplayString>
+		<Expand>
+			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+			<Item Name="Table">(ezHashTableBase&lt;lcpp::Ptr&lt;lcpp::LispObject&gt;,lcpp::Ptr&lt;lcpp::LispObject&gt;,ezHashHelper&lt;lcpp::Ptr&lt;lcpp::LispObject&gt; &gt; &gt; *)m_table</Item>
+		</Expand>
 	</Type>
 
 </AutoVisualizer>
