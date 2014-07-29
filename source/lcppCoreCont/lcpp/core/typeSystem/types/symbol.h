@@ -18,10 +18,14 @@ namespace lcpp
         {
         public:
 
-            void initialize(String* pSymbol);
+            void initialize(const String& symbol);
             void destroy();
 
-            String* m_pValue;
+            const String& getString() const;
+            String& getString();
+            void setString(const String& newString);
+
+            char m_pRawData[sizeof(String)];
         };
 
         LCPP_API_CORE_CONT const String& value(ezInt32 index = -1);

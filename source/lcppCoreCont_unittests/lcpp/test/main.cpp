@@ -29,6 +29,8 @@ int main(int argc, const char* argv[])
     testManager.initializeFunction() = []{ lcpp::startup(); };
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
+    testManager.disableUnitTestOrGroup("Environment");
+
     testManager.runAll();
 
     auto& stats = testManager.statistics();

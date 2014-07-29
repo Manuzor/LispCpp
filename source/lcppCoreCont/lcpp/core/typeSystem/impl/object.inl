@@ -8,20 +8,22 @@ namespace lcpp
     {
         // TODO This whole function needs more case, most likely...
 
+        // Helper struct to determine the minimum memory needed for this lisp object using T_Data
+        struct LispObjectProxy
+        {
+            LispObjectHeader h;
+            T_Data d;
+        };
+
         auto pAllocator = LispRuntime::instance()->allocator();
 
-        auto sizeA = sizeof(LispObjectHeader);
-        auto alignmentA = EZ_ALIGNMENT_OF(LispObjectHeader);
+        auto size = sizeof(LispObjectProxy);
 
-        auto sizeB = sizeof(T_Data);
-        auto alignmentB = EZ_ALIGNMENT_OF(T_Data);
+        auto pMem = static_cast<void*>(LCPP_NEW(pAllocator.get(), LispObjectProxy)());
 
-        auto allocationSize = sizeA + sizeB;
-        auto alignment = ezMath::Max(alignmentA, alignmentB);
+        memset(pMem, 0xdadadada, size);
 
-        auto pMem = (char*)pAllocator->Allocate(allocationSize, alignment);
-
-        return new(pMem)LispObject(metaInfo);
+        return new (pMem) LispObject(metaInfo);
     }
 
     inline

@@ -5,6 +5,8 @@
 #include "lcpp/core/containers/stack.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
+#include <Foundation/Memory/MemoryUtils.h>
+
 namespace lcpp
 {
     namespace symbol
@@ -24,13 +26,9 @@ namespace lcpp
 
         Ptr<LispObject> createNew(const String& value)
         {
-            // TODO Allocate enough memory so the object and the ezString can live in the same block.
-
             auto pInstance = LispObject::create<Data>(metaInfo());
 
-            auto pString = LCPP_NEW(LCPP_pRuntime->allocator().get(), String)(value);
-
-            pInstance->getBody().m_symbol.initialize(pString);
+            new (pInstance->getBody().m_symbol.m_pRawData) String(value);
 
             return pInstance;
         }
@@ -40,7 +38,7 @@ namespace lcpp
             auto pObject = LCPP_pStack->get(index);
             typeCheck(pObject, Type::Symbol);
 
-            return *pObject->getBody().m_symbol.m_pValue;
+            return pObject->getBody().m_symbol.getString();
         }
 
     }

@@ -4,16 +4,33 @@ namespace lcpp
     namespace symbol
     {
         inline
-        void Data::initialize(String* pSymbol)
+        void Data::initialize(const String& symbol)
         {
-            m_pValue = pSymbol;
+            setString(symbol);
         }
 
         inline
         void Data::destroy()
         {
-            m_pValue = nullptr;
+            getString().~String();
         }
 
+        inline
+        const String& Data::getString() const
+        {
+            return reinterpret_cast<const String&>(m_pRawData);
+        }
+
+        inline
+        String& Data::getString()
+        {
+            return reinterpret_cast<String&>(m_pRawData);
+        }
+
+        inline
+        void Data::setString(const String& newString)
+        {
+            getString() = newString;
+        }
     }
 }
