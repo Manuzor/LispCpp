@@ -13,8 +13,8 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> create(Integer_t value);
         LCPP_API_CORE_CONT Ptr<LispObject> create(Float_t value);
 
-        LCPP_API_CORE_CONT Integer_t integerValue(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT Float_t floatValue(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Integer_t getInteger(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Float_t getFloat(Ptr<LispObject> pObject);
     }
 }
 

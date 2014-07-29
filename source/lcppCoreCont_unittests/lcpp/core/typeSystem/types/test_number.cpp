@@ -21,14 +21,14 @@ LCPP_TestCase(Number, Basics)
     CUT_ASSERT.isTrue(pFloat_Two->isType(Type::Float));
 }
 
-LCPP_TestCase(Number, integerValue)
+LCPP_TestCase(Number, getInteger)
 {
     auto pNumber = number::create(42);
-    CUT_ASSERT.isTrue(number::integerValue(pNumber) == 42);
+    CUT_ASSERT.isTrue(number::getInteger(pNumber) == 42);
 }
 
-LCPP_TestCase(Number, floatValue)
+LCPP_TestCase(Number, getFloat)
 {
     auto pNumber = number::create(3.1415);
-    CUT_ASSERT.isTrue(number::floatValue(pNumber) == 3.1415);
+    CUT_ASSERT.isTrue(number::getFloat(pNumber) == 3.1415);
 }

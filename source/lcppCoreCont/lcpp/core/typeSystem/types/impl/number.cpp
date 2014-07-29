@@ -39,14 +39,14 @@ namespace lcpp
             return pInstance;
         }
 
-        Integer_t integerValue(Ptr<LispObject> pObject)
+        Integer_t getInteger(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer);
 
             return pObject->getBody().m_integer;
         }
 
-        Float_t floatValue(Ptr<LispObject> pObject)
+        Float_t getFloat(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Float);
 
