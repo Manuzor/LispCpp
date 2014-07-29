@@ -61,8 +61,8 @@ namespace lcpp
         }
 
         void addBinding(Ptr<LispObject> pEnv,
-                 Ptr<LispObject> pSymbol,
-                 Ptr<LispObject> pValue)
+                        Ptr<LispObject> pSymbol,
+                        Ptr<LispObject> pValue)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
@@ -72,9 +72,34 @@ namespace lcpp
             table[pSymbol] = pValue;
         }
 
+        ezResult setBinding(Ptr<LispObject> pEnv,
+                            Ptr<LispObject> pSymbol,
+                            Ptr<LispObject> pValue)
+        {
+            typeCheck(pEnv, Type::Environment);
+            typeCheck(pSymbol, Type::Symbol);
+
+            auto& table = detail::getTable(pEnv);
+
+            if(table.KeyExists(pSymbol))
+            {
+                table[pSymbol] = pValue;
+                return EZ_SUCCESS;
+            }
+
+            auto pParent = getParent(pEnv);
+            
+            if(!isNil(pParent))
+            {
+                return setBinding(pParent, pSymbol, pValue);
+            }
+            
+            return EZ_FAILURE;
+        }
+
         ezResult getBinding(Ptr<LispObject> pEnv,
-                     Ptr<LispObject> pSymbol,
-                     Ptr<LispObject>& out_pValue)
+                            Ptr<LispObject> pSymbol,
+                            Ptr<LispObject>& out_pValue)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
@@ -105,5 +130,6 @@ namespace lcpp
                 return pObject->getBody().m_env.getTable();
             }
         }
+
     }
 }

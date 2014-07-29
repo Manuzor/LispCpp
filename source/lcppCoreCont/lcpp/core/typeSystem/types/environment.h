@@ -43,6 +43,10 @@ namespace lcpp
                                     Ptr<LispObject> pSymbol,
                                     Ptr<LispObject> pValue);
 
+        LCPP_API_CORE_CONT ezResult setBinding(Ptr<LispObject> pEnv,
+                                               Ptr<LispObject> pSymbol,
+                                               Ptr<LispObject> pValue);
+
         LCPP_API_CORE_CONT ezResult getBinding(Ptr<LispObject> pEnv,
                                         Ptr<LispObject> pSymbol,
                                         Ptr<LispObject>& out_pValue);

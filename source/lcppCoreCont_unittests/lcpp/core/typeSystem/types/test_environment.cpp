@@ -26,40 +26,85 @@ LCPP_TestCase(Environment, getParent)
     CUT_ASSERT.isTrue(env::getParent(pEnvChild) == pEnvParent);
 }
 
-LCPP_TestCase(Environment, getAndAddBinding)
+LCPP_TestCase(Environment, getBinding_addBinding_setBinding)
 {
     auto pEnvParent = env::createTopLevel(symbol::create("parent"));
-    auto pSymbol1 = symbol::create("a");
-    auto pInteger = number::create(42);
+    auto pSymbol_a = symbol::create("a");
+    auto pSymbol_b = symbol::create("b");
+    auto pInteger_42 = number::create(42);
+    auto pInteger_1337 = number::create(1337);
 
-    auto pKey = Ptr<LispObject>();
+    auto pResultObject = Ptr<LispObject>();
     auto result = ezResult(EZ_FAILURE);
 
-    result = env::getBinding(pEnvParent, pSymbol1, pKey);
+    result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);
 
     CUT_ASSERT.isTrue(result.Failed());
+    env::addBinding(pEnvParent, pSymbol_a, pInteger_42); ///< parent => a: 42
 
-    env::addBinding(pEnvParent, pSymbol1, pInteger);
-
-    result = env::getBinding(pEnvParent, pSymbol1, pKey);
-
+    result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);
     CUT_ASSERT.isTrue(result.Succeeded());
-    CUT_ASSERT.isTrue(pKey == pInteger);
+    CUT_ASSERT.isTrue(pResultObject == pInteger_42);
 
-    // Test get in child
+    result = env::setBinding(pEnvParent, pSymbol_b, pInteger_1337);
+    CUT_ASSERT.isTrue(result.Failed(), "Should not be able to set a binding for a non-existant symbol.");
+
+    result = env::setBinding(pEnvParent, pSymbol_a, pInteger_1337); ///< parent => a: 1337
+    CUT_ASSERT.isTrue(result.Succeeded());
+
+    result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pResultObject == pInteger_1337);
+
+    // parent/child
     //////////////////////////////////////////////////////////////////////////
 
     auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
 
-    result = env::getBinding(pEnvChild, pSymbol1, pKey);
-
+    result = env::getBinding(pEnvChild, pSymbol_a, pResultObject);
     CUT_ASSERT.isTrue(result.Succeeded());
-    CUT_ASSERT.isTrue(pKey == pInteger);
-}
+    CUT_ASSERT.isTrue(pResultObject == pInteger_1337);
 
-LCPP_TestCase(Environment, set)
-{
-    // TODO Implement this test.
+    // set non-existant (should fail)
+    result = env::setBinding(pEnvChild, pSymbol_b, pInteger_1337);
+    CUT_ASSERT.isTrue(result.Failed());
 
-    CUT_ASSERT.fail("Not implemented.");
+    // set in parent via child
+    result = env::setBinding(pEnvChild, pSymbol_a, pInteger_42); ///< parent => a: 42
+    CUT_ASSERT.isTrue(result.Succeeded());
+
+    // Check that the child set symbol "a" in the parent.
+    result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pResultObject == pInteger_42);
+
+    // Add in child / no effect on parent
+    //////////////////////////////////////////////////////////////////////////
+
+    env::addBinding(pEnvChild, pSymbol_a, pInteger_1337); ///< parent => a: 42 | parent/child => a: 1337
+
+    result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pResultObject == pInteger_42);
+
+    result = env::getBinding(pEnvChild, pSymbol_a, pResultObject);
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pResultObject == pInteger_1337);
+
+    result = env::setBinding(pEnvChild, pSymbol_a, pInteger_42); ///< parent => a: 42 | parent/child => a: 42
+    CUT_ASSERT.isTrue(result.Succeeded());
+
+    result = env::getBinding(pEnvChild, pSymbol_a, pResultObject);
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pResultObject == pInteger_42);
+    
+    // Add in child and show that it does not affect the parent.
+    env::addBinding(pEnvChild, pSymbol_b, pInteger_1337);
+
+    result = env::getBinding(pEnvChild, pSymbol_b, pResultObject);
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pResultObject == pInteger_1337);
+
+    result = env::getBinding(pEnvParent, pSymbol_b, pResultObject);
+    CUT_ASSERT.isTrue(result.Failed());
 }
