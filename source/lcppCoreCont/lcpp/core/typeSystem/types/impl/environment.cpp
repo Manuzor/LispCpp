@@ -60,7 +60,7 @@ namespace lcpp
             return pObject->getBody().m_env.getParent();
         }
 
-        void add(Ptr<LispObject> pEnv,
+        void addBinding(Ptr<LispObject> pEnv,
                  Ptr<LispObject> pSymbol,
                  Ptr<LispObject> pValue)
         {
@@ -72,7 +72,7 @@ namespace lcpp
             table[pSymbol] = pValue;
         }
 
-        ezResult get(Ptr<LispObject> pEnv,
+        ezResult getBinding(Ptr<LispObject> pEnv,
                      Ptr<LispObject> pSymbol,
                      Ptr<LispObject>& out_pValue)
         {
@@ -92,7 +92,7 @@ namespace lcpp
             
             if(!isNil(pParent))
             {
-                return env::get(pParent, pSymbol, out_pValue);
+                return env::getBinding(pParent, pSymbol, out_pValue);
             }
             
             return EZ_FAILURE;

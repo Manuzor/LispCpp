@@ -29,7 +29,6 @@ int main(int argc, const char* argv[])
     testManager.initializeFunction() = []{ lcpp::startup(); };
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
-    testManager.disableUnitTestOrGroup("Environment", "add");
     testManager.disableUnitTestOrGroup("Environment", "set");
 
     testManager.runAll();

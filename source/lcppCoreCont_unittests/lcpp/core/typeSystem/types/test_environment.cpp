@@ -35,13 +35,13 @@ LCPP_TestCase(Environment, getAndAddBinding)
     auto pKey = Ptr<LispObject>();
     auto result = ezResult(EZ_FAILURE);
 
-    result = env::get(pEnvParent, pSymbol1, pKey);
+    result = env::getBinding(pEnvParent, pSymbol1, pKey);
 
     CUT_ASSERT.isTrue(result.Failed());
 
-    env::add(pEnvParent, pSymbol1, pInteger);
+    env::addBinding(pEnvParent, pSymbol1, pInteger);
 
-    result = env::get(pEnvParent, pSymbol1, pKey);
+    result = env::getBinding(pEnvParent, pSymbol1, pKey);
 
     CUT_ASSERT.isTrue(result.Succeeded());
     CUT_ASSERT.isTrue(pKey == pInteger);
@@ -51,7 +51,7 @@ LCPP_TestCase(Environment, getAndAddBinding)
 
     auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
 
-    result = env::get(pEnvChild, pSymbol1, pKey);
+    result = env::getBinding(pEnvChild, pSymbol1, pKey);
 
     CUT_ASSERT.isTrue(result.Succeeded());
     CUT_ASSERT.isTrue(pKey == pInteger);
