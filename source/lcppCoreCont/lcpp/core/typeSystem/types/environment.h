@@ -21,35 +21,24 @@ namespace lcpp
         {
         public:
 
-            void initialize(Ptr<LispObject> pName,
-                            Ptr<LispObject> pParent,
-                            Ptr<HashTable> pTable);
-            void destroy();
+            Ptr<LispObject> getName();
+            Ptr<LispObject> getParent();
+            HashTable& getTable();
 
         public:
 
-            LispObject* m_pName;
+            LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
 
-            LispObject* m_pParent;
+            LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
 
-            HashTable* m_pTable;
-
+            LCPP_DeclareRawDataMember(HashTable, m_table);
         };
 
         //////////////////////////////////////////////////////////////////////////
 
-        /// \brief Adds the key-value pair at \a indexOfKeyValuePair to the env at \a indexOfKeyValuePair \c - \c 2
-        ///
-        /// Example:
-        /// \a indexOfKeyValuePair = -1 => value (object to add to the env)
-        /// \a indexOfKeyValuePair = -2 => key (symbol-key of the object to add)
-        /// \a indexOfKeyValuePair = -3 => env (the environment object to add the key-value pair to.)
-        ///
-        /// This means that you have to push in this order:
-        /// push(env); push(key); push(value);
-        ///
-        /// \remark This operation pops these three values from the stack!
-        LCPP_API_CORE_CONT void add(ezInt32 indexOfKeyValuePair = -1);
+        LCPP_API_CORE_CONT void add(Ptr<LispObject> pEnv,
+                                    Ptr<LispObject> pSymbol,
+                                    Ptr<LispObject> pValue);
     };
 }
 

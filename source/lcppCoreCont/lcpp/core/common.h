@@ -7,3 +7,5 @@
 #endif // LCPP_EXPORT_FOUNDATION
 
 #include "lcpp/core/config.h"
+
+#define LCPP_DeclareRawDataMember(typeName, memberName) char memberName [sizeof(typeName)]

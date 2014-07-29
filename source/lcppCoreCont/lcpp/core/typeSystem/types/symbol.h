@@ -24,7 +24,7 @@ namespace lcpp
             String& getValue();
             void setValue(const String& newString);
 
-            char m_pRawData[sizeof(String)];
+            LCPP_DeclareRawDataMember(String, m_pRawData);
         };
 
         //////////////////////////////////////////////////////////////////////////

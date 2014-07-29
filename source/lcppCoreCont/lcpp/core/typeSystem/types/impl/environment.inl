@@ -4,22 +4,21 @@ namespace lcpp
     namespace env
     {
         inline
-        void Data::initialize(Ptr<LispObject> pName,
-                              Ptr<LispObject> pParent,
-                              Ptr<HashTable> pTable)
+        Ptr<LispObject> Data::getName()
         {
-            m_pName = pName.get();
-            m_pParent = pParent.get();
-            m_pTable = pTable.get();
+            return reinterpret_cast<Ptr<LispObject>&>(m_pName);
         }
 
         inline
-        void Data::destroy()
+        Ptr<LispObject> Data::getParent()
         {
-            m_pTable = nullptr;
-            m_pParent = nullptr;
-            m_pName = nullptr;
+            return reinterpret_cast<Ptr<LispObject>&>(m_pParent);
         }
 
+        inline
+        HashTable& Data::getTable()
+        {
+            return reinterpret_cast<HashTable&>(m_table);
+        }
     };
 }

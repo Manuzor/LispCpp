@@ -20,39 +20,37 @@ namespace lcpp
             return meta;
         }
 
-        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pName,
-                                                  Ptr<LispObject> pParent)
+        Ptr<LispObject> create(Ptr<LispObject> pName,
+                               Ptr<LispObject> pParent)
         {
             auto pInstance = LispObject::create<Data>(metaInfo());
 
-            auto pTable = LCPP_NEW(LCPP_pRuntime->allocator().get(), HashTable)();
+            auto& data = pInstance->getBody().m_env;
 
-            if (!pName)
-            {
-                pName = symbol::create("anonymous");
-            }
-
-            pInstance->getBody().m_env.initialize(pName, pParent, pTable);
+            new (data.m_pName) Ptr<LispObject>(pName);
+            new (data.m_pParent) Ptr<LispObject>(pParent);
+            new (data.m_table) HashTable();
 
             return pInstance;
         }
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispObject> pName)
+        Ptr<LispObject> createTopLevel(Ptr<LispObject> pName)
         {
             return create(pName, LCPP_pNil);
         }
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent)
+        Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent)
         {
-            return create(LCPP_pNil, pParent);
+            return create(symbol::create("anonymous"), pParent);
         }
 
         //////////////////////////////////////////////////////////////////////////
 
-        void add(ezInt32 indexOfKeyValuePair /*= -1*/)
+        void add(Ptr<LispObject> pEnv,
+                 Ptr<LispObject> pSymbol,
+                 Ptr<LispObject> pValue)
         {
             LCPP_NOT_IMPLEMENTED;
         }
-
     };
 }
