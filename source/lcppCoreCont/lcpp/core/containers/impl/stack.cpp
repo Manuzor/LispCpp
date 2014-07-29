@@ -6,7 +6,7 @@
 namespace lcpp
 {
     Stack::Stack() :
-        StackBase(LispRuntime::instance()->allocator().get())
+    StackBase(LispRuntime::instance()->allocator().get())
     {
         setNilElement(LCPP_pNil);
     }

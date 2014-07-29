@@ -27,6 +27,7 @@
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: Not implemented in the .natvis file.</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">{m_header}: {m_env}</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">{m_header}: {m_cont}</DisplayString>
 		<DisplayString>[Unknown Type]{m_header}</DisplayString>
 	</Type>
 
@@ -42,6 +43,15 @@
 		<DisplayString>{m_id}</DisplayString>
 	</Type>
 
+	<Type Name="lcpp::Stack">
+		<DisplayString>{m_stack}</DisplayString>
+		<Expand>
+			<Item Name="Allocator">m_pAllocator.m_pPtr</Item>
+			<Item Name="NilElement">m_nilElement</Item>
+			<ExpandedItem>m_stack</ExpandedItem>
+		</Expand>
+	</Type>
+
 	<!-- type specific data -->
 
 	<Type Name="lcpp::symbol::Data">
@@ -54,6 +64,13 @@
 			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
 			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
 			<Item Name="Table">(ezHashTableBase&lt;lcpp::Ptr&lt;lcpp::LispObject&gt;,lcpp::Ptr&lt;lcpp::LispObject&gt;,ezHashHelper&lt;lcpp::Ptr&lt;lcpp::LispObject&gt; &gt; &gt; *)m_table</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::cont::Data">
+		<Expand>
+			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
+			<Item Name="Stack">*((lcpp::Stack*)m_stack)</Item>
 		</Expand>
 	</Type>
 
