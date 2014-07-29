@@ -46,11 +46,26 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
+        Ptr<LispObject> getName(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Environment);
+
+            return pObject->getBody().m_env.getName();
+        }
+
+        Ptr<LispObject> getParent(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Environment);
+
+            return pObject->getBody().m_env.getParent();
+        }
+
         void add(Ptr<LispObject> pEnv,
                  Ptr<LispObject> pSymbol,
                  Ptr<LispObject> pValue)
         {
             LCPP_NOT_IMPLEMENTED;
         }
-    };
+
+    }
 }

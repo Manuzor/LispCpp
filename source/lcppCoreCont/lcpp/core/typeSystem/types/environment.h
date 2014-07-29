@@ -36,6 +36,9 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
+        LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pObject);
+
         LCPP_API_CORE_CONT void add(Ptr<LispObject> pEnv,
                                     Ptr<LispObject> pSymbol,
                                     Ptr<LispObject> pValue);
