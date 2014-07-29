@@ -33,9 +33,8 @@ namespace lcpp
             return pInstance;
         }
 
-        const String& value(ezInt32 index /*= -1*/)
+        const String& value(Ptr<LispObject> pObject)
         {
-            auto pObject = LCPP_pStack->get(index);
             typeCheck(pObject, Type::Symbol);
 
             return pObject->getBody().m_symbol.getValue();

@@ -4,7 +4,6 @@
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/containers/stack.h"
 
 LCPP_TestGroup(Symbol);
 
@@ -17,11 +16,7 @@ LCPP_TestCase(Symbol, value)
 {
     auto pSymbol = symbol::create("hello-world");
 
-    LCPP_pStack->push(pSymbol);
-
-    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
-    auto& value = symbol::value(-1);
-    CUT_ASSERT.isTrue(LCPP_pStack->size() == 1);
+    auto& value = symbol::value(pSymbol);
 
     CUT_ASSERT.isTrue(value.IsEqual("hello-world"));
 }

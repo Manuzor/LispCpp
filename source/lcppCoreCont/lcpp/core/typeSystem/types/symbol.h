@@ -14,6 +14,8 @@ namespace lcpp
         /// \brief Creates an actual new instance, without consulting the symbol table first.
         LCPP_API_CORE_CONT Ptr<LispObject> createNew(const String& value);
 
+        //////////////////////////////////////////////////////////////////////////
+
         class Data
         {
         public:
@@ -25,7 +27,9 @@ namespace lcpp
             char m_pRawData[sizeof(String)];
         };
 
-        LCPP_API_CORE_CONT const String& value(ezInt32 index = -1);
+        //////////////////////////////////////////////////////////////////////////
+
+        LCPP_API_CORE_CONT const String& value(Ptr<LispObject> pObject);
 
     }
 }
