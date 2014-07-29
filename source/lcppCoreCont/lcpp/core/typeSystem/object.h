@@ -46,6 +46,7 @@ namespace lcpp
             symbol::Data m_symbol;
             env::Data m_env;
             cont::Data m_cont;
+            stream::Data m_stream;
         };
 
     };

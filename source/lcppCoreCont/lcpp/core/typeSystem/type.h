@@ -20,6 +20,7 @@ namespace lcpp
 
             Symbol,
             String,
+            Stream,
 
             Cons,
             Lambda,

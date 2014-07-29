@@ -37,7 +37,7 @@ namespace lcpp
     inline
     const char* toString(Type::Enum value)
     {
-        static_assert(Type::ENUM_COUNT == 14,
+        static_assert(Type::ENUM_COUNT == 15,
                       "Did you add something new to Type::Enum and forgot to update this function?");
 
         switch(value)
@@ -52,6 +52,7 @@ namespace lcpp
 
         case Type::Symbol: return "Symbol";
         case Type::String: return "String";
+        case Type::Stream: return "Stream";
 
         case Type::Cons:        return "Cons";
         case Type::Lambda:      return "Lambda";
