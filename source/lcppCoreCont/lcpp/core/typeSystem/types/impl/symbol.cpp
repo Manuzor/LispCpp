@@ -2,7 +2,6 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/containers/stack.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
 #include <Foundation/Memory/MemoryUtils.h>
