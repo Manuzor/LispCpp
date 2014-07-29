@@ -72,6 +72,32 @@ namespace lcpp
             table[pSymbol] = pValue;
         }
 
+        ezResult get(Ptr<LispObject> pEnv,
+                     Ptr<LispObject> pSymbol,
+                     Ptr<LispObject>& out_pValue)
+        {
+            typeCheck(pEnv, Type::Environment);
+            typeCheck(pSymbol, Type::Symbol);
+
+            auto& table = detail::getTable(pEnv);
+
+            auto pResult = Ptr<LispObject>();
+            if(table.TryGetValue(pSymbol, pResult))
+            {
+                out_pValue = pResult;
+                return EZ_SUCCESS;
+            }
+
+            auto pParent = env::getParent(pEnv);
+            
+            if(!isNil(pParent))
+            {
+                return env::get(pParent, pSymbol, out_pValue);
+            }
+            
+            return EZ_FAILURE;
+        }
+
         namespace detail
         {
             HashTable& getTable(Ptr<LispObject> pObject)

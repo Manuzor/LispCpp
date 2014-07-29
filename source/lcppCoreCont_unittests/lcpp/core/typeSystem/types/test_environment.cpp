@@ -9,38 +9,52 @@
 
 LCPP_TestGroup(Environment);
 
-LCPP_TestCase(Environment, Basics)
+LCPP_TestCase(Environment, getName)
 {
-    auto pEnv = env::createTopLevel(symbol::create("top-level-env"));
+    auto pEnvParent = env::createTopLevel(symbol::create("the-env"));
+    auto pName = env::getName(pEnvParent);
 
-    CUT_ASSERT.isTrue(pEnv);
-    
-    auto pName = env::getName(pEnv);
-    CUT_ASSERT.throwsNothing([&]{ typeCheck(pName, Type::Symbol); });
-    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("top-level-env"));
-
-    auto pParent = env::getParent(pEnv);
-    CUT_ASSERT.isTrue(isNil(pParent));
+    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("the-env"));
 }
 
-LCPP_TestCase(Environment, add)
+LCPP_TestCase(Environment, getParent)
 {
-    auto pEnv = env::createTopLevel(symbol::create("test-env"));
-    auto pSymbol = symbol::create("key-symbol");
+    auto pEnvParent = env::createTopLevel(symbol::create("parent"));
+    auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
+
+    CUT_ASSERT.isTrue(isNil(env::getParent(pEnvParent)));
+    CUT_ASSERT.isTrue(env::getParent(pEnvChild) == pEnvParent);
+}
+
+LCPP_TestCase(Environment, getAndAddBinding)
+{
+    auto pEnvParent = env::createTopLevel(symbol::create("parent"));
+    auto pSymbol1 = symbol::create("a");
     auto pInteger = number::create(42);
 
-    env::add(pEnv, pSymbol, pInteger);
+    auto pKey = Ptr<LispObject>();
+    auto result = ezResult(EZ_FAILURE);
 
-    // TODO Implement this test.
+    result = env::get(pEnvParent, pSymbol1, pKey);
 
-    CUT_ASSERT.fail("Not implemented.");
-}
+    CUT_ASSERT.isTrue(result.Failed());
 
-LCPP_TestCase(Environment, get)
-{
-    // TODO Implement this test.
+    env::add(pEnvParent, pSymbol1, pInteger);
 
-    CUT_ASSERT.fail("Not implemented.");
+    result = env::get(pEnvParent, pSymbol1, pKey);
+
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pKey == pInteger);
+
+    // Test get in child
+    //////////////////////////////////////////////////////////////////////////
+
+    auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
+
+    result = env::get(pEnvChild, pSymbol1, pKey);
+
+    CUT_ASSERT.isTrue(result.Succeeded());
+    CUT_ASSERT.isTrue(pKey == pInteger);
 }
 
 LCPP_TestCase(Environment, set)

@@ -30,7 +30,6 @@ int main(int argc, const char* argv[])
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
     testManager.disableUnitTestOrGroup("Environment", "add");
-    testManager.disableUnitTestOrGroup("Environment", "get");
     testManager.disableUnitTestOrGroup("Environment", "set");
 
     testManager.runAll();
