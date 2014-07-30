@@ -28,6 +28,13 @@ namespace lcpp
             return pInstance;
         }
 
+        ezStringIterator& getIterator(Ptr<LispObject> pStream)
+        {
+            typeCheck(pStream, Type::Stream);
+
+            return pStream->m_stream.getIterator();
+        }
+
         ezUInt32 getCharacter(Ptr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
@@ -52,5 +59,6 @@ namespace lcpp
             ++iterator;
             return iterator.GetCharacter();
         }
+
     }
 }

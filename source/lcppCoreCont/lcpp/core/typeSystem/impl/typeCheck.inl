@@ -3,8 +3,13 @@ namespace lcpp
 {
 #if EZ_DISABLED(LCPP_RUNTIME_TYPE_CHECK)
 
-    inline
-    void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType)
+    EZ_FORCE_INLINE
+    void typeCheck(const Ptr<LispObject>&, Type::Enum)
+    {
+    }
+
+    EZ_FORCE_INLINE
+    void typeCheck(const Ptr<LispObject>&, const Type&)
     {
     }
 
