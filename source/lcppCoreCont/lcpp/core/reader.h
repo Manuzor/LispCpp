@@ -11,6 +11,13 @@ namespace lcpp
 
         namespace detail
         {
+            LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pStream);
+            LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(Ptr<LispObject> pStream);
+            LCPP_API_CORE_CONT Ptr<LispObject> readString(Ptr<LispObject> pStream);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList(Ptr<LispObject> pStream);
+
+            //////////////////////////////////////////////////////////////////////////
+            
             LCPP_API_CORE_CONT ezUInt32 skipSeparators(Ptr<LispObject> pStream);
             LCPP_API_CORE_CONT ezUInt32 skipToFirstNewLine(Ptr<LispObject> pStream);
 

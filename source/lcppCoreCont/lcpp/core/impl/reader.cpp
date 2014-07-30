@@ -5,6 +5,8 @@
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/foundation/stringUtils.h"
 
+#include "lcpp/core/exceptions/invalidInputException.h"
+
 namespace lcpp
 {
     namespace reader
@@ -14,11 +16,148 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            LCPP_NOT_IMPLEMENTED;
+            detail::skipSeparators(pStream);
+
+            if (!stream::isValid(pStream))
+            {
+                return LCPP_pVoid;
+            }
+
+            switch(stream::getCharacter(pStream))
+            {
+            case ')':
+                throw exceptions::InvalidInput("Unexpected character ')'.");
+            case '"':
+                return detail::readString(pStream);
+                break;
+            case '(':
+                return detail::readList(pStream);
+                break;
+            }
+
+            return detail::readAtom(pStream);
         }
 
         namespace detail
         {
+            Ptr<LispObject> readAtom(Ptr<LispObject> pStream)
+            {
+                typeCheck(pStream, Type::Stream);
+                auto& iter = stream::getIterator(pStream);
+
+                // Special case for + and - characters, since the ezEngine parses (+ 1) as +1...
+                auto ch = stream::getCharacter(pStream);
+
+                if(ch == '+' || ch == '-')
+                {
+                    auto copy = iter;
+
+                    ezStringBuilder symbol;
+                    symbol.Append(ch);
+
+                    ++copy;
+                    ch = copy.GetCharacter();
+                    while(true)
+                    {
+                        if(isSeparator(ch) || isSymbolDelimiter(ch) || !copy.IsValid())
+                        {
+                            // The + or - characters stand alone, which means they're meant to be a symbol.
+                            while(iter.GetData() != copy.GetData())
+                            {
+                                advance(pStream);
+                            }
+                            return symbol::create(symbol);
+                        }
+                        if(isDigit(ch))
+                        {
+                            // The +'s or -'s are sign changers of the digit we just encountered.
+                            // Abort reading as symbol.
+                            break;
+                        }
+                        symbol.Append(ch);
+                        ++copy;
+                        if(copy.IsValid())
+                        {
+                            ch = copy.GetCharacter();
+                        }
+                    }
+                }
+
+                // Try parsing for an integer first, then a number, then a symbol
+                const char* lastPos = nullptr;
+                number::Integer_t integer;
+                auto result = to(iter, integer, &lastPos);
+
+                // The string contains a number, but it is a floating point number; reparse.
+                if(result.Succeeded())
+                {
+                    LCPP_SCOPE_EXIT
+                    {
+                        while(iter.GetData() != lastPos)
+                        {
+                            advance(pStream);
+                        }
+                    };
+
+                    if(lastPos[0] == '.')
+                    {
+                        number::Float_t number;
+                        auto result = to(iter, number, &lastPos);
+                        EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
+                        return number::create(number);
+                    }
+
+                    return number::create(integer);
+                }
+
+                return readSymbol(pStream);
+            }
+
+            Ptr<LispObject> readSymbol(Ptr<LispObject> pStream)
+            {
+                typeCheck(pStream, Type::Stream);
+
+                skipSeparators(pStream);
+
+                // Parse for a scheme symbol
+                ezStringBuilder symbol;
+
+                auto ch = stream::getCharacter(pStream);
+                while(stream::isValid(pStream) && !isSymbolDelimiter(ch))
+                {
+                    symbol.Append(ch);
+                    advance(pStream);
+                    ch = stream::getCharacter(pStream);
+                }
+
+                EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
+
+                return symbol::create(symbol);
+            }
+
+            Ptr<LispObject> readString(Ptr<LispObject> pStream)
+            {
+                typeCheck(pStream, Type::Stream);
+
+                LCPP_NOT_IMPLEMENTED;
+            }
+
+            Ptr<LispObject> readListHelper(Ptr<LispObject> pStream)
+            {
+                typeCheck(pStream, Type::Stream);
+
+                LCPP_NOT_IMPLEMENTED;
+            }
+
+            Ptr<LispObject> readList(Ptr<LispObject> pStream)
+            {
+                typeCheck(pStream, Type::Stream);
+
+                LCPP_NOT_IMPLEMENTED;
+            }
+
+            //////////////////////////////////////////////////////////////////////////
+
             ezUInt32 skipSeparators(Ptr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
@@ -100,9 +239,6 @@ namespace lcpp
             {
                 return character == ';';
             }
-
         }
-
-
     }
 }

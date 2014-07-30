@@ -29,7 +29,7 @@ int main(int argc, const char* argv[])
     testManager.initializeFunction() = []{ lcpp::startup(); };
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
-    testManager.disableUnitTestOrGroup("Reader");
+    //testManager.disableUnitTestOrGroup("Reader");
 
     testManager.runAll();
 

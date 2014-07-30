@@ -2,6 +2,8 @@
 #include "lcpp/core/reader.h"
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -15,9 +17,31 @@ namespace lcpp
 
 LCPP_TestGroup(Reader);
 
-LCPP_TestCase(Reader, Basics)
+LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)
 {
-    auto pObject = readString("42");
+    auto pObject = Ptr<LispObject>();
 
-    CUT_ASSERT.isTrue(number::getInteger(pObject) == 42);
+    pObject = readString("");
+    CUT_ASSERT.isTrue(isVoid(pObject));
+
+    pObject = readString("    \n\t\r \t\t\n\r\r\n\r\n   \v\v  \n \t");
+    CUT_ASSERT.isTrue(isVoid(pObject));
+}
+
+LCPP_TestCase(Reader, Atoms)
+{
+    {
+        auto pInteger = readString("42");
+        CUT_ASSERT.isTrue(number::getInteger(pInteger) == 42);
+    }
+
+    {
+        auto pFloat = readString("3.1415");
+        CUT_ASSERT.isTrue(number::getFloat(pFloat) == 3.1415);
+    }
+
+    {
+        auto pSymbol = readString("abc");
+        CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
+    }
 }
