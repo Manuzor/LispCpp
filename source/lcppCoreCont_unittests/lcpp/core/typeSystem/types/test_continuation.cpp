@@ -7,26 +7,27 @@
 
 namespace lcpp
 {
-    static auto g_sum = number::Integer_t(0);
-
     static Ptr<LispObject> accumulator(Ptr<LispObject> pCont)
     {
         auto pStack = cont::getStack(pCont);
 
         auto pToGo = pStack->get(-1);
-        auto value = number::getInteger(pToGo);
+        auto pCurrentSum = pStack->get(-2);
+        pStack->clear();
 
-        if(value <= 0)
+        auto toGoValue = number::getInteger(pToGo);
+
+        if(toGoValue <= 0)
         {
-            return cont::getParent(pCont);
+            LCPP_cont_return(pCont, pCurrentSum);
         }
 
-        ++g_sum;
+        auto currentSumValue = number::getInteger(pCurrentSum);
 
-        pStack->pop();
-        pStack->push(number::create(value - 1));
+        pStack->push(number::create(currentSumValue + 1));
+        pStack->push(number::create(toGoValue - 1));
 
-        return pCont;
+        LCPP_cont_tailCall(pCont);
     }
 }
 
@@ -34,16 +35,19 @@ LCPP_TestGroup(Continuation);
 
 LCPP_TestCase(Continuation, Basics)
 {
-    auto pInteger_1 = number::create(1);
-    auto pInteger_2 = number::create(2);
-    auto pInteger_3 = number::create(3);
-
     auto pContMain = cont::createTopLevel();
     auto pContChild = cont::create(pContMain, &accumulator);
 
-    cont::getStack(pContChild)->push(number::create(3)); // Do 3 'iterations'
+    auto pChildStack = cont::getStack(pContChild);
 
-    g_sum = 0;
+    auto numIterations = number::Integer_t(3);
+
+    pChildStack->push(number::create(0));
+    pChildStack->push(number::create(numIterations));
 
     cont::trampoline(pContChild);
+
+    auto pResult = cont::getStack(pContMain)->get(-1);
+
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == numIterations);
 }

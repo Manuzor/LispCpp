@@ -54,6 +54,13 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0);
             LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1);
             LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2);
+
+            Ptr<LispObject> tailCallHelper(Ptr<LispObject> pCont);
+            Ptr<LispObject> tailCallHelper(Ptr<LispObject> pCont, Function_t pFunction);
+
+            Ptr<LispObject> returnHelper(Ptr<LispObject> pCont);
+            Ptr<LispObject> returnHelper(Ptr<LispObject> pCont, Ptr<LispObject> pReturnValue);
+
         }
     }
 }

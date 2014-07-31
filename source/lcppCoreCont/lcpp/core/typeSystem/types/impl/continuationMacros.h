@@ -16,35 +16,31 @@
 
     /// This trick is used to build a c-stack for debugging even when using continuations.
     #undef LCPP_cont_trampoline
-#define LCPP_cont_trampoline(pCont)  \
-    ::lcpp::cont::trampoline(pCont); \
-    return LCPP_pNil
+    #define LCPP_cont_trampoline(pCont)  \
+        ::lcpp::cont::trampoline(pCont); \
+        return LCPP_pNil
 
 #endif
 
 //////////////////////////////////////////////////////////////////////////
 
 #undef LCPP_cont_return
-#define LCPP_cont_return(pCont) \
-    LCPP_cont_trampoline(::lcpp::cont::getParent(pCont))
+#define LCPP_cont_return(...) \
+    LCPP_cont_trampoline(::lcpp::cont::detail::returnHelper(__VA_ARGS__))
 
 //////////////////////////////////////////////////////////////////////////
 
 #undef LCPP_cont_call
-#define LCPP_cont_call(...)                                            \
-    do {                                                               \
-        auto pContNew = ::lcpp::cont::detail::callHelper(__VA_ARGS__); \
-        LCPP_cont_trampoline(pContNew);                                \
-    } while(false)
+#define LCPP_cont_call(...) \
+    LCPP_cont_trampoline(::lcpp::cont::detail::callHelper(__VA_ARGS__))
 
 //////////////////////////////////////////////////////////////////////////
 
 #undef LCPP_cont_tailCall
-#define LCPP_cont_tailCall(pCont, pFunction)     \
-    ::lcpp::cont::setFunction(pCont, pFunction); \
-    LCPP_cont_trampoline(pCont)
+#define LCPP_cont_tailCall(...) \
+        LCPP_cont_trampoline(::lcpp::cont::detail::tailCallHelper(__VA_ARGS__))
 
 //////////////////////////////////////////////////////////////////////////
 
 #undef LCPP_cont_jump
-#define LCPP_cont_jump(pCont, pFunction) LCPP_cont_tailCall(pCont, pFunction)
+#define LCPP_cont_jump(...) LCPP_cont_tailCall(__VA_ARGS__)
