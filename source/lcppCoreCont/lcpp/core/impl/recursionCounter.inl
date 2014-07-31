@@ -1,14 +1,18 @@
 #include "lcpp/core/runtime.h"
 
-inline
-lcpp::RecursionCounter::RecursionCounter(Ptr<LispRuntimeState> pRunTime) :
-    pRunTime(pRunTime)
+namespace lcpp
 {
-    pRunTime->increaseRecursionDepth();
-}
 
-inline
-lcpp::RecursionCounter::~RecursionCounter()
-{
-    pRunTime->decreaseRecursionDepth();
+    EZ_FORCE_INLINE
+    RecursionCounter::RecursionCounter(Ptr<LispRuntimeState> pRunTimeState) :
+        m_pRunTimeState(pRunTimeState)
+    {
+        m_pRunTimeState->increaseRecursionDepth();
+    }
+
+    EZ_FORCE_INLINE
+    RecursionCounter::~RecursionCounter()
+    {
+        m_pRunTimeState->decreaseRecursionDepth();
+    }
 }

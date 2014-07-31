@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lcpp/core/reader.h"
+#include "lcpp/core/readerState.h"
 
 namespace lcpp
 {
