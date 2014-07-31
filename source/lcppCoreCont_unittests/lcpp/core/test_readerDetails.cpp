@@ -18,6 +18,23 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
 
     CUT_ASSERT.isTrue(count == 16);
     CUT_ASSERT.isTrue(stream::getCharacter(pStream) == 'h');
+
+    // Custom runtime
+
+    content = "abcxyzHELLO";
+    pStream = stream::create(content.GetIteratorFront());
+    auto rt = LispRuntime();
+    rt.initialize();
+    rt.getReaderState()->m_separators = " abcdefghijklmnopqrstuvwxyz";
+
+    count = reader::detail::skipSeparators(rt.getReaderState(), pStream);
+
+    CUT_ASSERT.isTrue(count == 6);
+    CUT_ASSERT.isTrue(stream::getCharacter(pStream) == 'H');
+    CUT_ASSERT.isTrue(stream::next(pStream)         == 'E');
+    CUT_ASSERT.isTrue(stream::next(pStream)         == 'L');
+    CUT_ASSERT.isTrue(stream::next(pStream)         == 'L');
+    CUT_ASSERT.isTrue(stream::next(pStream)         == 'O');
 }
 
 LCPP_TestCase(ReaderDetails, skipToFirstNewLine)
