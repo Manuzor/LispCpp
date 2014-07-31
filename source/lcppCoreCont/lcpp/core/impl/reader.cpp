@@ -45,18 +45,6 @@ namespace lcpp
             LCPP_cont_tailCall(pCont, &detail::readAtom);
         }
 
-        LCPP_API_CORE_CONT Ptr<State> getState()
-        {
-            return LCPP_pRuntime->getReaderState();
-        }
-
-        LCPP_API_CORE_CONT void resetState()
-        {
-            auto pState = getState();
-
-            *pState = State();
-        }
-
         namespace detail
         {
             Ptr<LispObject> readAtom(Ptr<LispObject> pCont)

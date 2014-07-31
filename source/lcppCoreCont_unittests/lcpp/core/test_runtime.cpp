@@ -11,24 +11,24 @@ LCPP_TestCase(Runtime, GlobalStateReset1)
 {
     if(g_pRuntimeStateCheck == nullptr)
     {
-        g_pRuntimeStateCheck = LCPP_pRuntime->syntaxEnvironment().get();
+        g_pRuntimeStateCheck = LCPP_pRuntime->getSyntaxEnvironment().get();
         CUT_ASSERT.succeed("Finished preparing for other unit test.");
         return;
     }
 
-    CUT_ASSERT.isTrue(LCPP_pRuntime->syntaxEnvironment().get() != g_pRuntimeStateCheck);
+    CUT_ASSERT.isTrue(LCPP_pRuntime->getSyntaxEnvironment().get() != g_pRuntimeStateCheck);
 }
 
 LCPP_TestCase(Runtime, GlobalStateReset2)
 {
     if(g_pRuntimeStateCheck == nullptr)
     {
-        g_pRuntimeStateCheck = LCPP_pRuntime->syntaxEnvironment().get();
+        g_pRuntimeStateCheck = LCPP_pRuntime->getSyntaxEnvironment().get();
         CUT_ASSERT.succeed("Finished preparing for other unit test.");
         return;
     }
 
-    CUT_ASSERT.isTrue(LCPP_pRuntime->syntaxEnvironment().get() != g_pRuntimeStateCheck);
+    CUT_ASSERT.isTrue(LCPP_pRuntime->getSyntaxEnvironment().get() != g_pRuntimeStateCheck);
 }
 
 LCPP_TestCase(Runtime, Basics)

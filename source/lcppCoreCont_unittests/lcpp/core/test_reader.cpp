@@ -65,9 +65,10 @@ LCPP_TestCase(Reader, Atoms)
 
 LCPP_TestCase(Reader, State)
 {
+    auto pState = LCPP_pRuntime->getReaderState();
+
     auto content = ezString("   123\r\n abc\n \n");
     auto pStream = stream::create(content.GetIteratorFront());
-    auto pState = reader::getState();
     auto& cursorPosition = pState->m_syntaxCheckResult.m_cursor.getPosition();
 
     auto pResult = Ptr<LispObject>();

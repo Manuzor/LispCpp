@@ -38,23 +38,20 @@ namespace lcpp
         Statistics m_stats;
 
         Ptr<ezAllocatorBase> allocator();
-        void allocator(Ptr<ezAllocatorBase> value);
 
-        Ptr<const LispObject> syntaxEnvironment() const;
-        Ptr<LispObject> syntaxEnvironment();
-        void syntaxEnvironment(Ptr<LispObject> value);
+        Ptr<const LispObject> getSyntaxEnvironment() const;
+        Ptr<LispObject> getSyntaxEnvironment();
 
-        Ptr<const LispObject> globalEnvironment() const;
-        Ptr<LispObject> globalEnvironment();
-        void globalEnvironment(Ptr<LispObject> value);
+        Ptr<const LispObject> getGlobalEnvironment() const;
+        Ptr<LispObject> getGlobalEnvironment();
 
         Ptr<reader::State> getReaderState();
         Ptr<const reader::State> getReaderState() const;
 
-        ezUInt32 recursionDepth() const;
+        ezUInt32 getRecursionDepth() const;
 
-        ezUInt32 recursionLimit() const;
-        void recursionLimit(ezUInt32 newLimit);
+        ezUInt32 getRecursionLimit() const;
+        void setRecursionLimit(ezUInt32 newLimit);
 
     private:
 

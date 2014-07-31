@@ -110,7 +110,7 @@ lcpp::LispRuntime::shutdown()
 }
 
 void
-lcpp::LispRuntime::recursionLimit(ezUInt32 newLimit)
+lcpp::LispRuntime::setRecursionLimit(ezUInt32 newLimit)
 {
     if(m_recursionDepth >= newLimit)
     {

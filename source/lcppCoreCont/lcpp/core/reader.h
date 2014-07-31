@@ -11,9 +11,6 @@ namespace lcpp
         /// [0]: stream from which to read from.
         LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pCont);
 
-        LCPP_API_CORE_CONT Ptr<State> getState();
-        LCPP_API_CORE_CONT void resetState();
-
         namespace detail
         {
             LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pCont);
