@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lcpp/core/containers/instanceTable.h"
+#include "lcpp/core/reader.h"
 
 namespace lcpp
 {
@@ -55,6 +56,9 @@ namespace lcpp
 
         const InstanceTables& instanceTables() const;
 
+        Ptr<reader::State> getReaderState();
+        Ptr<const reader::State> getReaderState() const;
+
         ezUInt32 recursionDepth() const;
 
         ezUInt32 recursionLimit() const;
@@ -70,6 +74,8 @@ namespace lcpp
         Ptr<LispObject> m_pGlobalEnvironment;
 
         InstanceTables m_instanceTables;
+
+        Ptr<reader::State> m_pReaderState;
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;

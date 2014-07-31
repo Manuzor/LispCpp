@@ -56,6 +56,18 @@ namespace lcpp
         return m_instanceTables;
     }
 
+    EZ_FORCE_INLINE
+    Ptr<reader::State> LispRuntime::getReaderState()
+    {
+        return m_pReaderState;
+    }
+
+    EZ_FORCE_INLINE
+    Ptr<const reader::State> LispRuntime::getReaderState() const
+    {
+        return m_pReaderState;
+    }
+
     inline
     ezUInt32 LispRuntime::recursionDepth() const
     {

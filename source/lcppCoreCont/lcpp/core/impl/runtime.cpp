@@ -35,7 +35,6 @@ lcpp::LispRuntime::defaultInstance()
         static auto defaultInstance = LispRuntime();
         pDefaultInstance = &defaultInstance;
     }
-    
 
     return pDefaultInstance;
 }
@@ -93,6 +92,8 @@ lcpp::LispRuntime::initialize()
 
     //////////////////////////////////////////////////////////////////////////
     
+    m_pReaderState = LCPP_NEW(m_pAllocator.get(), reader::State)();
+
     // TODO reader, evaluator, printer setup.
 
     //////////////////////////////////////////////////////////////////////////
@@ -109,6 +110,8 @@ lcpp::LispRuntime::shutdown()
               "The LCPP_pRuntime was not shut down often enough!");
 
     ++m_stats.m_shutdownCount;
+
+    LCPP_DELETE(m_pAllocator.get(), m_pReaderState.get());
 
     LCPP_DELETE(m_pAllocator.get(), m_instanceTables.m_pSymbolTable.get());
 

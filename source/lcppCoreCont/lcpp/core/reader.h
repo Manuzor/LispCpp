@@ -9,6 +9,20 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
+        class State
+        {
+        public:
+
+            ezString m_separators;
+            ezString m_symbolDelimiters;
+            ezUInt32 m_commentDelimiter;
+            ezUInt32 m_newLineDelimiter;
+
+            State();
+        };
+
+        //////////////////////////////////////////////////////////////////////////
+
         namespace detail
         {
             LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation);
@@ -30,6 +44,7 @@ namespace lcpp
             LCPP_API_CORE_CONT bool isCommentDelimiter(ezUInt32 character);
 
         }
-
     }
 }
+
+#include "lcpp/core/impl/reader.inl"

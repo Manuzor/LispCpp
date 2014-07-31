@@ -6,6 +6,7 @@
 #include "lcpp/foundation/stringUtils.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/runtime.h"
 
 namespace lcpp
 {
@@ -251,26 +252,30 @@ namespace lcpp
 
             bool isSeparator(ezUInt32 character)
             {
-                static auto separators = ezString(" \t\r\n\v\f\a");
+                auto pState = LCPP_pRuntime->getReaderState();
 
-                return contains(separators, character);
+                return contains(pState->m_separators, character);
             }
 
             bool isNewLine(ezUInt32 character)
             {
-                return character == '\n';
+                auto pState = LCPP_pRuntime->getReaderState();
+
+                return character == pState->m_newLineDelimiter;
             }
 
             bool isSymbolDelimiter(ezUInt32 character)
             {
-                static auto symbolDelimiters = ezString("()");
+                auto pState = LCPP_pRuntime->getReaderState();
 
-                return contains(symbolDelimiters, character) || isSeparator(character);
+                return contains(pState->m_symbolDelimiters, character) || isSeparator(character);
             }
 
             bool isCommentDelimiter(ezUInt32 character)
             {
-                return character == ';';
+                auto pState = LCPP_pRuntime->getReaderState();
+
+                return character == pState->m_commentDelimiter;
             }
         }
     }
