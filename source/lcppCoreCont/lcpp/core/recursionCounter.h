@@ -4,8 +4,9 @@ namespace lcpp
 {
     class LispRuntime;
 
-    struct RecursionCounter
+    class RecursionCounter
     {
+    public:
         Ptr<LispRuntime> pRunTime;
 
         RecursionCounter(Ptr<LispRuntime> pRunTime);

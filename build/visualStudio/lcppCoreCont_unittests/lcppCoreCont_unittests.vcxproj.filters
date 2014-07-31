@@ -28,6 +28,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\common.h">
       <Filter>lcpp\test</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\runtime.h">
+      <Filter>lcpp\test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\stdafx.cpp" />
@@ -90,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_evaluator.cpp">
       <Filter>lcpp\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\runtime.cpp">
+      <Filter>lcpp\test\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

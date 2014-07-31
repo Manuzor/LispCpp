@@ -26,3 +26,5 @@ namespace lcpp { namespace test {
 
 #include "lcpp/test/impl/testGroupMacros.inl"
 #include "lcpp/test/impl/testMacros.inl"
+
+#include "lcpp/test/runtime.h"

@@ -35,7 +35,7 @@ LCPP_TestGroup(Continuation);
 
 LCPP_TestCase(Continuation, Basics)
 {
-    auto pContMain = cont::createTopLevel(LCPP_pRuntime);
+    auto pContMain = cont::createTopLevel(LCPP_test_pRuntime);
     auto pContChild = cont::create(pContMain, &accumulator);
 
     auto pChildStack = cont::getStack(pContChild);

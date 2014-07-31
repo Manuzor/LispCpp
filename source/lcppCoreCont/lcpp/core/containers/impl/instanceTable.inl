@@ -5,7 +5,7 @@ namespace lcpp
     inline
     InsanceTable<T_Key>::InsanceTable(createNew_t pFunctor_createNew) :
         m_pFunctor_createNew(pFunctor_createNew),
-        m_table(LispRuntime::instance()->allocator().get())
+        m_table(defaultAllocator())
     {
         EZ_ASSERT(m_pFunctor_createNew, "Invalid createNew function pointer.");
     }

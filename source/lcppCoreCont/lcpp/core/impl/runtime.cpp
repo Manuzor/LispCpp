@@ -12,51 +12,6 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::Ptr<lcpp::LispRuntime> lcpp::LispRuntime::s_pInstance;
-
-EZ_ON_GLOBAL_EVENT_ONCE(LCPP_GLOBAL_EVENT_STARTUP)
-{
-    lcpp::LispRuntime::instance()->initialize();
-}
-
-EZ_ON_GLOBAL_EVENT_ONCE(LCPP_GLOBAL_EVENT_SHUTDOWN)
-{
-    lcpp::LispRuntime::instance()->shutdown();
-}
-
-lcpp::Ptr<lcpp::LispRuntime>
-lcpp::LispRuntime::defaultInstance()
-{
-    static auto pDefaultInstance = Ptr<LispRuntime>();
-
-    if (!pDefaultInstance)
-    {
-        // TODO lock with mutex here.
-        static auto defaultInstance = LispRuntime();
-        pDefaultInstance = &defaultInstance;
-    }
-
-    return pDefaultInstance;
-}
-
-lcpp::Ptr<lcpp::LispRuntime>
-lcpp::LispRuntime::instance()
-{
-    if (!s_pInstance)
-    {
-        patchInstance(defaultInstance());
-    }
-    
-    return s_pInstance;
-}
-
-void
-lcpp::LispRuntime::patchInstance(Ptr<LispRuntime> pNewInstance)
-{
-    // TODO: Look with mutex here
-    s_pInstance = pNewInstance;
-}
-
 lcpp::LispRuntime::LispRuntime() :
     m_stats(),
     m_recursionDepth(0),

@@ -11,7 +11,7 @@ UnitTest::UnitTest(cut::UnitTestGroup& group)
 
 void UnitTest::inititialize()
 {
-    LCPP_pRuntime->initialize();
+    LCPP_test_pRuntime->initialize();
 }
 
 void UnitTest::shutdown()

@@ -15,11 +15,11 @@ namespace lcpp
             T_Data d;
         };
 
-        auto pAllocator = LispRuntime::instance()->allocator();
+        auto pAllocator = defaultAllocator();
 
         auto size = sizeof(LispObjectProxy);
 
-        auto pMem = static_cast<void*>(LCPP_NEW(pAllocator.get(), LispObjectProxy)());
+        auto pMem = static_cast<void*>(LCPP_NEW(pAllocator, LispObjectProxy)());
 
         memset(pMem, 0xdadadada, size);
 

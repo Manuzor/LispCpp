@@ -9,17 +9,12 @@ namespace lcpp
 
     class LCPP_API_CORE_CONT LispRuntime
     {
-        friend struct RecursionCounter;
+        friend class RecursionCounter;
     public:
 
-        static Ptr<LispRuntime> defaultInstance();
-        static Ptr<LispRuntime> instance();
-        static void patchInstance(Ptr<LispRuntime> pNewInstance);
-
-    public:
-
-        struct Statistics
+        class Statistics
         {
+        public:
             ezUInt32 m_initializationCount;
             ezUInt32 m_shutdownCount;
         };
@@ -55,8 +50,6 @@ namespace lcpp
 
     private:
 
-        static Ptr<LispRuntime> s_pInstance;
-
         Ptr<ezAllocatorBase> m_pAllocator;
 
         Ptr<LispObject> m_pSyntaxEnvironment;
@@ -79,7 +72,5 @@ namespace lcpp
         void decreaseRecursionDepth();
     };
 }
-
-#define LCPP_pRuntime ::lcpp::LispRuntime::instance()
 
 #include "lcpp/core/impl/runtime.inl"

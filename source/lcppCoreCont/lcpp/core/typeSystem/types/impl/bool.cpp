@@ -16,8 +16,8 @@ namespace lcpp
             {
                 static auto meta = MetaInfo(Type::True, "true-type");
 
-                auto pAllocator = LispRuntime::instance()->allocator();
-                pInstance = LCPP_NEW(pAllocator.get(), LispObject)(meta);
+                auto pAllocator = defaultAllocator();
+                pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
             }
 
             return pInstance;
@@ -34,8 +34,8 @@ namespace lcpp
             {
                 static auto meta = MetaInfo(Type::False, "false-type");
 
-                auto pAllocator = LispRuntime::instance()->allocator();
-                pInstance = LCPP_NEW(pAllocator.get(), LispObject)(meta);
+                auto pAllocator = defaultAllocator();
+                pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
             }
 
             return pInstance;
