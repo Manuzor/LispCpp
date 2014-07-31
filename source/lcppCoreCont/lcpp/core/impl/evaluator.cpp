@@ -16,10 +16,9 @@ namespace lcpp
             typeCheck(pContinuation, Type::Continuation);
 
             auto pStack = cont::getStack(pContinuation);
-            auto pStream = pStack->get(0);
-            typeCheck(pStream, Type::Stream);
+            auto pToEval = pStack->get(0);
 
-            LCPP_NOT_IMPLEMENTED;
+            LCPP_cont_return(pContinuation, pToEval);
         }
 
     }

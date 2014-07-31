@@ -11,7 +11,14 @@ namespace lcpp
 {
     static Ptr<LispObject> evalStream(Ptr<LispObject> pStream)
     {
-        LCPP_NOT_IMPLEMENTED;
+        auto pContMain = cont::createTopLevel();
+        auto pContEval = cont::create(pContMain, &eval::evaluate);
+        auto pContRead = cont::create(pContEval, &reader::read);
+        cont::getStack(pContRead)->push(pStream);
+
+        cont::trampoline(pContRead);
+
+        return cont::getStack(pContMain)->get(-1);
     }
 
     static Ptr<LispObject> evalString(const ezString& content)
