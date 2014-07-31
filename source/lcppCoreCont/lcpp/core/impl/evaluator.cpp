@@ -16,7 +16,20 @@ namespace lcpp
             typeCheck(pContinuation, Type::Continuation);
 
             auto pStack = cont::getStack(pContinuation);
-            auto pToEval = pStack->get(0);
+            auto pEnv = pStack->get(0);
+            auto pToEval = pStack->get(1);
+
+            if (pToEval->isType(Type::Symbol))
+            {
+                auto result = env::getBinding(pEnv, pToEval, pToEval);
+
+                if(result.Succeeded())
+                {
+                    LCPP_cont_return(pContinuation, pToEval);
+                }
+
+                // TODO throw exception.
+            }
 
             LCPP_cont_return(pContinuation, pToEval);
         }

@@ -61,7 +61,6 @@ namespace lcpp
             Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
-                auto pReturnStack = cont::getStack(cont::getParent(pContinuation));
 
                 auto pStream = cont::getStack(pContinuation)->get(0);
                 typeCheck(pStream, Type::Stream);
@@ -89,9 +88,8 @@ namespace lcpp
                             {
                                 advance(pStream);
                             }
-                            pReturnStack->push(symbol::create(symbolValue));
 
-                            LCPP_cont_return(pContinuation);
+                            LCPP_cont_return(pContinuation, symbol::create(symbolValue));
                         }
                         if(isDigit(ch))
                         {
@@ -130,12 +128,10 @@ namespace lcpp
                         auto result = to(iter, theFloat, &lastPos);
                         EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
 
-                        pReturnStack->push(number::create(theFloat));
-                        LCPP_cont_return(pContinuation);
+                        LCPP_cont_return(pContinuation, number::create(theFloat));
                     }
 
-                    pReturnStack->push(number::create(integer));
-                    LCPP_cont_return(pContinuation);
+                    LCPP_cont_return(pContinuation, number::create(integer));
                 }
 
 
@@ -145,7 +141,6 @@ namespace lcpp
             Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
-                auto pReturnStack = cont::getStack(cont::getParent(pContinuation));
 
                 auto pStream = cont::getStack(pContinuation)->get(0);
                 typeCheck(pStream, Type::Stream);
@@ -165,8 +160,7 @@ namespace lcpp
 
                 EZ_ASSERT(!theSymbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-                pReturnStack->push(symbol::create(theSymbol));
-                LCPP_cont_return(pContinuation);
+                LCPP_cont_return(pContinuation, symbol::create(theSymbol));
             }
 
             Ptr<LispObject> readString(Ptr<LispObject> pContinuation)

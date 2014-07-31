@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
+
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+
+#include "lcpp/core/runtime.h"
 
 namespace lcpp
 {
@@ -13,6 +17,8 @@ namespace lcpp
     {
         auto pContMain = cont::createTopLevel();
         auto pContEval = cont::create(pContMain, &eval::evaluate);
+        cont::getStack(pContEval)->push(LCPP_pRuntime->globalEnvironment());
+
         auto pContRead = cont::create(pContEval, &reader::read);
         cont::getStack(pContRead)->push(pStream);
 
@@ -40,4 +46,14 @@ LCPP_TestCase(Evaluator, EvalEmptyOrWhitespaceString)
 
     pObject = evalString("    \n\t\r \t\t\n\r\r\n\r\n   \v\v  \n \t");
     CUT_ASSERT.isTrue(isVoid(pObject));
+}
+
+LCPP_TestCase(Evaluator, EvalSymbolInEnv)
+{
+    auto pObject = Ptr<LispObject>();
+
+    env::addBinding(LCPP_pRuntime->globalEnvironment(), symbol::create("x"), number::create(1337));
+
+    pObject = evalString("x");
+    CUT_ASSERT.isTrue(number::getInteger(pObject) == 1337);
 }
