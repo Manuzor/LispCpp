@@ -20,18 +20,28 @@ namespace lcpp
             return LCPP_pNil;
         }
 
-        Ptr<LispObject> createTopLevel()
-        {
-            return create(LCPP_pNil, &breakTrampoline);
-        }
-
-        Ptr<LispObject> create(Ptr<LispObject> m_pParent, Function_t pFunction)
+        Ptr<LispObject> createTopLevel(Ptr<LispRuntime> pRuntimeState)
         {
             auto pInstance = LispObject::create<Data>(metaInfo());
-
             auto& data = pInstance->m_cont;
 
-            new (data.m_pParent) Ptr<LispObject>(m_pParent);
+            new (data.m_pRuntimeState) Ptr<LispRuntime>(pRuntimeState);
+            new (data.m_pParent) Ptr<LispObject>(LCPP_pNil);
+            data.m_pFunction = &breakTrampoline;
+            new (data.m_stack) Stack();
+
+            return pInstance;
+        }
+
+        Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction)
+        {
+            typeCheck(pParent, Type::Continuation);
+
+            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto& data = pInstance->m_cont;
+
+            new (data.m_pRuntimeState) Ptr<LispRuntime>(getRuntimeState(pParent));
+            new (data.m_pParent) Ptr<LispObject>(pParent);
             data.m_pFunction = pFunction;
             new (data.m_stack) Stack();
 
@@ -56,6 +66,13 @@ namespace lcpp
 
                 typeCheck(pCont, Type::Continuation);
             }
+        }
+
+        Ptr<LispRuntime> getRuntimeState(Ptr<LispObject> pCont)
+        {
+            typeCheck(pCont, Type::Continuation);
+
+            return pCont->m_cont.getRuntimeState();
         }
 
         Ptr<LispObject> getParent(Ptr<LispObject> pCont)
@@ -120,5 +137,6 @@ namespace lcpp
                 return pContNew;
             }
         }
+
     }
 }

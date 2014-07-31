@@ -7,11 +7,13 @@
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
 
+#include "lcpp/core/runtime.h"
+
 namespace lcpp
 {
     static Ptr<LispObject> readStream(Ptr<LispObject> pStream)
     {
-        auto pContMain = cont::createTopLevel();
+        auto pContMain = cont::createTopLevel(LCPP_pRuntime);
         auto pMainStack = cont::getStack(pContMain);
         
         auto pContRead = cont::create(pContMain, &reader::read);

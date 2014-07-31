@@ -4,6 +4,12 @@ namespace lcpp
     namespace cont
     {
         EZ_FORCE_INLINE
+        Ptr<LispRuntime> Data::getRuntimeState()
+        {
+            return reinterpret_cast<Ptr<LispRuntime>&>(m_pRuntimeState);
+        }
+
+        EZ_FORCE_INLINE
         Ptr<LispObject> Data::getParent()
         {
             return reinterpret_cast<Ptr<LispObject>&>(m_pParent);

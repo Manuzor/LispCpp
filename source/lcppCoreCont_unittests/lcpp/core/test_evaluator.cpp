@@ -16,7 +16,7 @@ namespace lcpp
 {
     static Ptr<LispObject> evalStream(Ptr<LispObject> pStream)
     {
-        auto pContMain = cont::createTopLevel();
+        auto pContMain = cont::createTopLevel(LCPP_pRuntime);
         auto pContEval = cont::create(pContMain, &eval::evaluate);
         cont::getStack(pContEval)->push(LCPP_pRuntime->globalEnvironment());
 

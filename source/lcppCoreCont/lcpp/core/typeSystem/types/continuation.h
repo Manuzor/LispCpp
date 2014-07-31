@@ -5,6 +5,7 @@ namespace lcpp
 {
     class MetaInfo;
     class LispObject;
+    class LispRuntime;
 
     namespace cont
     {
@@ -14,7 +15,7 @@ namespace lcpp
 
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel();
+        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispRuntime> pRuntimeState);
         LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction);
 
         //////////////////////////////////////////////////////////////////////////
@@ -23,6 +24,7 @@ namespace lcpp
         {
         public:
 
+            Ptr<LispRuntime> getRuntimeState();
             Ptr<LispObject> getParent();
 
             Function_t getFunction();
@@ -32,6 +34,7 @@ namespace lcpp
 
         public:
 
+            LCPP_DeclareRawDataMember(Ptr<LispRuntime>, m_pRuntimeState);
             LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
             Function_t m_pFunction;
             LCPP_DeclareRawDataMember(Stack, m_stack);
@@ -41,6 +44,7 @@ namespace lcpp
 
         LCPP_API_CORE_CONT void trampoline(Ptr<LispObject> pCont);
 
+        LCPP_API_CORE_CONT Ptr<LispRuntime> getRuntimeState(Ptr<LispObject> pCont);
         LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pCont);
 
         LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pCont);
