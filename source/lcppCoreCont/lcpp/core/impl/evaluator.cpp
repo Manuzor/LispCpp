@@ -5,6 +5,7 @@
 #include "lcpp/core/typeSystem/typeCheck.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/exceptions/noBindingFoundException.h"
 
 namespace lcpp
 {
@@ -21,17 +22,29 @@ namespace lcpp
 
             if (pToEval->isType(Type::Symbol))
             {
-                auto result = env::getBinding(pEnv, pToEval, pToEval);
+                auto pResult = LCPP_pNil;
+                auto result = env::getBinding(pEnv, pToEval, pResult);
 
                 if(result.Succeeded())
                 {
-                    LCPP_cont_return(pContinuation, pToEval);
+                    LCPP_cont_return(pContinuation, pResult);
                 }
 
                 // TODO throw exception.
+                auto message = ezStringBuilder();
+
+                message.Format("No binding found for symbol '%s'.", symbol::getValue(pToEval).GetData());
+                LCPP_THROW(exceptions::NoBindingFound, message.GetData());
             }
 
-            LCPP_cont_return(pContinuation, pToEval);
+            if (!pToEval->isType(Type::Cons))
+            {
+                // Object evaluates to itself.
+                LCPP_cont_return(pContinuation, pToEval);
+            }
+
+            // TODO Syntax and lambdas...
+            LCPP_NOT_IMPLEMENTED;
         }
 
     }

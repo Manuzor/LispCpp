@@ -83,7 +83,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> p
         auto pUnevaluatedArgList = pBody->cdr();
         return pFuncObject.cast<LispSyntax>()->call(pEnv, pUnevaluatedArgList);
     }
-    
+
     if (!pFuncObject->is<LispFunction>())
     {
         ezStringBuilder message;

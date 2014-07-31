@@ -10,6 +10,7 @@
 #include "lcpp/core/typeSystem/types/environment.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/exceptions/noBindingFoundException.h"
 
 namespace lcpp
 {
@@ -56,4 +57,6 @@ LCPP_TestCase(Evaluator, EvalSymbolInEnv)
 
     pObject = evalString("x");
     CUT_ASSERT.isTrue(number::getInteger(pObject) == 1337);
+
+    CUT_ASSERT.throws<exceptions::NoBindingFound>([&]{ evalString("this-is-a-symbol-that-should-never-exist."); });
 }

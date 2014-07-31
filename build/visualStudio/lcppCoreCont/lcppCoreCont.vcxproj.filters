@@ -124,6 +124,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\evaluator.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\noBindingFoundException.h">
+      <Filter>lcpp\core\exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
