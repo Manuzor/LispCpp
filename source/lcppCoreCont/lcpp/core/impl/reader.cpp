@@ -13,22 +13,23 @@ namespace lcpp
     namespace reader
     {
 
-        Ptr<LispObject> read(Ptr<LispObject> pContinuation)
+        Ptr<LispObject> read(Ptr<LispObject> pCont)
         {
-            typeCheck(pContinuation, Type::Continuation);
+            typeCheck(pCont, Type::Continuation);
+            auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-            auto pContParent = cont::getParent(pContinuation);
+            auto pContParent = cont::getParent(pCont);
             auto pReturnStack = cont::getStack(pContParent);
-            auto pStream = cont::getStack(pContinuation)->get(0);
+            auto pStream = cont::getStack(pCont)->get(0);
             typeCheck(pStream, Type::Stream);
 
-            detail::skipSeparators(pStream);
+            detail::skipSeparators(pState, pStream);
 
             if (!stream::isValid(pStream))
             {
                 pReturnStack->push(LCPP_pVoid);
-                cont::getParent(pContinuation);
-                LCPP_cont_return(pContinuation);
+                cont::getParent(pCont);
+                LCPP_cont_return(pCont);
             }
 
             switch(stream::getCharacter(pStream))
@@ -36,12 +37,12 @@ namespace lcpp
             case ')':
                 throw exceptions::InvalidInput("Unexpected character ')'.");
             case '"':
-                LCPP_cont_tailCall(pContinuation, &detail::readString);
+                LCPP_cont_tailCall(pCont, &detail::readString);
             case '(':
-                LCPP_cont_tailCall(pContinuation, &detail::readList);
+                LCPP_cont_tailCall(pCont, &detail::readList);
             }
 
-            LCPP_cont_tailCall(pContinuation, &detail::readAtom);
+            LCPP_cont_tailCall(pCont, &detail::readAtom);
         }
 
         LCPP_API_CORE_CONT Ptr<State> getState()
@@ -58,11 +59,12 @@ namespace lcpp
 
         namespace detail
         {
-            Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation)
+            Ptr<LispObject> readAtom(Ptr<LispObject> pCont)
             {
-                typeCheck(pContinuation, Type::Continuation);
+                typeCheck(pCont, Type::Continuation);
+                auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-                auto pStream = cont::getStack(pContinuation)->get(0);
+                auto pStream = cont::getStack(pCont)->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 auto& iter = stream::getIterator(pStream);
@@ -81,15 +83,15 @@ namespace lcpp
                     ch = copy.GetCharacter();
                     while(true)
                     {
-                        if(isSeparator(ch) || isSymbolDelimiter(ch) || !copy.IsValid())
+                        if(isSeparator(pState, ch) || isSymbolDelimiter(pState, ch) || !copy.IsValid())
                         {
                             // The + or - characters stand alone, which means they're meant to be a symbol.
                             while(iter.GetData() != copy.GetData())
                             {
-                                advance(pStream);
+                                advance(pState, pStream);
                             }
 
-                            LCPP_cont_return(pContinuation, symbol::create(symbolValue));
+                            LCPP_cont_return(pCont, symbol::create(symbolValue));
                         }
                         if(isDigit(ch))
                         {
@@ -118,7 +120,7 @@ namespace lcpp
                     {
                         while(iter.GetData() != lastPos)
                         {
-                            advance(pStream);
+                            advance(pState, pStream);
                         }
                     };
 
@@ -128,45 +130,46 @@ namespace lcpp
                         auto result = to(iter, theFloat, &lastPos);
                         EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
 
-                        LCPP_cont_return(pContinuation, number::create(theFloat));
+                        LCPP_cont_return(pCont, number::create(theFloat));
                     }
 
-                    LCPP_cont_return(pContinuation, number::create(integer));
+                    LCPP_cont_return(pCont, number::create(integer));
                 }
 
 
-                LCPP_cont_tailCall(pContinuation, &readSymbol);
+                LCPP_cont_tailCall(pCont, &readSymbol);
             }
 
-            Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation)
+            Ptr<LispObject> readSymbol(Ptr<LispObject> pCont)
             {
-                typeCheck(pContinuation, Type::Continuation);
+                typeCheck(pCont, Type::Continuation);
+                auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-                auto pStream = cont::getStack(pContinuation)->get(0);
+                auto pStream = cont::getStack(pCont)->get(0);
                 typeCheck(pStream, Type::Stream);
 
-                skipSeparators(pStream);
+                skipSeparators(pState, pStream);
 
                 // Parse for a scheme symbol
                 ezStringBuilder theSymbol;
 
                 auto ch = stream::getCharacter(pStream);
-                while(stream::isValid(pStream) && !isSymbolDelimiter(ch))
+                while(stream::isValid(pStream) && !isSymbolDelimiter(pState, ch))
                 {
                     theSymbol.Append(ch);
-                    advance(pStream);
+                    advance(pState, pStream);
                     ch = stream::getCharacter(pStream);
                 }
 
                 EZ_ASSERT(!theSymbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-                LCPP_cont_return(pContinuation, symbol::create(theSymbol));
+                LCPP_cont_return(pCont, symbol::create(theSymbol));
             }
 
-            Ptr<LispObject> readString(Ptr<LispObject> pContinuation)
+            Ptr<LispObject> readString(Ptr<LispObject> pCont)
             {
-                typeCheck(pContinuation, Type::Continuation);
-                auto pStack = cont::getStack(pContinuation);
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
 
                 auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
@@ -174,10 +177,10 @@ namespace lcpp
                 LCPP_NOT_IMPLEMENTED;
             }
 
-            Ptr<LispObject> readListHelper(Ptr<LispObject> pContinuation)
+            Ptr<LispObject> readListHelper(Ptr<LispObject> pCont)
             {
-                typeCheck(pContinuation, Type::Continuation);
-                auto pStack = cont::getStack(pContinuation);
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
 
                 auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
@@ -185,10 +188,10 @@ namespace lcpp
                 LCPP_NOT_IMPLEMENTED;
             }
 
-            Ptr<LispObject> readList(Ptr<LispObject> pContinuation)
+            Ptr<LispObject> readList(Ptr<LispObject> pCont)
             {
-                typeCheck(pContinuation, Type::Continuation);
-                auto pStack = cont::getStack(pContinuation);
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
 
                 auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
@@ -198,53 +201,51 @@ namespace lcpp
 
             //////////////////////////////////////////////////////////////////////////
 
-            ezUInt32 skipSeparators(Ptr<LispObject> pStream)
+            ezUInt32 skipSeparators(Ptr<State> pState, Ptr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
 
                 ezUInt32 count = 0;
                 auto& iter = stream::getIterator(pStream);
                 auto ch = stream::getCharacter(pStream);
-                while(stream::isValid(pStream) && isSeparator(ch) || isCommentDelimiter(ch))
+                while(stream::isValid(pStream) && isSeparator(pState, ch) || isCommentDelimiter(pState, ch))
                 {
                     LCPP_SCOPE_EXIT{ ch = iter.GetCharacter(); };
 
-                    if(isCommentDelimiter(ch))
+                    if(isCommentDelimiter(pState, ch))
                     {
-                        count += skipToFirstNewLine(pStream);
+                        count += skipToFirstNewLine(pState, pStream);
                     }
 
                     ++count;
-                    advance(pStream);
+                    advance(pState, pStream);
                 }
                 return count;
             }
 
-            LCPP_API_CORE_CONT ezUInt32 skipToFirstNewLine(Ptr<LispObject> pStream)
+            ezUInt32 skipToFirstNewLine(Ptr<State> pState, Ptr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
 
                 auto count = ezUInt32(0);
                 auto& iter = stream::getIterator(pStream);
 
-                while(!isNewLine(iter.GetCharacter()))
+                while(!isNewLine(pState, iter.GetCharacter()))
                 {
-                    count += advance(pStream);
+                    count += advance(pState, pStream);
                 }
 
                 return count;
             }
 
-            ezUInt32 advance(Ptr<LispObject> pStream)
+            ezUInt32 advance(Ptr<State> pState, Ptr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
 
                 auto count = ezUInt32(1);
                 auto character = stream::getCharacter(pStream);
 
-                auto pState = LCPP_pRuntime->getReaderState();
-
-                if(isNewLine(character))
+                if(isNewLine(pState, character))
                 {
                     pState->m_syntaxCheckResult.m_cursor.lineBreak();
                 }
@@ -258,31 +259,23 @@ namespace lcpp
                 return count;
             }
 
-            bool isSeparator(ezUInt32 character)
+            bool isSeparator(Ptr<State> pState, ezUInt32 character)
             {
-                auto pState = LCPP_pRuntime->getReaderState();
-
                 return contains(pState->m_separators, character);
             }
 
-            bool isNewLine(ezUInt32 character)
+            bool isNewLine(Ptr<State> pState, ezUInt32 character)
             {
-                auto pState = LCPP_pRuntime->getReaderState();
-
                 return character == pState->m_newLineDelimiter;
             }
 
-            bool isSymbolDelimiter(ezUInt32 character)
+            bool isSymbolDelimiter(Ptr<State> pState, ezUInt32 character)
             {
-                auto pState = LCPP_pRuntime->getReaderState();
-
-                return contains(pState->m_symbolDelimiters, character) || isSeparator(character);
+                return contains(pState->m_symbolDelimiters, character) || isSeparator(pState, character);
             }
 
-            bool isCommentDelimiter(ezUInt32 character)
+            bool isCommentDelimiter(Ptr<State> pState, ezUInt32 character)
             {
-                auto pState = LCPP_pRuntime->getReaderState();
-
                 return character == pState->m_commentDelimiter;
             }
         }
