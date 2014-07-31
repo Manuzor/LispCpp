@@ -50,4 +50,5 @@ namespace lcpp
     }
 }
 
+#include "lcpp/core/typeSystem/types/impl/continuationMacros.h"
 #include "lcpp/core/typeSystem/types/impl/continuation.inl"

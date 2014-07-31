@@ -112,6 +112,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\invalidInputException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuationMacros.h">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
