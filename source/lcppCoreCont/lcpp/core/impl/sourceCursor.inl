@@ -1,61 +1,53 @@
 
-inline
-lcpp::SourcePosition::SourcePosition() :
-    line(0),
-    posInLine(0),
-    streamIndex(0)
+namespace lcpp
 {
-}
+    EZ_FORCE_INLINE
+    SourcePosition::SourcePosition() :
+        m_line(0),
+        m_column(0),
+        m_streamIndex(0)
+    {
+    }
 
-//////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
 
-inline
-lcpp::SourceCursor::SourceCursor() :
-    position()
-{
-}
+    EZ_FORCE_INLINE
+    SourceCursor::SourceCursor() :
+        m_position()
+    {
+    }
 
-inline
-void
-lcpp::SourceCursor::reset()
-{
-    position = SourcePosition();
-}
+    EZ_FORCE_INLINE
+    void SourceCursor::reset()
+    {
+        m_position = SourcePosition();
+    }
 
-inline
-void
-lcpp::SourceCursor::lineBreak()
-{
-    position.line++;
-    position.posInLine = ezUInt32(-1);// will be corrected with the next call of advance()
-    position.streamIndex++;
-}
+    EZ_FORCE_INLINE
+    void SourceCursor::lineBreak()
+    {
+        m_position.m_line++;
+        m_position.m_column = 0;
+        m_position.m_streamIndex++;
+    }
 
-inline
-void
-lcpp::SourceCursor::advance()
-{
-    position.posInLine++;
-    position.streamIndex++;
-}
+    EZ_FORCE_INLINE
+    void SourceCursor::advance()
+    {
+        m_position.m_column++;
+        m_position.m_streamIndex++;
+    }
 
-inline
-void
-lcpp::SourceCursor::operator ++()
-{
-    advance();
-}
+    EZ_FORCE_INLINE
+    SourcePosition& SourceCursor::getPosition()
+    {
+        return m_position;
+    }
 
-inline
-lcpp::SourcePosition&
-lcpp::SourceCursor::currentPosition()
-{
-    return position;
-}
+    EZ_FORCE_INLINE
+    const SourcePosition& SourceCursor::getPosition() const
+    {
+        return m_position;
+    }
 
-inline
-const lcpp::SourcePosition&
-lcpp::SourceCursor::currentPosition() const
-{
-    return position;
 }

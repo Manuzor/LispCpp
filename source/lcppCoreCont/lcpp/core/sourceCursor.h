@@ -4,9 +4,9 @@ namespace lcpp
 {
     struct SourcePosition
     {
-        ezUInt32 line;        ///< 0-based
-        ezUInt32 posInLine;   ///< 0-based
-        ezUInt32 streamIndex; ///< 0-based
+        ezUInt32 m_line;        ///< 0-based
+        ezUInt32 m_column;      ///< 0-based
+        ezUInt32 m_streamIndex; ///< 0-based
 
         SourcePosition();
     };
@@ -16,20 +16,20 @@ namespace lcpp
     public:
         SourceCursor();
 
-        void reset();
+        void reset(); // [tested]
 
-        void lineBreak();
+        void lineBreak(); // [tested]
 
-        void advance();
+        void advance(); // [tested]
 
-        void operator ++();
+        SourcePosition& getPosition(); // [tested]
 
-        SourcePosition& currentPosition();
-
-        const SourcePosition& currentPosition() const;
+        const SourcePosition& getPosition() const; // [tested]
 
     private:
-        SourcePosition position;
+
+        SourcePosition m_position;
+
     };
 }
 

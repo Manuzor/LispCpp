@@ -1,4 +1,5 @@
 #pragma once
+#include "lcpp/core/syntaxCheckResult.h"
 
 namespace lcpp
 {
@@ -17,6 +18,7 @@ namespace lcpp
             ezString m_symbolDelimiters;
             ezUInt32 m_commentDelimiter;
             ezUInt32 m_newLineDelimiter;
+            SyntaxCheckResult m_syntaxCheckResult;
 
             State();
         };

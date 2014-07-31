@@ -236,13 +236,15 @@ namespace lcpp
                 auto count = ezUInt32(1);
                 auto character = stream::getCharacter(pStream);
 
+                auto pState = LCPP_pRuntime->getReaderState();
+
                 if(isNewLine(character))
                 {
-                    //m_pSyntaxCheckResult->cursor.lineBreak();
+                    pState->m_syntaxCheckResult.m_cursor.lineBreak();
                 }
                 else
                 {
-                    //m_pSyntaxCheckResult->cursor.advance();
+                    pState->m_syntaxCheckResult.m_cursor.advance();
                 }
 
                 stream::next(pStream);
