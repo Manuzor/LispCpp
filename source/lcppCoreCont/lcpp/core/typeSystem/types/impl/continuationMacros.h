@@ -30,6 +30,15 @@
 
 //////////////////////////////////////////////////////////////////////////
 
+#undef LCPP_cont_call
+#define LCPP_cont_call(...)                                            \
+    do {                                                               \
+        auto pContNew = ::lcpp::cont::detail::callHelper(__VA_ARGS__); \
+        LCPP_cont_trampoline(pContNew);                                \
+    } while(false)
+
+//////////////////////////////////////////////////////////////////////////
+
 #undef LCPP_cont_tailCall
 #define LCPP_cont_tailCall(pCont, pFunction)     \
     ::lcpp::cont::setFunction(pCont, pFunction); \

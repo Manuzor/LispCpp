@@ -17,16 +17,17 @@ namespace lcpp
         {
             typeCheck(pContinuation, Type::Continuation);
 
-            auto pStack = cont::getStack(pContinuation);
-            auto pStream = pStack->get(0);
+            auto pContParent = cont::getParent(pContinuation);
+            auto pReturnStack = cont::getStack(pContParent);
+            auto pStream = cont::getStack(pContinuation)->get(0);
             typeCheck(pStream, Type::Stream);
 
             detail::skipSeparators(pStream);
 
             if (!stream::isValid(pStream))
             {
-                pStack->push(LCPP_pVoid);
-
+                pReturnStack->push(LCPP_pVoid);
+                cont::getParent(pContinuation);
                 LCPP_cont_return(pContinuation);
             }
 
@@ -60,9 +61,9 @@ namespace lcpp
             Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
-                auto pStack = cont::getStack(pContinuation);
+                auto pReturnStack = cont::getStack(cont::getParent(pContinuation));
 
-                auto pStream = pStack->get(0);
+                auto pStream = cont::getStack(pContinuation)->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 auto& iter = stream::getIterator(pStream);
@@ -88,7 +89,7 @@ namespace lcpp
                             {
                                 advance(pStream);
                             }
-                            pStack->push(symbol::create(symbolValue));
+                            pReturnStack->push(symbol::create(symbolValue));
 
                             LCPP_cont_return(pContinuation);
                         }
@@ -128,13 +129,12 @@ namespace lcpp
                         number::Float_t theFloat;
                         auto result = to(iter, theFloat, &lastPos);
                         EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
-                        pStack->push(number::create(theFloat));
 
+                        pReturnStack->push(number::create(theFloat));
                         LCPP_cont_return(pContinuation);
                     }
 
-                    pStack->push(number::create(integer));
-
+                    pReturnStack->push(number::create(integer));
                     LCPP_cont_return(pContinuation);
                 }
 
@@ -145,9 +145,9 @@ namespace lcpp
             Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
-                auto pStack = cont::getStack(pContinuation);
+                auto pReturnStack = cont::getStack(cont::getParent(pContinuation));
 
-                auto pStream = pStack->get(0);
+                auto pStream = cont::getStack(pContinuation)->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 skipSeparators(pStream);
@@ -165,7 +165,7 @@ namespace lcpp
 
                 EZ_ASSERT(!theSymbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-                pStack->push(symbol::create(theSymbol));
+                pReturnStack->push(symbol::create(theSymbol));
                 LCPP_cont_return(pContinuation);
             }
 

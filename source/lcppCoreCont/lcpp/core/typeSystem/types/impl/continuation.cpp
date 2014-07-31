@@ -15,9 +15,14 @@ namespace lcpp
             return meta;
         }
 
-        Ptr<LispObject> createTopLevel(Function_t pFunction)
+        static Ptr<LispObject> breakTrampoline(Ptr<LispObject>)
         {
-            return create(LCPP_pNil, pFunction);
+            return LCPP_pNil;
+        }
+
+        Ptr<LispObject> createTopLevel()
+        {
+            return create(LCPP_pNil, &breakTrampoline);
         }
 
         Ptr<LispObject> create(Ptr<LispObject> m_pParent, Function_t pFunction)
@@ -35,16 +40,15 @@ namespace lcpp
 
         void trampoline(Ptr<LispObject> pCont)
         {
-            if(isNil(pCont))
-            {
-                return;
-            }
+            if(isNil(pCont)) { return; }
 
             typeCheck(pCont, Type::Continuation);
 
             while(true)
             {
                 auto pFunction = getFunction(pCont);
+
+                EZ_ASSERT(pFunction, "Invalid function pointer.");
 
                 pCont = (*pFunction)(pCont);
 
@@ -80,6 +84,41 @@ namespace lcpp
             typeCheck(pCont, Type::Continuation);
 
             return &pCont->m_cont.getStack();
+        }
+
+        namespace detail
+        {
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction)
+            {
+                return create(pCont, pFunction);
+            }
+
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0)
+            {
+                auto pContNew = create(pCont, pFunction);
+                auto pStack = getStack(pContNew);
+                pStack->push(pArg0);
+                return pContNew;
+            }
+
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1)
+            {
+                auto pContNew = create(pCont, pFunction);
+                auto pStack = getStack(pContNew);
+                pStack->push(pArg0);
+                pStack->push(pArg1);
+                return pContNew;
+            }
+
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2)
+            {
+                auto pContNew = create(pCont, pFunction);
+                auto pStack = getStack(pContNew);
+                pStack->push(pArg0);
+                pStack->push(pArg1);
+                pStack->push(pArg2);
+                return pContNew;
+            }
         }
     }
 }

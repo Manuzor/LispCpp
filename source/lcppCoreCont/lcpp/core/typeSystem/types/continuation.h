@@ -14,7 +14,7 @@ namespace lcpp
 
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Function_t pFunction);
+        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel();
         LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction);
 
         //////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,14 @@ namespace lcpp
         LCPP_API_CORE_CONT void setFunction(Ptr<LispObject> pCont, Function_t pFunction);
 
         LCPP_API_CORE_CONT Ptr<Stack> getStack(Ptr<LispObject> pCont);
+
+        namespace detail
+        {
+            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction);
+            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0);
+            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1);
+            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2);
+        }
     }
 }
 

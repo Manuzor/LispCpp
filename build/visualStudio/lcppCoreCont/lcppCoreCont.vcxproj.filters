@@ -121,6 +121,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\readerState.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\evaluator.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -160,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\evaluator.cpp">
+      <Filter>lcpp\core\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
 
@@ -10,13 +11,15 @@ namespace lcpp
 {
     static Ptr<LispObject> readStream(Ptr<LispObject> pStream)
     {
-        auto pContRead = cont::createTopLevel(&reader::read);
-        auto pStack = cont::getStack(pContRead);
-        pStack->push(pStream);
+        auto pContMain = cont::createTopLevel();
+        auto pMainStack = cont::getStack(pContMain);
+        
+        auto pContRead = cont::create(pContMain, &reader::read);
+        cont::getStack(pContRead)->push(pStream);
 
         cont::trampoline(pContRead);
 
-        return pStack->get(-1);
+        return pMainStack->get(0);
     }
 
     static Ptr<LispObject> readString(const ezString& content)

@@ -28,13 +28,6 @@ namespace lcpp
 
         return pCont;
     }
-
-    static Ptr<LispObject> entry(Ptr<LispObject> pCont)
-    {
-        CUT_ASSERT.isTrue(g_sum == 3);
-
-        return cont::getParent(pCont);
-    }
 }
 
 LCPP_TestGroup(Continuation);
@@ -45,8 +38,8 @@ LCPP_TestCase(Continuation, Basics)
     auto pInteger_2 = number::create(2);
     auto pInteger_3 = number::create(3);
 
-    auto pContRoot = cont::createTopLevel(&entry);
-    auto pContChild = cont::create(pContRoot, &accumulator);
+    auto pContMain = cont::createTopLevel();
+    auto pContChild = cont::create(pContMain, &accumulator);
 
     cont::getStack(pContChild)->push(number::create(3)); // Do 3 'iterations'
 
