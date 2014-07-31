@@ -69,7 +69,9 @@
 	</Type>
 
 	<Type Name="lcpp::cont::Data">
+		<DisplayString>Function={m_pFunction,na}</DisplayString>
 		<Expand>
+			<Item Name="Function">m_pFunction,na</Item>
 			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
 			<Item Name="Stack">*((lcpp::Stack*)m_stack)</Item>
 		</Expand>

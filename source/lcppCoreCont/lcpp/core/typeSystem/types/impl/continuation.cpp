@@ -27,7 +27,7 @@ namespace lcpp
             auto& data = pInstance->m_cont;
 
             new (data.m_pParent) Ptr<LispObject>(m_pParent);
-            new (data.m_pFunction) Function_t(pFunction);
+            data.m_pFunction = pFunction;
             new (data.m_stack) Stack();
 
             return pInstance;

@@ -12,13 +12,13 @@ namespace lcpp
         inline
         Function_t Data::getFunction()
         {
-            return reinterpret_cast<Function_t&>(m_pFunction);
+            return m_pFunction;
         }
 
         inline
         void Data::setFunction(Function_t pFunction)
         {
-            reinterpret_cast<Function_t&>(m_pFunction) = pFunction;
+            m_pFunction = pFunction;
         }
 
         inline

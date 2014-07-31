@@ -33,7 +33,7 @@ namespace lcpp
         public:
 
             LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
-            LCPP_DeclareRawDataMember(Function_t, m_pFunction);
+            Function_t m_pFunction;
             LCPP_DeclareRawDataMember(Stack, m_stack);
         };
 
