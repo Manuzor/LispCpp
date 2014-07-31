@@ -13,12 +13,12 @@ namespace lcpp
         auto pStream = stream::create(content.GetIteratorFront());
 
         auto pContRead = cont::createTopLevel(&reader::read);
-        auto& stack = cont::getStack(pContRead);
-        stack.push(pStream);
+        auto pStack = cont::getStack(pContRead);
+        pStack->push(pStream);
 
         cont::trampoline(pContRead);
 
-        return stack.get(-1);
+        return pStack->get(-1);
     }
 }
 

@@ -16,15 +16,15 @@ namespace lcpp
         {
             typeCheck(pContinuation, Type::Continuation);
 
-            auto& stack = cont::getStack(pContinuation);
-            auto pStream = stack.get(0);
+            auto pStack = cont::getStack(pContinuation);
+            auto pStream = pStack->get(0);
             typeCheck(pStream, Type::Stream);
 
             detail::skipSeparators(pStream);
 
             if (!stream::isValid(pStream))
             {
-                stack.push(LCPP_pVoid);
+                pStack->push(LCPP_pVoid);
                 return LCPP_pNil;
             }
 
@@ -49,9 +49,9 @@ namespace lcpp
             Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
-                auto& stack = cont::getStack(pContinuation);
+                auto pStack = cont::getStack(pContinuation);
 
-                auto pStream = stack.get(0);
+                auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 auto& iter = stream::getIterator(pStream);
@@ -77,7 +77,7 @@ namespace lcpp
                             {
                                 advance(pStream);
                             }
-                            stack.push(symbol::create(symbolValue));
+                            pStack->push(symbol::create(symbolValue));
                             return LCPP_pNil;
                         }
                         if(isDigit(ch))
@@ -116,11 +116,11 @@ namespace lcpp
                         number::Float_t theFloat;
                         auto result = to(iter, theFloat, &lastPos);
                         EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
-                        stack.push(number::create(theFloat));
+                        pStack->push(number::create(theFloat));
                         return LCPP_pNil;
                     }
 
-                    stack.push(number::create(integer));
+                    pStack->push(number::create(integer));
                     return LCPP_pNil;
                 }
 
@@ -131,8 +131,9 @@ namespace lcpp
             Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
+                auto pStack = cont::getStack(pContinuation);
 
-                auto pStream = cont::getStack(pContinuation).get(0);
+                auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 skipSeparators(pStream);
@@ -150,15 +151,16 @@ namespace lcpp
 
                 EZ_ASSERT(!theSymbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-                cont::getStack(pContinuation).push(symbol::create(theSymbol));
+                pStack->push(symbol::create(theSymbol));
                 return LCPP_pNil;
             }
 
             Ptr<LispObject> readString(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
+                auto pStack = cont::getStack(pContinuation);
 
-                auto pStream = cont::getStack(pContinuation).get(0);
+                auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 LCPP_NOT_IMPLEMENTED;
@@ -167,8 +169,9 @@ namespace lcpp
             Ptr<LispObject> readListHelper(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
+                auto pStack = cont::getStack(pContinuation);
 
-                auto pStream = cont::getStack(pContinuation).get(0);
+                auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 LCPP_NOT_IMPLEMENTED;
@@ -177,8 +180,9 @@ namespace lcpp
             Ptr<LispObject> readList(Ptr<LispObject> pContinuation)
             {
                 typeCheck(pContinuation, Type::Continuation);
+                auto pStack = cont::getStack(pContinuation);
 
-                auto pStream = cont::getStack(pContinuation).get(0);
+                auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
 
                 LCPP_NOT_IMPLEMENTED;

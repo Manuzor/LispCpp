@@ -46,7 +46,7 @@ namespace lcpp
         LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pCont);
         LCPP_API_CORE_CONT void setFunction(Ptr<LispObject> pCont, Function_t pFunction);
 
-        LCPP_API_CORE_CONT Stack& getStack(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT Ptr<Stack> getStack(Ptr<LispObject> pCont);
     }
 }
 

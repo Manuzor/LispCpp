@@ -70,11 +70,11 @@ namespace lcpp
             pCont->m_cont.setFunction(pFunction);
         }
 
-        LCPP_API_CORE_CONT Stack& getStack(Ptr<LispObject> pCont)
+        LCPP_API_CORE_CONT Ptr<Stack> getStack(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->m_cont.getStack();
+            return &pCont->m_cont.getStack();
         }
     }
 }

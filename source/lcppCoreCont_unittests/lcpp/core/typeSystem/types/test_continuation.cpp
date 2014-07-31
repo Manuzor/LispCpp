@@ -11,9 +11,9 @@ namespace lcpp
 
     static Ptr<LispObject> accumulator(Ptr<LispObject> pCont)
     {
-        auto& stack = cont::getStack(pCont);
+        auto pStack = cont::getStack(pCont);
 
-        auto pToGo = stack.get(-1);
+        auto pToGo = pStack->get(-1);
         auto value = number::getInteger(pToGo);
 
         if(value <= 0)
@@ -23,8 +23,8 @@ namespace lcpp
 
         ++g_sum;
 
-        stack.pop();
-        stack.push(number::create(value - 1));
+        pStack->pop();
+        pStack->push(number::create(value - 1));
 
         return pCont;
     }
@@ -48,7 +48,7 @@ LCPP_TestCase(Continuation, Basics)
     auto pContRoot = cont::createTopLevel(&entry);
     auto pContChild = cont::create(pContRoot, &accumulator);
 
-    cont::getStack(pContChild).push(number::create(3)); // Do 3 'iterations'
+    cont::getStack(pContChild)->push(number::create(3)); // Do 3 'iterations'
 
     g_sum = 0;
 
