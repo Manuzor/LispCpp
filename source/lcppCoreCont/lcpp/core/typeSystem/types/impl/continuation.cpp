@@ -63,12 +63,18 @@ namespace lcpp
             return pCont->m_cont.getFunction();
         }
 
+        LCPP_API_CORE_CONT void setFunction(Ptr<LispObject> pCont, Function_t pFunction)
+        {
+            typeCheck(pCont, Type::Continuation);
+
+            pCont->m_cont.setFunction(pFunction);
+        }
+
         LCPP_API_CORE_CONT Stack& getStack(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
             return pCont->m_cont.getStack();
         }
-
     }
 }

@@ -15,7 +15,7 @@ namespace lcpp
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Function_t pFunction);
-        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> m_pParent, Function_t pFunction);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction);
 
         //////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,10 @@ namespace lcpp
         public:
 
             Ptr<LispObject> getParent();
+
             Function_t getFunction();
+            void setFunction(Function_t pFunction);
+
             Stack& getStack();
 
         public:
@@ -39,7 +42,10 @@ namespace lcpp
         LCPP_API_CORE_CONT void trampoline(Ptr<LispObject> pCont);
 
         LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pCont);
+
         LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT void setFunction(Ptr<LispObject> pCont, Function_t pFunction);
+
         LCPP_API_CORE_CONT Stack& getStack(Ptr<LispObject> pCont);
     }
 }

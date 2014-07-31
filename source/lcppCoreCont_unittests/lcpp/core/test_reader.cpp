@@ -4,6 +4,7 @@
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
 
 namespace lcpp
 {
@@ -11,7 +12,13 @@ namespace lcpp
     {
         auto pStream = stream::create(content.GetIteratorFront());
 
-        return reader::read(pStream);
+        auto pContRead = cont::createTopLevel(&reader::read);
+        auto& stack = cont::getStack(pContRead);
+        stack.push(pStream);
+
+        cont::trampoline(pContRead);
+
+        return stack.get(-1);
     }
 }
 

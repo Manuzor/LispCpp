@@ -12,15 +12,20 @@ namespace lcpp
     namespace reader
     {
 
-        Ptr<LispObject> read(Ptr<LispObject> pStream)
+        Ptr<LispObject> read(Ptr<LispObject> pContinuation)
         {
+            typeCheck(pContinuation, Type::Continuation);
+
+            auto& stack = cont::getStack(pContinuation);
+            auto pStream = stack.get(0);
             typeCheck(pStream, Type::Stream);
 
             detail::skipSeparators(pStream);
 
             if (!stream::isValid(pStream))
             {
-                return LCPP_pVoid;
+                stack.push(LCPP_pVoid);
+                return LCPP_pNil;
             }
 
             switch(stream::getCharacter(pStream))
@@ -28,21 +33,27 @@ namespace lcpp
             case ')':
                 throw exceptions::InvalidInput("Unexpected character ')'.");
             case '"':
-                return detail::readString(pStream);
-                break;
+                cont::setFunction(pContinuation, &detail::readString);
+                return pContinuation;
             case '(':
-                return detail::readList(pStream);
-                break;
+                cont::setFunction(pContinuation, &detail::readList);
+                return pContinuation;
             }
 
-            return detail::readAtom(pStream);
+            cont::setFunction(pContinuation, &detail::readAtom);
+            return pContinuation;
         }
 
         namespace detail
         {
-            Ptr<LispObject> readAtom(Ptr<LispObject> pStream)
+            Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation)
             {
+                typeCheck(pContinuation, Type::Continuation);
+                auto& stack = cont::getStack(pContinuation);
+
+                auto pStream = stack.get(0);
                 typeCheck(pStream, Type::Stream);
+
                 auto& iter = stream::getIterator(pStream);
 
                 // Special case for + and - characters, since the ezEngine parses (+ 1) as +1...
@@ -52,8 +63,8 @@ namespace lcpp
                 {
                     auto copy = iter;
 
-                    ezStringBuilder symbol;
-                    symbol.Append(ch);
+                    ezStringBuilder symbolValue;
+                    symbolValue.Append(ch);
 
                     ++copy;
                     ch = copy.GetCharacter();
@@ -66,7 +77,8 @@ namespace lcpp
                             {
                                 advance(pStream);
                             }
-                            return symbol::create(symbol);
+                            stack.push(symbol::create(symbolValue));
+                            return LCPP_pNil;
                         }
                         if(isDigit(ch))
                         {
@@ -74,7 +86,7 @@ namespace lcpp
                             // Abort reading as symbol.
                             break;
                         }
-                        symbol.Append(ch);
+                        symbolValue.Append(ch);
                         ++copy;
                         if(copy.IsValid())
                         {
@@ -101,56 +113,72 @@ namespace lcpp
 
                     if(lastPos[0] == '.')
                     {
-                        number::Float_t number;
-                        auto result = to(iter, number, &lastPos);
+                        number::Float_t theFloat;
+                        auto result = to(iter, theFloat, &lastPos);
                         EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
-                        return number::create(number);
+                        stack.push(number::create(theFloat));
+                        return LCPP_pNil;
                     }
 
-                    return number::create(integer);
+                    stack.push(number::create(integer));
+                    return LCPP_pNil;
                 }
 
-                return readSymbol(pStream);
+                cont::setFunction(pContinuation, &readSymbol);
+                return pContinuation;
             }
 
-            Ptr<LispObject> readSymbol(Ptr<LispObject> pStream)
+            Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation)
             {
+                typeCheck(pContinuation, Type::Continuation);
+
+                auto pStream = cont::getStack(pContinuation).get(0);
                 typeCheck(pStream, Type::Stream);
 
                 skipSeparators(pStream);
 
                 // Parse for a scheme symbol
-                ezStringBuilder symbol;
+                ezStringBuilder theSymbol;
 
                 auto ch = stream::getCharacter(pStream);
                 while(stream::isValid(pStream) && !isSymbolDelimiter(ch))
                 {
-                    symbol.Append(ch);
+                    theSymbol.Append(ch);
                     advance(pStream);
                     ch = stream::getCharacter(pStream);
                 }
 
-                EZ_ASSERT(!symbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
+                EZ_ASSERT(!theSymbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
-                return symbol::create(symbol);
+                cont::getStack(pContinuation).push(symbol::create(theSymbol));
+                return LCPP_pNil;
             }
 
-            Ptr<LispObject> readString(Ptr<LispObject> pStream)
+            Ptr<LispObject> readString(Ptr<LispObject> pContinuation)
             {
+                typeCheck(pContinuation, Type::Continuation);
+
+                auto pStream = cont::getStack(pContinuation).get(0);
                 typeCheck(pStream, Type::Stream);
 
                 LCPP_NOT_IMPLEMENTED;
             }
 
-            Ptr<LispObject> readListHelper(Ptr<LispObject> pStream)
+            Ptr<LispObject> readListHelper(Ptr<LispObject> pContinuation)
             {
+                typeCheck(pContinuation, Type::Continuation);
+
+                auto pStream = cont::getStack(pContinuation).get(0);
                 typeCheck(pStream, Type::Stream);
 
                 LCPP_NOT_IMPLEMENTED;
             }
 
-            Ptr<LispObject> readList(Ptr<LispObject> pStream)
+            Ptr<LispObject> readList(Ptr<LispObject> pContinuation)
             {
+                typeCheck(pContinuation, Type::Continuation);
+
+                auto pStream = cont::getStack(pContinuation).get(0);
                 typeCheck(pStream, Type::Stream);
 
                 LCPP_NOT_IMPLEMENTED;

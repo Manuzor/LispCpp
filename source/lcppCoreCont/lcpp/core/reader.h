@@ -5,16 +5,16 @@ namespace lcpp
     namespace reader
     {
 
-        LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pStream);
+        LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pContinuation);
 
         //////////////////////////////////////////////////////////////////////////
 
         namespace detail
         {
-            LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pStream);
-            LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(Ptr<LispObject> pStream);
-            LCPP_API_CORE_CONT Ptr<LispObject> readString(Ptr<LispObject> pStream);
-            LCPP_API_CORE_CONT Ptr<LispObject> readList(Ptr<LispObject> pStream);
+            LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pContinuation);
+            LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation);
+            LCPP_API_CORE_CONT Ptr<LispObject> readString(Ptr<LispObject> pContinuation);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList(Ptr<LispObject> pContinuation);
 
             //////////////////////////////////////////////////////////////////////////
             
