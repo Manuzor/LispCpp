@@ -81,11 +81,6 @@ lcpp::LispRuntime::initialize()
     ++m_stats.m_initializationCount;
 
     m_pAllocator = defaultAllocator();
-    
-    // TODO instanciate reader, evaluator, ...
-
-    // TODO create instance tables
-    m_instanceTables.m_pSymbolTable = LCPP_NEW(m_pAllocator.get(), InsanceTable<symbol::String>)(&symbol::createNew);
 
     m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
     m_pGlobalEnvironment = env::create(symbol::create("global"), m_pSyntaxEnvironment);
@@ -112,8 +107,6 @@ lcpp::LispRuntime::shutdown()
     ++m_stats.m_shutdownCount;
 
     LCPP_DELETE(m_pAllocator.get(), m_pReaderState.get());
-
-    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.m_pSymbolTable.get());
 }
 
 void

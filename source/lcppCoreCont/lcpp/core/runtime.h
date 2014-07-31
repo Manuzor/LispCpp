@@ -1,6 +1,5 @@
 #pragma once
 
-#include "lcpp/core/containers/instanceTable.h"
 #include "lcpp/core/reader.h"
 
 namespace lcpp
@@ -23,11 +22,6 @@ namespace lcpp
         {
             ezUInt32 m_initializationCount;
             ezUInt32 m_shutdownCount;
-        };
-
-        struct InstanceTables
-        {
-            Ptr<InsanceTable<symbol::String>> m_pSymbolTable;
         };
 
     public:
@@ -54,8 +48,6 @@ namespace lcpp
         Ptr<LispObject> globalEnvironment();
         void globalEnvironment(Ptr<LispObject> value);
 
-        const InstanceTables& instanceTables() const;
-
         Ptr<reader::State> getReaderState();
         Ptr<const reader::State> getReaderState() const;
 
@@ -72,8 +64,6 @@ namespace lcpp
 
         Ptr<LispObject> m_pSyntaxEnvironment;
         Ptr<LispObject> m_pGlobalEnvironment;
-
-        InstanceTables m_instanceTables;
 
         Ptr<reader::State> m_pReaderState;
 

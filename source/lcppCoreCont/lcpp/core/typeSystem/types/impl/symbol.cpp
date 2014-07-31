@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/containers/instanceTable.h"
 
 #include <Foundation/Memory/MemoryUtils.h>
 
@@ -13,14 +14,15 @@ namespace lcpp
         const MetaInfo& metaInfo()
         {
             static auto meta = MetaInfo(Type::Symbol, "symbol");
+
             return meta;
         }
 
         Ptr<LispObject> create(const String& value)
         {
-            auto pSymbolTable = LCPP_pRuntime->instanceTables().m_pSymbolTable;
+            static auto symbolTable = InsanceTable<String>(&createNew);
 
-            return pSymbolTable->get(value);
+            return symbolTable.get(value);
         }
 
         Ptr<LispObject> createNew(const String& value)

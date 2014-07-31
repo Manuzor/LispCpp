@@ -50,12 +50,6 @@ namespace lcpp
         m_pGlobalEnvironment = value;
     }
 
-    inline
-    const LispRuntime::InstanceTables& LispRuntime::instanceTables() const
-    {
-        return m_instanceTables;
-    }
-
     EZ_FORCE_INLINE
     Ptr<reader::State> LispRuntime::getReaderState()
     {
