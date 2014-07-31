@@ -8,10 +8,8 @@
 
 namespace lcpp
 {
-    static Ptr<LispObject> readString(const ezString& content)
+    static Ptr<LispObject> readStream(Ptr<LispObject> pStream)
     {
-        auto pStream = stream::create(content.GetIteratorFront());
-
         auto pContRead = cont::createTopLevel(&reader::read);
         auto pStack = cont::getStack(pContRead);
         pStack->push(pStream);
@@ -19,6 +17,13 @@ namespace lcpp
         cont::trampoline(pContRead);
 
         return pStack->get(-1);
+    }
+
+    static Ptr<LispObject> readString(const ezString& content)
+    {
+        auto pStream = stream::create(content.GetIteratorFront());
+
+        return readStream(pStream);
     }
 }
 
@@ -51,4 +56,41 @@ LCPP_TestCase(Reader, Atoms)
         auto pSymbol = readString("abc");
         CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
     }
+}
+
+LCPP_TestCase(Reader, State)
+{
+    auto content = ezString("   123\r\n abc\n \n");
+    auto pStream = stream::create(content.GetIteratorFront());
+    auto pState = reader::getState();
+    auto& cursorPosition = pState->m_syntaxCheckResult.m_cursor.getPosition();
+
+    auto pResult = Ptr<LispObject>();
+
+    //////////////////////////////////////////////////////////////////////////
+
+    CUT_ASSERT.isTrue(cursorPosition.m_streamIndex == 0);
+    CUT_ASSERT.isTrue(cursorPosition.m_line == 0);
+    CUT_ASSERT.isTrue(cursorPosition.m_column == 0);
+
+    pResult = readStream(pStream);
+
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 123);
+    CUT_ASSERT.isTrue(cursorPosition.m_streamIndex == 6);
+    CUT_ASSERT.isTrue(cursorPosition.m_line == 0);
+    CUT_ASSERT.isTrue(cursorPosition.m_column == 6);
+
+    pResult = readStream(pStream);
+
+    CUT_ASSERT.isTrue(symbol::getValue(pResult).IsEqual("abc"));
+    CUT_ASSERT.isTrue(cursorPosition.m_streamIndex == 12);
+    CUT_ASSERT.isTrue(cursorPosition.m_line == 1);
+    CUT_ASSERT.isTrue(cursorPosition.m_column == 4);
+
+    pResult = readStream(pStream);
+
+    CUT_ASSERT.isTrue(isVoid(pResult));
+    CUT_ASSERT.isTrue(cursorPosition.m_streamIndex == 15);
+    CUT_ASSERT.isTrue(cursorPosition.m_line == 3);
+    CUT_ASSERT.isTrue(cursorPosition.m_column == 0);
 }

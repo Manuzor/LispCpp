@@ -27,6 +27,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\typeCheckFailedException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\reader.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\readerState.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\recursionCounter.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\runtime.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h" />
@@ -72,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\readerState.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl" />

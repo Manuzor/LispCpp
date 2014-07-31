@@ -118,6 +118,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\syntaxCheckResult.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\readerState.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -208,13 +211,13 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.inl">
-      <Filter>lcpp\core\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl">
+      <Filter>lcpp\core\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\readerState.inl">
       <Filter>lcpp\core\impl</Filter>
     </None>
   </ItemGroup>

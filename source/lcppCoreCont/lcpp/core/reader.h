@@ -1,29 +1,18 @@
 #pragma once
-#include "lcpp/core/syntaxCheckResult.h"
+#include "lcpp/core/readerState.h"
 
 namespace lcpp
 {
     namespace reader
     {
-
+        /// \brief Reads a given stream for lisp objects.
+        /// \remark Continuation function.
+        /// Expects the following arguments:
+        /// [0]: stream from which to read from.
         LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pContinuation);
 
-        //////////////////////////////////////////////////////////////////////////
-
-        class State
-        {
-        public:
-
-            ezString m_separators;
-            ezString m_symbolDelimiters;
-            ezUInt32 m_commentDelimiter;
-            ezUInt32 m_newLineDelimiter;
-            SyntaxCheckResult m_syntaxCheckResult;
-
-            State();
-        };
-
-        //////////////////////////////////////////////////////////////////////////
+        LCPP_API_CORE_CONT Ptr<State> getState();
+        LCPP_API_CORE_CONT void resetState();
 
         namespace detail
         {
@@ -48,5 +37,3 @@ namespace lcpp
         }
     }
 }
-
-#include "lcpp/core/impl/reader.inl"
