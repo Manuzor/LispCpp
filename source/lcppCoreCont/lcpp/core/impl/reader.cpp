@@ -25,7 +25,8 @@ namespace lcpp
             if (!stream::isValid(pStream))
             {
                 pStack->push(LCPP_pVoid);
-                return LCPP_pNil;
+
+                LCPP_cont_return(pContinuation);
             }
 
             switch(stream::getCharacter(pStream))
@@ -33,15 +34,12 @@ namespace lcpp
             case ')':
                 throw exceptions::InvalidInput("Unexpected character ')'.");
             case '"':
-                cont::setFunction(pContinuation, &detail::readString);
-                return pContinuation;
+                LCPP_cont_tailCall(pContinuation, &detail::readString);
             case '(':
-                cont::setFunction(pContinuation, &detail::readList);
-                return pContinuation;
+                LCPP_cont_tailCall(pContinuation, &detail::readList);
             }
 
-            cont::setFunction(pContinuation, &detail::readAtom);
-            return pContinuation;
+            LCPP_cont_tailCall(pContinuation, &detail::readAtom);
         }
 
         namespace detail
@@ -78,7 +76,8 @@ namespace lcpp
                                 advance(pStream);
                             }
                             pStack->push(symbol::create(symbolValue));
-                            return LCPP_pNil;
+
+                            LCPP_cont_return(pContinuation);
                         }
                         if(isDigit(ch))
                         {
@@ -117,15 +116,17 @@ namespace lcpp
                         auto result = to(iter, theFloat, &lastPos);
                         EZ_ASSERT(result.Succeeded(), "An integer of the form '123.' should be parsed as float!");
                         pStack->push(number::create(theFloat));
-                        return LCPP_pNil;
+
+                        LCPP_cont_return(pContinuation);
                     }
 
                     pStack->push(number::create(integer));
-                    return LCPP_pNil;
+
+                    LCPP_cont_return(pContinuation);
                 }
 
-                cont::setFunction(pContinuation, &readSymbol);
-                return pContinuation;
+
+                LCPP_cont_tailCall(pContinuation, &readSymbol);
             }
 
             Ptr<LispObject> readSymbol(Ptr<LispObject> pContinuation)
@@ -152,7 +153,7 @@ namespace lcpp
                 EZ_ASSERT(!theSymbol.IsEmpty(), "parsed symbol is not supposed to be empty!");
 
                 pStack->push(symbol::create(theSymbol));
-                return LCPP_pNil;
+                LCPP_cont_return(pContinuation);
             }
 
             Ptr<LispObject> readString(Ptr<LispObject> pContinuation)
