@@ -6,13 +6,13 @@ namespace lcpp
 {
     namespace test
     {
-        Ptr<LispRuntime> getRuntime()
+        Ptr<LispRuntimeState> getRuntimeState()
         {
-            static auto pRuntime = Ptr<LispRuntime>();
+            static auto pRuntime = Ptr<LispRuntimeState>();
 
             if (!pRuntime)
             {
-                static auto runtime = LispRuntime();
+                static auto runtime = LispRuntimeState();
                 pRuntime = &runtime;
             }
 

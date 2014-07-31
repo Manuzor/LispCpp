@@ -12,7 +12,7 @@
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
-lcpp::LispRuntime::LispRuntime() :
+lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
     m_recursionDepth(0),
     m_recursionLimit(255)
@@ -20,7 +20,7 @@ lcpp::LispRuntime::LispRuntime() :
 }
 
 void
-lcpp::LispRuntime::initialize()
+lcpp::LispRuntimeState::initialize()
 {
     EZ_ASSERT(m_stats.m_shutdownCount <= m_stats.m_initializationCount,
               "LCPP_pRuntime was shut down more often than it was initialized!");
@@ -52,7 +52,7 @@ lcpp::LispRuntime::initialize()
 }
 
 void
-lcpp::LispRuntime::shutdown()
+lcpp::LispRuntimeState::shutdown()
 {
     EZ_ASSERT(m_stats.m_initializationCount > 0,
               "LCPP_pRuntime was never initialized.");
@@ -65,7 +65,7 @@ lcpp::LispRuntime::shutdown()
 }
 
 void
-lcpp::LispRuntime::setRecursionLimit(ezUInt32 newLimit)
+lcpp::LispRuntimeState::setRecursionLimit(ezUInt32 newLimit)
 {
     if(m_recursionDepth >= newLimit)
     {
@@ -78,7 +78,7 @@ lcpp::LispRuntime::setRecursionLimit(ezUInt32 newLimit)
     m_recursionLimit = newLimit;
 }
 
-void lcpp::LispRuntime::increaseRecursionDepth()
+void lcpp::LispRuntimeState::increaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth < m_recursionLimit, "Invalid current callStackDepth!");
     ++m_recursionDepth;
@@ -90,13 +90,13 @@ void lcpp::LispRuntime::increaseRecursionDepth()
     }
 }
 
-void lcpp::LispRuntime::decreaseRecursionDepth()
+void lcpp::LispRuntimeState::decreaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth > 0, "Cannot decrease the recursion depth below 0!");
     --m_recursionDepth;
 }
 
-void lcpp::LispRuntime::registerBuiltIns()
+void lcpp::LispRuntimeState::registerBuiltIns()
 {
     // TODO implement me.
 }

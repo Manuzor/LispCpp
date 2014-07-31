@@ -2,13 +2,13 @@
 
 namespace lcpp
 {
-    class LispRuntime;
+    class LispRuntimeState;
 
     namespace test
     {
-        Ptr<LispRuntime> getRuntime();
+        Ptr<LispRuntimeState> getRuntimeState();
     }
 }
 
-#undef LCPP_test_pRuntime
-#define LCPP_test_pRuntime ::lcpp::test::getRuntime()
+#undef LCPP_test_pRuntimeState
+#define LCPP_test_pRuntimeState ::lcpp::test::getRuntimeState()

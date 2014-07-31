@@ -3,55 +3,55 @@ namespace lcpp
 {
 
     EZ_FORCE_INLINE
-    Ptr<ezAllocatorBase> LispRuntime::allocator()
+    Ptr<ezAllocatorBase> LispRuntimeState::allocator()
     {
         return m_pAllocator;
     }
 
     EZ_FORCE_INLINE
-    Ptr<const LispObject> LispRuntime::getSyntaxEnvironment() const
+    Ptr<const LispObject> LispRuntimeState::getSyntaxEnvironment() const
     {
         return m_pSyntaxEnvironment;
     }
 
     EZ_FORCE_INLINE
-    Ptr<LispObject> LispRuntime::getSyntaxEnvironment()
+    Ptr<LispObject> LispRuntimeState::getSyntaxEnvironment()
     {
         return m_pSyntaxEnvironment;
     }
 
     EZ_FORCE_INLINE
-    Ptr<const LispObject> LispRuntime::getGlobalEnvironment() const
+    Ptr<const LispObject> LispRuntimeState::getGlobalEnvironment() const
     {
         return m_pGlobalEnvironment;
     }
 
     EZ_FORCE_INLINE
-    Ptr<LispObject> LispRuntime::getGlobalEnvironment()
+    Ptr<LispObject> LispRuntimeState::getGlobalEnvironment()
     {
         return m_pGlobalEnvironment;
     }
 
     EZ_FORCE_INLINE
-    Ptr<reader::State> LispRuntime::getReaderState()
+    Ptr<reader::State> LispRuntimeState::getReaderState()
     {
         return m_pReaderState;
     }
 
     EZ_FORCE_INLINE
-    Ptr<const reader::State> LispRuntime::getReaderState() const
+    Ptr<const reader::State> LispRuntimeState::getReaderState() const
     {
         return m_pReaderState;
     }
 
     EZ_FORCE_INLINE
-    ezUInt32 LispRuntime::getRecursionDepth() const
+    ezUInt32 LispRuntimeState::getRecursionDepth() const
     {
         return m_recursionDepth;
     }
 
     EZ_FORCE_INLINE
-    ezUInt32 LispRuntime::getRecursionLimit() const
+    ezUInt32 LispRuntimeState::getRecursionLimit() const
     {
         return m_recursionLimit;
     }

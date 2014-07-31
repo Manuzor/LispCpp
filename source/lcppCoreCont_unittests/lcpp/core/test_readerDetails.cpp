@@ -9,7 +9,7 @@ LCPP_TestGroup(ReaderDetails);
 
 LCPP_TestCase(ReaderDetails, skipSeparators)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("  \t\r\n  \v  \n\n\n\n\r\nhello-world");
     auto pStream = stream::create(content.GetIteratorFront());
@@ -23,7 +23,7 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
 
     content = "abcxyzHELLO";
     pStream = stream::create(content.GetIteratorFront());
-    auto rt = LispRuntime();
+    auto rt = LispRuntimeState();
     rt.initialize();
     rt.getReaderState()->m_separators = " abcdefghijklmnopqrstuvwxyz";
 
@@ -39,7 +39,7 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
 
 LCPP_TestCase(ReaderDetails, skipToFirstNewLine)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("  ;this is a comment with whitespace \nXello World");
     auto pStream = stream::create(content.GetIteratorFront());
@@ -53,7 +53,7 @@ LCPP_TestCase(ReaderDetails, skipToFirstNewLine)
 
 LCPP_TestCase(ReaderDetails, advance)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("a\nb");
     auto pStream = stream::create(content.GetIteratorFront());
@@ -83,7 +83,7 @@ LCPP_TestCase(ReaderDetails, advance)
 
 LCPP_TestCase(ReaderDetails, isSeparator)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     CUT_ASSERT.isTrue(reader::detail::isSeparator(pState, ' '));
     CUT_ASSERT.isTrue(reader::detail::isSeparator(pState, '\t'));
@@ -104,7 +104,7 @@ LCPP_TestCase(ReaderDetails, isSeparator)
 
 LCPP_TestCase(ReaderDetails, isNewLine)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     CUT_ASSERT.isTrue(reader::detail::isNewLine(pState, '\n'));
     CUT_ASSERT.isFalse(reader::detail::isNewLine(pState, '\r'));
@@ -112,7 +112,7 @@ LCPP_TestCase(ReaderDetails, isNewLine)
 
 LCPP_TestCase(ReaderDetails, isSymbolDelimiter)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     CUT_ASSERT.isTrue(reader::detail::isSymbolDelimiter(pState, '('));
     CUT_ASSERT.isTrue(reader::detail::isSymbolDelimiter(pState, ')'));
@@ -121,7 +121,7 @@ LCPP_TestCase(ReaderDetails, isSymbolDelimiter)
 
 LCPP_TestCase(ReaderDetails, isCommentDelimiter)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     CUT_ASSERT.isTrue(reader::detail::isCommentDelimiter(pState, ';'));
     CUT_ASSERT.isFalse(reader::detail::isCommentDelimiter(pState, 'a'));

@@ -7,7 +7,7 @@ namespace lcpp
     class Stack;
     class LispObject;
 
-    class LCPP_API_CORE_CONT LispRuntime
+    class LCPP_API_CORE_CONT LispRuntimeState
     {
         friend class RecursionCounter;
     public:
@@ -21,7 +21,7 @@ namespace lcpp
 
     public:
 
-        LispRuntime();
+        LispRuntimeState();
 
         // Initialization
         //////////////////////////////////////////////////////////////////////////

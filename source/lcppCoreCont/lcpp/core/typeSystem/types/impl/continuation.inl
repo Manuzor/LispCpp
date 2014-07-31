@@ -4,9 +4,9 @@ namespace lcpp
     namespace cont
     {
         EZ_FORCE_INLINE
-        Ptr<LispRuntime> Data::getRuntimeState()
+        Ptr<LispRuntimeState> Data::getRuntimeState()
         {
-            return reinterpret_cast<Ptr<LispRuntime>&>(m_pRuntimeState);
+            return reinterpret_cast<Ptr<LispRuntimeState>&>(m_pRuntimeState);
         }
 
         EZ_FORCE_INLINE

@@ -2,7 +2,7 @@
 
 namespace lcpp
 {
-    class LispRuntime;
+    class LispRuntimeState;
     class LispObject;
 
     template<typename T_Key>

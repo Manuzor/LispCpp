@@ -2,14 +2,14 @@
 
 namespace lcpp
 {
-    class LispRuntime;
+    class LispRuntimeState;
 
     class RecursionCounter
     {
     public:
-        Ptr<LispRuntime> pRunTime;
+        Ptr<LispRuntimeState> pRunTime;
 
-        RecursionCounter(Ptr<LispRuntime> pRunTime);
+        RecursionCounter(Ptr<LispRuntimeState> pRunTime);
         ~RecursionCounter();
     };
 }

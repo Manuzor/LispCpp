@@ -13,7 +13,7 @@ namespace lcpp
 {
     static Ptr<LispObject> readStream(Ptr<LispObject> pStream)
     {
-        auto pContMain = cont::createTopLevel(LCPP_test_pRuntime);
+        auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
         auto pMainStack = cont::getStack(pContMain);
         
         auto pContRead = cont::create(pContMain, &reader::read);
@@ -65,7 +65,7 @@ LCPP_TestCase(Reader, Atoms)
 
 LCPP_TestCase(Reader, State)
 {
-    auto pState = LCPP_test_pRuntime->getReaderState();
+    auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("   123\r\n abc\n \n");
     auto pStream = stream::create(content.GetIteratorFront());

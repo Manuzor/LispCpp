@@ -16,9 +16,9 @@ namespace lcpp
 {
     static Ptr<LispObject> evalStream(Ptr<LispObject> pStream)
     {
-        auto pContMain = cont::createTopLevel(LCPP_test_pRuntime);
+        auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
         auto pContEval = cont::create(pContMain, &eval::evaluate);
-        cont::getStack(pContEval)->push(LCPP_test_pRuntime->getGlobalEnvironment());
+        cont::getStack(pContEval)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
 
         auto pContRead = cont::create(pContEval, &reader::read);
         cont::getStack(pContRead)->push(pStream);
@@ -53,7 +53,7 @@ LCPP_TestCase(Evaluator, EvalSymbolInEnv)
 {
     auto pObject = Ptr<LispObject>();
 
-    env::addBinding(LCPP_test_pRuntime->getGlobalEnvironment(), symbol::create("x"), number::create(1337));
+    env::addBinding(LCPP_test_pRuntimeState->getGlobalEnvironment(), symbol::create("x"), number::create(1337));
 
     pObject = evalString("x");
     CUT_ASSERT.isTrue(number::getInteger(pObject) == 1337);
