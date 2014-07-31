@@ -35,6 +35,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_type.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\test_typeInfo.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_bool.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_cons.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_continuation.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_environment.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_nil.cpp" />

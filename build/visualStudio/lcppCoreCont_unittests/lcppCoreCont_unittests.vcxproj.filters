@@ -97,6 +97,9 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\runtime.cpp">
       <Filter>lcpp\test\impl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_cons.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\testMacros.inl">

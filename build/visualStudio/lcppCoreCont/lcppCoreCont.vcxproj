@@ -60,6 +60,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.cpp" />
@@ -86,6 +87,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl" />
