@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/attribute.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
@@ -11,7 +12,9 @@ namespace lcpp
 
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::Lambda, "lambda");
+            static auto meta = MetaInfo(Type::Lambda,
+                                        Attribute::Callable,
+                                        "lambda");
 
             return meta;
         }

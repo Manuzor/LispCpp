@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\evaluator.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\contractViolationException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\invalidInputException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\noBindingFoundException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h" />
@@ -34,7 +35,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\runtime.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\syntaxCheckResult.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypes.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectUtils.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\type.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\metaInfo.h" />
@@ -59,6 +62,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\evaluator.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.cpp" />
@@ -84,6 +88,8 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />

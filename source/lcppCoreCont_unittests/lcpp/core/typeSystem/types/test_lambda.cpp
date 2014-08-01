@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
@@ -33,7 +34,7 @@ LCPP_TestCase(Lambda, Basics)
 
     {
         auto pContMain = cont::createTopLevel(pState);
-        auto pContCall = cont::create(pContMain, &lambda::call);
+        auto pContCall = cont::create(pContMain, &call);
         cont::getStack(pContCall)->push(pLambda);
 
         cont::trampoline(pContCall);
