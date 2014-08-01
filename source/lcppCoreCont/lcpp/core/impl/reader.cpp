@@ -19,7 +19,6 @@ namespace lcpp
             auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
             auto pContParent = cont::getParent(pCont);
-            auto pReturnStack = cont::getStack(pContParent);
             auto pStream = cont::getStack(pCont)->get(0);
             typeCheck(pStream, Type::Stream);
 
@@ -27,9 +26,7 @@ namespace lcpp
 
             if (!stream::isValid(pStream))
             {
-                pReturnStack->push(LCPP_pVoid);
-                cont::getParent(pCont);
-                LCPP_cont_return(pCont);
+                LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
             switch(stream::getCharacter(pStream))
@@ -165,26 +162,96 @@ namespace lcpp
                 LCPP_NOT_IMPLEMENTED;
             }
 
-            Ptr<LispObject> readListHelper(Ptr<LispObject> pCont)
-            {
-                typeCheck(pCont, Type::Continuation);
-                auto pStack = cont::getStack(pCont);
-
-                auto pStream = pStack->get(0);
-                typeCheck(pStream, Type::Stream);
-
-                LCPP_NOT_IMPLEMENTED;
-            }
-
             Ptr<LispObject> readList(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
                 auto pStream = pStack->get(0);
                 typeCheck(pStream, Type::Stream);
 
-                LCPP_NOT_IMPLEMENTED;
+                skipSeparators(pState, pStream);
+
+                EZ_ASSERT(stream::getCharacter(pStream) == '(', "Invalid input to readList.");
+
+                // Read the '(' character.
+                advance(pState, pStream);
+                skipSeparators(pState, pStream);
+
+                if (!stream::isValid(pStream))
+                {
+                    return LCPP_pVoid;
+                }
+                
+                if(stream::getCharacter(pStream) == ')')
+                {
+                    // Read the ')' character and return nil.
+                    advance(pState, pStream);
+                    LCPP_cont_return(pCont, LCPP_pNil);
+                }
+                
+                cont::setFunction(pCont, &readList_parsedCar);
+                LCPP_cont_call(pCont, &read, pStream);
+            }
+
+            Ptr<LispObject> readList_helper(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont)->getReaderState();
+
+                auto pStream = pStack->get(0);
+                typeCheck(pStream, Type::Stream);
+
+                skipSeparators(pState, pStream);
+
+                if (!stream::isValid(pStream))
+                {
+                    LCPP_cont_return(pCont, LCPP_pVoid);
+                }
+                
+                if(stream::getCharacter(pStream) == ')')
+                {
+                    advance(pState, pStream);
+                    LCPP_cont_return(pCont, LCPP_pNil);
+                }
+
+                LCPP_cont_call(pCont, &readList_parsedCar, pStream);
+            }
+
+            Ptr<LispObject> readList_parsedCar(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont)->getReaderState();
+
+                auto pStream = pStack->get(0);
+                typeCheck(pStream, Type::Stream);
+
+                if (!stream::isValid(pStream))
+                {
+                    LCPP_cont_return(pCont, LCPP_pVoid);
+                }
+
+                cont::setFunction(pCont, &readList_finalize);
+                LCPP_cont_call(pCont, &readList_helper, pStream);
+            }
+
+            Ptr<LispObject> readList_finalize(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCar = pStack->get(-2);
+                auto pCdr = pStack->get(-1);
+
+                if(pCar->isType(Type::Symbol))
+                {
+                    // TODO check if symbol is syntax.
+                }
+
+                LCPP_cont_return(pCont, cons::create(pCar, pCdr));
             }
 
             //////////////////////////////////////////////////////////////////////////

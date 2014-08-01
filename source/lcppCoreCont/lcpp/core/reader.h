@@ -16,7 +16,11 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> readString(Ptr<LispObject> pCont);
+
             LCPP_API_CORE_CONT Ptr<LispObject> readList(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList_helper(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList_parsedCar(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList_finalize(Ptr<LispObject> pCont);
 
             //////////////////////////////////////////////////////////////////////////
             

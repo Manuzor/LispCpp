@@ -105,31 +105,31 @@ namespace lcpp
 
         namespace detail
         {
-            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall)
             {
-                return create(pCont, pFunction);
+                return create(pCont, pToCall);
             }
 
-            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0)
             {
-                auto pContNew = create(pCont, pFunction);
+                auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
                 pStack->push(pArg0);
                 return pContNew;
             }
 
-            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1)
             {
-                auto pContNew = create(pCont, pFunction);
+                auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
                 pStack->push(pArg0);
                 pStack->push(pArg1);
                 return pContNew;
             }
 
-            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pFunction, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2)
             {
-                auto pContNew = create(pCont, pFunction);
+                auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
                 pStack->push(pArg0);
                 pStack->push(pArg1);

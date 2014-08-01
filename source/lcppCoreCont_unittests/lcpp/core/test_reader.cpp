@@ -8,6 +8,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 namespace lcpp
 {
@@ -60,6 +61,25 @@ LCPP_TestCase(Reader, Atoms)
     {
         auto pSymbol = readString("abc");
         CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
+    }
+}
+
+
+LCPP_TestCase(Reader, List)
+{
+    {
+        auto pNil = readString("()");
+
+        CUT_ASSERT.isTrue(isNil(pNil));
+    }
+
+    {
+        auto pCons = readString("(x)");
+        auto pCar = cons::getCar(pCons);
+        auto pCdr = cons::getCdr(pCons);
+
+        CUT_ASSERT.isTrue(symbol::getValue(pCar).IsEqual("x"));
+        CUT_ASSERT.isTrue(isNil(pCdr));
     }
 }
 
