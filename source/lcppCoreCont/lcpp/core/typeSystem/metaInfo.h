@@ -15,17 +15,17 @@ namespace lcpp
 
         MetaInfo(const Type& type, const String& prettyName);
 
-        MetaInfo(const Type& type, const Attribute& attributes, const String& prettyName);
+        MetaInfo(const Type& type, const AttributeFlags& attributes, const String& prettyName);
 
         const Type& getType() const;
-        const Attribute& getAttributes() const;
+        const AttributeFlags& getAttributes() const;
 
         const String& getPrettyName() const;
 
     private:
 
         Type m_type;
-        Attribute m_attributes;
+        AttributeFlags m_attributes;
 
         String m_prettyName;
 

@@ -13,7 +13,7 @@ namespace lcpp
         const MetaInfo& metaInfo()
         {
             static auto meta = MetaInfo(Type::Lambda,
-                                        Attribute::Callable,
+                                        AttributeFlags::Callable,
                                         "lambda");
 
             return meta;

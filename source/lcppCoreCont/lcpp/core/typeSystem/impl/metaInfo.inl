@@ -4,7 +4,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     MetaInfo::MetaInfo(const Type& type) :
         m_type(type),
-        m_attributes(Attribute::None),
+        m_attributes(AttributeFlags::None),
         m_prettyName(m_type.toString())
     {
     }
@@ -13,14 +13,14 @@ namespace lcpp
     MetaInfo::MetaInfo(const Type& type,
                        const String& prettyName) :
         m_type(type),
-        m_attributes(Attribute::None),
+        m_attributes(AttributeFlags::None),
         m_prettyName(prettyName)
     {
     }
 
     EZ_FORCE_INLINE
     MetaInfo::MetaInfo(const Type& type,
-                       const Attribute& attributes,
+                       const AttributeFlags& attributes,
                        const String& prettyName) :
         m_type(type),
         m_attributes(attributes),
@@ -35,7 +35,7 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    const Attribute& MetaInfo::getAttributes() const
+    const AttributeFlags& MetaInfo::getAttributes() const
     {
         return m_attributes;
     }
