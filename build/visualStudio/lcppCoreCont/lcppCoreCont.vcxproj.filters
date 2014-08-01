@@ -127,6 +127,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\noBindingFoundException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -171,6 +174,9 @@
       <Filter>lcpp\core\impl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -233,6 +239,9 @@
       <Filter>lcpp\core\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
   </ItemGroup>
