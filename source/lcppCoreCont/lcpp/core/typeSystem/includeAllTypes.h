@@ -9,4 +9,5 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/typeSystem/types/cons.h"
-#include "lcpp/core/typeSystem/types/lambda.h"
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+//#include "lcpp/core/typeSystem/types/lambda_userDefined.h"

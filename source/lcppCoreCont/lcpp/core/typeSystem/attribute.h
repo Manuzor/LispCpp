@@ -11,6 +11,7 @@ namespace lcpp
             None = 0,
 
             Callable = EZ_BIT(0),
+            Builtin = EZ_BIT(1),
         };
 
     public:
@@ -20,6 +21,7 @@ namespace lcpp
         ezUInt32 getFlags() const;
 
         bool isCallable() const;
+        bool isBuiltin() const;
 
     private:
 

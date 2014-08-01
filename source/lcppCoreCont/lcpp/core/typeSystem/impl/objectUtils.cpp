@@ -30,7 +30,12 @@ namespace lcpp
             //LCPP_cont_tailCall(pCont, &syntax::call);
             LCPP_NOT_IMPLEMENTED;
         case Type::Lambda:
-            LCPP_cont_tailCall(pCont, &lambda::call);
+            if (isBuiltin(pCallable))
+            {
+                LCPP_cont_tailCall(pCont, &lambda::builtin::call);
+            }
+            // TODO support user defined lambdas.
+            LCPP_NOT_IMPLEMENTED;
         }
 
         EZ_REPORT_FAILURE("pCallable has the Callable attribute set "

@@ -1,8 +1,10 @@
 #pragma once
 
+#include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/attribute.h"
+
 namespace lcpp
 {
-    class Type;
     class LispObject;
 
     /// \brief Checks whether the given \a pObject is of type \a expectedType.

@@ -5,6 +5,7 @@
 namespace lcpp
 {
     bool isCallable(Ptr<LispObject> pObject);
+    bool isBuiltin(Ptr<LispObject> pObject);
 
     LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
 }

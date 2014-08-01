@@ -19,6 +19,12 @@ namespace lcpp
         return (m_flags & Callable) != 0;
     }
 
+    EZ_FORCE_INLINE
+    bool AttributeFlags::isBuiltin() const
+    {
+        return (m_flags & Builtin) != 0;
+    }
+
     // Free functions.
     //////////////////////////////////////////////////////////////////////////
 

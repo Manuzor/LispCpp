@@ -23,11 +23,11 @@ namespace lcpp
 
 LCPP_TestGroup(Lambda);
 
-LCPP_TestCase(Lambda, Basics)
+LCPP_TestCase(Lambda, Builtin)
 {
     auto pState = LCPP_test_pRuntimeState;
 
-    auto pLambda = lambda::create(pState->getGlobalEnvironment(), &testBuiltin);
+    auto pLambda = lambda::builtin::create(pState->getGlobalEnvironment(), &testBuiltin);
 
     g_wasCalled = false;
     auto pResult = LCPP_pFalse;
@@ -44,4 +44,14 @@ LCPP_TestCase(Lambda, Basics)
 
     CUT_ASSERT.isTrue(g_wasCalled);
     CUT_ASSERT.isTrue(!isFalse(pResult));
+}
+
+LCPP_TestCase(Lambda, UserDefined)
+{
+    auto pState = LCPP_test_pRuntimeState;
+
+    auto pArgList = LCPP_pNil;
+    auto pBody = cons::create(number::create(1337), LCPP_pNil);
+
+    //auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBody);
 }

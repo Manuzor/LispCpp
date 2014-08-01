@@ -48,7 +48,7 @@ namespace lcpp
             cont::Data m_cont;
             stream::Data m_stream;
             cons::Data m_cons;
-            lambda::Data m_lambda;
+            lambda::builtin::Data m_lambda_builtin;
         };
 
     };
