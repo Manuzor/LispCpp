@@ -10,6 +10,8 @@ LCPP_TestGroup(Symbol);
 LCPP_TestCase(Symbol, Basics)
 {
     auto pSymbol1 = symbol::create("hello");
+
+    CUT_ASSERT.isTrue(pSymbol1->isType(Type::Symbol));
 }
 
 LCPP_TestCase(Symbol, value)

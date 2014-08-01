@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/type.h"
 
 LCPP_TestGroup(Void);
 
@@ -8,6 +10,7 @@ LCPP_TestCase(Void, Basics)
     auto pVoid = void_::create();
 
     CUT_ASSERT.isTrue(pVoid == LCPP_pVoid);
+    CUT_ASSERT.isTrue(pVoid->isType(Type::Void));
 }
 
 LCPP_TestCase(Void, isVoid)

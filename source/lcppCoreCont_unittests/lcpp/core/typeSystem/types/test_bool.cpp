@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/type.h"
 
 LCPP_TestGroup(Bool);
 
@@ -19,6 +21,9 @@ LCPP_TestCase(Bool, Basics)
 
     CUT_ASSERT.isTrue(pFalse == LCPP_pFalse);
     CUT_ASSERT.isFalse(pTrue == LCPP_pFalse);
+
+    CUT_ASSERT.isTrue(pTrue->isType(Type::True));
+    CUT_ASSERT.isTrue(pFalse->isType(Type::False));
 }
 
 LCPP_TestCase(Bool, isTrue)

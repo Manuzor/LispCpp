@@ -12,6 +12,7 @@ LCPP_TestCase(Stream, Basics)
     auto pStream = stream::create(content.GetIteratorFront());
 
     CUT_ASSERT.isTrue(pStream);
+    CUT_ASSERT.isTrue(pStream->isType(Type::Stream));
     CUT_ASSERT.isTrue(stream::isValid(pStream));
     CUT_ASSERT.isTrue(stream::getCharacter(pStream) == 'a');
     CUT_ASSERT.isTrue(stream::next(pStream) == 'b');

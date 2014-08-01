@@ -3,11 +3,19 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
 #include "lcpp/core/runtime.h"
 
 LCPP_TestGroup(Environment);
+
+LCPP_TestCase(Environment, Basics)
+{
+    auto pEnv = env::createTopLevel(symbol::create("env"));
+
+    CUT_ASSERT.isTrue(pEnv->isType(Type::Environment));
+}
 
 LCPP_TestCase(Environment, getName)
 {

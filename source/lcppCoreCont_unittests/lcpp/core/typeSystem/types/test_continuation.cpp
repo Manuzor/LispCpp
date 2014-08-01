@@ -36,6 +36,8 @@ LCPP_TestGroup(Continuation);
 LCPP_TestCase(Continuation, Basics)
 {
     auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    CUT_ASSERT.isTrue(pContMain->isType(Type::Continuation));
+
     auto pContChild = cont::create(pContMain, &accumulator);
 
     auto pChildStack = cont::getStack(pContChild);

@@ -10,6 +10,7 @@ LCPP_TestCase(Cons, Basics)
 {
     auto pCons = cons::create(LCPP_pNil, LCPP_pNil);
 
+    CUT_ASSERT.isTrue(pCons->isType(Type::Cons));
     CUT_ASSERT.isTrue(isNil(cons::getCar(pCons)));
     CUT_ASSERT.isTrue(isNil(cons::getCdr(pCons)));
 }
