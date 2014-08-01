@@ -35,11 +35,13 @@ namespace lcpp
         {
             typeCheck(pCont, Type::Continuation);
 
-            auto pLambda = cont::getStack(pCont)->get(-1);
+            auto pStack = cont::getStack(pCont);
+            auto pLambda = pStack->get(-1);
+            pStack->pop();
 
             auto pFunction = getFunction(pLambda);
 
-            LCPP_NOT_IMPLEMENTED;
+            LCPP_cont_tailCall(pCont, pFunction);
         }
 
         Function_t getFunction(Ptr<LispObject> pLambda)
