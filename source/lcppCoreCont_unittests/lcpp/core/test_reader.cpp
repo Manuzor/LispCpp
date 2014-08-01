@@ -68,18 +68,42 @@ LCPP_TestCase(Reader, Atoms)
 LCPP_TestCase(Reader, List)
 {
     {
-        auto pNil = readString("()");
+        auto pNil = readString("    (    )   ");
 
         CUT_ASSERT.isTrue(isNil(pNil));
     }
 
     {
-        auto pCons = readString("(x)");
+        auto pCons = readString("   (      x  )   ");
         auto pCar = cons::getCar(pCons);
         auto pCdr = cons::getCdr(pCons);
 
         CUT_ASSERT.isTrue(symbol::getValue(pCar).IsEqual("x"));
         CUT_ASSERT.isTrue(isNil(pCdr));
+    }
+
+    {
+        auto pCons = readString("(lambda()42 1337)");
+
+        auto pSymbol_lambda = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+
+        CUT_ASSERT.isTrue(symbol::getValue(pSymbol_lambda).IsEqual("lambda"));
+
+        auto pNil = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+
+        CUT_ASSERT.isTrue(isNil(pNil));
+
+        auto pInteger_42 = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+
+        CUT_ASSERT.isTrue(number::getInteger(pInteger_42) == 42);
+
+        auto pInteger_1337 = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+
+        CUT_ASSERT.isTrue(number::getInteger(pInteger_1337) == 1337);
     }
 }
 

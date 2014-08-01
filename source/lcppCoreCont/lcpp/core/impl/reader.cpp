@@ -217,6 +217,7 @@ namespace lcpp
                     LCPP_cont_return(pCont, LCPP_pNil);
                 }
 
+                cont::setFunction(pCont, &readList_finalize);
                 LCPP_cont_call(pCont, &readList_parsedCar, pStream);
             }
 
