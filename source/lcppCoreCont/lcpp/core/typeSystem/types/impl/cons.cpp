@@ -41,5 +41,26 @@ namespace lcpp
 
             return pCons->m_cons.getCdr();
         }
+
+        ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack)
+        {
+            auto count = ezUInt32(0);
+
+            while(isCons(pCons))
+            {
+                pStack->push(getCar(pCons));
+                pCons = getCdr(pCons);
+                ++count;
+            }
+
+            return count;
+        }
+
     }
+
+    bool isCons(Ptr<LispObject> pObject)
+    {
+        return pObject->isType(Type::Cons);
+    }
+
 }

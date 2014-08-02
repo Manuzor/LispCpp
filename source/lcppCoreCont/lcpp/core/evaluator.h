@@ -8,6 +8,11 @@ namespace lcpp
         /// \remark Continuation function.
         /// Expects the following arguments:
         /// [0]: Ptr<LispObject> to eval.
-        LCPP_API_CORE_CONT Ptr<LispObject> evaluate(Ptr<LispObject> pContinuation);
+        LCPP_API_CORE_CONT Ptr<LispObject> evaluate(Ptr<LispObject> pCont);
+
+        namespace detail
+        {
+            LCPP_API_CORE_CONT Ptr<LispObject> evaluateCallable(Ptr<LispObject> pCont);
+        }
     }
 }

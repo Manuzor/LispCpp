@@ -4,6 +4,7 @@ namespace lcpp
 {
     class LispObject;
     class MetaInfo;
+    class Stack;
 
     namespace cons
     {
@@ -32,8 +33,10 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> getCdr(Ptr<LispObject> pCons);
 
+        LCPP_API_CORE_CONT ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack);
     }
 
+    LCPP_API_CORE_CONT bool isCons(Ptr<LispObject> pObject);
 }
 
 #include "lcpp/core/typeSystem/types/impl/cons.inl"

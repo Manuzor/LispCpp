@@ -60,3 +60,10 @@ LCPP_TestCase(Evaluator, EvalSymbolInEnv)
 
     CUT_ASSERT.throws<exceptions::NoBindingFound>([&]{ evalString("this-is-a-symbol-that-should-never-exist."); });
 }
+
+LCPP_TestCase(Evaluator, EvalSyntax)
+{
+    auto pResult = evalString("(quote theSymbolX)");
+
+    CUT_ASSERT.isTrue(symbol::getValue(pResult).IsEqual("theSymbolX"));
+}
