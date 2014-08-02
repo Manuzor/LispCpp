@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
@@ -29,11 +30,15 @@ namespace lcpp
 
         Ptr<LispObject> getCar(Ptr<LispObject> pCons)
         {
+            typeCheck(pCons, Type::Cons);
+
             return pCons->m_cons.getCar();
         }
 
         Ptr<LispObject> getCdr(Ptr<LispObject> pCons)
         {
+            typeCheck(pCons, Type::Cons);
+
             return pCons->m_cons.getCdr();
         }
     }
