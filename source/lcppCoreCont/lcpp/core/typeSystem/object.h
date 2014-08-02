@@ -50,6 +50,7 @@ namespace lcpp
             stream::Data m_stream;
             cons::Data m_cons;
             lambda::builtin::Data m_lambda_builtin;
+            syntax::builtin::Data m_syntax_builtin;
         };
 
     };

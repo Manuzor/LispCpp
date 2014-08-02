@@ -44,6 +44,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_stream.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_string.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_symbol.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_syntax.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_void.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\common.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\runtime.cpp" />

@@ -12,3 +12,4 @@
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/lambda_builtin.h"
 //#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"

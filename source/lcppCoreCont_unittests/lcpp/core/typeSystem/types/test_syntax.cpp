@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
@@ -21,19 +20,17 @@ namespace lcpp
     }
 }
 
-LCPP_TestGroup(Lambda);
+LCPP_TestGroup(Syntax);
 
-LCPP_TestCase(Lambda, Builtin)
+LCPP_TestCase(Syntax, Builtin)
 {
-    auto pState = LCPP_test_pRuntimeState;
-
-    auto pLambda = lambda::builtin::create(pState->getGlobalEnvironment(), &testBuiltin);
+    auto pLambda = syntax::builtin::create(&testBuiltin);
 
     g_wasCalled = false;
     auto pResult = LCPP_pFalse;
 
     {
-        auto pContMain = cont::createTopLevel(pState);
+        auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
         auto pContCall = cont::create(pContMain, &call);
         cont::getStack(pContCall)->push(pLambda);
 
@@ -46,12 +43,12 @@ LCPP_TestCase(Lambda, Builtin)
     CUT_ASSERT.isTrue(!isFalse(pResult));
 }
 
-LCPP_TestCase(Lambda, UserDefined)
+LCPP_TestCase(Syntax, UserDefined)
 {
     auto pState = LCPP_test_pRuntimeState;
 
     auto pArgList = LCPP_pNil;
     auto pBody = cons::create(number::create(1337), LCPP_pNil);
 
-    //auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBody);
+    //auto pLambda = syntax::create(pState->getGlobalEnvironment(), pArgList, pBody);
 }

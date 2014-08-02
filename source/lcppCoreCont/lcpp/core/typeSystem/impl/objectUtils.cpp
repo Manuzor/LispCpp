@@ -26,8 +26,11 @@ namespace lcpp
         switch(type.getId())
         {
         case Type::Syntax:
-            // TODO implement me.
-            //LCPP_cont_tailCall(pCont, &syntax::call);
+            if(isBuiltin(pCallable))
+            {
+                LCPP_cont_tailCall(pCont, &syntax::builtin::call);
+            }
+            // TODO support user defined syntax.
             LCPP_NOT_IMPLEMENTED;
         case Type::Lambda:
             if (isBuiltin(pCallable))
