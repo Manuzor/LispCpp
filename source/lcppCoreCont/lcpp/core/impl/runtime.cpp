@@ -8,7 +8,6 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/containers/stack.h"
-#include "lcpp/core/reader.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
@@ -96,25 +95,4 @@ void lcpp::LispRuntimeState::decreaseRecursionDepth()
 {
     EZ_ASSERT(m_recursionDepth > 0, "Cannot decrease the recursion depth below 0!");
     --m_recursionDepth;
-}
-
-void lcpp::LispRuntimeState::registerBuiltIns()
-{
-    // Character macros.
-    //////////////////////////////////////////////////////////////////////////
-    reader::addCharacterMacro(this, symbol::create("("), lambda::builtin::create(m_pGlobalEnvironment, &reader::detail::readList));
-    reader::addCharacterMacro(this, symbol::create("\""), lambda::builtin::create(m_pGlobalEnvironment, &reader::detail::readString));
-
-    // Reader macros / syntax.
-    //////////////////////////////////////////////////////////////////////////
-    
-
-    // Macros.
-    //////////////////////////////////////////////////////////////////////////
-    
-
-    // Builtin functions.
-    //////////////////////////////////////////////////////////////////////////
-    
-
 }

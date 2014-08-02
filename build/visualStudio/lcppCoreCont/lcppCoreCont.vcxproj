@@ -56,6 +56,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\string.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbol.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtin.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtinFunctions.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\stdafx.h" />
   </ItemGroup>
@@ -65,6 +66,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\evaluator.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp" />
@@ -79,6 +81,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtinFunction.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

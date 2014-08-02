@@ -1,18 +1,11 @@
 #include "stdafx.h"
 #include "lcpp/core/reader.h"
-#include "lcpp/core/typeSystem/types/stream.h"
-#include "lcpp/core/typeSystem/types/number.h"
-#include "lcpp/core/typeSystem/types/void.h"
-#include "lcpp/core/typeSystem/types/nil.h"
-#include "lcpp/core/typeSystem/types/symbol.h"
-#include "lcpp/core/typeSystem/types/continuation.h"
-#include "lcpp/core/typeSystem/types/lambda_builtin.h"
-#include "lcpp/core/typeSystem/types/cons.h"
-#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/object.h"
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/types/syntax_builtinFunctions.h"
 
 namespace lcpp
 {
@@ -217,6 +210,23 @@ LCPP_TestCase(Reader, State)
     CUT_ASSERT.isTrue(cursorPosition.m_streamIndex == 15);
     CUT_ASSERT.isTrue(cursorPosition.m_line == 3);
     CUT_ASSERT.isTrue(cursorPosition.m_column == 0);
+}
+
+
+LCPP_TestCase(Reader, Quote)
+{
+    auto pCar = LCPP_pNil;
+    auto pCons = readString("  (   quote       x  )");
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(syntax::builtin::getFunction(pCar) == &syntax::builtin::quote);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(symbol::getValue(pCar).IsEqual("x"));
+    CUT_ASSERT.isTrue(isNil(pCons));
+
 }
 
 namespace lcpp

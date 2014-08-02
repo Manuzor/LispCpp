@@ -148,6 +148,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtin.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtinFunctions.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -208,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtinFunction.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp">
+      <Filter>lcpp\core\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

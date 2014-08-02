@@ -78,7 +78,7 @@ namespace lcpp
         void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax)
         {
             typeCheck(pSymbol, Type::Symbol);
-            typeCheck(pSymbol, Type::Syntax);
+            typeCheck(pSyntax, Type::Syntax);
 
             env::addBinding(pState->getSyntaxEnvironment(), pSymbol, pSyntax);
         }
