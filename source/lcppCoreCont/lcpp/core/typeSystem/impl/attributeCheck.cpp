@@ -17,8 +17,7 @@ namespace lcpp
 
         if(actualFlags != expectedFlags)
         {
-            EZ_DEBUG_BREAK
-            LCPP_THROW(exceptions::TypeCheckFailed, "Invalid attribute flags.");
+            LCPP_THROW(exceptions::TypeCheckFailed("Invalid attribute flags."));
         }
     }
 
@@ -30,8 +29,7 @@ namespace lcpp
 
         if((actualFlags.getFlags() & expectedFlags.getFlags()) == 0)
         {
-            EZ_DEBUG_BREAK
-            LCPP_THROW(exceptions::TypeCheckFailed, "Invalid attribute flags.");
+            LCPP_THROW(exceptions::TypeCheckFailed("Invalid attribute flags."));
         }
     }
 

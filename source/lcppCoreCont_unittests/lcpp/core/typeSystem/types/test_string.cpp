@@ -9,9 +9,9 @@ LCPP_TestGroup(String);
 
 LCPP_TestCase(String, Basics)
 {
-    auto pSymbol1 = str::create("hello");
+    auto pString = str::create("hello");
 
-    CUT_ASSERT.isTrue(pSymbol1->isType(Type::String));
+    CUT_ASSERT.isTrue(pString->isType(Type::String));
 }
 
 LCPP_TestCase(String, value)

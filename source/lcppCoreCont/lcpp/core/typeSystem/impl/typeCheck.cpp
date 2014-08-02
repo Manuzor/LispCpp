@@ -20,8 +20,7 @@ namespace lcpp
             message.Format("Type check failed, expected '%s' got '%s'.",
                             expectedType.toString(),
                             actualType.toString());
-            EZ_DEBUG_BREAK
-            LCPP_THROW(exceptions::TypeCheckFailed, message.GetData());
+            LCPP_THROW(exceptions::TypeCheckFailed(message.GetData()));
         }
     }
 

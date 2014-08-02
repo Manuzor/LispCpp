@@ -34,7 +34,7 @@ namespace lcpp
                 auto message = ezStringBuilder();
 
                 message.Format("No binding found for symbol '%s'.", symbol::getValue(pToEval).GetData());
-                LCPP_THROW(exceptions::NoBindingFound, message.GetData());
+                LCPP_THROW(exceptions::NoBindingFound(message.GetData()));
             }
 
             if (!pToEval->isType(Type::Cons))

@@ -18,7 +18,7 @@ namespace lcpp
 
         if(!isCallable(pCallable))
         {
-            LCPP_THROW(exceptions::InvalidInput, "Argument is not callable.");
+            LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
         }
 
         auto& type = pCallable->getType();
