@@ -7,6 +7,7 @@
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/exceptions/invalidInputException.h"
 
 namespace lcpp
 {
@@ -79,4 +80,11 @@ LCPP_TestCase(Evaluator, EvalSyntax)
 
     pResult = evalString("x");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
+}
+
+LCPP_TestCase(Evaluator, define)
+{
+    CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(define)"); });
+    CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(define x)"); });
+    CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(define x 1 2)"); });
 }

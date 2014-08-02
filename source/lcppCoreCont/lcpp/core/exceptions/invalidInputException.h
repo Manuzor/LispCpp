@@ -14,5 +14,25 @@ namespace lcpp
             {
             }
         };
+
+        class ArgumentCount :
+            public InvalidInput
+        {
+        public:
+            ArgumentCount(const String& message) :
+                InvalidInput(message)
+            {
+            }
+        };
+
+        class ArgumentType :
+            public InvalidInput
+        {
+        public:
+            ArgumentType(const String& message) :
+                InvalidInput(message)
+            {
+            }
+        };
     }
 }

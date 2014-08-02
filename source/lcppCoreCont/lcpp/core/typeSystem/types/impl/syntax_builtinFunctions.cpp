@@ -10,6 +10,8 @@
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/types/void.h"
 
+#include "lcpp/core/exceptions/invalidInputException.h"
+
 namespace lcpp
 {
     namespace syntax
@@ -21,6 +23,17 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
+
+                EZ_ASSERT(pStack->size() >= 1, "The environment has to be there ALWAYS, even if the user did something wrong.");
+
+                auto argCount = pStack->size() - 1;
+
+                if(argCount != 2)
+                {
+                    auto message = ezStringBuilder();
+                    message.Format("Expected 2 arguments, got %d.", argCount);
+                    LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
+                }
 
                 auto pEnv = pStack->get(0);
                 typeCheck(pEnv, Type::Environment);
