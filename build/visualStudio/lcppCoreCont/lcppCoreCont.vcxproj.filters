@@ -142,6 +142,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attributeCheck.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\string.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.cpp">
       <Filter>lcpp\core\typeSystem\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +276,9 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

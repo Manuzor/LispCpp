@@ -1,0 +1,24 @@
+#include "stdafx.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/type.h"
+
+#include "lcpp/core/runtime.h"
+
+LCPP_TestGroup(String);
+
+LCPP_TestCase(String, Basics)
+{
+    auto pSymbol1 = str::create("hello");
+
+    CUT_ASSERT.isTrue(pSymbol1->isType(Type::String));
+}
+
+LCPP_TestCase(String, value)
+{
+    auto pString = str::create("hello-world");
+
+    auto& value = str::getValue(pString);
+
+    CUT_ASSERT.isTrue(value.IsEqual("hello-world"));
+}

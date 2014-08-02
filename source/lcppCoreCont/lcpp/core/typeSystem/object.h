@@ -44,6 +44,7 @@ namespace lcpp
             number::Integer_t m_integer;
             number::Float_t m_float;
             symbol::Data m_symbol;
+            str::Data m_string;
             env::Data m_env;
             cont::Data m_cont;
             stream::Data m_stream;

@@ -53,6 +53,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\number.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\numberHelpers.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\stream.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\string.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbol.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\void.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\stdafx.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\stdafx.cpp">
@@ -106,6 +108,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\numberHelpers.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.inl" />
   </ItemGroup>

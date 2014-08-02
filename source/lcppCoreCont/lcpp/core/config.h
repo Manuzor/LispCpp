@@ -18,6 +18,11 @@ namespace lcpp
         typedef ezHybridString<32, AllocatorWrapper_Default> String;
     }
 
+    namespace str
+    {
+        typedef ezHybridString<64, AllocatorWrapper_Default> String;
+    }
+
     namespace env
     {
         typedef ezHashTable<Ptr<LispObject>, Ptr<LispObject>, ezHashHelper<Ptr<LispObject>>, AllocatorWrapper_Default> HashTable;
