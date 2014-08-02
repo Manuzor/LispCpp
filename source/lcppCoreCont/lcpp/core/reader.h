@@ -18,6 +18,7 @@ namespace lcpp
         LCPP_API_CORE_CONT void addCharacterMacro(Ptr<LispRuntimeState> pState, Ptr<LispObject> pCharacter, Ptr<LispObject> pLambda);
 
         LCPP_API_CORE_CONT void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax);
+        LCPP_API_CORE_CONT ezResult getSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject>& out_pSyntax);
 
         namespace detail
         {

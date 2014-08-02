@@ -83,6 +83,11 @@ namespace lcpp
             env::addBinding(pState->getSyntaxEnvironment(), pSymbol, pSyntax);
         }
 
+        ezResult getSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject>& out_pSyntax)
+        {
+            return env::getBinding(pState->getSyntaxEnvironment(), pSymbol, out_pSyntax);
+        }
+
         namespace detail
         {
             Ptr<LispObject> readAtom(Ptr<LispObject> pCont)
@@ -280,16 +285,15 @@ namespace lcpp
 
                 //////////////////////////////////////////////////////////////////////////
 
-                auto pCar = pStack->get(1);
+                auto& pCar = pStack->get(1);
 
                 if(pCar->isType(Type::Symbol))
                 {
                     auto pSyntax = LCPP_pNil;
 
-                    if(env::getBinding(pState->getSyntaxEnvironment(), pCar, pSyntax).Succeeded())
+                    if(getSyntax(pState, pCar, pSyntax).Succeeded())
                     {
-                        // TODO call syntax handler.
-                        LCPP_NOT_IMPLEMENTED;
+                        pCar = pSyntax;
                     }
                 }
 
