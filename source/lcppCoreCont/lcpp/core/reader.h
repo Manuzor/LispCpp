@@ -3,6 +3,8 @@
 
 namespace lcpp
 {
+    class LispRuntimeState;
+
     namespace reader
     {
         /// \brief Reads a given stream for lisp objects.
@@ -10,6 +12,10 @@ namespace lcpp
         /// Expects the following arguments:
         /// [0]: stream from which to read from.
         LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pCont);
+
+        /// \brief Defines a new character macro.
+        /// \a pCharacter must be a symbol object which only has 1 character.
+        LCPP_API_CORE_CONT void addCharacterMacro(Ptr<LispRuntimeState> pState, Ptr<LispObject> pCharacter, Ptr<LispObject> pLambda);
 
         namespace detail
         {

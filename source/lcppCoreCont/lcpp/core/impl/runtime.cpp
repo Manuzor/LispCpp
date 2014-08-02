@@ -43,6 +43,7 @@ lcpp::LispRuntimeState::initialize()
     //////////////////////////////////////////////////////////////////////////
     
     m_pReaderState = LCPP_NEW(m_pAllocator.get(), reader::State)();
+    m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
 
     // TODO reader, evaluator, printer setup.
 

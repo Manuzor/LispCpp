@@ -10,6 +10,7 @@ namespace lcpp
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(const String& value);
+        Ptr<LispObject> create(ezUInt32 character);
 
         /// \brief Creates an actual new instance, without consulting the symbol table first.
         LCPP_API_CORE_CONT Ptr<LispObject> createNew(const String& value);

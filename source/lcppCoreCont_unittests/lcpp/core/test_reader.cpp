@@ -6,9 +6,10 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/type.h"
 
@@ -207,4 +208,46 @@ LCPP_TestCase(Reader, State)
     CUT_ASSERT.isTrue(cursorPosition.m_streamIndex == 15);
     CUT_ASSERT.isTrue(cursorPosition.m_line == 3);
     CUT_ASSERT.isTrue(cursorPosition.m_column == 0);
+}
+
+namespace lcpp
+{
+    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont);
+    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont);
+
+    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont)
+    {
+        typeCheck(pCont, Type::Continuation);
+
+        auto pStack = cont::getStack(pCont);
+        auto pStream = pStack->get(0);
+        typeCheck(pStream, Type::Stream);
+
+        reader::detail::advance(cont::getRuntimeState(pCont)->getReaderState(), pStream);
+
+        // Just read normally from here.
+        cont::setFunction(pCont, &testCharacterMacro_finalize);
+        LCPP_cont_call(pCont, &reader::read, pStream);
+    }
+
+    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont)
+    {
+        LCPP_cont_return(pCont, number::create(1337));
+    }
+}
+
+LCPP_TestCase(Reader, CharacterMacro)
+{
+    auto pState = LCPP_test_pRuntimeState;
+
+    reader::addCharacterMacro(pState,
+                              symbol::create("/"),
+                              lambda::builtin::create(pState->getGlobalEnvironment(), &testCharacterMacro));
+
+    auto content = ezString("/hello-world");
+    auto pStream = stream::create(content.GetIteratorFront());
+    auto pResult = readStream(pStream);
+
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
 }

@@ -8,6 +8,7 @@
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 
 namespace lcpp
 {
@@ -19,8 +20,8 @@ namespace lcpp
             typeCheck(pCont, Type::Continuation);
             auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-            auto pContParent = cont::getParent(pCont);
-            auto pStream = cont::getStack(pCont)->get(0);
+            auto pStack = cont::getStack(pCont);
+            auto pStream = pStack->get(0);
             typeCheck(pStream, Type::Stream);
 
             detail::skipSeparators(pState, pStream);
@@ -28,6 +29,15 @@ namespace lcpp
             if (!stream::isValid(pStream))
             {
                 LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            auto pCharacter = symbol::create(stream::getCharacter(pStream));
+            auto pCharacterHandler = LCPP_pNil;
+
+            if(env::getBinding(pState->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
+            {
+                pStack->push(pCharacterHandler);
+                LCPP_cont_tailCall(pCont, &call);
             }
 
             switch(stream::getCharacter(pStream))
@@ -41,6 +51,32 @@ namespace lcpp
             }
 
             LCPP_cont_tailCall(pCont, &detail::readAtom);
+        }
+
+        void addCharacterMacro(Ptr<LispRuntimeState> pState, Ptr<LispObject> pCharacter, Ptr<LispObject> pLambda)
+        {
+            static auto emptyString = String();
+
+            auto pEnv = pState->getReaderState()->m_pMacroEnv;
+
+            auto& stringValue = symbol::getValue(pCharacter);
+
+            if (stringValue.IsEmpty())
+            {
+                LCPP_THROW(exceptions::InvalidInput("Cannot add a character macro when only an empty character is given!"));
+            }
+
+            if (stringValue.GetCharacterCount() > 1)
+            {
+                LCPP_THROW(exceptions::InvalidInput("Cannot add a character macro when more than 1 character is given!"));
+            }
+
+            if (!isCallable(pLambda))
+            {
+                LCPP_THROW(exceptions::InvalidInput("The object the character macro's character is bound to must be callable!"));
+            }
+
+            env::addBinding(pEnv, pCharacter, pLambda);
         }
 
         namespace detail
