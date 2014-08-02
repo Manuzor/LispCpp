@@ -44,10 +44,6 @@ namespace lcpp
             {
             case ')':
                 throw exceptions::InvalidInput("Unexpected character ')'.");
-            case '"':
-                LCPP_cont_tailCall(pCont, &detail::readString);
-            case '(':
-                LCPP_cont_tailCall(pCont, &detail::readList);
             }
 
             LCPP_cont_tailCall(pCont, &detail::readAtom);
