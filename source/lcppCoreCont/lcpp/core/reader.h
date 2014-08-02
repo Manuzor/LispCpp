@@ -17,6 +17,8 @@ namespace lcpp
         /// \a pCharacter must be a symbol object which only has 1 character.
         LCPP_API_CORE_CONT void addCharacterMacro(Ptr<LispRuntimeState> pState, Ptr<LispObject> pCharacter, Ptr<LispObject> pLambda);
 
+        LCPP_API_CORE_CONT void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax);
+
         namespace detail
         {
             LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pCont);

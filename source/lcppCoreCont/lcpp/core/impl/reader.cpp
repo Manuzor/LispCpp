@@ -75,6 +75,14 @@ namespace lcpp
             env::addBinding(pEnv, pCharacter, pLambda);
         }
 
+        void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax)
+        {
+            typeCheck(pSymbol, Type::Symbol);
+            typeCheck(pSymbol, Type::Syntax);
+
+            env::addBinding(pState->getSyntaxEnvironment(), pSymbol, pSyntax);
+        }
+
         namespace detail
         {
             Ptr<LispObject> readAtom(Ptr<LispObject> pCont)
