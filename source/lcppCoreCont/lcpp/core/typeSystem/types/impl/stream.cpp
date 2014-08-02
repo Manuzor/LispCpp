@@ -60,5 +60,18 @@ namespace lcpp
             return iterator.GetCharacter();
         }
 
+        ezUInt32 getPosition(Ptr<LispObject> pStream)
+        {
+            typeCheck(pStream, Type::Stream);
+
+            auto& iterator = pStream->m_stream.getIterator();
+
+            if(!iterator.IsValid())
+            {
+                return EndOfStream;
+            }
+
+            return iterator.GetData() - iterator.GetStart();
+        }
     }
 }

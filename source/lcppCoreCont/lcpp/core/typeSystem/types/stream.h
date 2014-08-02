@@ -12,6 +12,11 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> create(ezStringIterator& iterator);
 
         //////////////////////////////////////////////////////////////////////////
+
+        enum
+        {
+            EndOfStream = ezUInt32(-1),
+        };
         
         class Data
         {
@@ -33,6 +38,8 @@ namespace lcpp
         LCPP_API_CORE_CONT bool isValid(Ptr<LispObject> pStream);
 
         LCPP_API_CORE_CONT ezUInt32 next(Ptr<LispObject> pStream);
+
+        LCPP_API_CORE_CONT ezUInt32 getPosition(Ptr<LispObject> pStream);
     };
 }
 

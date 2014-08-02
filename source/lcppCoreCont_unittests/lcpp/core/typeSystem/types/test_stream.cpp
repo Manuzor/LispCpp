@@ -24,3 +24,35 @@ LCPP_TestCase(Stream, Basics)
     CUT_ASSERT.isTrue(stream::next(pStream) == '\0');
     CUT_ASSERT.isFalse(stream::isValid(pStream));
 }
+
+LCPP_TestCase(Stream, getPosition)
+{
+    auto content = ezString("abcdef");
+    auto pStream = stream::create(content.GetIteratorFront());
+
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == 0);
+
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == 1);
+
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == 2);
+
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == 3);
+
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == 4);
+
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == 5);
+
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
+
+    stream::next(pStream);
+    stream::next(pStream);
+    stream::next(pStream);
+    stream::next(pStream);
+    CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
+}
