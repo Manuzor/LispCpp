@@ -212,11 +212,11 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtinFunction.cpp">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp">
       <Filter>lcpp\core\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtinFunctions.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

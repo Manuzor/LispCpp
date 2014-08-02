@@ -2,12 +2,8 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
 
-#include "lcpp/core/typeSystem/types/stream.h"
-#include "lcpp/core/typeSystem/types/number.h"
-#include "lcpp/core/typeSystem/types/void.h"
-#include "lcpp/core/typeSystem/types/symbol.h"
-#include "lcpp/core/typeSystem/types/continuation.h"
-#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/exceptions/noBindingFoundException.h"
@@ -63,7 +59,24 @@ LCPP_TestCase(Evaluator, EvalSymbolInEnv)
 
 LCPP_TestCase(Evaluator, EvalSyntax)
 {
-    auto pResult = evalString("(quote theSymbolX)");
+    auto pResult = LCPP_pNil;
 
+    /// (quote ...)
+    pResult = evalString(" quote");
+    CUT_ASSERT.isTrue(pResult->isType(Type::Syntax));
+
+    pResult = evalString("(  \n  quote     theSymbolX  \n\n\r\r\n  )   ");
     CUT_ASSERT.isTrue(symbol::getValue(pResult).IsEqual("theSymbolX"));
+
+    /// (define <symbol> <value>)
+    CUT_ASSERT.throws<exceptions::NoBindingFound>([&]{ evalString("x"); });
+
+    pResult = evalString(" define");
+    CUT_ASSERT.isTrue(pResult->isType(Type::Syntax));
+
+    pResult = evalString("   (define x    1337 ) ");
+    CUT_ASSERT.isTrue(isVoid(pResult));
+
+    pResult = evalString("x");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
 }
