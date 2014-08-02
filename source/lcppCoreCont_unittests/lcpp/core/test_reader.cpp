@@ -8,6 +8,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/lambda_builtin.h"
 #include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
@@ -109,6 +110,14 @@ LCPP_TestCase(Reader, StreamPosition)
         CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
 
     }
+}
+
+LCPP_TestCase(Reader, String)
+{
+    auto pResult = readString("   \"hello world\"abc def");
+
+    CUT_ASSERT.throwsNothing([&]{ typeCheck(pResult, Type::String); });
+    CUT_ASSERT.isTrue(str::getValue(pResult).IsEqual("hello world"));
 }
 
 LCPP_TestCase(Reader, List)

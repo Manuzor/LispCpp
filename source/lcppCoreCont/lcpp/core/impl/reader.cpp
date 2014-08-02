@@ -197,12 +197,25 @@ namespace lcpp
             Ptr<LispObject> readString(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
-                auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-                auto pStream = pStack->get(0);
+                auto pStream = cont::getStack(pCont)->get(0);
                 typeCheck(pStream, Type::Stream);
 
-                LCPP_NOT_IMPLEMENTED;
+                // Read the first " character
+                advance(pState, pStream);
+
+                auto theString = ezStringBuilder();
+
+                auto ch = stream::getCharacter(pStream);
+                while(stream::isValid(pStream) && ch != '"')
+                {
+                    theString.Append(ch);
+                    advance(pState, pStream);
+                    ch = stream::getCharacter(pStream);
+                }
+
+                LCPP_cont_return(pCont, str::create(theString));
             }
 
             Ptr<LispObject> readList(Ptr<LispObject> pCont)
