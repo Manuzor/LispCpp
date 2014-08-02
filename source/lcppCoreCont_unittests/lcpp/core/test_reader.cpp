@@ -128,6 +128,25 @@ LCPP_TestCase(Reader, List)
     }
 
     {
+        auto pCar = LCPP_pNil;
+        auto pCons = readString("   (  42  x   3.1415    )   ");
+
+        pCar = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+        CUT_ASSERT.isTrue(number::getInteger(pCar) == 42);
+
+        pCar = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+        CUT_ASSERT.isTrue(symbol::getValue(pCar).IsEqual("x"));
+
+        pCar = cons::getCar(pCons);
+        pCons = cons::getCdr(pCons);
+        CUT_ASSERT.isTrue(number::getFloat(pCar) == 3.1415);
+
+        CUT_ASSERT.isTrue(isNil(pCons));
+    }
+
+    {
         auto pCons = readString("(lambda()42 1337)");
 
         auto pSymbol_lambda = cons::getCar(pCons);
