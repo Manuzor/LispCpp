@@ -9,11 +9,15 @@
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/type.h"
 
 namespace lcpp
 {
     static Ptr<LispObject> readStream(Ptr<LispObject> pStream)
     {
+        typeCheck(pStream, Type::Stream);
+
         auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
         auto pMainStack = cont::getStack(pContMain);
         
@@ -64,6 +68,47 @@ LCPP_TestCase(Reader, Atoms)
     }
 }
 
+LCPP_TestCase(Reader, StreamPosition)
+{
+    // Symbols
+    {
+        auto content = ezString("abc def");
+        auto pStream = stream::create(content.GetIteratorFront());
+        auto pSymbol = Ptr<LispObject>();
+
+        pSymbol = readStream(pStream);
+        CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
+        CUT_ASSERT.isTrue(stream::getPosition(pStream) == 3);
+
+        pSymbol = readStream(pStream);
+        CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("def"));
+        CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
+    }
+
+    // Numbers
+    {
+        auto content = ezString("   1   2      3.4   5.6");
+        auto pStream = stream::create(content.GetIteratorFront());
+        auto pNumber = Ptr<LispObject>();
+
+        pNumber = readStream(pStream);
+        CUT_ASSERT.isTrue(number::getInteger(pNumber) == 1);
+        CUT_ASSERT.isTrue(stream::getPosition(pStream) == 4);
+
+        pNumber = readStream(pStream);
+        CUT_ASSERT.isTrue(number::getInteger(pNumber) == 2);
+        CUT_ASSERT.isTrue(stream::getPosition(pStream) == 8);
+
+        pNumber = readStream(pStream);
+        CUT_ASSERT.isTrue(number::getFloat(pNumber) == 3.4);
+        CUT_ASSERT.isTrue(stream::getPosition(pStream) == 17);
+
+        pNumber = readStream(pStream);
+        CUT_ASSERT.isTrue(number::getFloat(pNumber) == 5.6);
+        CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
+
+    }
+}
 
 LCPP_TestCase(Reader, List)
 {
