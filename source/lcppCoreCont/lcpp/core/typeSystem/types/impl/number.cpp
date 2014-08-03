@@ -5,6 +5,8 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
+#include "lcpp/foundation/conversion.h"
+
 namespace lcpp
 {
     namespace number
@@ -55,7 +57,20 @@ namespace lcpp
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            LCPP_NOT_IMPLEMENTED;
+            typeCheck(pObject, Type::Integer, Type::Float);
+
+            auto stringValue = String();
+
+            if (pObject->isType(Type::Integer))
+            {
+                stringValue = lcpp::toString(getInteger(pObject));
+            }
+            else
+            {
+                stringValue = lcpp::toString(getFloat(pObject));
+            }
+
+            return str::create(stringValue.GetData());
         }
 
     }

@@ -4,6 +4,7 @@
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 
 LCPP_TestGroup(Number);
 
@@ -31,4 +32,18 @@ LCPP_TestCase(Number, getFloat)
 {
     auto pNumber = number::create(3.1415);
     CUT_ASSERT.isTrue(number::getFloat(pNumber) == 3.1415);
+}
+
+LCPP_TestCase(Number, toString)
+{
+    auto pInteger_42 = number::create(42);
+    auto pFloat_3_1415 = number::create(3.1415);
+
+    auto pString = LCPP_pNil;
+
+    pString = toString(pInteger_42);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("42"));
+
+    pString = toString(pFloat_3_1415);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("3.1415"));
 }
