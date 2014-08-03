@@ -25,6 +25,12 @@ namespace lcpp
         return (m_flags & Builtin) != 0;
     }
 
+    EZ_FORCE_INLINE
+    bool AttributeFlags::isNameable() const
+    {
+        return (m_flags & Nameable) != 0;
+    }
+
     // Free functions.
     //////////////////////////////////////////////////////////////////////////
 

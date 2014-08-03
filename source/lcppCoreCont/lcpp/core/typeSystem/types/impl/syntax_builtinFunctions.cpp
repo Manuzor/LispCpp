@@ -34,6 +34,8 @@ namespace lcpp
                 // Pop the unevaluated value so eval::evaluate can push the evaluated value.
                 pStack->pop();
 
+                //////////////////////////////////////////////////////////////////////////
+
                 cont::setFunction(pCont, &define_2);
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pValue);
             }
@@ -52,9 +54,11 @@ namespace lcpp
 
                 auto pValue = pStack->get(2);
 
+                //////////////////////////////////////////////////////////////////////////
+
                 env::addBinding(pEnv, pSymbol, pValue);
 
-                // TODO give the value a name, if it is nameable.
+                // TODO give pValue a name, if it is nameable.
 
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }

@@ -11,7 +11,8 @@ namespace lcpp
             None = 0,
 
             Callable = EZ_BIT(0),
-            Builtin = EZ_BIT(1),
+            Builtin  = EZ_BIT(1),
+            Nameable = EZ_BIT(2),
         };
 
     public:
@@ -22,6 +23,7 @@ namespace lcpp
 
         bool isCallable() const;
         bool isBuiltin() const;
+        bool isNameable() const;
 
     private:
 

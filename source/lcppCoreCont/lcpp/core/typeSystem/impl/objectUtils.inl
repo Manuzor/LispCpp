@@ -12,4 +12,10 @@ namespace lcpp
     {
         return pObject->getMetaInfo().getAttributes().isBuiltin();
     }
+
+    EZ_FORCE_INLINE
+    bool isNameable(Ptr<LispObject> pObject)
+    {
+        return pObject->getMetaInfo().getAttributes().isNameable();
+    }
 }
