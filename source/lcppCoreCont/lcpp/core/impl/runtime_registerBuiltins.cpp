@@ -21,8 +21,8 @@ void lcpp::LispRuntimeState::registerBuiltIns()
 
     // Reader macros / syntax.
     //////////////////////////////////////////////////////////////////////////
-    reader::addSyntax(this, symbol::create("quote"), syntax::builtin::create(&syntax::builtin::quote));
-    reader::addSyntax(this, symbol::create("define"), syntax::builtin::create(&syntax::builtin::define));
+    reader::addSyntax(this, symbol::create("quote"), syntax::builtin::create(&syntax::builtin::quote, { 1, 1 }));
+    reader::addSyntax(this, symbol::create("define"), syntax::builtin::create(&syntax::builtin::define, { 2, 2 }));
 
     // Macros.
     //////////////////////////////////////////////////////////////////////////

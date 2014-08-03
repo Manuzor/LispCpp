@@ -32,6 +32,7 @@ LCPP_TestCase(Syntax, Builtin)
     {
         auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
         auto pContCall = cont::create(pContMain, &call);
+        cont::getStack(pContCall)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
         cont::getStack(pContCall)->push(pLambda);
 
         cont::trampoline(pContCall);
