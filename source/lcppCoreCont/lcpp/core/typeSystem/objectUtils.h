@@ -9,6 +9,8 @@ namespace lcpp
     bool isNameable(Ptr<LispObject> pObject);
 
     LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+
+    LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
 }
 
 #include "lcpp/core/typeSystem/impl/objectUtils.inl"
