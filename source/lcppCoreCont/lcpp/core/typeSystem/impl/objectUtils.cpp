@@ -69,11 +69,11 @@ namespace lcpp
         case Type::Stream: return stream::toString(pObject);
 
         case Type::Cons: return cons::toString(pObject);
-        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : str::create("Not Implemented");
-        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : str::create("Not Implemented");
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : throw exceptions::NotImplemented();
+        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : throw exceptions::NotImplemented();
         case Type::Environment: return env::toString(pObject);
 
-        case Type::File: return str::create("Not Implemented");
+        case Type::File: throw exceptions::NotImplemented();
 
         case Type::Continuation: return cont::toString(pObject);
         }
@@ -82,4 +82,51 @@ namespace lcpp
         LCPP_THROW(exceptions::InvalidInput("Unsupported type for toString."));
     }
 
+    Ptr<LispObject> getName(Ptr<LispObject> pObject)
+    {
+        EZ_ASSERT(pObject, "Invalid pointer.");
+
+        auto& type = pObject->getType();
+
+        switch(type.getId())
+        {
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::getName(pObject) : throw exceptions::NotImplemented();
+        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::getName(pObject) : throw exceptions::NotImplemented();
+        }
+
+        EZ_REPORT_FAILURE("Unsupported type for getName.");
+        LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
+    }
+
+    void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName)
+    {
+        EZ_ASSERT(pObject, "Invalid pointer.");
+
+        auto& type = pObject->getType();
+
+        switch(type.getId())
+        {
+        case Type::Lambda: isBuiltin(pObject) ? lambda::builtin::setName(pObject, pName) : throw exceptions::NotImplemented(); return;
+        case Type::Syntax: isBuiltin(pObject) ? syntax::builtin::setName(pObject, pName) : throw exceptions::NotImplemented(); return;
+        }
+
+        EZ_REPORT_FAILURE("Unsupported type for getName.");
+        LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
+    }
+
+    bool hasName(Ptr<LispObject> pObject)
+    {
+        EZ_ASSERT(pObject, "Invalid pointer.");
+
+        auto& type = pObject->getType();
+
+        switch(type.getId())
+        {
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::hasName(pObject) : throw exceptions::NotImplemented();
+        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::hasName(pObject) : throw exceptions::NotImplemented();
+        }
+
+        EZ_REPORT_FAILURE("Unsupported type for getName.");
+        LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
+    }
 }

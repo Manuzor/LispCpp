@@ -73,6 +73,11 @@ namespace lcpp
             }
 
             env::addBinding(pEnv, pCharacter, pLambda);
+
+            if(!hasName(pLambda))
+            {
+                setName(pLambda, pCharacter);
+            }
         }
 
         void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax)
@@ -81,6 +86,11 @@ namespace lcpp
             typeCheck(pSyntax, Type::Syntax);
 
             env::addBinding(pState->getSyntaxEnvironment(), pSymbol, pSyntax);
+
+            if (!hasName(pSyntax))
+            {
+                setName(pSyntax, pSymbol);
+            }
         }
 
         ezResult getSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject>& out_pSyntax)
