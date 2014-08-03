@@ -22,11 +22,15 @@ namespace lcpp
             {
             public:
 
+                Ptr<LispObject> getName();
+                void setName(Ptr<LispObject> pNewName);
+
                 Ptr<LispObject> getEnv();
                 Function_t getFunction();
 
             public:
 
+                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
                 LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pEnv);
                 Function_t m_pFunction;
 
@@ -35,6 +39,12 @@ namespace lcpp
             //////////////////////////////////////////////////////////////////////////
 
             LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+
+            LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pLambda);
+            LCPP_API_CORE_CONT void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName);
+            LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pLambda);
+
+            LCPP_API_CORE_CONT Ptr<LispObject> getEnvironment(Ptr<LispObject> pLambda);
 
             LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pLambda);
 

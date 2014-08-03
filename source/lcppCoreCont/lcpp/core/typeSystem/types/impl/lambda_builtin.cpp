@@ -15,8 +15,8 @@ namespace lcpp
             const MetaInfo& metaInfo()
             {
                 static auto meta = MetaInfo(Type::Lambda,
-                                            AttributeFlags::Callable | AttributeFlags::Builtin,
-                                            "builtin-lambda");
+                                            AttributeFlags::Callable| AttributeFlags::Builtin | AttributeFlags::Nameable,
+                                            "builtin-procedure");
 
                 return meta;
             }
@@ -30,6 +30,7 @@ namespace lcpp
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
 
+                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
                 new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
                 data.m_pFunction = pFunction;
 
@@ -52,6 +53,36 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, pFunction);
             }
 
+            Ptr<LispObject> getName(Ptr<LispObject> pLambda)
+            {
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
+
+                return pLambda->m_lambda_builtin.getName();
+            }
+
+            void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
+            {
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
+                typeCheck(pNewName, Type::Symbol);
+
+                pLambda->m_lambda_builtin.setName(pNewName);
+            }
+
+            bool hasName(Ptr<LispObject> pLambda)
+            {
+                return !isNil(getName(pLambda));
+            }
+
+            Ptr<LispObject> getEnvironment(Ptr<LispObject> pLambda)
+            {
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
+
+                return pLambda->m_lambda_builtin.getEnv();
+            }
+
             Function_t getFunction(Ptr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
@@ -65,10 +96,19 @@ namespace lcpp
                 typeCheck(pObject, Type::Lambda);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
-                static auto pString = str::create("<builtin-procedure>");
+                auto theString = ezStringBuilder();
+                theString.AppendFormat("<%s", metaInfo().getPrettyName().GetData());
 
-                return pString;
+                if (hasName(pObject))
+                {
+                    theString.AppendFormat(": %s", symbol::getValue(getName(pObject)).GetData());
+                }
+
+                theString.Append('>');
+
+                return str::create(theString);
             }
+
         }
     }
 }

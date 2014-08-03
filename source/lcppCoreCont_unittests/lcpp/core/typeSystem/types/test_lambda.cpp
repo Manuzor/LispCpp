@@ -46,6 +46,22 @@ LCPP_TestCase(Lambda, Builtin)
     CUT_ASSERT.isTrue(!isFalse(pResult));
 }
 
+LCPP_TestCase(Lambda, Builtin_Name)
+{
+    auto pState = LCPP_test_pRuntimeState;
+    auto pEnv = pState->getGlobalEnvironment();
+
+    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin);
+
+    CUT_ASSERT.isFalse(lambda::builtin::hasName(pLambda));
+    CUT_ASSERT.isTrue(isNil(lambda::builtin::getName(pLambda)));
+
+    lambda::builtin::setName(pLambda, symbol::create("my-lambda"));
+
+    CUT_ASSERT.isTrue(lambda::builtin::hasName(pLambda));
+    CUT_ASSERT.isTrue(symbol::getValue(lambda::builtin::getName(pLambda)).IsEqual("my-lambda"));
+}
+
 LCPP_TestCase(Lambda, Builtin_toString)
 {
     auto pState = LCPP_test_pRuntimeState;
@@ -56,6 +72,11 @@ LCPP_TestCase(Lambda, Builtin_toString)
     auto pString = toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure>"));
+
+    lambda::builtin::setName(pLambda, symbol::create("this-is-a-name"));
+    pString = toString(pLambda);
+
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure: this-is-a-name>"));
 }
 
 LCPP_TestCase(Lambda, UserDefined)
