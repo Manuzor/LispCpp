@@ -44,6 +44,14 @@ LCPP_TestCase(Syntax, Builtin)
     CUT_ASSERT.isTrue(!isFalse(pResult));
 }
 
+LCPP_TestCase(Syntax, Builtin_toString)
+{
+    auto pSyntax = syntax::builtin::create(&testBuiltin);
+
+    auto pString = toString(pSyntax);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-syntax>"));
+}
+
 LCPP_TestCase(Syntax, UserDefined)
 {
     auto pState = LCPP_test_pRuntimeState;
