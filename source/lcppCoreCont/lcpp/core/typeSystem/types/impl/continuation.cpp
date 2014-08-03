@@ -105,7 +105,11 @@ namespace lcpp
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            LCPP_NOT_IMPLEMENTED;
+            typeCheck(pObject, Type::Continuation);
+
+            static auto pString = str::create("#continuation");
+
+            return pString;
         }
 
         namespace detail

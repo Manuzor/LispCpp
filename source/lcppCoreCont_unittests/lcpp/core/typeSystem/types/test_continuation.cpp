@@ -4,6 +4,7 @@
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 
 namespace lcpp
 {
@@ -52,4 +53,19 @@ LCPP_TestCase(Continuation, Basics)
     auto pResult = cont::getStack(pContMain)->get(-1);
 
     CUT_ASSERT.isTrue(number::getInteger(pResult) == numIterations);
+}
+
+LCPP_TestCase(Continuation, toString)
+{
+    auto dummyFunc = [](Ptr<LispObject>){ return LCPP_pNil; };
+    auto pContRoot = cont::createTopLevel(LCPP_test_pRuntimeState);
+    auto pContChild = cont::create(pContRoot, dummyFunc);
+
+    auto pString = LCPP_pNil;
+
+    pString = toString(pContRoot);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("#continuation"));
+
+    pString = toString(pContChild);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("#continuation"));
 }
