@@ -33,7 +33,12 @@ namespace lcpp
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            LCPP_NOT_IMPLEMENTED;
+            typeCheck(pObject, Type::String);
+
+            auto theString = ezStringBuilder();
+            theString.AppendFormat("\"%s\"", getValue(pObject).GetData());
+
+            return str::create(theString);
         }
 
     }
