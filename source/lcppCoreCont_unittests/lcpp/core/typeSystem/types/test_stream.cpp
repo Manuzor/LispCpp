@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 
 LCPP_TestGroup(Stream);
 
@@ -55,4 +56,26 @@ LCPP_TestCase(Stream, getPosition)
     stream::next(pStream);
     stream::next(pStream);
     CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);
+}
+
+LCPP_TestCase(Stream, toString)
+{
+    auto content = ezString("abcdef");
+    auto pStream = stream::create(content.GetIteratorFront());
+    auto pString = LCPP_pNil;
+
+    pString = toString(pStream);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at 0: \"abcdef\">"));
+
+    stream::next(pStream);
+    stream::next(pStream);
+    pString = toString(pStream);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at 2: \"cdef\">"));
+
+    stream::next(pStream);
+    stream::next(pStream);
+    stream::next(pStream);
+    stream::next(pStream);
+    pString = toString(pStream);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at end>"));
 }

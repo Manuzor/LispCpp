@@ -76,7 +76,23 @@ namespace lcpp
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            LCPP_NOT_IMPLEMENTED;
+            auto theString = ezStringBuilder();
+            theString.Append("<stream at ");
+
+            if (!isValid(pObject))
+            {
+                theString.Append("end");
+            }
+            else
+            {
+                auto position = getPosition(pObject);
+                auto currentData = getIterator(pObject).GetData();
+
+                theString.AppendFormat("%u: \"%s\"", position, currentData);
+            }
+            
+            theString.Append('>');
+            return str::create(theString);
         }
     }
 }
