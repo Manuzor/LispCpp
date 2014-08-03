@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 
 namespace lcpp
 {
@@ -56,9 +57,50 @@ namespace lcpp
             return count;
         }
 
+        static void toStringHelper(Ptr<LispObject> pCons, ezStringBuilder& builder)
+        {
+            auto pCar = getCar(pCons);
+
+            if (isCons(pCar))
+            {
+                builder.Append('(');
+                toStringHelper(pCar, builder);
+                builder.Append(')');
+            }
+            else
+            {
+                builder.Append(str::getValue(lcpp::toString(pCar)).GetData());
+            }
+
+            auto pCdr = getCdr(pCons);
+
+            if (isNil(pCdr))
+            {
+                return;
+            }
+            
+            builder.Append(' ');
+
+            if (isCons(pCdr))
+            {
+                toStringHelper(pCdr, builder);
+            }
+            else
+            {
+                builder.AppendFormat(". %s", str::getValue(lcpp::toString(pCdr)).GetData());
+            }
+        }
+
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            LCPP_NOT_IMPLEMENTED;
+            typeCheck(pObject, Type::Cons);
+            
+            auto builder = ezStringBuilder();
+            builder.Append('(');
+            toStringHelper(pObject, builder);
+            builder.Append(')');
+
+            return str::create(builder);
         }
     }
 
