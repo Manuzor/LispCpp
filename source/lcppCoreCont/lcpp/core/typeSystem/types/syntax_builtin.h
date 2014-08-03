@@ -27,11 +27,16 @@ namespace lcpp
             public:
 
                 Ptr<Signature> getSignature();
+
+                Ptr<LispObject> getName();
+                void setName(Ptr<LispObject> pNewName);
+
                 Function_t getFunction();
 
             public:
 
                 Signature m_signature;
+                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
                 Function_t m_pFunction;
 
             };
@@ -41,6 +46,10 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<Signature> getSignature(Ptr<LispObject> pSyntax);
+
+            LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pSyntax);
+            LCPP_API_CORE_CONT void setName(Ptr<LispObject> pSyntax, Ptr<LispObject> pNewName);
+            LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pSyntax);
 
             LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pSyntax);
 

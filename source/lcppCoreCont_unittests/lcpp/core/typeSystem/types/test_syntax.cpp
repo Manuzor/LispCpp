@@ -44,12 +44,32 @@ LCPP_TestCase(Syntax, Builtin)
     CUT_ASSERT.isTrue(!isFalse(pResult));
 }
 
+LCPP_TestCase(Syntax, Builtin_Name)
+{
+    auto pState = LCPP_test_pRuntimeState;
+
+    auto pSyntax = syntax::builtin::create(&testBuiltin);
+
+    CUT_ASSERT.isFalse(syntax::builtin::hasName(pSyntax));
+    CUT_ASSERT.isTrue(isNil(syntax::builtin::getName(pSyntax)));
+
+    syntax::builtin::setName(pSyntax, symbol::create("my-syntax"));
+
+    CUT_ASSERT.isTrue(syntax::builtin::hasName(pSyntax));
+    CUT_ASSERT.isTrue(symbol::getValue(syntax::builtin::getName(pSyntax)).IsEqual("my-syntax"));
+}
+
 LCPP_TestCase(Syntax, Builtin_toString)
 {
     auto pSyntax = syntax::builtin::create(&testBuiltin);
 
     auto pString = toString(pSyntax);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-syntax>"));
+
+    syntax::builtin::setName(pSyntax, symbol::create("my-syntax"));
+
+    pString = toString(pSyntax);
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-syntax: my-syntax>"));
 }
 
 LCPP_TestCase(Syntax, UserDefined)

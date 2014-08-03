@@ -16,7 +16,7 @@ namespace lcpp
             const MetaInfo& metaInfo()
             {
                 static auto meta = MetaInfo(Type::Syntax,
-                                            AttributeFlags::Callable | AttributeFlags::Builtin,
+                                            AttributeFlags::Callable | AttributeFlags::Builtin | AttributeFlags::Nameable,
                                             "builtin-syntax");
 
                 return meta;
@@ -31,6 +31,7 @@ namespace lcpp
                 auto& data = pInstance->m_syntax_builtin;
 
                 data.m_signature = signature;
+                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
                 data.m_pFunction = pFunction;
 
                 return pInstance;
@@ -57,6 +58,28 @@ namespace lcpp
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
                 return pSyntax->m_syntax_builtin.getSignature();
+            }
+
+            Ptr<LispObject> getName(Ptr<LispObject> pSyntax)
+            {
+                typeCheck(pSyntax, Type::Syntax);
+                attributeCheckAny(pSyntax, AttributeFlags::Builtin);
+
+                return pSyntax->m_syntax_builtin.getName();
+            }
+
+            void setName(Ptr<LispObject> pSyntax, Ptr<LispObject> pNewName)
+            {
+                typeCheck(pSyntax, Type::Syntax);
+                attributeCheckAny(pSyntax, AttributeFlags::Builtin);
+                typeCheck(pNewName, Type::Symbol);
+
+                pSyntax->m_syntax_builtin.setName(pNewName);
+            }
+
+            bool hasName(Ptr<LispObject> pSyntax)
+            {
+                return !isNil(getName(pSyntax));
             }
 
             Function_t getFunction(Ptr<LispObject> pSyntax)
@@ -118,9 +141,17 @@ namespace lcpp
                 typeCheck(pObject, Type::Syntax);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
-                static auto pString = str::create("<builtin-syntax>");
+                auto theString = ezStringBuilder();
+                theString.AppendFormat("<%s", metaInfo().getPrettyName().GetData());
 
-                return pString;
+                if(hasName(pObject))
+                {
+                    theString.AppendFormat(": %s", symbol::getValue(getName(pObject)).GetData());
+                }
+
+                theString.Append('>');
+
+                return str::create(theString);
             }
 
         }
