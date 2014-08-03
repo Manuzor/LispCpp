@@ -107,7 +107,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Continuation);
 
-            static auto pString = str::create("#continuation");
+            static auto pString = str::create("<continuation>");
 
             return pString;
         }

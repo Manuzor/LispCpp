@@ -64,8 +64,8 @@ LCPP_TestCase(Continuation, toString)
     auto pString = LCPP_pNil;
 
     pString = toString(pContRoot);
-    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("#continuation"));
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<continuation>"));
 
     pString = toString(pContChild);
-    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("#continuation"));
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<continuation>"));
 }
