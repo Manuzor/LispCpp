@@ -43,7 +43,9 @@ namespace lcpp
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            LCPP_NOT_IMPLEMENTED;
+            typeCheck(pObject, Type::Symbol);
+
+            return str::create(getValue(pObject).GetData());
         }
 
     }

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
@@ -29,4 +30,12 @@ LCPP_TestCase(Symbol, Instancing)
     auto pSymbol2 = symbol::create("hello");
 
     CUT_ASSERT.isTrue(pSymbol1 == pSymbol2);
+}
+
+LCPP_TestCase(Symbol, toString)
+{
+    auto pSymbol = symbol::create("hello");
+    auto pString = toString(pSymbol);
+
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("hello"));
 }
