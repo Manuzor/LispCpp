@@ -41,5 +41,10 @@ namespace lcpp
             return pObject->m_symbol.getValue();
         }
 
+        String toString(Ptr<LispObject> pObject)
+        {
+            LCPP_NOT_IMPLEMENTED;
+        }
+
     }
 }

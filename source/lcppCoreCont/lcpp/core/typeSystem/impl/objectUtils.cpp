@@ -56,26 +56,26 @@ namespace lcpp
 
         switch(type.getId())
         {
-        case Type::Nil: return "Not implemented.";
-        case Type::Void: return "Not implemented.";
-        case Type::True: return "Not implemented.";
-        case Type::False: return "Not implemented.";
+        case Type::Nil: return nil::toString(pObject);
+        case Type::Void: return void_::toString(pObject);
+        case Type::True: return true_::toString(pObject);
+        case Type::False: return false_::toString(pObject);
 
-        case Type::Integer: return "Not implemented.";
-        case Type::Float: return "Not implemented.";
+        case Type::Integer:
+        case Type::Float: return number::toString(pObject);
 
-        case Type::Symbol: return "Not implemented.";
-        case Type::String: return "Not implemented.";
-        case Type::Stream: return "Not implemented.";
+        case Type::Symbol: return symbol::toString(pObject);
+        case Type::String: return str::toString(pObject);
+        case Type::Stream: return stream::toString(pObject);
 
-        case Type::Cons: return "Not implemented.";
-        case Type::Lambda: return "Not implemented.";
-        case Type::Syntax: return "Not implemented.";
-        case Type::Environment: return "Not implemented.";
+        case Type::Cons: return cons::toString(pObject);
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : "Not Implemented";
+        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : "Not implemented.";
+        case Type::Environment: return env::toString(pObject);
 
         case Type::File: return "Not implemented.";
 
-        case Type::Continuation: return "Not implemented.";
+        case Type::Continuation: return cont::toString(pObject);
         }
 
         EZ_REPORT_FAILURE("Unsupported type for toString.");

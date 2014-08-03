@@ -9,6 +9,8 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
+
     };
 
     bool isNil(Ptr<LispObject> pObject);

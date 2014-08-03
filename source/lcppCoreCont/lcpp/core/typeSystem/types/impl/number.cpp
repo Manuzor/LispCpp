@@ -53,6 +53,10 @@ namespace lcpp
             return pObject->m_float;
         }
 
+        String toString(Ptr<LispObject> pObject)
+        {
+            LCPP_NOT_IMPLEMENTED;
+        }
 
     }
 }

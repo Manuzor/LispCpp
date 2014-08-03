@@ -56,6 +56,10 @@ namespace lcpp
             return count;
         }
 
+        String toString(Ptr<LispObject> pObject)
+        {
+            LCPP_NOT_IMPLEMENTED;
+        }
     }
 
     bool isCons(Ptr<LispObject> pObject)

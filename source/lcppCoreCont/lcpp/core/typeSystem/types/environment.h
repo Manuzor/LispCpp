@@ -79,6 +79,8 @@ namespace lcpp
         LCPP_API_CORE_CONT BindingLocation existsBinding(Ptr<LispObject> pEnv,
                                                          Ptr<LispObject> pSymbol);
 
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
+
         namespace detail
         {
             LCPP_API_CORE_CONT HashTable& getTable(Ptr<LispObject> pEnv);

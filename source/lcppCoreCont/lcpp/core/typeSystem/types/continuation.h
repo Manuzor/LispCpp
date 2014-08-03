@@ -52,6 +52,8 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<Stack> getStack(Ptr<LispObject> pCont);
 
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
+
         namespace detail
         {
             LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall);

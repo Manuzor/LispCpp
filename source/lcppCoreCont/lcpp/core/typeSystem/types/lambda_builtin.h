@@ -37,6 +37,8 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pLambda);
+
+            LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
         }
     }
 }

@@ -113,6 +113,11 @@ namespace lcpp
                 LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
             }
 
+            String toString(Ptr<LispObject> pObject)
+            {
+                LCPP_NOT_IMPLEMENTED;
+            }
+
         }
     }
 }

@@ -15,6 +15,6 @@ namespace lcpp
             //LCPP_API_CORE_CONT Ptr<LispObject> lambda(Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<LispObject> quote(Ptr<LispObject> pCont);
-}
+        }
     }
 }

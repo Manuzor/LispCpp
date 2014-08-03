@@ -2,7 +2,7 @@
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
 
 namespace lcpp
 {
@@ -21,6 +21,15 @@ namespace lcpp
             }
 
             return pInstance;
+        }
+
+        String toString(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Void);
+
+            static auto theString = String("#v");
+
+            return theString;
         }
     }
 

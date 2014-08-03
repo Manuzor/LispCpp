@@ -37,3 +37,37 @@ LCPP_TestCase(Cons, pushAll)
     CUT_ASSERT.isTrue(number::getInteger(stack.get(1)) == 2);
     CUT_ASSERT.isTrue(number::getInteger(stack.get(2)) == 3);
 }
+
+LCPP_TestCase(Cons, toString)
+{
+    auto pCons = LCPP_pNil;
+    auto theString = String();
+
+    pCons = cons::create(LCPP_pNil, LCPP_pNil);
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("(())"));
+
+    pCons = cons::create(number::create(42), LCPP_pNil);
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("(42)"));
+
+    pCons = cons::create(number::create(42), number::create(1337));
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("(42 . 1337)"));
+
+    pCons = cons::create(number::create(42), cons::create(number::create(1337), LCPP_pNil));
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("(42 1337)"));
+
+    pCons = cons::create(number::create(42), cons::create(number::create(1337), number::create(666)));
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("(42 1337 . 666)"));
+
+    pCons = cons::create(cons::create(number::create(42), number::create(1337)), LCPP_pNil);
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("((42 . 1337))"));
+
+    pCons = cons::create(cons::create(number::create(42), LCPP_pNil), number::create(1337));
+    theString = toString(pCons);
+    CUT_ASSERT.isTrue(theString.IsEqual("((42) . 1337)"));
+}

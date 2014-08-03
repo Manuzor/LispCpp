@@ -59,6 +59,11 @@ namespace lcpp
 
                 return pLambda->m_lambda_builtin.getFunction();
             }
+
+            String toString(Ptr<LispObject> pObject)
+            {
+                LCPP_NOT_IMPLEMENTED;
+            }
         }
     }
 }

@@ -2,22 +2,35 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/runtime.h"
 
 namespace lcpp
 {
-    Ptr<LispObject> nil::create()
+    namespace nil
     {
-        static auto pInstance = Ptr<LispObject>();
-
-        if (!pInstance)
+        Ptr<LispObject> create()
         {
-            static auto meta = MetaInfo(Type::Nil, "nil");
+            static auto pInstance = Ptr<LispObject>();
 
-            auto pAllocator = defaultAllocator();
-            pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
+            if (!pInstance)
+            {
+                static auto meta = MetaInfo(Type::Nil, "nil");
+
+                auto pAllocator = defaultAllocator();
+                pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
+            }
+
+            return pInstance;
         }
 
-        return pInstance;
+        String toString(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Nil);
+
+            static auto theString = String("()");
+
+            return theString;
+        }
     }
 }

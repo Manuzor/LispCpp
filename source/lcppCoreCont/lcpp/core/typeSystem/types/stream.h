@@ -40,6 +40,8 @@ namespace lcpp
         LCPP_API_CORE_CONT ezUInt32 next(Ptr<LispObject> pStream);
 
         LCPP_API_CORE_CONT ezUInt32 getPosition(Ptr<LispObject> pStream);
+
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
     };
 }
 

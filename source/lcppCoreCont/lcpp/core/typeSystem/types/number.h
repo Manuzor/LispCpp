@@ -15,6 +15,8 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Integer_t getInteger(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT Float_t getFloat(Ptr<LispObject> pObject);
+
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
     }
 }
 

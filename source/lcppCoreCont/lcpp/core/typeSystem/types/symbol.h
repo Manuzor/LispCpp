@@ -32,6 +32,8 @@ namespace lcpp
 
         LCPP_API_CORE_CONT const String& getValue(Ptr<LispObject> pObject);
 
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
+
     }
 }
 

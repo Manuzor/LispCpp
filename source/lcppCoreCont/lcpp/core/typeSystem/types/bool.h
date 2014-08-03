@@ -7,17 +7,20 @@ namespace lcpp
     namespace true_
     {
         LCPP_API_CORE_CONT Ptr<LispObject> create();
+
+        String toString(Ptr<LispObject> pObject);
     }
 
     namespace false_
     {
         LCPP_API_CORE_CONT Ptr<LispObject> create();
+
+        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
     }
 
     bool isTrue(Ptr<LispObject> pObject);
 
     bool isFalse(Ptr<LispObject> pObject);
-
 }
 
 #define LCPP_pTrue ::lcpp::true_::create()

@@ -103,6 +103,11 @@ namespace lcpp
             return &pCont->m_cont.getStack();
         }
 
+        String toString(Ptr<LispObject> pObject)
+        {
+            LCPP_NOT_IMPLEMENTED;
+        }
+
         namespace detail
         {
             Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall)
