@@ -42,10 +42,11 @@ namespace lcpp
     }
 }
 
-#define LCPP_THROW(ex) do                     \
-{                                             \
-    ex.setLineNumber(EZ_SOURCE_LINE);         \
-    ex.setFileName(EZ_SOURCE_FILE);           \
-    ex.setFunctionName(EZ_SOURCE_FUNCTION);   \
-    throw ex;                                 \
+#define LCPP_THROW(ex) do                                \
+{                                                        \
+    auto _theException = ex;                             \
+    _theException.setLineNumber(EZ_SOURCE_LINE);         \
+    _theException.setFileName(EZ_SOURCE_FILE);           \
+    _theException.setFunctionName(EZ_SOURCE_FUNCTION);   \
+    throw _theException;                                 \
 } while (false)
