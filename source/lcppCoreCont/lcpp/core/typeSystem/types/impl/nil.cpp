@@ -24,13 +24,13 @@ namespace lcpp
             return pInstance;
         }
 
-        String toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Nil);
 
-            static auto theString = String("()");
+            static auto pString = str::create("()");
 
-            return theString;
+            return pString;
         }
     }
 }

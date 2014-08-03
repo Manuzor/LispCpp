@@ -74,7 +74,7 @@ namespace lcpp
             return iterator.GetData() - iterator.GetStart();
         }
 
-        String toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             LCPP_NOT_IMPLEMENTED;
         }

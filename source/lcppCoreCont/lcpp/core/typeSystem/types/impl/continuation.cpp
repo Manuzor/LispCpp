@@ -103,7 +103,7 @@ namespace lcpp
             return &pCont->m_cont.getStack();
         }
 
-        String toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             LCPP_NOT_IMPLEMENTED;
         }

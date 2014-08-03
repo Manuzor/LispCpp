@@ -41,6 +41,6 @@ LCPP_TestCase(Bool, isFalse)
 
 LCPP_TestCase(Bool, toString)
 {
-    CUT_ASSERT.isTrue(toString(LCPP_pTrue).IsEqual("#t"));
-    CUT_ASSERT.isTrue(toString(LCPP_pFalse).IsEqual("#f"));
+    CUT_ASSERT.isTrue(str::getValue(toString(LCPP_pTrue)).IsEqual("#t"));
+    CUT_ASSERT.isTrue(str::getValue(toString(LCPP_pFalse)).IsEqual("#f"));
 }

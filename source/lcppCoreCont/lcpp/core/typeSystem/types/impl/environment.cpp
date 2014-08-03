@@ -168,7 +168,7 @@ namespace lcpp
             return BindingLocation::None;
         }
 
-        String toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             LCPP_NOT_IMPLEMENTED;
         }

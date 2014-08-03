@@ -48,7 +48,7 @@ namespace lcpp
         return nullptr;
     }
 
-    String toString(Ptr<LispObject> pObject)
+    Ptr<LispObject> toString(Ptr<LispObject> pObject)
     {
         EZ_ASSERT(pObject, "Invalid pointer.");
 
@@ -69,11 +69,11 @@ namespace lcpp
         case Type::Stream: return stream::toString(pObject);
 
         case Type::Cons: return cons::toString(pObject);
-        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : "Not Implemented";
-        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : "Not implemented.";
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : str::create("Not Implemented");
+        case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : str::create("Not Implemented");
         case Type::Environment: return env::toString(pObject);
 
-        case Type::File: return "Not implemented.";
+        case Type::File: return str::create("Not Implemented");
 
         case Type::Continuation: return cont::toString(pObject);
         }

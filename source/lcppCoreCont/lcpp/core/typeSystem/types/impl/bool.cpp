@@ -24,13 +24,13 @@ namespace lcpp
             return pInstance;
         }
 
-        String toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::True);
 
-            static auto theString = String("#t");
+            static auto pString = str::create("#t");
 
-            return theString;
+            return pString;
         }
 
     }
@@ -52,13 +52,13 @@ namespace lcpp
             return pInstance;
         }
 
-        String toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::False);
 
-            static auto theString = String("#f");
+            static auto pString = str::create("#f");
 
-            return theString;
+            return pString;
         }
 
     }

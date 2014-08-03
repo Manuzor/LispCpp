@@ -8,14 +8,14 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        String toString(Ptr<LispObject> pObject);
+        Ptr<LispObject> toString(Ptr<LispObject> pObject);
     }
 
     namespace false_
     {
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
     }
 
     bool isTrue(Ptr<LispObject> pObject);

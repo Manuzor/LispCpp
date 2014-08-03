@@ -46,7 +46,7 @@ namespace lcpp
 
             LCPP_API_CORE_CONT void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT String toString(Ptr<LispObject> pObject);
+            LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
         }
     }
 }
