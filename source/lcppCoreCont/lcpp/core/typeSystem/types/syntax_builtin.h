@@ -1,5 +1,7 @@
 #pragma once
 
+#include "lcpp/core/functionUtils.h"
+
 namespace lcpp
 {
     class LispObject;
@@ -9,7 +11,6 @@ namespace lcpp
     {
         namespace builtin
         {
-            class Signature;
 
             typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
 
@@ -20,18 +21,6 @@ namespace lcpp
             Ptr<LispObject> create(Function_t pFunction);
 
             //////////////////////////////////////////////////////////////////////////
-
-            class Signature
-            {
-            public:
-            
-                enum { VarArg = ezUInt32(-1) };
-
-            public:
-
-                ezUInt32 m_argCountMin;
-                ezUInt32 m_argCountMax;
-            };
 
             class Data
             {

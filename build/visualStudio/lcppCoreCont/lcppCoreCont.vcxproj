@@ -29,6 +29,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\noBindingFoundException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\typeCheckFailedException.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\reader.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\readerState.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\recursionCounter.h" />

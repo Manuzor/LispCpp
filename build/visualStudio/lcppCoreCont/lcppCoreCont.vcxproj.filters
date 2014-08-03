@@ -151,6 +151,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtinFunctions.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
