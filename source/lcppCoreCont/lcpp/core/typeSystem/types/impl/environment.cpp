@@ -168,11 +168,6 @@ namespace lcpp
             return BindingLocation::None;
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
-        {
-            LCPP_NOT_IMPLEMENTED;
-        }
-
         namespace detail
         {
             HashTable& getTable(Ptr<LispObject> pEnv)

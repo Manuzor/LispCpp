@@ -146,6 +146,18 @@ LCPP_TestCase(Environment, qualifiedName)
     CUT_ASSERT.isTrue(str::getValue(pName).IsEqual("parent/child1/child2/child3"));
 }
 
+LCPP_TestCase(Environment, toString)
+{
+    // Should return the same thing as getQualifiedName.
+
+    auto pEnv = env::createTopLevel(symbol::create("the-env"));
+
+    auto pStringLhs = env::toString(pEnv);
+    auto pStringRhs = env::getQualifiedName(pEnv);
+
+    CUT_ASSERT.isTrue(str::getValue(pStringLhs).IsEqual(str::getValue(pStringRhs).GetData()));
+}
+
 LCPP_TestCase(Environment, existsBinding)
 {
     auto pEnvParent = env::createTopLevel(symbol::create("parent"));

@@ -79,7 +79,7 @@ namespace lcpp
         LCPP_API_CORE_CONT BindingLocation existsBinding(Ptr<LispObject> pEnv,
                                                          Ptr<LispObject> pSymbol);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        Ptr<LispObject> toString(Ptr<LispObject> pObject);
 
         namespace detail
         {
