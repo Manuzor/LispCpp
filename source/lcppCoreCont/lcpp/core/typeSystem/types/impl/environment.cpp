@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/typeSystem/types/nil.h"
-#include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
@@ -53,28 +51,24 @@ namespace lcpp
             return pEnv->m_env.getName();
         }
 
-        static void getQualifiedNameHelper(Ptr<LispObject> pEnv, ezStringBuilder& name)
-        {
-            auto pParent = getParent(pEnv);
-
-            if (!isNil(pParent))
-            {
-                getQualifiedNameHelper(pParent, name);
-                name.Append('/');
-            }
-
-            name.Append(symbol::getValue(getName(pEnv)).GetData());
-        }
-
         Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv)
         {
             typeCheck(pEnv, Type::Environment);
 
             auto name = ezStringBuilder();
 
-            getQualifiedNameHelper(pEnv, name);
+            while(true)
+            {
+                name.Prepend(symbol::getValue(getName(pEnv)).GetData());
+                pEnv = getParent(pEnv);
+                if(isNil(pEnv))
+                {
+                    break;
+                }
+                name.Prepend('/');
+            }
 
-            return symbol::create(name);
+            return str::create(name);
         }
 
         Ptr<LispObject> getParent(Ptr<LispObject> pEnv)

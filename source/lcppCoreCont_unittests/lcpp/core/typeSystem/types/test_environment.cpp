@@ -134,16 +134,16 @@ LCPP_TestCase(Environment, qualifiedName)
     //////////////////////////////////////////////////////////////////////////
 
     pName = env::getQualifiedName(pEnvParent);
-    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent"));
+    CUT_ASSERT.isTrue(str::getValue(pName).IsEqual("parent"));
 
     pName = env::getQualifiedName(pEnvChild1);
-    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1"));
+    CUT_ASSERT.isTrue(str::getValue(pName).IsEqual("parent/child1"));
 
     pName = env::getQualifiedName(pEnvChild2);
-    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1/child2"));
+    CUT_ASSERT.isTrue(str::getValue(pName).IsEqual("parent/child1/child2"));
 
     pName = env::getQualifiedName(pEnvChild3);
-    CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("parent/child1/child2/child3"));
+    CUT_ASSERT.isTrue(str::getValue(pName).IsEqual("parent/child1/child2/child3"));
 }
 
 LCPP_TestCase(Environment, existsBinding)
