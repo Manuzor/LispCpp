@@ -46,6 +46,18 @@ LCPP_TestCase(Lambda, Builtin)
     CUT_ASSERT.isTrue(!isFalse(pResult));
 }
 
+LCPP_TestCase(Lambda, Builtin_toString)
+{
+    auto pState = LCPP_test_pRuntimeState;
+    auto pEnv = pState->getGlobalEnvironment();
+
+    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin);
+
+    auto pString = toString(pLambda);
+
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure>"));
+}
+
 LCPP_TestCase(Lambda, UserDefined)
 {
     auto pState = LCPP_test_pRuntimeState;

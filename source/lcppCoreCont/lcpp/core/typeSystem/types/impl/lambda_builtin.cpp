@@ -62,7 +62,12 @@ namespace lcpp
 
             Ptr<LispObject> toString(Ptr<LispObject> pObject)
             {
-                LCPP_NOT_IMPLEMENTED;
+                typeCheck(pObject, Type::Lambda);
+                attributeCheckAny(pObject, AttributeFlags::Builtin);
+
+                static auto pString = str::create("<builtin-procedure>");
+
+                return pString;
             }
         }
     }
