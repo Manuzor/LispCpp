@@ -154,6 +154,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda_userDefined.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -219,6 +222,9 @@
       <Filter>lcpp\core\impl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtinFunctions.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,6 +305,9 @@
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
   </ItemGroup>

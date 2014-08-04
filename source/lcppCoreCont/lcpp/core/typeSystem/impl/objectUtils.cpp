@@ -37,8 +37,7 @@ namespace lcpp
             {
                 LCPP_cont_tailCall(pCont, &lambda::builtin::call);
             }
-            // TODO support user defined lambdas.
-            LCPP_NOT_IMPLEMENTED;
+            LCPP_cont_tailCall(pCont, &lambda::userDefined::call);
         }
 
         EZ_REPORT_FAILURE("pCallable has the Callable attribute set "
@@ -69,7 +68,7 @@ namespace lcpp
         case Type::Stream: return stream::toString(pObject);
 
         case Type::Cons: return cons::toString(pObject);
-        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : throw exceptions::NotImplemented();
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::toString(pObject) : lambda::userDefined::toString(pObject);
         case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : throw exceptions::NotImplemented();
         case Type::Environment: return env::toString(pObject);
 
@@ -90,7 +89,7 @@ namespace lcpp
 
         switch(type.getId())
         {
-        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::getName(pObject) : throw exceptions::NotImplemented();
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::getName(pObject) : lambda::userDefined::getName(pObject);
         case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::getName(pObject) : throw exceptions::NotImplemented();
         }
 
@@ -106,7 +105,7 @@ namespace lcpp
 
         switch(type.getId())
         {
-        case Type::Lambda: isBuiltin(pObject) ? lambda::builtin::setName(pObject, pName) : throw exceptions::NotImplemented(); return;
+        case Type::Lambda: isBuiltin(pObject) ? lambda::builtin::setName(pObject, pName) : lambda::userDefined::setName(pObject, pName); return;
         case Type::Syntax: isBuiltin(pObject) ? syntax::builtin::setName(pObject, pName) : throw exceptions::NotImplemented(); return;
         }
 
@@ -122,7 +121,7 @@ namespace lcpp
 
         switch(type.getId())
         {
-        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::hasName(pObject) : throw exceptions::NotImplemented();
+        case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::hasName(pObject) : lambda::userDefined::hasName(pObject);
         case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::hasName(pObject) : throw exceptions::NotImplemented();
         }
 

@@ -13,6 +13,8 @@ namespace lcpp
     LCPP_API_CORE_CONT void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType);
 
     LCPP_API_CORE_CONT void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2);
+
+    void typeCheckFailed(const char* szMessage);
 }
 
 #include "lcpp/core/typeSystem/impl/typeCheck.inl"
