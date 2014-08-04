@@ -25,7 +25,7 @@
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{m_header}: {m_stream}</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">{m_header}: {m_cons}</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_lambda_builtin}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: Not implemented in .natvis file for user-defined lambda.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: {m_lambda_userDefined}</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_syntax_builtin}</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">{m_header}: Not implemented in .natvis file for user-defined syntax.</DisplayString>
 		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">{m_header}: {m_env}</DisplayString>
@@ -105,16 +105,28 @@
 	</Type>
 
 	<Type Name="lcpp::lambda::builtin::Data">
-		<DisplayString>Function={m_pFunction,na}</DisplayString>
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
 		<Expand>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
 			<Item Name="Function">m_pFunction</Item>
 			<Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
 		</Expand>
 	</Type>
 
-	<Type Name="lcpp::syntax::builtin::Data">
-		<DisplayString>Function={m_pFunction,na}</DisplayString>
+	<Type Name="lcpp::lambda::userDefined::Data">
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
 		<Expand>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+			<Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
+			<Item Name="ArgList">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pArgList)</Item>
+			<Item Name="BodyList">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pBodyList)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::syntax::builtin::Data">
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+		<Expand>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
 			<Item Name="Function">m_pFunction</Item>
 		</Expand>
 	</Type>
