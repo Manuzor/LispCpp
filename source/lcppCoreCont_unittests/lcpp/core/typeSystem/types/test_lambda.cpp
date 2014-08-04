@@ -74,6 +74,7 @@ LCPP_TestCase(Lambda, Builtin_toString)
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure>"));
 
     lambda::builtin::setName(pLambda, symbol::create("this-is-a-name"));
+
     pString = toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure: this-is-a-name>"));
@@ -100,5 +101,25 @@ LCPP_TestCase(Lambda, UserDefined)
         pResult = cont::getStack(pContMain)->get(-1);
     }
 
-    CUT_ASSERT.isTrue(!isFalse(pResult));
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
+}
+
+LCPP_TestCase(Lambda, UserDefined_toString)
+{
+    auto pState = LCPP_test_pRuntimeState;
+
+    auto pArgList = LCPP_pNil;
+    auto pBodyList = cons::create(number::create(1337), LCPP_pNil);
+
+    auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
+
+    auto pString = toString(pLambda);
+
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure>"));
+
+    lambda::userDefined::setName(pLambda, symbol::create("this-is-the-name"));
+
+    pString = toString(pLambda);
+
+    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure: this-is-the-name>"));
 }
