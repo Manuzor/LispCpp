@@ -31,6 +31,12 @@
     <Filter Include="lcpp\core\exceptions">
       <UniqueIdentifier>{bb4ec964-ad3c-4471-8100-2b31ed5cb3a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\builtins">
+      <UniqueIdentifier>{284ac2f2-b3e0-4c86-9a8a-2b380e1c5a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\builtins\impl">
+      <UniqueIdentifier>{1bc5aa83-476d-4ebf-acf4-bc30e055bc10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -148,14 +154,14 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtin.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtinFunctions.h">
-      <Filter>lcpp\core\typeSystem\types</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda_userDefined.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\syntax_builtinFunctions.h">
+      <Filter>lcpp\core\builtins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,11 +227,11 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp">
       <Filter>lcpp\core\impl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtinFunctions.cpp">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\syntax_builtinFunctions.cpp">
+      <Filter>lcpp\core\builtins\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/typeSystem/types/syntax_builtinFunctions.h"
+#include "lcpp/core/builtins//syntax_builtinFunctions.h"
 
 namespace lcpp
 {

@@ -7,7 +7,7 @@
 #include "lcpp/core/typeSystem/types/syntax_builtin.h"
 #include "lcpp/core/typeSystem/types/lambda_builtin.h"
 
-#include "lcpp/core/typeSystem/types/syntax_builtinFunctions.h"
+#include "lcpp/core/builtins/syntax_builtinFunctions.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
