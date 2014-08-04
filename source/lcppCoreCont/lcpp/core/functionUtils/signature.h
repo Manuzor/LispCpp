@@ -10,7 +10,14 @@ namespace lcpp
 
     public:
 
+        static Signature create(ezUInt32 argMin, ezUInt32 argMax);
+        static Signature create(ezUInt32 argCount);
+
+    public:
+
         ezUInt32 m_argCountMin;
         ezUInt32 m_argCountMax;
     };
 }
+
+#include "lcpp/core/functionUtils/impl/signature.inl"

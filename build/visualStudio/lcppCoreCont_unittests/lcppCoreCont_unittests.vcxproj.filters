@@ -22,6 +22,9 @@
     <Filter Include="lcpp\core\typeSystem\types">
       <UniqueIdentifier>{1b9d66ce-9ffd-4c9d-aa19-448e2445d59e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\builtins">
+      <UniqueIdentifier>{2b35c7da-4764-455a-add3-43f1c212aa2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\stdafx.h" />
@@ -108,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_syntax.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\builtins\test_lambda_builtinFunctions.cpp">
+      <Filter>lcpp\core\builtins</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
