@@ -23,12 +23,39 @@
 #include "lcpp/foundation/ptr.h"
 
 #define LCPP_NEW(allocator, type)                   EZ_NEW(allocator, type)
-#define LCPP_NEW_ARRAY(allocator, type)             EZ_NEW_ARRAY(allocator, type)
+#define LCPP_NEW_ARRAY(allocator, type, count)      EZ_NEW_ARRAY(allocator, type, count)
 #define LCPP_NEW_RAW_BUFFER(allocator, type, count) EZ_NEW_RAW_BUFFER(allocator, type, count)
 
-#define LCPP_DELETE(allocator, ptr)            ezInternal::Delete(allocator, ptr)
-#define LCPP_DELETE_ARRAY(allocator, ptr)      ezInternal::DeleteArray(allocator, ptr)
-#define LCPP_DELETE_RAW_BUFFER(allocator, ptr) ezInternal::DeleteRawBuffer(allocator, ptr)
+namespace lcpp
+{
+    template<typename T>
+    EZ_FORCE_INLINE
+    void deleteHelper(Ptr<ezAllocatorBase> pAllocator, Ptr<T>& pMem)
+    {
+        ezInternal::Delete(pAllocator.get(), pMem.get());
+        pMem = nullptr;
+    }
+
+    template<typename T>
+    EZ_FORCE_INLINE
+    void deleteArrayHelper(Ptr<ezAllocatorBase> pAllocator, Ptr<T>& pMem)
+    {
+        ezInternal::DeleteArray(pAllocator.get(), pMem.get());
+        pMem = nullptr;
+    }
+
+    template<typename T>
+    EZ_FORCE_INLINE
+        void deleteRawBufferHelper(Ptr<ezAllocatorBase> pAllocator, Ptr<T>& pMem)
+    {
+        ezInternal::DeleteRawBuffer(pAllocator.get(), pMem.get());
+        pMem = nullptr;
+    }
+}
+
+#define LCPP_DELETE(pAllocator, pMem)            deleteHelper(pAllocator, pMem)
+#define LCPP_DELETE_ARRAY(pAllocator, pMem)      deleteArrayHelper(pAllocator, pMem)
+#define LCPP_DELETE_RAW_BUFFER(pAllocator, pMem) deleteRawBufferHelper(pAllocator, pMem)
 
 #define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()

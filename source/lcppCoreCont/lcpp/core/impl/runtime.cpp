@@ -62,7 +62,7 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-    LCPP_DELETE(m_pAllocator.get(), m_pReaderState.get());
+    LCPP_DELETE(m_pAllocator, m_pReaderState);
 }
 
 void

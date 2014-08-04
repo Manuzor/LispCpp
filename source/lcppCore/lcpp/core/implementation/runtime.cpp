@@ -85,14 +85,14 @@ lcpp::LispRuntime::initialize()
 void
 lcpp::LispRuntime::shutdown()
 {
-    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.pIntegers.get());
-    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.pSymbols.get());
+    LCPP_DELETE(m_pAllocator, m_instanceTables.pIntegers);
+    LCPP_DELETE(m_pAllocator, m_instanceTables.pSymbols);
 
-    LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());
-    LCPP_DELETE(m_pAllocator.get(), m_pSyntaxEnvironment.get());
+    LCPP_DELETE(m_pAllocator, m_pGlobalEnvironment);
+    LCPP_DELETE(m_pAllocator, m_pSyntaxEnvironment);
 
-    LCPP_DELETE(m_pAllocator.get(), m_pEvaluator.get());
-    LCPP_DELETE(m_pAllocator.get(), m_pReader.get());
+    LCPP_DELETE(m_pAllocator, m_pEvaluator);
+    LCPP_DELETE(m_pAllocator, m_pReader);
 }
 
 void
