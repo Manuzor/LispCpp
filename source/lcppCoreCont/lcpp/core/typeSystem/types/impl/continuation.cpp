@@ -44,6 +44,7 @@ namespace lcpp
             new (data.m_pParent) Ptr<LispObject>(pParent);
             data.m_pFunction = pFunction;
             new (data.m_stack) Stack();
+            data.m_userData = UserData_t();
 
             return pInstance;
         }
@@ -101,6 +102,20 @@ namespace lcpp
             typeCheck(pCont, Type::Continuation);
 
             return &pCont->m_cont.getStack();
+        }
+
+        UserData_t& getUserData(Ptr<LispObject> pCont)
+        {
+            typeCheck(pCont, Type::Continuation);
+
+            return pCont->m_cont.getUserData();
+        }
+
+        void setUserData(Ptr<LispObject> pCont, UserData_t userData)
+        {
+            typeCheck(pCont, Type::Continuation);
+
+             pCont->m_cont.getUserData() = userData;
         }
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)

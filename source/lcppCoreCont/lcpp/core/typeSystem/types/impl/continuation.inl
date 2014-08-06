@@ -33,6 +33,12 @@ namespace lcpp
             return reinterpret_cast<Stack&>(m_stack);
         }
 
+        EZ_FORCE_INLINE
+        UserData_t& Data::getUserData()
+        {
+            return m_userData;
+        }
+
         namespace detail
         {
             EZ_FORCE_INLINE

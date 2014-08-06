@@ -10,6 +10,7 @@ namespace lcpp
     namespace cont
     {
         typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
+        typedef ezUInt32 UserData_t;
 
         //////////////////////////////////////////////////////////////////////////
 
@@ -32,12 +33,15 @@ namespace lcpp
 
             Stack& getStack();
 
+            UserData_t& getUserData();
+
         public:
 
             LCPP_DeclareRawDataMember(Ptr<LispRuntimeState>, m_pRuntimeState);
             LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
             Function_t m_pFunction;
             LCPP_DeclareRawDataMember(Stack, m_stack);
+            UserData_t m_userData;
         };
 
         //////////////////////////////////////////////////////////////////////////
@@ -51,6 +55,9 @@ namespace lcpp
         LCPP_API_CORE_CONT void setFunction(Ptr<LispObject> pCont, Function_t pFunction);
 
         LCPP_API_CORE_CONT Ptr<Stack> getStack(Ptr<LispObject> pCont);
+
+        LCPP_API_CORE_CONT UserData_t& getUserData(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT void setUserData(Ptr<LispObject> pCont, UserData_t userData);
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
 

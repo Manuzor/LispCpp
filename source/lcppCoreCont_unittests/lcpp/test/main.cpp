@@ -30,6 +30,7 @@ int main(int argc, const char* argv[])
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
     testManager.disableUnitTestOrGroup("Lambda", "UserDefined");
+    testManager.disableUnitTestOrGroup("Lambda_BuiltinFunctions", "add");
 
     testManager.runAll();
 
