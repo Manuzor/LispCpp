@@ -10,6 +10,8 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/objectUtils.h"
 
+#include "lcpp/core/ioUtils.h"
+
 namespace lcpp
 {
     namespace printer
@@ -30,10 +32,8 @@ namespace lcpp
             auto pOutput = pState->getPrinterState()->m_pOutStream;
 
             auto pArg = pStack->get(-1);
-            auto pString = toString(pArg);
 
-            *pOutput << str::getValue(pString);
-            pOutput->Flush();
+            *pOutput << pArg;
 
             LCPP_cont_return(pCont, LCPP_pVoid);
         }

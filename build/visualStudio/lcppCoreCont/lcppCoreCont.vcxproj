@@ -73,7 +73,6 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\syntax_builtinFunctions.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\evaluator.cpp" />
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printer.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
@@ -104,6 +103,7 @@
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\impl\signature.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printerState.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\readerState.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl" />

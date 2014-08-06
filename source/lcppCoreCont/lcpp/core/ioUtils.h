@@ -10,3 +10,5 @@ namespace lcpp
         virtual ezResult Flush() override;
     };
 }
+
+#include "lcpp/core/impl/ioUtils.inl"

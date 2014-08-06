@@ -263,9 +263,6 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printer.cpp">
       <Filter>lcpp\core\impl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.cpp">
-      <Filter>lcpp\core\impl</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
@@ -353,6 +350,9 @@
       <Filter>lcpp\core\functionUtils\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printerState.inl">
+      <Filter>lcpp\core\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.inl">
       <Filter>lcpp\core\impl</Filter>
     </None>
   </ItemGroup>
