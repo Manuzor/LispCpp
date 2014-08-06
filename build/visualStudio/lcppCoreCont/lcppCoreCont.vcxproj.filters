@@ -43,6 +43,9 @@
     <Filter Include="lcpp\core\functionUtils\impl">
       <UniqueIdentifier>{619d6528-05ff-462b-9849-7f3ad7a1fdcf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\dependencies">
+      <UniqueIdentifier>{326b1269-f2a0-4038-ac80-6a0c1a62352a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\signature.h">
       <Filter>lcpp\core\functionUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies\ezEngine.h">
+      <Filter>lcpp\core\dependencies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

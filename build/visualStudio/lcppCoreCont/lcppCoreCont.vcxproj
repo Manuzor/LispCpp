@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\evaluator.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\contractViolationException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\invalidInputException.h" />
