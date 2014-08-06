@@ -107,6 +107,7 @@ inline
 T*
 lcpp::Ptr<T>::operator ->() const
 {
+    EZ_ASSERT(m_pPtr, "Accessing nullptr!");
     return m_pPtr;
 }
 
@@ -115,6 +116,7 @@ inline
 T&
 lcpp::Ptr<T>::operator *() const
 {
+    EZ_ASSERT(m_pPtr, "Dereferencing nullptr!");
     return *m_pPtr;
 }
 
