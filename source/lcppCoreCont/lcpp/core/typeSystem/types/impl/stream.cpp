@@ -71,7 +71,8 @@ namespace lcpp
                 return EndOfStream;
             }
 
-            return iterator.GetData() - iterator.GetStart();
+            auto position = ptrdiff_t(iterator.GetData() - iterator.GetStart());
+            return ezUInt32(position);
         }
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)

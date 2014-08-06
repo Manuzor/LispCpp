@@ -109,7 +109,7 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
-                auto& index = cont::getUserData(pCont);
+                auto index = ezInt32(cont::getUserData(pCont));
 
                 // On top of the stack lies the callable object, which should not be evaluated.
                 const auto maxIndex = pStack->size() - 2;
@@ -133,14 +133,14 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
-                auto& index = cont::getUserData(pCont);
+                auto index = ezInt32(cont::getUserData(pCont));
 
                 auto pEvaluatedArg = pStack->get(-1);
                 pStack->pop();
 
                 pStack->get(index) = pEvaluatedArg;
 
-                ++index;
+                cont::setUserData(pCont, index + 1);
 
                 LCPP_cont_tailCall(pCont, evaluateCallable_evalEach);
             }
