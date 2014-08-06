@@ -12,4 +12,9 @@ namespace lcpp
     {
         return { argCount, argCount };
     }
+    EZ_FORCE_INLINE
+    Signature Signature::createVarArg(ezUInt32 argMin)
+    {
+        return { argMin, VarArg };
+    }
 }

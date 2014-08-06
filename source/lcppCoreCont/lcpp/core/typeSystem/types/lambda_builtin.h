@@ -44,7 +44,7 @@ namespace lcpp
             //////////////////////////////////////////////////////////////////////////
 
             LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT void checkArguments(Ptr<LispObject> pLambda, Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<Signature> getSignature(Ptr<LispObject> pSyntax);
 

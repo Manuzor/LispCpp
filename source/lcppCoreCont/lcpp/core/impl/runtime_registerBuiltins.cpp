@@ -53,7 +53,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
 
     // Builtin functions.
     //////////////////////////////////////////////////////////////////////////
-    LCPP_AddBuiltin("+", &lambda::builtin::add, Signature::create(1));
+    LCPP_AddBuiltin("+", &lambda::builtin::add, Signature::createVarArg());
 
 }
 

@@ -12,6 +12,7 @@ namespace lcpp
 
         static Signature create(ezUInt32 argMin, ezUInt32 argMax);
         static Signature create(ezUInt32 argCount);
+        static Signature createVarArg(ezUInt32 argMin = 0);
 
     public:
 

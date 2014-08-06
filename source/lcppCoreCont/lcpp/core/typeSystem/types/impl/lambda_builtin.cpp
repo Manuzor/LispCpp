@@ -57,19 +57,19 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, pFunction);
             }
 
-            void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont)
+            void checkArguments(Ptr<LispObject> pLambda, Ptr<LispObject> pCont)
             {
-                typeCheck(pSyntax, Type::Lambda);
-                attributeCheckAny(pSyntax, AttributeFlags::Builtin);
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
 
                 auto argCount = pStack->size();
-                auto pSignature = getSignature(pSyntax);
+                auto pSignature = getSignature(pLambda);
                 auto argMin = pSignature->m_argCountMin;
-                auto argMax = pSignature->m_argCountMin;
+                auto argMax = pSignature->m_argCountMax;
 
                 if(argMin == Signature::VarArg
                    || argCount >= argMin && argCount <= argMax)
