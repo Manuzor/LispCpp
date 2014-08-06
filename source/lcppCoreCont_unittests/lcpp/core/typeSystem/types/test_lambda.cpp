@@ -91,6 +91,8 @@ LCPP_TestCase(Lambda, UserDefined)
 
     auto pResult = LCPP_pFalse;
 
+    CUT_ASSERT.notImplemented("lambda::userDefined::call is not implemented yet.");
+
     {
         auto pContMain = cont::createTopLevel(pState);
         auto pContCall = cont::create(pContMain, &call);

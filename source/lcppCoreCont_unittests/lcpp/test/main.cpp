@@ -29,9 +29,6 @@ int main(int argc, const char* argv[])
     testManager.initializeFunction() = []{ lcpp::startup(); };
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
-    testManager.disableUnitTestOrGroup("Lambda", "UserDefined");
-    testManager.disableUnitTestOrGroup("Lambda_BuiltinFunctions", "add");
-
     testManager.runAll();
 
     auto& stats = testManager.statistics();

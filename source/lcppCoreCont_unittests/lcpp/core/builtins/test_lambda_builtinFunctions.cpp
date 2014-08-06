@@ -47,6 +47,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, add)
     CUT_ASSERT.isTrue(lambda::builtin::getName(pResult) == symbol::create("+"));
 
     //////////////////////////////////////////////////////////////////////////
+    CUT_ASSERT.notImplemented("Evaluator does not support evaluating builtin lambdas yet.");
     
     pResult = evalString("(+ 1 2)");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 3);
