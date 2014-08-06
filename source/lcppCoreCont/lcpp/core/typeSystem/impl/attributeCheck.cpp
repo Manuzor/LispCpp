@@ -12,7 +12,7 @@ namespace lcpp
     {
         EZ_ASSERT(pObject, "Invalid object pointer.");
 
-        auto& actualFlags = object::getMetaInfo(pObject).getAttributes();
+        auto& actualFlags = object::getAttributes(pObject);
 
         if(actualFlags != expectedFlags)
         {
@@ -24,7 +24,7 @@ namespace lcpp
     {
         EZ_ASSERT(pObject, "Invalid object pointer.");
 
-        auto& actualFlags = object::getMetaInfo(pObject).getAttributes();
+        auto& actualFlags = object::getAttributes(pObject);
 
         if((actualFlags.getFlags() & expectedFlags.getFlags()) == 0)
         {
@@ -36,7 +36,7 @@ namespace lcpp
     {
         EZ_ASSERT(pObject, "Invalid object pointer.");
 
-        auto& actualFlags = object::getMetaInfo(pObject).getAttributes();
+        auto& actualFlags = object::getAttributes(pObject);
 
         if((actualFlags.getFlags() & expectedFlags.getFlags()) != 0)
         {

@@ -6,6 +6,7 @@ namespace lcpp
     class LispObject;
     class MetaInfo;
     class Type;
+    class AttributeFlags;
 
     namespace object
     {
@@ -15,6 +16,7 @@ namespace lcpp
         LCPP_API_CORE_CONT bool isType(Ptr<LispObject> pObject, const Type& type);
 
         LCPP_API_CORE_CONT const Type& getType(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT const AttributeFlags& getAttributes(Ptr<LispObject> pObject);
 
         LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(Ptr<LispObject> pObject);
 

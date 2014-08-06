@@ -23,6 +23,13 @@ namespace lcpp
             return pObject->m_header.m_pMetaInfo->getType();
         }
 
+        const AttributeFlags& getAttributes(Ptr<LispObject> pObject)
+        {
+            EZ_ASSERT(pObject, "Invalid object.");
+            EZ_ASSERT(pObject->m_header.m_pMetaInfo, "No valid type info.");
+            return pObject->m_header.m_pMetaInfo->getAttributes();
+        }
+
         const MetaInfo& getMetaInfo(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(pObject, "Invalid object.");
@@ -38,17 +45,17 @@ namespace lcpp
 
         bool isCallable(Ptr<LispObject> pObject)
         {
-            return getMetaInfo(pObject).getAttributes().isCallable();
+            return getAttributes(pObject).isCallable();
         }
 
         bool isBuiltin(Ptr<LispObject> pObject)
         {
-            return getMetaInfo(pObject).getAttributes().isBuiltin();
+            return getAttributes(pObject).isBuiltin();
         }
 
         bool isNameable(Ptr<LispObject> pObject)
         {
-            return getMetaInfo(pObject).getAttributes().isNameable();
+            return getAttributes(pObject).isNameable();
         }
 
         Ptr<LispObject> call(Ptr<LispObject> pCont)
@@ -171,5 +178,6 @@ namespace lcpp
             EZ_REPORT_FAILURE("Unsupported type for getName.");
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
+
     }
 }
