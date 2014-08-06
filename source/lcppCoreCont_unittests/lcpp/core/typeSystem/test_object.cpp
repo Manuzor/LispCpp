@@ -1,6 +1,14 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/type.h"
+
 #include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 
 LCPP_TestGroup(Object);
 
@@ -8,9 +16,9 @@ LCPP_TestCase(Object, Basics)
 {
     auto pObject = LCPP_pNil;
 
-    CUT_ASSERT.isTrue(pObject->isType(Type::Nil));
-    CUT_ASSERT.isTrue(pObject->getType() == Type(Type::Nil));
-    CUT_ASSERT.isTrue(pObject->getMetaInfo().getType() == pObject->getType());
+    CUT_ASSERT.isTrue(object::isType(pObject, Type::Nil));
+    CUT_ASSERT.isTrue(object::getType(pObject) == Type(Type::Nil));
+    CUT_ASSERT.isTrue(object::getMetaInfo(pObject).getType() == object::getType(pObject));
 }
 
 LCPP_TestCase(Object, AllTypes)

@@ -3,6 +3,8 @@
 #include "lcpp/core/typeSystem/types/string.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
+#include "lcpp/core/typeSystem/objectData.h"
 
 namespace lcpp
 {
@@ -17,7 +19,7 @@ namespace lcpp
 
         Ptr<LispObject> create(const String& value)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
 
             new (pInstance->m_string.m_pRawData) String(value);
 

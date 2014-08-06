@@ -3,7 +3,9 @@
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
+#include "lcpp/core/typeSystem/types/stream.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 
 LCPP_TestGroup(Stream);
 
@@ -13,7 +15,7 @@ LCPP_TestCase(Stream, Basics)
     auto pStream = stream::create(content.GetIteratorFront());
 
     CUT_ASSERT.isTrue(pStream);
-    CUT_ASSERT.isTrue(pStream->isType(Type::Stream));
+    CUT_ASSERT.isTrue(object::isType(pStream, Type::Stream));
     CUT_ASSERT.isTrue(stream::isValid(pStream));
     CUT_ASSERT.isTrue(stream::getCharacter(pStream) == 'a');
     CUT_ASSERT.isTrue(stream::next(pStream) == 'b');
@@ -64,18 +66,18 @@ LCPP_TestCase(Stream, toString)
     auto pStream = stream::create(content.GetIteratorFront());
     auto pString = LCPP_pNil;
 
-    pString = toString(pStream);
+    pString = object::toString(pStream);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at 0: \"abcdef\">"));
 
     stream::next(pStream);
     stream::next(pStream);
-    pString = toString(pStream);
+    pString = object::toString(pStream);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at 2: \"cdef\">"));
 
     stream::next(pStream);
     stream::next(pStream);
     stream::next(pStream);
     stream::next(pStream);
-    pString = toString(pStream);
+    pString = object::toString(pStream);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at end>"));
 }

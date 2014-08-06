@@ -3,7 +3,7 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/reader.h"
 
-#include "lcpp/core/typeSystem/objectUtils.h"
+#include "lcpp/core/typeSystem/object.h"
 
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/environment.h"
@@ -32,7 +32,7 @@
         auto pName = symbol::create(szName);                                                 \
         auto pBuiltin = lambda::builtin::create(m_pGlobalEnvironment, pFunction, signature); \
         env::addBinding(m_pGlobalEnvironment, pName, pBuiltin);                              \
-        if(!hasName(pBuiltin)) { setName(pBuiltin, pName); }                                 \
+        if(!object::hasName(pBuiltin)) { object::setName(pBuiltin, pName); }                 \
     } while(false)
 
 void lcpp::LispRuntimeState::registerBuiltIns()

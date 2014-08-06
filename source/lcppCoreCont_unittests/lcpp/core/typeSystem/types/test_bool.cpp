@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/types/bool.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
+#include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 LCPP_TestGroup(Bool);
 
@@ -23,8 +23,8 @@ LCPP_TestCase(Bool, Basics)
     CUT_ASSERT.isTrue(pFalse == LCPP_pFalse);
     CUT_ASSERT.isFalse(pTrue == LCPP_pFalse);
 
-    CUT_ASSERT.isTrue(pTrue->isType(Type::True));
-    CUT_ASSERT.isTrue(pFalse->isType(Type::False));
+    CUT_ASSERT.isTrue(object::isType(pTrue, Type::True));
+    CUT_ASSERT.isTrue(object::isType(pFalse, Type::False));
 }
 
 LCPP_TestCase(Bool, isTrue)
@@ -41,6 +41,6 @@ LCPP_TestCase(Bool, isFalse)
 
 LCPP_TestCase(Bool, toString)
 {
-    CUT_ASSERT.isTrue(str::getValue(toString(LCPP_pTrue)).IsEqual("#t"));
-    CUT_ASSERT.isTrue(str::getValue(toString(LCPP_pFalse)).IsEqual("#f"));
+    CUT_ASSERT.isTrue(str::getValue(object::toString(LCPP_pTrue)).IsEqual("#t"));
+    CUT_ASSERT.isTrue(str::getValue(object::toString(LCPP_pFalse)).IsEqual("#f"));
 }

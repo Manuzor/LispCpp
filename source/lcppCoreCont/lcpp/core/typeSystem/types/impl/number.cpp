@@ -4,6 +4,9 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
+#include "lcpp/core/typeSystem/objectData.h"
+#include "lcpp/core/typeSystem/object.h"
 
 #include "lcpp/foundation/conversion.h"
 
@@ -25,7 +28,7 @@ namespace lcpp
 
         Ptr<LispObject> create(Integer_t value)
         {
-            auto pInstance = LispObject::create<Integer_t>(metaInfoInteger());
+            auto pInstance = object::create<Integer_t>(metaInfoInteger());
 
             pInstance->m_integer = value;
 
@@ -34,7 +37,7 @@ namespace lcpp
 
         Ptr<LispObject> create(Float_t value)
         {
-            auto pInstance = LispObject::create<Float_t>(metaInfoFloat());
+            auto pInstance = object::create<Float_t>(metaInfoFloat());
 
             pInstance->m_float = value;
 
@@ -61,7 +64,7 @@ namespace lcpp
 
             auto stringValue = String();
 
-            if (pObject->isType(Type::Integer))
+            if(object::isType(pObject, Type::Integer))
             {
                 stringValue = lcpp::toString(getInteger(pObject));
             }

@@ -1,11 +1,22 @@
 #include "stdafx.h"
 #include "lcpp/core/reader.h"
-#include "lcpp/core/typeSystem/object.h"
-
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/builtins/syntax_builtinFunctions.h"
+#include "lcpp/core/functionUtils/signature.h"
+
+#include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/builtins//syntax_builtinFunctions.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/stream.h"
+#include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
 
 namespace lcpp
 {

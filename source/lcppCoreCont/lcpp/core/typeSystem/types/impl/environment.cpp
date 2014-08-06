@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
-#include "lcpp/core/runtime.h"
 #include "lcpp/core/containers/stack.h"
 
 namespace lcpp
@@ -21,7 +21,7 @@ namespace lcpp
         Ptr<LispObject> create(Ptr<LispObject> pName,
                                Ptr<LispObject> pParent)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
 
             auto& data = pInstance->m_env;
 

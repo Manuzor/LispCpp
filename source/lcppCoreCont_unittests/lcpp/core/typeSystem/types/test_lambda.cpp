@@ -1,10 +1,22 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
 #include "lcpp/core/runtime.h"
+
+#include "lcpp/core/functionUtils/signature.h"
+
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 namespace lcpp
 {
@@ -34,7 +46,7 @@ LCPP_TestCase(Lambda, Builtin)
 
     {
         auto pContMain = cont::createTopLevel(pState);
-        auto pContCall = cont::create(pContMain, &call);
+        auto pContCall = cont::create(pContMain, &object::call);
         cont::getStack(pContCall)->push(pLambda);
 
         cont::trampoline(pContCall);
@@ -69,13 +81,13 @@ LCPP_TestCase(Lambda, Builtin_toString)
 
     auto pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
 
-    auto pString = toString(pLambda);
+    auto pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure>"));
 
     lambda::builtin::setName(pLambda, symbol::create("this-is-a-name"));
 
-    pString = toString(pLambda);
+    pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure: this-is-a-name>"));
 }
@@ -95,7 +107,7 @@ LCPP_TestCase(Lambda, UserDefined)
 
     {
         auto pContMain = cont::createTopLevel(pState);
-        auto pContCall = cont::create(pContMain, &call);
+        auto pContCall = cont::create(pContMain, &object::call);
         cont::getStack(pContCall)->push(pLambda);
 
         cont::trampoline(pContCall);
@@ -115,13 +127,13 @@ LCPP_TestCase(Lambda, UserDefined_toString)
 
     auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
 
-    auto pString = toString(pLambda);
+    auto pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure>"));
 
     lambda::userDefined::setName(pLambda, symbol::create("this-is-the-name"));
 
-    pString = toString(pLambda);
+    pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure: this-is-the-name>"));
 }

@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
@@ -22,11 +23,11 @@ namespace lcpp
                 return meta;
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Function_t pFunction, const Signature& signature)
+            Ptr<LispObject> create(Ptr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
             {
                 typeCheck(pParentEnv, Type::Environment);
 
-                auto pInstance = LispObject::create<Data>(metaInfo());
+                auto pInstance = object::create<Data>(metaInfo());
                 auto& data = pInstance->m_lambda_builtin;
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);

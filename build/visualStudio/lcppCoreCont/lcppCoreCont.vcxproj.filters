@@ -52,9 +52,6 @@
       <Filter>lcpp\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\stdafx.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h">
-      <Filter>lcpp\core\typeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\bool.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
@@ -145,9 +142,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectUtils.h">
-      <Filter>lcpp\core\typeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\contractViolationException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
@@ -186,6 +180,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\ioUtils.h">
       <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectData.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h">
+      <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -233,9 +233,6 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.cpp">
-      <Filter>lcpp\core\typeSystem\impl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_builtin.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
@@ -263,11 +260,11 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printer.cpp">
       <Filter>lcpp\core\impl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.cpp">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
-      <Filter>lcpp\core\typeSystem\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
@@ -328,9 +325,6 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.inl">
-      <Filter>lcpp\core\typeSystem\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_builtin.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
@@ -354,6 +348,12 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.inl">
       <Filter>lcpp\core\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectData.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
+      <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

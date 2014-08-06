@@ -12,7 +12,7 @@ namespace lcpp
     {
         EZ_ASSERT_ALWAYS(pObject, "Invalid object pointer.");
 
-        auto& actualType = pObject->getType();
+        auto& actualType = object::getType(pObject);
         if(actualType != expectedType)
         {
             auto message = ezStringBuilder();
@@ -27,7 +27,7 @@ namespace lcpp
     {
         EZ_ASSERT_ALWAYS(pObject, "Invalid object pointer.");
 
-        auto& actualType = pObject->getType();
+        auto& actualType = object::getType(pObject);
         if(actualType != expectedType1 && actualType != expectedType2)
         {
             auto message = ezStringBuilder();

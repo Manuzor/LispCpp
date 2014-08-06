@@ -5,8 +5,10 @@
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 LCPP_TestGroup(Environment);
 
@@ -14,7 +16,7 @@ LCPP_TestCase(Environment, Basics)
 {
     auto pEnv = env::createTopLevel(symbol::create("env"));
 
-    CUT_ASSERT.isTrue(pEnv->isType(Type::Environment));
+    CUT_ASSERT.isTrue(object::isType(pEnv, Type::Environment));
 }
 
 LCPP_TestCase(Environment, getName)

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attribute.h"
@@ -9,6 +8,12 @@
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/exceptions/noBindingFoundException.h"
+
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -29,7 +34,7 @@ namespace lcpp
 
             //////////////////////////////////////////////////////////////////////////
 
-            if (pToEval->isType(Type::Symbol))
+            if(object::isType(pToEval, Type::Symbol))
             {
                 auto pResult = LCPP_pNil;
                 auto result = env::getBinding(pEnv, pToEval, pResult);
@@ -46,7 +51,7 @@ namespace lcpp
                 LCPP_THROW(exceptions::NoBindingFound(message.GetData()));
             }
 
-            if (!pToEval->isType(Type::Cons))
+            if(!object::isType(pToEval, Type::Cons))
             {
                 // Object evaluates to itself.
                 LCPP_cont_return(pCont, pToEval);
@@ -79,7 +84,7 @@ namespace lcpp
 
                 //////////////////////////////////////////////////////////////////////////
 
-                if (pToCall->isType(Type::Syntax))
+                if(object::isType(pToCall, Type::Syntax))
                 {
                     // Assumed syntax signature: <env> [<arg>...]
 
@@ -88,7 +93,7 @@ namespace lcpp
 
                     // Push the object to call for lcpp::call
                     pStack->push(pToCall);
-                    LCPP_cont_tailCall(pCont, &call);
+                    LCPP_cont_tailCall(pCont, &object::call);
                 }
 
                 // If it is not syntax, then it must be of Type::Lambda
@@ -118,7 +123,7 @@ namespace lcpp
                 {
                     // Pop pEnv from the stack; it is no longer needed.
                     pStack->pop();
-                    LCPP_cont_tailCall(pCont, &call);
+                    LCPP_cont_tailCall(pCont, &object::call);
                 }
                 
                 auto pArg = pStack->get(index);

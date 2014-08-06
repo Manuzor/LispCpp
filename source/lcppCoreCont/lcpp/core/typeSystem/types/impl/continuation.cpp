@@ -3,6 +3,10 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectData.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+
 #include "lcpp/core/runtime.h"
 
 namespace lcpp
@@ -22,7 +26,7 @@ namespace lcpp
 
         Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
             auto& data = pInstance->m_cont;
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(pRuntimeState);
@@ -37,7 +41,7 @@ namespace lcpp
         {
             typeCheck(pParent, Type::Continuation);
 
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
             auto& data = pInstance->m_cont;
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(getRuntimeState(pParent));

@@ -3,9 +3,12 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
 
 namespace lcpp
 {
@@ -27,7 +30,7 @@ namespace lcpp
                 EZ_ASSERT(pFunction, "Invalid function pointer.");
                 EZ_ASSERT(signature.m_argCountMin <= signature.m_argCountMax, "Invalid virtual signature.");
 
-                auto pInstance = LispObject::create<Data>(metaInfo());
+                auto pInstance = object::create<Data>(metaInfo());
                 auto& data = pInstance->m_syntax_builtin;
 
                 data.m_signature = signature;

@@ -1,9 +1,11 @@
 #include "stdafx.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
+#include "lcpp/core/typeSystem/objectData.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
@@ -19,7 +21,7 @@ namespace lcpp
 
         Ptr<LispObject> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
             auto& data = pInstance->m_cons;
 
             new (data.m_pCar) Ptr<LispObject>(pCar);
@@ -69,7 +71,7 @@ namespace lcpp
             }
             else
             {
-                builder.Append(str::getValue(lcpp::toString(pCar)).GetData());
+                builder.Append(str::getValue(object::toString(pCar)).GetData());
             }
 
             auto pCdr = getCdr(pCons);
@@ -87,7 +89,7 @@ namespace lcpp
             }
             else
             {
-                builder.AppendFormat(". %s", str::getValue(lcpp::toString(pCdr)).GetData());
+                builder.AppendFormat(". %s", str::getValue(object::toString(pCdr)).GetData());
             }
         }
 
@@ -106,7 +108,7 @@ namespace lcpp
 
     bool isCons(Ptr<LispObject> pObject)
     {
-        return pObject->isType(Type::Cons);
+        return object::isType(pObject, Type::Cons);
     }
 
 }

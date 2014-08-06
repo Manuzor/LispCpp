@@ -8,7 +8,16 @@
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/types/environment.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
+#include "lcpp/core/typeSystem/object.h"
+
+#include "lcpp/core/typeSystem/types/stream.h"
+#include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 namespace lcpp
 {
@@ -37,7 +46,7 @@ namespace lcpp
             if(env::getBinding(pState->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
             {
                 pStack->push(pCharacterHandler);
-                LCPP_cont_tailCall(pCont, &call);
+                LCPP_cont_tailCall(pCont, &object::call);
             }
 
             switch(stream::getCharacter(pStream))
@@ -67,16 +76,16 @@ namespace lcpp
                 LCPP_THROW(exceptions::InvalidInput("Cannot add a character macro when more than 1 character is given!"));
             }
 
-            if (!isCallable(pLambda))
+            if(!object::isCallable(pLambda))
             {
                 LCPP_THROW(exceptions::InvalidInput("The object the character macro's character is bound to must be callable!"));
             }
 
             env::addBinding(pEnv, pCharacter, pLambda);
 
-            if(!hasName(pLambda))
+            if(!object::hasName(pLambda))
             {
-                setName(pLambda, pCharacter);
+                object::setName(pLambda, pCharacter);
             }
         }
 
@@ -87,9 +96,9 @@ namespace lcpp
 
             env::addBinding(pState->getSyntaxEnvironment(), pSymbol, pSyntax);
 
-            if (!hasName(pSyntax))
+            if(!object::hasName(pSyntax))
             {
-                setName(pSyntax, pSymbol);
+                object::setName(pSyntax, pSymbol);
             }
         }
 
@@ -297,7 +306,7 @@ namespace lcpp
 
                 auto& pCar = pStack->get(1);
 
-                if(pCar->isType(Type::Symbol))
+                if(object::isType(pCar, Type::Symbol))
                 {
                     auto pSyntax = LCPP_pNil;
 

@@ -1,10 +1,12 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
-
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
+
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
@@ -37,7 +39,7 @@ LCPP_TestGroup(Continuation);
 LCPP_TestCase(Continuation, Basics)
 {
     auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-    CUT_ASSERT.isTrue(pContMain->isType(Type::Continuation));
+    CUT_ASSERT.isTrue(object::isType(pContMain, Type::Continuation));
 
     auto pContChild = cont::create(pContMain, &accumulator);
 
@@ -63,9 +65,9 @@ LCPP_TestCase(Continuation, toString)
 
     auto pString = LCPP_pNil;
 
-    pString = toString(pContRoot);
+    pString = object::toString(pContRoot);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<continuation>"));
 
-    pString = toString(pContChild);
+    pString = object::toString(pContChild);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<continuation>"));
 }

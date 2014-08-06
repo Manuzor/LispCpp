@@ -2,6 +2,7 @@
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/attribute.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 
 namespace lcpp
 {
@@ -11,7 +12,7 @@ namespace lcpp
     {
         EZ_ASSERT(pObject, "Invalid object pointer.");
 
-        auto& actualFlags = pObject->getMetaInfo().getAttributes();
+        auto& actualFlags = object::getMetaInfo(pObject).getAttributes();
 
         if(actualFlags != expectedFlags)
         {
@@ -23,7 +24,7 @@ namespace lcpp
     {
         EZ_ASSERT(pObject, "Invalid object pointer.");
 
-        auto& actualFlags = pObject->getMetaInfo().getAttributes();
+        auto& actualFlags = object::getMetaInfo(pObject).getAttributes();
 
         if((actualFlags.getFlags() & expectedFlags.getFlags()) == 0)
         {
@@ -35,7 +36,7 @@ namespace lcpp
     {
         EZ_ASSERT(pObject, "Invalid object pointer.");
 
-        auto& actualFlags = pObject->getMetaInfo().getAttributes();
+        auto& actualFlags = object::getMetaInfo(pObject).getAttributes();
 
         if((actualFlags.getFlags() & expectedFlags.getFlags()) != 0)
         {

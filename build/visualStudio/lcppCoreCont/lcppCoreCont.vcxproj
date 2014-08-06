@@ -45,9 +45,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attributeCheck.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypes.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectUtils.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\type.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\type.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\metaInfo.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeCheck.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\bool.h" />
@@ -78,7 +78,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.cpp" />
-    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.cpp" />
@@ -112,9 +112,9 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectUtils.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\objectData.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.inl" />

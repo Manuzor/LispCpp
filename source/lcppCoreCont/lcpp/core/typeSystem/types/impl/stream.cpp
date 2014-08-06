@@ -4,6 +4,7 @@
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/objectData.h"
 
 #include "lcpp/core/runtime.h"
 
@@ -19,7 +20,7 @@ namespace lcpp
 
         Ptr<LispObject> create(ezStringIterator& iterator)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
 
             auto& data = pInstance->m_stream;
 

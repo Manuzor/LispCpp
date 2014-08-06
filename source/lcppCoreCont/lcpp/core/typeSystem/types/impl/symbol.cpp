@@ -4,6 +4,7 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/containers/instanceTable.h"
+#include "lcpp/core/typeSystem/objectData.h"
 
 #include <Foundation/Memory/MemoryUtils.h>
 
@@ -27,7 +28,7 @@ namespace lcpp
 
         Ptr<LispObject> createNew(const String& value)
         {
-            auto pInstance = LispObject::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(metaInfo());
 
             new (pInstance->m_symbol.m_pRawData) String(value);
 

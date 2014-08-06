@@ -1,10 +1,16 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/exceptions/typeCheckFailedException.h"
+
+#include "lcpp/core/containers/stack.h"
+
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 LCPP_TestGroup(Cons);
 
@@ -12,7 +18,7 @@ LCPP_TestCase(Cons, Basics)
 {
     auto pCons = cons::create(LCPP_pNil, LCPP_pNil);
 
-    CUT_ASSERT.isTrue(pCons->isType(Type::Cons));
+    CUT_ASSERT.isTrue(object::isType(pCons, Type::Cons));
     CUT_ASSERT.isTrue(isNil(cons::getCar(pCons)));
     CUT_ASSERT.isTrue(isNil(cons::getCdr(pCons)));
 }
@@ -45,30 +51,30 @@ LCPP_TestCase(Cons, toString)
     auto theString = String();
 
     pCons = cons::create(LCPP_pNil, LCPP_pNil);
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("(())"));
 
     pCons = cons::create(number::create(42), LCPP_pNil);
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("(42)"));
 
     pCons = cons::create(number::create(42), number::create(1337));
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("(42 . 1337)"));
 
     pCons = cons::create(number::create(42), cons::create(number::create(1337), LCPP_pNil));
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("(42 1337)"));
 
     pCons = cons::create(number::create(42), cons::create(number::create(1337), number::create(666)));
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("(42 1337 . 666)"));
 
     pCons = cons::create(cons::create(number::create(42), number::create(1337)), LCPP_pNil);
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("((42 . 1337))"));
 
     pCons = cons::create(cons::create(number::create(42), LCPP_pNil), number::create(1337));
-    theString = str::getValue(toString(pCons));
+    theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("((42) . 1337)"));
 }

@@ -1,10 +1,11 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
-
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
+
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 LCPP_TestGroup(Number);
 
@@ -15,11 +16,11 @@ LCPP_TestCase(Number, Basics)
     auto pFloat_One = number::create(1.0);
     auto pFloat_Two = number::create(1.0f);
 
-    CUT_ASSERT.isTrue(pInteger_One->isType(Type::Integer));
-    CUT_ASSERT.isTrue(pInteger_Two->isType(Type::Integer));
+    CUT_ASSERT.isTrue(object::isType(pInteger_One, Type::Integer));
+    CUT_ASSERT.isTrue(object::isType(pInteger_Two, Type::Integer));
 
-    CUT_ASSERT.isTrue(pFloat_One->isType(Type::Float));
-    CUT_ASSERT.isTrue(pFloat_Two->isType(Type::Float));
+    CUT_ASSERT.isTrue(object::isType(pFloat_One, Type::Float));
+    CUT_ASSERT.isTrue(object::isType(pFloat_Two, Type::Float));
 }
 
 LCPP_TestCase(Number, getInteger)
@@ -41,9 +42,9 @@ LCPP_TestCase(Number, toString)
 
     auto pString = LCPP_pNil;
 
-    pString = toString(pInteger_42);
+    pString = object::toString(pInteger_42);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("42"));
 
-    pString = toString(pFloat_3_1415);
+    pString = object::toString(pFloat_3_1415);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("3.1415"));
 }

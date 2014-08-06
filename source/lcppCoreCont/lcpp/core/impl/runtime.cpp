@@ -7,6 +7,7 @@
 
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/containers/stack.h"
 
 #include "lcpp/core/ioUtils.h"

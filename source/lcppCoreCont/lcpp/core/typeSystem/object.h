@@ -1,60 +1,39 @@
 #pragma once
 
-#include "lcpp/core/typeSystem/type.h"
-#include "lcpp/core/typeSystem/metaInfo.h"
-
-#include "lcpp/core/typeSystem/includeAllTypes.h"
-
 namespace lcpp
 {
-    class LispObjectHeader
+    class LispObjectHeader;
+    class LispObject;
+    class MetaInfo;
+    class Type;
+
+    namespace object
     {
-    public:
-
-        Ptr<const MetaInfo> m_pMetaInfo;
-
-    };
-
-    class LCPP_API_CORE_CONT LispObject
-    {
-    public:
-
         template<typename T_Data>
-        static Ptr<LispObject> create(const MetaInfo& metaInfo);
+        Ptr<LispObject> create(const MetaInfo& metaInfo);
 
-    public:
+        LCPP_API_CORE_CONT bool isType(Ptr<LispObject> pObject, const Type& type);
 
-        LispObject(const MetaInfo& metaInfo);
+        LCPP_API_CORE_CONT const Type& getType(Ptr<LispObject> pObject);
 
-        bool isType(const Type& type) const;
-        const Type& getType() const;
+        LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(Ptr<LispObject> pObject);
 
-        const MetaInfo& getMetaInfo() const;
+        LCPP_API_CORE_CONT const LispObjectHeader& getHeader(Ptr<LispObject> pObject);
 
-        const LispObjectHeader& getHeader() const;
+        LCPP_API_CORE_CONT bool isCallable(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isBuiltin(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isNameable(Ptr<LispObject> pObject);
 
-    private:
+        LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
 
-        LispObjectHeader m_header;
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
 
-    public:
+        LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName);
+        LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pObject);
+    }
 
-        union
-        {
-            number::Integer_t m_integer;
-            number::Float_t m_float;
-            symbol::Data m_symbol;
-            str::Data m_string;
-            env::Data m_env;
-            cont::Data m_cont;
-            stream::Data m_stream;
-            cons::Data m_cons;
-            lambda::builtin::Data m_lambda_builtin;
-            lambda::userDefined::Data m_lambda_userDefined;
-            syntax::builtin::Data m_syntax_builtin;
-        };
-
-    };
 }
 
 #include "lcpp/core/typeSystem/impl/object.inl"

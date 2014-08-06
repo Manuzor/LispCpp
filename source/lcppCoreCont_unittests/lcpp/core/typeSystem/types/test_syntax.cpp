@@ -1,9 +1,17 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/objectUtils.h"
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
@@ -31,7 +39,7 @@ LCPP_TestCase(Syntax, Builtin)
 
     {
         auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-        auto pContCall = cont::create(pContMain, &call);
+        auto pContCall = cont::create(pContMain, &object::call);
         cont::getStack(pContCall)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
         cont::getStack(pContCall)->push(pLambda);
 
@@ -63,12 +71,12 @@ LCPP_TestCase(Syntax, Builtin_toString)
 {
     auto pSyntax = syntax::builtin::create(&testBuiltin);
 
-    auto pString = toString(pSyntax);
+    auto pString = object::toString(pSyntax);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-syntax>"));
 
     syntax::builtin::setName(pSyntax, symbol::create("my-syntax"));
 
-    pString = toString(pSyntax);
+    pString = object::toString(pSyntax);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-syntax: my-syntax>"));
 }
 

@@ -1,8 +1,10 @@
 #include "stdafx.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 
@@ -25,7 +27,7 @@ namespace lcpp
             {
                 typeCheck(pParentEnv, Type::Environment);
 
-                auto pInstance = LispObject::create<Data>(metaInfo());
+                auto pInstance = object::create<Data>(metaInfo());
                 auto& data = pInstance->m_lambda_userDefined;
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
