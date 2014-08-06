@@ -40,15 +40,15 @@ namespace lcpp
     EZ_FORCE_INLINE
     void deleteArrayHelper(Ptr<ezAllocatorBase> pAllocator, Ptr<T>& pMem)
     {
-        ezInternal::DeleteArray(pAllocator.get(), pMem.get());
+        ezInternal::DeleteArray<T>(pAllocator.get(), pMem.get());
         pMem = nullptr;
     }
 
     template<typename T>
     EZ_FORCE_INLINE
-        void deleteRawBufferHelper(Ptr<ezAllocatorBase> pAllocator, Ptr<T>& pMem)
+    void deleteRawBufferHelper(Ptr<ezAllocatorBase> pAllocator, Ptr<T>& pMem)
     {
-        ezInternal::DeleteRawBuffer(pAllocator.get(), pMem.get());
+        ezInternal::DeleteRawBuffer<T>(pAllocator.get(), pMem.get());
         pMem = nullptr;
     }
 }

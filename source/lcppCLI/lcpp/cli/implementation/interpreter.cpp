@@ -59,8 +59,8 @@ void lcpp::Interpreter::loadBase()
     auto bufferSize = ezUInt32(size)
                     + 1; // null terminator
 
-    auto buffer = LCPP_NEW_RAW_BUFFER(LispRuntime::instance()->allocator().get(), char, bufferSize);
-    LCPP_SCOPE_EXIT{ LCPP_DELETE_RAW_BUFFER(LispRuntime::instance()->allocator().get(), buffer); };
+    auto buffer = EZ_NEW_RAW_BUFFER(LispRuntime::instance()->allocator().get(), char, bufferSize);
+    LCPP_SCOPE_EXIT{ EZ_DELETE_RAW_BUFFER(LispRuntime::instance()->allocator().get(), buffer); };
 
     // null terminator
     buffer[bufferSize - 1] = '\0';
@@ -109,9 +109,9 @@ ezInt32 lcpp::Interpreter::repl()
     catch(exceptions::Assertion& assertionException)
     {
         auto message = ezStringBuilder("Assertion failed in stdlib");
-        if(assertionException.message())
+        if(assertionException.what())
         {
-            message.AppendFormat(": %s", assertionException.message());
+            message.AppendFormat(": %s", assertionException.what());
         }
         else
         {
@@ -200,9 +200,9 @@ ezInt32 lcpp::Interpreter::repl()
         catch(exceptions::Assertion& assertionException)
         {
             auto message = ezStringBuilder("Assertion failed");
-            if (assertionException.message())
+            if (assertionException.what())
             {
-                message.AppendFormat(": %s", assertionException.message());
+                message.AppendFormat(": %s", assertionException.what());
             }
             else
             {

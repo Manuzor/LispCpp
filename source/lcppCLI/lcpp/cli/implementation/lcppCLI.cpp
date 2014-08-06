@@ -120,7 +120,7 @@ int main(int argc, const char* argv[])
     }
     catch (lcpp::exceptions::ExceptionBase& e)
     {
-        ezLog::Error(e.message());
+        ezLog::Error(e.what());
         return -1;
     }
     catch (std::exception& e)

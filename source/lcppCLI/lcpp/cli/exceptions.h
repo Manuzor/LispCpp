@@ -8,7 +8,7 @@ namespace lcpp { namespace exceptions {
     {
     public:
         inline InitializationFailed(const char* message = nullptr, const char* file = nullptr, ezUInt32 line = -1) :
-        ExceptionBase(message ? message : "Not implemented!", file, line)
+        ExceptionBase(message ? message : "Not implemented!")
         {}
     };
 
