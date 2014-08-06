@@ -10,7 +10,7 @@ namespace lcpp
     namespace cont
     {
         typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
-        typedef ezUInt32 UserData_t;
+        typedef std::size_t UserData_t;
 
         //////////////////////////////////////////////////////////////////////////
 

@@ -20,20 +20,21 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
 
-                auto& pSum = pStack->get(-1);
-                auto& pIndex = pStack->get(-2);
+                auto& index = cont::getUserData(pCont);
 
-                if (number::getInteger(pIndex) >= pStack->size() - 2)
+                auto& pSum = pStack->get(-1);
+
+                if(index >= pStack->size() - 1)
                 {
                     LCPP_cont_return(pCont, pSum);
                 }
 
-                auto indexValue = number::getInteger(pIndex);
+                auto pNext = pStack->get(ezInt32(index));
+                auto lhs = number::getInteger(pSum);
+                auto rhs = number::getInteger(pNext);
+                pSum = number::create(lhs + rhs);
 
-                auto pNext = pStack->get(ezInt32(indexValue));
-                pSum = number::create(number::getInteger(pSum) + number::getInteger(pNext));
-
-                pIndex = number::create(number::getInteger(pIndex) + 1);
+                ++index;
 
                 LCPP_cont_tailCall(pCont);
             }
@@ -44,8 +45,8 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
 
-                // The current index.
-                pStack->push(number::create(0));
+                auto& index = cont::getUserData(pCont);
+                index = 0;
 
                 // The current sum.
                 pStack->push(number::create(0));
