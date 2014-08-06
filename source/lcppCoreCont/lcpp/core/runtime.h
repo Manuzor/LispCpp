@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lcpp/core/readerState.h"
+#include "lcpp/core/printerState.h"
 
 namespace lcpp
 {
@@ -43,6 +44,9 @@ namespace lcpp
         Ptr<reader::State> getReaderState();
         Ptr<const reader::State> getReaderState() const;
 
+        Ptr<printer::State> getPrinterState();
+        Ptr<const printer::State> getPrinterState() const;
+
         ezUInt32 getRecursionDepth() const;
 
         ezUInt32 getRecursionLimit() const;
@@ -56,6 +60,7 @@ namespace lcpp
         Ptr<LispObject> m_pGlobalEnvironment;
 
         Ptr<reader::State> m_pReaderState;
+        Ptr<printer::State> m_pPrinterState;
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;

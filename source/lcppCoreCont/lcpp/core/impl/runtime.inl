@@ -45,6 +45,18 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
+    Ptr<printer::State> LispRuntimeState::getPrinterState()
+    {
+        return m_pPrinterState;
+    }
+
+    EZ_FORCE_INLINE
+        Ptr<const printer::State> LispRuntimeState::getPrinterState() const
+    {
+        return m_pPrinterState;
+    }
+
+    EZ_FORCE_INLINE
     ezUInt32 LispRuntimeState::getRecursionDepth() const
     {
         return m_recursionDepth;

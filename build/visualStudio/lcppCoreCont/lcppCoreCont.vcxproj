@@ -33,6 +33,8 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\typeCheckFailedException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\signature.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printer.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printerState.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\reader.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\readerState.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\recursionCounter.h" />
@@ -70,6 +72,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\syntax_builtinFunctions.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\evaluator.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printer.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp" />
@@ -99,6 +102,7 @@
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\impl\signature.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\printerState.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\readerState.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
