@@ -38,5 +38,13 @@ namespace cut
 			UnitTestSuccess(const char* file, std::size_t line, StringRef message);
 			virtual ~UnitTestSuccess();
 		};
+
+		class UnitTestNotImplemented : public ExpectionBase
+		{
+		public:
+			UnitTestNotImplemented();
+			UnitTestNotImplemented(const char* file, std::size_t line, StringRef message);
+			virtual ~UnitTestNotImplemented();
+		};
 	}
 }

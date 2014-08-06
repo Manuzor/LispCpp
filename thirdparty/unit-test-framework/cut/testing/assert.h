@@ -19,6 +19,7 @@ namespace cut
 
 		void fail(StringRef message = nullptr);
 		void succeed(StringRef message = nullptr);
+		void notImplemented(StringRef message = nullptr);
 	};
 }
 

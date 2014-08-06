@@ -29,6 +29,7 @@ namespace cut
 		virtual void runAll() = 0;
 
 		virtual void updateStatistics() = 0;
+		virtual UnitTestStatistics& statistics() = 0;
 		virtual const UnitTestStatistics& statistics() const = 0;
 
 	protected:

@@ -16,6 +16,11 @@ namespace cut
 		log(LogMode::Normal, message);
 	}
 
+	inline void logWarning(StringRef message)
+	{
+		log(LogMode::Warning, message);
+	}
+
 	inline void logSuccess(StringRef message)
 	{
 		log(LogMode::Success, message);

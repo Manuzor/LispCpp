@@ -12,5 +12,6 @@ namespace cut
 
 		virtual void handleFailure(const char* file, std::size_t line, StringRef message) CUT_OVERRIDE;
 		virtual void handleSuccess(const char* file, std::size_t line, StringRef message) CUT_OVERRIDE;
+		virtual void handleNotImplemented(const char* file, std::size_t line, StringRef message) CUT_OVERRIDE;
 	};
 }

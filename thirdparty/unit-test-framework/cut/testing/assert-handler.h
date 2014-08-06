@@ -12,6 +12,7 @@ namespace cut
 
 		virtual void handleFailure(const char* file, std::size_t line, StringRef message) = 0;
 		virtual void handleSuccess(const char* file, std::size_t line, StringRef message) = 0;
+		virtual void handleNotImplemented(const char* file, std::size_t line, StringRef message) = 0;
 
 	protected:
 		/// Overwrite this in your custom assert handler

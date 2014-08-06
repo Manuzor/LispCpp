@@ -94,6 +94,28 @@ cut::UnitTestGroup::runAllTests()
 				                  ));
 			}
 		}
+		catch(exceptions::UnitTestNotImplemented& notImplemented)
+		{
+			IUnitTestManager::instance().statistics().testsNotImplemented++;
+
+			if(notImplemented.message().empty())
+			{
+				logWarning(format("%s(%d): Unit test \"%s\" is not implemented.\n",
+					notImplemented.file(),
+					notImplemented.line(),
+					unitTestName
+					));
+			}
+			else
+			{
+				logWarning(format("%s(%d): Unit test \"%s\" is not implemented:\n  %s\n",
+					notImplemented.file(),
+					notImplemented.line(),
+					unitTestName,
+					notImplemented.message().cString()
+					));
+			}
+		}
 		catch (std::exception& ex)
 		{
 			++failed;
