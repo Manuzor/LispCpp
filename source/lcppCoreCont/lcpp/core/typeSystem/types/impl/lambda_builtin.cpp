@@ -5,6 +5,7 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
+#include "lcpp/core/exceptions/invalidInputException.h"
 
 namespace lcpp
 {
@@ -21,7 +22,7 @@ namespace lcpp
                 return meta;
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Function_t pFunction)
+            Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Function_t pFunction, const Signature& signature)
             {
                 typeCheck(pParentEnv, Type::Environment);
 
@@ -30,6 +31,7 @@ namespace lcpp
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
 
+                data.m_signature = signature;
                 new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
                 new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
                 data.m_pFunction = pFunction;
@@ -48,9 +50,61 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
+                checkArguments(pLambda, pCont);
+
                 auto pFunction = getFunction(pLambda);
 
                 LCPP_cont_tailCall(pCont, pFunction);
+            }
+
+            void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont)
+            {
+                typeCheck(pSyntax, Type::Lambda);
+                attributeCheckAny(pSyntax, AttributeFlags::Builtin);
+
+                typeCheck(pCont, Type::Continuation);
+
+                auto pStack = cont::getStack(pCont);
+
+                auto argCount = pStack->size();
+                auto pSignature = getSignature(pSyntax);
+                auto argMin = pSignature->m_argCountMin;
+                auto argMax = pSignature->m_argCountMin;
+
+                if(argMin == Signature::VarArg
+                   || argCount >= argMin && argCount <= argMax)
+                {
+                    return;
+                }
+
+                auto format = "Expected %s arguments, got %d";
+                auto message = ezStringBuilder();
+                message.Append("Expected ");
+
+                if(argMax == Signature::VarArg)
+                {
+                    message.AppendFormat("at least %d ", argMin);
+                }
+                else if(argMin != argMax)
+                {
+                    message.AppendFormat("%d - %d ", argMin, argMax);
+                }
+                else
+                {
+                    // Fixed number of args.
+                    message.AppendFormat("%d ", argMin);
+                }
+
+                message.AppendFormat("arguments, got %d.", argCount);
+                LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
+            }
+
+            Ptr<Signature> getSignature(Ptr<LispObject> pSyntax)
+            {
+                typeCheck(pSyntax, Type::Lambda);
+                attributeCheckAny(pSyntax, AttributeFlags::Builtin);
+
+                return pSyntax->m_lambda_builtin.getSignature();
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)
@@ -108,7 +162,6 @@ namespace lcpp
 
                 return str::create(theString);
             }
-
         }
     }
 }

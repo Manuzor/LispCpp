@@ -27,7 +27,7 @@ LCPP_TestCase(Lambda, Builtin)
 {
     auto pState = LCPP_test_pRuntimeState;
 
-    auto pLambda = lambda::builtin::create(pState->getGlobalEnvironment(), &testBuiltin);
+    auto pLambda = lambda::builtin::create(pState->getGlobalEnvironment(), &testBuiltin, Signature::create(0, Signature::VarArg));
 
     g_wasCalled = false;
     auto pResult = LCPP_pFalse;
@@ -51,7 +51,7 @@ LCPP_TestCase(Lambda, Builtin_Name)
     auto pState = LCPP_test_pRuntimeState;
     auto pEnv = pState->getGlobalEnvironment();
 
-    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin);
+    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
 
     CUT_ASSERT.isFalse(lambda::builtin::hasName(pLambda));
     CUT_ASSERT.isTrue(isNil(lambda::builtin::getName(pLambda)));
@@ -67,7 +67,7 @@ LCPP_TestCase(Lambda, Builtin_toString)
     auto pState = LCPP_test_pRuntimeState;
     auto pEnv = pState->getGlobalEnvironment();
 
-    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin);
+    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
 
     auto pString = toString(pLambda);
 

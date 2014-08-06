@@ -261,7 +261,7 @@ LCPP_TestCase(Reader, CharacterMacro)
 
     reader::addCharacterMacro(pState,
                               symbol::create("/"),
-                              lambda::builtin::create(pState->getGlobalEnvironment(), &testCharacterMacro));
+                              lambda::builtin::create(pState->getGlobalEnvironment(), &testCharacterMacro, Signature::create(1)));
 
     auto content = ezString("/hello-world");
     auto pStream = stream::create(content.GetIteratorFront());

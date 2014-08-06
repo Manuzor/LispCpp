@@ -1,5 +1,7 @@
 #pragma once
 
+#include "lcpp/core/functionUtils/signature.h"
+
 namespace lcpp
 {
     class LispObject;
@@ -14,13 +16,15 @@ namespace lcpp
 
             LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
-            LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Function_t pFunction);
+            LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Function_t pFunction, const Signature& signature);
 
             //////////////////////////////////////////////////////////////////////////
 
             class Data
             {
             public:
+
+                Ptr<Signature> getSignature();
 
                 Ptr<LispObject> getName();
                 void setName(Ptr<LispObject> pNewName);
@@ -30,6 +34,7 @@ namespace lcpp
 
             public:
 
+                Signature m_signature;
                 LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
                 LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pEnv);
                 Function_t m_pFunction;
@@ -39,6 +44,9 @@ namespace lcpp
             //////////////////////////////////////////////////////////////////////////
 
             LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont);
+
+            LCPP_API_CORE_CONT Ptr<Signature> getSignature(Ptr<LispObject> pSyntax);
 
             LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pLambda);
             LCPP_API_CORE_CONT void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName);

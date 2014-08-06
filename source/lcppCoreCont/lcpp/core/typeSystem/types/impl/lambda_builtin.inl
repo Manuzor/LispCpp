@@ -6,6 +6,12 @@ namespace lcpp
         namespace builtin
         {
             EZ_FORCE_INLINE
+                Ptr<Signature> Data::getSignature()
+            {
+                return &m_signature;
+            }
+
+            EZ_FORCE_INLINE
             Ptr<LispObject> Data::getName()
             {
                 return reinterpret_cast<Ptr<LispObject>&>(m_pName);
