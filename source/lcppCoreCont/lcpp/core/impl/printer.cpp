@@ -12,7 +12,7 @@
 
 namespace lcpp
 {
-    namespace eval
+    namespace printer
     {
 
         Ptr<LispObject> print(Ptr<LispObject> pCont)
@@ -33,6 +33,7 @@ namespace lcpp
             auto pString = toString(pArg);
 
             *pOutput << str::getValue(pString);
+            pOutput->Flush();
 
             LCPP_cont_return(pCont, LCPP_pVoid);
         }

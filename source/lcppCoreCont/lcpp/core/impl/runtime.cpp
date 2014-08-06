@@ -9,6 +9,8 @@
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/containers/stack.h"
 
+#include "lcpp/core/ioUtils.h"
+
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
@@ -42,10 +44,12 @@ lcpp::LispRuntimeState::initialize()
 
     //////////////////////////////////////////////////////////////////////////
     
-    m_pReaderState = LCPP_NEW(m_pAllocator.get(), reader::State)();
+    m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
     m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
 
-    // TODO reader, evaluator, printer setup.
+    m_pPrinterState = LCPP_NEW(m_pAllocator, printer::State)();
+    // TODO Set output stream of printer to stdout by default.
+    m_pPrinterState->m_pOutStream = LCPP_NEW(m_pAllocator, StandardOutputStream)();
 
     //////////////////////////////////////////////////////////////////////////
 
