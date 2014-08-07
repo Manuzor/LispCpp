@@ -3,6 +3,8 @@
 
 namespace lcpp
 {
+    class LispObject;
+
     namespace reader
     {
         class State
