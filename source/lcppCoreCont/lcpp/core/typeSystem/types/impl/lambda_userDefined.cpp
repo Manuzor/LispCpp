@@ -8,6 +8,8 @@
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 
+#include "lcpp/core/evaluator.h"
+
 namespace lcpp
 {
     namespace lambda
@@ -175,9 +177,42 @@ namespace lcpp
                     typeCheck(pCont, Type::Continuation);
 
                     auto pStack = cont::getStack(pCont);
-                    
-                    LCPP_NOT_IMPLEMENTED;
+                    auto pLambda = pStack->get(-1);
+                    pStack->clear();
+
+                    auto pBodyList = getBodyList(pLambda);
+
+                    pStack->push(pLambda);                   // The lambda object itself, needed for its environment.
+                    cons::pushAllReverse(pBodyList, pStack); // All body-parts to evaluate in reverse order so the first to eval is on top.
+                    pStack->push(LCPP_pNil);                 // Needed by call_evalBody_helper.
+
+                    LCPP_cont_tailCall(pCont, &call_evalBody_2);
                 }
+
+                Ptr<LispObject> call_evalBody_2(Ptr<LispObject> pCont)
+                {
+                    typeCheck(pCont, Type::Continuation);
+
+                    auto pStack = cont::getStack(pCont);
+                    auto pEvalResult = pStack->get(-1);
+                    pStack->pop();
+
+                    EZ_ASSERT(pStack->size() > 0, "Invalid stack state.");
+
+                    if (pStack->size() == 1)
+                    {
+                        LCPP_cont_return(pCont, pEvalResult);
+                    }
+
+                    auto pToEval = pStack->get(-1);
+                    pStack->pop();
+
+                    auto pLambda = pStack->get(0);
+                    auto pEnv = getEnvironment(pLambda);
+
+                    LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
+                }
+
             }
         }
     }

@@ -58,6 +58,7 @@ namespace lcpp
             {
                 Ptr<LispObject> call_updateEnv(Ptr<LispObject> pCont);
                 Ptr<LispObject> call_evalBody(Ptr<LispObject> pCont);
+                Ptr<LispObject> call_evalBody_2(Ptr<LispObject> pCont);
             }
         }
     }
