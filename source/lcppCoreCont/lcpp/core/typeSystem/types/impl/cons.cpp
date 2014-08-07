@@ -120,6 +120,32 @@ namespace lcpp
 
             return str::create(builder);
         }
+
+        Ptr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
+        {
+            const auto startIndex = pStack->convertToAbsolute(relativeIndexFrom);
+            auto amount = ezMath::Min(pStack->size() - startIndex, maxAmount);
+
+            auto pCons = LCPP_pNil;
+            auto tempStack = Stack();
+
+            for(auto i = ezUInt32(0); i < amount; ++i)
+            {
+                auto index = ezInt32(relativeIndexFrom + i);
+                auto pCar = pStack->get(index);
+                tempStack.push(pCar);
+            }
+
+            while(!tempStack.isEmpty())
+            {
+                auto pCar = tempStack.get(-1);
+                tempStack.pop();
+                pCons = cons::create(pCar, pCons);
+            }
+
+            return pCons;
+        }
+
     }
 
     bool isCons(Ptr<LispObject> pObject)

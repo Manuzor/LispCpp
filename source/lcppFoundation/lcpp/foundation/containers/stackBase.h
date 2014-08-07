@@ -45,6 +45,8 @@ namespace lcpp
         const T_Element& getNilElement() const;
         T_Element& getNilElement();
 
+        ezUInt32 convertToAbsolute(ezInt32 relativeIndex) const;
+
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
@@ -56,10 +58,6 @@ namespace lcpp
     protected:
 
         StackBase(Ptr<ezAllocatorBase> pAllocator);
-
-    private:
-
-        ezUInt32 convertToAbsolute(ezInt32 relativeIndex) const;
     };
 }
 

@@ -94,3 +94,63 @@ LCPP_TestCase(Cons, toString)
     theString = str::getValue(object::toString(pCons));
     CUT_ASSERT.isTrue(theString.IsEqual("((42) . 1337)"));
 }
+
+LCPP_TestCase(Cons, pack)
+{
+    auto stack = Stack();
+
+    stack.push(number::create(1));
+    stack.push(number::create(2));
+    stack.push(number::create(3));
+
+    auto pCons = LCPP_pNil;
+    auto pCar = LCPP_pNil;
+    
+    //////////////////////////////////////////////////////////////////////////
+
+    pCons = cons::pack(&stack, 0);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 1);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 2);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 3);
+    CUT_ASSERT.isTrue(isNil(pCons));
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pCons = cons::pack(&stack, 0, 2);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 1);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 2);
+    CUT_ASSERT.isTrue(isNil(pCons));
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pCons = cons::pack(&stack, -1);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 3);
+    CUT_ASSERT.isTrue(isNil(pCons));
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pCons = cons::pack(&stack, -2, 1);
+
+    pCar = cons::getCar(pCons);
+    pCons = cons::getCdr(pCons);
+    CUT_ASSERT.isTrue(number::getInteger(pCar) == 2);
+    CUT_ASSERT.isTrue(isNil(pCons));
+}
