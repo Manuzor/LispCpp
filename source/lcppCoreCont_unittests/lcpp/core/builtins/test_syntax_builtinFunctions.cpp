@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/evaluator.h"
@@ -9,9 +10,10 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
-#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/object.h"
 
 namespace lcpp
 {
@@ -50,6 +52,15 @@ LCPP_TestCase(Syntax_BuiltinFunctions, define)
     pResult = evalString("x");
 
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+}
+
+LCPP_TestCase(Syntax_BuiltinFunctions, define_name)
+{
+    auto pResult = evalString("(define x (lambda () 42))");
+    pResult = evalString("x");
+    
+    CUT_ASSERT.isTrue(object::hasName(pResult));
+    CUT_ASSERT.isTrue(symbol::getValue(object::getName(pResult)).IsEqual("x"));
 }
 
 LCPP_TestCase(Syntax_BuiltinFunctions, begin)
