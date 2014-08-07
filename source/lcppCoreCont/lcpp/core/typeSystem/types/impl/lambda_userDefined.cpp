@@ -9,6 +9,7 @@
 #include "lcpp/core/typeSystem/attributeCheck.h"
 
 #include "lcpp/core/evaluator.h"
+#include "lcpp/core/builtins/syntax_builtinFunctions.h"
 
 namespace lcpp
 {
@@ -34,10 +35,15 @@ namespace lcpp
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
 
+                static auto pBegin = syntax::builtin::create(&syntax::builtin::begin,
+                                                             Signature::createVarArg());
+
+                pBodyList = cons::create(pBegin, pBodyList);
+
                 new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
                 new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
                 new (data.m_pArgList) Ptr<LispObject>(pArgList);
-                new (data.m_pBodyList) Ptr<LispObject>(pBodyList);
+                new (data.m_pBody) Ptr<LispObject>(pBodyList);
 
                 while(!isNil(pArgList))
                 {
@@ -107,12 +113,12 @@ namespace lcpp
                 return pLambda->m_lambda_userDefined.getArgList();
             }
 
-            Ptr<LispObject> getBodyList(Ptr<LispObject> pLambda)
+            Ptr<LispObject> getBody(Ptr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_userDefined.getBodyList();
+                return pLambda->m_lambda_userDefined.getBody();
             }
 
             Ptr<LispObject> toString(Ptr<LispObject> pObject)
@@ -178,41 +184,17 @@ namespace lcpp
 
                     auto pStack = cont::getStack(pCont);
                     auto pLambda = pStack->get(-1);
+
+                    auto pEnv = getEnvironment(pLambda);
+                    auto pBody = getBody(pLambda);
+
                     pStack->clear();
 
-                    auto pBodyList = getBodyList(pLambda);
+                    pStack->push(pEnv);
+                    pStack->push(pBody);
 
-                    pStack->push(pLambda);                   // The lambda object itself, needed for its environment.
-                    cons::pushAllReverse(pBodyList, pStack); // All body-parts to evaluate in reverse order so the first to eval is on top.
-                    pStack->push(LCPP_pNil);                 // Needed by call_evalBody_helper.
-
-                    LCPP_cont_tailCall(pCont, &call_evalBody_2);
+                    LCPP_cont_tailCall(pCont, &eval::evaluate);
                 }
-
-                Ptr<LispObject> call_evalBody_2(Ptr<LispObject> pCont)
-                {
-                    typeCheck(pCont, Type::Continuation);
-
-                    auto pStack = cont::getStack(pCont);
-                    auto pEvalResult = pStack->get(-1);
-                    pStack->pop();
-
-                    EZ_ASSERT(pStack->size() > 0, "Invalid stack state.");
-
-                    if (pStack->size() == 1)
-                    {
-                        LCPP_cont_return(pCont, pEvalResult);
-                    }
-
-                    auto pToEval = pStack->get(-1);
-                    pStack->pop();
-
-                    auto pLambda = pStack->get(0);
-                    auto pEnv = getEnvironment(pLambda);
-
-                    LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
-                }
-
             }
         }
     }

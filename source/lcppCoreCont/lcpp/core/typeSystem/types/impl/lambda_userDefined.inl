@@ -30,9 +30,9 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            Ptr<LispObject> Data::getBodyList()
+            Ptr<LispObject> Data::getBody()
             {
-                return reinterpret_cast<Ptr<LispObject>&>(m_pBodyList);
+                return reinterpret_cast<Ptr<LispObject>&>(m_pBody);
             }
         }
     }

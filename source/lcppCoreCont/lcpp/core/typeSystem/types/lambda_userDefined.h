@@ -27,14 +27,14 @@ namespace lcpp
 
                 Ptr<LispObject> getEnv();
                 Ptr<LispObject> getArgList();
-                Ptr<LispObject> getBodyList();
+                Ptr<LispObject> getBody();
 
             public:
 
                 LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
                 LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pEnv);
                 LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pArgList);
-                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pBodyList);
+                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pBody);
 
             };
 
@@ -50,7 +50,7 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Ptr<LispObject> getArgList(Ptr<LispObject> pLambda);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> getBodyList(Ptr<LispObject> pLambda);
+            LCPP_API_CORE_CONT Ptr<LispObject> getBody(Ptr<LispObject> pLambda);
 
             LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
 
@@ -58,7 +58,6 @@ namespace lcpp
             {
                 Ptr<LispObject> call_updateEnv(Ptr<LispObject> pCont);
                 Ptr<LispObject> call_evalBody(Ptr<LispObject> pCont);
-                Ptr<LispObject> call_evalBody_2(Ptr<LispObject> pCont);
             }
         }
     }
