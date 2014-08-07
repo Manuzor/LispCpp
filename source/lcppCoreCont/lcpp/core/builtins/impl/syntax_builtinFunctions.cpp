@@ -11,6 +11,7 @@
 #include "lcpp/core/typeSystem/types/void.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/typeSystem/object.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -90,6 +91,11 @@ namespace lcpp
                 env::addBinding(pEnv, pSymbol, pValue);
 
                 // TODO give pValue a name, if it is nameable.
+
+                if (object::isNameable(pValue) && !object::hasName(pValue))
+                {
+                    object::setName(pValue, pSymbol);
+                }
 
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }

@@ -38,6 +38,19 @@ namespace lcpp
 
 LCPP_TestGroup(Syntax_BuiltinFunctions);
 
+LCPP_TestCase(Syntax_BuiltinFunctions, define)
+{
+    auto pResult = LCPP_pNil;
+
+    pResult = evalString("(define x 1)");
+
+    CUT_ASSERT.isTrue(isVoid(pResult));
+
+    pResult = evalString("x");
+
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+}
+
 LCPP_TestCase(Syntax_BuiltinFunctions, begin)
 {
     auto pResult = LCPP_pNil;
