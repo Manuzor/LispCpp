@@ -45,6 +45,22 @@ LCPP_TestCase(Cons, pushAll)
     CUT_ASSERT.isTrue(number::getInteger(stack.get(2)) == 3);
 }
 
+LCPP_TestCase(Cons, pushAllReverse)
+{
+    auto pCons = cons::create(number::create(1),
+                              cons::create(number::create(2),
+                              cons::create(number::create(3),
+                              LCPP_pNil)));
+    auto stack = Stack();
+
+    auto count = cons::pushAllReverse(pCons, &stack);
+
+    CUT_ASSERT.isTrue(count == 3);
+    CUT_ASSERT.isTrue(number::getInteger(stack.get(0)) == 3);
+    CUT_ASSERT.isTrue(number::getInteger(stack.get(1)) == 2);
+    CUT_ASSERT.isTrue(number::getInteger(stack.get(2)) == 1);
+}
+
 LCPP_TestCase(Cons, toString)
 {
     auto pCons = LCPP_pNil;

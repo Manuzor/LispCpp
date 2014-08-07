@@ -59,6 +59,22 @@ namespace lcpp
             return count;
         }
 
+        ezUInt32 pushAllReverse(Ptr<LispObject> pCons, Ptr<Stack> pStack)
+        {
+            auto tempStack = Stack();
+
+            auto count = pushAll(pCons, &tempStack);
+
+            while(!tempStack.isEmpty())
+            {
+                auto pObject = tempStack.get(-1);
+                tempStack.pop();
+                pStack->push(pObject);
+            }
+
+            return count;
+        }
+
         static void toStringHelper(Ptr<LispObject> pCons, ezStringBuilder& builder)
         {
             auto pCar = getCar(pCons);

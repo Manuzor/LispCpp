@@ -34,6 +34,7 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> getCdr(Ptr<LispObject> pCons);
 
         LCPP_API_CORE_CONT ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack);
+        LCPP_API_CORE_CONT ezUInt32 pushAllReverse(Ptr<LispObject> pCons, Ptr<Stack> pStack);
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
     }
