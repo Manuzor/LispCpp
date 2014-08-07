@@ -118,6 +118,9 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_printer.cpp">
       <Filter>lcpp\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\builtins\test_syntax_builtinFunctions.cpp">
+      <Filter>lcpp\core\builtins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\testMacros.inl">

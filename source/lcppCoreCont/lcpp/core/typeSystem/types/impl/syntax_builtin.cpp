@@ -71,7 +71,7 @@ namespace lcpp
                 auto argCount = pStack->size() - 1;
                 auto pSignature = getSignature(pSyntax);
                 auto argMin = pSignature->m_argCountMin;
-                auto argMax = pSignature->m_argCountMin;
+                auto argMax = pSignature->m_argCountMax;
 
                 if(argMin == Signature::VarArg
                    || argCount >= argMin && argCount <= argMax)

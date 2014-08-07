@@ -12,6 +12,15 @@
 
 #include "lcpp/core/exceptions/invalidInputException.h"
 
+// Provides the variables pStack and pEnv in the current context.
+#define LCPP_SyntaxBuiltinFunction_CommonBody \
+    typeCheck(pCont, Type::Continuation);     \
+                                              \
+    auto pStack = cont::getStack(pCont);      \
+                                              \
+    auto pEnv = pStack->get(0);               \
+    typeCheck(pEnv, Type::Environment)
+
 namespace lcpp
 {
     namespace syntax
@@ -20,12 +29,7 @@ namespace lcpp
         {
             Ptr<LispObject> define(Ptr<LispObject> pCont)
             {
-                typeCheck(pCont, Type::Continuation);
-
-                auto pStack = cont::getStack(pCont);
-
-                auto pEnv = pStack->get(0);
-                typeCheck(pEnv, Type::Environment);
+                LCPP_SyntaxBuiltinFunction_CommonBody;
 
                 auto pSymbol = pStack->get(1);
                 typeCheck(pSymbol, Type::Symbol);
@@ -36,18 +40,45 @@ namespace lcpp
 
                 //////////////////////////////////////////////////////////////////////////
 
-                cont::setFunction(pCont, &define_2);
+                cont::setFunction(pCont, &detail::define_2);
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pValue);
             }
 
-            Ptr<LispObject> define_2(Ptr<LispObject> pCont)
+            LCPP_API_CORE_CONT Ptr<LispObject> begin(Ptr<LispObject> pCont)
             {
-                typeCheck(pCont, Type::Continuation);
+                LCPP_SyntaxBuiltinFunction_CommonBody;
 
-                auto pStack = cont::getStack(pCont);
+                cont::setUserData(pCont, 1);
 
-                auto pEnv = pStack->get(0);
-                typeCheck(pEnv, Type::Environment);
+                pStack->push(LCPP_pVoid);
+
+                LCPP_cont_tailCall(pCont, &detail::begin_helper);
+            }
+
+            Ptr<LispObject> detail::begin_helper(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pEvalResult = pStack->get(-1);
+                pStack->pop();
+
+                const auto maxIndex = pStack->size();
+                auto& index = cont::getUserData(pCont);
+
+                if (index >= maxIndex)
+                {
+                    LCPP_cont_return(pCont, pEvalResult);
+                }
+
+                auto pToEval = pStack->get(ezInt32(index));
+                ++index;
+
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
+            }
+
+            Ptr<LispObject> detail::define_2(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
 
                 auto pSymbol = pStack->get(1);
                 typeCheck(pSymbol, Type::Symbol);
@@ -63,11 +94,18 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
+            Ptr<LispObject> lambda(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pArgNameList = pStack->get(0);
+
+                LCPP_NOT_IMPLEMENTED;
+            }
+
             Ptr<LispObject> quote(Ptr<LispObject> pCont)
             {
-                typeCheck(pCont, Type::Continuation);
-
-                auto pStack = cont::getStack(pCont);
+                LCPP_SyntaxBuiltinFunction_CommonBody;
 
                 auto pUnevaluatedArg = pStack->get(1);
 
@@ -77,3 +115,5 @@ namespace lcpp
         }
     }
 }
+
+#undef LCPP_SyntaxBuiltinFunction_CommonBody

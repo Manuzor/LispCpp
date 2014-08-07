@@ -45,6 +45,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     // Reader macros / syntax.
     //////////////////////////////////////////////////////////////////////////
     LCPP_AddSyntax("quote", &syntax::builtin::quote, Signature::create(1));
+    LCPP_AddSyntax("begin", &syntax::builtin::begin, Signature::createVarArg());
     LCPP_AddSyntax("define", &syntax::builtin::define, Signature::create(2));
 
     // Macros.
