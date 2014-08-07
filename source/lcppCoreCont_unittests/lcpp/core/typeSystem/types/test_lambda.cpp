@@ -96,14 +96,14 @@ LCPP_TestCase(Lambda, UserDefined)
 {
     auto pState = LCPP_test_pRuntimeState;
 
-    auto pArgList = LCPP_pNil;
+    auto pArgList = cons::create(symbol::create("x"), LCPP_pNil);
     auto pBodyList = cons::create(number::create(1337), LCPP_pNil);
 
     auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
 
     auto pResult = LCPP_pFalse;
 
-    CUT_ASSERT.notImplemented("lambda::userDefined::call is not implemented yet.");
+    //CUT_ASSERT.notImplemented("lambda::userDefined::call is not implemented yet.");
 
     {
         auto pContMain = cont::createTopLevel(pState);

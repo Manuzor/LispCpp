@@ -37,6 +37,14 @@ namespace lcpp
                 new (data.m_pArgList) Ptr<LispObject>(pArgList);
                 new (data.m_pBodyList) Ptr<LispObject>(pBodyList);
 
+                while(!isNil(pArgList))
+                {
+                    auto pCurrentArgName = cons::getCar(pArgList);
+                    env::addBinding(pLocalEnv, pCurrentArgName, LCPP_pNil);
+
+                    pArgList = cons::getCdr(pArgList);
+                }
+
                 return pInstance;
             }
 
@@ -46,12 +54,17 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
                 auto pLambda = pStack->get(-1);
-                pStack->pop();
 
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                LCPP_NOT_IMPLEMENTED;
+                auto pArgList = getArgList(pLambda);
+                pStack->push(pArgList);
+
+                // Set the current 'index' to 0.
+                cont::setUserData(pCont, 0);
+
+                LCPP_cont_tailCall(pCont, &detail::call_updateEnv);
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)
@@ -116,6 +129,55 @@ namespace lcpp
                 theString.Append('>');
 
                 return str::create(theString);
+            }
+
+            namespace detail
+            {
+                Ptr<LispObject> call_updateEnv(Ptr<LispObject> pCont)
+                {
+                    typeCheck(pCont, Type::Continuation);
+
+                    auto pStack = cont::getStack(pCont);
+                    auto& index = cont::getUserData(pCont);
+
+                    auto pLambda = pStack->get(-2);
+                    auto& pCurrentArgNameList = pStack->get(-1);
+
+                    const auto maxIndex = pStack->size() - 2;
+
+                    if (isNil(pCurrentArgNameList))
+                    {
+                        pStack->clear();
+                        pStack->push(pLambda);
+
+                        LCPP_cont_tailCall(pCont, &call_evalBody);
+                    }
+
+                    auto pEnv = getEnvironment(pLambda);
+
+                    auto pCurrentArgName = cons::getCar(pCurrentArgNameList);
+                    auto pCurrentArgValue = index < maxIndex ? pStack->get(ezInt32(index)) : LCPP_pNil;
+
+                    auto result = env::setBinding(pEnv, pCurrentArgName, pCurrentArgValue);
+                    if (result.Failed())
+                    {
+                        LCPP_NOT_IMPLEMENTED;
+                    }
+
+                    ++index;
+                    pCurrentArgNameList = cons::getCdr(pCurrentArgNameList);
+
+                    LCPP_cont_tailCall(pCont, &call_updateEnv);
+                }
+
+                Ptr<LispObject> call_evalBody(Ptr<LispObject> pCont)
+                {
+                    typeCheck(pCont, Type::Continuation);
+
+                    auto pStack = cont::getStack(pCont);
+                    
+                    LCPP_NOT_IMPLEMENTED;
+                }
             }
         }
     }

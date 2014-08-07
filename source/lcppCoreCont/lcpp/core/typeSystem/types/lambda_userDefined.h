@@ -53,6 +53,12 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> getBodyList(Ptr<LispObject> pLambda);
 
             LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+
+            namespace detail
+            {
+                Ptr<LispObject> call_updateEnv(Ptr<LispObject> pCont);
+                Ptr<LispObject> call_evalBody(Ptr<LispObject> pCont);
+            }
         }
     }
 }
