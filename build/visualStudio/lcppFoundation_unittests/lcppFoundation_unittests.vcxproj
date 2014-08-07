@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\containers\stackBase.cpp" />
     <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\conversion.cpp" />
     <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\ptr.cpp" />
     <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\stringUtils.cpp" />

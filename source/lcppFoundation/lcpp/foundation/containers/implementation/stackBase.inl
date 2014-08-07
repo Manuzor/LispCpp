@@ -24,6 +24,23 @@ lcpp::StackBase<T_Element, N_StaticSize>::pop()
 
 template<typename T_Element, ezUInt32 N_StaticSize>
 inline
+ezResult
+lcpp::StackBase<T_Element, N_StaticSize>::pop(ezInt32 relativeIndex)
+{
+    if (m_stack.IsEmpty())
+    {
+        return EZ_FAILURE;
+    }
+
+    auto index = convertToAbsolute(relativeIndex);
+
+    m_stack.RemoveAt(index);
+
+    return EZ_SUCCESS;
+}
+
+template<typename T_Element, ezUInt32 N_StaticSize>
+inline
 void
 lcpp::StackBase<T_Element, N_StaticSize>::push(const T_Element& newElement)
 {

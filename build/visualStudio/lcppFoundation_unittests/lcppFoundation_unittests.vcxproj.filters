@@ -7,6 +7,9 @@
     <Filter Include="lcpp\foundation">
       <UniqueIdentifier>{69d1e9b3-4afc-43db-a4c4-cf7ae394920c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\foundation\containers">
+      <UniqueIdentifier>{43b4cc2d-172a-4cb8-909b-26e23ca47c58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\main.cpp">
@@ -22,6 +25,9 @@
       <Filter>lcpp\foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\stdafx.cpp" />
+    <ClCompile Include="..\..\..\source\lcppFoundation_unitTests\lcpp\foundation\containers\stackBase.cpp">
+      <Filter>lcpp\foundation\containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppFoundation_unitTests\stdafx.h" />

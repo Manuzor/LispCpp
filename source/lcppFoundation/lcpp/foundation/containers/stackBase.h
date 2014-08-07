@@ -7,8 +7,11 @@ namespace lcpp
     {
     public:
 
-            /// \brief Pops the element from the stack at the given index.
+            /// \brief Pops the element from the top of the stack.
         ezResult pop();
+
+            /// \brief Pops the element from the stack at the given index, shifting all elements above it down.
+        ezResult pop(ezInt32 relativeIndex);
 
             /// \brief Pushes \a newElement onto the top of the stack.
         void push(const T_Element& newElement);
