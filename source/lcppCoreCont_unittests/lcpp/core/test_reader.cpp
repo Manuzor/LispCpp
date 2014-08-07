@@ -163,10 +163,10 @@ LCPP_TestCase(Reader, List)
     {
         auto pCons = readString("(lambda()42 1337)");
 
-        auto pSymbol_lambda = cons::getCar(pCons);
+        auto pSyntax_lambda = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);
 
-        CUT_ASSERT.isTrue(symbol::getValue(pSymbol_lambda).IsEqual("lambda"));
+        CUT_ASSERT.isTrue(object::isType(pSyntax_lambda, Type::Syntax));
 
         auto pNil = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);

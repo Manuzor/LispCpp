@@ -11,6 +11,7 @@
 #include "lcpp/core/typeSystem/types/number.h"
 
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 
 namespace lcpp
 {
@@ -74,4 +75,24 @@ LCPP_TestCase(Syntax_BuiltinFunctions, begin)
 
     pResult = evalString("(begin 1 2)");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 2);
+}
+
+LCPP_TestCase(Syntax_BuiltinFunctions, lambda)
+{
+    auto pResult = LCPP_pNil;
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pResult = evalString("lambda");
+    CUT_ASSERT.isTrue(syntax::builtin::getName(pResult) == symbol::create("lambda"));
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pResult = evalString("(lambda () 1)");
+    CUT_ASSERT.isTrue(isNil(lambda::userDefined::getName(pResult)));
+
+    //////////////////////////////////////////////////////////////////////////
+
+    pResult = evalString("((lambda () 1))");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
 }

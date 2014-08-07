@@ -21,6 +21,7 @@ namespace lcpp
             {
                 Ptr<LispObject> define_2(Ptr<LispObject> pCont);
                 Ptr<LispObject> begin_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> lambda_helper(Ptr<LispObject> pCont);
             }
         }
     }

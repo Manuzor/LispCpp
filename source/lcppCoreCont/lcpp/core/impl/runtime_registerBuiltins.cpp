@@ -47,6 +47,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddSyntax("quote", &syntax::builtin::quote, Signature::create(1));
     LCPP_AddSyntax("begin", &syntax::builtin::begin, Signature::createVarArg());
     LCPP_AddSyntax("define", &syntax::builtin::define, Signature::create(2));
+    LCPP_AddSyntax("lambda", &syntax::builtin::lambda, Signature::createVarArg(2));
 
     // Macros.
     //////////////////////////////////////////////////////////////////////////

@@ -9,9 +9,11 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -104,9 +106,11 @@ namespace lcpp
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
-                auto pArgNameList = pStack->get(0);
+                auto pArgNameList = pStack->get(1);
+                auto pBodyList = cons::pack(pStack, 2);
 
-                LCPP_NOT_IMPLEMENTED;
+                auto pLambda = lcpp::lambda::userDefined::create(pEnv, pArgNameList, pBodyList);
+                LCPP_cont_return(pCont, pLambda);
             }
 
             Ptr<LispObject> quote(Ptr<LispObject> pCont)
