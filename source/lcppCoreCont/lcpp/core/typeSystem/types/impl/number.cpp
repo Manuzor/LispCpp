@@ -12,6 +12,7 @@
 #include "lcpp/core/typeSystem/types/bool.h"
 
 #include "lcpp/foundation/conversion.h"
+#include "lcpp/core/exceptions/arithmeticException.h"
 
 namespace lcpp
 {
@@ -95,6 +96,11 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 
+            if(isTrue(isZero(pObject)))
+            {
+                LCPP_THROW(exceptions::DivisionByZero());
+            }
+
             if(object::isType(pObject, Type::Integer))
             {
                 return create(Float_t(1.0f) / getInteger(pObject));
@@ -165,8 +171,7 @@ namespace lcpp
         {
             if(isTrue(isZero(pRhs)))
             {
-                // TODO throw division by zero exception.
-                LCPP_NOT_IMPLEMENTED;
+                LCPP_THROW(exceptions::DivisionByZero());
             }
 
             auto pResult = LCPP_pNil;

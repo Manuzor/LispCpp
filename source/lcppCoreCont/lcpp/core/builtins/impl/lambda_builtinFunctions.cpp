@@ -6,6 +6,7 @@
 
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/object.h"
 
 #define LCPP_lambda_builtinFunctions_defineArithmeticFunctionHelperContent(operatorFunction) \
     typeCheck(pCont, Type::Continuation);                                                    \
@@ -105,10 +106,18 @@ namespace lcpp
                 auto pStack = cont::getStack(pCont);
                 cont::setUserData(pCont, 0);
 
+                auto& pFirstArg = pStack->get(0);
+
                 if(pStack->size() == 1)
                 {
-                    auto pResult = number::invert(pStack->get(0));
+                    auto pResult = number::invert(pFirstArg);
                     LCPP_cont_return(pCont, pResult);
+                }
+
+                // If the first argument is an integer, make it a float so that the result of the division is always a float as well.
+                if(object::isType(pFirstArg, Type::Integer))
+                {
+                    pFirstArg = number::create(number::Float_t(number::getInteger(pFirstArg)));
                 }
 
                 LCPP_cont_tailCall(pCont, &detail::divide_helper);

@@ -12,6 +12,7 @@
 #include "lcpp/core/typeSystem/types/number.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/exceptions/arithmeticException.h"
 
 LCPP_TestGroup(Lambda_BuiltinFunctions);
 
@@ -77,5 +78,10 @@ LCPP_TestCase(Lambda_BuiltinFunctions, divide)
     pResult = evalString("(/ 2)");
     CUT_ASSERT.isTrue(number::getFloat(pResult) == 0.5);
 
-    CUT_ASSERT.notImplemented("Implement the '/' function using the '*' function, i.e.: (/ 1 2 3 4) => (/ 1 (* 2 3 4))");
+    CUT_ASSERT.throws<exceptions::DivisionByZero>([]{ evalString("(/ 0)"); });
+
+    CUT_ASSERT.throws<exceptions::DivisionByZero>([]{ evalString("(/ 2 0)"); });
+
+    pResult = evalString("(/ 1 2 3)");
+    CUT_ASSERT.isTrue(number::getFloat(pResult) == 1.0 / 2.0 / 3.0);
 }
