@@ -66,14 +66,6 @@ LCPP_TestCase(Lambda_UserDefined, toString)
 
 LCPP_TestCase(Lambda_UserDefined, uniqueCallerEnv)
 {
-
-    CUT_ASSERT.notImplemented("Needs the following implemented: \n"
-                              "  * Syntax  'define' shorthand syntax for lambdas\n"
-                              "  * Syntax  'if'\n"
-                              "  * Syntax  'begin'\n"
-                              "  * Builtin '-'"
-                              );
-
     auto content = "(define (f x abort)           "
                    "    (if abort                 "
                    "        x                     "
