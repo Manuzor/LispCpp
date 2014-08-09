@@ -16,14 +16,14 @@ lcpp::operator==(const LispFunction& lhs, const LispFunction& rhs)
 
 inline
 lcpp::Ptr<lcpp::LispEnvironment>
-lcpp::LispFunction::env()
+lcpp::LispFunction::parentEnv()
 {
-    return m_pEnv;
+    return m_pParentEnv;
 }
 
 inline
 lcpp::Ptr<const lcpp::LispEnvironment>
-lcpp::LispFunction::env() const
+lcpp::LispFunction::parentEnv() const
 {
-    return m_pEnv;
+    return m_pParentEnv;
 }

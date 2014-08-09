@@ -64,7 +64,7 @@ namespace lcpp
 
 // Use VerboseDebugMessage to disable verbose debug loggings,
 // otherwise use something like Info or Debug.
-#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME Debug
+#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME VerboseDebugMessage
 
 #include "lcpp/foundation/exceptionBase.h"
 

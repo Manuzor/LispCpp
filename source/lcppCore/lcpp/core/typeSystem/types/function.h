@@ -18,7 +18,7 @@ namespace lcpp
 
     public:
 
-        LispFunction(Ptr<LispEnvironment> pEnv);
+        LispFunction(Ptr<LispEnvironment> pParentEnv);
 
         virtual bool operator==(const LispObject& obj) const LCPP_OVERRIDE;
 
@@ -30,11 +30,11 @@ namespace lcpp
 
         virtual void name(Ptr<LispSymbol> pNewName) LCPP_OVERRIDE;
 
-        Ptr<LispEnvironment> env();
-        Ptr<const LispEnvironment> env() const;
+        Ptr<LispEnvironment> parentEnv();
+        Ptr<const LispEnvironment> parentEnv() const;
 
     protected:
-        Ptr<LispEnvironment> m_pEnv;
+        Ptr<LispEnvironment> m_pParentEnv;
     };
 
     bool operator==(const LispFunction& lhs, const LispFunction& rhs);
@@ -75,7 +75,7 @@ namespace lcpp
 
     private:
 
-        LispFunction_BuiltIn(Ptr<LispEnvironment> pEnv,
+        LispFunction_BuiltIn(Ptr<LispEnvironment> pParentEnv,
                              ExecutorPtr_t pExec);
     };
 
@@ -85,7 +85,7 @@ namespace lcpp
     {
     public:
 
-        static Ptr<LispFunction_UserDefined> create(Ptr<LispEnvironment> pEnv,
+        static Ptr<LispFunction_UserDefined> create(Ptr<LispEnvironment> pParentEnv,
                                                     Ptr<LispObject> pArgNameList,
                                                     Ptr<LispCons> pBody);
 
@@ -112,11 +112,11 @@ namespace lcpp
 
     private:
 
-        LispFunction_UserDefined(Ptr<LispEnvironment> pEnv,
+        LispFunction_UserDefined(Ptr<LispEnvironment> pParentEnv,
                                  Ptr<LispObject> pArgNameList,
                                  Ptr<LispCons> pBody);
 
-        void processArguments(Ptr<LispObject> pArgs);
+        void processArguments(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs);
         /// \return \c true if \a pArgs is a cons, \c false if it is nil.
         ///         In other words, this returns wether further processing needs to be done.
         bool checkArgumentCount(Ptr<LispObject> pArgs);

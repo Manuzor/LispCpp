@@ -63,6 +63,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> p
             ezLog::VerboseDebugMessage(messsage.GetData());
             throw exceptions::NoBindingFound(messsage.GetData());
         }
+        
         return pResult;
     }
 
