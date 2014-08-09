@@ -160,7 +160,7 @@ inline ezStreamWriterBase& operator << (ezStreamWriterBase& Stream, const char* 
   if (szValue != nullptr)
     uiLength = static_cast<ezUInt32>(strlen(szValue));
 
-  Stream << uiLength;
+  //Stream << uiLength;
 
   if (uiLength > 0)
     Stream.WriteBytes(reinterpret_cast<const ezUInt8*>(szValue), uiLength);

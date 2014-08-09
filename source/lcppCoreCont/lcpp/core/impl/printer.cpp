@@ -31,11 +31,15 @@ namespace lcpp
 
             auto pOutput = pState->getPrinterState()->m_pOutStream;
 
-            auto pArg = pStack->get(-1);
+            auto pToPrint = pStack->get(-1);
+            pStack->pop();
 
-            *pOutput << pArg;
+            if(!isVoid(pToPrint))
+            {
+                *pOutput << pToPrint << "\n";
+            }
 
-            LCPP_cont_return(pCont, LCPP_pVoid);
+            LCPP_cont_tailCall(pCont);
         }
     }
 }

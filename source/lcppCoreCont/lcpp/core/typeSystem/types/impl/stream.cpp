@@ -36,6 +36,13 @@ namespace lcpp
             return pStream->m_stream.getIterator();
         }
 
+        void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter)
+        {
+            typeCheck(pStream, Type::Stream);
+
+            pStream->m_stream.getIterator() = iter;
+        }
+
         ezUInt32 getCharacter(Ptr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
@@ -96,5 +103,6 @@ namespace lcpp
             theString.Append('>');
             return str::create(theString);
         }
+
     }
 }

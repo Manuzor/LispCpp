@@ -47,4 +47,9 @@
       <UniqueIdentifier>{f7bdc118-8dc2-449b-9fb5-f3081b64131b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\lcppCLICont\lcpp\cli\implementation\ioUtils.inl">
+      <Filter>lcpp\cli\implementation</Filter>
+    </None>
+  </ItemGroup>
 </Project>

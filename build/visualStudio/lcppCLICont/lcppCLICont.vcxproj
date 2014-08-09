@@ -38,6 +38,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\lcppCLICont\lcpp\cli\implementation\ioUtils.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E1620671-2E40-479F-B606-73A333C07EBC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
