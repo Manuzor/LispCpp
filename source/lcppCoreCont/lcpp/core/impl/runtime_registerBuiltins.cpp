@@ -70,6 +70,9 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     // Builtin functions.
     //////////////////////////////////////////////////////////////////////////
     LCPP_AddBuiltin("+", &lambda::builtin::add, Signature::createVarArg());
+    LCPP_AddBuiltin("-", &lambda::builtin::subtract, Signature::createVarArg(1));
+    LCPP_AddBuiltin("*", &lambda::builtin::multiply, Signature::createVarArg());
+    LCPP_AddBuiltin("/", &lambda::builtin::divide, Signature::createVarArg(1));
 
 }
 

@@ -17,6 +17,15 @@ namespace lcpp
         LCPP_API_CORE_CONT Float_t getFloat(Ptr<LispObject> pObject);
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+
+        LCPP_API_CORE_CONT Ptr<LispObject> negate(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> invert(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> isZero(Ptr<LispObject> pObject);
+
+        LCPP_API_CORE_CONT Ptr<LispObject> add(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
+        LCPP_API_CORE_CONT Ptr<LispObject> subtract(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
+        LCPP_API_CORE_CONT Ptr<LispObject> multiply(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
+        LCPP_API_CORE_CONT Ptr<LispObject> divide(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
     }
 }
 

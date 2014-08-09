@@ -63,3 +63,30 @@ LCPP_TestCase(Lambda_UserDefined, toString)
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure: this-is-the-name>"));
 }
+
+LCPP_TestCase(Lambda_UserDefined, uniqueCallerEnv)
+{
+
+    CUT_ASSERT.notImplemented("Needs the following implemented: \n"
+                              "  * Syntax  'define' shorthand syntax for lambdas\n"
+                              "  * Syntax  'if'\n"
+                              "  * Syntax  'begin'\n"
+                              "  * Builtin '-'"
+                              );
+
+    auto content = "(define (f x abort)           "
+                   "    (if abort                 "
+                   "        x                     "
+                   "        (begin (f (- x 1)) x) "
+                   "    )                         "
+                   ")                             ";
+
+    auto pResult = LCPP_pNil;
+    evalString(content);
+
+    pResult = evalString("(f 42 #t)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 42);
+
+    pResult = evalString("(f 42 #f)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 42, "Recursive call to 'f' modified the environment of the calling 'f'!");
+}

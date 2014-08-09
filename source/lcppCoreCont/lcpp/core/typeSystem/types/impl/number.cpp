@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/runtime.h"
@@ -7,6 +6,10 @@
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/object.h"
+
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/bool.h"
 
 #include "lcpp/foundation/conversion.h"
 
@@ -76,5 +79,101 @@ namespace lcpp
             return str::create(stringValue.GetData());
         }
 
+        Ptr<LispObject> negate(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Integer, Type::Float);
+
+            if(object::isType(pObject, Type::Integer))
+            {
+                return create(-getInteger(pObject));
+            }
+
+            return create(-getFloat(pObject));
+        }
+
+        Ptr<LispObject> invert(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Integer, Type::Float);
+
+            if(object::isType(pObject, Type::Integer))
+            {
+                return create(Float_t(1.0f) / getInteger(pObject));
+            }
+
+            return create(Float_t(1.0f) / getFloat(pObject));
+        }
+
+        Ptr<LispObject> isZero(Ptr<LispObject> pObject)
+        {
+            typeCheck(pObject, Type::Integer, Type::Float);
+
+            if(object::isType(pObject, Type::Integer))
+            {
+                return getInteger(pObject) == 0 ? LCPP_pTrue : LCPP_pFalse;
+            }
+
+            // TODO use epsilon comparison.
+            return getFloat(pObject) == 0.0 ? LCPP_pTrue : LCPP_pFalse;
+        }
+
+#define LCPP_number_defineArithmeticFunctionContent(pResult, pLhs, pRhs, op) \
+    if (object::isType(pLhs, Type::Float))                                   \
+    {                                                                        \
+        if (object::isType(pRhs, Type::Float))                               \
+        {                                                                    \
+            pResult = create(getFloat(pLhs) op getFloat(pRhs));              \
+        }                                                                    \
+        else                                                                 \
+        {                                                                    \
+            pResult = create(getFloat(pLhs) op getInteger(pRhs));            \
+        }                                                                    \
+    }                                                                        \
+    else                                                                     \
+    {                                                                        \
+        if (object::isType(pRhs, Type::Float))                               \
+        {                                                                    \
+            pResult = create(getInteger(pLhs) op getFloat(pRhs));            \
+        }                                                                    \
+        else                                                                 \
+        {                                                                    \
+            pResult = create(getInteger(pLhs) op getInteger(pRhs));          \
+        }                                                                    \
+    }
+
+        Ptr<LispObject> add(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pNil;
+            LCPP_number_defineArithmeticFunctionContent(pResult , pLhs, pRhs, +);
+            return pResult;
+        }
+
+        Ptr<LispObject> subtract(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pNil;
+            LCPP_number_defineArithmeticFunctionContent(pResult, pLhs, pRhs, -);
+            return pResult;
+        }
+
+        Ptr<LispObject> multiply(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pNil;
+            LCPP_number_defineArithmeticFunctionContent(pResult, pLhs, pRhs, *);
+            return pResult;
+        }
+
+        Ptr<LispObject> divide(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            if(isTrue(isZero(pRhs)))
+            {
+                // TODO throw division by zero exception.
+                LCPP_NOT_IMPLEMENTED;
+            }
+
+            auto pResult = LCPP_pNil;
+            LCPP_number_defineArithmeticFunctionContent(pResult, pLhs, pRhs, /);
+            return pResult;
+        }
+
+#undef LCPP_number_defineArithmeticFunctionContent
     }
 }
