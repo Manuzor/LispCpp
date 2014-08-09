@@ -56,6 +56,19 @@ LCPP_TestCase(Syntax_BuiltinFunctions, define_name)
     CUT_ASSERT.isTrue(symbol::getValue(object::getName(pResult)).IsEqual("x"));
 }
 
+LCPP_TestCase(Syntax_BuiltinFunctions, define_shortHandLambdaSyntax)
+{
+    auto pResult = LCPP_pNil;
+
+    evalString("(define (the-answer) 42)");
+    pResult = evalString("(the-answer)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 42);
+
+    evalString("(define (something a b) 1 2 3 b a)");
+    pResult = evalString("(something 5 4)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 5);
+}
+
 LCPP_TestCase(Syntax_BuiltinFunctions, begin)
 {
     auto pResult = LCPP_pNil;

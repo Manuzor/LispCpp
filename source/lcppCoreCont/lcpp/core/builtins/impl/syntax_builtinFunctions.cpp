@@ -68,20 +68,84 @@ namespace lcpp
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
+                auto argCount = pStack->size() - 1; // The env.
+
+                auto pSymbol = LCPP_pNil;
+                auto pFirstArg = pStack->get(1);
+
+                // Lambda shorthand syntax
+                //////////////////////////////////////////////////////////////////////////
+                if (object::isType(pFirstArg, Type::Cons))
+                {
+                    pSymbol = cons::getCar(pFirstArg);
+                    auto pArgNameList = cons::getCdr(pFirstArg);
+
+                    auto pContCall = cont::create(pCont, &lambda);
+                    auto pStackCall = cont::getStack(pContCall);
+
+                    // Push the pEnv, the argument name list, and all other arguments to define.
+                    pStackCall->push(pEnv);
+                    pStackCall->push(pArgNameList);
+                    for(auto i = ezUInt32(2); i < pStack->size(); ++i)
+                    {
+                        auto pToPush = pStack->get(i);
+                        pStackCall->push(pToPush);
+                    }
+
+                    // prepare our own stack for define_addBinding.
+                    pStack->clear();
+                    pStack->push(pEnv);
+                    pStack->push(pSymbol);
+                    // The call to &lambda will push the actual value on top.
+
+                    // Set the proper function in pContCall's parent env pCont.
+                    cont::setFunction(pCont, &detail::define_addBinding);
+                    LCPP_cont_jump(pContCall);
+                }
+
+                // "Regular" define.
+                //////////////////////////////////////////////////////////////////////////
+                typeCheck(pFirstArg, Type::Symbol);
+
+                if(argCount > 2) // env, key, value
+                {
+                    auto message = ezStringBuilder();
+                    message.Format("Expected 2 arguments, got %u.", pStack->size());
+                    LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
+                }
+
+                auto pToDefine = pStack->get(2);
+                // Pop the unevaluated value (pToDefine).
+                pStack->pop();
+
+                cont::setFunction(pCont, &detail::define_addBinding);
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToDefine);
+            }
+
+            Ptr<LispObject> detail::define_addBinding(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
                 auto pSymbol = pStack->get(1);
                 typeCheck(pSymbol, Type::Symbol);
 
                 auto pValue = pStack->get(2);
-                // Pop the unevaluated value so eval::evaluate can push the evaluated value.
-                pStack->pop();
 
                 //////////////////////////////////////////////////////////////////////////
 
-                cont::setFunction(pCont, &detail::define_2);
-                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pValue);
+                env::addBinding(pEnv, pSymbol, pValue);
+
+                // TODO give pValue a name, if it is nameable.
+
+                if (object::isNameable(pValue) && !object::hasName(pValue))
+                {
+                    object::setName(pValue, pSymbol);
+                }
+
+                LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
-            LCPP_API_CORE_CONT Ptr<LispObject> begin(Ptr<LispObject> pCont)
+            Ptr<LispObject> begin(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -111,29 +175,6 @@ namespace lcpp
                 ++index;
 
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
-            }
-
-            Ptr<LispObject> detail::define_2(Ptr<LispObject> pCont)
-            {
-                LCPP_SyntaxBuiltinFunction_CommonBody;
-
-                auto pSymbol = pStack->get(1);
-                typeCheck(pSymbol, Type::Symbol);
-
-                auto pValue = pStack->get(2);
-
-                //////////////////////////////////////////////////////////////////////////
-
-                env::addBinding(pEnv, pSymbol, pValue);
-
-                // TODO give pValue a name, if it is nameable.
-
-                if (object::isNameable(pValue) && !object::hasName(pValue))
-                {
-                    object::setName(pValue, pSymbol);
-                }
-
-                LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
             Ptr<LispObject> lambda(Ptr<LispObject> pCont)
