@@ -26,8 +26,11 @@ namespace lcpp
             ///
             /// This means that -1 is always the top of the stack.
             /// \return LCPP_NIL if the index is out of bounds.
-        T_Element& get(ezInt32 relativeIndex);
-        const T_Element& get(ezInt32 relativeIndex) const;
+        template<typename T_Integer>
+        T_Element& get(T_Integer relativeIndex);
+
+        template<typename T_Integer>
+        const T_Element& get(T_Integer relativeIndex) const;
 
             /// \brief The absolute index of the top of the stack.
             /// \remark Is basically size() - 1
@@ -54,6 +57,14 @@ namespace lcpp
         ezHybridArray<T_Element, N_StaticSize> m_stack;
 
         T_Element m_nilElement;
+
+    private:
+
+        T_Element& getRelative(ezInt32 relativeIndex);
+        const T_Element& getRelative(ezInt32 relativeIndex) const;
+
+        T_Element& getAbsolute(ezUInt32 absoulteIndex);
+        const T_Element& getAbsolute(ezUInt32 absoulteIndex) const;
 
     protected:
 

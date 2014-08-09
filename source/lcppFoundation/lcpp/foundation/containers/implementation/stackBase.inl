@@ -48,28 +48,21 @@ lcpp::StackBase<T_Element, N_StaticSize>::push(const T_Element& newElement)
 }
 
 template<typename T_Element, ezUInt32 N_StaticSize>
+template<typename T_Integer>
 inline
 T_Element&
-lcpp::StackBase<T_Element, N_StaticSize>::get(ezInt32 relativeIndex)
+lcpp::StackBase<T_Element, N_StaticSize>::get(T_Integer relativeIndex)
 {
     return const_cast<T_Element&>(const_cast<const StackBase* const>(this)->get(relativeIndex));
 }
 
 template<typename T_Element, ezUInt32 N_StaticSize>
+template<typename T_Integer>
 inline
 const T_Element&
-lcpp::StackBase<T_Element, N_StaticSize>::get(ezInt32 relativeIndex) const
+lcpp::StackBase<T_Element, N_StaticSize>::get(T_Integer relativeIndex) const
 {
-    if(isEmpty()) { return m_nilElement; }
-
-    auto index = convertToAbsolute(relativeIndex);
-    if(index > top())
-    {
-        // Invalid index (out of bounds)
-        return m_nilElement;
-    }
-
-    return m_stack[index];
+    return std::is_signed<T_Integer>::value ? getRelative(ezInt32(relativeIndex)) : getAbsolute(ezUInt32(relativeIndex));
 }
 
 template<typename T_Element, ezUInt32 N_StaticSize>
@@ -144,4 +137,53 @@ lcpp::StackBase<T_Element, N_StaticSize>::convertToAbsolute(ezInt32 relativeInde
     // we add it to the current size to get the absolute index.
     auto absoluteIndex = size() + relativeIndex;
     return absoluteIndex;
+}
+
+template<typename T_Element, ezUInt32 N_StaticSize>
+inline
+T_Element&
+lcpp::StackBase<T_Element, N_StaticSize>::getAbsolute(ezUInt32 absoluteIndex)
+{
+    return const_cast<T_Element&>(const_cast<const StackBase* const>(this)->getAbsolute(absoluteIndex));
+}
+
+template<typename T_Element, ezUInt32 N_StaticSize>
+inline
+const T_Element&
+lcpp::StackBase<T_Element, N_StaticSize>::getAbsolute(ezUInt32 absoluteIndex) const
+{
+    if(isEmpty()) { return m_nilElement; }
+
+    if(absoluteIndex > top())
+    {
+        // Invalid index (out of bounds)
+        return m_nilElement;
+    }
+
+    return m_stack[absoluteIndex];
+}
+
+template<typename T_Element, ezUInt32 N_StaticSize>
+inline
+T_Element&
+lcpp::StackBase<T_Element, N_StaticSize>::getRelative(ezInt32 relativeIndex)
+{
+    return const_cast<T_Element&>(const_cast<const StackBase* const>(this)->getRelative(relativeIndex));
+}
+
+template<typename T_Element, ezUInt32 N_StaticSize>
+inline
+const T_Element&
+lcpp::StackBase<T_Element, N_StaticSize>::getRelative(ezInt32 relativeIndex) const
+{
+    if(isEmpty()) { return m_nilElement; }
+
+    auto absoluteIndex = convertToAbsolute(relativeIndex);
+    if(absoluteIndex > top())
+    {
+        // Invalid index (out of bounds)
+        return m_nilElement;
+    }
+
+    return m_stack[absoluteIndex];
 }
