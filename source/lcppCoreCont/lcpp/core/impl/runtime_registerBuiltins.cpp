@@ -14,10 +14,16 @@
 
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
 #include "lcpp/core/builtins/lambda_builtinFunctions.h"
+#include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/void.h"
 
 // Enable this to allow debug messages
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
+
+#define LCPP_AddGlobalVariable(szName, pValue) \
+    env::addBinding(m_pGlobalEnvironment, symbol::create(szName), pValue)
 
 #define LCPP_AddCharacterMacro(szName, pFunction, signature) \
     reader::addCharacterMacro(this, symbol::create(szName), lambda::builtin::create(m_pGlobalEnvironment, pFunction, signature))
@@ -37,6 +43,13 @@
 
 void lcpp::LispRuntimeState::registerBuiltIns()
 {
+    // Global objects.
+    //////////////////////////////////////////////////////////////////////////
+    LCPP_AddGlobalVariable("#t", LCPP_pTrue);
+    LCPP_AddGlobalVariable("#f", LCPP_pFalse);
+    LCPP_AddGlobalVariable("null", LCPP_pNil);
+    LCPP_AddGlobalVariable("#v", LCPP_pVoid);
+
     // Character macros.
     //////////////////////////////////////////////////////////////////////////
     LCPP_AddCharacterMacro("(", &reader::detail::readList, Signature::create(1));
@@ -46,6 +59,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     //////////////////////////////////////////////////////////////////////////
     LCPP_AddSyntax("quote", &syntax::builtin::quote, Signature::create(1));
     LCPP_AddSyntax("begin", &syntax::builtin::begin, Signature::createVarArg());
+    LCPP_AddSyntax("if", &syntax::builtin::if_, Signature::create(3));
     LCPP_AddSyntax("define", &syntax::builtin::define, Signature::create(2));
     LCPP_AddSyntax("lambda", &syntax::builtin::lambda, Signature::createVarArg(2));
 
@@ -59,6 +73,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
 
 }
 
+#undef LCPP_AddGlobalVariable
 #undef LCPP_AddBuiltin
 #undef LCPP_AddMacro
 #undef LCPP_AddSyntax

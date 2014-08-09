@@ -9,6 +9,8 @@ namespace lcpp
     {
         namespace builtin
         {
+            LCPP_API_CORE_CONT Ptr<LispObject> if_(Ptr<LispObject> pCont);
+
             LCPP_API_CORE_CONT Ptr<LispObject> define(Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<LispObject> begin(Ptr<LispObject> pCont);
@@ -19,6 +21,7 @@ namespace lcpp
 
             namespace detail
             {
+                Ptr<LispObject> if_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> define_2(Ptr<LispObject> pCont);
                 Ptr<LispObject> begin_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> lambda_helper(Ptr<LispObject> pCont);

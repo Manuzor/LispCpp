@@ -10,10 +10,11 @@
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/bool.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/object.h"
-#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -30,6 +31,39 @@ namespace lcpp
     {
         namespace builtin
         {
+            Ptr<LispObject> if_(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pCondition = pStack->get(1);
+
+                cont::setFunction(pCont, &detail::if_helper);
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pCondition);
+            }
+
+            Ptr<LispObject> detail::if_helper(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pEvaluatedCondition = pStack->get(-1);
+                auto pCaseTrue = pStack->get(2);
+                auto pCaseFalse = pStack->get(3);
+
+                pStack->clear();
+                pStack->push(pEnv);
+
+                if (isTrue(pEvaluatedCondition))
+                {
+                    pStack->push(pCaseTrue);
+                }
+                else
+                {
+                    pStack->push(pCaseFalse);
+                }
+
+                LCPP_cont_tailCall(pCont, &eval::evaluate);
+            }
+
             Ptr<LispObject> define(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;

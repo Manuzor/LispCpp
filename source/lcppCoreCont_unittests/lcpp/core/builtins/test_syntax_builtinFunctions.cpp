@@ -15,7 +15,24 @@
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
 #include "lcpp/core/typeSystem/object.h"
 
+#include "lcpp/core/exceptions/noBindingFoundException.h"
+
 LCPP_TestGroup(Syntax_BuiltinFunctions);
+
+LCPP_TestCase(Syntax_BuiltinFunctions, if_)
+{
+    evalString("(if #t (define evaluated-to-true-1 #t) (define evaluated-to-false-1 #f))");
+
+    CUT_ASSERT.throwsNothing([]{ evalString("evaluated-to-true-1"); });
+    CUT_ASSERT.throws<exceptions::NoBindingFound>([]{ evalString("evaluated-to-false-1"); });
+
+    //////////////////////////////////////////////////////////////////////////
+
+    evalString("(if #f (define evaluated-to-true-2 #t) (define evaluated-to-false-2 #f))");
+
+    CUT_ASSERT.throwsNothing([]{ evalString("evaluated-to-false-2"); });
+    CUT_ASSERT.throws<exceptions::NoBindingFound>([]{ evalString("evaluated-to-true-2"); });
+}
 
 LCPP_TestCase(Syntax_BuiltinFunctions, define)
 {
