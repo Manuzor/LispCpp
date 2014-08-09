@@ -18,31 +18,6 @@
 #include "lcpp/core/typeSystem/types/lambda_builtin.h"
 #include "lcpp/core/typeSystem/types/syntax_builtin.h"
 
-namespace lcpp
-{
-    static Ptr<LispObject> readStream(Ptr<LispObject> pStream)
-    {
-        typeCheck(pStream, Type::Stream);
-
-        auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-        auto pMainStack = cont::getStack(pContMain);
-        
-        auto pContRead = cont::create(pContMain, &reader::read);
-        cont::getStack(pContRead)->push(pStream);
-
-        cont::trampoline(pContRead);
-
-        return pMainStack->get(0);
-    }
-
-    static Ptr<LispObject> readString(const ezString& content)
-    {
-        auto pStream = stream::create(content.GetIteratorFront());
-
-        return readStream(pStream);
-    }
-}
-
 LCPP_TestGroup(Reader);
 
 LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)

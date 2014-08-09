@@ -22,6 +22,14 @@ namespace lcpp { namespace test {
         virtual void doRun() = 0;
     };
 
+    Ptr<LispObject> readStream(Ptr<LispObject> pStream);
+
+    Ptr<LispObject> readString(const ezString& content);
+
+    Ptr<LispObject> evalStream(Ptr<LispObject> pStream);
+
+    Ptr<LispObject> evalString(const ezString& content);
+
 }} // namespace lcpp::test
 
 #include "lcpp/test/impl/testGroupMacros.inl"
