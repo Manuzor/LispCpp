@@ -33,9 +33,9 @@ namespace lcpp
     }
 }
 
-LCPP_TestGroup(Lambda);
+LCPP_TestGroup(Lambda_Builtin);
 
-LCPP_TestCase(Lambda, Builtin)
+LCPP_TestCase(Lambda_Builtin, Basics)
 {
     auto pState = LCPP_test_pRuntimeState;
 
@@ -58,7 +58,7 @@ LCPP_TestCase(Lambda, Builtin)
     CUT_ASSERT.isTrue(!isFalse(pResult));
 }
 
-LCPP_TestCase(Lambda, Builtin_Name)
+LCPP_TestCase(Lambda_Builtin, Name)
 {
     auto pState = LCPP_test_pRuntimeState;
     auto pEnv = pState->getGlobalEnvironment();
@@ -74,7 +74,7 @@ LCPP_TestCase(Lambda, Builtin_Name)
     CUT_ASSERT.isTrue(symbol::getValue(lambda::builtin::getName(pLambda)).IsEqual("my-lambda"));
 }
 
-LCPP_TestCase(Lambda, Builtin_toString)
+LCPP_TestCase(Lambda_Builtin, toString)
 {
     auto pState = LCPP_test_pRuntimeState;
     auto pEnv = pState->getGlobalEnvironment();
@@ -90,48 +90,4 @@ LCPP_TestCase(Lambda, Builtin_toString)
     pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure: this-is-a-name>"));
-}
-
-LCPP_TestCase(Lambda, UserDefined)
-{
-    auto pState = LCPP_test_pRuntimeState;
-
-    auto pArgList = cons::create(symbol::create("x"), LCPP_pNil);
-    auto pBodyList = cons::create(number::create(1337), LCPP_pNil);
-
-    auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
-
-    auto pResult = LCPP_pFalse;
-
-    {
-        auto pContMain = cont::createTopLevel(pState);
-        auto pContCall = cont::create(pContMain, &object::call);
-        cont::getStack(pContCall)->push(pLambda);
-
-        cont::trampoline(pContCall);
-
-        pResult = cont::getStack(pContMain)->get(-1);
-    }
-
-    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
-}
-
-LCPP_TestCase(Lambda, UserDefined_toString)
-{
-    auto pState = LCPP_test_pRuntimeState;
-
-    auto pArgList = LCPP_pNil;
-    auto pBodyList = cons::create(number::create(1337), LCPP_pNil);
-
-    auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
-
-    auto pString = object::toString(pLambda);
-
-    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure>"));
-
-    lambda::userDefined::setName(pLambda, symbol::create("this-is-the-name"));
-
-    pString = object::toString(pLambda);
-
-    CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure: this-is-the-name>"));
 }

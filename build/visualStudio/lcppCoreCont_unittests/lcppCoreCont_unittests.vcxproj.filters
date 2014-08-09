@@ -103,9 +103,6 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_cons.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_lambda.cpp">
-      <Filter>lcpp\core\typeSystem\types</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_string.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
@@ -120,6 +117,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\builtins\test_syntax_builtinFunctions.cpp">
       <Filter>lcpp\core\builtins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_lambda_builtin.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_lambda_userDefined.cpp">
+      <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
