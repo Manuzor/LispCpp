@@ -74,6 +74,12 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("*", &lambda::builtin::multiply, Signature::createVarArg());
     LCPP_AddBuiltin("/", &lambda::builtin::divide, Signature::createVarArg(1));
 
+    LCPP_AddBuiltin(">",  &lambda::builtin::greaterThan, Signature::createVarArg(2));
+    LCPP_AddBuiltin(">=", &lambda::builtin::greaterThanOrEqual, Signature::createVarArg(2));
+    LCPP_AddBuiltin("=",  &lambda::builtin::equal, Signature::createVarArg(2));
+    LCPP_AddBuiltin("<",  &lambda::builtin::lowerThan, Signature::createVarArg(2));
+    LCPP_AddBuiltin("<=", &lambda::builtin::lowerThanOrEqual, Signature::createVarArg(2));
+
 }
 
 #undef LCPP_AddGlobalVariable

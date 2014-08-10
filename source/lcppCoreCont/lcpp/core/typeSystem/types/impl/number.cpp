@@ -180,5 +180,67 @@ namespace lcpp
         }
 
 #undef LCPP_number_defineArithmeticFunctionContent
+
+#define LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, op)           \
+    if (object::isType(pLhs, Type::Float))                                             \
+    {                                                                                  \
+        if (object::isType(pRhs, Type::Float))                                         \
+        {                                                                              \
+            pResult = getFloat(pLhs) op getFloat(pRhs) ? LCPP_pTrue : LCPP_pFalse;     \
+        }                                                                              \
+        else                                                                           \
+        {                                                                              \
+            pResult = getFloat(pLhs) op getInteger(pRhs) ? LCPP_pTrue : LCPP_pFalse;   \
+        }                                                                              \
+    }                                                                                  \
+    else                                                                               \
+    {                                                                                  \
+        if (object::isType(pRhs, Type::Float))                                         \
+        {                                                                              \
+            pResult = getInteger(pLhs) op getFloat(pRhs) ? LCPP_pTrue : LCPP_pFalse;   \
+        }                                                                              \
+        else                                                                           \
+        {                                                                              \
+            pResult = getInteger(pLhs) op getInteger(pRhs) ? LCPP_pTrue : LCPP_pFalse; \
+        }                                                                              \
+    }
+
+        Ptr<LispObject> greaterThan(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pFalse;
+            LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, > );
+            return pResult;
+        }
+
+        Ptr<LispObject> greaterThanOrEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pFalse;
+            LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, >=);
+            return pResult;
+        }
+
+        Ptr<LispObject> equal(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pFalse;
+            LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, ==);
+            return pResult;
+        }
+
+        Ptr<LispObject> lowerThan(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pFalse;
+            LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, <);
+            return pResult;
+        }
+
+        Ptr<LispObject> lowerThanOrEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            auto pResult = LCPP_pFalse;
+            LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, <=);
+            return pResult;
+        }
+
+#undef LCPP_number_defineComparisonFunctionContent
+
     }
 }
