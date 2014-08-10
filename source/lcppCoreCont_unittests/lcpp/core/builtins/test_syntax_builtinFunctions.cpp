@@ -131,3 +131,20 @@ LCPP_TestCase(Syntax_BuiltinFunctions, and)
     pResult = evalString("(and 1 #f 2)");
     CUT_ASSERT.isTrue(isFalse(pResult));
 }
+
+LCPP_TestCase(Syntax_BuiltinFunctions, or)
+{
+    auto pResult = LCPP_pNil;
+
+    pResult = evalString("(or)");
+    CUT_ASSERT.isTrue(isFalse(pResult));
+
+    pResult = evalString("(or 1)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+
+    pResult = evalString("(or 1 2)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+
+    pResult = evalString("(or #f 1 2)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+}
