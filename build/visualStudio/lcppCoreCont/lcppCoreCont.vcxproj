@@ -71,6 +71,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\includeAll.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\lambda_builtinFunctions.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\lambda_builtinFunctions_arithmetic.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\lambda_builtinFunctions_comparison.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\syntax_builtinFunctions.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\evaluator.cpp" />
