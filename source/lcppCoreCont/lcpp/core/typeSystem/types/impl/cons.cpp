@@ -124,7 +124,7 @@ namespace lcpp
         Ptr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
         {
             const auto startIndex = pStack->convertToAbsolute(relativeIndexFrom);
-            auto amount = ezMath::Min(pStack->size() - startIndex, maxAmount);
+            auto amount = ezMath::Min(pStack->size(), pStack->size() - startIndex, maxAmount);
 
             auto pCons = LCPP_pNil;
             auto tempStack = Stack();
