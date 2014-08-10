@@ -26,6 +26,7 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> subtract(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
         LCPP_API_CORE_CONT Ptr<LispObject> multiply(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
         LCPP_API_CORE_CONT Ptr<LispObject> divide(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
+        LCPP_API_CORE_CONT Ptr<LispObject> modulo(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
 
         LCPP_API_CORE_CONT Ptr<LispObject> greaterThan(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);
         LCPP_API_CORE_CONT Ptr<LispObject> greaterThanOrEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs);

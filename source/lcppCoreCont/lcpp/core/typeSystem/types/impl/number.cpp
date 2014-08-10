@@ -179,6 +179,18 @@ namespace lcpp
             return pResult;
         }
 
+        Ptr<LispObject> modulo(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            if(isTrue(isZero(pRhs)))
+            {
+                LCPP_THROW(exceptions::DivisionByZero());
+            }
+
+            auto pResult = create(getInteger(pLhs) % getInteger(pRhs));
+            return pResult;
+        }
+
+
 #undef LCPP_number_defineArithmeticFunctionContent
 
 #define LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, op)           \

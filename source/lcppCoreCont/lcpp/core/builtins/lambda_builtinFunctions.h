@@ -15,6 +15,7 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> subtract(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> multiply(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> divide(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> modulo(Ptr<LispObject> pCont);
 
             // Comparison
             //////////////////////////////////////////////////////////////////////////

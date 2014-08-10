@@ -127,6 +127,17 @@ namespace lcpp
             {
                 LCPP_lambda_builtinFunctions_defineArithmeticFunctionHelperContent(number::divide);
             }
+
+            Ptr<LispObject> modulo(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pLhs = pStack->get(0);
+                auto pRhs = pStack->get(1);
+
+                LCPP_cont_return(pCont, number::modulo(pLhs, pRhs));
+            }
         }
     }
 }

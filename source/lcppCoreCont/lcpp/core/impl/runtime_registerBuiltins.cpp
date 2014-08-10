@@ -73,6 +73,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("-", &lambda::builtin::subtract, Signature::createVarArg(1));
     LCPP_AddBuiltin("*", &lambda::builtin::multiply, Signature::createVarArg());
     LCPP_AddBuiltin("/", &lambda::builtin::divide, Signature::createVarArg(1));
+    LCPP_AddBuiltin("%", &lambda::builtin::modulo, Signature::create(2));
 
     LCPP_AddBuiltin(">",  &lambda::builtin::greaterThan, Signature::createVarArg(2));
     LCPP_AddBuiltin(">=", &lambda::builtin::greaterThanOrEqual, Signature::createVarArg(2));

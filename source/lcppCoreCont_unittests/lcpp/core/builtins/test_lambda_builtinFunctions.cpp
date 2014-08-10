@@ -88,6 +88,27 @@ LCPP_TestCase(Lambda_BuiltinFunctions, divide)
     CUT_ASSERT.isTrue(number::getFloat(pResult) == 1.0 / 2.0 / 3.0);
 }
 
+LCPP_TestCase(Lambda_BuiltinFunctions, modulo)
+{
+    CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(%)"); });
+    CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(% 1)"); });
+    CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(% 1 2 3)"); });
+
+    auto pResult = LCPP_pNil;
+
+    pResult = evalString("(% 42 3)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 0);
+
+    pResult = evalString("(% 43 3)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+
+    pResult = evalString("(% 44 3)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 2);
+
+    pResult = evalString("(% 45 3)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 0);
+}
+
 LCPP_TestCase(Lambda_BuiltinFunctions, greaterThan)
 {
     CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(>)"); });
