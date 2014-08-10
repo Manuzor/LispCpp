@@ -16,6 +16,7 @@
 #include "lcpp/core/typeSystem/object.h"
 
 #include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/typeSystem/types/bool.h"
 
 LCPP_TestGroup(Syntax_BuiltinFunctions);
 
@@ -112,4 +113,21 @@ LCPP_TestCase(Syntax_BuiltinFunctions, lambda)
 
     pResult = evalString("((lambda () 1))");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+}
+
+LCPP_TestCase(Syntax_BuiltinFunctions, and)
+{
+    auto pResult = LCPP_pNil;
+
+    pResult = evalString("(and)");
+    CUT_ASSERT.isTrue(isTrue(pResult));
+
+    pResult = evalString("(and 1)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+
+    pResult = evalString("(and 1 2)");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 2);
+
+    pResult = evalString("(and 1 #f 2)");
+    CUT_ASSERT.isTrue(isFalse(pResult));
 }

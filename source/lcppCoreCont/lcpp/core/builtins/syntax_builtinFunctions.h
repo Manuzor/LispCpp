@@ -19,12 +19,17 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Ptr<LispObject> quote(Ptr<LispObject> pCont);
 
+            LCPP_API_CORE_CONT Ptr<LispObject> and(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> or(Ptr<LispObject> pCont);
+
             namespace detail
             {
                 Ptr<LispObject> if_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> define_addBinding(Ptr<LispObject> pCont);
                 Ptr<LispObject> begin_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> lambda_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> and_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> or_helper(Ptr<LispObject> pCont);
             }
         }
     }

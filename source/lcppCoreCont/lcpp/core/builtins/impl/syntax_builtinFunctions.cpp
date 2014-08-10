@@ -197,6 +197,57 @@ namespace lcpp
                 LCPP_cont_return(pCont, pUnevaluatedArg);
             }
 
+            Ptr<LispObject> and(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                if (pStack->size() == 1)
+                {
+                    LCPP_cont_return(pCont, LCPP_pTrue);
+                }
+
+                cont::setUserData(pCont, 1);
+
+                auto pFirstToEval = pStack->get(1);
+
+                cont::setFunction(pCont, &detail::and_helper);
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pFirstToEval);
+            }
+
+            Ptr<LispObject> detail::and_helper(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto& index = cont::getUserData(pCont);
+                const auto maxIndex = pStack->size() - 2;
+
+                auto pCurrentResult = pStack->get(-1);
+
+                if(index >= maxIndex || isFalse(pCurrentResult))
+                {
+                    LCPP_cont_return(pCont, pCurrentResult);
+                }
+
+                ++index;
+                auto pToEval = pStack->get(index);
+
+                // Pop the current result from the stack so that eval::evaluate can push the new result.
+                pStack->pop();
+
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
+            }
+
+            Ptr<LispObject> or(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                if(pStack->isEmpty())
+                {
+                    LCPP_cont_return(pCont, LCPP_pFalse);
+                }
+
+                LCPP_NOT_IMPLEMENTED;
+            }
         }
     }
 }
