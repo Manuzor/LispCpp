@@ -229,3 +229,16 @@ LCPP_TestCase(Lambda_BuiltinFunctions, read)
     pResult = evalString("y");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
 }
+
+LCPP_TestCase(Lambda_BuiltinFunctions, eval)
+{
+    CUT_ASSERT.throwsNothing([]{ evalString("eval"); });
+
+    auto pResult = LCPP_pNil;
+
+    pResult = evalString("(eval (read \"(define x 42) 1337\"))");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
+
+    pResult = evalString("x");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 42);
+}

@@ -12,6 +12,8 @@
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/reader.h"
+#include "lcpp/core/evaluator.h"
+#include "lcpp/core/runtime.h"
 
 namespace lcpp
 {
@@ -52,6 +54,25 @@ namespace lcpp
                 pStack->clear();
                 pStack->push(pStream);
                 LCPP_cont_tailCall(pCont, &reader::read);
+            }
+
+            Ptr<LispObject> eval(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                if(pStack->size() == 1)
+                {
+                    auto pState = cont::getRuntimeState(pCont);
+                    auto pEnv = pState->getGlobalEnvironment();
+                    auto pToEval = pStack->get(0);
+
+                    pStack->clear();
+                    pStack->push(pEnv);
+                    pStack->push(pToEval);
+                }
+
+                LCPP_cont_tailCall(pCont, &eval::evaluate);
             }
         }
     }
