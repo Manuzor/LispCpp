@@ -68,3 +68,16 @@ lcpp::Ptr<lcpp::LispObject> lcpp::test::evalString(const ezString& content)
 
     return evalStream(pStream);
 }
+
+Ptr<LispObject> lcpp::test::evalObject(Ptr<LispObject> pObject)
+{
+    auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    auto pContEval = cont::create(pContMain, &eval::evaluate);
+    auto pStackEval = cont::getStack(pContEval);
+    pStackEval->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
+    pStackEval->push(pObject);
+
+    cont::trampoline(pContEval);
+
+    return cont::getStack(pContMain)->get(-1);
+}

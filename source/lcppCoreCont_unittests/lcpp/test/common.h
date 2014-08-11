@@ -30,6 +30,8 @@ namespace lcpp { namespace test {
 
     Ptr<LispObject> evalString(const ezString& content);
 
+    Ptr<LispObject> evalObject(Ptr<LispObject> pObject);
+
 }} // namespace lcpp::test
 
 #include "lcpp/test/impl/testGroupMacros.inl"
