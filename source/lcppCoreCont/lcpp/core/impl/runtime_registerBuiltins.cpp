@@ -84,6 +84,8 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("<",  &lambda::builtin::lowerThan, Signature::createVarArg(2));
     LCPP_AddBuiltin("<=", &lambda::builtin::lowerThanOrEqual, Signature::createVarArg(2));
 
+    LCPP_AddBuiltin("read", &lambda::builtin::read, Signature::create(1));
+
 }
 
 #undef LCPP_AddGlobalVariable

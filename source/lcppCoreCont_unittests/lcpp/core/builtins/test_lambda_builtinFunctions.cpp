@@ -15,6 +15,10 @@
 #include "lcpp/core/exceptions/arithmeticException.h"
 #include "lcpp/core/typeSystem/types/bool.h"
 #include "lcpp/core/exceptions/typeCheckFailedException.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 LCPP_TestGroup(Lambda_BuiltinFunctions);
 
@@ -202,4 +206,26 @@ LCPP_TestCase(Lambda_BuiltinFunctions, lowerThanOrEqual)
 
     pResult = evalString("(<= 1 0)");
     CUT_ASSERT.isTrue(isFalse(pResult));
+}
+
+LCPP_TestCase(Lambda_BuiltinFunctions, read)
+{
+    CUT_ASSERT.throwsNothing([]{ evalString("read"); });
+
+    auto pResult = LCPP_pNil;
+
+    pResult = evalString("(read \"(define x 1336) (define y (+ x 1)) 42\")");
+    CUT_ASSERT.isTrue(object::isType(pResult, Type::Cons));
+    auto pName = syntax::builtin::getName(cons::getCar(pResult));
+    const auto& nameValue = symbol::getValue(pName);
+    CUT_ASSERT.isTrue(nameValue.IsEqual("begin"));
+
+    pResult = evalObject(pResult);
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 42);
+
+    pResult = evalString("x");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1336);
+
+    pResult = evalString("y");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
 }

@@ -8,6 +8,10 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/stream.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
+#include "lcpp/core/reader.h"
 
 namespace lcpp
 {
@@ -15,6 +19,40 @@ namespace lcpp
     {
         namespace builtin
         {
+            Ptr<LispObject> read(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pToRead = pStack->get(0);
+
+                auto content = ezStringBuilder();
+
+                if (object::isType(pToRead, Type::String))
+                {
+                    content.Format("(begin %s)", str::getValue(pToRead).GetData());
+                }
+                else if(object::isType(pToRead, Type::Stream))
+                {
+                    content.Format("(begin %s)", stream::getIterator(pToRead).GetData());
+                }
+                else
+                {
+                    auto message = ezStringBuilder();
+                    message.Format("Expected either type \"%s\" or \"%s\", got \"%s\".",
+                                   str::metaInfo().getPrettyName().GetData(),
+                                   stream::metaInfo().getPrettyName().GetData(),
+                                   object::getMetaInfo(pToRead).getPrettyName().GetData());
+                    typeCheckFailed(message.GetData());
+                }
+
+                auto pContent = str::create(content);
+                auto pStream = stream::create(str::getValue(pContent).GetIteratorFront());
+
+                pStack->clear();
+                pStack->push(pStream);
+                LCPP_cont_tailCall(pCont, &reader::read);
+            }
         }
     }
 }

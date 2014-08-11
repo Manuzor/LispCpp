@@ -25,6 +25,9 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> lowerThan(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> lowerThanOrEqual(Ptr<LispObject> pCont);
 
+            //////////////////////////////////////////////////////////////////////////
+            LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pCont);
+
             namespace detail
             {
                 Ptr<LispObject> add_helper(Ptr<LispObject> pCont);
