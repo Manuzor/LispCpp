@@ -43,9 +43,9 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
 
-                if(pStack->isEmpty())
+                if(pStack->size() == 1)
                 {
                     auto pResult = number::create(0);
                     LCPP_cont_return(pCont, pResult);
@@ -64,13 +64,13 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
 
-                if (pStack->size() == 1)
+                if (pStack->size() == 2)
                 {
-                    auto pResult = number::negate(pStack->get(0));
+                    auto pResult = number::negate(pStack->get(1));
                     LCPP_cont_return(pCont, pResult);
                 }
 
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
 
                 LCPP_cont_tailCall(pCont, &detail::subtract_helper);
             }
@@ -84,9 +84,9 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
 
-                if(pStack->isEmpty())
+                if(pStack->size() == 1)
                 {
                     auto pResult = number::create(1);
                     LCPP_cont_return(pCont, pResult);
@@ -104,11 +104,11 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
 
-                auto& pFirstArg = pStack->get(0);
+                auto& pFirstArg = pStack->get(1);
 
-                if(pStack->size() == 1)
+                if(pStack->size() == 2)
                 {
                     auto pResult = number::invert(pFirstArg);
                     LCPP_cont_return(pCont, pResult);
@@ -133,8 +133,8 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
 
-                auto pLhs = pStack->get(0);
-                auto pRhs = pStack->get(1);
+                auto pLhs = pStack->get(1);
+                auto pRhs = pStack->get(2);
 
                 LCPP_cont_return(pCont, number::modulo(pLhs, pRhs));
             }

@@ -45,6 +45,9 @@ namespace lcpp
 
             if(env::getBinding(pState->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
             {
+                pStack->clear();
+                pStack->push(pState->m_pMacroEnv);
+                pStack->push(pStream);
                 pStack->push(pCharacterHandler);
                 LCPP_cont_tailCall(pCont, &object::call);
             }
@@ -223,7 +226,7 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-                auto pStream = cont::getStack(pCont)->get(0);
+                auto pStream = cont::getStack(pCont)->get(1);
                 typeCheck(pStream, Type::Stream);
 
                 // Read the first " character
@@ -256,7 +259,7 @@ namespace lcpp
                 auto pStack = cont::getStack(pCont);
                 auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-                auto pStream = pStack->get(0);
+                auto pStream = pStack->get(1);
                 typeCheck(pStream, Type::Stream);
 
                 //////////////////////////////////////////////////////////////////////////
@@ -278,7 +281,7 @@ namespace lcpp
                 auto pStack = cont::getStack(pCont);
                 auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
-                auto pStream = pStack->get(0);
+                auto pStream = pStack->get(1);
                 typeCheck(pStream, Type::Stream);
 
                 //////////////////////////////////////////////////////////////////////////
@@ -307,12 +310,13 @@ namespace lcpp
                 auto pStack = cont::getStack(pCont);
                 auto pState = cont::getRuntimeState(pCont);
 
-                auto pStream = pStack->get(0);
+                auto pEnv = pStack->get(0);
+                auto pStream = pStack->get(1);
                 typeCheck(pStream, Type::Stream);
 
                 //////////////////////////////////////////////////////////////////////////
 
-                auto& pCar = pStack->get(1);
+                auto& pCar = pStack->get(2);
 
                 if(object::isType(pCar, Type::Symbol))
                 {
@@ -331,7 +335,7 @@ namespace lcpp
 
                 // Read cdr and then finalize the reading.
                 cont::setFunction(pCont, &readList_finalize);
-                LCPP_cont_call(pCont, &readList_helper, pStream);
+                LCPP_cont_call(pCont, &readList_helper, pEnv, pStream);
             }
 
             Ptr<LispObject> readList_finalize(Ptr<LispObject> pCont)

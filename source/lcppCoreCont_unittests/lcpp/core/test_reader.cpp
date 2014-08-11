@@ -230,7 +230,7 @@ namespace lcpp
         typeCheck(pCont, Type::Continuation);
 
         auto pStack = cont::getStack(pCont);
-        auto pStream = pStack->get(0);
+        auto pStream = pStack->get(1);
         typeCheck(pStream, Type::Stream);
 
         reader::detail::advance(cont::getRuntimeState(pCont)->getReaderState(), pStream);

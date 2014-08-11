@@ -67,7 +67,7 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
 
-                auto argCount = pStack->size();
+                auto argCount = pStack->size() - 1;
                 auto pSignature = getSignature(pLambda);
                 auto argMin = pSignature->m_argCountMin;
                 auto argMax = pSignature->m_argCountMax;

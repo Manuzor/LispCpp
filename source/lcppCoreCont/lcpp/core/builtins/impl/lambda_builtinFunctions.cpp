@@ -27,7 +27,7 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
 
-                auto pToRead = pStack->get(0);
+                auto pToRead = pStack->get(1);
 
                 auto content = ezStringBuilder();
 
@@ -61,23 +61,37 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
+                
+                const auto argCount = pStack->size() - 1;
 
-                if(pStack->size() == 1)
+                auto pArg0 = pStack->get(1);
+                auto pArg1 = pStack->get(2);
+
+                auto pEnv = pArg0;
+                auto pToEval = pArg1;
+
+                pStack->clear();
+
+                if(argCount == 1)
                 {
                     auto pState = cont::getRuntimeState(pCont);
-                    auto pEnv = pState->getGlobalEnvironment();
-                    auto pToEval = pStack->get(0);
-
-                    pStack->clear();
-                    pStack->push(pEnv);
-                    pStack->push(pToEval);
+                    pEnv = pState->getGlobalEnvironment();
+                    pToEval = pArg0;
                 }
+
+                pStack->push(pEnv);
+                pStack->push(pToEval);
 
                 LCPP_cont_tailCall(pCont, &eval::evaluate);
             }
 
             Ptr<LispObject> print(Ptr<LispObject> pCont)
             {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+                auto pToPrint = pStack->get(1);
+                pStack->clear();
+                pStack->push(pToPrint);
                 LCPP_cont_tailCall(pCont, &printer::print);
             }
         }

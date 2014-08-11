@@ -82,13 +82,13 @@ namespace lcpp
                 // according to the needs of the then-called functions.
                 pStack->clear();
 
+                pStack->push(pEnv);
+
                 //////////////////////////////////////////////////////////////////////////
 
                 if(object::isType(pToCall, Type::Syntax))
                 {
                     // Assumed syntax signature: <env> [<arg>...]
-
-                    pStack->push(pEnv);
                     cons::pushAll(pUnevaluatedArgs, pStack);
 
                     // Push the object to call for lcpp::call
@@ -105,7 +105,7 @@ namespace lcpp
 
                 cons::pushAll(pUnevaluatedArgs, pStack);
                 pStack->push(pToCall);
-                pStack->push(pEnv); // Needed for calls to evaluate.
+                cont::setUserData(pCont, 1);
                 LCPP_cont_tailCall(pCont, &evaluateCallable_evalEach);
             }
 
@@ -114,22 +114,20 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
-                auto index = ezInt32(cont::getUserData(pCont));
+                auto index = cont::getUserData(pCont);
 
                 // On top of the stack lies the callable object, which should not be evaluated.
                 const auto maxIndex = pStack->size() - 2;
 
-                if(index == maxIndex)
+                if(index > maxIndex)
                 {
-                    // Pop pEnv from the stack; it is no longer needed.
-                    pStack->pop();
                     LCPP_cont_tailCall(pCont, &object::call);
                 }
                 
                 auto pArg = pStack->get(index);
 
                 cont::setFunction(pCont, &evaluateCallable_processEvaluatedArg);
-                auto pEnv = pStack->get(-1);
+                auto pEnv = pStack->get(0);
                 LCPP_cont_call(pCont, &evaluate, pEnv, pArg);
             }
 
@@ -138,7 +136,7 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
-                auto index = ezInt32(cont::getUserData(pCont));
+                auto index = cont::getUserData(pCont);
 
                 auto pEvaluatedArg = pStack->get(-1);
                 pStack->pop();

@@ -41,7 +41,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
                 pStack->push(LCPP_pFalse);
                 LCPP_cont_tailCall(pCont, &detail::greaterThan_helper);
             }
@@ -55,7 +55,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
                 pStack->push(LCPP_pFalse);
                 LCPP_cont_tailCall(pCont, &detail::greaterThanOrEqual_helper);
             }
@@ -69,7 +69,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
                 pStack->push(LCPP_pFalse);
                 LCPP_cont_tailCall(pCont, &detail::equal_helper);
             }
@@ -83,7 +83,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
                 pStack->push(LCPP_pFalse);
                 LCPP_cont_tailCall(pCont, &detail::lowerThan_helper);
             }
@@ -97,7 +97,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                cont::setUserData(pCont, 0);
+                cont::setUserData(pCont, 1);
                 pStack->push(LCPP_pFalse);
                 LCPP_cont_tailCall(pCont, &detail::lowerThanOrEqual_helper);
             }

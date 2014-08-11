@@ -69,10 +69,65 @@ namespace lcpp
                 auto pArgList = getArgList(pLambda);
                 pStack->push(pArgList);
 
-                // Set the current 'index' to 0.
-                cont::setUserData(pCont, 0);
+                // Set the current 'index' to 1.
+                cont::setUserData(pCont, 1);
 
                 LCPP_cont_tailCall(pCont, &detail::call_updateEnv);
+            }
+
+            Ptr<LispObject> detail::call_updateEnv(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                auto pStack = cont::getStack(pCont);
+                auto& index = cont::getUserData(pCont);
+
+                auto pLambda = pStack->get(-2);
+                auto& pCurrentArgNameList = pStack->get(-1);
+
+                const auto maxIndex = pStack->size() - 2;
+
+                if(isNil(pCurrentArgNameList))
+                {
+                    pStack->clear();
+                    pStack->push(pLambda);
+
+                    LCPP_cont_tailCall(pCont, &call_evalBody);
+                }
+
+                auto pEnv = getEnvironment(pLambda);
+
+                auto pCurrentArgName = cons::getCar(pCurrentArgNameList);
+                auto pCurrentArgValue = index < maxIndex ? pStack->get(index) : LCPP_pNil;
+
+                auto result = env::setBinding(pEnv, pCurrentArgName, pCurrentArgValue);
+                if(result.Failed())
+                {
+                    LCPP_NOT_IMPLEMENTED;
+                }
+
+                ++index;
+                pCurrentArgNameList = cons::getCdr(pCurrentArgNameList);
+
+                LCPP_cont_tailCall(pCont, &call_updateEnv);
+            }
+
+            Ptr<LispObject> detail::call_evalBody(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                auto pStack = cont::getStack(pCont);
+                auto pLambda = pStack->get(-1);
+
+                auto pEnv = getEnvironment(pLambda);
+                auto pBody = getBody(pLambda);
+
+                pStack->clear();
+
+                pStack->push(pEnv);
+                pStack->push(pBody);
+
+                LCPP_cont_tailCall(pCont, &eval::evaluate);
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)
@@ -137,64 +192,6 @@ namespace lcpp
                 theString.Append('>');
 
                 return str::create(theString);
-            }
-
-            namespace detail
-            {
-                Ptr<LispObject> call_updateEnv(Ptr<LispObject> pCont)
-                {
-                    typeCheck(pCont, Type::Continuation);
-
-                    auto pStack = cont::getStack(pCont);
-                    auto& index = cont::getUserData(pCont);
-
-                    auto pLambda = pStack->get(-2);
-                    auto& pCurrentArgNameList = pStack->get(-1);
-
-                    const auto maxIndex = pStack->size() - 2;
-
-                    if (isNil(pCurrentArgNameList))
-                    {
-                        pStack->clear();
-                        pStack->push(pLambda);
-
-                        LCPP_cont_tailCall(pCont, &call_evalBody);
-                    }
-
-                    auto pEnv = getEnvironment(pLambda);
-
-                    auto pCurrentArgName = cons::getCar(pCurrentArgNameList);
-                    auto pCurrentArgValue = index < maxIndex ? pStack->get(ezInt32(index)) : LCPP_pNil;
-
-                    auto result = env::setBinding(pEnv, pCurrentArgName, pCurrentArgValue);
-                    if (result.Failed())
-                    {
-                        LCPP_NOT_IMPLEMENTED;
-                    }
-
-                    ++index;
-                    pCurrentArgNameList = cons::getCdr(pCurrentArgNameList);
-
-                    LCPP_cont_tailCall(pCont, &call_updateEnv);
-                }
-
-                Ptr<LispObject> call_evalBody(Ptr<LispObject> pCont)
-                {
-                    typeCheck(pCont, Type::Continuation);
-
-                    auto pStack = cont::getStack(pCont);
-                    auto pLambda = pStack->get(-1);
-
-                    auto pEnv = getEnvironment(pLambda);
-                    auto pBody = getBody(pLambda);
-
-                    pStack->clear();
-
-                    pStack->push(pEnv);
-                    pStack->push(pBody);
-
-                    LCPP_cont_tailCall(pCont, &eval::evaluate);
-                }
             }
         }
     }
