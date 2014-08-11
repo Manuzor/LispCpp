@@ -1,5 +1,6 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/type.h"
 
 namespace lcpp
 {
@@ -28,8 +29,13 @@ namespace lcpp
     inline
     ezStreamWriterBase& operator << (ezStreamWriterBase& stream, Ptr<LispObject> pObject)
     {
-        auto pStringObject = object::toString(pObject);
-        
+        auto pStringObject = pObject;
+
+        if(!object::isType(pStringObject, Type::String))
+        {
+            pStringObject = object::toString(pObject);
+        }
+
         const auto& stringValue = str::getValue(pStringObject);
 
         stream.WriteBytes(stringValue.GetData(), stringValue.GetElementCount());
