@@ -13,6 +13,8 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Ptr<LispObject> define(Ptr<LispObject> pCont);
 
+            LCPP_API_CORE_CONT Ptr<LispObject> set(Ptr<LispObject> pCont);
+
             LCPP_API_CORE_CONT Ptr<LispObject> begin(Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<LispObject> lambda(Ptr<LispObject> pCont);

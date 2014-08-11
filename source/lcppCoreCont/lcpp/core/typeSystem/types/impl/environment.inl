@@ -34,6 +34,12 @@ namespace lcpp
         }
 
         EZ_FORCE_INLINE
+        bool BindingLocation::doesNotExist() const
+        {
+            return m_value == None;
+        }
+
+        EZ_FORCE_INLINE
         bool BindingLocation::locally() const
         {
             return m_value == Local;

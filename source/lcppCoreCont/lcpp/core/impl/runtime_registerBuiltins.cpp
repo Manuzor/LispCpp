@@ -61,6 +61,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddSyntax("begin", &syntax::builtin::begin, Signature::createVarArg());
     LCPP_AddSyntax("if", &syntax::builtin::if_, Signature::create(3));
     LCPP_AddSyntax("define", &syntax::builtin::define, Signature::createVarArg(2));
+    LCPP_AddSyntax("set!", &syntax::builtin::set, Signature::createVarArg(2));
     LCPP_AddSyntax("lambda", &syntax::builtin::lambda, Signature::createVarArg(2));
     LCPP_AddSyntax("and", &syntax::builtin::and, Signature::createVarArg());
     LCPP_AddSyntax("or", &syntax::builtin::or, Signature::createVarArg());

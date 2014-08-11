@@ -47,6 +47,7 @@ namespace lcpp
 
             BindingLocation(Enum value);
 
+            bool doesNotExist() const;
             bool locally() const;
             bool inParent() const;
 

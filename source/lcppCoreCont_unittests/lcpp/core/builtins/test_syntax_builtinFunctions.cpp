@@ -70,6 +70,23 @@ LCPP_TestCase(Syntax_BuiltinFunctions, define_shortHandLambdaSyntax)
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 5);
 }
 
+LCPP_TestCase(Syntax_BuiltinFunctions, set)
+{
+    CUT_ASSERT.throwsNothing([]{ evalString("set!"); });
+    CUT_ASSERT.throws<exceptions::NoBindingFound>([]{ evalString("(set! x 1)"); });
+
+    auto pResult = LCPP_pNil;
+
+    evalString("(define x 1)");
+    pResult = evalString("x");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
+
+    pResult = evalString("(set! x 42)");
+    CUT_ASSERT.isTrue(isVoid(pResult));
+    pResult = evalString("x");
+    CUT_ASSERT.isTrue(number::getInteger(pResult) == 42);
+}
+
 LCPP_TestCase(Syntax_BuiltinFunctions, begin)
 {
     auto pResult = LCPP_pNil;

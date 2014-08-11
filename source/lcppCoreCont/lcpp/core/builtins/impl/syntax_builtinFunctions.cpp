@@ -15,6 +15,9 @@
 
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
+
+#include "lcpp/core/exceptions/noBindingFoundException.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -143,6 +146,34 @@ namespace lcpp
                 }
 
                 LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> set(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pSymbol = LCPP_pNil;
+                auto pFirstArg = pStack->get(1);
+
+                if (object::isType(pFirstArg, Type::Cons))
+                {
+                    pSymbol = cons::getCar(pFirstArg);
+                }
+                else
+                {
+                    pSymbol = pFirstArg;
+                }
+                
+                auto bindingLocation = env::existsBinding(pEnv, pSymbol);
+
+                if(bindingLocation.doesNotExist())
+                {
+                    auto message = ezStringBuilder();
+                    message.Format("Cannot set symbol \"%s\" before its definition.", symbol::getValue(pSymbol).GetData());
+                    LCPP_THROW(exceptions::NoBindingFound(message.GetData()));
+                }
+
+                LCPP_cont_tailCall(pCont, &define);
             }
 
             Ptr<LispObject> begin(Ptr<LispObject> pCont)
