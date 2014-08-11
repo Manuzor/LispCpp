@@ -232,13 +232,21 @@ namespace lcpp
                 auto theString = ezStringBuilder();
 
                 auto ch = stream::getCharacter(pStream);
-                while(stream::isValid(pStream) && ch != '"')
+                while(ch != '"')
                 {
+                    if(!stream::isValid(pStream))
+                    {
+                        // TODO Signal this somehow? SyntaxCheckResult?
+                        LCPP_NOT_IMPLEMENTED;
+                    }
+
                     theString.Append(ch);
                     advance(pState, pStream);
                     ch = stream::getCharacter(pStream);
                 }
 
+                // Read the trailing " character.
+                advance(pState, pStream);
                 LCPP_cont_return(pCont, str::create(theString));
             }
 

@@ -93,10 +93,15 @@ LCPP_TestCase(Reader, StreamPosition)
 
 LCPP_TestCase(Reader, String)
 {
-    auto pResult = readString("   \"hello world\"abc def");
+    auto content = ezString("   \"hello world\"abc def");
+    auto pStream = stream::create(content.GetIteratorFront());
+    auto pResult = readStream(pStream);
 
     CUT_ASSERT.throwsNothing([&]{ typeCheck(pResult, Type::String); });
     CUT_ASSERT.isTrue(str::getValue(pResult).IsEqual("hello world"));
+
+    auto streamPosition = stream::getPosition(pStream);
+    CUT_ASSERT.isTrue(streamPosition == 16);
 }
 
 LCPP_TestCase(Reader, List)
