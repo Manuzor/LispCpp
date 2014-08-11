@@ -14,6 +14,7 @@
 #include "lcpp/core/reader.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/printer.h"
 
 namespace lcpp
 {
@@ -73,6 +74,11 @@ namespace lcpp
                 }
 
                 LCPP_cont_tailCall(pCont, &eval::evaluate);
+            }
+
+            Ptr<LispObject> print(Ptr<LispObject> pCont)
+            {
+                LCPP_cont_tailCall(pCont, &printer::print);
             }
         }
     }

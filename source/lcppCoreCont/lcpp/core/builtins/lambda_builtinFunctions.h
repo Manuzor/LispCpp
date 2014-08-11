@@ -28,6 +28,7 @@ namespace lcpp
             //////////////////////////////////////////////////////////////////////////
             LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> eval(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> print(Ptr<LispObject> pCont);
 
             namespace detail
             {

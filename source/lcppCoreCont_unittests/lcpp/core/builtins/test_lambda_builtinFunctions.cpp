@@ -19,6 +19,7 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/void.h"
 
 LCPP_TestGroup(Lambda_BuiltinFunctions);
 
@@ -241,4 +242,19 @@ LCPP_TestCase(Lambda_BuiltinFunctions, eval)
 
     pResult = evalString("x");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 42);
+}
+
+LCPP_TestCase(Lambda_BuiltinFunctions, print)
+{
+    CUT_ASSERT.throwsNothing([]{ evalString("print"); });
+
+    auto pState = LCPP_test_pRuntimeState;
+    auto pPrinterState = pState->getPrinterState();
+    auto testStream = TestStringStream();
+    pPrinterState->m_pOutStream = &testStream;
+
+    auto pResult = evalString("(print 42)");
+    CUT_ASSERT.isTrue(isVoid(pResult));
+
+    CUT_ASSERT.isTrue(testStream.m_content.IsEqual("42\n"));
 }

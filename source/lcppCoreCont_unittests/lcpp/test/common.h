@@ -22,6 +22,28 @@ namespace lcpp { namespace test {
         virtual void doRun() = 0;
     };
 
+    class TestStringStream :
+        public ezStreamWriterBase
+    {
+    public:
+
+        ezStringBuilder m_content;
+
+        inline
+        virtual ezResult WriteBytes(const void* pWriteBuffer, ezUInt64 uiBytesToWrite) override
+        {
+            auto pBuffer = reinterpret_cast<const ezUInt8*>(pWriteBuffer);
+
+            for(auto i = ezUInt64(0); i < uiBytesToWrite; ++i)
+            {
+                m_content.Append(pBuffer[i]);
+            }
+
+            return EZ_SUCCESS;
+        }
+
+    };
+
     Ptr<LispObject> readStream(Ptr<LispObject> pStream);
 
     Ptr<LispObject> readString(const ezString& content);

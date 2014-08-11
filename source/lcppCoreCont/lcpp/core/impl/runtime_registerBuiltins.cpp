@@ -86,6 +86,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
 
     LCPP_AddBuiltin("read", &lambda::builtin::read, Signature::create(1));
     LCPP_AddBuiltin("eval", &lambda::builtin::eval, Signature::create(1, 2));
+    LCPP_AddBuiltin("print", &lambda::builtin::print, Signature::create(1));
 
 }
 
