@@ -20,7 +20,7 @@ namespace lcpp
             const MetaInfo& metaInfo()
             {
                 static auto meta = MetaInfo(Type::Lambda,
-                                            AttributeFlags::Callable | AttributeFlags::Nameable,
+                                            AttributeFlags::Callable | AttributeFlags::Nameable | AttributeFlags::EnvironmentContainer,
                                             "procedure");
 
                 return meta;
@@ -61,6 +61,10 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
+
+                auto pEnv = pStack->get(0);
+                typeCheck(pEnv, Type::Environment);
+
                 auto pLambda = pStack->get(-1);
 
                 typeCheck(pLambda, Type::Lambda);
@@ -82,29 +86,29 @@ namespace lcpp
                 auto pStack = cont::getStack(pCont);
                 auto& index = cont::getUserData(pCont);
 
+                auto pEnv = pStack->get(0);
+                typeCheck(pEnv, Type::Environment);
+
                 auto pLambda = pStack->get(-2);
+                typeCheck(pLambda, Type::Lambda);
+
                 auto& pCurrentArgNameList = pStack->get(-1);
 
-                const auto maxIndex = pStack->size() - 2;
+                const auto maxIndex = pStack->size() - 3;
 
                 if(isNil(pCurrentArgNameList))
                 {
                     pStack->clear();
+                    pStack->push(pEnv);
                     pStack->push(pLambda);
 
                     LCPP_cont_tailCall(pCont, &call_evalBody);
                 }
 
-                auto pEnv = getEnvironment(pLambda);
-
                 auto pCurrentArgName = cons::getCar(pCurrentArgNameList);
-                auto pCurrentArgValue = index < maxIndex ? pStack->get(index) : LCPP_pNil;
+                auto pCurrentArgValue = index <= maxIndex ? pStack->get(index) : LCPP_pNil;
 
-                auto result = env::setBinding(pEnv, pCurrentArgName, pCurrentArgValue);
-                if(result.Failed())
-                {
-                    LCPP_NOT_IMPLEMENTED;
-                }
+                env::addBinding(pEnv, pCurrentArgName, pCurrentArgValue);
 
                 ++index;
                 pCurrentArgNameList = cons::getCdr(pCurrentArgNameList);
@@ -117,9 +121,13 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
-                auto pLambda = pStack->get(-1);
 
-                auto pEnv = getEnvironment(pLambda);
+                auto pEnv = pStack->get(0);
+                typeCheck(pEnv, Type::Environment);
+                auto pLambda = pStack->get(-1);
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckNone(pLambda, AttributeFlags::Builtin);
+
                 auto pBody = getBody(pLambda);
 
                 pStack->clear();

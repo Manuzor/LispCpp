@@ -31,6 +31,12 @@ namespace lcpp
         return (m_flags & Nameable) != 0;
     }
 
+    EZ_FORCE_INLINE
+    bool AttributeFlags::isEnvironmentContainer() const
+    {
+        return (m_flags & EnvironmentContainer) != 0;
+    }
+
     // Free functions.
     //////////////////////////////////////////////////////////////////////////
 

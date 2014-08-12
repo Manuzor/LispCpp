@@ -15,6 +15,7 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> evaluateCallable(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> evaluateCallable_evalEach(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> evaluateCallable_processEvaluatedArg(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> evaluateCallable_call(Ptr<LispObject> pCont);
         }
     }
 }

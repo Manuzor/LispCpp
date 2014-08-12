@@ -17,7 +17,7 @@ namespace lcpp
             const MetaInfo& metaInfo()
             {
                 static auto meta = MetaInfo(Type::Lambda,
-                                            AttributeFlags::Callable| AttributeFlags::Builtin | AttributeFlags::Nameable,
+                                            AttributeFlags::Callable | AttributeFlags::Builtin | AttributeFlags::Nameable | AttributeFlags::EnvironmentContainer,
                                             "builtin-procedure");
 
                 return meta;

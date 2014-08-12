@@ -13,6 +13,7 @@ namespace lcpp
             Callable = EZ_BIT(0),
             Builtin  = EZ_BIT(1),
             Nameable = EZ_BIT(2),
+            EnvironmentContainer = EZ_BIT(3),
         };
 
     public:
@@ -24,6 +25,7 @@ namespace lcpp
         bool isCallable() const;
         bool isBuiltin() const;
         bool isNameable() const;
+        bool isEnvironmentContainer() const;
 
     private:
 

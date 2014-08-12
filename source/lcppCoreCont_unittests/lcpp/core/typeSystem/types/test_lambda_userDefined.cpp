@@ -34,7 +34,9 @@ LCPP_TestCase(Lambda_UserDefined, Basics)
     {
         auto pContMain = cont::createTopLevel(pState);
         auto pContCall = cont::create(pContMain, &object::call);
-        cont::getStack(pContCall)->push(pLambda);
+        auto pStackCall = cont::getStack(pContCall);
+        pStackCall->push(pState->getGlobalEnvironment());
+        pStackCall->push(pLambda);
 
         cont::trampoline(pContCall);
 

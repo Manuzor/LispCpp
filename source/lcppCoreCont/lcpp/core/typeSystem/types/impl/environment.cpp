@@ -21,6 +21,9 @@ namespace lcpp
         Ptr<LispObject> create(Ptr<LispObject> pName,
                                Ptr<LispObject> pParent)
         {
+            typeCheck(pName, Type::Symbol);
+            if(!isNil(pParent)) typeCheck(pParent, Type::Environment);
+
             auto pInstance = object::create<Data>(metaInfo());
 
             auto& data = pInstance->m_env;

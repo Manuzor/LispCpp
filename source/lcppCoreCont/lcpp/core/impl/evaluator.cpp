@@ -73,6 +73,8 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
                 auto pEnv = pStack->get(0);
+                typeCheck(pEnv, Type::Environment);
+
                 auto pUnevaluatedArgs = pStack->get(1);
                 auto pToCall = pStack->get(2);
                 attributeCheckAny(pToCall, AttributeFlags::Callable);
@@ -82,9 +84,10 @@ namespace lcpp
                 // according to the needs of the then-called functions.
                 pStack->clear();
 
-                pStack->push(pEnv);
-
                 //////////////////////////////////////////////////////////////////////////
+
+                // Push the current environment.
+                pStack->push(pEnv);
 
                 if(object::isType(pToCall, Type::Syntax))
                 {
@@ -99,12 +102,16 @@ namespace lcpp
                 // If it is not syntax, then it must be of Type::Lambda
                 typeCheck(pToCall, Type::Lambda);
                 
-                // Assumed lambda signature: [<arg>...]
+                // Assumed lambda signature: <unique-env> [<arg>...]
 
-                // TODO copy arguments?
-
+                // Push all arguments on the stack
                 cons::pushAll(pUnevaluatedArgs, pStack);
+
+                // Push the caller on the stack.
                 pStack->push(pToCall);
+
+                // Stack: <current-env> [<arg>...] <caller-env> <caller>
+
                 cont::setUserData(pCont, 1);
                 LCPP_cont_tailCall(pCont, &evaluateCallable_evalEach);
             }
@@ -121,14 +128,14 @@ namespace lcpp
 
                 if(index > maxIndex)
                 {
-                    LCPP_cont_tailCall(pCont, &object::call);
+                    LCPP_cont_tailCall(pCont, &evaluateCallable_call);
                 }
                 
-                auto pArg = pStack->get(index);
+                auto pToEval = pStack->get(index);
 
                 cont::setFunction(pCont, &evaluateCallable_processEvaluatedArg);
                 auto pEnv = pStack->get(0);
-                LCPP_cont_call(pCont, &evaluate, pEnv, pArg);
+                LCPP_cont_call(pCont, &evaluate, pEnv, pToEval);
             }
 
             Ptr<LispObject> evaluateCallable_processEvaluatedArg(Ptr<LispObject> pCont)
@@ -147,6 +154,36 @@ namespace lcpp
 
                 LCPP_cont_tailCall(pCont, evaluateCallable_evalEach);
             }
+
+            Ptr<LispObject> evaluateCallable_call(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                auto pStack = cont::getStack(pCont);
+
+                auto pToCall = pStack->get(-1);
+                auto pParentEnv = object::getEnvironment(pToCall);
+                typeCheck(pParentEnv, Type::Environment);
+                auto pCallerEnv = LCPP_pNil;
+
+                if(object::hasName(pToCall))
+                {
+                    auto pName = object::getName(pToCall);
+                    pCallerEnv = env::create(pName, pParentEnv);
+                }
+                else
+                {
+                    pCallerEnv = env::createAnonymous(pParentEnv);
+                }
+
+                typeCheck(pCallerEnv, Type::Environment);
+
+                // Push the caller environment on the stack
+                pStack->get(0) = pCallerEnv;
+
+                LCPP_cont_tailCall(pCont, &object::call);
+            }
+
 
         }
     }

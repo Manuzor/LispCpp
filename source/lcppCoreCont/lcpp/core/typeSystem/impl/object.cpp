@@ -58,6 +58,11 @@ namespace lcpp
             return getAttributes(pObject).isNameable();
         }
 
+        bool isEnvironmentContainer(Ptr<LispObject> pObject)
+        {
+            return getAttributes(pObject).isEnvironmentContainer();
+        }
+
         Ptr<LispObject> call(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
@@ -179,5 +184,55 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
 
+        Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject)
+        {
+            EZ_ASSERT(pObject, "Invalid pointer.");
+
+            auto& type = object::getType(pObject);
+
+            switch(type.getId())
+            {
+            case Type::Lambda: return isBuiltin(pObject) ? lambda::builtin::getEnvironment(pObject) : lambda::userDefined::getEnvironment(pObject);
+            }
+
+            auto message = ezStringBuilder();
+            message.Format("Unsupported type for getEnvironment.");
+
+            EZ_REPORT_FAILURE(message.GetData());
+            LCPP_THROW(exceptions::InvalidInput(message.GetData()));
+        }
+
+        void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv)
+        {
+            EZ_ASSERT(pObject, "Invalid pointer.");
+
+            auto& type = object::getType(pObject);
+
+            // TODO Support types for this operation?
+
+            auto message = ezStringBuilder();
+            message.Format("Unsupported type for setEnvironment.");
+
+            EZ_REPORT_FAILURE(message.GetData());
+            LCPP_THROW(exceptions::InvalidInput(message.GetData()));
+        }
+
+        bool hasEnvironment(Ptr<LispObject> pObject)
+        {
+            EZ_ASSERT(pObject, "Invalid pointer.");
+
+            auto& type = object::getType(pObject);
+
+            switch(type.getId())
+            {
+            case Type::Lambda: return true;
+            }
+
+            auto message = ezStringBuilder();
+            message.Format("Unsupported type for hasEnvironment.");
+
+            EZ_REPORT_FAILURE(message.GetData());
+            LCPP_THROW(exceptions::InvalidInput(message.GetData()));
+        }
     }
 }
