@@ -91,7 +91,7 @@
 	</Type>
 
 	<Type Name="lcpp::env::Data">
-		<DisplayString>{((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)->m_pPtr->m_symbol}</DisplayString>
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
 		<Expand>
 			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
 			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
