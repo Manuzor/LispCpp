@@ -8,11 +8,14 @@
 #include "lcpp/core/reader.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/printer.h"
+#include "lcpp/core/ioUtils.h"
 
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/string.h"
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/exceptions/readerException.h"
+#include "lcpp/core/typeSystem/types/void.h"
 
 lcpp::Interpreter::Interpreter() :
     m_state(),
@@ -70,32 +73,55 @@ ezInt32 lcpp::Interpreter::repl()
     auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
     auto& outputStream = *m_pState->getPrinterState()->m_pOutStream;
 
-    outputStream << "=== Scheme interpreter 'lcpp' ===\n";
+    outputStream << "=== Scheme interpreter 'lcpp' ===";
 
     while(true)
     {
         ++currentLine;
 
+        if(!isVoid(pResult))
+        {
+            outputStream << "\n";
+        }
+
         prompt.Format("%u> ", currentLine);
         outputStream << prompt;
 
         std::getline(m_in, inputBuffer);
-        buffer.Format("(begin %s)\n", inputBuffer.c_str());
+        buffer.Format("%s", inputBuffer.c_str());
 
         stream::setIterator(pReadStream, buffer.GetIteratorFront());
 
         try
         {
+            syntaxCheck.reset();
             pResult = readStream(pReadStream);
+        }
+        catch(exceptions::Reader& ex)
+        {
+            const auto& sourcePos = syntaxCheck.m_cursor.getPosition();
+
+            auto info = ezStringBuilder();
+
+            for(auto i = prompt.GetCharacterCount() + sourcePos.m_column; i > 0; --i)
+            {
+                info.Append('-');
+            }
+            info.Append("^\n");
+
+            info.AppendFormat("Parsing error in stdin(%u:%u): %s", sourcePos.m_line + currentLine, sourcePos.m_column, ex.what());
+
+            outputStream << info.GetData();
+            continue;
         }
         catch(exceptions::ExceptionBase& ex)
         {
-            outputStream << "Parsing error: " << ex.what() << "\n";
+            outputStream << "Parsing error: " << ex.what();
             continue;
         }
         catch (...)
         {
-            outputStream << "Unknown error during parsing.\n";
+            outputStream << "Unknown error during parsing.";
             continue;
         }
 
@@ -105,22 +131,25 @@ ezInt32 lcpp::Interpreter::repl()
         }
         catch(exceptions::ExceptionBase& ex)
         {
-            outputStream << "Evaluation error: " << ex.what() << "\n";
+            outputStream << "Evaluation error: " << ex.what();
             continue;
         }
         catch(...)
         {
-            outputStream << "Unknown error during evaluation.\n";
+            outputStream << "Unknown error during evaluation.";
             continue;
         }
 
         try
         {
-            print(pResult);
+            if(!isVoid(pResult))
+            {
+                print(pResult);
+            }
         }
         catch(...)
         {
-            outputStream << "Unknown error during printing.\n";
+            outputStream << "Unknown error during printing.";
             continue;
         }
     }

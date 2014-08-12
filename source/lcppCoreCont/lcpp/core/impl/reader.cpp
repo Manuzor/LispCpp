@@ -6,6 +6,7 @@
 #include "lcpp/foundation/stringUtils.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/exceptions/readerException.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/object.h"
@@ -229,18 +230,27 @@ namespace lcpp
                 auto pStream = cont::getStack(pCont)->get(1);
                 typeCheck(pStream, Type::Stream);
 
+                auto ch = stream::getCharacter(pStream);
+
+                if (ch != '"')
+                {
+                    pState->m_syntaxCheckResult.m_valid = false;
+                    LCPP_THROW(exceptions::MissingStringDelimiter("Missing leading \" character in string."));
+                }
+                
+
                 // Read the first " character
                 advance(pState, pStream);
 
                 auto theString = ezStringBuilder();
 
-                auto ch = stream::getCharacter(pStream);
+                ch = stream::getCharacter(pStream);
                 while(ch != '"')
                 {
                     if(!stream::isValid(pStream))
                     {
-                        // TODO Signal this somehow? SyntaxCheckResult?
-                        LCPP_NOT_IMPLEMENTED;
+                        pState->m_syntaxCheckResult.m_valid = false;
+                        LCPP_THROW(exceptions::MissingStringDelimiter("Missing trailing \" character in string."));
                     }
 
                     theString.Append(ch);
@@ -266,7 +276,10 @@ namespace lcpp
 
                 skipSeparators(pState, pStream);
 
-                EZ_ASSERT(stream::getCharacter(pStream) == '(', "Invalid input to readList.");
+                if(stream::getCharacter(pStream) != '(')
+                {
+                    LCPP_THROW(exceptions::MissingListDelimiter("Missing leading ( character in list."));
+                }
 
                 // Read the '(' character.
                 advance(pState, pStream);
@@ -290,7 +303,7 @@ namespace lcpp
 
                 if (!stream::isValid(pStream))
                 {
-                    LCPP_cont_return(pCont, LCPP_pVoid);
+                    LCPP_THROW(exceptions::MissingListDelimiter("Missing trailing ) character in list."));
                 }
                 
                 if(stream::getCharacter(pStream) == ')')
@@ -330,7 +343,7 @@ namespace lcpp
 
                 if (!stream::isValid(pStream))
                 {
-                    LCPP_cont_return(pCont, LCPP_pVoid);
+                    LCPP_THROW(exceptions::MissingListDelimiter("Missing trailing ) character in list."));
                 }
 
                 // Read cdr and then finalize the reading.

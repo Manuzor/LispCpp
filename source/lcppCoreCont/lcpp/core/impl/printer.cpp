@@ -34,17 +34,14 @@ namespace lcpp
             auto pToPrint = pStack->get(-1);
             pStack->pop();
 
-            if(!isVoid(pToPrint))
+            if(object::isType(pToPrint, Type::String))
             {
-                if(object::isType(pToPrint, Type::String))
-                {
-                    *pOutput << "\"" << str::getValue(pToPrint) << "\"\n";
-                }
-                else
-                {
-                    auto pStringObject = object::toString(pToPrint);
-                    *pOutput << str::getValue(pStringObject) << "\n";
-                }
+                *pOutput << "\"" << str::getValue(pToPrint) << "\"";
+            }
+            else
+            {
+                auto pStringObject = object::toString(pToPrint);
+                *pOutput << str::getValue(pStringObject);
             }
 
             LCPP_cont_tailCall(pCont);

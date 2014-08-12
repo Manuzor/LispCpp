@@ -1,6 +1,7 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/string.h"
 #include "lcpp/core/typeSystem/type.h"
+#include "lcpp/core/sourceCursor.h"
 
 namespace lcpp
 {
@@ -27,19 +28,14 @@ namespace lcpp
     //////////////////////////////////////////////////////////////////////////
     
     inline
-    ezStreamWriterBase& operator << (ezStreamWriterBase& stream, Ptr<LispObject> pObject)
+    ezStreamWriterBase& operator << (ezStreamWriterBase& stream, const SourceCursor& cursor)
     {
-        auto pStringObject = pObject;
+        auto& position = cursor.getPosition();
 
-        if(!object::isType(pStringObject, Type::String))
-        {
-            pStringObject = object::toString(pObject);
-        }
-
-        const auto& stringValue = str::getValue(pStringObject);
-
-        stream.WriteBytes(stringValue.GetData(), stringValue.GetElementCount());
-
+        auto output = ezStringBuilder();
+        output.Format("%u(%u)", position.m_line, position.m_column);
+        stream << output.GetData();
+        
         return stream;
     }
 }

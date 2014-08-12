@@ -104,6 +104,18 @@ LCPP_TestCase(Reader, String)
     CUT_ASSERT.isTrue(streamPosition == 16);
 }
 
+LCPP_TestCase(Reader, IncompleteString)
+{
+    auto content = ezString("   \"hello ");
+    auto pStream = stream::create(content.GetIteratorFront());
+    auto pResult = readStream(pStream);
+
+    auto result = LCPP_test_pRuntimeState->getReaderState()->m_syntaxCheckResult;
+
+    CUT_ASSERT.isFalse(result.m_valid);
+    CUT_ASSERT.isTrue(result.m_info.IsEqual("Missing trailing \" character in string."));
+}
+
 LCPP_TestCase(Reader, List)
 {
     {

@@ -53,6 +53,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     // Character macros.
     //////////////////////////////////////////////////////////////////////////
     LCPP_AddCharacterMacro("(", &reader::detail::readList, Signature::create(1));
+    LCPP_AddCharacterMacro(")", &reader::detail::readList, Signature::create(1)); // Will cause an exception when a leading ) character is encountered.
     LCPP_AddCharacterMacro("\"", &reader::detail::readString, Signature::create(1));
 
     // Reader macros / syntax.
