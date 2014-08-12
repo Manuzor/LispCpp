@@ -18,11 +18,11 @@ namespace lcpp
             return meta;
         }
 
-        Ptr<LispObject> create(Ptr<LispObject> pName,
-                               Ptr<LispObject> pParent)
+        Ptr<LispObject> create(Ptr<LispObject> pParent,
+                               Ptr<LispObject> pName)
         {
-            typeCheck(pName, Type::Symbol);
             if(!isNil(pParent)) typeCheck(pParent, Type::Environment);
+            typeCheck(pName, Type::Symbol);
 
             auto pInstance = object::create<Data>(metaInfo());
 
@@ -37,12 +37,12 @@ namespace lcpp
 
         Ptr<LispObject> createTopLevel(Ptr<LispObject> pName)
         {
-            return create(pName, LCPP_pNil);
+            return create(LCPP_pNil, pName);
         }
 
         Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent)
         {
-            return create(symbol::create("anonymous"), pParent);
+            return create(pParent, symbol::create("anonymous"));
         }
 
         //////////////////////////////////////////////////////////////////////////

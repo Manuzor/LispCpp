@@ -41,7 +41,7 @@ lcpp::LispRuntimeState::initialize()
     m_pAllocator = defaultAllocator();
 
     m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
-    m_pGlobalEnvironment = env::create(symbol::create("global"), m_pSyntaxEnvironment);
+    m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global"));
 
     //////////////////////////////////////////////////////////////////////////
     

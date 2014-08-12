@@ -169,7 +169,7 @@ namespace lcpp
                 if(object::hasName(pToCall))
                 {
                     auto pName = object::getName(pToCall);
-                    pCallerEnv = env::create(pName, pParentEnv);
+                    pCallerEnv = env::create(pParentEnv, pName);
                 }
                 else
                 {

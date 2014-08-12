@@ -9,7 +9,7 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pName, Ptr<LispObject> pParent);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Ptr<LispObject>pName);
 
         LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispObject> pName);
 

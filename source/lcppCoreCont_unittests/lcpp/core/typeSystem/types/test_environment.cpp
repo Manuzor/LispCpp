@@ -26,7 +26,7 @@ LCPP_TestCase(Environment, getName)
 
     CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("the-env"));
 
-    auto pEnvChild = env::create(symbol::create("the-child"), pEnvParent);
+    auto pEnvChild = env::create(pEnvParent, symbol::create("the-child"));
     pName = env::getName(pEnvChild);
 
     CUT_ASSERT.isTrue(symbol::getValue(pName).IsEqual("the-child"));
@@ -35,7 +35,7 @@ LCPP_TestCase(Environment, getName)
 LCPP_TestCase(Environment, getParent)
 {
     auto pEnvParent = env::createTopLevel(symbol::create("parent"));
-    auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
+    auto pEnvChild = env::create(pEnvParent, symbol::create("child"));
 
     CUT_ASSERT.isTrue(isNil(env::getParent(pEnvParent)));
     CUT_ASSERT.isTrue(env::getParent(pEnvChild) == pEnvParent);
@@ -74,7 +74,7 @@ LCPP_TestCase(Environment, getBinding_addBinding_setBinding)
     // parent/child
     //////////////////////////////////////////////////////////////////////////
 
-    auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
+    auto pEnvChild = env::create(pEnvParent, symbol::create("child"));
 
     result = env::getBinding(pEnvChild, pSymbol_a, pResultObject);
     CUT_ASSERT.isTrue(result.Succeeded());
@@ -127,9 +127,9 @@ LCPP_TestCase(Environment, getBinding_addBinding_setBinding)
 LCPP_TestCase(Environment, qualifiedName)
 {
     auto pEnvParent = env::createTopLevel(symbol::create("parent"));     ///< parent
-    auto pEnvChild1 = env::create(symbol::create("child1"), pEnvParent); ///< parent/child1
-    auto pEnvChild2 = env::create(symbol::create("child2"), pEnvChild1); ///< parent/child1/child2
-    auto pEnvChild3 = env::create(symbol::create("child3"), pEnvChild2); ///< parent/child1/child2/child3
+    auto pEnvChild1 = env::create(pEnvParent, symbol::create("child1")); ///< parent/child1
+    auto pEnvChild2 = env::create(pEnvChild1, symbol::create("child2")); ///< parent/child1/child2
+    auto pEnvChild3 = env::create(pEnvChild2, symbol::create("child3")); ///< parent/child1/child2/child3
 
     auto pName = Ptr<LispObject>();
 
@@ -163,7 +163,7 @@ LCPP_TestCase(Environment, toString)
 LCPP_TestCase(Environment, existsBinding)
 {
     auto pEnvParent = env::createTopLevel(symbol::create("parent"));
-    auto pEnvChild = env::create(symbol::create("child"), pEnvParent);
+    auto pEnvChild = env::create(pEnvParent, symbol::create("child"));
     auto pSymbol_a = symbol::create("a");
     auto pSymbol_b = symbol::create("b");
     auto pInteger_42 = number::create(42);
