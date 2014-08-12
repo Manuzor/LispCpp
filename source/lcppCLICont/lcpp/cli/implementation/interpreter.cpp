@@ -16,6 +16,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/exceptions/readerException.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/exceptions/exitException.h"
 
 lcpp::Interpreter::Interpreter() :
     m_state(),
@@ -128,6 +129,11 @@ ezInt32 lcpp::Interpreter::repl()
         try
         {
             pResult = evalGlobally(pResult);
+        }
+        catch(exceptions::Exit& ex)
+        {
+            outputStream << ex.what();
+            return ex.getExitCode();
         }
         catch(exceptions::ExceptionBase& ex)
         {

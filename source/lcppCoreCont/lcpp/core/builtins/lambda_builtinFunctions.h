@@ -30,6 +30,8 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> eval(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> print(Ptr<LispObject> pCont);
 
+            LCPP_API_CORE_CONT Ptr<LispObject> exit(Ptr<LispObject> pCont);
+
             namespace detail
             {
                 Ptr<LispObject> add_helper(Ptr<LispObject> pCont);
