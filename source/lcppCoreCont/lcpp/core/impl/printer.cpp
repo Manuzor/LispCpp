@@ -36,7 +36,15 @@ namespace lcpp
 
             if(!isVoid(pToPrint))
             {
-                *pOutput << pToPrint << "\n";
+                if(object::isType(pToPrint, Type::String))
+                {
+                    *pOutput << "\"" << str::getValue(pToPrint) << "\"\n";
+                }
+                else
+                {
+                    auto pStringObject = object::toString(pToPrint);
+                    *pOutput << str::getValue(pStringObject) << "\n";
+                }
             }
 
             LCPP_cont_tailCall(pCont);

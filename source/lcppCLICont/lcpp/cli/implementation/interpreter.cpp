@@ -80,15 +80,49 @@ ezInt32 lcpp::Interpreter::repl()
         outputStream << prompt;
 
         std::getline(m_in, inputBuffer);
-        buffer.Format("%s\n", inputBuffer.c_str());
+        buffer.Format("(begin %s)\n", inputBuffer.c_str());
 
         stream::setIterator(pReadStream, buffer.GetIteratorFront());
 
-        pResult = readStream(pReadStream);
+        try
+        {
+            pResult = readStream(pReadStream);
+        }
+        catch(exceptions::ExceptionBase& ex)
+        {
+            outputStream << "Parsing error: " << ex.what() << "\n";
+            continue;
+        }
+        catch (...)
+        {
+            outputStream << "Unknown error during parsing.\n";
+            continue;
+        }
 
-        pResult = evalGlobally(pResult);
+        try
+        {
+            pResult = evalGlobally(pResult);
+        }
+        catch(exceptions::ExceptionBase& ex)
+        {
+            outputStream << "Evaluation error: " << ex.what() << "\n";
+            continue;
+        }
+        catch(...)
+        {
+            outputStream << "Unknown error during evaluation.\n";
+            continue;
+        }
 
-        print(pResult);
+        try
+        {
+            print(pResult);
+        }
+        catch(...)
+        {
+            outputStream << "Unknown error during printing.\n";
+            continue;
+        }
     }
 }
 
