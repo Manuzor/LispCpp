@@ -16,6 +16,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/exceptions/readerException.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/exceptions/noBindingFoundException.h"
 #include "lcpp/core/exceptions/exitException.h"
 
 lcpp::Interpreter::Interpreter() :
@@ -43,7 +44,7 @@ void lcpp::Interpreter::initialize()
 
     if (!result.Succeeded())
     {
-        dataDir.Prepend("Unable add data dir: ");
+        dataDir.Prepend("Unable to add data dir: ");
         throw std::exception(dataDir.GetData());
     }
     m_szDataDir = dataDir;
@@ -76,13 +77,19 @@ ezInt32 lcpp::Interpreter::repl()
 
     outputStream << "=== Scheme interpreter 'lcpp' ===";
 
+    auto printNewLine = true;
+
     while(true)
     {
         ++currentLine;
 
-        if(!isVoid(pResult))
+        if(printNewLine)
         {
             outputStream << "\n";
+        }
+        else
+        {
+            printNewLine = true;
         }
 
         prompt.Format("%u> ", currentLine);
@@ -95,8 +102,19 @@ ezInt32 lcpp::Interpreter::repl()
 
         try
         {
+            // Read
             syntaxCheck.reset();
             pResult = readStream(pReadStream);
+
+            // Eval
+            pResult = evalGlobally(pResult);
+            printNewLine = !isVoid(pResult);
+
+            // Print
+            if(!isVoid(pResult))
+            {
+                print(pResult);
+            }
         }
         catch(exceptions::Reader& ex)
         {
@@ -113,22 +131,10 @@ ezInt32 lcpp::Interpreter::repl()
             info.AppendFormat("Parsing error in stdin(%u:%u): %s", sourcePos.m_line + currentLine, sourcePos.m_column, ex.what());
 
             outputStream << info.GetData();
-            continue;
         }
-        catch(exceptions::ExceptionBase& ex)
+        catch(exceptions::NoBindingFound& ex)
         {
-            outputStream << "Parsing error: " << ex.what();
-            continue;
-        }
-        catch (...)
-        {
-            outputStream << "Unknown error during parsing.";
-            continue;
-        }
-
-        try
-        {
-            pResult = evalGlobally(pResult);
+            outputStream << ex.what();
         }
         catch(exceptions::Exit& ex)
         {
@@ -137,26 +143,15 @@ ezInt32 lcpp::Interpreter::repl()
         }
         catch(exceptions::ExceptionBase& ex)
         {
-            outputStream << "Evaluation error: " << ex.what();
-            continue;
+            outputStream << "Error: " << ex.what();
         }
-        catch(...)
+        catch(std::exception& ex)
         {
-            outputStream << "Unknown error during evaluation.";
-            continue;
+            outputStream << "Fatal error: " << ex.what();
         }
-
-        try
+        catch (...)
         {
-            if(!isVoid(pResult))
-            {
-                print(pResult);
-            }
-        }
-        catch(...)
-        {
-            outputStream << "Unknown error during printing.";
-            continue;
+            outputStream << "Unknown error occurred.";
         }
     }
 }
