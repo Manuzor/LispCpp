@@ -15,7 +15,7 @@
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
 #include "lcpp/core/typeSystem/object.h"
 
-#include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/exceptions/evaluatorException.h"
 #include "lcpp/core/typeSystem/types/bool.h"
 
 LCPP_TestGroup(Syntax_BuiltinFunctions);

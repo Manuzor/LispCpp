@@ -7,7 +7,7 @@
 #include "lcpp/core/typeSystem/attributeCheck.h"
 
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/exceptions/evaluatorException.h"
 
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/nil.h"

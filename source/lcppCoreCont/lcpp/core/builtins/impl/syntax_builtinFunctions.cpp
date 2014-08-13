@@ -17,7 +17,7 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 
-#include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/exceptions/evaluatorException.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \

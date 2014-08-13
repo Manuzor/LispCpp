@@ -16,7 +16,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/exceptions/readerException.h"
 #include "lcpp/core/typeSystem/types/void.h"
-#include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/exceptions/evaluatorException.h"
 #include "lcpp/core/exceptions/exitException.h"
 
 lcpp::Interpreter::Interpreter() :
@@ -128,13 +128,15 @@ ezInt32 lcpp::Interpreter::repl()
             }
             info.Append("^\n");
 
-            info.AppendFormat("Parsing error in stdin(%u:%u): %s", sourcePos.m_line + currentLine, sourcePos.m_column, ex.what());
+            info.AppendFormat("Parser error in stdin(%u:%u): %s", sourcePos.m_line + currentLine, sourcePos.m_column, ex.what());
 
             outputStream << info.GetData();
         }
-        catch(exceptions::NoBindingFound& ex)
+        catch(exceptions::EvaluatorBase& ex)
         {
-            outputStream << ex.what();
+            auto info = ezStringBuilder();
+            info.Format("Evaluator error: %s", ex.what());
+            outputStream << info.GetData();
         }
         catch(exceptions::Exit& ex)
         {

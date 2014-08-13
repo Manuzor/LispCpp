@@ -31,7 +31,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\arithmeticException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\exitException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\invalidInputException.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\noBindingFoundException.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\evaluatorException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\readerException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\runtimeException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\typeCheckFailedException.h" />
