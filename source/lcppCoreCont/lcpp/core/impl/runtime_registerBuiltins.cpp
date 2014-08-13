@@ -89,6 +89,8 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("eval", &lambda::builtin::eval, Signature::create(1, 2));
     LCPP_AddBuiltin("print", &lambda::builtin::print, Signature::create(1));
 
+    LCPP_AddBuiltin("exit", &lambda::builtin::exit, Signature::create(0, 1));
+
 }
 
 #undef LCPP_AddGlobalVariable

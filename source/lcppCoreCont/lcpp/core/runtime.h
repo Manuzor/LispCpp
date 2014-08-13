@@ -52,6 +52,12 @@ namespace lcpp
         ezUInt32 getRecursionLimit() const;
         void setRecursionLimit(ezUInt32 newLimit);
 
+        /// Used when making a call
+        void increaseRecursionDepth();
+
+        /// Used when finishing a call
+        void decreaseRecursionDepth();
+
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
@@ -69,12 +75,6 @@ namespace lcpp
 
         // Called in initialize()
         void registerBuiltIns();
-
-        // Used by the RecursionCounter
-        void increaseRecursionDepth();
-
-        // Used by the RecursionCounter
-        void decreaseRecursionDepth();
     };
 }
 

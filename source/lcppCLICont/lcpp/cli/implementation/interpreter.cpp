@@ -17,6 +17,7 @@
 #include "lcpp/core/exceptions/readerException.h"
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/exceptions/noBindingFoundException.h"
+#include "lcpp/core/exceptions/exitException.h"
 
 lcpp::Interpreter::Interpreter() :
     m_state(),
@@ -134,6 +135,11 @@ ezInt32 lcpp::Interpreter::repl()
         catch(exceptions::NoBindingFound& ex)
         {
             outputStream << ex.what();
+        }
+        catch(exceptions::Exit& ex)
+        {
+            outputStream << ex.what();
+            return ex.getExitCode();
         }
         catch(exceptions::ExceptionBase& ex)
         {

@@ -15,6 +15,7 @@
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/printer.h"
+#include "lcpp/core/exceptions/exitException.h"
 
 namespace lcpp
 {
@@ -94,6 +95,26 @@ namespace lcpp
                 pStack->push(pToPrint);
                 LCPP_cont_tailCall(pCont, &printer::print);
             }
+
+            Ptr<LispObject> exit(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto exitCode = ezInt32(0);
+
+                if (pStack->size() == 2)
+                {
+                    auto pExitCode = pStack->get(1);
+                    exitCode = ezInt32(number::getInteger(pExitCode));
+                }
+
+                auto message = ezStringBuilder();
+                message.Format("Exiting with exit code %d.", exitCode);
+                
+                LCPP_THROW(exceptions::Exit(exitCode, message.GetData()));
+            }
+
         }
     }
 }

@@ -256,5 +256,5 @@ LCPP_TestCase(Lambda_BuiltinFunctions, print)
     auto pResult = evalString("(print 42)");
     CUT_ASSERT.isTrue(isVoid(pResult));
 
-    CUT_ASSERT.isTrue(testStream.m_content.IsEqual("42\n"));
+    CUT_ASSERT.isTrue(testStream.m_content.IsEqual("42"));
 }
