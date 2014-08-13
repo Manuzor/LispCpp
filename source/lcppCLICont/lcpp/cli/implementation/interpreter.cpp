@@ -116,7 +116,7 @@ ezInt32 lcpp::Interpreter::repl()
                 print(pResult);
             }
         }
-        catch(exceptions::Reader& ex)
+        catch(exceptions::ReaderBase& ex)
         {
             const auto& sourcePos = syntaxCheck.m_cursor.getPosition();
 

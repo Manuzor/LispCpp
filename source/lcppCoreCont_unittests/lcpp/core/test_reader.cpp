@@ -115,7 +115,7 @@ LCPP_TestCase(Reader, IncompleteString)
         readStream(pStream);
         CUT_ASSERT.fail("Expected an exception.");
     }
-    catch (exceptions::Reader& ex)
+    catch (exceptions::ReaderBase& ex)
     {
         CUT_ASSERT.isTrue(ezStringUtils::IsEqual(ex.what(),
             "Missing trailing \" character in string."));

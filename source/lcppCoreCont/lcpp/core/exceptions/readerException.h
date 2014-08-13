@@ -4,32 +4,32 @@ namespace lcpp
 {
     namespace exceptions
     {
-        class Reader :
+        class ReaderBase :
             public ExceptionBase
         {
         public:
-            Reader(const String& message) :
+            ReaderBase(const String& message) :
                 ExceptionBase(message)
             {
             }
         };
 
         class MissingStringDelimiter :
-            public Reader
+            public ReaderBase
         {
         public:
             MissingStringDelimiter(const String& message) :
-                Reader(message)
+                ReaderBase(message)
             {
             }
         };
 
         class MissingListDelimiter :
-            public Reader
+            public ReaderBase
         {
         public:
             MissingListDelimiter(const String& message) :
-                Reader(message)
+                ReaderBase(message)
             {
             }
         };
