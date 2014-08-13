@@ -16,6 +16,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/exceptions/readerException.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/exceptions/noBindingFoundException.h"
 
 lcpp::Interpreter::Interpreter() :
     m_state(),
@@ -75,13 +76,19 @@ ezInt32 lcpp::Interpreter::repl()
 
     outputStream << "=== Scheme interpreter 'lcpp' ===";
 
+    auto printNewLine = true;
+
     while(true)
     {
         ++currentLine;
 
-        if(!isVoid(pResult))
+        if(printNewLine)
         {
             outputStream << "\n";
+        }
+        else
+        {
+            printNewLine = true;
         }
 
         prompt.Format("%u> ", currentLine);
@@ -94,8 +101,19 @@ ezInt32 lcpp::Interpreter::repl()
 
         try
         {
+            // Read
             syntaxCheck.reset();
             pResult = readStream(pReadStream);
+
+            // Eval
+            pResult = evalGlobally(pResult);
+            printNewLine = !isVoid(pResult);
+
+            // Print
+            if(!isVoid(pResult))
+            {
+                print(pResult);
+            }
         }
         catch(exceptions::Reader& ex)
         {
@@ -112,45 +130,22 @@ ezInt32 lcpp::Interpreter::repl()
             info.AppendFormat("Parsing error in stdin(%u:%u): %s", sourcePos.m_line + currentLine, sourcePos.m_column, ex.what());
 
             outputStream << info.GetData();
-            continue;
+        }
+        catch(exceptions::NoBindingFound& ex)
+        {
+            outputStream << ex.what();
         }
         catch(exceptions::ExceptionBase& ex)
         {
-            outputStream << "Parsing error: " << ex.what();
-            continue;
+            outputStream << "Error: " << ex.what();
+        }
+        catch(std::exception& ex)
+        {
+            outputStream << "Fatal error: " << ex.what();
         }
         catch (...)
         {
-            outputStream << "Unknown error during parsing.";
-            continue;
-        }
-
-        try
-        {
-            pResult = evalGlobally(pResult);
-        }
-        catch(exceptions::ExceptionBase& ex)
-        {
-            outputStream << "Evaluation error: " << ex.what();
-            continue;
-        }
-        catch(...)
-        {
-            outputStream << "Unknown error during evaluation.";
-            continue;
-        }
-
-        try
-        {
-            if(!isVoid(pResult))
-            {
-                print(pResult);
-            }
-        }
-        catch(...)
-        {
-            outputStream << "Unknown error during printing.";
-            continue;
+            outputStream << "Unknown error occurred.";
         }
     }
 }
