@@ -90,18 +90,11 @@ int main(int argc, const char* argv[])
     lcpp::startup();
     LCPP_SCOPE_EXIT{ lcpp::shutdown(); };
 
-    ezTelemetry::CreateServer();
-
     lcpp::LoggingSystem loggingSystem("temp/log/");
     loggingSystem.initialize();
     LCPP_SCOPE_EXIT { loggingSystem.shutdown(); };
 
     parseCommandLineArgs(argc, argv);
-
-    {
-        EZ_LOG_BLOCK("Loading plugin", "ezInspectorPlugin");
-        ezPlugin::LoadPlugin("ezInspectorPlugin");
-    }
 
     EZ_LOG_BLOCK("ezEngine running.");
 
@@ -120,13 +113,13 @@ int main(int argc, const char* argv[])
     catch (std::exception& e)
     {
         ezLog::Error(e.what());
-        EZ_ASSERT(false, "Uncaught std::exception!");
+        EZ_REPORT_FAILURE("Uncaught std::exception!");
         return -2;
     }
     catch(...)
     {
         ezLog::Error("Something was thrown and it was not caught!");
-        EZ_ASSERT(false, "Something was thrown and it was not caught!");
+        EZ_REPORT_FAILURE("Something was thrown and it was not caught!");
         return -4;
     }
 

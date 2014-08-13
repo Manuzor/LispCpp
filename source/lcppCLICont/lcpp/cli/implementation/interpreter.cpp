@@ -42,7 +42,7 @@ void lcpp::Interpreter::initialize()
 
     if (!result.Succeeded())
     {
-        dataDir.Prepend("Unable add data dir: ");
+        dataDir.Prepend("Unable to add data dir: ");
         throw std::exception(dataDir.GetData());
     }
     m_szDataDir = dataDir;
