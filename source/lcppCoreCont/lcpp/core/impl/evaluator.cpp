@@ -14,6 +14,8 @@
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 
 namespace lcpp
 {
@@ -77,7 +79,14 @@ namespace lcpp
 
                 auto pUnevaluatedArgs = pStack->get(1);
                 auto pToCall = pStack->get(2);
-                attributeCheckAny(pToCall, AttributeFlags::Callable);
+
+                if (!object::isCallable(pToCall))
+                {
+                    auto message = ezStringBuilder();
+                    message.Format("Object of type %s is not callable!",
+                                   object::getMetaInfo(pToCall).getPrettyName().GetData());
+                    LCPP_THROW(exceptions::EvaluatorBase(message.GetData()));
+                }
 
                 // Pop everything from the stack.
                 // This is needed so that the stack can be freely formed from now on
