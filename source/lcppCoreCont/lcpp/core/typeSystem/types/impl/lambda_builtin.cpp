@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "lcpp/core/runtime.h"
+
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
@@ -44,6 +46,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
 
+                auto pState = cont::getRuntimeState(pCont);
                 auto pStack = cont::getStack(pCont);
                 auto pLambda = pStack->get(-1);
                 pStack->pop();
@@ -55,7 +58,29 @@ namespace lcpp
 
                 auto pFunction = getFunction(pLambda);
 
-                LCPP_cont_tailCall(pCont, pFunction);
+                auto pContCall = cont::create(pCont, pFunction);
+                auto pStackCall = cont::getStack(pContCall);
+
+                for(auto i = ezUInt32(0); i < pStack->size(); ++i)
+                {
+                    auto pToPush = pStack->get(i);
+                    pStackCall->push(pToPush);
+                }
+
+                pState->increaseRecursionDepth();
+
+                cont::setFunction(pCont, &detail::call_finalize);
+                LCPP_cont_jump(pContCall);
+            }
+
+            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pState = cont::getRuntimeState(pCont);
+                pState->decreaseRecursionDepth();
+
+                auto pStack = cont::getStack(pCont);
+                LCPP_cont_return(pCont, pStack->get(-1));
             }
 
             void checkArguments(Ptr<LispObject> pLambda, Ptr<LispObject> pCont)

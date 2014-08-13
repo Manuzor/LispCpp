@@ -39,5 +39,5 @@ LCPP_TestCase(Printer, CustomStream)
 
     CUT_ASSERT.isTrue(isVoid(pResult));
 
-    CUT_ASSERT.isTrue(stream.m_content.IsEqual("42\n"));
+    CUT_ASSERT.isTrue(stream.m_content.IsEqual("42"));
 }

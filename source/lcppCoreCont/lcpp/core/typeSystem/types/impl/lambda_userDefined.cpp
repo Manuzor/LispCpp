@@ -8,6 +8,7 @@
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 
+#include "lcpp/core/runtime.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
 
@@ -61,6 +62,8 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
 
                 auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont);
+                pState->increaseRecursionDepth();
 
                 auto pEnv = pStack->get(0);
                 typeCheck(pEnv, Type::Environment);
@@ -130,12 +133,19 @@ namespace lcpp
 
                 auto pBody = getBody(pLambda);
 
-                pStack->clear();
+                cont::setFunction(pCont, &call_finalize);
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pBody);
+            }
 
-                pStack->push(pEnv);
-                pStack->push(pBody);
+            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
 
-                LCPP_cont_tailCall(pCont, &eval::evaluate);
+                auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont);
+                pState->decreaseRecursionDepth();
+
+                LCPP_cont_return(pCont, pStack->get(-1));
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)

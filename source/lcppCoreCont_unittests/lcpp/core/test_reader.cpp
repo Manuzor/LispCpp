@@ -17,6 +17,7 @@
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/lambda_builtin.h"
 #include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/exceptions/readerException.h"
 
 LCPP_TestGroup(Reader);
 
@@ -108,12 +109,25 @@ LCPP_TestCase(Reader, IncompleteString)
 {
     auto content = ezString("   \"hello ");
     auto pStream = stream::create(content.GetIteratorFront());
-    auto pResult = readStream(pStream);
+
+    try
+    {
+        readStream(pStream);
+        CUT_ASSERT.fail("Expected an exception.");
+    }
+    catch (exceptions::Reader& ex)
+    {
+        CUT_ASSERT.isTrue(ezStringUtils::IsEqual(ex.what(),
+            "Missing trailing \" character in string."));
+    }
+    catch(...)
+    {
+        CUT_ASSERT.fail("Expected another kind of exception.");
+    }
 
     auto result = LCPP_test_pRuntimeState->getReaderState()->m_syntaxCheckResult;
 
     CUT_ASSERT.isFalse(result.m_valid);
-    CUT_ASSERT.isTrue(result.m_info.IsEqual("Missing trailing \" character in string."));
 }
 
 LCPP_TestCase(Reader, List)
