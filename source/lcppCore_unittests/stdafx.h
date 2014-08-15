@@ -12,4 +12,5 @@
 // unit test framework
 #include "cut/api.h"
 
-#include "lcpp/api.h"
+#include "lcpp/foundation/api.h"
+#include "lcpp/core/api.h"

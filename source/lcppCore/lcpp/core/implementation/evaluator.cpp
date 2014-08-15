@@ -1,4 +1,7 @@
 #include "stdafx.h"
+
+#include "lcpp/exceptions/exceptions.h"
+
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
 #include "lcpp/core/typeSystem.h"
@@ -60,6 +63,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> p
             ezLog::VerboseDebugMessage(messsage.GetData());
             throw exceptions::NoBindingFound(messsage.GetData());
         }
+        
         return pResult;
     }
 
@@ -80,7 +84,7 @@ lcpp::RecursiveEvaluator::evalulate(Ptr<LispEnvironment> pEnv, Ptr<LispObject> p
         auto pUnevaluatedArgList = pBody->cdr();
         return pFuncObject.cast<LispSyntax>()->call(pEnv, pUnevaluatedArgList);
     }
-    
+
     if (!pFuncObject->is<LispFunction>())
     {
         ezStringBuilder message;

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "lcpp/exceptions/exceptions.h"
+
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/runtime.h"
@@ -20,9 +22,9 @@ lcpp::LispFunction::typeInfo()
     return t;
 }
 
-lcpp::LispFunction::LispFunction(Ptr<LispEnvironment> pEnv) :
+lcpp::LispFunction::LispFunction(Ptr<LispEnvironment> pParentEnv) :
     NameableBase(),
-    m_pEnv(pEnv)
+    m_pParentEnv(pParentEnv)
 {
 }
 
@@ -41,7 +43,6 @@ lcpp::LispFunction::name(Ptr<LispSymbol> pName)
 {
     EZ_ASSERT(pName, "The passed symbol instance is invalid!");
     NameableBase::name(pName);
-    m_pEnv->name(pName);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -52,8 +53,7 @@ lcpp::LispFunction_BuiltIn::create(Ptr<LispEnvironment> pParentEnv,
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    auto pNewEnv = LispEnvironment::create(pParentEnv);
-    return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(pNewEnv, executor);
+    return LCPP_NEW(pAllocator, LispFunction_BuiltIn)(pParentEnv, executor);
 }
 
 lcpp::Ptr<lcpp::LispFunction_BuiltIn>
@@ -87,9 +87,9 @@ lcpp::LispFunction_BuiltIn::typeInfo()
     return t;
 }
 
-lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(Ptr<LispEnvironment> pEnv,
+lcpp::LispFunction_BuiltIn::LispFunction_BuiltIn(Ptr<LispEnvironment> pParentEnv,
                                                  ExecutorPtr_t pExec) :
-    LispFunction(pEnv),
+    LispFunction(pParentEnv),
     m_pExec(pExec)
 {
     EZ_ASSERT(pExec, "The function executor must be valid!");
@@ -121,20 +121,20 @@ lcpp::LispFunction_BuiltIn::call(Ptr<LispObject> pArgList)
 {
     EZ_ASSERT(m_pExec, "The executor MUST be valid!");
     RecursionCounter counter(LispRuntime::instance());
-    return (*m_pExec)(m_pEnv, pArgList);
+    auto pEnv = LispEnvironment::create(m_pName, m_pParentEnv);
+    return (*m_pExec)(pEnv, pArgList);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 lcpp::Ptr<lcpp::LispFunction_UserDefined>
-lcpp::LispFunction_UserDefined::create(Ptr<LispEnvironment> pEnv,
+lcpp::LispFunction_UserDefined::create(Ptr<LispEnvironment> pParentEnv,
                                        Ptr<LispObject> pArgNameList,
                                        Ptr<LispCons> pBody)
 {
     auto pRuntime = LispRuntime::instance();
     auto pAllocator = pRuntime->allocator().get();
-    auto pNewEnv = LispEnvironment::create(pEnv);
-    return LCPP_NEW(pAllocator, LispFunction_UserDefined)(pNewEnv, pArgNameList, pBody);
+    return LCPP_NEW(pAllocator, LispFunction_UserDefined)(pParentEnv, pArgNameList, pBody);
 }
 
 lcpp::Ptr<lcpp::LispFunction_UserDefined>
@@ -157,10 +157,10 @@ lcpp::LispFunction_UserDefined::typeInfo()
     return t;
 }
 
-lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<LispEnvironment> pEnv,
+lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<LispEnvironment> pParentEnv,
                                                          Ptr<LispObject> pArgNameList,
                                                          Ptr<LispCons> pBody) :
-    LispFunction(pEnv),
+    LispFunction(pParentEnv),
     m_pArgNameList(pArgNameList),
     m_numArgs(0),
     m_pBody(pBody)
@@ -193,7 +193,7 @@ lcpp::LispFunction_UserDefined::LispFunction_UserDefined(Ptr<LispEnvironment> pE
     {
         EZ_ASSERT(pArgNamePtr->car()->is<LispSymbol>(), "All arg names must be symbols!");
         auto pArgName = pArgNamePtr->car().cast<LispSymbol>();
-        m_pEnv->add(pArgName, LCPP_NIL);
+        m_pParentEnv->add(pArgName, LCPP_NIL);
         ++m_numArgs;
 
         if(isNil(pArgNamePtr->cdr()))
@@ -245,9 +245,11 @@ lcpp::LispFunction_UserDefined::call(Ptr<LispObject> pArgList)
     EZ_ASSERT(m_pBody, "The function body MUST be valid!");
     RecursionCounter counter(LispRuntime::instance());
 
+    auto pEnv = LispEnvironment::create(m_pName, m_pParentEnv);
+
     // Process args
     //////////////////////////////////////////////////////////////////////////
-    processArguments(pArgList);
+    processArguments(pEnv, pArgList);
 
     // Process body
     //////////////////////////////////////////////////////////////////////////
@@ -259,7 +261,7 @@ lcpp::LispFunction_UserDefined::call(Ptr<LispObject> pArgList)
         EZ_ASSERT(pCodePointer->is<LispCons>(), "Function body must be a cons.");
 
         auto pCons = pCodePointer.cast<LispCons>();
-        pResult = LispRuntime::instance()->evaluator()->evalulate(m_pEnv, pCons->car());
+        pResult = LispRuntime::instance()->evaluator()->evalulate(pEnv, pCons->car());
         pCodePointer = pCons->cdr();
     }
 
@@ -267,7 +269,7 @@ lcpp::LispFunction_UserDefined::call(Ptr<LispObject> pArgList)
 }
 
 void
-lcpp::LispFunction_UserDefined::processArguments(Ptr<LispObject> pArgs)
+lcpp::LispFunction_UserDefined::processArguments(Ptr<LispEnvironment> pEnv, Ptr<LispObject> pArgs)
 {
     if(!checkArgumentCount(pArgs)) { return; }
 
@@ -280,11 +282,8 @@ lcpp::LispFunction_UserDefined::processArguments(Ptr<LispObject> pArgs)
 
     for(auto i = m_numArgs; i > 0; --i)
     {
-        auto setResult = m_pEnv->set(pCurrentArgName->car().cast<LispSymbol>(),
-                                   pCurrentArg->car());
-        EZ_ASSERT(setResult.Succeeded(),
-                  "m_pArgNameList was changed after construction of this function object "
-                  "or the environment was not properly set up when this function object was constructed.");
+        pEnv->add(pCurrentArgName->car().cast<LispSymbol>(),
+                  pCurrentArg->car());
 
         pCurrentArgName = pCurrentArgName->cdr().cast<LispCons>();
         pCurrentArg = pCurrentArg->cdr().cast<LispCons>();

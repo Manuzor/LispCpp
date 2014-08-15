@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "lcpp/api.inl"
 #include "cut/testing/unit-test-settings.h"
 #include <string.h>
 

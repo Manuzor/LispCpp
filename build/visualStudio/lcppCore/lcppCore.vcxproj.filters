@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="../../../source/lcppCore/stdafx.cpp" />
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_syntax.cpp">
+      <Filter>lcpp\core\builtIn\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\builtIn\implementation\recursive_functions.cpp">
+      <Filter>lcpp\core\builtIn\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\environment.cpp">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\evaluator.cpp">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\printer.cpp">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\reader.cpp">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\implementation\runtime.cpp">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\syntax.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.cpp">
+      <Filter>lcpp\core\typeSystem\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\string.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.cpp">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.cpp">
+      <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCore\lcpp\core\containers\implementation\objectStack.cpp">
+      <Filter>lcpp\core\containers\implementation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../../source/lcppCore/stdafx.h" />
+    <ClInclude Include="../../../source/lcppCore/lcpp\exceptions\exceptions.h">
+      <Filter>lcpp\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\environment.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\evaluator.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\printer.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\reader.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\recursionCounter.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\runtime.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\sourceCursor.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\builtIn\recursive_functions.h">
+      <Filter>lcpp\core\builtIn</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\builtIn\recursive_syntax.h">
+      <Filter>lcpp\core\builtIn</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\object.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\type.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\implementation\type.inl">
+      <Filter>lcpp\core\typeSystem\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\bool.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\cons.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\file.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\function.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\nil.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\number.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\string.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\symbol.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\syntax.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\types\void.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="../../../source/lcppCore/lcpp\core\typeSystem\functions.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\instancing.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\numberDeclarations.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\evaluator.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\instancing.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\recursionCounter.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\implementation\runtime.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\implementation\object.inl">
+      <Filter>lcpp\core\typeSystem\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\bool.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\cons.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\file.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\number.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\symbol.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\syntax.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\void.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\types\implementation\nil.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\nameable.h">
+      <Filter>lcpp\core\typeSystem\baseTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\common.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\api.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\dependencies\ezEngine.h">
+      <Filter>lcpp\core\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCore\lcpp\core\containers\objectStack.h">
+      <Filter>lcpp\core\containers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../../source/lcppCore/lcpp\core\implementation\environment.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </None>
+    <None Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\function.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </None>
+    <None Include="../../../source/lcppCore/lcpp\core\typeSystem\types\implementation\string.inl">
+      <Filter>lcpp\core\typeSystem\types\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCore\lcpp\core\typeSystem\baseTypes\implementation\nameable.inl">
+      <Filter>lcpp\core\typeSystem\baseTypes\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\sourceCursor.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCore\lcpp\core\implementation\reader.inl">
+      <Filter>lcpp\core\implementation</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCore\lcpp\core\containers\implementation\objectStack.inl">
+      <Filter>lcpp\core\containers\implementation</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="lcpp">
+      <UniqueIdentifier>{3ef7cc46-f0e1-4f50-884f-f171246a9a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core">
+      <UniqueIdentifier>{aa7e57c4-63ba-46ed-954c-754a0818956b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\implementation">
+      <UniqueIdentifier>{71ee4ac5-b071-4bc1-84b7-5b4e8c28c312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\exceptions">
+      <UniqueIdentifier>{349a1280-d6cb-441d-8107-49b90ed137e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\builtIn">
+      <UniqueIdentifier>{ab5b6491-bbfb-452d-ab21-f930368bfb73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\builtIn\implementation">
+      <UniqueIdentifier>{affd5efe-a85c-425c-a9b7-f7c6b2ffe8fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem">
+      <UniqueIdentifier>{4ad77ace-507f-44c9-ab2c-253ce66b543a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\implementation">
+      <UniqueIdentifier>{d0978bed-2272-4890-b570-4ba7fa46f1f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\types">
+      <UniqueIdentifier>{a1f208d9-15be-434e-9e90-199c706aa5e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\types\implementation">
+      <UniqueIdentifier>{208cc2a7-1d6e-4e75-b4b9-5e75c58c49e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\baseTypes">
+      <UniqueIdentifier>{9b94ea1b-f717-4f5c-8c54-e49433667a4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\typeSystem\baseTypes\implementation">
+      <UniqueIdentifier>{cc33a59f-1388-470e-814b-9b29302a8300}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\dependencies">
+      <UniqueIdentifier>{3a09585e-f19a-457f-8e7d-ea8b2e52d5ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\containers">
+      <UniqueIdentifier>{2cbc08a4-035e-47b7-933d-c543dda57764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\containers\implementation">
+      <UniqueIdentifier>{736b6bd0-649e-4f99-8b23-27113a39ccb2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -5,7 +5,7 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API LispInteger :
+    class LCPP_API_CORE LispInteger :
         public LispObject
     {
         friend InstanceTable_Integers;
@@ -43,7 +43,7 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    class LCPP_CORE_API LispNumber :
+    class LCPP_API_CORE LispNumber :
         public LispObject
     {
         friend class TypeFactory;

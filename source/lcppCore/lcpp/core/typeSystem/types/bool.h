@@ -3,7 +3,7 @@
 
 namespace lcpp
 {
-    class LCPP_CORE_API LispBool :
+    class LCPP_API_CORE LispBool :
         public LispObject
     {
         friend class TypeFactory;

@@ -1,4 +1,7 @@
 #include "stdafx.h"
+
+#include "lcpp/exceptions/exceptions.h"
+
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/reader.h"
 #include "lcpp/core/evaluator.h"
@@ -9,6 +12,16 @@
 #define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
 
 lcpp::Ptr<lcpp::LispRuntime> lcpp::LispRuntime::s_pInstance;
+
+EZ_ON_GLOBAL_EVENT_ONCE(LCPP_GLOBAL_EVENT_STARTUP)
+{
+    lcpp::LispRuntime::instance()->initialize();
+}
+
+EZ_ON_GLOBAL_EVENT_ONCE(LCPP_GLOBAL_EVENT_SHUTDOWN)
+{
+    lcpp::LispRuntime::instance()->shutdown();
+}
 
 lcpp::Ptr<lcpp::LispRuntime>
 lcpp::LispRuntime::defaultInstance()
@@ -72,14 +85,14 @@ lcpp::LispRuntime::initialize()
 void
 lcpp::LispRuntime::shutdown()
 {
-    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.pIntegers.get());
-    LCPP_DELETE(m_pAllocator.get(), m_instanceTables.pSymbols.get());
+    LCPP_DELETE(m_pAllocator, m_instanceTables.pIntegers);
+    LCPP_DELETE(m_pAllocator, m_instanceTables.pSymbols);
 
-    LCPP_DELETE(m_pAllocator.get(), m_pGlobalEnvironment.get());
-    LCPP_DELETE(m_pAllocator.get(), m_pSyntaxEnvironment.get());
+    LCPP_DELETE(m_pAllocator, m_pGlobalEnvironment);
+    LCPP_DELETE(m_pAllocator, m_pSyntaxEnvironment);
 
-    LCPP_DELETE(m_pAllocator.get(), m_pEvaluator.get());
-    LCPP_DELETE(m_pAllocator.get(), m_pReader.get());
+    LCPP_DELETE(m_pAllocator, m_pEvaluator);
+    LCPP_DELETE(m_pAllocator, m_pReader);
 }
 
 void

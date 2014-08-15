@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "lcpp/exceptions/exceptions.h"
+
 #include "lcpp/core/builtIn/recursive_syntax.h"
 #include "lcpp/core/typeSystem.h"
 #include "lcpp/core/environment.h"
@@ -40,6 +42,7 @@ namespace lcpp
                 throw exceptions::InvalidSyntax("First argument to lambda short-hand definition must be a symbol!");
             }
             auto pSymbol = pSymbolObject.cast<LispSymbol>();
+
             auto pLambda = lcpp::syntax::lambda(pEnv, LispCons::create(pTheArgs->cdr(), pArgList->cdr()));
 
             envOp(pEnv, pSymbol, pLambda);

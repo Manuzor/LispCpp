@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/exceptions/exceptions.h"
 
 lcpp::Ptr<lcpp::LispObject>
 lcpp::LispObject::create()

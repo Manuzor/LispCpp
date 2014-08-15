@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+	<Type Name="lcpp::Ptr&lt;*&gt;">
+		<DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
+		<DisplayString>{m_pPtr}</DisplayString>
+		<Expand>
+			<Item Name="[ptr]">m_pPtr</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
+		<DisplayString>{*m_pPtr}</DisplayString>
+		<Expand>
+			<ExpandedItem>*m_pPtr</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::LispObject">
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  0">Nil '()</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  1">Void #v</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  2">True #t</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  3">False #f</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">{m_header}: {m_integer}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">{m_header}: {m_float}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">{m_header}: {m_symbol}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">{m_header}: {m_string}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{m_header}: {m_stream}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">{m_header}: {m_cons}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_lambda_builtin}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: {m_lambda_userDefined}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_syntax_builtin}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">{m_header}: Not implemented in .natvis file for user-defined syntax.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">{m_header}: {m_env}</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">{m_header}: Not implemented in the .natvis file.</DisplayString>
+		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 14">{m_header}: {m_cont}</DisplayString>
+		<DisplayString>[Unknown Type]{m_header}</DisplayString>
+		<Expand>
+			<Item Name="Header">m_header</Item>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">m_integer</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">m_float</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">m_symbol</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">m_string</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">m_stream</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">m_cons</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">m_lambda_builtin</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">m_lambda_userDefined</ExpandedItem>
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">m_syntax_builtin</ExpandedItem>
+			<!--<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">Not implemented in .natvis file for user-defined syntax.</ExpandedItem>-->
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">m_env</ExpandedItem>
+			<!--<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">Not implemented in the .natvis file.</ExpandedItem>-->
+			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 14">m_cont</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::LispObjectHeader">
+		<DisplayString>{*m_pMetaInfo.m_pPtr}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::MetaInfo">
+		<DisplayString>{m_type}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::Type">
+		<DisplayString>{m_id}</DisplayString>
+	</Type>
+
+	<Type Name="lcpp::Stack">
+		<DisplayString>{m_stack}</DisplayString>
+		<Expand>
+			<Item Name="Allocator">m_pAllocator.m_pPtr</Item>
+			<Item Name="NilElement">m_nilElement</Item>
+			<ExpandedItem>m_stack</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<!-- type specific data -->
+
+	<Type Name="lcpp::symbol::Data">
+		<DisplayString>{*((String*)m_pRawData)}</DisplayString>
+		<Expand>
+			<ExpandedItem>*((String*)m_pRawData)</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::str::Data">
+		<DisplayString>{*((String*)m_pRawData)}</DisplayString>
+		<Expand>
+			<ExpandedItem>*((String*)m_pRawData)</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::env::Data">
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
+		<Expand>
+			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+			<ExpandedItem>(ezHashTableBase&lt;lcpp::Ptr&lt;lcpp::LispObject&gt;,lcpp::Ptr&lt;lcpp::LispObject&gt;,ezHashHelper&lt;lcpp::Ptr&lt;lcpp::LispObject&gt; &gt; &gt; *)m_table</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::cont::Data">
+		<DisplayString>Function={m_pFunction,na}</DisplayString>
+		<Expand>
+			<Item Name="Function">m_pFunction,na</Item>
+			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
+			<Item Name="UserData">m_userData</Item>
+			<Item Name="Stack">*((lcpp::Stack*)m_stack)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::stream::Data">
+		<DisplayString>Current={((ezStringIterator*)m_iterator)->m_pCurrent,s8}</DisplayString>
+		<StringView>((ezStringIterator*)m_iterator)->m_pCurrent,s8</StringView>
+		<Expand>
+			<ExpandedItem>*((ezStringIterator*)m_iterator)</ExpandedItem>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::cons::Data">
+		<Expand>
+			<Item Name="Car">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCar)</Item>
+			<!-- Display Cdr as another cons, if it is a cons. -->
+			<Item Name="Cdr" Condition="((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)->m_pPtr->m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 9">((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)->m_pPtr->m_cons</Item>
+			<Item Name="Cdr" Condition="((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)->m_pPtr->m_header.m_pMetaInfo.m_pPtr->m_type.m_id != 9">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::lambda::builtin::Data">
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+		<Expand>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+			<Item Name="Function">m_pFunction</Item>
+			<Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::lambda::userDefined::Data">
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
+		<Expand>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+			<Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
+			<Item Name="ArgList">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pArgList)</Item>
+			<Item Name="Body">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pBody)</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="lcpp::syntax::builtin::Data">
+		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+		<Expand>
+			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+			<Item Name="Function">m_pFunction</Item>
+		</Expand>
+	</Type>
+
+</AutoVisualizer>

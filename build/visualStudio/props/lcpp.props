@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <LCPP_Root>$(SolutionDir)../..</LCPP_Root>
+    <LCPP_OutRoot>$(LCPP_Root)/output</LCPP_OutRoot>
+    <LCPP_TempRoot>$(LCPP_Root)/temp</LCPP_TempRoot>
+    <LCPP_SourceRoot>$(LCPP_Root)/source</LCPP_SourceRoot>
+    <LCPP_FoundationSourceDir>$(LCPP_Root)/source/lcppFoundation</LCPP_FoundationSourceDir>
+    <LCPP_ThirdpartyRoot>$(LCPP_Root)/thirdparty</LCPP_ThirdpartyRoot>
+    <LCPP_BinDir>$(LCPP_OutRoot)/bin/WinVs2013$(Configuration)$(PlatformArchitecture)</LCPP_BinDir>
+    <LCPP_LibDir>$(LCPP_OutRoot)/lib/WinVs2013$(Configuration)$(PlatformArchitecture)</LCPP_LibDir>
+    <LCPP_IntDir>$(LCPP_TempRoot)/$(ProjectName)/WinVs2013$(Configuration)$(PlatformArchitecture)</LCPP_IntDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>$(LCPP_BinDir)/</OutDir>
+    <IntDir>$(LCPP_IntDir)/</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link />
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(LCPP_SourceRoot)/$(ProjectName)/;$(LCPP_FoundationSourceDir);$(LCPP_ThirdpartyRoot)/ezEngine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(LCPP_LibDir)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ezFoundation.lib;ezThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(ProjectName)' != 'lcppFoundation'">lcppFoundation.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(LCPP_LibDir)/$(TargetName).lib</ImportLibrary>
+      <StackReserveSize>134217728</StackReserveSize>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="LCPP_Root">
+      <Value>$(LCPP_Root)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_OutRoot">
+      <Value>$(LCPP_OutRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_TempRoot">
+      <Value>$(LCPP_TempRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_SourceRoot">
+      <Value>$(LCPP_SourceRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_FoundationSourceDir">
+      <Value>$(LCPP_FoundationSourceDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_ThirdpartyRoot">
+      <Value>$(LCPP_ThirdpartyRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_BinDir">
+      <Value>$(LCPP_BinDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_LibDir">
+      <Value>$(LCPP_LibDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LCPP_IntDir">
+      <Value>$(LCPP_IntDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

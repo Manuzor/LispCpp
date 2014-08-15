@@ -8,7 +8,7 @@ namespace lcpp
     class LispSymbol;
     class LispCons;
 
-    class LCPP_CORE_API LispSyntax :
+    class LCPP_API_CORE LispSyntax :
         public LispObject
     {
     public:

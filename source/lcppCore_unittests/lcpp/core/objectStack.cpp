@@ -10,7 +10,7 @@ namespace
 
     UnitTest g_test1(g_group, "EmptyStack", []()
     {
-        auto pStack = LispObjectStack::create("stack");
+        auto pStack = LispObjectStack::create();
 
         CUT_ASSERT.isTrue(pStack->isEmpty(), "A new stack instance is supposed to be empty.");
         CUT_ASSERT.isTrue(pStack->size() == 0, "The size of a new stack instance is supposed to be 0.");
@@ -25,7 +25,7 @@ namespace
 
     UnitTest g_test2(g_group, "Manipulation", []()
     {
-        auto pStack = LispObjectStack::create("stack");
+        auto pStack = LispObjectStack::create();
         auto one   = LispInteger::create(1);
         auto two   = LispInteger::create(2);
         auto three = LispInteger::create(3);
@@ -72,23 +72,5 @@ namespace
         CUT_ASSERT.isTrue(pStack->pop().Succeeded());
         CUT_ASSERT.isTrue(pStack->get(-1) == LCPP_NIL);
         CUT_ASSERT.isTrue(pStack->isEmpty());
-    });
-
-    UnitTest g_test3(g_group, "Name", []()
-    {
-        auto pStack = LispObjectStack::create("stack");
-        CUT_ASSERT.isTrue(pStack->name().IsEqual("stack"), "Broken getter for stack name.");
-
-        pStack->name("hello");
-        CUT_ASSERT.isTrue(pStack->name().IsEqual("hello"), "Broken setter (or getter?) for stack name.");
-
-        auto giveMeTheConstStack = [](Ptr<const LispObjectStack> pConstStack){
-            auto& name = pConstStack->name();
-            CUT_ASSERT.isTrue("world");
-        };
-
-        pStack->name("world");
-
-        giveMeTheConstStack(pStack);
     });
 }

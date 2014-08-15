@@ -1,0 +1,13 @@
+#pragma once
+
+#include "cut/preprocessor/stringize.h"
+
+#define CUT_VERSION_RELEASE 0
+#define CUT_VERSION_MAJOR 2
+#define CUT_VERSION_MINOR 2
+
+#define CUT_MAKE_VERSION(release, major, minor) ((release << 16) | (major << 8) | minor)
+
+#define CUT_VERSION CUT_MAKE_VERSION(CUT_VERSION_RELEASE, CUT_VERSION_MAJOR, CUT_VERSION_MINOR)
+
+#define CUT_VERSION_STRING "v" CUT_STRINGIZE(CUT_VERSION_RELEASE) "." CUT_STRINGIZE(CUT_VERSION_MAJOR) "." CUT_STRINGIZE(CUT_VERSION_MINOR) ""

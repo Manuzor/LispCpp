@@ -12,7 +12,8 @@
 #include <tchar.h>
 #include <functional>
 
-#include "lcpp/api.h"
+#include "lcpp/foundation/api.h"
+#include "lcpp/core/api.h"
 
 // Custom stuff that will not change frequently
 //////////////////////////////////////////////////////////////////////////

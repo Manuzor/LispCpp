@@ -10,14 +10,13 @@ namespace lcpp
     class LispExtend;
 
         /// \brief Base class for all scheme types
-        /// 
+        ///
         /// Do not directly derive your scheme type from this.
         /// Use LispExtend instead.
         /// Example:
         /// class LispBool : public LispExtend<LispBool, LispObject> { /* ... */ };
-    class LCPP_CORE_API LispObject
+    class LCPP_API_CORE LispObject
     {
-        friend class TypeFactory;
     public:
 
             /// \brief Fails an assert and throws exceptions::InvalidOperation()

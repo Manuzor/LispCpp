@@ -7,7 +7,7 @@ namespace lcpp
     class LispRuntime;
     class LispObject;
 
-    class LCPP_CORE_API Reader
+    class LCPP_API_CORE Reader
     {
     public:
 
