@@ -24,11 +24,21 @@ namespace lcpp
             }
         };
 
-        class MissingListDelimiter :
+        class MissingLeftListDelimiter :
             public ReaderBase
         {
         public:
-            MissingListDelimiter(const String& message) :
+            MissingLeftListDelimiter(const String& message) :
+                ReaderBase(message)
+            {
+            }
+        };
+
+        class MissingRightListDelimiter :
+            public ReaderBase
+        {
+        public:
+            MissingRightListDelimiter(const String& message) :
                 ReaderBase(message)
             {
             }

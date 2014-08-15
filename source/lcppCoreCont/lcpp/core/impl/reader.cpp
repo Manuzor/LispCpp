@@ -278,7 +278,7 @@ namespace lcpp
 
                 if(stream::getCharacter(pStream) != '(')
                 {
-                    LCPP_THROW(exceptions::MissingListDelimiter("Missing leading ( character in list."));
+                    LCPP_THROW(exceptions::MissingLeftListDelimiter("Missing leading ( character in list."));
                 }
 
                 // Read the '(' character.
@@ -303,7 +303,7 @@ namespace lcpp
 
                 if (!stream::isValid(pStream))
                 {
-                    LCPP_THROW(exceptions::MissingListDelimiter("Missing trailing ) character in list."));
+                    LCPP_THROW(exceptions::MissingRightListDelimiter("Missing trailing ) character in list."));
                 }
                 
                 if(stream::getCharacter(pStream) == ')')
@@ -343,7 +343,7 @@ namespace lcpp
 
                 if (!stream::isValid(pStream))
                 {
-                    LCPP_THROW(exceptions::MissingListDelimiter("Missing trailing ) character in list."));
+                    LCPP_THROW(exceptions::MissingRightListDelimiter("Missing trailing ) character in list."));
                 }
 
                 // Read cdr and then finalize the reading.

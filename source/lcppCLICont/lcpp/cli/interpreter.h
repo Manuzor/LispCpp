@@ -16,12 +16,6 @@ namespace lcpp
 
         ezInt32 repl();
 
-        Ptr<LispObject> readStream(Ptr<LispObject> pStream);
-
-        Ptr<LispObject> evalGlobally(Ptr<LispObject> pToEval);
-
-        Ptr<LispObject> print(Ptr<LispObject> pToPrint);
-
     private:
         LispRuntimeState m_state;
         Ptr<LispRuntimeState> m_pState;
@@ -30,6 +24,15 @@ namespace lcpp
         std::istream& m_in;
 
         ezStringBuilder m_szDataDir;
+
+        ezStringBuilder m_userPrompt;
+
+    private:
+
+        void prepareUserPrompt(ezStreamWriterBase& outputStream, bool printNewLine, ezUInt32 currentLine);
+
+        Ptr<LispObject> evaluateStream(Ptr<LispObject> pStream);
+        void print(Ptr<LispObject> pToPrint);
     };
     
 }
