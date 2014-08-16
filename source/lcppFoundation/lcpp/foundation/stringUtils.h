@@ -23,6 +23,11 @@ namespace lcpp
         return contains(String(cstr), character);
     }
 
+    inline bool isWhiteSpace(ezUInt32 character)
+    {
+        return ezStringUtils::IsWhiteSpace(character);
+    }
+
     inline bool isDigit(ezUInt32 character)
     {
         return character >= '0' && character <= '9';
@@ -35,7 +40,6 @@ namespace lcpp
 
     inline bool isAllDigits(const char* cstr)
     {
-        EZ_ASSERT(false, "Not implemented.");
-        return false;
+        LCPP_NOT_IMPLEMENTED;
     }
 }

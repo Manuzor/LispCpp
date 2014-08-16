@@ -417,6 +417,11 @@ namespace lcpp
                 }
                 else
                 {
+                    if (!isWhiteSpace(character))
+                    {
+                        pState->m_syntaxCheckResult.m_isPureWhitespace = false;
+                    }
+
                     pState->m_syntaxCheckResult.m_cursor.advance();
                 }
 

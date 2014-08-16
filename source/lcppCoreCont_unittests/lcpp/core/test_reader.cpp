@@ -23,13 +23,38 @@ LCPP_TestGroup(Reader);
 
 LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)
 {
+    auto pReaderState = LCPP_test_pRuntimeState->getReaderState();
+    auto& syntaxCheck = pReaderState->m_syntaxCheckResult;
     auto pObject = Ptr<LispObject>();
 
+    syntaxCheck.reset();
     pObject = readString("");
     CUT_ASSERT.isTrue(isVoid(pObject));
+    CUT_ASSERT.isTrue(syntaxCheck.m_isPureWhitespace);
 
+    syntaxCheck.reset();
     pObject = readString("    \n\t\r \t\t\n\r\r\n\r\n   \v\v  \n \t");
     CUT_ASSERT.isTrue(isVoid(pObject));
+    CUT_ASSERT.isTrue(syntaxCheck.m_isPureWhitespace);
+
+    {
+        auto content = ezString("   \n\r\t\t   42  \n\r");
+        auto pStream = stream::create(content.GetIteratorFront());
+
+        // stream:   "   \n\r\t\t   42  \n\r"
+        // position: -^
+        syntaxCheck.reset();
+        pObject = readStream(pStream);
+        CUT_ASSERT.isTrue(number::getInteger(pObject) == 42);
+        CUT_ASSERT.isFalse(syntaxCheck.m_isPureWhitespace);
+
+        // stream:   "   \n\r\t\t   42  \n\r"
+        // position: -----------------^
+        syntaxCheck.reset();
+        pObject = readStream(pStream);
+        CUT_ASSERT.isTrue(isVoid(pObject));
+        CUT_ASSERT.isTrue(syntaxCheck.m_isPureWhitespace);
+    }
 }
 
 LCPP_TestCase(Reader, Atoms)
