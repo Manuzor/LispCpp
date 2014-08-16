@@ -15,3 +15,5 @@
 #include "lcpp/core/typeSystem/types/syntax_builtin.h"
 #include "lcpp/core/typeSystem/types/time.h"
 #include "lcpp/core/typeSystem/types/timeData.h"
+#include "lcpp/core/typeSystem/types/file.h"
+#include "lcpp/core/typeSystem/types/fileData.h"

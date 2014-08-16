@@ -202,6 +202,15 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\timeData.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\file.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\fileData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\fileException.h">
+      <Filter>lcpp\core\exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -285,6 +294,9 @@
       <Filter>lcpp\core\builtins\impl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\time.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -383,6 +395,9 @@
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\timeData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\fileData.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
   </ItemGroup>

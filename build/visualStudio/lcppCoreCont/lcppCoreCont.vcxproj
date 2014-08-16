@@ -30,6 +30,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\contractViolationException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\arithmeticException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\exitException.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\fileException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\invalidInputException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\evaluatorException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\readerException.h" />
@@ -57,6 +58,8 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\cons.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuation.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environment.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\file.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\fileData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuationMacros.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda_builtin.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda_userDefined.h" />
@@ -91,6 +94,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_builtin.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.cpp" />
@@ -129,6 +133,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\fileData.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_builtin.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl" />
