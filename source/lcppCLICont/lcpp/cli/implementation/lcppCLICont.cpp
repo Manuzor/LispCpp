@@ -108,6 +108,7 @@ int main(int argc, const char* argv[])
     catch (lcpp::exceptions::ExceptionBase& e)
     {
         ezLog::Error(e.what());
+        EZ_REPORT_FAILURE("Uncaught exception!");
         return -1;
     }
     catch (std::exception& e)

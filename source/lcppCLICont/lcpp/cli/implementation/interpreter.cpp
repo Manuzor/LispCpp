@@ -33,7 +33,8 @@ namespace lcpp
         m_out(std::cout),
         m_in(std::cin),
         m_szDataDir(),
-        m_userPrompt()
+        m_userPrompt(),
+        m_readerBuffer()
     {
     }
 
@@ -74,10 +75,8 @@ namespace lcpp
     {
         std::ios_base::sync_with_stdio(false);
 
-        auto pReadStream = stream::create(ezStringIterator());
-        auto pResult = LCPP_pNil;
+        auto results = ezDeque<Ptr<LispObject>>(lcpp::defaultAllocator());
 
-        auto readerBuffer = ezStringBuilder();
         auto inputBuffer = std::string("");
 
         auto currentLine = ezUInt32(0);
@@ -85,52 +84,39 @@ namespace lcpp
         auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
         auto& outputStream = *m_pState->getPrinterState()->m_pOutStream;
 
-        outputStream << "=== Scheme interpreter 'lcpp' ===";
-
-        auto printNewLine = true;
+        outputStream << "=== Scheme interpreter 'lcpp' ===\n";
 
         while(true)
         {
             ++currentLine;
 
             syntaxCheck.reset();
-            readerBuffer.Clear();
+            m_readerBuffer.Clear();
+            results.Clear();
 
-            prepareUserPrompt(outputStream, printNewLine, currentLine);
-
-            printNewLine = true;
+            prepareUserPrompt(outputStream, false, currentLine);
 
             try
             {
-                while(true)
+                readUserInput(results);
+
+                while(!results.IsEmpty())
                 {
-                    std::getline(m_in, inputBuffer);
-                    readerBuffer.AppendFormat("%s", inputBuffer.c_str());
+                    auto pResult = results.PeekFront();
+                    results.PopFront();
 
-                    stream::setIterator(pReadStream, readerBuffer.GetIteratorFront());
+                    auto pToPrint = evaluateReaderOutput(pResult);
 
-                    try
+                    if(isVoid(pToPrint))
                     {
-                        pResult = evaluateStream(pReadStream);
-
-                        // Print
-                        if(!isVoid(pResult))
-                        {
-                            printNewLine = true;
-                            print(pResult);
-                        }
-                        else
-                        {
-                            printNewLine = false;
-                        }
-
-                        break;
+                        continue;
                     }
-                    catch(exceptions::MissingRightListDelimiter&)
-                    {
-                        readerBuffer.Append('\n');
-                    }
+
+                    print(pToPrint);
+                    lineBreak(outputStream);
                 }
+
+                continue;
             }
             catch(exceptions::ReaderBase& ex)
             {
@@ -142,7 +128,8 @@ namespace lcpp
                 {
                     info.Append('-');
                 }
-                info.Append("^\n");
+                info.Append('^');
+                lineBreak(info);
 
                 info.AppendFormat("Parser error in stdin(%u:%u): %s", sourcePos.m_line + currentLine, sourcePos.m_column, ex.what());
 
@@ -161,31 +148,99 @@ namespace lcpp
             }
             catch(exceptions::ExceptionBase& ex)
             {
-                outputStream << "Unexpected error: " << ex.what();
+                outputStream << "Error: " << ex.what();
             }
             catch(std::exception& ex)
             {
-                outputStream << "Fatal error: " << ex.what();
+                outputStream << "Unexpected error: " << ex.what();
             }
             catch(...)
             {
-                outputStream << "Unknown error occurred.";
+                outputStream << "Fatal, unknown error occurred.";
             }
+
+            lineBreak(outputStream);
         }
     }
 
-    Ptr<LispObject> Interpreter::evaluateStream(Ptr<LispObject> pStream)
+    void Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
+    {
+        auto pContMain = cont::createTopLevel(m_pState);
+        auto pMainStack = cont::getStack(pContMain);
+
+        auto pContRead = cont::create(pContMain, &reader::read);
+        auto pReadStack = cont::getStack(pContRead);
+
+        auto inputBuffer = std::string();
+        auto pStream = stream::create(ezStringIterator());
+        auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
+
+        // Multiline input, e.g. (define (fac n)
+        //                         (if (<= n 1)
+        //                           1
+        //                           (* n (fac (- n 1)))))
+        while(true)
+        {
+            try
+            {
+                std::getline(m_in, inputBuffer);
+                m_readerBuffer.AppendFormat("%s", inputBuffer.c_str());
+                stream::setIterator(pStream, m_readerBuffer.GetIteratorFront());
+
+                // Multiple objects per line, e.g.: "(fac 1)  2  (isPrime 42)"
+                while(true)
+                {
+                    pMainStack->clear();
+                    pReadStack->clear();
+
+                    pReadStack->push(pStream);
+
+                    syntaxCheck.reset();
+
+                    cont::setFunction(pContRead, &reader::read);
+                    cont::trampoline(pContRead);
+
+                    if(syntaxCheck.m_isPureWhitespace)
+                    {
+                        break;
+                    }
+
+                    auto pResult = pMainStack->get(0);
+                    out_results.PushBack(pResult);
+
+                    {
+                        auto& iterator = stream::getIterator(pStream);
+                        m_readerBuffer = iterator;
+                        stream::setIterator(pStream, m_readerBuffer.GetIteratorFront());
+                    }
+
+                    if(!stream::isValid(pStream))
+                    {
+                        break;
+                    }
+                }
+            }
+            catch(exceptions::MissingRightListDelimiter&)
+            {
+                lineBreak(m_readerBuffer);
+                addPadding(*m_pState->getPrinterState()->m_pOutStream, '.');
+                continue;
+            }
+            // If we reach this point, no exception was thrown and everything is fine.
+            break;
+        }
+    }
+
+    Ptr<LispObject> Interpreter::evaluateReaderOutput(Ptr<LispObject> pObject)
     {
         auto pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
 
         auto pContEvaluate = cont::create(pContMain, &eval::evaluate);
         cont::getStack(pContEvaluate)->push(m_pState->getGlobalEnvironment());
+        cont::getStack(pContEvaluate)->push(pObject);
 
-        auto pContRead = cont::create(pContEvaluate, &reader::read);
-        cont::getStack(pContRead)->push(pStream);
-
-        cont::trampoline(pContRead);
+        cont::trampoline(pContEvaluate);
 
         return pMainStack->get(0);
     }
@@ -204,11 +259,40 @@ namespace lcpp
     {
         if(printNewLine)
         {
-            outputStream << "\n";
+            lineBreak(outputStream);
         }
 
         m_userPrompt.Format("%u> ", currentLine);
         outputStream << m_userPrompt;
+    }
+
+    void Interpreter::addPadding(ezStringBuilder& builder, ezUInt32 paddingCharacter)
+    {
+        const auto maxCount = m_userPrompt.GetCharacterCount() - 1;
+        for(auto count = ezUInt32(0); count < maxCount; ++count)
+        {
+            builder.Append(paddingCharacter);
+        }
+        builder.Append(' ');
+    }
+
+    void Interpreter::addPadding(ezStreamWriterBase& outputStream, ezUInt32 paddingCharacter)
+    {
+        auto output = ezStringBuilder();
+        addPadding(output, paddingCharacter);
+        outputStream << output;
+    }
+
+    void Interpreter::lineBreak(ezStringBuilder& builder)
+    {
+        builder.Append(m_pState->getReaderState()->m_newLineDelimiter);
+    }
+
+    void Interpreter::lineBreak(ezStreamWriterBase& outputStream)
+    {
+        auto output = ezStringBuilder();
+        lineBreak(output);
+        outputStream << output;
     }
 
 }

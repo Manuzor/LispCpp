@@ -26,13 +26,19 @@ namespace lcpp
         ezStringBuilder m_szDataDir;
 
         ezStringBuilder m_userPrompt;
+        ezStringBuilder m_readerBuffer;
 
     private:
 
         void prepareUserPrompt(ezStreamWriterBase& outputStream, bool printNewLine, ezUInt32 currentLine);
 
-        Ptr<LispObject> evaluateStream(Ptr<LispObject> pStream);
+        void readUserInput(ezDeque<Ptr<LispObject>>& out_results);
+        Ptr<LispObject> evaluateReaderOutput(Ptr<LispObject> pObject);
         void print(Ptr<LispObject> pToPrint);
+
+        void addPadding(ezStringBuilder& builder, ezUInt32 paddingCharacter = ' ');
+        void addPadding(ezStreamWriterBase& outputStream, ezUInt32 paddingCharacter = ' ');
+        void lineBreak(ezStringBuilder& builder);
+        void lineBreak(ezStreamWriterBase& outputStream);
     };
-    
 }
