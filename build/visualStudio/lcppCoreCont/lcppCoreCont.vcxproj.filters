@@ -196,6 +196,12 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\evaluatorException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\time.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\timeData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -277,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\impl\lambda_builtinFunctions_comparison.cpp">
       <Filter>lcpp\core\builtins\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\time.cpp">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -369,6 +378,12 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\time.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\timeData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

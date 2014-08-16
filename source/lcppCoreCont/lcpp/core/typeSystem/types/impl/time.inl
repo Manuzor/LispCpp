@@ -1,0 +1,7 @@
+
+namespace lcpp
+{
+    namespace time
+    {
+    }
+}

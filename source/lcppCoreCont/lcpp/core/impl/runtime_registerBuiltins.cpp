@@ -66,7 +66,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddSyntax("lambda", &syntax::builtin::lambda, Signature::createVarArg(2));
     LCPP_AddSyntax("and", &syntax::builtin::and, Signature::createVarArg());
     LCPP_AddSyntax("or", &syntax::builtin::or, Signature::createVarArg());
-    LCPP_AddSyntax("time", &syntax::builtin::time, Signature::createVarArg(1));
+    LCPP_AddSyntax("time", &syntax::builtin::time, Signature::create(1));
 
     // Macros.
     //////////////////////////////////////////////////////////////////////////

@@ -12,12 +12,14 @@
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 #include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/number.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 
 #include "lcpp/core/exceptions/evaluatorException.h"
+#include "lcpp/core/typeSystem/types/time.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -313,15 +315,32 @@ namespace lcpp
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
                 auto pToCall = pStack->get(1);
+                auto pTime = lcpp::time::create();
 
-                LCPP_NOT_IMPLEMENTED;
+                pStack->push(pTime);
+
+                // Continue with detail::time_finalize.
+                cont::setFunction(pCont, &detail::time_finalize);
+
+                // Assign it as late as possible.
+                lcpp::time::setNow(pTime);
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToCall);
             }
 
             Ptr<LispObject> detail::time_finalize(Ptr<LispObject> pCont)
             {
+                auto endTime = ezTime::Now();
+
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
-                LCPP_NOT_IMPLEMENTED;
+                auto pTime = pStack->get(2);
+                typeCheck(pTime, Type::Time);
+
+                auto startTime = time::getTime(pTime);
+                auto deltaTime = endTime - startTime;
+                time::setTime(pTime, deltaTime);
+
+                LCPP_cont_return(pCont, pTime);
             }
         }
     }

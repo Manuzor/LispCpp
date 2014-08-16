@@ -31,6 +31,8 @@ namespace lcpp
 
             Continuation,
 
+            Time,
+
             ENUM_COUNT
         };
 

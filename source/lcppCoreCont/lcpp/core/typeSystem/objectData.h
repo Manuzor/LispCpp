@@ -34,6 +34,7 @@ namespace lcpp
             lambda::builtin::Data m_lambda_builtin;
             lambda::userDefined::Data m_lambda_userDefined;
             syntax::builtin::Data m_syntax_builtin;
+            time::Data m_time;
         };
 
     public:

@@ -130,6 +130,7 @@ namespace lcpp
             case Type::File: throw exceptions::NotImplemented();
 
             case Type::Continuation: return cont::toString(pObject);
+            case Type::Time: return time::toString(pObject);
             }
 
             EZ_REPORT_FAILURE("Unsupported type for toString.");

@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
-#include "lcpp/core/typeSystem/objectData.h"
-#include "lcpp/core/typeSystem/object.h"
 
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/types/nil.h"
