@@ -307,6 +307,22 @@ namespace lcpp
 
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
             }
+
+            Ptr<LispObject> time(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pToCall = pStack->get(1);
+
+                LCPP_NOT_IMPLEMENTED;
+            }
+
+            Ptr<LispObject> detail::time_finalize(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                LCPP_NOT_IMPLEMENTED;
+            }
         }
     }
 }
