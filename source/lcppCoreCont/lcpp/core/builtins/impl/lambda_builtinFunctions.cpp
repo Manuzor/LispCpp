@@ -16,6 +16,8 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/printer.h"
 #include "lcpp/core/exceptions/exitException.h"
+#include "lcpp/core/typeSystem/types/file.h"
+#include "lcpp/core/typeSystem/types/void.h"
 
 namespace lcpp
 {
@@ -113,6 +115,54 @@ namespace lcpp
                 message.Format("Exiting with exit code %d.", exitCode);
                 
                 LCPP_THROW(exceptions::Exit(exitCode, message.GetData()));
+            }
+
+            Ptr<LispObject> file::open(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFileName = pStack->get(1);
+                typeCheck(pFileName, Type::String);
+
+                auto pFileMode = pStack->get(2);
+                typeCheck(pFileMode, Type::String);
+
+                auto pFile = lcpp::file::create();
+
+                auto pResult = lcpp::file::open(pFile, pFileName, pFileMode);
+
+                if (isTrue(pResult))
+                {
+                    LCPP_cont_return(pCont, pFile);
+                }
+
+                lcpp::file::close(pFile);
+                LCPP_cont_return(pCont, LCPP_pFalse);
+            }
+
+            Ptr<LispObject> file::isOpen(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+                typeCheck(pFile, Type::File);
+
+                LCPP_cont_return(pCont, lcpp::file::isOpen(pFile));
+            }
+
+            Ptr<LispObject> file::close(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+                typeCheck(pFile, Type::File);
+
+                lcpp::file::close(pFile);
+
+                LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
         }

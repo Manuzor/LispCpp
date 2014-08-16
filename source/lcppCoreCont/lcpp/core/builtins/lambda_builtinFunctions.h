@@ -45,6 +45,15 @@ namespace lcpp
                 Ptr<LispObject> lowerThan_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> lowerThanOrEqual_helper(Ptr<LispObject> pCont);
             }
+
+            namespace file
+            {
+                // TODO Implemented file related functions.
+
+                Ptr<LispObject> open(Ptr<LispObject> pCont);
+                Ptr<LispObject> isOpen(Ptr<LispObject> pCont);
+                Ptr<LispObject> close(Ptr<LispObject> pCont);
+            }
         }
     }
 }
