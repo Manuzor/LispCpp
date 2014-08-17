@@ -25,5 +25,15 @@ namespace lcpp
             {
             }
         };
+
+        class FileDoesNotExist :
+            public FileBase
+        {
+        public:
+            FileDoesNotExist(const String& message) :
+                FileBase(message)
+            {
+            }
+        };
     }
 }

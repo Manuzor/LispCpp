@@ -84,7 +84,7 @@ namespace lcpp
                 {
                     auto message = ezStringBuilder();
                     message.Format("Object of type %s is not callable!",
-                                   object::getMetaInfo(pToCall).getPrettyName().GetData());
+                                   object::getMetaInfo(pToCall).getPrettyName());
                     LCPP_THROW(exceptions::EvaluatorBase(message.GetData()));
                 }
 

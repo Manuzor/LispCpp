@@ -20,7 +20,7 @@ namespace lcpp
         const Type& getType() const;
         const AttributeFlags& getAttributes() const;
 
-        const String& getPrettyName() const;
+        const char* getPrettyName() const;
 
     private:
 

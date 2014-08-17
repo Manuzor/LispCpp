@@ -58,6 +58,9 @@ namespace lcpp
         /// Used when finishing a call
         void decreaseRecursionDepth();
 
+        void setDataDirectory(const char* szName);
+        const char* getDataDirectory() const;
+
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
@@ -70,6 +73,7 @@ namespace lcpp
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;
+        ezString m_dataDirectory;
 
     private:
 

@@ -18,6 +18,8 @@
 #include "lcpp/core/exceptions/exitException.h"
 #include "lcpp/core/typeSystem/types/file.h"
 #include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/exceptions/fileException.h"
+#include "lcpp/core/exceptions/invalidInputException.h"
 
 namespace lcpp
 {
@@ -46,9 +48,9 @@ namespace lcpp
                 {
                     auto message = ezStringBuilder();
                     message.Format("Expected either type \"%s\" or \"%s\", got \"%s\".",
-                                   str::metaInfo().getPrettyName().GetData(),
-                                   stream::metaInfo().getPrettyName().GetData(),
-                                   object::getMetaInfo(pToRead).getPrettyName().GetData());
+                                   str::metaInfo().getPrettyName(),
+                                   stream::metaInfo().getPrettyName(),
+                                   object::getMetaInfo(pToRead).getPrettyName());
                     typeCheckFailed(message.GetData());
                 }
 
@@ -122,13 +124,55 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
 
-                auto pFileName = pStack->get(1);
-                typeCheck(pFileName, Type::String);
+                auto pFile = pStack->get(1);
 
                 auto pFileMode = pStack->get(2);
                 typeCheck(pFileMode, Type::String);
 
-                auto pFile = lcpp::file::create();
+                // Get the file name.
+                //////////////////////////////////////////////////////////////////////////
+                auto pFileName = LCPP_pNil;
+
+                if(object::isType(pFile, Type::File))
+                {
+                    pFileName = lcpp::file::getFileName(pFile);
+                }
+                else if(object::isType(pFile, Type::String))
+                {
+                    pFileName = pFile;
+                    pFile = lcpp::file::create();
+                }
+                else
+                {
+                    ezStringBuilder message;
+                    message.AppendFormat("Expected either type \"%s\" or \"%s\", got \"%s\".",
+                                         lcpp::file::metaInfo().getPrettyName(),
+                                         str::metaInfo().getPrettyName(),
+                                         object::getMetaInfo(pFile).getPrettyName());
+                    typeCheckFailed(message.GetData());
+                }
+
+                // Make sure the file name is absolute.
+                //////////////////////////////////////////////////////////////////////////
+
+                ezStringBuilder absoluteFileName;
+                absoluteFileName.Append(str::getValue(pFileName).GetData());
+
+                if(absoluteFileName.IsRelativePath())
+                {
+                    absoluteFileName.MakeAbsolutePath(cont::getRuntimeState(pCont)->getDataDirectory());
+                    pFileName = str::create(absoluteFileName);
+                }
+
+                // Make sure the file exists.
+                //////////////////////////////////////////////////////////////////////////
+
+                if (!ezFileSystem::ExistsFile(absoluteFileName.GetData()))
+                {
+                    ezStringBuilder message;
+                    message.AppendFormat("File does not exist: \"%s\"", absoluteFileName.GetData());
+                    LCPP_THROW(exceptions::FileDoesNotExist(message.GetData()));
+                }
 
                 auto pResult = lcpp::file::open(pFile, pFileName, pFileMode);
 

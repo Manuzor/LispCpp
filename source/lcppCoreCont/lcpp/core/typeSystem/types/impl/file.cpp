@@ -63,7 +63,8 @@ namespace lcpp
             else
             {
                 auto message = ezStringBuilder();
-                message.Format("Supported file modes are one of \"r\"ead, \"w\"write, and \"a\"ppend, got %s", fileModeName.GetData());
+                message.AppendFormat("Unable to open file '%s'. ", str::getValue(pStringFileName).GetData());
+                message.AppendFormat("Supported file modes are one of \"r\"ead, \"w\"write, and \"a\"ppend, got \"%s\".", fileModeName.GetData());
                 LCPP_THROW(exceptions::InvalidFileMode(message));
             }
 
@@ -90,25 +91,29 @@ namespace lcpp
 
         }
 
+        Ptr<LispObject> getFileName(Ptr<LispObject> pFile)
+        {
+            typeCheck(pFile, Type::File);
+            return pFile->m_file.getFileName();
+        }
+
         Ptr<LispObject> toString(Ptr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
 
             auto output = ezStringBuilder();
-            output.AppendFormat("<%s ", metaInfo().getPrettyName());
 
             auto& wrappedFile = pFile->m_file.getFile();
 
             if (wrappedFile.IsOpen())
             {
                 auto& fileNameValue = str::getValue(pFile->m_file.getFileName());
-                output.AppendFormat("(open): %s", metaInfo().getPrettyName(), fileNameValue.GetData());
+                output.AppendFormat("<open %s: %s>", metaInfo().getPrettyName(), fileNameValue.GetData());
             }
             else
             {
-                output.Append("(closed)");
+                output.AppendFormat("<closed %s>", metaInfo().getPrettyName());
             }
-            output.Append('>');
 
             return str::create(output.GetData());
         }

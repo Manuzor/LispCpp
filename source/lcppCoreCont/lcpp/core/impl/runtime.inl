@@ -68,4 +68,15 @@ namespace lcpp
         return m_recursionLimit;
     }
 
+    EZ_FORCE_INLINE
+    void LispRuntimeState::setDataDirectory(const char* szName)
+    {
+        m_dataDirectory = szName;
+    }
+
+    EZ_FORCE_INLINE
+    const char* LispRuntimeState::getDataDirectory() const
+    {
+        return m_dataDirectory.GetData();
+    }
 }

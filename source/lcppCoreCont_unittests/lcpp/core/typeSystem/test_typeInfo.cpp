@@ -10,13 +10,13 @@ LCPP_TestCase(MetaInfo, Basics)
         auto info = MetaInfo(Type::True);
 
         CUT_ASSERT.isTrue(info.getType() == Type::True);
-        CUT_ASSERT.isTrue(info.getPrettyName().IsEqual(info.getType().toString()));
+        CUT_ASSERT.isTrue(ezStringUtils::IsEqual(info.getPrettyName(), info.getType().toString()));
     }
 
     {
         auto info = MetaInfo(Type::True, "true-type");
 
         CUT_ASSERT.isTrue(info.getType() == Type::True);
-        CUT_ASSERT.isTrue(info.getPrettyName().IsEqual("true-type"));
+        CUT_ASSERT.isTrue(ezStringUtils::IsEqual(info.getPrettyName(), "true-type"));
     }
 }

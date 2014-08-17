@@ -23,8 +23,6 @@ namespace lcpp
         std::ostream& m_out;
         std::istream& m_in;
 
-        ezStringBuilder m_szDataDir;
-
         ezStringBuilder m_userPrompt;
         ezStringBuilder m_readerBuffer;
 

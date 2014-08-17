@@ -32,7 +32,6 @@ namespace lcpp
         m_pState(&m_state),
         m_out(std::cout),
         m_in(std::cin),
-        m_szDataDir(),
         m_userPrompt(),
         m_readerBuffer()
     {
@@ -44,6 +43,8 @@ namespace lcpp
 
     void Interpreter::initialize()
     {
+        m_pState->initialize();
+
         ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
         auto dataDir = ezStringBuilder();
@@ -57,9 +58,8 @@ namespace lcpp
             dataDir.Prepend("Unable to add data dir: ");
             throw std::exception(dataDir.GetData());
         }
-        m_szDataDir = dataDir;
 
-        m_pState->initialize();
+        m_pState->setDataDirectory(dataDir.GetData());
 
         m_userPrompt.Clear();
     }

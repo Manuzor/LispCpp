@@ -18,7 +18,8 @@
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
     m_recursionDepth(0),
-    m_recursionLimit(255)
+    m_recursionLimit(255),
+    m_dataDirectory(".")
 {
 }
 
