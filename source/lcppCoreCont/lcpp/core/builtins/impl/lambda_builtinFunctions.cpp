@@ -20,6 +20,7 @@
 #include "lcpp/core/typeSystem/types/void.h"
 #include "lcpp/core/exceptions/fileException.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 namespace lcpp
 {
@@ -117,6 +118,29 @@ namespace lcpp
                 message.Format("Exiting with exit code %d.", exitCode);
                 
                 LCPP_THROW(exceptions::Exit(exitCode, message.GetData()));
+            }
+
+            Ptr<LispObject> cons(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCar = pStack->get(1);
+                auto pCdr = pStack->get(2);
+
+                auto pCons = lcpp::cons::create(pCar, pCdr);
+
+                LCPP_cont_return(pCont, pCons);
+            }
+
+            Ptr<LispObject> list(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCons = lcpp::cons::pack(pStack, 1);
+
+                LCPP_cont_return(pCont, pCons);
             }
 
             Ptr<LispObject> file::open(Ptr<LispObject> pCont)
