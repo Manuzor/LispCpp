@@ -127,6 +127,12 @@ namespace lcpp
                 auto pFile = pStack->get(1);
 
                 auto pFileMode = pStack->get(2);
+
+                if(isNil(pFileMode))
+                {
+                    pFileMode = str::create("r");
+                }
+
                 typeCheck(pFileMode, Type::String);
 
                 // Get the file name.
