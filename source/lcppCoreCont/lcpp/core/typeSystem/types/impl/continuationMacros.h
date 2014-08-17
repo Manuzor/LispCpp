@@ -4,6 +4,11 @@
     #undef LCPP_ContinuationDebug
     #define LCPP_ContinuationDebug EZ_ON
 
+#else
+
+    #undef LCPP_ContinuationDebug
+    #define LCPP_ContinuationDebug EZ_OFF
+
 #endif
 
 //////////////////////////////////////////////////////////////////////////
