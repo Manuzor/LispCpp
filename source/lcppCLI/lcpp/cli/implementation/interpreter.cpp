@@ -24,7 +24,8 @@ void lcpp::Interpreter::initialize()
 {
     ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
-    auto workingDir = getCurrentWorkingDirectory();
+    ezStringBuilder workingDir;
+    getCurrentWorkingDirectory(workingDir);
 
     m_szDataDir.Clear();
     m_szDataDir.AppendPath(workingDir.GetData(), "data0");

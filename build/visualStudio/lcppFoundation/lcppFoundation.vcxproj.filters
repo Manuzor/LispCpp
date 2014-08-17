@@ -41,6 +41,12 @@
     <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\containers\stackBase.h">
       <Filter>lcpp\foundation\containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\ioUtils.h">
+      <Filter>lcpp\foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\ioUtils_win.h">
+      <Filter>lcpp\foundation\implementation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\memory\implementation\allocator.cpp">
@@ -50,6 +56,9 @@
       <Filter>lcpp\foundation\implementation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppFoundation\stdafx.cpp" />
+    <ClCompile Include="..\..\..\source\lcppFoundation\lcpp\foundation\implementation\ioUtils.cpp">
+      <Filter>lcpp\foundation\implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="lcpp">

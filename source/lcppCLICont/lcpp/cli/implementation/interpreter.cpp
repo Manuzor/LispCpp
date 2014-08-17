@@ -47,7 +47,8 @@ namespace lcpp
 
         ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
-        auto workingDir = getCurrentWorkingDirectory();
+        ezStringBuilder workingDir;
+        getCurrentWorkingDirectory(workingDir);
 
         auto dataDir = ezStringBuilder();
         dataDir.AppendPath(workingDir.GetData(), "data1");

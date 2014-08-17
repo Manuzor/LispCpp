@@ -6,7 +6,6 @@
 #include "lcpp/cli/exceptions.h"
 #include "lcpp/cli/interpreter.h"
 #include "lcpp/cli/ioUtils.h"
-#include <Foundation/Communication/Telemetry.h>
 
 namespace lcpp
 {
@@ -16,9 +15,11 @@ namespace lcpp
         ezLogWriter::HTML m_htmlLog;
     public:
         LoggingSystem(const char* logFilesDirectory) :
-            m_absoluteLogFilesDir(logFilesDirectory)
+            m_absoluteLogFilesDir()
         {
-            m_absoluteLogFilesDir.MakeAbsolutePath(getCurrentWorkingDirectory().GetData());
+            getCurrentWorkingDirectory(m_absoluteLogFilesDir);
+            m_absoluteLogFilesDir.AppendPath(logFilesDirectory);
+            m_absoluteLogFilesDir.MakeCleanPath();
         }
 
         void initialize()
