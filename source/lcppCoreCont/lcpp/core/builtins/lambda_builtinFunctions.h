@@ -33,7 +33,11 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> exit(Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<LispObject> cons(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> car(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> cdr(Ptr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> list(Ptr<LispObject> pCont);
+
+            LCPP_API_CORE_CONT Ptr<LispObject> eqq(Ptr<LispObject> pCont);
 
             namespace detail
             {

@@ -96,9 +96,9 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
                 auto pToPrint = pStack->get(1);
-                pStack->clear();
-                pStack->push(pToPrint);
-                LCPP_cont_tailCall(pCont, &printer::print);
+
+                cont::setFunction(pCont, &lcpp::printer::lineBreak);
+                LCPP_cont_call(pCont, &lcpp::printer::print, pToPrint);
             }
 
             Ptr<LispObject> exit(Ptr<LispObject> pCont)
@@ -133,6 +133,32 @@ namespace lcpp
                 LCPP_cont_return(pCont, pCons);
             }
 
+            Ptr<LispObject> car(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCons = pStack->get(1);
+                typeCheck(pCons, Type::Cons);
+
+                auto pCar = lcpp::cons::getCar(pCons);
+
+                LCPP_cont_return(pCont, pCar);
+            }
+
+            Ptr<LispObject> cdr(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCons = pStack->get(1);
+                typeCheck(pCons, Type::Cons);
+
+                auto pCdr = lcpp::cons::getCdr(pCons);
+
+                LCPP_cont_return(pCont, pCdr);
+            }
+
             Ptr<LispObject> list(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
@@ -141,6 +167,19 @@ namespace lcpp
                 auto pCons = lcpp::cons::pack(pStack, 1);
 
                 LCPP_cont_return(pCont, pCons);
+            }
+
+            Ptr<LispObject> eqq(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pArg0 = pStack->get(1);
+                auto pArg1 = pStack->get(2);
+
+                auto pResult = pArg0 == pArg1 ? LCPP_pTrue : LCPP_pFalse;
+
+                LCPP_cont_return(pCont, pResult);
             }
 
             Ptr<LispObject> file::open(Ptr<LispObject> pCont)
@@ -302,7 +341,6 @@ namespace lcpp
 
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
-
         }
     }
 }
