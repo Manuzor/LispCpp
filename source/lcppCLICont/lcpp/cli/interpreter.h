@@ -28,6 +28,8 @@ namespace lcpp
 
     private:
 
+        void evalInitFile();
+
         void prepareUserPrompt(ezStreamWriterBase& outputStream, bool printNewLine, ezUInt32 currentLine);
 
         void readUserInput(ezDeque<Ptr<LispObject>>& out_results);
