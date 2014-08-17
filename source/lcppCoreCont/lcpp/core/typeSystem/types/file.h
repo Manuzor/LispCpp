@@ -17,6 +17,7 @@ namespace lcpp
         LCPP_API_CORE_CONT void close(Ptr<LispObject> pFile);
 
         LCPP_API_CORE_CONT Ptr<LispObject> getFileName(Ptr<LispObject> pFile);
+        LCPP_API_CORE_CONT void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName);
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pFile);
     }

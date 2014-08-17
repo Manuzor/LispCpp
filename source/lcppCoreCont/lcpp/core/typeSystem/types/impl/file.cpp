@@ -97,6 +97,12 @@ namespace lcpp
             return pFile->m_file.getFileName();
         }
 
+        void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName)
+        {
+            typeCheck(pFile, Type::File);
+            pFile->m_file.setFileName(pFileName);
+        }
+
         Ptr<LispObject> toString(Ptr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
@@ -109,7 +115,7 @@ namespace lcpp
             if (wrappedFile.IsOpen())
             {
                 auto& fileNameValue = str::getValue(pFileName);
-                output.AppendFormat("<open %s: %s>", metaInfo().getPrettyName(), fileNameValue.GetData());
+                output.AppendFormat("<open %s: \"%s\">", metaInfo().getPrettyName(), fileNameValue.GetData());
             }
             else
             {
@@ -120,7 +126,7 @@ namespace lcpp
                 else
                 {
                     auto& fileNameValue = str::getValue(pFileName);
-                    output.AppendFormat("<closed %s: %s>", metaInfo().getPrettyName(), fileNameValue.GetData());
+                    output.AppendFormat("<closed %s: \"%s\">", metaInfo().getPrettyName(), fileNameValue.GetData());
                 }
             }
 

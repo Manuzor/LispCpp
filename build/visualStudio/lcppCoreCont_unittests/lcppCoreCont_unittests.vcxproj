@@ -41,6 +41,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_cons.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_continuation.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_environment.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_file.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_lambda_builtin.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_lambda_userDefined.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_nil.cpp" />
