@@ -47,19 +47,35 @@ namespace lcpp
 
         ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
-        auto dataDir = ezStringBuilder();
-        auto applicationDir = getCurrentWorkingDirectory();
-        dataDir.AppendPath(applicationDir.GetData(), "data");
-        dataDir.MakeCleanPath();
-        auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
+        auto workingDir = getCurrentWorkingDirectory();
 
-        if(!result.Succeeded())
+        auto dataDir = ezStringBuilder();
+        dataDir.AppendPath(workingDir.GetData(), "data1");
+        dataDir.MakeCleanPath();
+
+        // Base dir
+        //////////////////////////////////////////////////////////////////////////
         {
-            dataDir.Prepend("Unable to add data dir: ");
-            throw std::exception(dataDir.GetData());
+            ezStringBuilder baseDir(dataDir);
+            baseDir.AppendPath("base");
+            auto result = ezFileSystem::AddDataDirectory(baseDir.GetData(), ezFileSystem::ReadOnly, "base-data");
+            if(!result.Succeeded())            {                baseDir.Prepend("Unable to add base dir: ");
+                throw std::exception(baseDir.GetData());            }
+
+            m_pState->setBaseDirectory(baseDir.GetData());
         }
 
-        m_pState->setDataDirectory(dataDir.GetData());
+        // User dir
+        //////////////////////////////////////////////////////////////////////////
+        {
+            ezStringBuilder userDir(dataDir);
+            userDir.AppendPath("user");
+            auto result = ezFileSystem::AddDataDirectory(userDir.GetData(), ezFileSystem::ReadOnly, "user-data");
+            if(!result.Succeeded())            {                userDir.Prepend("Unable to add user dir: ");
+                throw std::exception(userDir.GetData());            }
+
+            m_pState->setUserDirectory(userDir.GetData());
+        }
 
         m_userPrompt.Clear();
     }

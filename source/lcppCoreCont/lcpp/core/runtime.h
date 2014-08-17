@@ -58,7 +58,10 @@ namespace lcpp
         /// Used when finishing a call
         void decreaseRecursionDepth();
 
-        void setDataDirectory(const char* szName);
+        void setBaseDirectory(const char* szName);
+        const char* getBaseDirectory() const;
+
+        void setUserDirectory(const char* szName);
         const char* getDataDirectory() const;
 
     private:
@@ -73,7 +76,8 @@ namespace lcpp
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;
-        ezString m_dataDirectory;
+        ezString m_baseDirectory;
+        ezString m_userDirectory;
 
     private:
 
