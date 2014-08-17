@@ -92,6 +92,9 @@ void lcpp::LispRuntimeState::increaseRecursionDepth()
     ++m_recursionDepth;
     if(m_recursionDepth >= m_recursionLimit)
     {
+        // Reset the recursion depth.
+        m_recursionDepth = 0;
+
         ezStringBuilder message;
         message.Format("Exceeded max call stack depth of %u", m_recursionLimit);
         throw exceptions::Runtime(message.GetData());

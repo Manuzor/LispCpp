@@ -75,7 +75,6 @@ namespace lcpp
 
             Ptr<LispObject> returnHelper(Ptr<LispObject> pCont);
             Ptr<LispObject> returnHelper(Ptr<LispObject> pCont, Ptr<LispObject> pReturnValue);
-
         }
     }
 }
