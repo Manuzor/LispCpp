@@ -104,15 +104,24 @@ namespace lcpp
             auto output = ezStringBuilder();
 
             auto& wrappedFile = pFile->m_file.getFile();
+            auto pFileName = pFile->m_file.getFileName();
 
             if (wrappedFile.IsOpen())
             {
-                auto& fileNameValue = str::getValue(pFile->m_file.getFileName());
+                auto& fileNameValue = str::getValue(pFileName);
                 output.AppendFormat("<open %s: %s>", metaInfo().getPrettyName(), fileNameValue.GetData());
             }
             else
             {
-                output.AppendFormat("<closed %s>", metaInfo().getPrettyName());
+                if(isNil(pFileName))
+                {
+                    output.AppendFormat("<closed %s>", metaInfo().getPrettyName());
+                }
+                else
+                {
+                    auto& fileNameValue = str::getValue(pFileName);
+                    output.AppendFormat("<closed %s: %s>", metaInfo().getPrettyName(), fileNameValue.GetData());
+                }
             }
 
             return str::create(output.GetData());
