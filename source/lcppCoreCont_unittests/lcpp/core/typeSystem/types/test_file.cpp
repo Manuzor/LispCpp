@@ -37,6 +37,14 @@ LCPP_TestCase(File, Basics)
 
     pResult = file::isOpen(pFile);
     CUT_ASSERT.isTrue(isFalse(pResult));
+
+    filePath.AppendPath("I", "Do", "Not", "Exist");
+
+    pResult = file::open(pFile, str::create(filePath.GetData()), str::create("r"));
+    CUT_ASSERT.isTrue(isFalse(pResult));
+
+    pResult = file::isOpen(pFile);
+    CUT_ASSERT.isTrue(isFalse(pResult));
 }
 
 LCPP_TestCase(File, toString)
