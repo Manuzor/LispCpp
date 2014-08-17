@@ -51,6 +51,8 @@ namespace lcpp
                 Ptr<LispObject> open(Ptr<LispObject> pCont);
                 Ptr<LispObject> isOpen(Ptr<LispObject> pCont);
                 Ptr<LispObject> close(Ptr<LispObject> pCont);
+                Ptr<LispObject> readString(Ptr<LispObject> pCont);
+                Ptr<LispObject> eval(Ptr<LispObject> pCont);
             }
         }
     }

@@ -166,7 +166,7 @@ namespace lcpp
 
                 if(absoluteFileName.IsRelativePath())
                 {
-                    absoluteFileName.MakeAbsolutePath(cont::getRuntimeState(pCont)->getDataDirectory());
+                    absoluteFileName.MakeAbsolutePath(cont::getRuntimeState(pCont)->getUserDirectory());
                     pFileName = str::create(absoluteFileName);
                 }
 
@@ -208,6 +208,70 @@ namespace lcpp
                 auto pStack = cont::getStack(pCont);
 
                 auto pFile = pStack->get(1);
+                typeCheck(pFile, Type::File);
+
+                lcpp::file::close(pFile);
+
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> file::readString(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pState = cont::getRuntimeState(pCont);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFileName = pStack->get(1);
+                typeCheck(pFileName, Type::String);
+
+                auto szFileNameValue = str::getValue(pFileName).GetData();
+
+                auto pString = LCPP_pNil;
+
+                {
+                    ezStringBuilder absoluteFileName(szFileNameValue);
+                    absoluteFileName.MakeAbsolutePath(pState->getUserDirectory());
+
+                    ezFileReader fileReader;
+                    auto openingTheFile = fileReader.Open(absoluteFileName.GetData());
+
+                    if(openingTheFile.Failed())
+                    {
+                        ezStringBuilder message;
+                        message.AppendFormat("Failed to open file \"%s\".", szFileNameValue);
+                        LCPP_THROW(exceptions::UnableToOpenFile(message.GetData()));
+                    }
+
+                    auto fileSize64 = fileReader.GetFileSize();
+                    auto fileSize32 = ezUInt32(fileSize64);
+
+                    ezHybridArray<ezUInt8, 256> rawFileContent;
+                    rawFileContent.SetCount(fileSize32 + 1);
+                    fileReader.ReadBytes(&rawFileContent[0], fileSize32);
+
+                    rawFileContent[fileSize32] = '\0';
+
+                    auto szString = reinterpret_cast<const char*>(&rawFileContent[0]);
+                    pString = str::create(szString);
+                }
+
+                LCPP_cont_return(pCont, pString);
+            }
+
+            Ptr<LispObject> file::eval(Ptr<LispObject> pCont)
+            {
+                LCPP_NOT_IMPLEMENTED;
+
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+
+                if (object::isType(pFile, Type::String))
+                {
+                }
+                
+
                 typeCheck(pFile, Type::File);
 
                 lcpp::file::close(pFile);

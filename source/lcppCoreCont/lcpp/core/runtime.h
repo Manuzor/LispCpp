@@ -62,7 +62,7 @@ namespace lcpp
         const char* getBaseDirectory() const;
 
         void setUserDirectory(const char* szName);
-        const char* getDataDirectory() const;
+        const char* getUserDirectory() const;
 
     private:
 

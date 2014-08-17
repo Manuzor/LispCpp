@@ -35,5 +35,15 @@ namespace lcpp
             {
             }
         };
+
+        class UnableToOpenFile:
+            public FileBase
+        {
+        public:
+            UnableToOpenFile(const String& message) :
+                FileBase(message)
+            {
+            }
+        };
     }
 }

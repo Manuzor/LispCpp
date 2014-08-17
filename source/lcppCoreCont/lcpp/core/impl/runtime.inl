@@ -86,7 +86,7 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    const char* LispRuntimeState::getDataDirectory() const
+    const char* LispRuntimeState::getUserDirectory() const
     {
         return m_userDirectory.GetData();
     }

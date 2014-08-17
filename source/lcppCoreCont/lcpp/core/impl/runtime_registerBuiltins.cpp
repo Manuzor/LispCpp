@@ -95,6 +95,8 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("file.open", &lambda::builtin::file::open, Signature::create(1, 2));
     LCPP_AddBuiltin("file.is-open", &lambda::builtin::file::isOpen, Signature::create(1));
     LCPP_AddBuiltin("file.close", &lambda::builtin::file::close, Signature::create(1));
+    LCPP_AddBuiltin("file.read-string", &lambda::builtin::file::readString, Signature::create(1));
+    LCPP_AddBuiltin("file.eval", &lambda::builtin::file::eval, Signature::create(1));
 
 }
 

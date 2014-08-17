@@ -47,6 +47,12 @@ LCPP_TestCase(File, Basics)
     CUT_ASSERT.isTrue(isFalse(pResult));
 }
 
+LCPP_TestCase(File, readString)
+{
+    auto pResult = evalString("(file.read-string \"testFile.txt\")");
+    CUT_ASSERT.isTrue(str::getValue(pResult).IsEqual("line1\nline2\nline3 - the last line"));
+}
+
 LCPP_TestCase(File, toString)
 {
     auto pFile = file::create();

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cut/testing/unit-test-settings.h"
 #include <string.h>
+#include "lcpp/core/runtime.h"
 
 bool g_pauseBeforeExit = true;
 
@@ -43,6 +44,7 @@ int main(int argc, const char* argv[])
             throw std::exception(testDir.GetData());
         }
         
+        LCPP_test_pRuntimeState->setUserDirectory(testDir.GetData());
     };
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
