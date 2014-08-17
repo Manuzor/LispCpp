@@ -19,3 +19,5 @@
 #include "lcpp/core/common.h"
 
 #include "lcpp/test/common.h"
+
+#include <Foundation/IO/FileSystem/DataDirTypeFolder.h>

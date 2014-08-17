@@ -16,6 +16,11 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/printer.h"
 #include "lcpp/core/exceptions/exitException.h"
+#include "lcpp/core/typeSystem/types/file.h"
+#include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/exceptions/fileException.h"
+#include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/typeSystem/types/cons.h"
 
 namespace lcpp
 {
@@ -44,9 +49,9 @@ namespace lcpp
                 {
                     auto message = ezStringBuilder();
                     message.Format("Expected either type \"%s\" or \"%s\", got \"%s\".",
-                                   str::metaInfo().getPrettyName().GetData(),
-                                   stream::metaInfo().getPrettyName().GetData(),
-                                   object::getMetaInfo(pToRead).getPrettyName().GetData());
+                                   str::metaInfo().getPrettyName(),
+                                   stream::metaInfo().getPrettyName(),
+                                   object::getMetaInfo(pToRead).getPrettyName());
                     typeCheckFailed(message.GetData());
                 }
 
@@ -91,9 +96,9 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
                 auto pToPrint = pStack->get(1);
-                pStack->clear();
-                pStack->push(pToPrint);
-                LCPP_cont_tailCall(pCont, &printer::print);
+
+                cont::setFunction(pCont, &lcpp::printer::lineBreak);
+                LCPP_cont_call(pCont, &lcpp::printer::print, pToPrint);
             }
 
             Ptr<LispObject> exit(Ptr<LispObject> pCont)
@@ -115,6 +120,227 @@ namespace lcpp
                 LCPP_THROW(exceptions::Exit(exitCode, message.GetData()));
             }
 
+            Ptr<LispObject> cons(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCar = pStack->get(1);
+                auto pCdr = pStack->get(2);
+
+                auto pCons = lcpp::cons::create(pCar, pCdr);
+
+                LCPP_cont_return(pCont, pCons);
+            }
+
+            Ptr<LispObject> car(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCons = pStack->get(1);
+                typeCheck(pCons, Type::Cons);
+
+                auto pCar = lcpp::cons::getCar(pCons);
+
+                LCPP_cont_return(pCont, pCar);
+            }
+
+            Ptr<LispObject> cdr(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCons = pStack->get(1);
+                typeCheck(pCons, Type::Cons);
+
+                auto pCdr = lcpp::cons::getCdr(pCons);
+
+                LCPP_cont_return(pCont, pCdr);
+            }
+
+            Ptr<LispObject> list(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pCons = lcpp::cons::pack(pStack, 1);
+
+                LCPP_cont_return(pCont, pCons);
+            }
+
+            Ptr<LispObject> eqq(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pArg0 = pStack->get(1);
+                auto pArg1 = pStack->get(2);
+
+                auto pResult = pArg0 == pArg1 ? LCPP_pTrue : LCPP_pFalse;
+
+                LCPP_cont_return(pCont, pResult);
+            }
+
+            Ptr<LispObject> file::open(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+
+                auto pFileMode = pStack->get(2);
+
+                if(isNil(pFileMode))
+                {
+                    pFileMode = str::create("r");
+                }
+
+                typeCheck(pFileMode, Type::String);
+
+                // Get the file name.
+                //////////////////////////////////////////////////////////////////////////
+                auto pFileName = LCPP_pNil;
+
+                if(object::isType(pFile, Type::File))
+                {
+                    pFileName = lcpp::file::getFileName(pFile);
+                }
+                else if(object::isType(pFile, Type::String))
+                {
+                    pFileName = pFile;
+                    pFile = lcpp::file::create();
+                }
+                else
+                {
+                    ezStringBuilder message;
+                    message.AppendFormat("Expected either type \"%s\" or \"%s\", got \"%s\".",
+                                         lcpp::file::metaInfo().getPrettyName(),
+                                         str::metaInfo().getPrettyName(),
+                                         object::getMetaInfo(pFile).getPrettyName());
+                    typeCheckFailed(message.GetData());
+                }
+
+                // Make sure the file name is absolute.
+                //////////////////////////////////////////////////////////////////////////
+
+                ezStringBuilder absoluteFileName;
+                absoluteFileName.Append(str::getValue(pFileName).GetData());
+
+                if(absoluteFileName.IsRelativePath())
+                {
+                    absoluteFileName.MakeAbsolutePath(cont::getRuntimeState(pCont)->getUserDirectory());
+                    pFileName = str::create(absoluteFileName);
+                }
+
+                // Make sure the file exists.
+                //////////////////////////////////////////////////////////////////////////
+
+                if (!ezFileSystem::ExistsFile(absoluteFileName.GetData()))
+                {
+                    ezStringBuilder message;
+                    message.AppendFormat("File does not exist: \"%s\"", absoluteFileName.GetData());
+                    LCPP_THROW(exceptions::FileDoesNotExist(message.GetData()));
+                }
+
+                auto pResult = lcpp::file::open(pFile, pFileName, pFileMode);
+
+                if (isTrue(pResult))
+                {
+                    LCPP_cont_return(pCont, pFile);
+                }
+
+                lcpp::file::close(pFile);
+                LCPP_cont_return(pCont, LCPP_pFalse);
+            }
+
+            Ptr<LispObject> file::isOpen(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+                typeCheck(pFile, Type::File);
+
+                LCPP_cont_return(pCont, lcpp::file::isOpen(pFile));
+            }
+
+            Ptr<LispObject> file::close(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+                typeCheck(pFile, Type::File);
+
+                lcpp::file::close(pFile);
+
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> file::readString(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pState = cont::getRuntimeState(pCont);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFileName = pStack->get(1);
+                typeCheck(pFileName, Type::String);
+
+                auto szFileNameValue = str::getValue(pFileName).GetData();
+
+                auto pString = LCPP_pNil;
+
+                {
+                    ezStringBuilder absoluteFileName(szFileNameValue);
+                    absoluteFileName.MakeAbsolutePath(pState->getUserDirectory());
+
+                    ezFileReader fileReader;
+                    auto openingTheFile = fileReader.Open(absoluteFileName.GetData());
+
+                    if(openingTheFile.Failed())
+                    {
+                        ezStringBuilder message;
+                        message.AppendFormat("Failed to open file \"%s\".", szFileNameValue);
+                        LCPP_THROW(exceptions::UnableToOpenFile(message.GetData()));
+                    }
+
+                    auto fileSize64 = fileReader.GetFileSize();
+                    auto fileSize32 = ezUInt32(fileSize64);
+
+                    ezHybridArray<ezUInt8, 256> rawFileContent;
+                    rawFileContent.SetCount(fileSize32 + 1);
+                    fileReader.ReadBytes(&rawFileContent[0], fileSize32);
+
+                    rawFileContent[fileSize32] = '\0';
+
+                    auto szString = reinterpret_cast<const char*>(&rawFileContent[0]);
+                    pString = str::create(szString);
+                }
+
+                LCPP_cont_return(pCont, pString);
+            }
+
+            Ptr<LispObject> file::eval(Ptr<LispObject> pCont)
+            {
+                LCPP_NOT_IMPLEMENTED;
+
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pFile = pStack->get(1);
+
+                if (object::isType(pFile, Type::String))
+                {
+                }
+                
+
+                typeCheck(pFile, Type::File);
+
+                lcpp::file::close(pFile);
+
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
         }
     }
 }

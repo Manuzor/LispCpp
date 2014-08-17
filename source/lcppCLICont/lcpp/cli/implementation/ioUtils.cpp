@@ -36,9 +36,3 @@ lcpp::findDirectory(const char* szDirName, const char* szStartPath, String* out_
 
     return EZ_FAILURE;
 }
-
-#if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
-#include "lcpp/cli/implementation/ioUtils_win.h"
-#else
-#pragma error Unsupported platform
-#endif

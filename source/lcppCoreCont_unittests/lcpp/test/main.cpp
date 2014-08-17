@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "cut/testing/unit-test-settings.h"
 #include <string.h>
+#include "lcpp/core/runtime.h"
 
 bool g_pauseBeforeExit = true;
 
@@ -26,7 +27,25 @@ int main(int argc, const char* argv[])
 
     auto& testManager = cut::IUnitTestManager::instance();
 
-    testManager.initializeFunction() = []{ lcpp::startup(); };
+    testManager.initializeFunction() = []
+    {
+        lcpp::startup();
+
+        ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
+
+        ezStringBuilder testDir;
+        lcpp::getCurrentWorkingDirectory(testDir);
+        testDir.AppendPath("data1", "test");
+        testDir.MakeCleanPath();
+        auto addingDataDirectory = ezFileSystem::AddDataDirectory(testDir.GetData(), ezFileSystem::ReadOnly, "test-data");
+        if(addingDataDirectory.Failed())
+        {
+            testDir.Prepend("Failed to add test data directory: ");
+            throw std::exception(testDir.GetData());
+        }
+        
+        LCPP_test_pRuntimeState->setUserDirectory(testDir.GetData());
+    };
     testManager.shutdownFunction() = []{ lcpp::shutdown(); };
 
     testManager.runAll();

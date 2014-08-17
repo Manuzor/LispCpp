@@ -14,9 +14,6 @@
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\ioUtils.h">
       <Filter>lcpp\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\implementation\ioUtils_win.h">
-      <Filter>lcpp\cli\implementation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\dependencies\ezEngine.h">
       <Filter>lcpp\cli\dependencies</Filter>
     </ClInclude>

@@ -127,7 +127,7 @@ namespace lcpp
             case Type::Syntax: return isBuiltin(pObject) ? syntax::builtin::toString(pObject) : throw exceptions::NotImplemented();
             case Type::Environment: return env::toString(pObject);
 
-            case Type::File: throw exceptions::NotImplemented();
+            case Type::File: return file::toString(pObject);
 
             case Type::Continuation: return cont::toString(pObject);
             case Type::Time: return time::toString(pObject);

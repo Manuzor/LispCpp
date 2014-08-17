@@ -41,8 +41,8 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    const String& MetaInfo::getPrettyName() const
+    const char* MetaInfo::getPrettyName() const
     {
-        return m_prettyName;
+        return m_prettyName.GetData();
     }
 }

@@ -10,7 +10,8 @@ lcpp::Interpreter::Interpreter(const CInfo& cinfo) :
     m_pPrinter(cinfo.pPrinter),
     m_out(std::cout),
     m_in(std::cin),
-    m_szDataDir()
+    m_szDataDir(),
+    m_szUserDir()
 {
     EZ_ASSERT(m_pPrinter, "Invalid printer pointer!");
 }
@@ -23,18 +24,40 @@ void lcpp::Interpreter::initialize()
 {
     ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
-    auto dataDir = ezStringBuilder();
-    auto applicationDir = getCurrentWorkingDirectory();
-    dataDir.AppendPath(applicationDir.GetData(), "data");
-    dataDir.MakeCleanPath();
-    auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
+    ezStringBuilder workingDir;
+    getCurrentWorkingDirectory(workingDir);
 
-    if (!result.Succeeded())
+    m_szDataDir.Clear();
+    m_szDataDir.AppendPath(workingDir.GetData(), "data0");
+    m_szDataDir.MakeCleanPath();
+
+    // Data dir
+    //////////////////////////////////////////////////////////////////////////
     {
-        dataDir.Prepend("Unable add data dir: ");
-        throw std::exception(dataDir.GetData());
+        auto result = ezFileSystem::AddDataDirectory(m_szDataDir.GetData(), ezFileSystem::ReadOnly, "data");
+
+        if(result.Failed())
+        {
+            ezStringBuilder message(m_szDataDir);
+            message.Prepend("Unable add data dir: ");
+            throw std::exception(message.GetData());
+        }
     }
-    m_szDataDir = dataDir;
+
+    // User dir
+    //////////////////////////////////////////////////////////////////////////
+    {
+        m_szUserDir = m_szDataDir;
+        m_szUserDir.AppendPath("user");
+        auto result = ezFileSystem::AddDataDirectory(m_szUserDir.GetData(), ezFileSystem::ReadOnly, "user-data");
+
+        if(result.Failed())
+        {
+            ezStringBuilder message(m_szUserDir);
+            message.Prepend("Unable add user dir: ");
+            throw std::exception(message.GetData());
+        }
+    }
 }
 
 void
@@ -47,12 +70,15 @@ void lcpp::Interpreter::loadBase()
     auto pReader = LispRuntime::instance()->reader();
     auto pEvaluator = LispRuntime::instance()->evaluator();
 
-    static auto stdlibDir = "base/stdlib.lisp";
+    ezStringBuilder stdlibDir(m_szDataDir);
+    stdlibDir.AppendPath("base", "stdlib.lisp");
+    stdlibDir.MakeCleanPath();
+
     ezFileReader file_stdlib;
-    if(file_stdlib.Open(stdlibDir, ezFileMode::Read) == EZ_FAILURE)
+    if(file_stdlib.Open(stdlibDir.GetData(), ezFileMode::Read).Failed())
     {
         auto message = ezStringBuilder();
-        message.AppendFormat("Unable to load %s!", stdlibDir);
+        message.AppendFormat("Unable to load \"%s\"!", stdlibDir);
         throw std::exception(message.GetData());
     }
     auto size = file_stdlib.GetFileSize();

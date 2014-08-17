@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\common.h" />
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\exceptions.h" />
-    <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\implementation\ioUtils_win.h" />
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\interpreter.h" />
     <ClInclude Include="..\..\..\source\lcppCLICont\lcpp\cli\ioUtils.h" />
     <ClInclude Include="..\..\..\source\lcppCLICont\stdafx.h" />

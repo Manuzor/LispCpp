@@ -9,5 +9,6 @@
 #include "lcpp/foundation/common.h"
 #include "lcpp/foundation/startup.h"
 #include "lcpp/foundation/conversion.h"
+#include "lcpp/foundation/ioUtils.h"
 
 #include "lcpp/foundation/containers/stackBase.h"

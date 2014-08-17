@@ -24,6 +24,7 @@
 #include "lcpp/core/exceptions/evaluatorException.h"
 #include "lcpp/core/exceptions/exitException.h"
 
+#include "lcpp/core/exceptions/fileException.h"
 
 namespace lcpp
 {
@@ -32,7 +33,6 @@ namespace lcpp
         m_pState(&m_state),
         m_out(std::cout),
         m_in(std::cin),
-        m_szDataDir(),
         m_userPrompt(),
         m_readerBuffer()
     {
@@ -44,22 +44,40 @@ namespace lcpp
 
     void Interpreter::initialize()
     {
+        m_pState->initialize();
+
         ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
+        ezStringBuilder workingDir;
+        getCurrentWorkingDirectory(workingDir);
+
         auto dataDir = ezStringBuilder();
-        auto applicationDir = getCurrentWorkingDirectory();
-        dataDir.AppendPath(applicationDir.GetData(), "data");
+        dataDir.AppendPath(workingDir.GetData(), "data1");
         dataDir.MakeCleanPath();
-        auto result = ezFileSystem::AddDataDirectory(dataDir.GetData(), ezFileSystem::ReadOnly, "data");
 
-        if(!result.Succeeded())
+        // Base dir
+        //////////////////////////////////////////////////////////////////////////
         {
-            dataDir.Prepend("Unable to add data dir: ");
-            throw std::exception(dataDir.GetData());
-        }
-        m_szDataDir = dataDir;
+            ezStringBuilder baseDir(dataDir);
+            baseDir.AppendPath("base");
+            auto result = ezFileSystem::AddDataDirectory(baseDir.GetData(), ezFileSystem::ReadOnly, "base-data");
+            if(!result.Succeeded())            {                baseDir.Prepend("Unable to add base dir: ");
+                throw std::exception(baseDir.GetData());            }
 
-        m_pState->initialize();
+            m_pState->setBaseDirectory(baseDir.GetData());
+        }
+
+        // User dir
+        //////////////////////////////////////////////////////////////////////////
+        {
+            ezStringBuilder userDir(dataDir);
+            userDir.AppendPath("user");
+            auto result = ezFileSystem::AddDataDirectory(userDir.GetData(), ezFileSystem::ReadOnly, "user-data");
+            if(!result.Succeeded())            {                userDir.Prepend("Unable to add user dir: ");
+                throw std::exception(userDir.GetData());            }
+
+            m_pState->setUserDirectory(userDir.GetData());
+        }
 
         m_userPrompt.Clear();
     }
@@ -73,6 +91,8 @@ namespace lcpp
 
     ezInt32 Interpreter::repl()
     {
+        evalInitFile();
+
         std::ios_base::sync_with_stdio(false);
 
         auto results = ezDeque<Ptr<LispObject>>(lcpp::defaultAllocator());
@@ -161,6 +181,94 @@ namespace lcpp
 
             lineBreak(outputStream);
         }
+    }
+
+    void Interpreter::evalInitFile()
+    {
+        auto pContMain = cont::createTopLevel(m_pState);
+        auto pStackMain = cont::getStack(pContMain);
+
+        auto pContEval = cont::create(pContMain, &eval::evaluate);
+        auto pStackEval = cont::getStack(pContEval);
+        pStackEval->push(m_pState->getGlobalEnvironment());
+        // eval::evaluate needs a second argument, the object to evaluate, which will be provided by reader::read.
+
+        auto pContRead = cont::create(pContEval, &reader::read);
+        auto pStackRead = cont::getStack(pContRead);
+        auto& outputStream = *m_pState->getPrinterState()->m_pOutStream;
+
+        //////////////////////////////////////////////////////////////////////////
+
+        ezStringBuilder fileContent;
+
+        {
+            ezStringBuilder absoluteFileName("init.lisp");
+            absoluteFileName.MakeAbsolutePath(m_pState->getBaseDirectory());
+
+            ezFileReader fileReader;
+            auto openingTheFile = fileReader.Open(absoluteFileName.GetData());
+
+            if(openingTheFile.Failed())
+            {
+                ezStringBuilder message;
+                message.AppendFormat("Failed to open file \"%s\".", absoluteFileName.GetData());
+                LCPP_THROW(exceptions::UnableToOpenFile(message.GetData()));
+            }
+
+            auto fileSize64 = fileReader.GetFileSize();
+            auto fileSize32 = ezUInt32(fileSize64);
+
+            ezHybridArray<ezUInt8, 256> rawFileContent;
+            rawFileContent.SetCount(fileSize32 + 1);
+            fileReader.ReadBytes(&rawFileContent[0], fileSize32);
+
+            rawFileContent[fileSize32] = '\0';
+
+            auto szString = reinterpret_cast<const char*>(&rawFileContent[0]);
+            fileContent = szString;
+        }
+
+        //////////////////////////////////////////////////////////////////////////
+
+        auto pStream = stream::create(fileContent.GetIteratorFront());
+        pStackRead->push(pStream);
+
+        while(true)
+        {
+            try
+            {
+                cont::trampoline(pContRead);
+            }
+            catch(exceptions::ExceptionBase& ex)
+            {
+                outputStream << "Error: " << ex.what();
+            }
+            catch(std::exception& ex)
+            {
+                outputStream << "Unexpected error: " << ex.what();
+            }
+            catch(...)
+            {
+                outputStream << "Fatal, unknown error occurred.";
+            }
+
+            if (!stream::isValid(pStream))
+            {
+                break;
+            }
+            
+            cont::setFunction(pContEval, &eval::evaluate);
+            pStackEval->clear();
+            pStackEval->push(m_pState->getGlobalEnvironment());
+
+            cont::setFunction(pContRead, &reader::read);
+            pStackRead->clear();
+            pStackRead->push(pStream);
+        }
+
+
+        // Check pStackMain.
+        return;
     }
 
     void Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)

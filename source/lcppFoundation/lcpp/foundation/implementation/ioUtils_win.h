@@ -1,14 +1,14 @@
 
-lcpp::String
-lcpp::getCurrentWorkingDirectory()
+void
+lcpp::getCurrentWorkingDirectory(ezStringBuilder& out_path)
 {
-    static auto workingDirectory = String();
+    static const unsigned long bufferSize = MAX_PATH;
+    static wchar_t buffer[bufferSize] = { L'\0' };
 
-    if (workingDirectory.IsEmpty())
+    out_path.Clear();
+
+    if(ezStringUtils::IsNullOrEmpty(buffer))
     {
-        auto bufferSize = unsigned long(MAX_PATH);
-        wchar_t buffer[MAX_PATH];
-
         auto dirNameLength = GetCurrentDirectoryW(bufferSize, buffer);
 
         if (dirNameLength == 0)
@@ -24,8 +24,7 @@ lcpp::getCurrentWorkingDirectory()
         }
         
         buffer[dirNameLength] = '\0';
-        workingDirectory = ezStringWChar(buffer).GetData();
     }
 
-    return workingDirectory;
+    out_path.Append(buffer);
 }

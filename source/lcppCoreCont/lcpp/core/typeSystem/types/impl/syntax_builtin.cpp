@@ -145,7 +145,7 @@ namespace lcpp
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
                 auto theString = ezStringBuilder();
-                theString.AppendFormat("<%s", metaInfo().getPrettyName().GetData());
+                theString.AppendFormat("<%s", metaInfo().getPrettyName());
 
                 if(hasName(pObject))
                 {

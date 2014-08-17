@@ -46,5 +46,16 @@ namespace lcpp
 
             LCPP_cont_tailCall(pCont);
         }
+
+        Ptr<LispObject> lineBreak(Ptr<LispObject> pCont)
+        {
+            typeCheck(pCont, Type::Continuation);
+            auto pState = cont::getRuntimeState(pCont);
+            auto pOutput = pState->getPrinterState()->m_pOutStream;
+            *pOutput << "\n";
+
+            LCPP_cont_return(pCont, LCPP_pVoid);
+        }
+
     }
 }

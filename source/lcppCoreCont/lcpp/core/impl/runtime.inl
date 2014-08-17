@@ -68,4 +68,27 @@ namespace lcpp
         return m_recursionLimit;
     }
 
+    EZ_FORCE_INLINE
+        void LispRuntimeState::setBaseDirectory(const char* szName)
+    {
+        m_baseDirectory = szName;
+    }
+
+    EZ_FORCE_INLINE
+        const char* LispRuntimeState::getBaseDirectory() const
+    {
+        return m_baseDirectory.GetData();
+    }
+    EZ_FORCE_INLINE
+    void LispRuntimeState::setUserDirectory(const char* szName)
+    {
+        m_userDirectory = szName;
+    }
+
+    EZ_FORCE_INLINE
+    const char* LispRuntimeState::getUserDirectory() const
+    {
+        return m_userDirectory.GetData();
+    }
+
 }
