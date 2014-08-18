@@ -22,6 +22,7 @@
 #include "lcpp/core/typeSystem/types/time.h"
 #include "lcpp/core/printer.h"
 #include "lcpp/core/exceptions/assertException.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -351,6 +352,13 @@ namespace lcpp
 
                 auto pUnevaluatedCondition = pStack->get(1);
 
+                auto argCount = pStack->size() - 1;
+                if (argCount == 1)
+                {
+                    // If the user did not specify a message, write the default message.
+                    pStack->push(LCPP_pNil);
+                }
+
                 cont::setFunction(pCont, &detail::assertion_finalize);
 
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pUnevaluatedCondition);
@@ -360,11 +368,23 @@ namespace lcpp
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
-                auto pCondition = pStack->get(-1);
+                auto pUnevaluatedCondition = pStack->get(1);
+                auto pUserMessage = pStack->get(2);
+                auto pCondition = pStack->get(3);
 
                 if(isFalse(pCondition))
                 {
-                    LCPP_THROW(exceptions::UserAssertionFailed("User assertion failed."));
+                    ezStringBuilder message("Assertion failed.\n  Expression: ");
+
+                    auto pConditionString = object::toString(pUnevaluatedCondition);
+                    message.Append(str::getValue(pConditionString).GetData());
+
+                    if (!isNil(pUserMessage))
+                    {
+                        message.AppendFormat("\n  Message: %s", str::getValue(pUserMessage).GetData());
+                    }
+
+                    LCPP_THROW(exceptions::UserAssertionFailed(message.GetData()));
                 }
 
                 LCPP_cont_return(pCont, pCondition);
