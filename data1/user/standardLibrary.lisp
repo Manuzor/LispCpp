@@ -12,3 +12,7 @@
 
 (define == =)
 (define (!= lhs rhs) (not (= lhs rhs)))
+
+; Run unit tests for the standard library.
+
+(file.eval "standardLibraryTests.lisp")
