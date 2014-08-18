@@ -20,6 +20,8 @@
 
 #include "lcpp/core/exceptions/evaluatorException.h"
 #include "lcpp/core/typeSystem/types/time.h"
+#include "lcpp/core/printer.h"
+#include "lcpp/core/exceptions/assertException.h"
 
 // Provides the variables pStack and pEnv in the current context.
 #define LCPP_SyntaxBuiltinFunction_CommonBody \
@@ -342,6 +344,32 @@ namespace lcpp
 
                 LCPP_cont_return(pCont, pTime);
             }
+
+            Ptr<LispObject> assertion(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pUnevaluatedCondition = pStack->get(1);
+
+                cont::setFunction(pCont, &detail::assertion_finalize);
+
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pUnevaluatedCondition);
+            }
+            
+            Ptr<LispObject> detail::assertion_finalize(Ptr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto pCondition = pStack->get(-1);
+
+                if(isFalse(pCondition))
+                {
+                    LCPP_THROW(exceptions::UserAssertionFailed("User assertion failed."));
+                }
+
+                LCPP_cont_return(pCont, pCondition);
+            }
+
         }
     }
 }

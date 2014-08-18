@@ -211,6 +211,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\fileException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\assertException.h">
+      <Filter>lcpp\core\exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">

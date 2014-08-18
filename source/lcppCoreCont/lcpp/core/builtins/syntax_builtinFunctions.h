@@ -26,6 +26,8 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Ptr<LispObject> time(Ptr<LispObject> pCont);
 
+            LCPP_API_CORE_CONT Ptr<LispObject> assertion(Ptr<LispObject> pCont);
+
             namespace detail
             {
                 Ptr<LispObject> if_helper(Ptr<LispObject> pCont);
@@ -35,6 +37,7 @@ namespace lcpp
                 Ptr<LispObject> and_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> or_helper(Ptr<LispObject> pCont);
                 Ptr<LispObject> time_finalize(Ptr<LispObject> pCont);
+                Ptr<LispObject> assertion_finalize(Ptr<LispObject> pCont);
             }
         }
     }
