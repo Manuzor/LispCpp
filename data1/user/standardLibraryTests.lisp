@@ -18,7 +18,8 @@
             (define (fac-helper n result)
                     (if (<= n 1)
                         result
-                        (begin (set! result (* n result)) (fac-helper (- n 1)))))
+                        (begin (set! result (* n result))
+                               (fac-helper (- n 1) result))))
             (fac-helper n 1))
 
     (assert (= (fac 0) 1))
@@ -28,6 +29,18 @@
     (assert (= (fac 4) 24))
     (assert (= (fac 5) 120))
     (assert (= (fac 6) 720))
+
+    ; This function is used to test whether a recursive call will alter the caller's environment, which should not happen
+    ; For ANY input of \a n, n should be returned without modification.
+    (define (f n abort)
+            (if abort
+                n
+                (f (-- n) (not abort)))
+            ; Always return the original input
+            n)
+
+    (assert (= (f 42 true) 42))
+    (assert (= (f 42 false) 42))
 
     (print "=== Standard library unit tests completed successfully.")
 ))

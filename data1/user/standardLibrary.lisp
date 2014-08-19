@@ -13,6 +13,9 @@
 (define == =)
 (define (!= lhs rhs) (not (= lhs rhs)))
 
+(define (++ n) (+ n 1))
+(define (-- n) (- n 1))
+
 ; Run unit tests for the standard library.
 
 (file.eval "standardLibraryTests.lisp")
