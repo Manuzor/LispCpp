@@ -182,6 +182,31 @@ namespace lcpp
                 LCPP_cont_return(pCont, pResult);
             }
 
+            Ptr<LispObject> recursionLimit(Ptr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+                auto pState = cont::getRuntimeState(pCont);
+
+                auto argCount = pStack->size() - 1;
+
+                if (argCount == 0)
+                {
+                    auto recursionLimit = pState->getRecursionLimit();
+                    LCPP_cont_return(pCont, number::create(recursionLimit));
+                }
+                
+                auto pRecursionLimit = pStack->get(1);
+
+                // In case the recursion limit integer type changes
+                typedef decltype(pState->getRecursionLimit()) RecursionLimit_t;
+                EZ_CHECK_AT_COMPILETIME(std::is_integral<RecursionLimit_t>::value);
+
+                auto recursionLimit = RecursionLimit_t(number::getInteger(pRecursionLimit));
+                pState->setRecursionLimit(recursionLimit);
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
             Ptr<LispObject> file::open(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
@@ -341,6 +366,7 @@ namespace lcpp
 
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
+
         }
     }
 }

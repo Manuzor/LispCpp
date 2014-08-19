@@ -39,6 +39,8 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Ptr<LispObject> eqq(Ptr<LispObject> pCont);
 
+            LCPP_API_CORE_CONT Ptr<LispObject> recursionLimit(Ptr<LispObject> pCont);
+
             namespace detail
             {
                 Ptr<LispObject> add_helper(Ptr<LispObject> pCont);
