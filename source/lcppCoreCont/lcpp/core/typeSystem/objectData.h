@@ -3,7 +3,7 @@
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 
-#include "lcpp/core/typeSystem/includeAllTypes.h"
+#include "lcpp/core/typeSystem/includeAllTypeDatas.h"
 
 namespace lcpp
 {

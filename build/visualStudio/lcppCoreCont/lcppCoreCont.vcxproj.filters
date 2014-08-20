@@ -94,9 +94,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypes.h">
-      <Filter>lcpp\core\typeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\metaInfo.h">
       <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
@@ -213,6 +210,51 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\assertException.h">
       <Filter>lcpp\core\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypeDatas.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\consData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuationData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environmentData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaData_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaData_userDefined.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\stringData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbolData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntaxData_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuationCommon.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environmentCommon.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaCommon_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntaxCommon_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamCommon.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,17 +391,11 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl">
       <Filter>lcpp\core\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\readerState.inl">
       <Filter>lcpp\core\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
@@ -370,13 +406,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\impl\signature.inl">
@@ -404,6 +434,36 @@
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\consData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuationData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environmentCommon.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environmentData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambdaData_builtin.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\streamData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stringData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbolData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntaxData_builtin.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambdaData_userDefined.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
   </ItemGroup>

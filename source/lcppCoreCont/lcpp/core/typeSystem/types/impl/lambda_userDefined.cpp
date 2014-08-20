@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/lambdaData_userDefined.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
@@ -11,6 +12,12 @@
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {

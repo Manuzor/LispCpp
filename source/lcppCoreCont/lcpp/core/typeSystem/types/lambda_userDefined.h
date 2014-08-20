@@ -9,36 +9,9 @@ namespace lcpp
     {
         namespace userDefined
         {
-
-            typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
-
             LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
             LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Ptr<LispObject> pArgList, Ptr<LispObject> pBodyList);
-
-            //////////////////////////////////////////////////////////////////////////
-
-            class Data
-            {
-            public:
-
-                Ptr<LispObject> getName();
-                void setName(Ptr<LispObject> pNewName);
-
-                Ptr<LispObject> getEnv();
-                Ptr<LispObject> getArgList();
-                Ptr<LispObject> getBody();
-
-            public:
-
-                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
-                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pEnv);
-                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pArgList);
-                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pBody);
-
-            };
-
-            //////////////////////////////////////////////////////////////////////////
 
             LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
 
@@ -63,5 +36,3 @@ namespace lcpp
         }
     }
 }
-
-#include "lcpp/core/typeSystem/types/impl/lambda_userDefined.inl"

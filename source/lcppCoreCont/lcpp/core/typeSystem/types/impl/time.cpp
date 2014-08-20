@@ -8,6 +8,7 @@
 
 #include "lcpp/core/typeSystem/types/time.h"
 #include "lcpp/core/typeSystem/types/timeData.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {

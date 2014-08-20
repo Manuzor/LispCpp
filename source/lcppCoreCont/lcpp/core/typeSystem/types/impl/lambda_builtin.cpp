@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "lcpp/core/runtime.h"
 
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/lambdaData_builtin.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
@@ -9,6 +11,10 @@
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {

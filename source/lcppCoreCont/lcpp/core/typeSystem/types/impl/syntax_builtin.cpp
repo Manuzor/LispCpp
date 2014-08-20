@@ -8,7 +8,10 @@
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/syntaxData_builtin.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {

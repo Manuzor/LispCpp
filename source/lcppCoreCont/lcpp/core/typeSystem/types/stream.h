@@ -1,4 +1,5 @@
 #pragma once
+#include "lcpp/core/typeSystem/types/streamCommon.h"
 
 namespace lcpp
 {
@@ -10,26 +11,6 @@ namespace lcpp
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(ezStringIterator& iterator);
-
-        //////////////////////////////////////////////////////////////////////////
-
-        enum
-        {
-            EndOfStream = ezUInt32(-1),
-        };
-        
-        class Data
-        {
-        public:
-
-            ezStringIterator& getIterator();
-
-        public:
-
-            LCPP_DeclareRawDataMember(ezStringIterator, m_iterator);
-        };
-
-        //////////////////////////////////////////////////////////////////////////
 
         LCPP_API_CORE_CONT ezStringIterator& getIterator(Ptr<LispObject> pStream);
         LCPP_API_CORE_CONT void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter);
@@ -45,5 +26,3 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
     };
 }
-
-#include "lcpp/core/typeSystem/types/impl/stream.inl"

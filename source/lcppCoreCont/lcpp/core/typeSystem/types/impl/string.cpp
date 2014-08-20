@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/stringData.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/metaInfo.h"

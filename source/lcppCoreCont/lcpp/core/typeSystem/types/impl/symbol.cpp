@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/types/symbolData.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/containers/instanceTable.h"
 #include "lcpp/core/typeSystem/objectData.h"
 
 #include <Foundation/Memory/MemoryUtils.h>
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {

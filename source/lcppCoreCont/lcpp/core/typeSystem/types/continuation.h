@@ -1,5 +1,6 @@
 #pragma once
 #include "lcpp/core/containers/stack.h"
+#include "lcpp/core/typeSystem/types/continuationCommon.h"
 
 namespace lcpp
 {
@@ -9,44 +10,10 @@ namespace lcpp
 
     namespace cont
     {
-        typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
-        typedef std::size_t UserData_t;
-
-        EZ_CHECK_AT_COMPILETIME(sizeof(UserData_t) >= sizeof(void*));
-
-        //////////////////////////////////////////////////////////////////////////
-
         LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState);
         LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction);
-
-        //////////////////////////////////////////////////////////////////////////
-
-        class Data
-        {
-        public:
-
-            Ptr<LispRuntimeState> getRuntimeState();
-            Ptr<LispObject> getParent();
-
-            Function_t getFunction();
-            void setFunction(Function_t pFunction);
-
-            Stack& getStack();
-
-            UserData_t& getUserData();
-
-        public:
-
-            LCPP_DeclareRawDataMember(Ptr<LispRuntimeState>, m_pRuntimeState);
-            LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
-            Function_t m_pFunction;
-            LCPP_DeclareRawDataMember(Stack, m_stack);
-            UserData_t m_userData;
-        };
-
-        //////////////////////////////////////////////////////////////////////////
 
         LCPP_API_CORE_CONT void trampoline(Ptr<LispObject> pCont);
 

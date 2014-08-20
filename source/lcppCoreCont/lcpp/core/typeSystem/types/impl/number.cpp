@@ -12,6 +12,7 @@
 
 #include "lcpp/foundation/conversion.h"
 #include "lcpp/core/exceptions/arithmeticException.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
