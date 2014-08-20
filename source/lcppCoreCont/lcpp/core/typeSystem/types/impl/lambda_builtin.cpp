@@ -15,6 +15,7 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -36,7 +37,7 @@ namespace lcpp
                 typeCheck(pParentEnv, Type::Environment);
 
                 auto pInstance = object::create<Data>(metaInfo());
-                auto& data = pInstance->m_lambda_builtin;
+                auto& data = pInstance->getData<Data>();
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
 
@@ -136,7 +137,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Lambda);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_lambda_builtin.getSignature();
+                return pSyntax->getData<Data>().getSignature();
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)
@@ -144,7 +145,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_builtin.getName();
+                return pLambda->getData<Data>().getName();
             }
 
             void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
@@ -153,7 +154,7 @@ namespace lcpp
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pLambda->m_lambda_builtin.setName(pNewName);
+                pLambda->getData<Data>().setName(pNewName);
             }
 
             bool hasName(Ptr<LispObject> pLambda)
@@ -166,7 +167,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_builtin.getEnv();
+                return pLambda->getData<Data>().getEnv();
             }
 
             Function_t getFunction(Ptr<LispObject> pLambda)
@@ -174,7 +175,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_builtin.getFunction();
+                return pLambda->getData<Data>().getFunction();
             }
 
             Ptr<LispObject> toString(Ptr<LispObject> pObject)

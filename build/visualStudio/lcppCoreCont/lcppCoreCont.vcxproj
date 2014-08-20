@@ -49,7 +49,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\syntaxCheckResult.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attributeCheck.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypeDatas.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\type.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectData.h" />

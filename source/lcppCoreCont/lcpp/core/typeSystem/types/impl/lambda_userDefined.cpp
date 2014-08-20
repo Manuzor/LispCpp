@@ -18,6 +18,7 @@
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -39,7 +40,7 @@ namespace lcpp
                 typeCheck(pParentEnv, Type::Environment);
 
                 auto pInstance = object::create<Data>(metaInfo());
-                auto& data = pInstance->m_lambda_userDefined;
+                auto& data = pInstance->getData<Data>();
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
 
@@ -160,7 +161,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_userDefined.getName();
+                return pLambda->getData<Data>().getName();
             }
 
             void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
@@ -169,7 +170,7 @@ namespace lcpp
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pLambda->m_lambda_userDefined.setName(pNewName);
+                pLambda->getData<Data>().setName(pNewName);
             }
 
             bool hasName(Ptr<LispObject> pLambda)
@@ -182,7 +183,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_userDefined.getEnv();
+                return pLambda->getData<Data>().getEnv();
             }
 
             Ptr<LispObject> getArgList(Ptr<LispObject> pLambda)
@@ -190,7 +191,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_userDefined.getArgList();
+                return pLambda->getData<Data>().getArgList();
             }
 
             Ptr<LispObject> getBody(Ptr<LispObject> pLambda)
@@ -198,7 +199,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_userDefined.getBody();
+                return pLambda->getData<Data>().getBody();
             }
 
             Ptr<LispObject> toString(Ptr<LispObject> pObject)

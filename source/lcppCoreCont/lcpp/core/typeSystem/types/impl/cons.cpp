@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "lcpp/core/containers/stack.h"
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/consData.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
@@ -24,7 +25,7 @@ namespace lcpp
         Ptr<LispObject> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
         {
             auto pInstance = object::create<Data>(metaInfo());
-            auto& data = pInstance->m_cons;
+            auto& data = pInstance->getData<Data>();
 
             new (data.m_pCar) Ptr<LispObject>(pCar);
             new (data.m_pCdr) Ptr<LispObject>(pCdr);
@@ -37,14 +38,14 @@ namespace lcpp
         {
             typeCheck(pCons, Type::Cons);
 
-            return pCons->m_cons.getCar();
+            return pCons->getData<Data>().getCar();
         }
 
         Ptr<LispObject> getCdr(Ptr<LispObject> pCons)
         {
             typeCheck(pCons, Type::Cons);
 
-            return pCons->m_cons.getCdr();
+            return pCons->getData<Data>().getCdr();
         }
 
         ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack)

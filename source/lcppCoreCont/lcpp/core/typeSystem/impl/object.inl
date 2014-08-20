@@ -8,7 +8,7 @@ namespace lcpp
         Ptr<LispObject>
         create(const MetaInfo& metaInfo)
         {
-            // TODO This whole function needs more case, most likely...
+            // TODO This whole function needs more care, most likely...
 
             // Helper struct to determine the minimum memory needed for this lisp object using T_Data
             struct LispObjectProxy

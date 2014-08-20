@@ -34,7 +34,6 @@
 #include "lcpp/core/syntaxCheckResult.h"
 #include "lcpp/core/typeSystem/attribute.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
-#include "lcpp/core/typeSystem/includeAllTypeDatas.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/objectData.h"

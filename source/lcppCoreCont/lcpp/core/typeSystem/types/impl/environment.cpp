@@ -10,6 +10,7 @@
 #include "lcpp/core/containers/stack.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -29,7 +30,7 @@ namespace lcpp
 
             auto pInstance = object::create<Data>(metaInfo());
 
-            auto& data = pInstance->m_env;
+            auto& data = pInstance->getData<Data>();
 
             new (data.m_pName) Ptr<LispObject>(pName);
             new (data.m_pParent) Ptr<LispObject>(pParent);
@@ -54,7 +55,7 @@ namespace lcpp
         {
             typeCheck(pEnv, Type::Environment);
 
-            return pEnv->m_env.getName();
+            return pEnv->getData<Data>().getName();
         }
 
         Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv)
@@ -81,7 +82,7 @@ namespace lcpp
         {
             typeCheck(pEnv, Type::Environment);
 
-            return pEnv->m_env.getParent();
+            return pEnv->getData<Data>().getParent();
         }
 
         void addBinding(Ptr<LispObject> pEnv,
@@ -178,7 +179,7 @@ namespace lcpp
         {
             HashTable& getTable(Ptr<LispObject> pEnv)
             {
-                return pEnv->m_env.getTable();
+                return pEnv->getData<Data>().getTable();
             }
         }
     }

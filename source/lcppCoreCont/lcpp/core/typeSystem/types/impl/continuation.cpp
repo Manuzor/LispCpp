@@ -29,7 +29,7 @@ namespace lcpp
         Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState)
         {
             auto pInstance = object::create<Data>(metaInfo());
-            auto& data = pInstance->m_cont;
+            auto& data = pInstance->getData<Data>();
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(pRuntimeState);
             new (data.m_pParent) Ptr<LispObject>(LCPP_pNil);
@@ -44,7 +44,7 @@ namespace lcpp
             typeCheck(pParent, Type::Continuation);
 
             auto pInstance = object::create<Data>(metaInfo());
-            auto& data = pInstance->m_cont;
+            auto& data = pInstance->getData<Data>();
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(getRuntimeState(pParent));
             new (data.m_pParent) Ptr<LispObject>(pParent);
@@ -79,49 +79,49 @@ namespace lcpp
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->m_cont.getRuntimeState();
+            return pCont->getData<Data>().getRuntimeState();
         }
 
         Ptr<LispObject> getParent(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->m_cont.getParent();
+            return pCont->getData<Data>().getParent();
         }
 
         Function_t getFunction(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->m_cont.getFunction();
+            return pCont->getData<Data>().getFunction();
         }
 
         void setFunction(Ptr<LispObject> pCont, Function_t pFunction)
         {
             typeCheck(pCont, Type::Continuation);
 
-            pCont->m_cont.setFunction(pFunction);
+            pCont->getData<Data>().setFunction(pFunction);
         }
 
         Ptr<Stack> getStack(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return &pCont->m_cont.getStack();
+            return &pCont->getData<Data>().getStack();
         }
 
         UserData_t& getUserData(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->m_cont.getUserData();
+            return pCont->getData<Data>().getUserData();
         }
 
         void setUserData(Ptr<LispObject> pCont, UserData_t userData)
         {
             typeCheck(pCont, Type::Continuation);
 
-             pCont->m_cont.getUserData() = userData;
+            pCont->getData<Data>().getUserData() = userData;
         }
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)

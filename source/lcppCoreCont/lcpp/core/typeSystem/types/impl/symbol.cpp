@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/symbolData.h"
@@ -32,7 +33,7 @@ namespace lcpp
         {
             auto pInstance = object::create<Data>(metaInfo());
 
-            new (pInstance->m_symbol.m_pRawData) String(value);
+            new (pInstance->getData<Data>().m_pRawData) String(value);
 
             return pInstance;
         }
@@ -41,7 +42,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Symbol);
 
-            return pObject->m_symbol.getValue();
+            return pObject->getData<Data>().getValue();
         }
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)

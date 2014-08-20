@@ -211,9 +211,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\assertException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypeDatas.h">
-      <Filter>lcpp\core\typeSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\consData.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClInclude>

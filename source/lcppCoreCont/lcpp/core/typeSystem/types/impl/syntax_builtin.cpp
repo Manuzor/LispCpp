@@ -12,6 +12,7 @@
 #include "lcpp/core/typeSystem/types/continuation.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -34,7 +35,7 @@ namespace lcpp
                 EZ_ASSERT(signature.m_argCountMin <= signature.m_argCountMax, "Invalid virtual signature.");
 
                 auto pInstance = object::create<Data>(metaInfo());
-                auto& data = pInstance->m_syntax_builtin;
+                auto& data = pInstance->getData<Data>();
 
                 data.m_signature = signature;
                 new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
@@ -109,7 +110,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_syntax_builtin.getSignature();
+                return pSyntax->getData<Data>().getSignature();
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pSyntax)
@@ -117,7 +118,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_syntax_builtin.getName();
+                return pSyntax->getData<Data>().getName();
             }
 
             void setName(Ptr<LispObject> pSyntax, Ptr<LispObject> pNewName)
@@ -126,7 +127,7 @@ namespace lcpp
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pSyntax->m_syntax_builtin.setName(pNewName);
+                pSyntax->getData<Data>().setName(pNewName);
             }
 
             bool hasName(Ptr<LispObject> pSyntax)
@@ -139,7 +140,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_syntax_builtin.getFunction();
+                return pSyntax->getData<Data>().getFunction();
             }
 
             Ptr<LispObject> toString(Ptr<LispObject> pObject)
