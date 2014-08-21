@@ -28,9 +28,18 @@ namespace lcpp
         {
             const MetaInfo& metaInfo()
             {
-                static auto meta = MetaInfo(Type::Lambda,
-                                            AttributeFlags::Callable | AttributeFlags::Nameable | AttributeFlags::EnvironmentContainer,
-                                            "procedure");
+                static auto meta = []
+                {
+                    auto meta = MetaInfo();
+                    meta.setType(Type::Lambda);
+                    meta.setAttributes(AttributeFlags::Callable
+                                       | AttributeFlags::Nameable
+                                       | AttributeFlags::EnvironmentContainer);
+                    meta.setPrettyName("procedure");
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
+
+                    return meta;
+                }();
 
                 return meta;
             }

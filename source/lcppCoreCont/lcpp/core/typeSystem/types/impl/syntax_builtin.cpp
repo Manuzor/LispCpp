@@ -22,9 +22,18 @@ namespace lcpp
         {
             const MetaInfo& metaInfo()
             {
-                static auto meta = MetaInfo(Type::Syntax,
-                                            AttributeFlags::Callable | AttributeFlags::Builtin | AttributeFlags::Nameable,
-                                            "builtin-syntax");
+                static auto meta = []
+                {
+                    auto meta = MetaInfo();
+                    meta.setType(Type::Syntax);
+                    meta.setAttributes(AttributeFlags::Callable
+                                       | AttributeFlags::Builtin
+                                       | AttributeFlags::Nameable);
+                    meta.setPrettyName("builtin-syntax");
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
+
+                    return meta;
+                }();
 
                 return meta;
             }

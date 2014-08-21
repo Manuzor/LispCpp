@@ -88,10 +88,7 @@ namespace lcpp
 
         MetaPropertyId getId() const;
 
-        MetaPropertyData getRawData() const;
-
-        template<typename T_Data>
-        const T_Data& getData() const;
+        MetaPropertyData getData() const;
 
     private:
 

@@ -86,22 +86,15 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    MetaPropertyData MetaProperty::getRawData() const
-    {
-        return m_data;
-    }
-
-    EZ_FORCE_INLINE
     MetaPropertyId MetaProperty::getId() const
     {
         return m_id;
     }
 
-    template<typename T_Data>
     EZ_FORCE_INLINE
-    const T_Data& lcpp::MetaProperty::getData() const
+    MetaPropertyData MetaProperty::getData() const
     {
-        return reinterpret_cast<const T_Data&>(m_data);
+        return m_data;
     }
 
     EZ_FORCE_INLINE
@@ -146,21 +139,15 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    const AttributeFlags& MetaInfo::getAttributes() const
-    {
-        return m_attributes;
-    }
-
-    EZ_FORCE_INLINE
-    const char* MetaInfo::getPrettyName() const
-    {
-        return m_prettyName.GetData();
-    }
-
-    EZ_FORCE_INLINE
     void MetaInfo::setType(const Type& type)
     {
         m_type = type;
+    }
+
+    EZ_FORCE_INLINE
+    const AttributeFlags& MetaInfo::getAttributes() const
+    {
+        return m_attributes;
     }
 
     EZ_FORCE_INLINE
@@ -170,20 +157,26 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
+    const char* MetaInfo::getPrettyName() const
+    {
+        return m_prettyName.GetData();
+    }
+
+    EZ_FORCE_INLINE
     void MetaInfo::setPrettyName(const char* szPrettyName)
     {
         m_prettyName = szPrettyName;
     }
 
     EZ_FORCE_INLINE
-    void MetaInfo::addProperty(const MetaProperty& prop)
-    {
-        m_properties[prop.getId()] = prop;
-    }
-
-    EZ_FORCE_INLINE
     ezResult MetaInfo::getProperty(MetaPropertyId id, MetaProperty& out_prop) const
     {
         return m_properties.TryGetValue(id, out_prop) ? EZ_SUCCESS : EZ_FAILURE;
+    }
+
+    EZ_FORCE_INLINE
+    void MetaInfo::addProperty(const MetaProperty& prop)
+    {
+        m_properties[prop.getId()] = prop;
     }
 }

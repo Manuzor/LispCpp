@@ -93,29 +93,18 @@ namespace lcpp
                 LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
             }
 
-            auto& type = object::getType(pCallable);
-
-            switch(type.getId())
+            MetaProperty prop;
+            const auto& metaInfo = getMetaInfo(pCallable);
+            if(metaInfo.getProperty(MetaProperty::Builtin::CallFunction, prop).Succeeded())
             {
-            case Type::Syntax:
-                if(isBuiltin(pCallable))
-                {
-                    LCPP_cont_tailCall(pCont, &syntax::builtin::call);
-                }
-                // TODO support user defined syntax.
-                LCPP_NOT_IMPLEMENTED;
-            case Type::Lambda:
-                if (isBuiltin(pCallable))
-                {
-                    LCPP_cont_tailCall(pCont, &lambda::builtin::call);
-                }
-                LCPP_cont_tailCall(pCont, &lambda::userDefined::call);
+                auto pFunction = prop.getData().as<cont::Function_t>();
+                LCPP_cont_tailCall(pCont, pFunction);
             }
 
             EZ_REPORT_FAILURE("pCallable has the Callable attribute set "
-                              "but is not supported in the switch above. "
-                              "Did you forget to add code to the switch?");
+                              "but does not have the property MetaProperty::Builtin::CallFunction.");
 
+            // This return here exists to only to satisfy the compiler.
             return nullptr;
         }
 
