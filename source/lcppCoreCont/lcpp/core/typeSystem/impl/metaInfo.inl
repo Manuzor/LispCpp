@@ -41,7 +41,6 @@ bool ezHashHelper<lcpp::MetaPropertyId>::Equal(const lcpp::MetaPropertyId& lhs, 
 
 namespace lcpp
 {
-
     EZ_FORCE_INLINE
     MetaPropertyData::MetaPropertyData() :
         m_rawData(nullptr)
@@ -54,7 +53,8 @@ namespace lcpp
         m_rawData(nullptr)
     {
         EZ_CHECK_AT_COMPILETIME(sizeof(T_Data) <= sizeof(m_rawData));
-        ezMemoryUtils::Copy<decltype(m_rawData)>(m_rawData, &data, 1);
+
+        reinterpret_cast<T_Data&>(m_rawData) = data;
     }
 
     template<typename T_Data>
@@ -69,6 +69,13 @@ namespace lcpp
     const T_Data& lcpp::MetaPropertyData::as() const
     {
         return reinterpret_cast<const T_Data&>(m_rawData);
+    }
+
+    EZ_FORCE_INLINE
+    MetaProperty::MetaProperty() :
+        m_id(),
+        m_data()
+    {
     }
 
     EZ_FORCE_INLINE
@@ -95,6 +102,14 @@ namespace lcpp
     const T_Data& lcpp::MetaProperty::getData() const
     {
         return reinterpret_cast<const T_Data&>(m_data);
+    }
+
+    EZ_FORCE_INLINE
+    MetaInfo::MetaInfo() :
+        m_type(Type::ENUM_MIN),
+        m_attributes(AttributeFlags::None),
+        m_prettyName(m_type.toString())
+    {
     }
 
     EZ_FORCE_INLINE

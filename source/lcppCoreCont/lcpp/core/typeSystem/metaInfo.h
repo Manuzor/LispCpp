@@ -104,6 +104,8 @@ namespace lcpp
     {
     public:
 
+        MetaInfo();
+
         MetaInfo(const Type& type);
 
         MetaInfo(const Type& type, const String& prettyName);
