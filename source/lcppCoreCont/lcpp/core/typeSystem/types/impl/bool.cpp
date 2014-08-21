@@ -12,16 +12,28 @@ namespace lcpp
 {
     namespace true_
     {
+        const MetaInfo& metaInfo()
+        {
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::True);
+                meta.setPrettyName("true-type");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return meta;
+        }
+
         Ptr<LispObject> create()
         {
             static auto pInstance = Ptr<LispObject>();
 
             if(!pInstance)
             {
-                static auto meta = MetaInfo(Type::True, "true-type");
-
                 auto pAllocator = defaultAllocator();
-                pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
+                pInstance = LCPP_NEW(pAllocator, LispObject)(metaInfo());
             }
 
             return pInstance;
@@ -40,16 +52,28 @@ namespace lcpp
 
     namespace false_
     {
+        const MetaInfo& metaInfo()
+        {
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::False);
+                meta.setPrettyName("false-type");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return meta;
+        }
+
         Ptr<LispObject> create()
         {
             static auto pInstance = Ptr<LispObject>();
 
             if(!pInstance)
             {
-                static auto meta = MetaInfo(Type::False, "false-type");
-
                 auto pAllocator = defaultAllocator();
-                pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
+                pInstance = LCPP_NEW(pAllocator, LispObject)(metaInfo());
             }
 
             return pInstance;

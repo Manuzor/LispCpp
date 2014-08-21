@@ -39,7 +39,7 @@ namespace lcpp
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
 
                     return meta;
-                }();
+                }(); // Note that this lambda is immediately called.
 
                 return meta;
             }

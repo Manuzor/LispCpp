@@ -17,7 +17,14 @@ namespace lcpp
     {
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::Symbol, "symbol");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Symbol);
+                meta.setPrettyName("symbol");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
 
             return meta;
         }

@@ -16,7 +16,15 @@ namespace lcpp
     {
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::Stream, "stream");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Stream);
+                meta.setPrettyName("stream");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
             return meta;
         }
 

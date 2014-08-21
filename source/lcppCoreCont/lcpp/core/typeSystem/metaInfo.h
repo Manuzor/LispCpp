@@ -73,6 +73,7 @@ namespace lcpp
             enum Enum
             {
                 CallFunction,
+                ToStringFunction,
 
                 // Since property values are simply integers, you can easily define your own properties.
                 // When you do, start at value 64 or higher.
@@ -103,12 +104,6 @@ namespace lcpp
 
         MetaInfo();
 
-        MetaInfo(const Type& type);
-
-        MetaInfo(const Type& type, const String& prettyName);
-
-        MetaInfo(const Type& type, const AttributeFlags& attributes, const String& prettyName);
-
         void setType(const Type& type);
         const Type& getType() const;
 
@@ -119,9 +114,9 @@ namespace lcpp
         const char* getPrettyName() const;
 
         void addProperty(const MetaProperty& prop);
-        ezResult getProperty(MetaPropertyId id, MetaProperty& out_prop) const;
+        ezResult getProperty(const MetaPropertyId& id, MetaProperty& out_prop) const;
 
-    private:
+    public:
 
         typedef ezHashTable<MetaPropertyId, MetaProperty, ezHashHelper<MetaPropertyId>, AllocatorWrapper_Default> PropertyTable_t;
 

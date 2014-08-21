@@ -1,13 +1,13 @@
 
 namespace lcpp
 {
-    inline
+    EZ_FORCE_INLINE
     bool isTrue(Ptr<LispObject> pObject)
     {
         return !isFalse(pObject);
     }
 
-    inline
+    EZ_FORCE_INLINE
     bool isFalse(Ptr<LispObject> pObject)
     {
         return pObject == LCPP_pFalse;

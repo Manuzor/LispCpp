@@ -16,7 +16,15 @@ namespace lcpp
     {
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::Time, "time");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Time);
+                meta.setPrettyName("time");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
             return meta;
         }
 

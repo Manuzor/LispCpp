@@ -20,13 +20,29 @@ namespace lcpp
     {
         const MetaInfo& metaInfoInteger()
         {
-            static auto meta = MetaInfo(Type::Integer, "integer");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Integer);
+                meta.setPrettyName("integer");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
             return meta;
         }
 
         const MetaInfo& metaInfoFloat()
         {
-            static auto meta = MetaInfo(Type::Float, "float");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Float);
+                meta.setPrettyName("float");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
             return meta;
         }
 

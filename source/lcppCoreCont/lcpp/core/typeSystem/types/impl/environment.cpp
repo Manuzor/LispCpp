@@ -18,7 +18,14 @@ namespace lcpp
     {
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::Environment, "environment");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Environment);
+                meta.setPrettyName("environment");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
             return meta;
         }
 

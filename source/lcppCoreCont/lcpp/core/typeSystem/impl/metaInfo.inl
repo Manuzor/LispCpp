@@ -101,34 +101,7 @@ namespace lcpp
     MetaInfo::MetaInfo() :
         m_type(Type::ENUM_MIN),
         m_attributes(AttributeFlags::None),
-        m_prettyName(m_type.toString())
-    {
-    }
-
-    EZ_FORCE_INLINE
-    MetaInfo::MetaInfo(const Type& type) :
-        m_type(type),
-        m_attributes(AttributeFlags::None),
-        m_prettyName(m_type.toString())
-    {
-    }
-
-    EZ_FORCE_INLINE
-    MetaInfo::MetaInfo(const Type& type,
-                       const String& prettyName) :
-        m_type(type),
-        m_attributes(AttributeFlags::None),
-        m_prettyName(prettyName)
-    {
-    }
-
-    EZ_FORCE_INLINE
-    MetaInfo::MetaInfo(const Type& type,
-                       const AttributeFlags& attributes,
-                       const String& prettyName) :
-        m_type(type),
-        m_attributes(attributes),
-        m_prettyName(prettyName)
+        m_prettyName()
     {
     }
 
@@ -142,6 +115,10 @@ namespace lcpp
     void MetaInfo::setType(const Type& type)
     {
         m_type = type;
+        if (m_prettyName.IsEmpty())
+        {
+            m_prettyName = m_type.toString();
+        }
     }
 
     EZ_FORCE_INLINE
@@ -159,7 +136,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     const char* MetaInfo::getPrettyName() const
     {
-        return m_prettyName.GetData();
+        return m_prettyName.IsEmpty() ? "<NotInitialized>" : m_prettyName.GetData();
     }
 
     EZ_FORCE_INLINE
@@ -169,7 +146,7 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    ezResult MetaInfo::getProperty(MetaPropertyId id, MetaProperty& out_prop) const
+    ezResult MetaInfo::getProperty(const MetaPropertyId& id, MetaProperty& out_prop) const
     {
         return m_properties.TryGetValue(id, out_prop) ? EZ_SUCCESS : EZ_FAILURE;
     }

@@ -3,9 +3,12 @@
 namespace lcpp
 {
     class LispObject;
+    class MetaInfo;
 
     namespace true_
     {
+        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject);
@@ -13,6 +16,8 @@ namespace lcpp
 
     namespace false_
     {
+        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);

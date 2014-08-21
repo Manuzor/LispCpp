@@ -88,11 +88,6 @@ namespace lcpp
 
             auto pCallable = pStack->get(-1);
 
-            if(!isCallable(pCallable))
-            {
-                LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
-            }
-
             MetaProperty prop;
             const auto& metaInfo = getMetaInfo(pCallable);
             if(metaInfo.getProperty(MetaProperty::Builtin::CallFunction, prop).Succeeded())
@@ -104,8 +99,7 @@ namespace lcpp
             EZ_REPORT_FAILURE("pCallable has the Callable attribute set "
                               "but does not have the property MetaProperty::Builtin::CallFunction.");
 
-            // This return here exists to only to satisfy the compiler.
-            return nullptr;
+            LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
         }
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)

@@ -35,9 +35,10 @@ namespace lcpp
                                      | AttributeFlags::EnvironmentContainer);
                     meta.setPrettyName("builtin-procedure");
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
-                    
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::ToStringFunction, &toString));
+
                     return meta;
-                }();
+                }(); // Note that this lambda is immediately called.
 
                 return meta;
             }

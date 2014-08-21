@@ -20,7 +20,15 @@ namespace lcpp
     {
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::File, "file");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::File);
+                meta.setPrettyName("file");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
             return meta;
         }
 

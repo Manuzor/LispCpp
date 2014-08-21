@@ -3,9 +3,11 @@
 namespace lcpp
 {
     class LispObject;
+    class MetaInfo;
 
     namespace void_
     {
+        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 

@@ -17,7 +17,15 @@ namespace lcpp
     {
         const MetaInfo& metaInfo()
         {
-            static auto meta = MetaInfo(Type::Continuation, "continuation");
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Continuation);
+                meta.setPrettyName("continuation");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
             return meta;
         }
 
