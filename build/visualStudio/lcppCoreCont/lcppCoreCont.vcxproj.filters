@@ -46,6 +46,12 @@
     <Filter Include="lcpp\core\dependencies">
       <UniqueIdentifier>{326b1269-f2a0-4038-ac80-6a0c1a62352a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\memory">
+      <UniqueIdentifier>{f8f09f1f-5183-4ca4-b02a-e2ad516b4dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\memory\impl">
+      <UniqueIdentifier>{6b45a446-b11c-4dcb-a815-e8671466b576}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -252,6 +258,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamCommon.h">
       <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h">
+      <Filter>lcpp\core\memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -462,6 +471,9 @@
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambdaData_userDefined.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

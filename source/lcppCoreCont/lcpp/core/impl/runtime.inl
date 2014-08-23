@@ -9,21 +9,9 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    Ptr<const LispObject> LispRuntimeState::getSyntaxEnvironment() const
-    {
-        return m_pSyntaxEnvironment;
-    }
-
-    EZ_FORCE_INLINE
     Ptr<LispObject> LispRuntimeState::getSyntaxEnvironment()
     {
         return m_pSyntaxEnvironment;
-    }
-
-    EZ_FORCE_INLINE
-    Ptr<const LispObject> LispRuntimeState::getGlobalEnvironment() const
-    {
-        return m_pGlobalEnvironment;
     }
 
     EZ_FORCE_INLINE

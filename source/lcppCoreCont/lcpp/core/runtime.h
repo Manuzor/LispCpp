@@ -35,10 +35,8 @@ namespace lcpp
 
         Ptr<ezAllocatorBase> allocator();
 
-        Ptr<const LispObject> getSyntaxEnvironment() const;
         Ptr<LispObject> getSyntaxEnvironment();
 
-        Ptr<const LispObject> getGlobalEnvironment() const;
         Ptr<LispObject> getGlobalEnvironment();
 
         Ptr<reader::State> getReaderState();

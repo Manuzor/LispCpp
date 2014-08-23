@@ -8,6 +8,8 @@
 
 #include "lcpp/core/dependencies/ezEngine.h"
 
+#include "lcpp/core/memory/garbageCollection.h"
+
 #include "lcpp/core/config.h"
 
 #define LCPP_DeclareRawDataMember(typeName, memberName) char memberName [sizeof(typeName)]
