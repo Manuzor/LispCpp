@@ -19,18 +19,18 @@ namespace lcpp
 
         LispObjectHeader m_header;
 
+    private:
+
+        /// \brief This is supposed to be reinterpreted to the desired type, such as cons::Data, env::Data, etc.
+        /// \remark Use getData<env::Data>() for example to treat this object as an environment and access its data.
+        LispObjectTypeData m_typeSpecificData;
+
     public:
 
         LispObject(const MetaInfo& metaInfo);
 
         template<typename T_Data>
         T_Data& getData();
-
-    private:
-
-        /// \brief This is supposed to be reinterpreted to the desired type, such as cons::Data, env::Data, etc.
-        /// \remark Use getData<env::Data>() for example to treat this object as an environment and access its data.
-        LispObjectTypeData m_typeSpecificData;
     };
 }
 

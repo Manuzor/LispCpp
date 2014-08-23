@@ -30,10 +30,10 @@ namespace lcpp
         {
             static auto pInstance = Ptr<LispObject>();
 
-            if(!pInstance)
+            if (!pInstance)
             {
-                auto pAllocator = defaultAllocator();
-                pInstance = LCPP_NEW(pAllocator, LispObject)(metaInfo());
+                static LispObject instance(metaInfo());
+                pInstance = &instance;
             }
 
             return pInstance;
@@ -70,10 +70,10 @@ namespace lcpp
         {
             static auto pInstance = Ptr<LispObject>();
 
-            if(!pInstance)
+            if (!pInstance)
             {
-                auto pAllocator = defaultAllocator();
-                pInstance = LCPP_NEW(pAllocator, LispObject)(metaInfo());
+                static LispObject instance(metaInfo());
+                pInstance = &instance;
             }
 
             return pInstance;

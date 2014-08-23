@@ -31,8 +31,8 @@ namespace lcpp
 
             if (!pInstance)
             {
-                auto pAllocator = defaultAllocator();
-                pInstance = LCPP_NEW(pAllocator, LispObject)(metaInfo());
+                static LispObject instance(metaInfo());
+                pInstance = &instance;
             }
 
             return pInstance;
