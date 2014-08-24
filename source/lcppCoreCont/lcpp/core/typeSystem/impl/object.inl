@@ -15,7 +15,9 @@ namespace lcpp
                 T_Data d;
             };
 
-            auto pAllocator = getCollectingAllocator();
+            // TODO The runtime state should be passed to this function
+            // TODO Use the allocator of the runtime state.
+            auto pAllocator = getGarbageCollector()->getAllocator();
 
             auto size = sizeof(LispObjectProxy);
 

@@ -36,12 +36,36 @@ namespace lcpp
         LispObject* m_pPtr;
     };
 
-    class LCPP_API_CORE_CONT CollectingAllocator :
-        public ezAllocatorBase
+    typedef unsigned char byte_t;
+
+    class LCPP_API_CORE_CONT GarbageCollector :
+        ezAllocatorBase
     {
     public:
 
-        CollectingAllocator(ezAllocatorBase* pParentAllocator);
+        GarbageCollector(ezAllocatorBase* pParentAllocator);
+
+        void collect();
+
+        ezAllocatorBase* getAllocator();
+
+    private:
+
+        struct DualArrayWrapper
+        {
+            ezDynamicArray<byte_t> m_left;
+            ezDynamicArray<byte_t> m_right;
+
+            DualArrayWrapper(ezAllocatorBase* pParentAllocator);
+
+            void SetCountUninitialized(ezUInt32 uiCount);
+            void AddCountUninitialized(ezUInt32 uiCount);
+            ezUInt32 GetCount();
+            
+            void EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount);
+        };
+
+    private: // ezAllocatorBase interface
 
         virtual void* Allocate(size_t uiSize, size_t uiAlign) override;
 
@@ -52,10 +76,22 @@ namespace lcpp
         virtual Stats GetStats() const override;
 
     private:
+
+        ezAllocatorId m_id;
         ezAllocatorBase* m_pParent;
+        Stats m_stats;
+
+        DualArrayWrapper m_data;
+
+        ezDynamicArray<byte_t>* m_pEdenSpace;
+        ezDynamicArray<byte_t>* m_pSurvivorSpace;
+
+        ezUInt32 m_uiAllocationIndex;
     };
 
-    LCPP_API_CORE_CONT ezAllocatorBase* getCollectingAllocator();
+    // TODO This function should be removed! Every LispObject that is created
+    // should be created in the current LispRuntimeState context.
+    LCPP_API_CORE_CONT GarbageCollector* getGarbageCollector();
 }
 
 #include "lcpp/core/memory/impl/garbageCollection.inl"

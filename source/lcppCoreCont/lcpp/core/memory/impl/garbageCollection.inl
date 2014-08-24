@@ -84,4 +84,54 @@ namespace lcpp
         EZ_ASSERT(m_pPtr, "Dereferencing nullptr!");
         return *m_pPtr;
     }
+
+    //////////////////////////////////////////////////////////////////////////
+    
+    EZ_FORCE_INLINE
+    GarbageCollector::DualArrayWrapper::DualArrayWrapper(ezAllocatorBase* pParentAllocator) :
+        m_left(pParentAllocator),
+        m_right(pParentAllocator)
+    {
+    }
+    
+    EZ_FORCE_INLINE
+    void GarbageCollector::DualArrayWrapper::SetCountUninitialized(ezUInt32 uiCount)
+    {
+        m_left.SetCountUninitialized(uiCount);
+        m_right.SetCountUninitialized(uiCount);
+    }
+    
+    EZ_FORCE_INLINE
+    void GarbageCollector::DualArrayWrapper::AddCountUninitialized(ezUInt32 uiCount)
+    {
+        SetCountUninitialized(GetCount() + uiCount);
+    }
+    
+    EZ_FORCE_INLINE
+    ezUInt32 GarbageCollector::DualArrayWrapper::GetCount()
+    {
+        EZ_ASSERT(m_left.GetCount() == m_right.GetCount(), "");
+        return m_left.GetCount();
+    }
+    
+    EZ_FORCE_INLINE
+    void GarbageCollector::DualArrayWrapper::EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount)
+    {
+        auto uiTargetCount = uiStartIndex + uiCount;
+
+        EZ_ASSERT(uiTargetCount >= uiStartIndex, "Unsigned wrap-around!");
+
+        if (uiTargetCount > GetCount())
+        {
+            SetCountUninitialized(uiTargetCount);
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
+    EZ_FORCE_INLINE
+    ezAllocatorBase* GarbageCollector::getAllocator()
+    {
+        return this;
+    }
 }
