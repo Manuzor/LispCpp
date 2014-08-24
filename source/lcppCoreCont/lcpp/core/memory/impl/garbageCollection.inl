@@ -2,87 +2,9 @@
 namespace lcpp
 {
     EZ_FORCE_INLINE
-    Ptr<LispObject>::Ptr() :
-        m_pPtr(nullptr)
+    RefIndex CollectableBase::getRefIndex() const
     {
-    }
-    
-    EZ_FORCE_INLINE
-    Ptr<LispObject>::Ptr(const Ptr& rhs) :
-        m_pPtr(rhs.m_pPtr)
-    {
-    }
-    
-    EZ_FORCE_INLINE
-    Ptr<LispObject>::Ptr(Ptr&& rhs) :
-        m_pPtr(rhs.m_pPtr)
-    {
-        rhs.m_pPtr = nullptr;
-    }
-    
-    EZ_FORCE_INLINE
-    Ptr<LispObject>::Ptr(LispObject* pPtr) :
-        m_pPtr(pPtr)
-    {
-    }
-    
-    EZ_FORCE_INLINE
-    Ptr<LispObject>::~Ptr()
-    {
-        m_pPtr = nullptr;
-    }
-
-    EZ_FORCE_INLINE
-    void Ptr<LispObject>::operator =(const Ptr& toCopy)
-    {
-        Ptr<LispObject> copy = toCopy;
-
-        std::swap(m_pPtr, copy.m_pPtr);
-    }
-    
-    EZ_FORCE_INLINE
-    void Ptr<LispObject>::operator =(Ptr&& toMove)
-    {
-        m_pPtr = toMove.m_pPtr;
-        toMove.m_pPtr = nullptr;
-    }
-    
-    EZ_FORCE_INLINE
-    void Ptr<LispObject>::operator =(LispObject* pPtr)
-    {
-        m_pPtr = pPtr;
-    }
-    
-    EZ_FORCE_INLINE
-    LispObject* Ptr<LispObject>::get() const
-    {
-        return m_pPtr;
-    }
-    
-    EZ_FORCE_INLINE
-    bool Ptr<LispObject>::isNull() const
-    {
-        return m_pPtr == nullptr;
-    }
-    
-    EZ_FORCE_INLINE
-    Ptr<LispObject>::operator bool() const
-    {
-        return !isNull();
-    }
-    
-    EZ_FORCE_INLINE
-    LispObject* Ptr<LispObject>::operator ->() const
-    {
-        EZ_ASSERT(m_pPtr, "Accessing nullptr!");
-        return m_pPtr;
-    }
-    
-    EZ_FORCE_INLINE
-    LispObject& Ptr<LispObject>::operator *() const
-    {
-        EZ_ASSERT(m_pPtr, "Dereferencing nullptr!");
-        return *m_pPtr;
+        return m_refIndex;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -128,6 +50,24 @@ namespace lcpp
     }
 
     //////////////////////////////////////////////////////////////////////////
+    
+    template<typename T>
+    EZ_FORCE_INLINE
+    Ptr<T> GarbageCollector::create()
+    {
+        EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
+
+        RefIndex refIndex;
+        refIndex.m_uiIndex = m_uiAllocationIndex;
+        
+        T* pInstance(nullptr);
+        pInstance = (T*)Allocate(sizeof(T), EZ_ALIGNMENT_OF(T));
+        
+        new (pInstance) T();
+        pInstance->m_refIndex = refIndex;
+
+        return pInstance;
+    }
 
     EZ_FORCE_INLINE
     ezAllocatorBase* GarbageCollector::getAllocator()

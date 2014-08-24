@@ -32,7 +32,8 @@ namespace lcpp
 
             if (!pInstance)
             {
-                static LispObject instance(metaInfo());
+                static LispObject instance;
+                instance.m_pMetaInfo = &metaInfo();
                 pInstance = &instance;
             }
 
@@ -72,7 +73,8 @@ namespace lcpp
 
             if (!pInstance)
             {
-                static LispObject instance(metaInfo());
+                static LispObject instance;
+                instance.m_pMetaInfo = &metaInfo();
                 pInstance = &instance;
             }
 

@@ -40,6 +40,8 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\signature.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\ioUtils.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\ptrSpecialization.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\refIndex.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printer.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printerState.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\reader.h" />
@@ -139,6 +141,8 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\ptrSpecialization.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\refIndex.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl" />

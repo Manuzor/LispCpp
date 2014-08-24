@@ -10,21 +10,25 @@ namespace lcpp
     }
 
     GarbageCollector::GarbageCollector(ezAllocatorBase* pParentAllocator) :
-        m_pParent(pParentAllocator),
         m_stats(),
         m_data(pParentAllocator),
         m_pEdenSpace(nullptr),
         m_pSurvivorSpace(nullptr),
         m_uiAllocationIndex(0)
     {
-        ezMemoryTracker::RegisterAllocator("lcpp/CollectingAllocator", (ezMemoryTrackingFlags::Enum)0);
+        m_id = ezMemoryTracker::RegisterAllocator("lcpp/GarbageCollector", (ezMemoryTrackingFlags::Enum)0);
 
-        m_data.SetCountUninitialized(128 * 1024 * 1024); // 128 MiB
+        m_data.SetCountUninitialized(128 * 1024 * 1024);
 
         m_pEdenSpace = &m_data.m_left;
         m_pSurvivorSpace = &m_data.m_right;
         
         EZ_ASSERT(m_pEdenSpace != m_pSurvivorSpace, "");
+    }
+
+    GarbageCollector::~GarbageCollector()
+    {
+        ezMemoryTracker::DeregisterAllocator(m_id);
     }
 
     void GarbageCollector::collect()
@@ -63,6 +67,12 @@ namespace lcpp
     ezAllocatorBase::Stats GarbageCollector::GetStats() const
     {
         return m_stats;
+    }
+
+    RefIndex GarbageCollector::getNextFreeIndex() const
+    {
+        //LCPP_NOT_IMPLEMENTED;
+        return RefIndex::invalidValue();
     }
 
 }

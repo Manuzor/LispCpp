@@ -262,6 +262,12 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h">
       <Filter>lcpp\core\memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\refIndex.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\ptrSpecialization.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -476,6 +482,12 @@
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\refIndex.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\ptrSpecialization.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
   </ItemGroup>

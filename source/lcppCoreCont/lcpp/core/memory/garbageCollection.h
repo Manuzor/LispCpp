@@ -1,51 +1,44 @@
 #pragma once
-#include "lcpp/core/typeSystem/objectData.h"
+#include "lcpp/core/memory/refIndex.h"
 
 namespace lcpp
 {
-    template<>
-    struct Ptr<LispObject>
-    {
-        // Default construct as nullptr
-        Ptr();
-
-        // Copy constructor
-        Ptr(const Ptr& rhs);
-
-        // Move constructor
-        Ptr(Ptr&& rhs);
-
-        // Construct from raw pointer
-        Ptr(LispObject* pPtr);
-
-        ~Ptr();
-
-        void operator =(const Ptr& toCopy);
-        void operator =(Ptr&& toMove);
-        void operator =(LispObject* pPtr);
-
-        LispObject* operator ->() const;
-        LispObject& operator *() const;
-
-        LispObject* get() const;
-        bool isNull() const;
-
-        operator bool() const;
-
-    private:
-        LispObject* m_pPtr;
-    };
+    class GarbageCollector;
 
     typedef unsigned char byte_t;
 
-    class LCPP_API_CORE_CONT GarbageCollector :
-        ezAllocatorBase
+    class LCPP_API_CORE_CONT CollectableBase
     {
+        friend GarbageCollector;
+    public:
+
+        RefIndex getRefIndex() const;
+
+    private:
+        mutable RefIndex m_refIndex;
+    };
+
+    namespace detail
+    {
+        struct EmptyType {};
+    }
+
+    class LCPP_API_CORE_CONT GarbageCollector :
+        private ezAllocatorBase
+    {
+        friend CollectableBase;
     public:
 
         GarbageCollector(ezAllocatorBase* pParentAllocator);
+        ~GarbageCollector();
 
         void collect();
+
+        template<typename T>
+        Ptr<T> create();
+
+        template<typename T, typename T_AdditionalData = EmptyType>
+        Ptr<T> create();
 
         ezAllocatorBase* getAllocator();
 
@@ -77,8 +70,11 @@ namespace lcpp
 
     private:
 
+        RefIndex getNextFreeIndex() const;
+
+    private:
+
         ezAllocatorId m_id;
-        ezAllocatorBase* m_pParent;
         Stats m_stats;
 
         DualArrayWrapper m_data;

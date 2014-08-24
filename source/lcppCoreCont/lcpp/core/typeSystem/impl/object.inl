@@ -1,3 +1,4 @@
+#include "lcpp/core/memory/garbageCollection.h"
 
 namespace lcpp
 {
@@ -9,26 +10,28 @@ namespace lcpp
         create(const MetaInfo& metaInfo)
         {
             // Helper struct to determine the minimum memory needed for this lisp object using T_Data
-            struct LispObjectProxy
+            struct LispObjectProxy : public LispObject
             {
-                LispObjectHeader h;
+                T_Data m_data;
+            };
+
+            struct LispObjectProxyChecker
+            {
+                LispObject o;
                 T_Data d;
             };
 
-            // TODO The runtime state should be passed to this function
-            // TODO Use the allocator of the runtime state.
-            auto pAllocator = getGarbageCollector()->getAllocator();
+            EZ_CHECK_AT_COMPILETIME(sizeof(LispObjectProxy) == sizeof(LispObjectProxyChecker));
 
-            auto size = sizeof(LispObjectProxy);
+            //////////////////////////////////////////////////////////////////////////
 
-            auto pMem = (char*)(LCPP_NEW(pAllocator, LispObjectProxy)());
+            // TODO The runtime state should be passed to this function, which should contain the garbage collector.
+            auto pGarbageCollector = getGarbageCollector();
 
-#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
-            memset(pMem, 0xdadadada, size - 1);
-            memset(pMem + size - 1, 0xdd, 1);
-#endif
+            auto pInstance = pGarbageCollector->create<LispObjectProxy>().cast<LispObject>();
+            pInstance->m_pMetaInfo = &metaInfo;
 
-            return new (pMem) LispObject(metaInfo);
+            return pInstance;
         }
     }
 }

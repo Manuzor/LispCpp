@@ -20,8 +20,6 @@ namespace lcpp
 
         LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(Ptr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT const LispObjectHeader& getHeader(Ptr<LispObject> pObject);
-
         LCPP_API_CORE_CONT bool isCallable(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT bool isBuiltin(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT bool isNameable(Ptr<LispObject> pObject);
