@@ -33,6 +33,7 @@ namespace lcpp
         operator bool() const;
 
     private:
-        LispObject* m_pPtr;
+        Ptr<GarbageCollector> m_pGarbageCollector;
+        RefIndex m_refIndex;
     };
 }

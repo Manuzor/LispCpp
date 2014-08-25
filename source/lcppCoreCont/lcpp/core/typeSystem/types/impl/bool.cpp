@@ -32,9 +32,9 @@ namespace lcpp
 
             if (!pInstance)
             {
-                static LispObject instance;
-                instance.m_pMetaInfo = &metaInfo();
-                pInstance = &instance;
+                auto pGarbageCollector = getGarbageCollector();
+                pInstance = pGarbageCollector->create<LispObject>();
+                pInstance->m_pMetaInfo = &metaInfo();
             }
 
             return pInstance;
@@ -73,9 +73,9 @@ namespace lcpp
 
             if (!pInstance)
             {
-                static LispObject instance;
-                instance.m_pMetaInfo = &metaInfo();
-                pInstance = &instance;
+                auto pGarbageCollector = getGarbageCollector();
+                pInstance = pGarbageCollector->create<LispObject>();
+                pInstance->m_pMetaInfo = &metaInfo();
             }
 
             return pInstance;

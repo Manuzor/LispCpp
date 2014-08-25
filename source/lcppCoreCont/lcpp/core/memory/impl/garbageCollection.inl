@@ -61,7 +61,7 @@ namespace lcpp
     }
     
     EZ_FORCE_INLINE
-    void GarbageCollector::DualArrayWrapper::EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount)
+    GarbageCollector::DualArrayWrapper::Action GarbageCollector::DualArrayWrapper::EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount)
     {
         auto uiTargetCount = uiStartIndex + uiCount;
 
@@ -70,7 +70,22 @@ namespace lcpp
         if (uiTargetCount > GetCount())
         {
             SetCountUninitialized(uiTargetCount);
+            return Action::Resized;
         }
+
+        return Action::None;
+    }
+
+    EZ_FORCE_INLINE
+    GarbageCollector::DualArrayWrapper::Action::Action(Enum value) :
+        m_value(value)
+    {
+    }
+    
+    EZ_FORCE_INLINE
+    bool GarbageCollector::DualArrayWrapper::Action::wasResized() const
+    {
+        return m_value == Resized;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -92,6 +107,19 @@ namespace lcpp
         pInstance->setRefIndex(refIndex);
 
         return pInstance;
+    }
+
+    template<typename T>
+    T* GarbageCollector::getPointer(RefIndex refIndex) const
+    {
+        EZ_ASSERT(refIndex.isValid(), "");
+        EZ_ASSERT(refIndex.m_uiIndex <= m_uiAllocationIndex, "");
+
+        auto pMem = &(*m_pEdenSpace)[refIndex.m_uiIndex];
+        auto pInstance = reinterpret_cast<T*>(pMem);
+        auto pCollectable = static_cast<CollectableBase*>(pInstance);
+
+        return refIndex == pCollectable->getRefIndex() ? pInstance : nullptr;
     }
 
     EZ_FORCE_INLINE

@@ -44,13 +44,13 @@ namespace lcpp
         GarbageCollector(ezAllocatorBase* pParentAllocator);
         ~GarbageCollector();
 
-        void collect();
-
         template<typename T>
         Ptr<T> create();
 
-        template<typename T, typename T_AdditionalData = EmptyType>
-        Ptr<T> create();
+        template<typename T>
+        T* getPointer(RefIndex refIndex) const;
+
+        void collect();
 
         ezAllocatorBase* getAllocator();
 
@@ -58,6 +58,21 @@ namespace lcpp
 
         struct DualArrayWrapper
         {
+            struct Action
+            {
+                enum Enum
+                {
+                    None,
+                    Resized,
+                };
+
+                Enum m_value;
+
+                Action(Enum value);
+
+                bool wasResized() const;
+            };
+
             ezDynamicArray<byte_t> m_left;
             ezDynamicArray<byte_t> m_right;
 
@@ -67,7 +82,7 @@ namespace lcpp
             void AddCountUninitialized(ezUInt32 uiCount);
             ezUInt32 GetCount();
             
-            void EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount);
+            Action EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount);
         };
 
     private: // ezAllocatorBase interface
@@ -79,10 +94,6 @@ namespace lcpp
         virtual size_t AllocatedSize(const void* ptr) override;
 
         virtual Stats GetStats() const override;
-
-    private:
-
-        RefIndex getNextFreeIndex() const;
 
     private:
 

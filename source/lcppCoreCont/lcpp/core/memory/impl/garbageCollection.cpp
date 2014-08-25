@@ -38,7 +38,12 @@ namespace lcpp
 
     void* GarbageCollector::Allocate(size_t uiSize, size_t uiAlign)
     {
-        m_data.EnsureRangeIsValid(m_uiAllocationIndex, ezUInt32(uiSize));
+        auto dataAction = m_data.EnsureRangeIsValid(m_uiAllocationIndex, ezUInt32(uiSize));
+        if (dataAction.wasResized())
+        {
+            // Need size info in CollectableBase?
+            LCPP_NOT_IMPLEMENTED;
+        }
 
         auto pMem = &(*m_pEdenSpace)[m_uiAllocationIndex];
 
@@ -67,12 +72,6 @@ namespace lcpp
     ezAllocatorBase::Stats GarbageCollector::GetStats() const
     {
         return m_stats;
-    }
-
-    RefIndex GarbageCollector::getNextFreeIndex() const
-    {
-        //LCPP_NOT_IMPLEMENTED;
-        return RefIndex::invalidValue();
     }
 
 }

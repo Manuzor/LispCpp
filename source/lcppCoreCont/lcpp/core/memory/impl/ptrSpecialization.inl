@@ -1,69 +1,95 @@
 #include "lcpp/core/memory/refIndex.h"
+#include "lcpp/core/memory/garbageCollection.h"
 
 namespace lcpp
 {
     EZ_FORCE_INLINE
     Ptr<LispObject>::Ptr() :
-        m_pPtr(nullptr)
+        m_pGarbageCollector(),
+        m_refIndex(RefIndex::invalidValue())
     {
     }
     
     EZ_FORCE_INLINE
     Ptr<LispObject>::Ptr(const Ptr& rhs) :
-        m_pPtr(rhs.m_pPtr)
+        m_pGarbageCollector(rhs.m_pGarbageCollector),
+        m_refIndex(rhs.m_refIndex)
     {
     }
     
     EZ_FORCE_INLINE
     Ptr<LispObject>::Ptr(Ptr&& rhs) :
-        m_pPtr(rhs.m_pPtr)
+        m_pGarbageCollector(rhs.m_pGarbageCollector),
+        m_refIndex(rhs.m_refIndex)
     {
-        rhs.m_pPtr = nullptr;
+        rhs.m_pGarbageCollector = nullptr;
+        rhs.m_refIndex = RefIndex::invalidValue();
     }
     
     EZ_FORCE_INLINE
     Ptr<LispObject>::Ptr(LispObject* pPtr) :
-        m_pPtr(pPtr)
+        m_pGarbageCollector(),
+        m_refIndex(RefIndex::invalidValue())
     {
+        if (pPtr)
+        {
+            m_pGarbageCollector = pPtr->getGarbageCollector();
+            m_refIndex = pPtr->getRefIndex();
+        }
     }
     
     EZ_FORCE_INLINE
     Ptr<LispObject>::~Ptr()
     {
-        m_pPtr = nullptr;
     }
 
     EZ_FORCE_INLINE
     void Ptr<LispObject>::operator =(const Ptr& toCopy)
     {
-        Ptr<LispObject> copy = toCopy;
+        Ptr<LispObject> copy(toCopy);
 
-        std::swap(m_pPtr, copy.m_pPtr);
+        ezMath::Swap(m_pGarbageCollector, copy.m_pGarbageCollector);
+        ezMath::Swap(m_refIndex, copy.m_refIndex);
     }
     
     EZ_FORCE_INLINE
     void Ptr<LispObject>::operator =(Ptr&& toMove)
     {
-        m_pPtr = toMove.m_pPtr;
-        toMove.m_pPtr = nullptr;
+        m_pGarbageCollector = toMove.m_pGarbageCollector;
+        m_refIndex = toMove.m_refIndex;
+
+        toMove.m_pGarbageCollector = nullptr;
+        toMove.m_refIndex = RefIndex::invalidValue();
     }
     
     EZ_FORCE_INLINE
     void Ptr<LispObject>::operator =(LispObject* pPtr)
     {
-        m_pPtr = pPtr;
+        if (pPtr)
+        {
+            m_pGarbageCollector = pPtr->getGarbageCollector();
+            m_refIndex = pPtr->getRefIndex();
+        }
     }
     
     EZ_FORCE_INLINE
     LispObject* Ptr<LispObject>::get() const
     {
-        return m_pPtr;
+        if (isNull())
+        {
+            return nullptr;
+        }
+
+        EZ_ASSERT(m_pGarbageCollector, "");
+        EZ_ASSERT(m_refIndex.isValid(), "");
+
+        return m_pGarbageCollector->getPointer<LispObject>(m_refIndex);
     }
     
     EZ_FORCE_INLINE
     bool Ptr<LispObject>::isNull() const
     {
-        return m_pPtr == nullptr;
+        return m_pGarbageCollector.isNull() || !m_refIndex.isValid();
     }
     
     EZ_FORCE_INLINE
@@ -75,14 +101,12 @@ namespace lcpp
     EZ_FORCE_INLINE
     LispObject* Ptr<LispObject>::operator ->() const
     {
-        EZ_ASSERT(m_pPtr, "Accessing nullptr!");
-        return m_pPtr;
+        return get();
     }
     
     EZ_FORCE_INLINE
     LispObject& Ptr<LispObject>::operator *() const
     {
-        EZ_ASSERT(m_pPtr, "Dereferencing nullptr!");
-        return *m_pPtr;
+        return *get();
     }
 }
