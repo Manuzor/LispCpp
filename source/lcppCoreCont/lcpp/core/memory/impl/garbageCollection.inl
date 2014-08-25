@@ -7,6 +7,30 @@ namespace lcpp
         return m_refIndex;
     }
 
+    EZ_FORCE_INLINE
+    void CollectableBase::setRefIndex(RefIndex refIndex)
+    {
+        m_refIndex = refIndex;
+    }
+    
+    EZ_FORCE_INLINE
+    void CollectableBase::setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector)
+    {
+        m_pGarbageCollector = pGarbageCollector;
+    }
+    
+    EZ_FORCE_INLINE
+    Ptr<GarbageCollector> CollectableBase::getGarbageCollector()
+    {
+        return m_pGarbageCollector;
+    }
+    
+    EZ_FORCE_INLINE
+    Ptr<const GarbageCollector> CollectableBase::getGarbageCollector() const
+    {
+        return m_pGarbageCollector;
+    }
+
     //////////////////////////////////////////////////////////////////////////
     
     EZ_FORCE_INLINE
@@ -64,7 +88,8 @@ namespace lcpp
         pInstance = (T*)Allocate(sizeof(T), EZ_ALIGNMENT_OF(T));
         
         new (pInstance) T();
-        pInstance->m_refIndex = refIndex;
+        pInstance->setGarbageCollector(this);
+        pInstance->setRefIndex(refIndex);
 
         return pInstance;
     }

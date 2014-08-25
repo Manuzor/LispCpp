@@ -12,10 +12,22 @@ namespace lcpp
         friend GarbageCollector;
     public:
 
+        /// \brief Gets the garbage collector associated with this collectable instance.
+        Ptr<GarbageCollector> getGarbageCollector();
+        Ptr<const GarbageCollector> getGarbageCollector() const;
+
         RefIndex getRefIndex() const;
 
     private:
-        mutable RefIndex m_refIndex;
+
+        void setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector);
+
+        void setRefIndex(RefIndex refIndex);
+
+    private:
+
+        Ptr<GarbageCollector> m_pGarbageCollector;
+        RefIndex m_refIndex;
     };
 
     namespace detail
