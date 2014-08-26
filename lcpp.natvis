@@ -10,51 +10,49 @@
 	</Type>
 
 	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
-		<DisplayString>{*m_pPtr}</DisplayString>
+		<DisplayString Condition="m_pGarbageCollector.m_pPtr == nullptr">nullptr</DisplayString>
+		<DisplayString>{*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_pEdenSpace->m_pElements[m_refIndex.m_uiIndex]))}</DisplayString>
 		<Expand>
-			<ExpandedItem>*m_pPtr</ExpandedItem>
+			<ExpandedItem>*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_pEdenSpace->m_pElements[m_refIndex.m_uiIndex]))</ExpandedItem>
 		</Expand>
 	</Type>
 
 	<Type Name="lcpp::LispObject">
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  0">Nil '()</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  1">Void #v</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  2">True #t</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  3">False #f</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">{m_header}: {m_integer}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">{m_header}: {m_float}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">{m_header}: {m_symbol}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">{m_header}: {m_string}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{m_header}: {m_stream}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">{m_header}: {m_cons}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_lambda_builtin}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: {m_lambda_userDefined}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_syntax_builtin}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">{m_header}: Not implemented in .natvis file for user-defined syntax.</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">{m_header}: {m_env}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">{m_header}: Not implemented in the .natvis file.</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 14">{m_header}: {m_cont}</DisplayString>
-		<DisplayString>[Unknown Type]{m_header}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  0">Nil '()</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  1">Void #v</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  2">True #t</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  3">False #f</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  4">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; ezInt64* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  5">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; double* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  6">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::symbol::Data* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  7">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::str::Data* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::stream::Data* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  9">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::cons::Data* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::lambda::builtin::Data* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 10">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::lambda::userDefined::Data* &gt; (this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::syntax::builtin::Data* &gt; (this + 1)}</DisplayString>
+		<!--<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 11">Not implemented in .natvis file for user-defined syntax.</DisplayString>-->
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 12">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::env::Data* &gt;(this + 1)}</DisplayString>
+		<!--<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 13">Not implemented in the .natvis file.</DisplayString>-->
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 14">{*m_pMetaInfo.m_pPtr}: {*reinterpret_cast &lt; lcpp::cont::Data* &gt;(this + 1)}</DisplayString>
+		<DisplayString Condition="m_pMetaInfo.m_pPtr->m_type.m_id &gt;= 4 &amp;&amp; m_pMetaInfo.m_pPtr->m_type.m_id &lt;= 14">{*m_pMetaInfo.m_pPtr}: {*m_pMetaInfo.m_pPtr}</DisplayString>
+		<DisplayString>[Unknown Type] {*m_pMetaInfo.m_pPtr}</DisplayString>
 		<Expand>
-			<Item Name="Header">m_header</Item>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">m_integer</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">m_float</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">m_symbol</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">m_string</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">m_stream</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">m_cons</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">m_lambda_builtin</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">m_lambda_userDefined</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">m_syntax_builtin</ExpandedItem>
-			<!--<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">Not implemented in .natvis file for user-defined syntax.</ExpandedItem>-->
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">m_env</ExpandedItem>
-			<!--<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">Not implemented in the .natvis file.</ExpandedItem>-->
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 14">m_cont</ExpandedItem>
+			<Item Name="MetaInfo">*m_pMetaInfo.m_pPtr</Item>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  4">*reinterpret_cast &lt; ezInt64* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  5">*reinterpret_cast &lt; double* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  6">*reinterpret_cast &lt; lcpp::symbol::Data* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  7">*reinterpret_cast &lt; lcpp::str::Data* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  8">*reinterpret_cast &lt; lcpp::stream::Data* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id ==  9">*reinterpret_cast &lt; lcpp::cons::Data* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">*reinterpret_cast &lt; lcpp::lambda::builtin::Data* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 10">*reinterpret_cast &lt; lcpp::lambda::userDefined::Data* &gt; (this + 1)</ExpandedItem>
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">*reinterpret_cast &lt; lcpp::syntax::builtin::Data* &gt; (this + 1)</ExpandedItem>
+			<!--<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 11">Not implemented in .natvis file for user-defined syntax.</ExpandedItem>-->
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 12">*reinterpret_cast &lt; lcpp::env::Data* &gt;(this + 1)</ExpandedItem>
+			<!--<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 13">Not implemented in the .natvis file.</ExpandedItem>-->
+			<ExpandedItem Condition="m_pMetaInfo.m_pPtr->m_type.m_id == 14">*reinterpret_cast &lt; lcpp::cont::Data* &gt;(this + 1)</ExpandedItem>
 		</Expand>
-	</Type>
-
-	<Type Name="lcpp::LispObjectHeader">
-		<DisplayString>{*m_pMetaInfo.m_pPtr}</DisplayString>
 	</Type>
 
 	<Type Name="lcpp::MetaInfo">
@@ -85,9 +83,7 @@
 
 	<Type Name="lcpp::str::Data">
 		<DisplayString>{*((String*)m_pRawData)}</DisplayString>
-		<Expand>
-			<ExpandedItem>*((String*)m_pRawData)</ExpandedItem>
-		</Expand>
+		<StringView>((String*)m_pRawData)->m_Data.m_pElements,s8</StringView>
 	</Type>
 
 	<Type Name="lcpp::env::Data">
