@@ -97,6 +97,7 @@ namespace lcpp
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
 
         RefIndex refIndex;
+        refIndex.m_uiHash = 0;
         refIndex.m_uiIndex = m_uiAllocationIndex;
         
         T* pInstance(nullptr);

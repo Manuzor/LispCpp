@@ -41,8 +41,8 @@ namespace lcpp
         auto dataAction = m_data.EnsureRangeIsValid(m_uiAllocationIndex, ezUInt32(uiSize));
         if (dataAction.wasResized())
         {
+            // TODO implement me?
             // Need size info in CollectableBase?
-            LCPP_NOT_IMPLEMENTED;
         }
 
         auto pMem = &(*m_pEdenSpace)[m_uiAllocationIndex];
