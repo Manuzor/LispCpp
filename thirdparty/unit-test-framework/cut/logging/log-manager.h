@@ -7,6 +7,8 @@ namespace cut
 {
 	struct LogBlock;
 
+	typedef std::function<void(LogMode, StringRef)> LoggerFunction_t;
+
 	class ILogManager
 	{
 		friend struct LogBlock;
@@ -18,8 +20,7 @@ namespace cut
 		/// \remark If you need to format your message, use cut::format
 		virtual void logMessage(LogMode mode, StringRef formattedMessage) = 0;
 
-		virtual void setLogFileName(StringRef fileName) = 0;
-		virtual const StringRef getLogFileName() const = 0;
+		virtual void registerLoggerFunction(LoggerFunction_t func) = 0;
 
 		virtual void blockBegin() = 0;
 		virtual void blockEnd() = 0;

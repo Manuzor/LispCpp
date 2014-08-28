@@ -35,6 +35,8 @@ namespace cut
 		{
 			m_pAll = rhs.m_pAll;
 			m_type = rhs.m_type;
+
+			return *this;
 		}
 
 		inline const char* cString() const
