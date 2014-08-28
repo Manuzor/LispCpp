@@ -116,16 +116,32 @@ int main(int argc, const char* argv[])
     {
         lcpp::startup();
 
-        g_pEzEngineLogger = EZ_DEFAULT_NEW(cut::loggers::ezEngineWriter)(cut::ILogManager::instance(),
-                                                           ezLog::GetDefaultLogSystem());
+        g_pEzEngineLogger = EZ_NEW(lcpp::defaultAllocator(), cut::loggers::ezEngineWriter)(cut::ILogManager::instance(),
+                                                                                           ezLog::GetDefaultLogSystem());
+        g_pHtmlLog = EZ_NEW(lcpp::defaultAllocator(), ezLogWriter::HTML)();
+
+        ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
         ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
         ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
 
-        ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
-
         ezStringBuilder testDir;
         lcpp::getCurrentWorkingDirectory(testDir);
+
+        ezStringBuilder logFile;
+        logFile.AppendPath("temp", "log");
+        logFile.MakeAbsolutePath(testDir.GetData());
+        logFile.MakeCleanPath();
+        ezOSFile::CreateDirectoryStructure(logFile.GetData());
+        if (ezFileSystem::AddDataDirectory(logFile.GetData(), ezFileSystem::AllowWrites, "log-dir").Failed())
+        {
+            return;
+        }
+
+        ezGlobalLog::AddLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, g_pHtmlLog));
+        logFile.AppendPath("lcppCoreCont_unittests.log.html");
+        g_pHtmlLog->BeginLog(logFile.GetFileNameAndExtension().GetData(), logFile.GetFileNameAndExtension().GetData());
+
         testDir.AppendPath("data1", "test");
         testDir.MakeCleanPath();
         auto addingDataDirectory = ezFileSystem::AddDataDirectory(testDir.GetData(), ezFileSystem::ReadOnly, "test-data");
@@ -139,10 +155,14 @@ int main(int argc, const char* argv[])
     };
     testManager.shutdownFunction() = []
     {
+        ezGlobalLog::RemoveLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, g_pHtmlLog));
         ezGlobalLog::RemoveLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
         ezGlobalLog::RemoveLogWriter(ezLogWriter::Console::LogMessageHandler);
 
-        EZ_DEFAULT_DELETE(g_pEzEngineLogger);
+        g_pHtmlLog->EndLog();
+
+        EZ_DELETE(lcpp::defaultAllocator(), g_pHtmlLog);
+        EZ_DELETE(lcpp::defaultAllocator(), g_pEzEngineLogger);
 
         lcpp::shutdown();
     };
