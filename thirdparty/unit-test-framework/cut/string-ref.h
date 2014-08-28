@@ -13,25 +13,36 @@ namespace cut
 
 	public:
 
-		inline StringRef(const char* szString) :
+		CUT_FORCE_INLINE
+		StringRef() :
+			m_pCString(""),
+			m_type(CString)
+		{
+		}
+		
+		CUT_FORCE_INLINE
+		StringRef(const char* szString) :
 			m_pCString(szString),
 			m_type(CString)
 		{
 		}
 
-		inline StringRef(const std::string& stdString) :
+		CUT_FORCE_INLINE
+		StringRef(const std::string& stdString) :
 			m_pStdString(&stdString),
 			m_type(StdString)
 		{
 		}
 
-		inline StringRef(const StringRef& rhs) :
+		CUT_FORCE_INLINE
+		StringRef(const StringRef& rhs) :
 			m_pAll(rhs.m_pAll),
 			m_type(rhs.m_type)
 		{
 		}
 
-		inline StringRef& operator = (const StringRef& rhs)
+		CUT_FORCE_INLINE
+		StringRef& operator = (const StringRef& rhs)
 		{
 			m_pAll = rhs.m_pAll;
 			m_type = rhs.m_type;
@@ -39,7 +50,8 @@ namespace cut
 			return *this;
 		}
 
-		inline const char* cString() const
+		CUT_FORCE_INLINE
+		const char* cString() const
 		{
 			switch(m_type)
 			{
@@ -52,12 +64,14 @@ namespace cut
 			return nullptr;
 		}
 
-		inline bool valid() const
+		CUT_FORCE_INLINE
+		bool valid() const
 		{
 			return m_pAll != nullptr;
 		}
 
-		inline bool empty() const
+		CUT_FORCE_INLINE
+		bool empty() const
 		{
 			if(valid())
 			{
@@ -71,12 +85,14 @@ namespace cut
 			return true;
 		}
 
-		inline operator bool() const
+		CUT_FORCE_INLINE
+		operator bool() const
 		{
 			return valid();
 		}
 
-		inline operator const char*() const
+		CUT_FORCE_INLINE
+		operator const char*() const
 		{
 			return cString();
 		}
@@ -94,7 +110,8 @@ namespace cut
 	};
 
 	// Compares string contents
-	inline bool operator == (const StringRef& lhs, const StringRef& rhs)
+	CUT_FORCE_INLINE
+	bool operator == (const StringRef& lhs, const StringRef& rhs)
 	{
 		if (lhs.valid() && rhs.valid())
 		{

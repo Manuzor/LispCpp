@@ -1,9 +1,94 @@
 #include "stdafx.h"
+
 #include "cut/testing/unit-test-settings.h"
-#include <string.h>
+#include "cut/logging/log-manager.h"
+#include "cut/logging/default-loggers.h"
+
 #include "lcpp/core/runtime.h"
 
+namespace cut
+{
+    namespace loggers
+    {
+        struct ezEngineWriter
+        {
+            ezLogInterface* m_pInterface;
+            ezHybridArray<ezLogBlock*, 32, lcpp::AllocatorWrapper_Default> m_logBlocks;
+
+            ezEngineWriter(ILogManager& logManager, ezLogInterface* pInterface) :
+                m_pInterface(pInterface)
+            {
+                EZ_ASSERT(pInterface, "Invalid ptr.");
+
+                m_logBlocks.Reserve(32);
+
+                using namespace std::placeholders;
+                logManager.addLoggerFunction(std::bind(&ezEngineWriter::logMessageHandler, this, _1));
+                logManager.addBlockListener(std::bind(&ezEngineWriter::blockHandler, this, _1));
+            }
+
+            ~ezEngineWriter()
+            {
+                m_logBlocks.Clear();
+                m_pInterface = nullptr;
+            }
+
+            EZ_FORCE_INLINE
+            void logMessageHandler(const LoggerInfo& loggerInfo)
+            {
+                switch(loggerInfo.logMode)
+                {
+                case LogMode::Normal:
+                    ezLog::Info(m_pInterface, loggerInfo.message.cString());
+                    break;
+                case LogMode::Success:
+                    ezLog::Success(m_pInterface, loggerInfo.message.cString());
+                    break;
+                case LogMode::Failure:
+                    ezLog::Error(m_pInterface, loggerInfo.message.cString());
+                    break;
+                case LogMode::Warning:
+                    ezLog::Warning(m_pInterface, loggerInfo.message.cString());
+                    break;
+                default:
+                    EZ_REPORT_FAILURE("Unknown LogMode.");
+                    break;
+                }
+            }
+
+            EZ_FORCE_INLINE
+            void blockHandler(const LogBlockInfo& blockInfo)
+            {
+                switch(blockInfo.action)
+                {
+                case LogBlockAction::Begin:
+                {
+                    auto pBlock = EZ_NEW(lcpp::defaultAllocator(), ezLogBlock) { m_pInterface, blockInfo.name.cString() };
+                    m_logBlocks.PushBack(pBlock);
+                    break;
+                }
+                case LogBlockAction::End:
+                {
+                    EZ_ASSERT(m_logBlocks.GetCount() > 0, "Invalid state of the LogBlock stack.");
+                    
+                    auto& pBlock = m_logBlocks.PeekBack();
+                    EZ_DELETE(lcpp::defaultAllocator(), pBlock);
+                    m_logBlocks.PopBack();
+                    break;
+                }
+                default:
+                    EZ_REPORT_FAILURE("Unknown LogBlockAction.");
+                    ezLog::Warning("Unknown LogBlockAction.");
+                    break;
+                }
+            }
+        };
+    }
+}
+
 bool g_pauseBeforeExit = true;
+ezLogWriter::HTML* g_pHtmlLog = nullptr;
+cut::loggers::ezEngineWriter* g_pEzEngineLogger = nullptr;
 
 void processArgument(const char* arg)
 {
@@ -31,6 +116,8 @@ int main(int argc, const char* argv[])
     {
         lcpp::startup();
 
+        g_pEzEngineLogger = EZ_DEFAULT_NEW(cut::loggers::ezEngineWriter)(cut::ILogManager::instance(),
+                                                           ezLog::GetDefaultLogSystem());
 
         ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
         ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
@@ -54,6 +141,8 @@ int main(int argc, const char* argv[])
     {
         ezGlobalLog::RemoveLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
         ezGlobalLog::RemoveLogWriter(ezLogWriter::Console::LogMessageHandler);
+
+        EZ_DEFAULT_DELETE(g_pEzEngineLogger);
 
         lcpp::shutdown();
     };

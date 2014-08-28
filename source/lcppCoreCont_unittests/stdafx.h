@@ -23,3 +23,4 @@
 #include <Foundation/IO/FileSystem/DataDirTypeFolder.h>
 #include <Foundation/Logging/ConsoleWriter.h>
 #include <Foundation/Logging/VisualStudioWriter.h>
+#include <Foundation/Logging/HTMLWriter.h>
