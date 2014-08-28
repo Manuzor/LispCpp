@@ -31,6 +31,10 @@ int main(int argc, const char* argv[])
     {
         lcpp::startup();
 
+
+        ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
+        ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
+
         ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
         ezStringBuilder testDir;
@@ -46,7 +50,13 @@ int main(int argc, const char* argv[])
         
         LCPP_test_pRuntimeState->setUserDirectory(testDir.GetData());
     };
-    testManager.shutdownFunction() = []{ lcpp::shutdown(); };
+    testManager.shutdownFunction() = []
+    {
+        ezGlobalLog::RemoveLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
+        ezGlobalLog::RemoveLogWriter(ezLogWriter::Console::LogMessageHandler);
+
+        lcpp::shutdown();
+    };
 
     testManager.runAll();
 

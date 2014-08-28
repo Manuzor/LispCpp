@@ -11,6 +11,12 @@
 #include <Foundation/Memory/MemoryUtils.h>
 #include "lcpp/core/typeSystem/types/string.h"
 
+
+#ifndef VerboseDebugMessage
+// Enable this to allow verbose debug messages
+#define VerboseDebugMessage Debug
+#endif
+
 namespace lcpp
 {
     namespace symbol

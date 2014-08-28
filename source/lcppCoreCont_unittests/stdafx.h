@@ -16,8 +16,10 @@
 #include "cut/api.h"
 
 #include "lcpp/foundation/api.h"
-#include "lcpp/core/common.h"
+#include "lcpp/core/api.h"
 
 #include "lcpp/test/common.h"
 
 #include <Foundation/IO/FileSystem/DataDirTypeFolder.h>
+#include <Foundation/Logging/ConsoleWriter.h>
+#include <Foundation/Logging/VisualStudioWriter.h>

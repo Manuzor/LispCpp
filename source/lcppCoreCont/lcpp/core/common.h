@@ -12,6 +12,6 @@
 #include "lcpp/core/memory/garbageCollection.h"
 #include "lcpp/core/memory/impl/ptrSpecialization.inl"
 
-#include "lcpp/core/config.h"
+#include "lcpp/core/commonTypes.h"
 
 #define LCPP_DeclareRawDataMember(typeName, memberName) char memberName [sizeof(typeName)]

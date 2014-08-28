@@ -18,9 +18,10 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/void.h"
 
-// Enable this to allow debug messages
-#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
-
+#ifndef VerboseDebugMessage
+// Enable this to allow verbose debug messages
+#define VerboseDebugMessage Debug
+#endif
 
 #define LCPP_AddGlobalVariable(szName, pValue) \
     env::addBinding(m_pGlobalEnvironment, symbol::create(szName), pValue)

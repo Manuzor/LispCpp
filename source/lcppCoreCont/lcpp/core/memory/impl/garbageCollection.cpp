@@ -1,4 +1,10 @@
 #include "stdafx.h"
+
+#ifndef VerboseDebugMessage
+// Enable this to allow verbose debug messages
+#define VerboseDebugMessage Debug
+#endif
+
 #include "lcpp/core/memory/garbageCollection.h"
 
 namespace lcpp
@@ -41,8 +47,7 @@ namespace lcpp
         auto dataAction = m_data.EnsureRangeIsValid(m_uiAllocationIndex, ezUInt32(uiSize));
         if (dataAction.wasResized())
         {
-            // TODO implement me?
-            // Need size info in CollectableBase?
+            // Do anything here?
         }
 
         auto pMem = &(*m_pEdenSpace)[m_uiAllocationIndex];

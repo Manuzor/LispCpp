@@ -12,8 +12,10 @@
 
 #include "lcpp/core/ioUtils.h"
 
-// Enable this to allow debug messages
-#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+#ifndef VerboseDebugMessage
+// Enable this to allow verbose debug messages
+#define VerboseDebugMessage Debug
+#endif
 
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),

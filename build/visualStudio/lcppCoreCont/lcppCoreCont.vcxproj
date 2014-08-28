@@ -19,12 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\api.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\lambda_builtinFunctions.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\syntax_builtinFunctions.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\evaluator.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\assertException.h" />
@@ -50,6 +52,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\runtime.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\syntaxCheckResult.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\commonTypes.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attributeCheck.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h" />

@@ -43,6 +43,9 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::DualArrayWrapper::SetCountUninitialized(ezUInt32 uiCount)
     {
+        EZ_LOG_BLOCK("GarbageCollector::DualArrayWrapper::SetCountUninitialized");
+        ezLog::VerboseDebugMessage("Setting to %u", uiCount);
+
         m_left.SetCountUninitialized(uiCount);
         m_right.SetCountUninitialized(uiCount);
     }
@@ -50,6 +53,9 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::DualArrayWrapper::AddCountUninitialized(ezUInt32 uiCount)
     {
+        EZ_LOG_BLOCK("GarbageCollector::DualArrayWrapper::AddCountUninitialized");
+        ezLog::VerboseDebugMessage("Adding %u", uiCount);
+
         SetCountUninitialized(GetCount() + uiCount);
     }
     
@@ -63,12 +69,15 @@ namespace lcpp
     EZ_FORCE_INLINE
     GarbageCollector::DualArrayWrapper::Action GarbageCollector::DualArrayWrapper::EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount)
     {
+        EZ_LOG_BLOCK("GarbageCollector::DualArrayWrapper::EnsureRangeIsValid");
+
         auto uiTargetCount = uiStartIndex + uiCount;
 
         EZ_ASSERT(uiTargetCount >= uiStartIndex, "Unsigned wrap-around!");
 
         if (uiTargetCount > GetCount())
         {
+            ezLog::VerboseDebugMessage("Target count greater actual count; Resizing.");
             SetCountUninitialized(uiTargetCount);
             return Action::Resized;
         }
@@ -95,6 +104,8 @@ namespace lcpp
     Ptr<T> GarbageCollector::create()
     {
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
+
+        //EZ_LOG_BLOCK("GarbageCollector::create");
 
         RefIndex refIndex;
         refIndex.m_uiHash = 0;

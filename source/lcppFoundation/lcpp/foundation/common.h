@@ -62,10 +62,6 @@ namespace lcpp
 #define LCPP_UNUSED(anything) ((void)anything)
 #define LCPP_NOT_IMPLEMENTED EZ_REPORT_FAILURE("Not implemented."); throw exceptions::NotImplemented()
 
-// Use VerboseDebugMessage to disable verbose debug loggings,
-// otherwise use something like Info or Debug.
-#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME VerboseDebugMessage
-
 #include "lcpp/foundation/exceptionBase.h"
 
 namespace lcpp
