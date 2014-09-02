@@ -49,6 +49,8 @@ namespace lcpp
 
         Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction)
         {
+            LCPP_LogBlock("cont::create");
+
             typeCheck(pParent, Type::Continuation);
 
             auto pInstance = object::create<Data>(metaInfo());

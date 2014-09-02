@@ -37,6 +37,8 @@ namespace lcpp
 
         Ptr<LispObject> create(const String& value)
         {
+            LCPP_LogBlock("symbol::create");
+
             static auto symbolTable = InsanceTable<String>(&createNew);
 
             return symbolTable.get(value);

@@ -48,6 +48,8 @@ namespace lcpp
 
         Ptr<LispObject> create(Integer_t value)
         {
+            LCPP_LogBlock("number::create", metaInfoInteger().getPrettyName());
+
             auto pInstance = object::create<Integer_t>(metaInfoInteger());
 
             pInstance->getData<Integer_t>() = value;
@@ -57,6 +59,8 @@ namespace lcpp
 
         Ptr<LispObject> create(Float_t value)
         {
+            LCPP_LogBlock("number::create", metaInfoFloat().getPrettyName());
+
             auto pInstance = object::create<Float_t>(metaInfoFloat());
 
             pInstance->getData<Float_t>() = value;

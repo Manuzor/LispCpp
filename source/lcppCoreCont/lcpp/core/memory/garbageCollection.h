@@ -30,11 +30,6 @@ namespace lcpp
         RefIndex m_refIndex;
     };
 
-    namespace detail
-    {
-        struct EmptyType {};
-    }
-
     class LCPP_API_CORE_CONT GarbageCollector :
         private ezAllocatorBase
     {

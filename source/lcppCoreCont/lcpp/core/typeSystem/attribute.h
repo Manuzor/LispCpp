@@ -6,7 +6,7 @@ namespace lcpp
     {
     public:
 
-        enum Enum
+        enum Bits
         {
             None = 0,
 
@@ -14,6 +14,8 @@ namespace lcpp
             Builtin  = EZ_BIT(1),
             Nameable = EZ_BIT(2),
             EnvironmentContainer = EZ_BIT(3),
+
+            BITS_MAX = EZ_BIT(4),
         };
 
     public:
@@ -27,6 +29,8 @@ namespace lcpp
         bool isNameable() const;
         bool isEnvironmentContainer() const;
 
+        void toString(ezStringBuilder& out_string) const;
+
     private:
 
         ezUInt32 m_flags;
@@ -35,7 +39,7 @@ namespace lcpp
     bool operator ==(const AttributeFlags& rhs, const AttributeFlags& lhs);
     bool operator !=(const AttributeFlags& rhs, const AttributeFlags& lhs);
 
-    const char* toString(AttributeFlags::Enum value);
+    const char* toString(AttributeFlags::Bits value);
 }
 
 #include "lcpp/core/typeSystem/impl/attribute.inl"

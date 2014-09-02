@@ -30,6 +30,8 @@ namespace lcpp
 
         Ptr<LispObject> create(ezStringIterator& iterator)
         {
+            LCPP_LogBlock("stream::create");
+
             auto pInstance = object::create<Data>(metaInfo());
 
             auto& data = pInstance->getData<Data>();

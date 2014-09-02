@@ -46,6 +46,8 @@ namespace lcpp
 
             Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Ptr<LispObject> pArgList, Ptr<LispObject> pBodyList)
             {
+                LCPP_LogBlock("lambda::userDefined::create");
+
                 typeCheck(pParentEnv, Type::Environment);
 
                 auto pInstance = object::create<Data>(metaInfo());

@@ -10,6 +10,8 @@ namespace lcpp
 
     void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType)
     {
+        LCPP_LogBlock("typeCheck");
+
         EZ_ASSERT_ALWAYS(pObject, "Invalid object pointer.");
 
         auto& actualType = object::getType(pObject);
@@ -25,6 +27,8 @@ namespace lcpp
 
     void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
     {
+        LCPP_LogBlock("typeCheck");
+
         EZ_ASSERT_ALWAYS(pObject, "Invalid object pointer.");
 
         auto& actualType = object::getType(pObject);

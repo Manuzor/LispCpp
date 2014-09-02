@@ -34,6 +34,8 @@ namespace lcpp
 
         Ptr<LispObject> create()
         {
+            LCPP_LogBlock("file::create");
+
             auto pInstance = object::create<Data>(metaInfo());
 
             auto& data = pInstance->getData<Data>();

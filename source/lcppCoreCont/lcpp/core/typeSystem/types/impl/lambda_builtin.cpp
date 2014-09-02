@@ -45,6 +45,8 @@ namespace lcpp
 
             Ptr<LispObject> create(Ptr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
             {
+                LCPP_LogBlock("lambda::builtin::create");
+
                 typeCheck(pParentEnv, Type::Environment);
 
                 auto pInstance = object::create<Data>(metaInfo());

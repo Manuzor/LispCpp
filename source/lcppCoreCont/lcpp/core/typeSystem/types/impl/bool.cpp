@@ -28,6 +28,8 @@ namespace lcpp
 
         Ptr<LispObject> create()
         {
+            LCPP_LogBlock("true_::create");
+
             static auto pInstance = Ptr<LispObject>();
 
             if (!pInstance)
@@ -69,6 +71,8 @@ namespace lcpp
 
         Ptr<LispObject> create()
         {
+            LCPP_LogBlock("false_::create");
+
             static auto pInstance = Ptr<LispObject>();
 
             if (!pInstance)

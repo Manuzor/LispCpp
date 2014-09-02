@@ -52,6 +52,9 @@
     <Filter Include="lcpp\core\memory\impl">
       <UniqueIdentifier>{6b45a446-b11c-4dcb-a815-e8671466b576}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\preprocessorUtils">
+      <UniqueIdentifier>{141e2e7d-517b-461b-b621-0eea719d65ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -276,6 +279,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies.h">
       <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\preprocessorUtils\disableVerboseLoggingLocally.h">
+      <Filter>lcpp\core\preprocessorUtils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

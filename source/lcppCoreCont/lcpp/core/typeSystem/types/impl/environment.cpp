@@ -32,6 +32,8 @@ namespace lcpp
         Ptr<LispObject> create(Ptr<LispObject> pParent,
                                Ptr<LispObject> pName)
         {
+            LCPP_LogBlock("env::create");
+
             if(!isNil(pParent)) typeCheck(pParent, Type::Environment);
             typeCheck(pName, Type::Symbol);
 

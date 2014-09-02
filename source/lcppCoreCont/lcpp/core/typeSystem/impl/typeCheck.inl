@@ -5,6 +5,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     void typeCheckFailed(const char* szMessage)
     {
+        LCPP_LogError(szMessage);
         LCPP_THROW(exceptions::TypeCheckFailed(szMessage));
     }
 

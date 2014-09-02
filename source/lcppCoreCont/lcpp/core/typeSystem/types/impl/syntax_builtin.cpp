@@ -40,6 +40,8 @@ namespace lcpp
 
             Ptr<LispObject> create(Function_t pFunction, const Signature& signature)
             {
+                LCPP_LogBlock("syntax::builtin::create");
+
                 EZ_ASSERT(pFunction, "Invalid function pointer.");
                 EZ_ASSERT(signature.m_argCountMin <= signature.m_argCountMax, "Invalid virtual signature.");
 

@@ -43,8 +43,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::DualArrayWrapper::SetCountUninitialized(ezUInt32 uiCount)
     {
-        EZ_LOG_BLOCK("GarbageCollector::DualArrayWrapper::SetCountUninitialized");
-        ezLog::VerboseDebugMessage("Setting to %u", uiCount);
+        LCPP_LogBlock("GarbageCollector::DualArrayWrapper::SetCountUninitialized");
+        LCPP_LogVerboseDebugMessage("Setting to %f MiB (%u B)", float(uiCount) / float(1024 * 1024), uiCount);
 
         m_left.SetCountUninitialized(uiCount);
         m_right.SetCountUninitialized(uiCount);
@@ -53,8 +53,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::DualArrayWrapper::AddCountUninitialized(ezUInt32 uiCount)
     {
-        EZ_LOG_BLOCK("GarbageCollector::DualArrayWrapper::AddCountUninitialized");
-        ezLog::VerboseDebugMessage("Adding %u", uiCount);
+        LCPP_LogBlock("GarbageCollector::DualArrayWrapper::AddCountUninitialized");
+        LCPP_LogVerboseDebugMessage("Adding %u", uiCount);
 
         SetCountUninitialized(GetCount() + uiCount);
     }
@@ -69,7 +69,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     GarbageCollector::DualArrayWrapper::Action GarbageCollector::DualArrayWrapper::EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount)
     {
-        EZ_LOG_BLOCK("GarbageCollector::DualArrayWrapper::EnsureRangeIsValid");
+        LCPP_LogBlock("GarbageCollector::DualArrayWrapper::EnsureRangeIsValid");
 
         auto uiTargetCount = uiStartIndex + uiCount;
 
@@ -77,7 +77,7 @@ namespace lcpp
 
         if (uiTargetCount > GetCount())
         {
-            ezLog::VerboseDebugMessage("Target count greater actual count; Resizing.");
+            LCPP_LogVerboseDebugMessage("Target count greater actual count; Resizing.");
             SetCountUninitialized(uiTargetCount);
             return Action::Resized;
         }
@@ -105,7 +105,7 @@ namespace lcpp
     {
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
 
-        //EZ_LOG_BLOCK("GarbageCollector::create");
+        LCPP_LogBlock("GarbageCollector::create");
 
         RefIndex refIndex;
         refIndex.m_uiHash = 0;
@@ -113,6 +113,8 @@ namespace lcpp
         
         T* pInstance(nullptr);
         pInstance = (T*)Allocate(sizeof(T), EZ_ALIGNMENT_OF(T));
+
+        EZ_ASSERT(refIndex.m_uiIndex < m_uiAllocationIndex, "");
         
         new (pInstance) T();
         pInstance->setGarbageCollector(this);

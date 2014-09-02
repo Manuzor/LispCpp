@@ -27,6 +27,8 @@ namespace lcpp
 
         Ptr<LispObject> create(const String& value)
         {
+            LCPP_LogBlock("str::create");
+
             auto pInstance = object::create<Data>(metaInfo());
 
             new (pInstance->getData<Data>().m_pRawData) String(value);
