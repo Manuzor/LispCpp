@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\syntax_builtinFunctions.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\array.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies.h" />
@@ -135,6 +136,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\impl\signature.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.inl" />

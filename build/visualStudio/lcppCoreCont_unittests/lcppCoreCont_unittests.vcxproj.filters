@@ -127,6 +127,9 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\typeSystem\types\test_file.cpp">
       <Filter>lcpp\core\typeSystem\types</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\containers\test_array.cpp">
+      <Filter>lcpp\core\containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\testMacros.inl">
