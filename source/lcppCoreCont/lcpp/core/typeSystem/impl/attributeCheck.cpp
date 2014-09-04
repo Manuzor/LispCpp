@@ -12,7 +12,7 @@ namespace lcpp
     {
         LCPP_LogBlock("attributeCheckAll");
 
-        EZ_ASSERT(pObject, "Invalid object pointer.");
+        EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualFlags = object::getAttributes(pObject);
 
@@ -29,7 +29,7 @@ namespace lcpp
     {
         LCPP_LogBlock("attributeCheckAny");
 
-        EZ_ASSERT(pObject, "Invalid object pointer.");
+        EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualFlags = object::getAttributes(pObject);
 
@@ -46,7 +46,7 @@ namespace lcpp
     {
         LCPP_LogBlock("attributeCheckNone");
 
-        EZ_ASSERT(pObject, "Invalid object pointer.");
+        EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualFlags = object::getAttributes(pObject);
 

@@ -80,7 +80,7 @@ namespace lcpp
             return nullptr;
         }
 
-        EZ_ASSERT(m_pGarbageCollector, "");
+        EZ_ASSERT(!m_pGarbageCollector.isNull(), "");
         EZ_ASSERT(m_refIndex.isValid(), "");
 
         return m_pGarbageCollector->getPointer<LispObject>(m_refIndex);

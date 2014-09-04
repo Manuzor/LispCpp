@@ -20,7 +20,7 @@ namespace lcpp
             pResult = (*m_pFunctor_createNew)(key);
             m_table[key] = pResult;
         }
-        EZ_ASSERT(pResult, "The result should never be a nullptr!");
+        EZ_ASSERT(!pResult.isNull(), "The result should never be a nullptr!");
 
         return pResult;
     }

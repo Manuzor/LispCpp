@@ -12,7 +12,7 @@ namespace lcpp
     {
         LCPP_LogBlock("typeCheck");
 
-        EZ_ASSERT_ALWAYS(pObject, "Invalid object pointer.");
+        EZ_ASSERT_ALWAYS(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualType = object::getType(pObject);
         if(actualType != expectedType)
@@ -29,7 +29,7 @@ namespace lcpp
     {
         LCPP_LogBlock("typeCheck");
 
-        EZ_ASSERT_ALWAYS(pObject, "Invalid object pointer.");
+        EZ_ASSERT_ALWAYS(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualType = object::getType(pObject);
         if(actualType != expectedType1 && actualType != expectedType2)

@@ -24,7 +24,7 @@ namespace lcpp
     {
         m_id = ezMemoryTracker::RegisterAllocator("lcpp/GarbageCollector", (ezMemoryTrackingFlags::Enum)0);
 
-        //m_data.SetCountUninitialized(128 * 1024 * 1024);
+        m_data.SetCountUninitialized(128 * 1024 * 1024);
 
         m_pEdenSpace = &m_data.m_left;
         m_pSurvivorSpace = &m_data.m_right;

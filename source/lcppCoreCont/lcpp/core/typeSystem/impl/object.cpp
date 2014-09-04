@@ -29,28 +29,28 @@ namespace lcpp
     {
         bool isType(Ptr<LispObject> pObject, const Type& type)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
             return getType(pObject) == type;
         }
 
         const Type& getType(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
-            EZ_ASSERT(pObject->m_pMetaInfo, "No valid type info.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
+            EZ_ASSERT(!pObject->m_pMetaInfo.isNull(), "No valid type info.");
             return pObject->m_pMetaInfo->getType();
         }
 
         const AttributeFlags& getAttributes(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
-            EZ_ASSERT(pObject->m_pMetaInfo, "No valid type info.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
+            EZ_ASSERT(!pObject->m_pMetaInfo.isNull(), "No valid type info.");
             return pObject->m_pMetaInfo->getAttributes();
         }
 
         const MetaInfo& getMetaInfo(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
-            EZ_ASSERT(pObject->m_pMetaInfo, "No valid type info.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
+            EZ_ASSERT(!pObject->m_pMetaInfo.isNull(), "No valid type info.");
             return *pObject->m_pMetaInfo;
         }
 
@@ -98,7 +98,7 @@ namespace lcpp
 
         Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -133,7 +133,7 @@ namespace lcpp
 
         Ptr<LispObject> getName(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -149,7 +149,7 @@ namespace lcpp
 
         void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -165,7 +165,7 @@ namespace lcpp
 
         bool hasName(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -181,7 +181,7 @@ namespace lcpp
 
         Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -199,7 +199,7 @@ namespace lcpp
 
         void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -214,7 +214,7 @@ namespace lcpp
 
         bool hasEnvironment(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
