@@ -1,6 +1,6 @@
 #pragma once
 #include "lcpp/core/memory/refIndex.h"
-#include "lcpp/core/containers/array.h"
+#include "lcpp/core/memory/memoryStack.h"
 
 namespace lcpp
 {

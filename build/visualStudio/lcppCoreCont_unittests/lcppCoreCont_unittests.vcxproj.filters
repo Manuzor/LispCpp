@@ -25,6 +25,9 @@
     <Filter Include="lcpp\core\builtins">
       <UniqueIdentifier>{2b35c7da-4764-455a-add3-43f1c212aa2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\memory">
+      <UniqueIdentifier>{f11b94da-fd24-4fde-b545-fe4e3de1c656}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont_unittests\stdafx.h" />
@@ -129,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\containers\test_array.cpp">
       <Filter>lcpp\core\containers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\memory\test_garbageCollection.cpp">
+      <Filter>lcpp\core\memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
