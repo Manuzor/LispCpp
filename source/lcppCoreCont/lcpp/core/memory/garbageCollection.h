@@ -1,5 +1,6 @@
 #pragma once
 #include "lcpp/core/memory/refIndex.h"
+#include "lcpp/core/containers/array.h"
 
 namespace lcpp
 {
@@ -30,8 +31,7 @@ namespace lcpp
         RefIndex m_refIndex;
     };
 
-    class LCPP_API_CORE_CONT GarbageCollector :
-        private ezAllocatorBase
+    class LCPP_API_CORE_CONT GarbageCollector
     {
         friend CollectableBase;
     public:
@@ -40,14 +40,15 @@ namespace lcpp
         ~GarbageCollector();
 
         template<typename T>
+        Ptr<T> createStatic();
+
+        template<typename T>
         Ptr<T> create();
 
         template<typename T>
         T* getPointer(RefIndex refIndex) const;
 
         void collect();
-
-        ezAllocatorBase* getAllocator();
 
     private:
 
@@ -82,25 +83,30 @@ namespace lcpp
 
     private: // ezAllocatorBase interface
 
-        virtual void* Allocate(size_t uiSize, size_t uiAlign) override;
+        void* allocate(size_t uiSize, size_t uiAlign);
+        void deallocate(void* ptr);
 
-        virtual void Deallocate(void* ptr) override;
-
-        virtual size_t AllocatedSize(const void* ptr) override;
-
-        virtual Stats GetStats() const override;
+        void* allocateStatic(size_t uiSize, size_t uiAlign);
+        void deallocateStatic(void* ptr);
 
     private:
 
         ezAllocatorId m_id;
-        Stats m_stats;
+        ezAllocatorBase::Stats m_stats;
+        ezAllocatorBase::Stats m_statsStatics;
+        ezAllocatorBase* m_pAllocator;
 
         DualArrayWrapper m_data;
 
         ezDynamicArray<byte_t>* m_pEdenSpace;
         ezDynamicArray<byte_t>* m_pSurvivorSpace;
 
-        ezUInt32 m_uiAllocationIndex;
+        std::size_t m_uiStaticAllocationIndex;
+        mutable Array<byte_t> m_staticMemory;
+
+        std::size_t m_uiAllocationIndex;
+        mutable Array<byte_t> m_memory;
+        mutable Array<byte_t> m_eden;
     };
 
     // TODO This function should be removed! Every LispObject that is created

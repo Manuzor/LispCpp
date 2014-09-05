@@ -35,7 +35,7 @@ namespace lcpp
             if (!pInstance)
             {
                 auto pGarbageCollector = getGarbageCollector();
-                pInstance = pGarbageCollector->create<LispObject>();
+                pInstance = pGarbageCollector->createStatic<LispObject>();
                 pInstance->m_pMetaInfo = &metaInfo();
             }
 
@@ -78,7 +78,7 @@ namespace lcpp
             if (!pInstance)
             {
                 auto pGarbageCollector = getGarbageCollector();
-                pInstance = pGarbageCollector->create<LispObject>();
+                pInstance = pGarbageCollector->createStatic<LispObject>();
                 pInstance->m_pMetaInfo = &metaInfo();
             }
 

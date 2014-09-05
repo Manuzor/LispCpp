@@ -11,9 +11,11 @@
 
 	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
 		<DisplayString Condition="m_pGarbageCollector.m_pPtr == nullptr">nullptr</DisplayString>
-		<DisplayString>{*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_pEdenSpace->m_pElements[m_refIndex.m_uiIndex]))}</DisplayString>
+		<DisplayString Condition="m_refIndex.m_bIsStatic == 1">Static: {*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_staticMemory.m_pData[m_refIndex.m_uiIndex]))}</DisplayString>
+		<DisplayString>{*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_memory.m_pData[m_refIndex.m_uiIndex]))}</DisplayString>
 		<Expand>
-			<ExpandedItem>*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_pEdenSpace->m_pElements[m_refIndex.m_uiIndex]))</ExpandedItem>
+			<ExpandedItem Condition="m_refIndex.m_bIsStatic == 1">*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_staticMemory.m_pData[m_refIndex.m_uiIndex]))</ExpandedItem>
+			<ExpandedItem Condition="m_refIndex.m_bIsStatic == 0">*reinterpret_cast &lt; lcpp::LispObject* &gt;(&amp;(m_pGarbageCollector.m_pPtr->m_memory.m_pData[m_refIndex.m_uiIndex]))</ExpandedItem>
 		</Expand>
 	</Type>
 

@@ -16,15 +16,28 @@ namespace lcpp
     }
 
     GarbageCollector::GarbageCollector(ezAllocatorBase* pParentAllocator) :
-        m_stats(),
+        m_pAllocator(pParentAllocator),
         m_data(pParentAllocator),
         m_pEdenSpace(nullptr),
         m_pSurvivorSpace(nullptr),
-        m_uiAllocationIndex(0)
+        m_uiAllocationIndex(0),
+        m_uiStaticAllocationIndex(0)
     {
         m_id = ezMemoryTracker::RegisterAllocator("lcpp/GarbageCollector", (ezMemoryTrackingFlags::Enum)0);
 
-        m_data.SetCountUninitialized(128 * 1024 * 1024);
+        //m_data.SetCountUninitialized(128 * 1024 * 1024);
+
+        {
+            const std::size_t memorySize = 1024;
+            auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
+            m_staticMemory.assign(pMemory, memorySize);
+        }
+
+        {
+            const std::size_t memorySize = 128 * 1024 * 1024;
+            auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
+            m_memory.assign(static_cast<byte_t*>(pMemory), memorySize);
+        }
 
         m_pEdenSpace = &m_data.m_left;
         m_pSurvivorSpace = &m_data.m_right;
@@ -35,6 +48,7 @@ namespace lcpp
     GarbageCollector::~GarbageCollector()
     {
         ezMemoryTracker::DeregisterAllocator(m_id);
+        m_pAllocator = nullptr;
     }
 
     void GarbageCollector::collect()
@@ -42,41 +56,77 @@ namespace lcpp
         LCPP_NOT_IMPLEMENTED;
     }
 
-    void* GarbageCollector::Allocate(size_t uiSize, size_t uiAlign)
+    void* GarbageCollector::allocate(size_t uiSize, size_t uiAlign)
     {
-        auto dataAction = m_data.EnsureRangeIsValid(m_uiAllocationIndex, ezUInt32(uiSize));
-        if (dataAction.wasResized())
+        auto uiNewSize = m_eden.getSize() + uiSize;
+
+        if (uiNewSize > m_memory.getSize())
         {
-            // Do anything here?
+            // Resize memory.
+            const std::size_t newMemorySize = m_memory.getSize() * 2;
+            auto pNewMemory = (byte_t*)m_pAllocator->Allocate(newMemorySize, EZ_ALIGNMENT_OF(byte_t));
+
+            memcpy(pNewMemory, m_memory.getData(), m_memory.getSize());
+
+            m_pAllocator->Deallocate(m_memory.getData());
+            m_memory.assign(pNewMemory, newMemorySize);
+            m_eden = m_memory(0, m_eden.getSize());
         }
 
-        auto pMem = &(*m_pEdenSpace)[m_uiAllocationIndex];
+        EZ_ASSERT(m_uiAllocationIndex == m_eden.getSize(), "Invalid allocation index or eden space.");
 
-        m_uiAllocationIndex += ezUInt32(uiSize);
+        m_eden = m_memory(0, uiNewSize);
+
+        auto pMemory = &m_eden[m_uiAllocationIndex];
+
+        m_uiAllocationIndex += uiSize;
 
         // Update stats.
         ++m_stats.m_uiNumAllocations;
         m_stats.m_uiAllocationSize += uiSize;
 
-        return static_cast<void*>(pMem);
+        EZ_ASSERT(m_stats.m_uiAllocationSize == m_eden.getSize(), "Data out of sync!");
+
+        return static_cast<void*>(pMemory);
     }
 
-    void GarbageCollector::Deallocate(void* ptr)
+    void GarbageCollector::deallocate(void* ptr)
     {
         ++m_stats.m_uiNumDeallocations;
 
         // TODO Really don't do anything here?
     }
 
-    size_t GarbageCollector::AllocatedSize(const void* ptr)
+    void* GarbageCollector::allocateStatic(size_t uiSize, size_t uiAlign)
     {
-        // TODO Implement this?
-        return 0;
+        if (m_uiStaticAllocationIndex + uiSize >= m_staticMemory.getSize())
+        {
+            // Resize static memory.
+            const std::size_t newMemorySize = m_staticMemory.getSize() * 2;
+            auto pNewMemory = (byte_t*)m_pAllocator->Allocate(newMemorySize, EZ_ALIGNMENT_OF(byte_t));
+
+            memcpy(pNewMemory, m_staticMemory.getData(), m_staticMemory.getSize());
+
+            m_pAllocator->Deallocate(m_staticMemory.getData());
+            m_staticMemory.assign(pNewMemory, newMemorySize);
+        }
+
+        auto pMemory = &m_staticMemory[m_uiStaticAllocationIndex];
+
+        m_uiStaticAllocationIndex += uiSize;
+
+        // Update stats.
+        ++m_statsStatics.m_uiNumAllocations;
+        m_statsStatics.m_uiAllocationSize += uiSize;
+
+        return static_cast<void*>(pMemory);
     }
 
-    ezAllocatorBase::Stats GarbageCollector::GetStats() const
+    void GarbageCollector::deallocateStatic(void* ptr)
     {
-        return m_stats;
+        ++m_statsStatics.m_uiNumDeallocations;
+
+        // TODO Really don't do anything here?
     }
 
 }

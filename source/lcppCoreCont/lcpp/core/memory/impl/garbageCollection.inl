@@ -101,6 +101,31 @@ namespace lcpp
     
     template<typename T>
     EZ_FORCE_INLINE
+    Ptr<T> GarbageCollector::createStatic()
+    {
+        EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
+
+        LCPP_LogBlock("GarbageCollector::createStatic");
+
+        RefIndex refIndex;
+        refIndex.m_bIsStatic = true;
+        refIndex.m_uiHash = 0;
+        refIndex.m_uiIndex = m_uiStaticAllocationIndex;
+        
+        T* pInstance(nullptr);
+        pInstance = (T*)allocateStatic(sizeof(T), EZ_ALIGNMENT_OF(T));
+
+        EZ_ASSERT(refIndex.m_uiIndex < m_uiStaticAllocationIndex, "");
+        
+        new (pInstance) T();
+        pInstance->setGarbageCollector(this);
+        pInstance->setRefIndex(refIndex);
+
+        return pInstance;
+    }
+    
+    template<typename T>
+    EZ_FORCE_INLINE
     Ptr<T> GarbageCollector::create()
     {
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
@@ -108,11 +133,12 @@ namespace lcpp
         LCPP_LogBlock("GarbageCollector::create");
 
         RefIndex refIndex;
+        refIndex.m_bIsStatic = false;
         refIndex.m_uiHash = 0;
         refIndex.m_uiIndex = m_uiAllocationIndex;
         
         T* pInstance(nullptr);
-        pInstance = (T*)Allocate(sizeof(T), EZ_ALIGNMENT_OF(T));
+        pInstance = (T*)allocate(sizeof(T), EZ_ALIGNMENT_OF(T));
 
         EZ_ASSERT(refIndex.m_uiIndex < m_uiAllocationIndex, "");
         
@@ -124,21 +150,18 @@ namespace lcpp
     }
 
     template<typename T>
+    EZ_FORCE_INLINE
     T* GarbageCollector::getPointer(RefIndex refIndex) const
     {
         EZ_ASSERT(refIndex.isValid(), "");
         EZ_ASSERT(refIndex.m_uiIndex <= m_uiAllocationIndex, "");
 
-        auto pMem = &(*m_pEdenSpace)[refIndex.m_uiIndex];
+        Array<byte_t>& targetMemory = refIndex.isStatic() ? m_staticMemory : m_eden;
+
+        auto pMem = &targetMemory[refIndex.m_uiIndex];
         auto pInstance = reinterpret_cast<T*>(pMem);
         auto pCollectable = static_cast<CollectableBase*>(pInstance);
 
         return refIndex == pCollectable->getRefIndex() ? pInstance : nullptr;
-    }
-
-    EZ_FORCE_INLINE
-    ezAllocatorBase* GarbageCollector::getAllocator()
-    {
-        return this;
     }
 }

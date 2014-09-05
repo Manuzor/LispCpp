@@ -11,6 +11,7 @@ namespace lcpp
     public:
 
         bool isValid() const;
+        bool isStatic() const;
 
     public:
 
@@ -18,14 +19,15 @@ namespace lcpp
         {
             struct
             {
-                ezUInt32 m_uiHash : 8;
-                ezUInt32 m_uiIndex : 24;
+                ezUInt64 m_bIsStatic : 1;
+                ezUInt64 m_uiHash : 1;
+                ezUInt64 m_uiIndex : 62;
             };
-            ezUInt32 m_uiId;
+            ezUInt64 m_uiId;
         };
     };
 
-    EZ_CHECK_AT_COMPILETIME(sizeof(RefIndex) == sizeof(ezUInt32));
+    EZ_CHECK_AT_COMPILETIME(sizeof(RefIndex) == sizeof(ezUInt64));
 
     bool operator == (const RefIndex& lhs, const RefIndex& rhs);
     bool operator != (const RefIndex& lhs, const RefIndex& rhs);

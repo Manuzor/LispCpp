@@ -5,8 +5,9 @@ namespace lcpp
     RefIndex RefIndex::invalidValue()
     {
         RefIndex value;
-        value.m_uiIndex = 0xFFFFFF;
+        value.m_bIsStatic = false;
         value.m_uiHash = 0xFF;
+        value.m_uiIndex = 0xFFFFFF;
         return value;
     }
     
@@ -14,6 +15,12 @@ namespace lcpp
     bool RefIndex::isValid() const
     {
         return *this != invalidValue();
+    }
+    
+    EZ_FORCE_INLINE
+    bool RefIndex::isStatic() const
+    {
+        return bool(m_bIsStatic);
     }
 
     EZ_FORCE_INLINE
