@@ -17,9 +17,6 @@ namespace lcpp
 
     GarbageCollector::GarbageCollector(ezAllocatorBase* pParentAllocator) :
         m_pAllocator(pParentAllocator),
-        m_data(pParentAllocator),
-        m_pEdenSpace(nullptr),
-        m_pSurvivorSpace(nullptr),
         m_uiAllocationIndex(0),
         m_uiStaticAllocationIndex(0)
     {
@@ -38,11 +35,6 @@ namespace lcpp
             auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
             m_memory.assign(static_cast<byte_t*>(pMemory), memorySize);
         }
-
-        m_pEdenSpace = &m_data.m_left;
-        m_pSurvivorSpace = &m_data.m_right;
-        
-        EZ_ASSERT(m_pEdenSpace != m_pSurvivorSpace, "");
     }
 
     GarbageCollector::~GarbageCollector()

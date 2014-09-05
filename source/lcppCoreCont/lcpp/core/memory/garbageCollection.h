@@ -52,37 +52,6 @@ namespace lcpp
 
     private:
 
-        struct DualArrayWrapper
-        {
-            struct Action
-            {
-                enum Enum
-                {
-                    None,
-                    Resized,
-                };
-
-                Enum m_value;
-
-                Action(Enum value);
-
-                bool wasResized() const;
-            };
-
-            ezDynamicArray<byte_t> m_left;
-            ezDynamicArray<byte_t> m_right;
-
-            DualArrayWrapper(ezAllocatorBase* pParentAllocator);
-
-            void SetCountUninitialized(ezUInt32 uiCount);
-            void AddCountUninitialized(ezUInt32 uiCount);
-            ezUInt32 GetCount();
-            
-            Action EnsureRangeIsValid(ezUInt32 uiStartIndex, ezUInt32 uiCount);
-        };
-
-    private: // ezAllocatorBase interface
-
         void* allocate(size_t uiSize, size_t uiAlign);
         void deallocate(void* ptr);
 
@@ -95,11 +64,6 @@ namespace lcpp
         ezAllocatorBase::Stats m_stats;
         ezAllocatorBase::Stats m_statsStatics;
         ezAllocatorBase* m_pAllocator;
-
-        DualArrayWrapper m_data;
-
-        ezDynamicArray<byte_t>* m_pEdenSpace;
-        ezDynamicArray<byte_t>* m_pSurvivorSpace;
 
         std::size_t m_uiStaticAllocationIndex;
         mutable Array<byte_t> m_staticMemory;
