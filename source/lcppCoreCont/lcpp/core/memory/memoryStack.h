@@ -5,32 +5,64 @@ namespace lcpp
 {
     typedef unsigned char byte_t;
 
-    class LCPP_API_CORE_CONT MemoryStack
+    /// \brief Class that only grows.
+    ///
+    /// To shrink the consumed memory, you will have to
+    class MemoryStack
     {
     public:
 
         class Stats
         {
+        public:
             std::size_t m_uiAllocations;
             std::size_t m_uiDeallocations;
             std::size_t m_uiAllocatedSize;
+
+        public:
+            Stats();
+        };
+
+        enum AllocationResultEnum
+        {
+            Success,
+            OutOfMemory,
+            InvalidFree,
+            DoubleFree,
+        };
+
+        class AllocationResult
+        {
+        public:
+            AllocationResultEnum m_value;
+
+        public:
+            AllocationResult(AllocationResultEnum value);
+
+            bool succeeded() const;
+            bool isOutOfMemory() const;
+            bool isInvalidFree() const;
+            bool isDoubleFree() const;
+
         };
 
     public:
 
+        MemoryStack();
         MemoryStack(Ptr<ezAllocatorBase> pAllocator);
         ~MemoryStack();
 
-        ezResult allocate(byte_t*& out_pMemory, std::size_t uiSize);
-        ezResult deallocate(byte_t* pMemory);
+        AllocationResult allocate(byte_t*& out_pMemory, std::size_t uiSize);
+        void clear();
 
-        bool needsResizing();
-
-        void resize(std::size_t uiTargetSize);
+        AllocationResult resize(std::size_t uiTargetSize);
 
         std::size_t getAllocationPointer() const;
 
         const Array<byte_t>& getMemory() const;
+
+        Ptr<ezAllocatorBase> getAllocator();
+        void setAllocator(Ptr<ezAllocatorBase> pAllocator);
 
         Stats getStats() const;
 
@@ -46,6 +78,9 @@ namespace lcpp
 
         Stats m_stats;
     };
+
+    bool operator ==(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs);
+    bool operator !=(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs);
 
 }
 
