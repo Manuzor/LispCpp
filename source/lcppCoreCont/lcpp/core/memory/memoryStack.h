@@ -5,6 +5,25 @@ namespace lcpp
 {
     typedef unsigned char byte_t;
 
+    namespace memoryPatterns
+    {
+        enum
+        {
+            Unallocated = 0xfafafafa,
+            Allocated = 0xfbfbfbfb,
+            Freed = 0xfcfcfcfc,
+            Protected = 0xfdfdfdfd,
+        };
+
+        enum : byte_t
+        {
+            UnallocatedByte = 0xfa,
+            AllocatedByte = 0xfb,
+            FreedByte = 0xfc,
+            ProtectedByte = 0xfd,
+        };
+    }
+
     /// \brief Class that only grows.
     ///
     /// To shrink the consumed memory, you will have to
@@ -15,8 +34,9 @@ namespace lcpp
         class Stats
         {
         public:
+            EZ_DECLARE_POD_TYPE();
+
             std::size_t m_uiAllocations;
-            std::size_t m_uiDeallocations;
             std::size_t m_uiAllocatedSize;
 
         public:
@@ -25,6 +45,8 @@ namespace lcpp
 
         enum AllocationResultEnum
         {
+            None,
+
             Success,
             OutOfMemory,
             InvalidFree,
@@ -37,8 +59,10 @@ namespace lcpp
             AllocationResultEnum m_value;
 
         public:
+            AllocationResult();
             AllocationResult(AllocationResultEnum value);
 
+            bool isValid() const;
             bool succeeded() const;
             bool isOutOfMemory() const;
             bool isInvalidFree() const;

@@ -23,11 +23,58 @@ namespace lcpp
             public:
                 ezHashTable<void*, Allocation> m_allocations;
                 ezHashTable<void*, Allocation> m_deallocations;
+                Array<byte_t> m_protectedMemoryLeft;
+                Array<byte_t> m_usableMemory;
+                Array<byte_t> m_protectedMemoryRight;
+                std::size_t m_uiAllocationPointer;
 
             public:
+                TestAllocator() :
+                    m_uiAllocationPointer(0)
+                {
+                }
+
+                TestAllocator(std::size_t uiProtectedBytesLeft,
+                              std::size_t uiUnprotectedSize,
+                              std::size_t uiProtectedBytesRight) :
+                    m_uiAllocationPointer(0)
+                {
+                    Initialize(uiProtectedBytesLeft, uiUnprotectedSize, uiProtectedBytesRight);
+                }
+
                 ~TestAllocator()
                 {
                     Clear();
+                }
+
+                void Initialize(std::size_t uiProtectedBytesLeft,
+                              std::size_t uiUnprotectedSize,
+                              std::size_t uiProtectedBytesRight)
+                {
+                    const auto uiSize = uiProtectedBytesLeft
+                                      + uiUnprotectedSize
+                                      + uiProtectedBytesRight;
+
+                    if (uiSize == 0)
+                    {
+                        return;
+                    }
+
+                    auto pMemory = (byte_t*)malloc(uiSize);
+                    auto pUsableMemory = pMemory + uiProtectedBytesLeft;
+                    auto pProtectedMemoryRight = pUsableMemory + uiProtectedBytesRight;
+
+                    m_protectedMemoryLeft.assign(pMemory, uiProtectedBytesLeft);
+                    m_usableMemory.assign(pUsableMemory, uiUnprotectedSize);
+                    m_protectedMemoryRight.assign(pProtectedMemoryRight, uiProtectedBytesRight);
+
+                    memset(m_protectedMemoryLeft.getData(),  memoryPatterns::Protected,   m_protectedMemoryLeft.getSize());
+                    memset(m_usableMemory.getData(),               memoryPatterns::Unallocated, m_usableMemory.getSize());
+                    memset(m_protectedMemoryRight.getData(), memoryPatterns::Protected,   m_protectedMemoryRight.getSize());
+
+                    // At this point, the memory looks like this:
+                    // 0x 0ace0ace0ace0ac baaabaaabaaabaaab 0ace0ace0ace0ac
+                    //    \_ Protected _/ \_ User Memory _/ \_ Protected _/
                 }
 
                 void Clear()
@@ -38,28 +85,27 @@ namespace lcpp
                         return;
                     }
 
-                    for (auto iter = m_allocations.GetIterator(); iter.IsValid(); ++iter)
-                    {
-                        free(iter.Key());
-                    }
+                    free(m_protectedMemoryLeft.getData());
                 }
 
-                virtual void* Allocate(size_t uiSize, size_t uiAlign) override
+                virtual void* Allocate(std::size_t uiSize, std::size_t uiAlign) override
                 {
                     if (uiSize == 0 || uiSize == 42)
                     {
                         return nullptr;
                     }
 
-                    Allocation allocation{ nullptr, uiSize, uiAlign };
-
-                    allocation.m_ptr = malloc(uiSize);
-
-                    if (allocation.m_ptr == nullptr)
+                    if (m_uiAllocationPointer + uiSize > m_usableMemory.getSize())
                     {
-                        // Out of real memory! o_o
-                        LCPP_NOT_IMPLEMENTED;
+                        // Out of memory!
+                        return nullptr;
                     }
+
+                    Allocation allocation{ nullptr, uiSize, uiAlign };
+                    allocation.m_ptr = &m_usableMemory[m_uiAllocationPointer];
+                    m_uiAllocationPointer += allocation.m_uiSize;
+
+                    memset(allocation.m_ptr, memoryPatterns::Allocated, allocation.m_uiSize);
 
                     m_allocations[allocation.m_ptr] = allocation;
 
@@ -81,14 +127,15 @@ namespace lcpp
 
                     Allocation* pAllocation(nullptr);
 
-                    if (m_allocations.TryGetValue(ptr, pAllocation))
+                    if (!m_allocations.TryGetValue(ptr, pAllocation))
                     {
                         CUT_ASSERT.fail("Invalid free!");
                         return;
                     }
 
-                    m_deallocations[ptr] = *pAllocation;
+                    memset(pAllocation->m_ptr, memoryPatterns::Freed, pAllocation->m_uiSize);
 
+                    m_deallocations[ptr] = *pAllocation;
                 }
 
                 virtual size_t AllocatedSize(const void*) override
@@ -108,9 +155,11 @@ namespace lcpp
 
 LCPP_TestGroup(GarbageCollection);
 
-LCPP_TestCase(GarbageCollection, MemoryStack)
+LCPP_TestCase(GarbageCollection, MemoryStack_Basics)
 {
+    // Note: This allocator is always out of memory when no arguments are given!
     TestAllocator allocator;
+
     MemoryStack mem(&allocator);
 
     {
@@ -133,6 +182,38 @@ LCPP_TestCase(GarbageCollection, MemoryStack)
 
     CUT_ASSERT.isTrue(result.succeeded());
     CUT_ASSERT.isTrue(pMemory == nullptr);
+}
+
+LCPP_TestCase(GarbageCollection, MemoryStack_Allocation)
+{
+    TestAllocator allocator(1, 1, 1);
+    MemoryStack mem(&allocator);
+    mem.resize(1);
+
+    byte_t* pMemory(nullptr);
+    MemoryStack::AllocationResult result;
+    MemoryStack::Stats stats;
+
+    //////////////////////////////////////////////////////////////////////////
+
+    result = mem.allocate(pMemory, 0);
+    stats = mem.getStats();
+
+    CUT_ASSERT.isTrue(result.succeeded());
+    CUT_ASSERT.isTrue(pMemory == nullptr);
+    CUT_ASSERT.isTrue(stats.m_uiAllocations == 0);
+
+    //////////////////////////////////////////////////////////////////////////
+
+    result = mem.allocate(pMemory, 1);
+    stats = mem.getStats();
+
+    CUT_ASSERT.isTrue(result.succeeded());
+    CUT_ASSERT.isTrue(pMemory != nullptr);
+    CUT_ASSERT.isTrue(*(pMemory - 1) == memoryPatterns::ProtectedByte);
+    CUT_ASSERT.isTrue(*pMemory == memoryPatterns::AllocatedByte);
+    CUT_ASSERT.isTrue(*(pMemory + 1) == memoryPatterns::ProtectedByte);
+    CUT_ASSERT.isTrue(stats.m_uiAllocations == 1);
 
     CUT_ASSERT.notImplemented("There are still a lot of tests missing!");
 }

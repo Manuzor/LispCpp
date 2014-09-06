@@ -2,9 +2,21 @@
 namespace lcpp
 {
     EZ_FORCE_INLINE
+    MemoryStack::AllocationResult::AllocationResult() :
+        m_value(None)
+    {
+    }
+
+    EZ_FORCE_INLINE
     MemoryStack::AllocationResult::AllocationResult(AllocationResultEnum value) :
         m_value(value)
     {
+    }
+    
+    EZ_FORCE_INLINE
+    bool MemoryStack::AllocationResult::isValid() const
+    {
+        return m_value != None;
     }
     
     EZ_FORCE_INLINE
@@ -48,7 +60,6 @@ namespace lcpp
     EZ_FORCE_INLINE
     MemoryStack::Stats::Stats() :
         m_uiAllocations(0),
-        m_uiDeallocations(0),
         m_uiAllocatedSize(0)
     {
     }
@@ -91,6 +102,10 @@ namespace lcpp
 
         out_pMemory = &m_memory[m_uiAllocationPointer];
         m_uiAllocationPointer += uiSize;
+
+        // Update stats
+        ++m_stats.m_uiAllocations;
+        m_stats.m_uiAllocatedSize += uiSize;
 
         return Success;
     }
