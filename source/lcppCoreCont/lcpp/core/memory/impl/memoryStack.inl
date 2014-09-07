@@ -20,6 +20,12 @@ namespace lcpp
     }
     
     EZ_FORCE_INLINE
+    bool MemoryStack::AllocationResult::nothingChanged() const
+    {
+        return m_value == NothingChanged;
+    }
+    
+    EZ_FORCE_INLINE
     bool MemoryStack::AllocationResult::succeeded() const
     {
         return m_value == Success;
@@ -91,7 +97,7 @@ namespace lcpp
         if (uiSize == 0)
         {
             out_pMemory = nullptr;
-            return Success;
+            return NothingChanged;
         }
 
         if (m_uiAllocationPointer + uiSize > m_memory.getSize())
@@ -124,11 +130,10 @@ namespace lcpp
     MemoryStack::AllocationResult MemoryStack::resize(std::size_t uiTargetSize)
     {
         EZ_ASSERT(!m_pAllocator.isNull(), "Need an allocator to allocate data.");
-        EZ_ASSERT(uiTargetSize >= m_memory.getSize(), "MemoryStack cannot shrink, it can only grow!");
 
-        if (uiTargetSize == m_memory.getSize())
+        if (uiTargetSize <= m_memory.getSize())
         {
-            return Success;
+            return NothingChanged;
         }
 
         decltype(m_memory) tempMemory;
@@ -147,6 +152,7 @@ namespace lcpp
         if (m_memory.getSize() > 0)
         {
             memcpy(tempMemory.getData(), m_memory.getData(), m_uiAllocationPointer);
+            memset(m_memory.getData(), Byte::Freed, m_memory.getSize());
             m_pAllocator->Deallocate(m_memory.getData());
         }
 
@@ -183,5 +189,57 @@ namespace lcpp
     MemoryStack::Stats MemoryStack::getStats() const
     {
         return m_stats;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
+    EZ_FORCE_INLINE
+    MemoryStackAllocator::MemoryStackAllocator(Ptr<MemoryStack> pWrappee) :
+        m_pStack(pWrappee)
+    {
+    }
+    
+    EZ_FORCE_INLINE
+    void* MemoryStackAllocator::Allocate(size_t uiSize, size_t uiAlign)
+    {
+        EZ_ASSERT(!m_pStack.isNull(), "");
+
+        byte_t* pMemory(nullptr);
+        auto result = m_pStack->allocate(pMemory, uiSize);
+        EZ_CHECK_ALIGNMENT(pMemory, uiAlign);
+
+        EZ_ASSERT(result.succeeded(), "");
+
+        return pMemory;
+    }
+    
+    EZ_FORCE_INLINE
+    void MemoryStackAllocator::Deallocate(void* ptr)
+    {
+        EZ_ASSERT(!m_pStack.isNull(), "");
+
+        EZ_ASSERT(ptr >= m_pStack->getMemory().getData(), "");
+        EZ_ASSERT(ptr <= m_pStack->getMemory().getData() + m_pStack->getAllocationPointer(), "");
+    }
+    
+    EZ_FORCE_INLINE
+    size_t MemoryStackAllocator::AllocatedSize(const void* ptr)
+    {
+        EZ_ASSERT(!m_pStack.isNull(), "");
+        return 0;
+    }
+    
+    EZ_FORCE_INLINE
+    ezAllocatorBase::Stats MemoryStackAllocator::GetStats() const
+    {
+        EZ_ASSERT(!m_pStack.isNull(), "");
+
+        Stats stats;
+        auto stackStats = m_pStack->getStats();
+
+        stats.m_uiNumAllocations = stackStats.m_uiAllocations;
+        stats.m_uiAllocationSize = stackStats.m_uiAllocatedSize;
+
+        return stats;
     }
 }

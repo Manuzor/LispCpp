@@ -5,24 +5,37 @@ namespace lcpp
 {
     typedef unsigned char byte_t;
 
-    namespace memoryPatterns
+    class Byte
     {
-        enum
+    public:
+
+        EZ_DECLARE_POD_TYPE();
+
+        enum Enum : unsigned char
         {
-            Unallocated = 0xfafafafa,
-            Allocated = 0xfbfbfbfb,
-            Freed = 0xfcfcfcfc,
-            Protected = 0xfdfdfdfd,
+            Unallocated = 0xfa,
+            Allocated = 0xfb,
+            Freed = 0xfc,
+            Protected = 0xfd,
         };
 
-        enum : byte_t
+    public:
+
+        Byte(unsigned char value) :
+            m_value((Enum)value)
         {
-            UnallocatedByte = 0xfa,
-            AllocatedByte = 0xfb,
-            FreedByte = 0xfc,
-            ProtectedByte = 0xfd,
-        };
-    }
+        }
+
+        Byte(Enum value) :
+            m_value(value)
+        {
+        }
+
+    private:
+        Enum m_value;
+    };
+
+    EZ_CHECK_AT_COMPILETIME(sizeof(Byte) == sizeof(unsigned char));
 
     /// \brief Class that only grows.
     ///
@@ -47,6 +60,7 @@ namespace lcpp
         {
             None,
 
+            NothingChanged,
             Success,
             OutOfMemory,
             InvalidFree,
@@ -63,6 +77,8 @@ namespace lcpp
             AllocationResult(AllocationResultEnum value);
 
             bool isValid() const;
+
+            bool nothingChanged() const;
             bool succeeded() const;
             bool isOutOfMemory() const;
             bool isInvalidFree() const;
@@ -106,6 +122,27 @@ namespace lcpp
     bool operator ==(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs);
     bool operator !=(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs);
 
+    class MemoryStackAllocator :
+        public ezAllocatorBase
+    {
+    public:
+
+        MemoryStackAllocator(Ptr<MemoryStack> pWrappee);
+
+        virtual void* Allocate(size_t uiSize, size_t uiAlign) override;
+
+        /// \brief Checks wether the ptr is a valid ptr to deallocate.
+        /// \remark The wrapped MemoryStack does not support direct deallocations.
+        ///         This method simply checks whether the given \a ptr is valid or not.
+        virtual void Deallocate(void* ptr) override;
+
+        virtual size_t AllocatedSize(const void* ptr) override;
+
+        virtual Stats GetStats() const override;
+
+    private:
+        Ptr<MemoryStack> m_pStack;
+    };
 }
 
 #include "lcpp/core/memory/impl/memoryStack.inl"

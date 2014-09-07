@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/memory/garbageCollection.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -68,9 +69,9 @@ namespace lcpp
                     m_usableMemory.assign(pUsableMemory, uiUnprotectedSize);
                     m_protectedMemoryRight.assign(pProtectedMemoryRight, uiProtectedBytesRight);
 
-                    memset(m_protectedMemoryLeft.getData(),  memoryPatterns::Protected,   m_protectedMemoryLeft.getSize());
-                    memset(m_usableMemory.getData(),               memoryPatterns::Unallocated, m_usableMemory.getSize());
-                    memset(m_protectedMemoryRight.getData(), memoryPatterns::Protected,   m_protectedMemoryRight.getSize());
+                    memset(m_protectedMemoryLeft.getData(),  Byte::Protected,   m_protectedMemoryLeft.getSize());
+                    memset(m_usableMemory.getData(),         Byte::Unallocated, m_usableMemory.getSize());
+                    memset(m_protectedMemoryRight.getData(), Byte::Protected,   m_protectedMemoryRight.getSize());
 
                     // At this point, the memory looks like this:
                     // 0x 0ace0ace0ace0ac baaabaaabaaabaaab 0ace0ace0ace0ac
@@ -105,7 +106,7 @@ namespace lcpp
                     allocation.m_ptr = &m_usableMemory[m_uiAllocationPointer];
                     m_uiAllocationPointer += allocation.m_uiSize;
 
-                    memset(allocation.m_ptr, memoryPatterns::Allocated, allocation.m_uiSize);
+                    memset(allocation.m_ptr, Byte::Allocated, allocation.m_uiSize);
 
                     m_allocations[allocation.m_ptr] = allocation;
 
@@ -133,7 +134,7 @@ namespace lcpp
                         return;
                     }
 
-                    memset(pAllocation->m_ptr, memoryPatterns::Freed, pAllocation->m_uiSize);
+                    memset(pAllocation->m_ptr, Byte::Freed, pAllocation->m_uiSize);
 
                     m_deallocations[ptr] = *pAllocation;
                 }
@@ -160,35 +161,36 @@ LCPP_TestCase(GarbageCollection, MemoryStack_Basics)
     // Note: This allocator is always out of memory when no arguments are given!
     TestAllocator allocator;
 
-    MemoryStack mem(&allocator);
+    MemoryStack stack(&allocator);
 
     {
         MemoryStack mem2;
         CUT_ASSERT.isTrue(mem2.getAllocator().isNull());
         mem2.setAllocator(&allocator);
-        CUT_ASSERT.isTrue(mem.getAllocator() == mem2.getAllocator());
+        CUT_ASSERT.isTrue(stack.getAllocator() == mem2.getAllocator());
     }
 
     byte_t* pMemory(nullptr);
-
-    // Allocate 42, which is a special size the test-allocator expects in order to return nullptr.
-    auto result = mem.allocate(pMemory, 42);
-
-    CUT_ASSERT.isTrue(result.isOutOfMemory());
-    CUT_ASSERT.isTrue(pMemory == nullptr);
+    MemoryStack::AllocationResult result;
 
     // Allocate 0 bytes.
-    result = mem.allocate(pMemory, 0);
+    result = stack.allocate(pMemory, 0);
 
-    CUT_ASSERT.isTrue(result.succeeded());
+    CUT_ASSERT.isTrue(result.nothingChanged());
+    CUT_ASSERT.isTrue(pMemory == nullptr);
+
+    // Allocate 42 bytes, which is a special size the test-allocator expects in order to return nullptr.
+    result = stack.allocate(pMemory, 42);
+
+    CUT_ASSERT.isTrue(result.isOutOfMemory());
     CUT_ASSERT.isTrue(pMemory == nullptr);
 }
 
 LCPP_TestCase(GarbageCollection, MemoryStack_Allocation)
 {
     TestAllocator allocator(1, 1, 1);
-    MemoryStack mem(&allocator);
-    mem.resize(1);
+    MemoryStack stack(&allocator);
+    stack.resize(1);
 
     byte_t* pMemory(nullptr);
     MemoryStack::AllocationResult result;
@@ -196,24 +198,35 @@ LCPP_TestCase(GarbageCollection, MemoryStack_Allocation)
 
     //////////////////////////////////////////////////////////////////////////
 
-    result = mem.allocate(pMemory, 0);
-    stats = mem.getStats();
+    result = stack.allocate(pMemory, 0);
+    stats = stack.getStats();
 
-    CUT_ASSERT.isTrue(result.succeeded());
+    CUT_ASSERT.isTrue(result.nothingChanged());
     CUT_ASSERT.isTrue(pMemory == nullptr);
     CUT_ASSERT.isTrue(stats.m_uiAllocations == 0);
 
     //////////////////////////////////////////////////////////////////////////
 
-    result = mem.allocate(pMemory, 1);
-    stats = mem.getStats();
+    result = stack.allocate(pMemory, 1);
+    stats = stack.getStats();
 
     CUT_ASSERT.isTrue(result.succeeded());
     CUT_ASSERT.isTrue(pMemory != nullptr);
-    CUT_ASSERT.isTrue(*(pMemory - 1) == memoryPatterns::ProtectedByte);
-    CUT_ASSERT.isTrue(*pMemory == memoryPatterns::AllocatedByte);
-    CUT_ASSERT.isTrue(*(pMemory + 1) == memoryPatterns::ProtectedByte);
+    CUT_ASSERT.isTrue(*(pMemory - 1) == Byte::Protected);
+    CUT_ASSERT.isTrue(*pMemory == Byte::Allocated);
+    CUT_ASSERT.isTrue(*(pMemory + 1) == Byte::Protected);
     CUT_ASSERT.isTrue(stats.m_uiAllocations == 1);
 
     CUT_ASSERT.notImplemented("There are still a lot of tests missing!");
+}
+
+LCPP_TestCase(GarbageCollection, MemoryStack_Resize)
+{
+    TestAllocator allocator(32, 2048, 32);
+    MemoryStack stack(&allocator);
+    MemoryStackAllocator wrapper(&stack);
+
+    stack.resize(600);
+
+    CUT_ASSERT.notImplemented();
 }
