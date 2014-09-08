@@ -91,8 +91,9 @@ namespace lcpp
         clear();
     }
     
+    template<typename T>
     EZ_FORCE_INLINE
-    MemoryStack::AllocationResult MemoryStack::allocate(byte_t*& out_pMemory, std::size_t uiSize)
+    MemoryStack::AllocationResult MemoryStack::allocate(T*& out_pMemory, std::size_t uiSize)
     {
         if (uiSize == 0)
         {
@@ -106,7 +107,7 @@ namespace lcpp
             return OutOfMemory;
         }
 
-        out_pMemory = &m_memory[m_uiAllocationPointer];
+        out_pMemory = (T*)&m_memory[m_uiAllocationPointer];
         m_uiAllocationPointer += uiSize;
 
         // Update stats

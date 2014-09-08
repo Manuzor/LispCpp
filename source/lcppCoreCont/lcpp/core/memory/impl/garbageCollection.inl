@@ -44,12 +44,28 @@ namespace lcpp
         RefIndex refIndex;
         refIndex.m_bIsStatic = true;
         refIndex.m_uiHash = 0;
-        refIndex.m_uiIndex = m_uiStaticAllocationIndex;
+        refIndex.m_uiIndex = m_statics.getAllocationPointer();
         
-        T* pInstance(nullptr);
-        pInstance = (T*)allocateStatic(sizeof(T), EZ_ALIGNMENT_OF(T));
+        T* pInstance = nullptr;
 
-        EZ_ASSERT(refIndex.m_uiIndex < m_uiStaticAllocationIndex, "");
+        while(true)
+        {
+            auto result = m_statics.allocate(pInstance);
+
+            if (result.succeeded())
+            {
+                break;
+            }
+
+            if (result.isOutOfMemory())
+            {
+                EZ_ASSERT(m_statics.getMemory().getSize() > 0, "");
+                auto uiNewSize = m_statics.getMemory().getSize() * 2;
+                m_statics.resize(uiNewSize);
+            }
+        }
+
+        EZ_ASSERT(refIndex.m_uiIndex < m_statics.getAllocationPointer(), "");
         
         new (pInstance) T();
         pInstance->setGarbageCollector(this);
@@ -90,10 +106,17 @@ namespace lcpp
         EZ_ASSERT(refIndex.isValid(), "");
         EZ_ASSERT(refIndex.m_uiIndex <= m_uiAllocationIndex, "");
 
-        Array<byte_t>& targetMemory = refIndex.isStatic() ? m_staticMemory : m_eden;
+        T* pInstance = nullptr;
 
-        auto pMem = &targetMemory[refIndex.m_uiIndex];
-        auto pInstance = reinterpret_cast<T*>(pMem);
+        if (refIndex.isStatic())
+        {
+            pInstance = (T*)&m_statics.getMemory()[refIndex.m_uiIndex];
+        }
+        else
+        {
+            pInstance = (T*)&m_eden[refIndex.m_uiIndex];
+        }
+
         auto pCollectable = static_cast<CollectableBase*>(pInstance);
 
         return refIndex == pCollectable->getRefIndex() ? pInstance : nullptr;

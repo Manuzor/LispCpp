@@ -92,7 +92,8 @@ namespace lcpp
         MemoryStack(Ptr<ezAllocatorBase> pAllocator);
         ~MemoryStack();
 
-        AllocationResult allocate(byte_t*& out_pMemory, std::size_t uiSize);
+        template<typename T = byte_t>
+        AllocationResult allocate(T*& out_pMemory, std::size_t uiSize = sizeof(T));
         void clear();
 
         AllocationResult resize(std::size_t uiTargetSize);

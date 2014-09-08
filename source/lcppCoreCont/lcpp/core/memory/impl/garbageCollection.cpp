@@ -18,7 +18,7 @@ namespace lcpp
     GarbageCollector::GarbageCollector(ezAllocatorBase* pParentAllocator) :
         m_pAllocator(pParentAllocator),
         m_uiAllocationIndex(0),
-        m_uiStaticAllocationIndex(0)
+        m_statics(pParentAllocator)
     {
         m_id = ezMemoryTracker::RegisterAllocator("lcpp/GarbageCollector", (ezMemoryTrackingFlags::Enum)0);
 
@@ -26,8 +26,9 @@ namespace lcpp
 
         {
             const std::size_t memorySize = 1024;
-            auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
-            m_staticMemory.assign(pMemory, memorySize);
+            //auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
+            //m_staticMemory.assign(pMemory, memorySize);
+            m_statics.resize(memorySize);
         }
 
         {
@@ -85,38 +86,6 @@ namespace lcpp
     void GarbageCollector::deallocate(void* ptr)
     {
         ++m_stats.m_uiNumDeallocations;
-
-        // TODO Really don't do anything here?
-    }
-
-    void* GarbageCollector::allocateStatic(size_t uiSize, size_t uiAlign)
-    {
-        if (m_uiStaticAllocationIndex + uiSize >= m_staticMemory.getSize())
-        {
-            // Resize static memory.
-            const std::size_t newMemorySize = m_staticMemory.getSize() * 2;
-            auto pNewMemory = (byte_t*)m_pAllocator->Allocate(newMemorySize, EZ_ALIGNMENT_OF(byte_t));
-
-            memcpy(pNewMemory, m_staticMemory.getData(), m_staticMemory.getSize());
-
-            m_pAllocator->Deallocate(m_staticMemory.getData());
-            m_staticMemory.assign(pNewMemory, newMemorySize);
-        }
-
-        auto pMemory = &m_staticMemory[m_uiStaticAllocationIndex];
-
-        m_uiStaticAllocationIndex += uiSize;
-
-        // Update stats.
-        ++m_statsStatics.m_uiNumAllocations;
-        m_statsStatics.m_uiAllocationSize += uiSize;
-
-        return static_cast<void*>(pMemory);
-    }
-
-    void GarbageCollector::deallocateStatic(void* ptr)
-    {
-        ++m_statsStatics.m_uiNumDeallocations;
 
         // TODO Really don't do anything here?
     }
