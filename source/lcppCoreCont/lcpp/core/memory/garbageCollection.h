@@ -43,15 +43,9 @@ namespace lcpp
 
     private:
 
-        template<typename T>
-        T* basicCreate(FixedMemory& memory);
-
-    private:
-
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        mutable FixedMemory m_staticAllocations;
-        mutable FixedMemory m_dynamicAllocations;
+        mutable FixedMemory m_memory;
     };
 
     // TODO This function should be removed! Every LispObject that is created

@@ -27,7 +27,9 @@ namespace lcpp
     {
         LCPP_LogBlock("GarbageCollector::createStatic");
 
-        auto pInstance = basicCreate<T>(m_staticAllocations);
+        auto pInstance = EZ_NEW(m_pAllocator, T);
+        pInstance->setGarbageCollector(this);
+
         return pInstance;
     }
     
@@ -36,16 +38,7 @@ namespace lcpp
     Ptr<T> GarbageCollector::create()
     {
         LCPP_LogBlock("GarbageCollector::create");
-
-        auto pInstance = basicCreate<T>(m_dynamicAllocations);
-        return pInstance;
-    }
-
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    T* GarbageCollector::basicCreate(FixedMemory& memory)
-    {
+        
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
 
         LCPP_LogBlock("GarbageCollector::basicCreate");
@@ -54,7 +47,7 @@ namespace lcpp
 
         while(true)
         {
-            auto result = memory.allocate(pInstance);
+            auto result = m_memory.allocate(pInstance);
 
             if (result.succeeded())
             {
@@ -72,7 +65,7 @@ namespace lcpp
                 LCPP_NOT_IMPLEMENTED;
             }
         }
-        
+
         new (pInstance) T();
         pInstance->setGarbageCollector(this);
 
