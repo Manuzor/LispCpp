@@ -79,9 +79,9 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    MemoryStack::MemoryStack(Ptr<ezAllocatorBase> pAllocator) :
-        m_pAllocator(pAllocator),
-        m_uiAllocationPointer(0)
+    MemoryStack::MemoryStack(Array<byte_t> memory) :
+        m_uiAllocationPointer(0),
+        m_memory(memory)
     {
     }
 
@@ -93,8 +93,10 @@ namespace lcpp
     
     template<typename T>
     EZ_FORCE_INLINE
-    MemoryStack::AllocationResult MemoryStack::allocate(T*& out_pMemory, std::size_t uiSize)
+    MemoryStack::AllocationResult MemoryStack::allocate(T*& out_pMemory, std::size_t uiCount)
     {
+        const auto uiSize = sizeof(T) * uiCount;
+
         if (uiSize == 0)
         {
             out_pMemory = nullptr;
@@ -120,46 +122,9 @@ namespace lcpp
     EZ_FORCE_INLINE
     void MemoryStack::clear()
     {
-        if (m_memory.getSize() > 0)
-        {
-            m_pAllocator->Deallocate(m_memory.getData());
-            m_memory.reset();
-        }
-    }
-
-    EZ_FORCE_INLINE
-    MemoryStack::AllocationResult MemoryStack::resize(std::size_t uiTargetSize)
-    {
-        EZ_ASSERT(!m_pAllocator.isNull(), "Need an allocator to allocate data.");
-
-        if (uiTargetSize <= m_memory.getSize())
-        {
-            return NothingChanged;
-        }
-
-        decltype(m_memory) tempMemory;
-
-        {
-            auto pMemory = (byte_t*)m_pAllocator->Allocate(uiTargetSize, EZ_ALIGNMENT_OF(byte_t));
-
-            if (pMemory == nullptr)
-            {
-                return OutOfMemory;
-            }
-
-            tempMemory.assign(pMemory, uiTargetSize);
-        }
-
-        if (m_memory.getSize() > 0)
-        {
-            memcpy(tempMemory.getData(), m_memory.getData(), m_uiAllocationPointer);
-            memset(m_memory.getData(), Byte::Freed, m_memory.getSize());
-            m_pAllocator->Deallocate(m_memory.getData());
-        }
-
-        m_memory = tempMemory;
-
-        return Success;
+        m_memory.reset();
+        m_uiAllocationPointer = 0;
+        m_stats = Stats();
     }
 
     EZ_FORCE_INLINE
@@ -167,23 +132,37 @@ namespace lcpp
     {
         return m_uiAllocationPointer;
     }
+    
+    EZ_FORCE_INLINE
+    void MemoryStack::assign(Array<byte_t> memory)
+    {
+        m_memory = memory;
+        m_uiAllocationPointer = 0;
+        m_stats = Stats();
+    }
 
     EZ_FORCE_INLINE
-    const Array<byte_t>& MemoryStack::getMemory() const
+    void MemoryStack::operator=(Array<byte_t> memory)
+    {
+        assign(memory);
+    }
+
+    EZ_FORCE_INLINE
+    Array<byte_t> MemoryStack::getMemory() const
+    {
+        return m_memory(0, m_uiAllocationPointer);
+    }
+
+    EZ_FORCE_INLINE
+    Array<byte_t> MemoryStack::getEntireMemory() const
     {
         return m_memory;
     }
 
     EZ_FORCE_INLINE
-    Ptr<ezAllocatorBase> MemoryStack::getAllocator()
+    std::size_t MemoryStack::getAvailableMemorySize() const
     {
-        return m_pAllocator;
-    }
-
-    EZ_FORCE_INLINE
-    void MemoryStack::setAllocator(Ptr<ezAllocatorBase> pAllocator)
-    {
-        m_pAllocator = pAllocator;
+        return m_memory.getSize() - m_uiAllocationPointer;
     }
 
     EZ_FORCE_INLINE

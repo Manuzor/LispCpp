@@ -161,7 +161,12 @@ LCPP_TestCase(Array, SubArray)
 
         sub = arr(0, 1);
         CUT_ASSERT.isTrue(sub.getSize() == 1);
+        CUT_ASSERT.isTrue(sub.getData() == arr.getData());
         CUT_ASSERT.isTrue(*sub.getData() == 'H');
+
+        sub = arr(0, 0);
+        CUT_ASSERT.isTrue(sub.getSize() == 0);
+        CUT_ASSERT.isTrue(sub.getData() == nullptr);
     }
 
     {

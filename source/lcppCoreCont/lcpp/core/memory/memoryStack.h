@@ -89,27 +89,39 @@ namespace lcpp
     public:
 
         MemoryStack();
-        MemoryStack(Ptr<ezAllocatorBase> pAllocator);
+        MemoryStack(Array<byte_t> memory);
         ~MemoryStack();
 
-        template<typename T = byte_t>
-        AllocationResult allocate(T*& out_pMemory, std::size_t uiSize = sizeof(T));
+        /// \brief Allocates enough bytes to store a \a T object in it.
+        /// \param out_pMemory The adress of the allocated memory.
+        /// \param uiCount The number of \a T instances to allocate. Defaults to 1.
+        template<typename T>
+        AllocationResult allocate(T*& out_pMemory, std::size_t uiCount = 1);
+
         void clear();
 
-        AllocationResult resize(std::size_t uiTargetSize);
+        /// \brief
+        void assign(Array<byte_t> memory);
 
+        /// \see assign
+        void operator =(Array<byte_t> memory);
+
+        /// \brief Gets the part of the available memory that contains valid allocations.
+        Array<byte_t> getMemory() const;
+
+        /// \brief Gets the entire memory block used by this MemoryStack.
+        /// \remark If you need
+        Array<byte_t> getEntireMemory() const;
+
+        /// \brief The current index of the next free byte within this memory.
+        /// Will always be the same as getMemory().getSize().
         std::size_t getAllocationPointer() const;
 
-        const Array<byte_t>& getMemory() const;
-
-        Ptr<ezAllocatorBase> getAllocator();
-        void setAllocator(Ptr<ezAllocatorBase> pAllocator);
+        std::size_t getAvailableMemorySize() const;
 
         Stats getStats() const;
 
     private:
-
-        Ptr<ezAllocatorBase> m_pAllocator;
 
         /// \brief Wraps the actual data.
         Array<byte_t> m_memory;

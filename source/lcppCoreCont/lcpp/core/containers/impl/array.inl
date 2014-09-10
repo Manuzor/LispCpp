@@ -15,6 +15,10 @@ namespace lcpp
         m_pData(ptr),
         m_uiSize(uiSize)
     {
+        if (m_uiSize == 0)
+        {
+            m_pData = nullptr;
+        }
     }
     
     template<typename T>
@@ -108,7 +112,6 @@ namespace lcpp
     EZ_FORCE_INLINE
     Array<T> Array<T>::getSubArray(std::size_t uiFrom, std::size_t uiCount) const
     {
-        EZ_ASSERT(uiFrom < m_uiSize, "Index out of bounds");
         EZ_ASSERT(uiFrom + uiCount <= m_uiSize, "uiCount too high.");
 
         return Array(m_pData + uiFrom, uiCount);

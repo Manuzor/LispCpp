@@ -12,7 +12,7 @@ namespace lcpp
         Array(T* ptr, std::size_t uiSize);
         
         template<std::size_t N>
-        explicit Array(T (&staticArray)[N]);
+        Array(T (&staticArray)[N]);
 
         ~Array();
 

@@ -17,18 +17,14 @@ namespace lcpp
 
     GarbageCollector::GarbageCollector(ezAllocatorBase* pParentAllocator) :
         m_pAllocator(pParentAllocator),
-        m_uiAllocationIndex(0),
-        m_statics(pParentAllocator)
+        m_uiAllocationIndex(0)
     {
         m_id = ezMemoryTracker::RegisterAllocator("lcpp/GarbageCollector", (ezMemoryTrackingFlags::Enum)0);
 
-        //m_data.SetCountUninitialized(128 * 1024 * 1024);
-
         {
             const std::size_t memorySize = 1024;
-            //auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
-            //m_staticMemory.assign(pMemory, memorySize);
-            m_statics.resize(memorySize);
+            auto pMemory = (byte_t*)m_pAllocator->Allocate(memorySize, EZ_ALIGNMENT_OF(byte_t));
+            m_statics = Array<byte_t>(pMemory, memorySize);
         }
 
         {

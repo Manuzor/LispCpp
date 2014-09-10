@@ -59,9 +59,8 @@ namespace lcpp
 
             if (result.isOutOfMemory())
             {
-                EZ_ASSERT(m_statics.getMemory().getSize() > 0, "");
-                auto uiNewSize = m_statics.getMemory().getSize() * 2;
-                m_statics.resize(uiNewSize);
+                // TODO Collect garbage.
+                LCPP_NOT_IMPLEMENTED;
             }
         }
 

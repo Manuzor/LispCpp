@@ -156,77 +156,64 @@ namespace lcpp
 
 LCPP_TestGroup(GarbageCollection);
 
-LCPP_TestCase(GarbageCollection, MemoryStack_Basics)
+LCPP_TestCase(GarbageCollection, FixedMemory)
 {
-    // Note: This allocator is always out of memory when no arguments are given!
-    TestAllocator allocator;
-
-    MemoryStack stack(&allocator);
-
+    // No memory.
     {
-        MemoryStack mem2;
-        CUT_ASSERT.isTrue(mem2.getAllocator().isNull());
-        mem2.setAllocator(&allocator);
-        CUT_ASSERT.isTrue(stack.getAllocator() == mem2.getAllocator());
+        MemoryStack stack;
+
+        CUT_ASSERT.isTrue(stack.getAllocationPointer() == 0, "Make sure nothing is allocated for a default-constructed instance.");
+        CUT_ASSERT.isTrue(stack.getMemory().getData() == nullptr);
+        CUT_ASSERT.isTrue(stack.getMemory().getSize() == 0);
+        CUT_ASSERT.isTrue(stack.getEntireMemory() == stack.getMemory());
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocations == 0);
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocatedSize == 0);
+
+        auto* pTemp = (byte_t*)123;
+        auto allocationResult = stack.allocate(pTemp);
+
+        CUT_ASSERT.isTrue(allocationResult.isOutOfMemory());
+        CUT_ASSERT.isTrue(pTemp == nullptr, "allocate MUST set the out_ value!");
     }
 
-    byte_t* pMemory(nullptr);
-    MemoryStack::AllocationResult result;
+    {
+        byte_t rawMemory[1024];
+        Array<byte_t> entireMemory(rawMemory);
+        MemoryStack stack(entireMemory);
 
-    // Allocate 0 bytes.
-    result = stack.allocate(pMemory, 0);
+        ezInt32* pInteger = nullptr;
+        MemoryStack::AllocationResult result;
 
-    CUT_ASSERT.isTrue(result.nothingChanged());
-    CUT_ASSERT.isTrue(pMemory == nullptr);
+        //////////////////////////////////////////////////////////////////////////
+        result = stack.allocate(pInteger);
 
-    // Allocate 42 bytes, which is a special size the test-allocator expects in order to return nullptr.
-    result = stack.allocate(pMemory, 42);
+        CUT_ASSERT.isTrue(result.succeeded());
+        CUT_ASSERT.isTrue(stack.getAllocationPointer() == sizeof(ezUInt32));
+        CUT_ASSERT.isTrue(stack.getMemory().getSize() == sizeof(ezUInt32));
+        CUT_ASSERT.isTrue(stack.getMemory().getSize() == stack.getAllocationPointer(), "This should always be true!");
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocations == 1);
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocatedSize == sizeof(ezUInt32));
+        CUT_ASSERT.isTrue(stack.getAvailableMemorySize() == 1024 - stack.getStats().m_uiAllocatedSize);
 
-    CUT_ASSERT.isTrue(result.isOutOfMemory());
-    CUT_ASSERT.isTrue(pMemory == nullptr);
-}
+        //////////////////////////////////////////////////////////////////////////
+        result = stack.allocate(pInteger);
 
-LCPP_TestCase(GarbageCollection, MemoryStack_Allocation)
-{
-    TestAllocator allocator(1, 1, 1);
-    MemoryStack stack(&allocator);
-    stack.resize(1);
+        CUT_ASSERT.isTrue(result.succeeded());
+        CUT_ASSERT.isTrue(stack.getAllocationPointer() == sizeof(ezUInt32) * 2);
+        CUT_ASSERT.isTrue(stack.getMemory().getSize() == sizeof(ezUInt32) * 2);
+        CUT_ASSERT.isTrue(stack.getMemory().getSize() == stack.getAllocationPointer(), "This should always be true!");
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocations == 2);
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocatedSize == sizeof(ezUInt32) * 2);
+        CUT_ASSERT.isTrue(stack.getAvailableMemorySize() == 1024 - stack.getStats().m_uiAllocatedSize);
 
-    byte_t* pMemory(nullptr);
-    MemoryStack::AllocationResult result;
-    MemoryStack::Stats stats;
+        //////////////////////////////////////////////////////////////////////////
+        stack.clear();
 
-    //////////////////////////////////////////////////////////////////////////
-
-    result = stack.allocate(pMemory, 0);
-    stats = stack.getStats();
-
-    CUT_ASSERT.isTrue(result.nothingChanged());
-    CUT_ASSERT.isTrue(pMemory == nullptr);
-    CUT_ASSERT.isTrue(stats.m_uiAllocations == 0);
-
-    //////////////////////////////////////////////////////////////////////////
-
-    result = stack.allocate(pMemory, 1);
-    stats = stack.getStats();
-
-    CUT_ASSERT.isTrue(result.succeeded());
-    CUT_ASSERT.isTrue(pMemory != nullptr);
-    CUT_ASSERT.isTrue(*(pMemory - 1) == Byte::Protected);
-    CUT_ASSERT.isTrue(*pMemory == Byte::Allocated);
-    CUT_ASSERT.isTrue(*(pMemory + 1) == Byte::Protected);
-    CUT_ASSERT.isTrue(stats.m_uiAllocations == 1);
-
-    CUT_ASSERT.notImplemented("There are still a lot of tests missing!");
-}
-
-LCPP_TestCase(GarbageCollection, MemoryStack_Resize)
-{
-    TestAllocator allocator(32, 2048, 32);
-    MemoryStack stack(&allocator);
-    MemoryStackAllocator wrapper(&stack);
-
-    stack.resize(600);
-
-    CUT_ASSERT.notImplemented();
+        CUT_ASSERT.isTrue(stack.getAllocationPointer() == 0);
+        CUT_ASSERT.isTrue(stack.getMemory().getData() == nullptr);
+        CUT_ASSERT.isTrue(stack.getMemory().getSize() == 0);
+        CUT_ASSERT.isTrue(stack.getEntireMemory() == stack.getMemory());
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocations == 0);
+        CUT_ASSERT.isTrue(stack.getStats().m_uiAllocatedSize == 0);
+    }
 }
