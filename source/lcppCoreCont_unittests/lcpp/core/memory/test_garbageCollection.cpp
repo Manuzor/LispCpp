@@ -216,4 +216,38 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
         CUT_ASSERT.isTrue(stack.getStats().m_uiAllocations == 0);
         CUT_ASSERT.isTrue(stack.getStats().m_uiAllocatedSize == 0);
     }
+
+    {
+        char raw0[6];
+        char raw1[6];
+
+        strcpy_s(raw0, "hello");
+        strcpy_s(raw1, "world");
+
+        Array<byte_t> buffer0(reinterpret_cast<byte_t*>(raw0), 6);
+        Array<byte_t> buffer1(reinterpret_cast<byte_t*>(raw1), 6);
+
+        FixedMemory mem0(buffer0);
+        FixedMemory mem1(buffer1);
+
+        ezInt16* ptr0;
+        ezInt32* ptr1;
+
+        CUT_ASSERT.isTrue(mem0.allocate(ptr0).succeeded());
+        CUT_ASSERT.isTrue(mem1.allocate(ptr1).succeeded());
+
+        CUT_ASSERT.isTrue(mem0.getStats().m_uiAllocations == 1);
+        CUT_ASSERT.isTrue(mem0.getStats().m_uiAllocatedSize == sizeof(ezInt16));
+        CUT_ASSERT.isTrue(mem1.getStats().m_uiAllocations == 1);
+        CUT_ASSERT.isTrue(mem1.getStats().m_uiAllocatedSize == sizeof(ezInt32));
+
+        auto temp = mem0;
+        mem0 = mem1;
+        mem1 = temp;
+
+        CUT_ASSERT.isTrue(mem0.getStats().m_uiAllocations == 1);
+        CUT_ASSERT.isTrue(mem0.getStats().m_uiAllocatedSize == sizeof(ezInt32));
+        CUT_ASSERT.isTrue(mem1.getStats().m_uiAllocations == 1);
+        CUT_ASSERT.isTrue(mem1.getStats().m_uiAllocatedSize == sizeof(ezInt16));
+    }
 }

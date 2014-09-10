@@ -31,7 +31,19 @@ namespace lcpp
         friend CollectableBase;
     public:
 
-        GarbageCollector(Ptr<ezAllocatorBase> pParentAllocator);
+        class CInfo
+        {
+        public:
+            Ptr<ezAllocatorBase> m_pParentAllocator;
+            ezUInt32 m_uiInitialMemoryLimit; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
+
+        public:
+            CInfo();
+        };
+
+    public:
+
+        GarbageCollector(const CInfo& cinfo);
 
         template<typename T>
         Ptr<T> createStatic();
@@ -45,7 +57,8 @@ namespace lcpp
 
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        mutable FixedMemory m_memory;
+        mutable FixedMemory m_edenSpace;
+        mutable FixedMemory m_survivorSpace;
     };
 
     // TODO This function should be removed! Every LispObject that is created

@@ -21,6 +21,14 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
     
+    EZ_FORCE_INLINE
+    GarbageCollector::CInfo::CInfo() :
+        m_uiInitialMemoryLimit(128 * 1024 * 1024) // 128 MiB
+    {
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
     template<typename T>
     EZ_FORCE_INLINE
     Ptr<T> GarbageCollector::createStatic()
@@ -47,7 +55,7 @@ namespace lcpp
 
         while(true)
         {
-            auto result = m_memory.allocate(pInstance);
+            auto result = m_edenSpace.allocate(pInstance);
 
             if (result.succeeded())
             {
