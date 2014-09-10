@@ -17,18 +17,13 @@ namespace lcpp
         Ptr<GarbageCollector> getGarbageCollector();
         Ptr<const GarbageCollector> getGarbageCollector() const;
 
-        RefIndex getRefIndex() const;
-
     private:
 
         void setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector);
 
-        void setRefIndex(RefIndex refIndex);
-
     private:
 
         Ptr<GarbageCollector> m_pGarbageCollector;
-        RefIndex m_refIndex;
     };
 
     class LCPP_API_CORE_CONT GarbageCollector
@@ -44,10 +39,12 @@ namespace lcpp
         template<typename T>
         Ptr<T> create();
 
-        template<typename T>
-        T* getPointer(RefIndex refIndex) const;
-
         void collect();
+
+    private:
+
+        template<typename T>
+        T* basicCreate(FixedMemory& memory);
 
     private:
 

@@ -268,9 +268,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\refIndex.h">
       <Filter>lcpp\core\memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\ptrSpecialization.h">
-      <Filter>lcpp\core\memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\commonTypes.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
@@ -506,9 +503,6 @@
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\refIndex.inl">
-      <Filter>lcpp\core\memory\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\ptrSpecialization.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl">

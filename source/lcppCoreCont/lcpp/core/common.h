@@ -44,9 +44,7 @@
 
 #endif
 
-#include "lcpp/core/memory/ptrSpecialization.h"
 #include "lcpp/core/memory/garbageCollection.h"
-#include "lcpp/core/memory/impl/ptrSpecialization.inl"
 
 #include "lcpp/core/commonTypes.h"
 
