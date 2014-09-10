@@ -37,10 +37,40 @@ namespace lcpp
 
     EZ_CHECK_AT_COMPILETIME(sizeof(Byte) == sizeof(unsigned char));
 
+    enum AllocatorResultEnum
+    {
+        None,
+
+        NothingChanged,
+        Success,
+        OutOfMemory,
+        InvalidFree,
+        DoubleFree,
+    };
+
+    class AllocatorResult
+    {
+    public:
+        AllocatorResultEnum m_value;
+
+    public:
+        AllocatorResult();
+        AllocatorResult(AllocatorResultEnum value);
+
+        bool isValid() const;
+
+        bool nothingChanged() const;
+        bool succeeded() const;
+        bool isOutOfMemory() const;
+        bool isInvalidFree() const;
+        bool isDoubleFree() const;
+
+    };
+
     /// \brief Class that only grows.
     ///
     /// To shrink the consumed memory, you will have to
-    class MemoryStack
+    class FixedMemory
     {
     public:
 
@@ -56,47 +86,17 @@ namespace lcpp
             Stats();
         };
 
-        enum AllocationResultEnum
-        {
-            None,
-
-            NothingChanged,
-            Success,
-            OutOfMemory,
-            InvalidFree,
-            DoubleFree,
-        };
-
-        class AllocationResult
-        {
-        public:
-            AllocationResultEnum m_value;
-
-        public:
-            AllocationResult();
-            AllocationResult(AllocationResultEnum value);
-
-            bool isValid() const;
-
-            bool nothingChanged() const;
-            bool succeeded() const;
-            bool isOutOfMemory() const;
-            bool isInvalidFree() const;
-            bool isDoubleFree() const;
-
-        };
-
     public:
 
-        MemoryStack();
-        MemoryStack(Array<byte_t> memory);
-        ~MemoryStack();
+        FixedMemory();
+        FixedMemory(Array<byte_t> memory);
+        ~FixedMemory();
 
         /// \brief Allocates enough bytes to store a \a T object in it.
         /// \param out_pMemory The adress of the allocated memory.
         /// \param uiCount The number of \a T instances to allocate. Defaults to 1.
         template<typename T>
-        AllocationResult allocate(T*& out_pMemory, std::size_t uiCount = 1);
+        AllocatorResult allocate(T*& out_pMemory, std::size_t uiCount = 1);
 
         void clear();
 
@@ -132,15 +132,15 @@ namespace lcpp
         Stats m_stats;
     };
 
-    bool operator ==(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs);
-    bool operator !=(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs);
+    bool operator ==(const AllocatorResult& lhs, const AllocatorResult& rhs);
+    bool operator !=(const AllocatorResult& lhs, const AllocatorResult& rhs);
 
     class MemoryStackAllocator :
         public ezAllocatorBase
     {
     public:
 
-        MemoryStackAllocator(Ptr<MemoryStack> pWrappee);
+        MemoryStackAllocator(Ptr<FixedMemory> pWrappee);
 
         virtual void* Allocate(size_t uiSize, size_t uiAlign) override;
 
@@ -154,8 +154,8 @@ namespace lcpp
         virtual Stats GetStats() const override;
 
     private:
-        Ptr<MemoryStack> m_pStack;
+        Ptr<FixedMemory> m_pStack;
     };
 }
 
-#include "lcpp/core/memory/impl/memoryStack.inl"
+#include "lcpp/core/memory/impl/fixedMemory.inl"

@@ -2,61 +2,61 @@
 namespace lcpp
 {
     EZ_FORCE_INLINE
-    MemoryStack::AllocationResult::AllocationResult() :
+    AllocatorResult::AllocatorResult() :
         m_value(None)
     {
     }
 
     EZ_FORCE_INLINE
-    MemoryStack::AllocationResult::AllocationResult(AllocationResultEnum value) :
+    AllocatorResult::AllocatorResult(AllocatorResultEnum value) :
         m_value(value)
     {
     }
     
     EZ_FORCE_INLINE
-    bool MemoryStack::AllocationResult::isValid() const
+    bool AllocatorResult::isValid() const
     {
         return m_value != None;
     }
     
     EZ_FORCE_INLINE
-    bool MemoryStack::AllocationResult::nothingChanged() const
+    bool AllocatorResult::nothingChanged() const
     {
         return m_value == NothingChanged;
     }
     
     EZ_FORCE_INLINE
-    bool MemoryStack::AllocationResult::succeeded() const
+    bool AllocatorResult::succeeded() const
     {
         return m_value == Success;
     }
     
     EZ_FORCE_INLINE
-    bool MemoryStack::AllocationResult::isOutOfMemory() const
+    bool AllocatorResult::isOutOfMemory() const
     {
         return m_value == OutOfMemory;
     }
     
     EZ_FORCE_INLINE
-    bool MemoryStack::AllocationResult::isInvalidFree() const
+    bool AllocatorResult::isInvalidFree() const
     {
         return m_value == InvalidFree;
     }
     
     EZ_FORCE_INLINE
-    bool MemoryStack::AllocationResult::isDoubleFree() const
+    bool AllocatorResult::isDoubleFree() const
     {
         return m_value == DoubleFree;
     }
     
     EZ_FORCE_INLINE
-    bool operator ==(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs)
+    bool operator ==(const AllocatorResult& lhs, const AllocatorResult& rhs)
     {
         return lhs.m_value == rhs.m_value;
     }
     
     EZ_FORCE_INLINE
-    bool operator !=(const MemoryStack::AllocationResult& lhs, const MemoryStack::AllocationResult& rhs)
+    bool operator !=(const AllocatorResult& lhs, const AllocatorResult& rhs)
     {
         return lhs.m_value != rhs.m_value;
     }
@@ -64,7 +64,7 @@ namespace lcpp
     //////////////////////////////////////////////////////////////////////////
     
     EZ_FORCE_INLINE
-    MemoryStack::Stats::Stats() :
+    FixedMemory::Stats::Stats() :
         m_uiAllocations(0),
         m_uiAllocatedSize(0)
     {
@@ -73,27 +73,27 @@ namespace lcpp
     //////////////////////////////////////////////////////////////////////////
 
     EZ_FORCE_INLINE
-    MemoryStack::MemoryStack() :
+    FixedMemory::FixedMemory() :
         m_uiAllocationPointer(0)
     {
     }
 
     EZ_FORCE_INLINE
-    MemoryStack::MemoryStack(Array<byte_t> memory) :
+    FixedMemory::FixedMemory(Array<byte_t> memory) :
         m_uiAllocationPointer(0),
         m_memory(memory)
     {
     }
 
     EZ_FORCE_INLINE
-    MemoryStack::~MemoryStack()
+    FixedMemory::~FixedMemory()
     {
         clear();
     }
     
     template<typename T>
     EZ_FORCE_INLINE
-    MemoryStack::AllocationResult MemoryStack::allocate(T*& out_pMemory, std::size_t uiCount)
+    AllocatorResult FixedMemory::allocate(T*& out_pMemory, std::size_t uiCount)
     {
         const auto uiSize = sizeof(T) * uiCount;
 
@@ -120,7 +120,7 @@ namespace lcpp
     }
     
     EZ_FORCE_INLINE
-    void MemoryStack::clear()
+    void FixedMemory::clear()
     {
         m_memory.reset();
         m_uiAllocationPointer = 0;
@@ -128,13 +128,13 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    std::size_t MemoryStack::getAllocationPointer() const
+    std::size_t FixedMemory::getAllocationPointer() const
     {
         return m_uiAllocationPointer;
     }
     
     EZ_FORCE_INLINE
-    void MemoryStack::assign(Array<byte_t> memory)
+    void FixedMemory::assign(Array<byte_t> memory)
     {
         m_memory = memory;
         m_uiAllocationPointer = 0;
@@ -142,31 +142,31 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    void MemoryStack::operator=(Array<byte_t> memory)
+    void FixedMemory::operator=(Array<byte_t> memory)
     {
         assign(memory);
     }
 
     EZ_FORCE_INLINE
-    Array<byte_t> MemoryStack::getMemory() const
+    Array<byte_t> FixedMemory::getMemory() const
     {
         return m_memory(0, m_uiAllocationPointer);
     }
 
     EZ_FORCE_INLINE
-    Array<byte_t> MemoryStack::getEntireMemory() const
+    Array<byte_t> FixedMemory::getEntireMemory() const
     {
         return m_memory;
     }
 
     EZ_FORCE_INLINE
-    std::size_t MemoryStack::getAvailableMemorySize() const
+    std::size_t FixedMemory::getAvailableMemorySize() const
     {
         return m_memory.getSize() - m_uiAllocationPointer;
     }
 
     EZ_FORCE_INLINE
-    MemoryStack::Stats MemoryStack::getStats() const
+    FixedMemory::Stats FixedMemory::getStats() const
     {
         return m_stats;
     }
@@ -174,7 +174,7 @@ namespace lcpp
     //////////////////////////////////////////////////////////////////////////
 
     EZ_FORCE_INLINE
-    MemoryStackAllocator::MemoryStackAllocator(Ptr<MemoryStack> pWrappee) :
+    MemoryStackAllocator::MemoryStackAllocator(Ptr<FixedMemory> pWrappee) :
         m_pStack(pWrappee)
     {
     }

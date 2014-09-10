@@ -1,6 +1,6 @@
 #pragma once
 #include "lcpp/core/memory/refIndex.h"
-#include "lcpp/core/memory/memoryStack.h"
+#include "lcpp/core/memory/fixedMemory.h"
 
 namespace lcpp
 {
@@ -61,7 +61,7 @@ namespace lcpp
         ezAllocatorBase::Stats m_stats;
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        mutable MemoryStack m_statics;
+        mutable FixedMemory m_statics;
 
         std::size_t m_uiAllocationIndex;
         mutable Array<byte_t> m_memory;

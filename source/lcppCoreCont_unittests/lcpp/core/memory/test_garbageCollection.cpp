@@ -160,7 +160,7 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
 {
     // No memory.
     {
-        MemoryStack stack;
+        FixedMemory stack;
 
         CUT_ASSERT.isTrue(stack.getAllocationPointer() == 0, "Make sure nothing is allocated for a default-constructed instance.");
         CUT_ASSERT.isTrue(stack.getMemory().getData() == nullptr);
@@ -179,10 +179,10 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
     {
         byte_t rawMemory[1024];
         Array<byte_t> entireMemory(rawMemory);
-        MemoryStack stack(entireMemory);
+        FixedMemory stack(entireMemory);
 
         ezInt32* pInteger = nullptr;
-        MemoryStack::AllocationResult result;
+        AllocatorResult result;
 
         //////////////////////////////////////////////////////////////////////////
         result = stack.allocate(pInteger);

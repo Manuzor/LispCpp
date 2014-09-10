@@ -286,7 +286,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\array.h">
       <Filter>lcpp\core\containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\memoryStack.h">
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\fixedMemory.h">
       <Filter>lcpp\core\memory</Filter>
     </ClInclude>
   </ItemGroup>
@@ -514,7 +514,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl">
       <Filter>lcpp\core\containers\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\memoryStack.inl">
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
   </ItemGroup>
