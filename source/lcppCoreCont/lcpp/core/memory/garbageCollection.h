@@ -36,8 +36,7 @@ namespace lcpp
         friend CollectableBase;
     public:
 
-        GarbageCollector(ezAllocatorBase* pParentAllocator);
-        ~GarbageCollector();
+        GarbageCollector(Ptr<ezAllocatorBase> pParentAllocator);
 
         template<typename T>
         Ptr<T> createStatic();
@@ -52,20 +51,10 @@ namespace lcpp
 
     private:
 
-        void* allocate(size_t uiSize, size_t uiAlign);
-        void deallocate(void* ptr);
-
-    private:
-
-        ezAllocatorId m_id;
-        ezAllocatorBase::Stats m_stats;
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        mutable FixedMemory m_statics;
-
-        std::size_t m_uiAllocationIndex;
-        mutable Array<byte_t> m_memory;
-        mutable Array<byte_t> m_eden;
+        mutable FixedMemory m_staticAllocations;
+        mutable FixedMemory m_dynamicAllocations;
     };
 
     // TODO This function should be removed! Every LispObject that is created

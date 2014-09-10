@@ -44,13 +44,13 @@ namespace lcpp
         RefIndex refIndex;
         refIndex.m_bIsStatic = true;
         refIndex.m_uiHash = 0;
-        refIndex.m_uiIndex = m_statics.getAllocationPointer();
+        refIndex.m_uiIndex = m_staticAllocations.getAllocationPointer();
         
         T* pInstance = nullptr;
 
         while(true)
         {
-            auto result = m_statics.allocate(pInstance);
+            auto result = m_staticAllocations.allocate(pInstance);
 
             if (result.succeeded())
             {
@@ -62,9 +62,14 @@ namespace lcpp
                 // TODO Collect garbage.
                 LCPP_NOT_IMPLEMENTED;
             }
+            else
+            {
+                // TODO Figure out what to do here.
+                LCPP_NOT_IMPLEMENTED;
+            }
         }
 
-        EZ_ASSERT(refIndex.m_uiIndex < m_statics.getAllocationPointer(), "");
+        EZ_ASSERT(refIndex.m_uiIndex < m_staticAllocations.getAllocationPointer(), "");
         
         new (pInstance) T();
         pInstance->setGarbageCollector(this);
@@ -77,19 +82,37 @@ namespace lcpp
     EZ_FORCE_INLINE
     Ptr<T> GarbageCollector::create()
     {
-        EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
-
         LCPP_LogBlock("GarbageCollector::create");
 
         RefIndex refIndex;
         refIndex.m_bIsStatic = false;
         refIndex.m_uiHash = 0;
-        refIndex.m_uiIndex = m_uiAllocationIndex;
+        refIndex.m_uiIndex = m_dynamicAllocations.getAllocationPointer();
         
-        T* pInstance(nullptr);
-        pInstance = (T*)allocate(sizeof(T), EZ_ALIGNMENT_OF(T));
+        T* pInstance = nullptr;
 
-        EZ_ASSERT(refIndex.m_uiIndex < m_uiAllocationIndex, "");
+        while(true)
+        {
+            auto result = m_dynamicAllocations.allocate(pInstance);
+
+            if (result.succeeded())
+            {
+                break;
+            }
+
+            if (result.isOutOfMemory())
+            {
+                // TODO Collect garbage.
+                LCPP_NOT_IMPLEMENTED;
+            }
+            else
+            {
+                // TODO Figure out what to do here.
+                LCPP_NOT_IMPLEMENTED;
+            }
+        }
+
+        EZ_ASSERT(refIndex.m_uiIndex < m_dynamicAllocations.getAllocationPointer(), "");
         
         new (pInstance) T();
         pInstance->setGarbageCollector(this);
@@ -102,20 +125,13 @@ namespace lcpp
     EZ_FORCE_INLINE
     T* GarbageCollector::getPointer(RefIndex refIndex) const
     {
+        EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
         EZ_ASSERT(refIndex.isValid(), "");
-        EZ_ASSERT(refIndex.m_uiIndex <= m_uiAllocationIndex, "");
 
-        T* pInstance = nullptr;
+        auto memory = refIndex.isStatic() ? m_staticAllocations.getMemory()
+                                          : m_dynamicAllocations.getMemory();
 
-        if (refIndex.isStatic())
-        {
-            pInstance = (T*)&m_statics.getMemory()[refIndex.m_uiIndex];
-        }
-        else
-        {
-            pInstance = (T*)&m_eden[refIndex.m_uiIndex];
-        }
-
+        auto pInstance = (T*)&memory[refIndex.m_uiIndex];
         auto pCollectable = static_cast<CollectableBase*>(pInstance);
 
         return refIndex == pCollectable->getRefIndex() ? pInstance : nullptr;
