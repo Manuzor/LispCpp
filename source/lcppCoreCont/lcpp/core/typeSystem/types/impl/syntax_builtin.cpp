@@ -20,7 +20,7 @@ namespace lcpp
     {
         namespace builtin
         {
-            const MetaInfo& metaInfo()
+            Ptr<const MetaInfo> getMetaInfo()
             {
                 static auto meta = []
                 {
@@ -35,7 +35,7 @@ namespace lcpp
                     return meta;
                 }(); // Note that this lambda is immediately called.
 
-                return meta;
+                return &meta;
             }
 
             Ptr<LispObject> create(Function_t pFunction, const Signature& signature)
@@ -45,7 +45,7 @@ namespace lcpp
                 EZ_ASSERT(pFunction, "Invalid function pointer.");
                 EZ_ASSERT(signature.m_argCountMin <= signature.m_argCountMax, "Invalid virtual signature.");
 
-                auto pInstance = object::create<Data>(metaInfo());
+                auto pInstance = object::create<Data>(getMetaInfo());
                 auto& data = pInstance->getData<Data>();
 
                 data.m_signature = signature;
@@ -160,7 +160,7 @@ namespace lcpp
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
                 auto theString = ezStringBuilder();
-                theString.AppendFormat("<%s", metaInfo().getPrettyName());
+                theString.AppendFormat("<%s", getMetaInfo()->getPrettyName());
 
                 if(hasName(pObject))
                 {

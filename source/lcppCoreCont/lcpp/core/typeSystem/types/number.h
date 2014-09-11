@@ -7,8 +7,8 @@ namespace lcpp
 
     namespace number
     {
-        LCPP_API_CORE_CONT const MetaInfo& metaInfoInteger();
-        LCPP_API_CORE_CONT const MetaInfo& metaInfoFloat();
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfoInteger();
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfoFloat();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(Integer_t value);
         LCPP_API_CORE_CONT Ptr<LispObject> create(Float_t value);

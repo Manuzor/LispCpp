@@ -1,22 +1,35 @@
+#include "lcpp/core/typeSystem/metaInfo.h"
 
 namespace lcpp
-{    
+{
     EZ_FORCE_INLINE
     void CollectableBase::setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector)
     {
         m_pGarbageCollector = pGarbageCollector;
     }
-    
+
     EZ_FORCE_INLINE
     Ptr<GarbageCollector> CollectableBase::getGarbageCollector()
     {
         return m_pGarbageCollector;
     }
-    
+
     EZ_FORCE_INLINE
     Ptr<const GarbageCollector> CollectableBase::getGarbageCollector() const
     {
         return m_pGarbageCollector;
+    }
+
+    EZ_FORCE_INLINE
+    void CollectableBase::setMetaInfo(Ptr<const MetaInfo> pMetaInfo)
+    {
+        m_pMetaInfo = pMetaInfo;
+    }
+
+    EZ_FORCE_INLINE
+    Ptr<const MetaInfo> CollectableBase::getMetaInfo() const
+    {
+        return m_pMetaInfo;
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -31,19 +44,20 @@ namespace lcpp
 
     template<typename T>
     EZ_FORCE_INLINE
-    Ptr<T> GarbageCollector::createStatic()
+    Ptr<T> GarbageCollector::createStatic(Ptr<const MetaInfo> pMetaInfo)
     {
         LCPP_LogBlock("GarbageCollector::createStatic");
 
         auto pInstance = EZ_NEW(m_pAllocator, T);
         pInstance->setGarbageCollector(this);
+        pInstance->setMetaInfo(pMetaInfo);
 
         return pInstance;
     }
     
     template<typename T>
     EZ_FORCE_INLINE
-    Ptr<T> GarbageCollector::create()
+    Ptr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
     {
         LCPP_LogBlock("GarbageCollector::create");
         
@@ -76,6 +90,7 @@ namespace lcpp
 
         new (pInstance) T();
         pInstance->setGarbageCollector(this);
+        pInstance->setMetaInfo(pMetaInfo);
 
         return pInstance;
     }

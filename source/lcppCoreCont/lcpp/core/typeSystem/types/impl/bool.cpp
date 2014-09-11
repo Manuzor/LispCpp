@@ -12,18 +12,18 @@ namespace lcpp
 {
     namespace true_
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
-                auto meta = MetaInfo();
+                MetaInfo meta;
                 meta.setType(Type::True);
                 meta.setPrettyName("true-type");
 
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create()
@@ -35,8 +35,7 @@ namespace lcpp
             if (!pInstance)
             {
                 auto pGarbageCollector = getGarbageCollector();
-                pInstance = pGarbageCollector->createStatic<LispObject>();
-                pInstance->m_pMetaInfo = &metaInfo();
+                pInstance = pGarbageCollector->createStatic<LispObject>(getMetaInfo());
             }
 
             return pInstance;
@@ -55,7 +54,7 @@ namespace lcpp
 
     namespace false_
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -66,7 +65,7 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create()
@@ -78,8 +77,7 @@ namespace lcpp
             if (!pInstance)
             {
                 auto pGarbageCollector = getGarbageCollector();
-                pInstance = pGarbageCollector->createStatic<LispObject>();
-                pInstance->m_pMetaInfo = &metaInfo();
+                pInstance = pGarbageCollector->createStatic<LispObject>(getMetaInfo());
             }
 
             return pInstance;

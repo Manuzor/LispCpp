@@ -4,6 +4,7 @@
 
 namespace lcpp
 {
+    class MetaInfo;
     class GarbageCollector;
 
     typedef unsigned char byte_t;
@@ -17,13 +18,17 @@ namespace lcpp
         Ptr<GarbageCollector> getGarbageCollector();
         Ptr<const GarbageCollector> getGarbageCollector() const;
 
+        Ptr<const MetaInfo> getMetaInfo() const;
+
     private:
 
         void setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector);
+        void setMetaInfo(Ptr<const MetaInfo> pMetaInfo);
 
     private:
-
+        
         Ptr<GarbageCollector> m_pGarbageCollector;
+        Ptr<const MetaInfo> m_pMetaInfo;
     };
 
     class LCPP_API_CORE_CONT GarbageCollector
@@ -46,10 +51,10 @@ namespace lcpp
         GarbageCollector(const CInfo& cinfo);
 
         template<typename T>
-        Ptr<T> createStatic();
+        Ptr<T> createStatic(Ptr<const MetaInfo> pMetaInfo);
 
         template<typename T>
-        Ptr<T> create();
+        Ptr<T> create(Ptr<const MetaInfo> pMetaInfo);
 
         void collect();
 

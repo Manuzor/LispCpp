@@ -18,7 +18,7 @@ namespace lcpp
 {
     namespace file
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -29,14 +29,14 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create()
         {
             LCPP_LogBlock("file::create");
 
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(getMetaInfo());
 
             auto& data = pInstance->getData<Data>();
 
@@ -126,18 +126,18 @@ namespace lcpp
             if (wrappedFile.IsOpen())
             {
                 auto& fileNameValue = str::getValue(pFileName);
-                output.AppendFormat("<open %s: \"%s\">", metaInfo().getPrettyName(), fileNameValue.GetData());
+                output.AppendFormat("<open %s: \"%s\">", getMetaInfo()->getPrettyName(), fileNameValue.GetData());
             }
             else
             {
                 if(isNil(pFileName))
                 {
-                    output.AppendFormat("<closed %s>", metaInfo().getPrettyName());
+                    output.AppendFormat("<closed %s>", getMetaInfo()->getPrettyName());
                 }
                 else
                 {
                     auto& fileNameValue = str::getValue(pFileName);
-                    output.AppendFormat("<closed %s: \"%s\">", metaInfo().getPrettyName(), fileNameValue.GetData());
+                    output.AppendFormat("<closed %s: \"%s\">", getMetaInfo()->getPrettyName(), fileNameValue.GetData());
                 }
             }
 

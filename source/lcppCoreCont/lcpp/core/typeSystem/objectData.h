@@ -12,10 +12,6 @@ namespace lcpp
     {
     public:
 
-        Ptr<const MetaInfo> m_pMetaInfo;
-
-    public:
-
         template<typename T_Data>
         T_Data& getData();
     };

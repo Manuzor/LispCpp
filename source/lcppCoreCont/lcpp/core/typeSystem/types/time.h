@@ -7,7 +7,7 @@ namespace lcpp
 
     namespace time
     {
-        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
         LCPP_API_CORE_CONT Ptr<LispObject> create(const ezTime& theTime);

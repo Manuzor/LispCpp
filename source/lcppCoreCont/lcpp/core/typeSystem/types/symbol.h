@@ -7,7 +7,7 @@ namespace lcpp
 
     namespace symbol
     {
-        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(const String& value);
         Ptr<LispObject> create(ezUInt32 character);

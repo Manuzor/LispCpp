@@ -8,7 +8,7 @@ namespace lcpp
 
     namespace env
     {
-        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Ptr<LispObject>pName);
 

@@ -11,7 +11,7 @@ namespace lcpp
 {
     namespace str
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -22,14 +22,14 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create(const String& value)
         {
             LCPP_LogBlock("str::create");
 
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(getMetaInfo());
 
             new (pInstance->getData<Data>().m_pRawData) String(value);
 

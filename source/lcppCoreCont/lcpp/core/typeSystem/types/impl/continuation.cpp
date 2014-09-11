@@ -15,7 +15,7 @@ namespace lcpp
 {
     namespace cont
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -26,7 +26,7 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         static Ptr<LispObject> breakTrampoline(Ptr<LispObject>)
@@ -36,7 +36,7 @@ namespace lcpp
 
         Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState)
         {
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(getMetaInfo());
             auto& data = pInstance->getData<Data>();
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(pRuntimeState);
@@ -53,7 +53,7 @@ namespace lcpp
 
             typeCheck(pParent, Type::Continuation);
 
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(getMetaInfo());
             auto& data = pInstance->getData<Data>();
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(getRuntimeState(pParent));

@@ -36,22 +36,22 @@ namespace lcpp
         const Type& getType(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
-            EZ_ASSERT(!pObject->m_pMetaInfo.isNull(), "No valid type info.");
-            return pObject->m_pMetaInfo->getType();
+            EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
+            return pObject->getMetaInfo()->getType();
         }
 
         const AttributeFlags& getAttributes(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
-            EZ_ASSERT(!pObject->m_pMetaInfo.isNull(), "No valid type info.");
-            return pObject->m_pMetaInfo->getAttributes();
+            EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
+            return pObject->getMetaInfo()->getAttributes();
         }
 
         const MetaInfo& getMetaInfo(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
-            EZ_ASSERT(!pObject->m_pMetaInfo.isNull(), "No valid type info.");
-            return *pObject->m_pMetaInfo;
+            EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
+            return *pObject->getMetaInfo();
         }
 
         bool isCallable(Ptr<LispObject> pObject)

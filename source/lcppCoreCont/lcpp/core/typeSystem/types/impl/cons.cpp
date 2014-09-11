@@ -17,7 +17,7 @@ namespace lcpp
     namespace cons
     {
 
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -28,14 +28,14 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
         {
             LCPP_LogBlock("cons::create");
 
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(getMetaInfo());
             auto& data = pInstance->getData<Data>();
 
             new (data.m_pCar) Ptr<LispObject>(pCar);

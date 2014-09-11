@@ -18,7 +18,7 @@ namespace lcpp
 {
     namespace number
     {
-        const MetaInfo& metaInfoInteger()
+        Ptr<const MetaInfo> getMetaInfoInteger()
         {
             static auto meta = []
             {
@@ -29,10 +29,10 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
-        const MetaInfo& metaInfoFloat()
+        Ptr<const MetaInfo> getMetaInfoFloat()
         {
             static auto meta = []
             {
@@ -43,14 +43,14 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create(Integer_t value)
         {
-            LCPP_LogBlock("number::create", metaInfoInteger().getPrettyName());
+            LCPP_LogBlock("number::create", getMetaInfoInteger()->getPrettyName());
 
-            auto pInstance = object::create<Integer_t>(metaInfoInteger());
+            auto pInstance = object::create<Integer_t>(getMetaInfoInteger());
 
             pInstance->getData<Integer_t>() = value;
 
@@ -59,9 +59,9 @@ namespace lcpp
 
         Ptr<LispObject> create(Float_t value)
         {
-            LCPP_LogBlock("number::create", metaInfoFloat().getPrettyName());
+            LCPP_LogBlock("number::create", getMetaInfoFloat()->getPrettyName());
 
-            auto pInstance = object::create<Float_t>(metaInfoFloat());
+            auto pInstance = object::create<Float_t>(getMetaInfoFloat());
 
             pInstance->getData<Float_t>() = value;
 

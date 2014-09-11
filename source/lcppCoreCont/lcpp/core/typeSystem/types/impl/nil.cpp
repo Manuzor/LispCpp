@@ -11,7 +11,7 @@ namespace lcpp
 {
     namespace nil
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -22,7 +22,7 @@ namespace lcpp
                 return meta;
             }(); // Note that this lambda is immediately called.
 
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create()
@@ -34,8 +34,7 @@ namespace lcpp
             if (!pInstance)
             {
                 auto pGarbageCollector = getGarbageCollector();
-                pInstance = pGarbageCollector->createStatic<LispObject>();
-                pInstance->m_pMetaInfo = &metaInfo();
+                pInstance = pGarbageCollector->createStatic<LispObject>(getMetaInfo());
             }
 
             return pInstance;

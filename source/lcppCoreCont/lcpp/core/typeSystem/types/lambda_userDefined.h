@@ -9,7 +9,7 @@ namespace lcpp
     {
         namespace userDefined
         {
-            LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+            LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
             LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Ptr<LispObject> pArgList, Ptr<LispObject> pBodyList);
 

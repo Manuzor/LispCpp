@@ -13,7 +13,7 @@ namespace lcpp
         namespace builtin
         {
 
-            LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+            LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
             LCPP_API_CORE_CONT Ptr<LispObject> create(Function_t pFunction, const Signature& signature);
 

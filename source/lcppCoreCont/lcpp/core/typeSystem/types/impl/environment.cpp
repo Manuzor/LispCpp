@@ -16,7 +16,7 @@ namespace lcpp
 {
     namespace env
     {
-        const MetaInfo& metaInfo()
+        Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
             {
@@ -26,7 +26,7 @@ namespace lcpp
 
                 return meta;
             }(); // Note that this lambda is immediately called.
-            return meta;
+            return &meta;
         }
 
         Ptr<LispObject> create(Ptr<LispObject> pParent,
@@ -37,7 +37,7 @@ namespace lcpp
             if(!isNil(pParent)) typeCheck(pParent, Type::Environment);
             typeCheck(pName, Type::Symbol);
 
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pInstance = object::create<Data>(getMetaInfo());
 
             auto& data = pInstance->getData<Data>();
 

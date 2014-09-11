@@ -49,8 +49,8 @@ namespace lcpp
                 {
                     auto message = ezStringBuilder();
                     message.Format("Expected either type \"%s\" or \"%s\", got \"%s\".",
-                                   str::metaInfo().getPrettyName(),
-                                   stream::metaInfo().getPrettyName(),
+                                   str::getMetaInfo()->getPrettyName(),
+                                   stream::getMetaInfo()->getPrettyName(),
                                    object::getMetaInfo(pToRead).getPrettyName());
                     typeCheckFailed(message.GetData());
                 }
@@ -240,8 +240,8 @@ namespace lcpp
                 {
                     ezStringBuilder message;
                     message.AppendFormat("Expected either type \"%s\" or \"%s\", got \"%s\".",
-                                         lcpp::file::metaInfo().getPrettyName(),
-                                         str::metaInfo().getPrettyName(),
+                                         lcpp::file::getMetaInfo()->getPrettyName(),
+                                         str::getMetaInfo()->getPrettyName(),
                                          object::getMetaInfo(pFile).getPrettyName());
                     typeCheckFailed(message.GetData());
                 }
