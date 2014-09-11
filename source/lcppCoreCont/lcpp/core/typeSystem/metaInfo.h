@@ -22,6 +22,8 @@ namespace lcpp
     };
 
     bool operator ==(const MetaPropertyId& lhs, const MetaPropertyId& rhs);
+    bool operator <(const MetaPropertyId& lhs, const MetaPropertyId& rhs);
+    bool operator <=(const MetaPropertyId& lhs, const MetaPropertyId& rhs);
 
 }
 
@@ -75,8 +77,8 @@ namespace lcpp
                 CallFunction,
                 ToStringFunction,
 
-                // Since property values are simply integers, you can easily define your own properties.
-                // When you do, start at value 64 or higher.
+                // Since property IDs are simply integers, you can easily define your own properties.
+                // When you do, start at id 64 or higher.
                 CAPACITY = 64,
             };
         };
@@ -118,7 +120,8 @@ namespace lcpp
 
     public:
 
-        typedef ezHashTable<MetaPropertyId, MetaProperty, ezHashHelper<MetaPropertyId>, AllocatorWrapper_Default> PropertyTable_t;
+        typedef ezMap<MetaPropertyId, MetaProperty, ezCompareHelper<MetaPropertyId>, AllocatorWrapper_Default> PropertyTable_t;
+        //typedef ezHashTable<MetaPropertyId, MetaProperty, ezHashHelper<MetaPropertyId>, AllocatorWrapper_Default> PropertyTable_t;
 
     private:
 

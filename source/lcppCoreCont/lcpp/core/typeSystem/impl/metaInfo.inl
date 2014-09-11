@@ -24,6 +24,18 @@ namespace lcpp
     {
         return lhs.getValue() == rhs.getValue();
     }
+
+    EZ_FORCE_INLINE
+    bool operator<(const MetaPropertyId& lhs, const MetaPropertyId& rhs)
+    {
+        return lhs.getValue() < rhs.getValue();
+    }
+
+    EZ_FORCE_INLINE
+    bool operator<=(const MetaPropertyId& lhs, const MetaPropertyId& rhs)
+    {
+        return lhs.getValue() <= rhs.getValue();
+    }
 }
 
 EZ_FORCE_INLINE
@@ -100,8 +112,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     MetaInfo::MetaInfo() :
         m_type(Type::ENUM_MIN),
-        m_attributes(AttributeFlags::None),
-        m_prettyName()
+        m_attributes(AttributeFlags::None)
     {
     }
 
@@ -148,7 +159,14 @@ namespace lcpp
     EZ_FORCE_INLINE
     ezResult MetaInfo::getProperty(const MetaPropertyId& id, MetaProperty& out_prop) const
     {
-        return m_properties.TryGetValue(id, out_prop) ? EZ_SUCCESS : EZ_FAILURE;
+        auto iter = m_properties.Find(id);
+        if (!iter.IsValid())
+        {
+            return EZ_FAILURE;
+        }
+
+        out_prop = iter.Value();
+        return EZ_SUCCESS;
     }
 
     EZ_FORCE_INLINE
