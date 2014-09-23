@@ -48,7 +48,7 @@ LCPP_TestCase(Object, AllTypes)
     auto pString = str::create("this-is-a-string");
     auto pStream = stream::create(streamContent.GetIteratorFront());
 
-    auto pCons = cons::create(pInteger, LCPP_pNil);
+    auto pCons = cons::create(pInteger, cons::create(cons::create(pFloat, pTrue), cons::create(pSymbol, cons::create(pString, LCPP_pNil))));
     auto pEnv = env::createTopLevel(pSymbol);
     auto pLambda = lambda::builtin::create(pEnv, &lambda::builtin::add, Signature::create(2, 42));
     auto pSyntax = syntax::builtin::create(&syntax::builtin::define);
