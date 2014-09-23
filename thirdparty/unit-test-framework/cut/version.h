@@ -4,7 +4,7 @@
 
 #define CUT_VERSION_RELEASE 0
 #define CUT_VERSION_MAJOR 3
-#define CUT_VERSION_MINOR 0
+#define CUT_VERSION_MINOR 1
 
 #define CUT_MAKE_VERSION(release, major, minor) ((release << 16) | (major << 8) | minor)
 

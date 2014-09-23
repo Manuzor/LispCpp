@@ -9,6 +9,16 @@
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/functionUtils/signature.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/builtins/lambda_builtinFunctions.h"
+#include "lcpp/core/builtins/syntax_builtinFunctions.h"
+#include "lcpp/core/typeSystem/types/file.h"
+#include "lcpp/core/typeSystem/types/stream.h"
 
 LCPP_TestGroup(Object);
 
@@ -23,6 +33,9 @@ LCPP_TestCase(Object, Basics)
 
 LCPP_TestCase(Object, AllTypes)
 {
+    ezStringBuilder streamContent;
+    streamContent.AppendFormat("Hello world, this is the content of the stream.");
+
     auto pNil = LCPP_pNil;
     auto pTrue = LCPP_pTrue;
     auto pFalse = LCPP_pFalse;
@@ -32,14 +45,16 @@ LCPP_TestCase(Object, AllTypes)
     auto pFloat = number::create(3.1415f);
 
     auto pSymbol = symbol::create("hello-world");
-    // auto pString = string::create("this-is-a-string");
+    auto pString = str::create("this-is-a-string");
+    auto pStream = stream::create(streamContent.GetIteratorFront());
 
-    // auto pCons = cons::create(pInteger, pNil);
-    // auto pLambda = lambda::createBuiltin(pEnv, &lambda::builtin::myLambda);
-    // auto pSyntax = syntax::createBuiltin(&syntax::builtin::mySyntax);
+    auto pCons = cons::create(pInteger, LCPP_pNil);
     auto pEnv = env::createTopLevel(pSymbol);
+    auto pLambda = lambda::builtin::create(pEnv, &lambda::builtin::add, Signature::create(2, 42));
+    auto pSyntax = syntax::builtin::create(&syntax::builtin::define);
 
-    // auto pFile = file::create("the-file-name.txt");
+    auto pFile = file::create();
+    file::setFileName(pFile, pString);
 
     return;
 }

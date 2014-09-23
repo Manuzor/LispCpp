@@ -1,4 +1,5 @@
 #include "lcpp/core/memory/garbageCollection.h"
+#include "lcpp/core/typeSystem/objectData.h"
 
 namespace lcpp
 {
@@ -12,7 +13,7 @@ namespace lcpp
             // Helper struct to determine the minimum memory needed for this lisp object using T_Data
             struct LispObjectProxy : public LispObject
             {
-                T_Data m_data;
+                T_Data m_userData;
             };
 
             struct LispObjectProxyChecker
@@ -29,6 +30,7 @@ namespace lcpp
             auto pGarbageCollector = getGarbageCollector();
 
             auto pInstance = pGarbageCollector->create<LispObjectProxy>(pMetaInfo);
+            pInstance->m_data = &pInstance->m_userData;
 
             return pInstance.cast<LispObject>();
         }

@@ -4,9 +4,6 @@
 
 namespace lcpp
 {
-    class MetaInfo;
-    class GarbageCollector;
-
     class LCPP_API_CORE_CONT LispObject :
         public CollectableBase
     {
@@ -14,6 +11,9 @@ namespace lcpp
 
         template<typename T_Data>
         T_Data& getData();
+
+        /// \brief Do not use this member directly!
+        void* m_data;
     };
 }
 

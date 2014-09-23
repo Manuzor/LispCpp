@@ -25,7 +25,7 @@ namespace lcpp
         void setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector);
         void setMetaInfo(Ptr<const MetaInfo> pMetaInfo);
 
-    private:
+    protected:
         
         Ptr<GarbageCollector> m_pGarbageCollector;
         Ptr<const MetaInfo> m_pMetaInfo;

@@ -167,8 +167,10 @@ int main(int argc, const char* argv[])
         lcpp::shutdown();
     };
 
-    testManager.runAll();
-
+    //testManager.runAll();
+    testManager.run("Object", "AllTypes");
+    
+    testManager.printStatistics();
     auto& stats = testManager.statistics();
 
     if(g_pauseBeforeExit && stats.testsFailed > 0)

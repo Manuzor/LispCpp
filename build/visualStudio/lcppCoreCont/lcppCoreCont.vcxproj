@@ -55,6 +55,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\syntaxCheckResult.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\commonTypes.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\allTypeData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attributeCheck.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h" />

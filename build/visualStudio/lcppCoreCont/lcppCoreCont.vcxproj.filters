@@ -286,6 +286,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\fixedMemory.h">
       <Filter>lcpp\core\memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\allTypeData.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">

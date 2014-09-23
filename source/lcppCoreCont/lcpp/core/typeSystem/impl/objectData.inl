@@ -5,7 +5,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     T_Data& lcpp::LispObject::getData()
     {
-        auto pData = reinterpret_cast<T_Data*>(this + 1);
+        auto pData = reinterpret_cast<T_Data*>(m_data);
         return *pData;
     }
 }
