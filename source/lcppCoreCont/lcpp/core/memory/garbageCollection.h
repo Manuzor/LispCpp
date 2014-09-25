@@ -31,6 +31,8 @@ namespace lcpp
         Ptr<const MetaInfo> m_pMetaInfo;
     };
 
+    typedef void (*DestructorFunction_t)(Ptr<CollectableBase>);
+
     class LCPP_API_CORE_CONT GarbageCollector
     {
         friend CollectableBase;

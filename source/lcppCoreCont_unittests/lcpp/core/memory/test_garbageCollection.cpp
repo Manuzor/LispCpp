@@ -3,6 +3,7 @@
 #include "lcpp/core/typeSystem/types/symbol.h"
 #include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/typeCheck.h"
 
 namespace lcpp
 {
@@ -152,6 +153,39 @@ namespace lcpp
                 }
 
             };
+
+            class TestType : public LispObject
+            {
+            public:
+                static ezHybridArray<Ptr<TestType>, 8> getDestroyedTestTypes()
+                {
+                    ezHybridArray<Ptr<TestType>, 8> arr(defaultAllocator());
+                    return arr;
+                }
+
+                number::Integer_t m_integerData;
+            };
+
+            void destroy(Ptr<LispObject> pObject)
+            {
+                typeCheck(pObject, Type::ENUM_COUNT);
+
+                CUT_ASSERT.isFalse(TestType::getDestroyedTestTypes().Contains(pObject));
+                TestType::getDestroyedTestTypes().PushBack(pObject);
+            }
+
+            Ptr<const MetaInfo> getMetaInfo()
+            {
+                static auto meta = []{
+                    MetaInfo meta;
+                    meta.setPrettyName("testType");
+                    meta.setType(Type::ENUM_COUNT);
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction, &destroy));
+                    return meta;
+                }();
+
+                return &meta;
+            }
         }
     }
 }
@@ -256,16 +290,17 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
 
 LCPP_TestCase(GarbageCollection, Collect)
 {
+    TestType::getDestroyedTestTypes().Clear();
+
     GarbageCollector::CInfo gcCinfo;
 
-    struct Dummy : public LispObject { number::Integer_t i; };
     gcCinfo.m_pParentAllocator = defaultAllocator();
-    gcCinfo.m_uiInitialMemoryLimit = sizeof(Dummy) * 2;
+    gcCinfo.m_uiInitialMemoryLimit = sizeof(TestType) * 2;
 
     GarbageCollector gc(gcCinfo);
 
-    auto pRoot = gc.create<Dummy>(number::getMetaInfoInteger());
-    auto pNonRoot = gc.create<Dummy>(number::getMetaInfoInteger());
+    auto pRoot = gc.create<TestType>(test::getMetaInfo());
+    auto pNonRoot = gc.create<TestType>(test::getMetaInfo());
 
     gc.addRoot(pRoot);
 
@@ -281,6 +316,10 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     CUT_ASSERT.isTrue(gc.isAlive(pRoot));
     CUT_ASSERT.isFalse(gc.isAlive(pNonRoot));
+    
+    auto& destroyedTestTypes = TestType::getDestroyedTestTypes();
+    CUT_ASSERT.isFalse(destroyedTestTypes.Contains(pRoot));
+    CUT_ASSERT.isTrue(destroyedTestTypes.Contains(pNonRoot));
 
     return;
 }
