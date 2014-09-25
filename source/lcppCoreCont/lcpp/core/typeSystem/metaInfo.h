@@ -120,8 +120,7 @@ namespace lcpp
 
     public:
 
-        typedef ezMap<MetaPropertyId, MetaProperty, ezCompareHelper<MetaPropertyId>, AllocatorWrapper_Default> PropertyTable_t;
-        //typedef ezHashTable<MetaPropertyId, MetaProperty, ezHashHelper<MetaPropertyId>, AllocatorWrapper_Default> PropertyTable_t;
+        typedef ezHybridArray<MetaProperty, 16, AllocatorWrapper_Default> PropertyTable_t;
 
     private:
 

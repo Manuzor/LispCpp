@@ -102,8 +102,67 @@ void processArgument(const char* arg)
     }
 }
 
+static void initialize()
+{
+    lcpp::startup();
+
+    g_pEzEngineLogger = EZ_NEW(lcpp::defaultAllocator(), cut::loggers::ezEngineWriter)(cut::ILogManager::instance(),
+                                                                                        ezLog::GetDefaultLogSystem());
+    g_pHtmlLog = EZ_NEW(lcpp::defaultAllocator(), ezLogWriter::HTML)();
+
+    ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
+
+    ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
+    ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
+
+    ezStringBuilder testDir;
+    lcpp::getCurrentWorkingDirectory(testDir);
+
+    ezStringBuilder logFile;
+    logFile.AppendPath("temp", "log");
+    logFile.MakeAbsolutePath(testDir.GetData());
+    logFile.MakeCleanPath();
+    ezOSFile::CreateDirectoryStructure(logFile.GetData());
+    if (ezFileSystem::AddDataDirectory(logFile.GetData(), ezFileSystem::AllowWrites, "log-dir").Failed())
+    {
+        return;
+    }
+
+    ezGlobalLog::AddLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, g_pHtmlLog));
+    logFile.AppendPath("lcppCoreCont_unittests.log.html");
+    g_pHtmlLog->BeginLog(logFile.GetFileNameAndExtension().GetData(), logFile.GetFileNameAndExtension().GetData());
+
+    testDir.AppendPath("data1", "test");
+    testDir.MakeCleanPath();
+    auto addingDataDirectory = ezFileSystem::AddDataDirectory(testDir.GetData(), ezFileSystem::ReadOnly, "test-data");
+    if(addingDataDirectory.Failed())
+    {
+        testDir.Prepend("Failed to add test data directory: ");
+        throw std::exception(testDir.GetData());
+    }
+        
+    LCPP_test_pRuntimeState->setUserDirectory(testDir.GetData());
+}
+
+static void shutdown()
+{
+    ezGlobalLog::RemoveLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, g_pHtmlLog));
+    ezGlobalLog::RemoveLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
+    ezGlobalLog::RemoveLogWriter(ezLogWriter::Console::LogMessageHandler);
+
+    g_pHtmlLog->EndLog();
+
+    EZ_DELETE(lcpp::defaultAllocator(), g_pHtmlLog);
+    EZ_DELETE(lcpp::defaultAllocator(), g_pEzEngineLogger);
+
+    lcpp::shutdown();
+}
+
 int main(int argc, const char* argv[])
 {
+    initialize();
+    LCPP_SCOPE_EXIT { shutdown(); };
+
     // parse settings
     for(int i = 1; i < argc; ++i)
     {
@@ -112,70 +171,18 @@ int main(int argc, const char* argv[])
 
     auto& testManager = cut::IUnitTestManager::instance();
 
-    testManager.initializeFunction() = []
-    {
-        lcpp::startup();
 
-        g_pEzEngineLogger = EZ_NEW(lcpp::defaultAllocator(), cut::loggers::ezEngineWriter)(cut::ILogManager::instance(),
-                                                                                           ezLog::GetDefaultLogSystem());
-        g_pHtmlLog = EZ_NEW(lcpp::defaultAllocator(), ezLogWriter::HTML)();
-
-        ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
-
-        ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
-        ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
-
-        ezStringBuilder testDir;
-        lcpp::getCurrentWorkingDirectory(testDir);
-
-        ezStringBuilder logFile;
-        logFile.AppendPath("temp", "log");
-        logFile.MakeAbsolutePath(testDir.GetData());
-        logFile.MakeCleanPath();
-        ezOSFile::CreateDirectoryStructure(logFile.GetData());
-        if (ezFileSystem::AddDataDirectory(logFile.GetData(), ezFileSystem::AllowWrites, "log-dir").Failed())
-        {
-            return;
-        }
-
-        ezGlobalLog::AddLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, g_pHtmlLog));
-        logFile.AppendPath("lcppCoreCont_unittests.log.html");
-        g_pHtmlLog->BeginLog(logFile.GetFileNameAndExtension().GetData(), logFile.GetFileNameAndExtension().GetData());
-
-        testDir.AppendPath("data1", "test");
-        testDir.MakeCleanPath();
-        auto addingDataDirectory = ezFileSystem::AddDataDirectory(testDir.GetData(), ezFileSystem::ReadOnly, "test-data");
-        if(addingDataDirectory.Failed())
-        {
-            testDir.Prepend("Failed to add test data directory: ");
-            throw std::exception(testDir.GetData());
-        }
-        
-        LCPP_test_pRuntimeState->setUserDirectory(testDir.GetData());
-    };
-    testManager.shutdownFunction() = []
-    {
-        ezGlobalLog::RemoveLogWriter(ezLoggingEvent::Handler(&ezLogWriter::HTML::LogMessageHandler, g_pHtmlLog));
-        ezGlobalLog::RemoveLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
-        ezGlobalLog::RemoveLogWriter(ezLogWriter::Console::LogMessageHandler);
-
-        g_pHtmlLog->EndLog();
-
-        EZ_DELETE(lcpp::defaultAllocator(), g_pHtmlLog);
-        EZ_DELETE(lcpp::defaultAllocator(), g_pEzEngineLogger);
-
-        lcpp::shutdown();
-    };
-
-    //testManager.runAll();
     testManager.run("Object", "AllTypes");
-    
+    testManager.runAll();
+
     testManager.printStatistics();
+
     auto& stats = testManager.statistics();
 
     if(g_pauseBeforeExit && stats.testsFailed > 0)
     {
         system("pause");
     }
+
     return 0;
 }

@@ -157,21 +157,32 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    ezResult MetaInfo::getProperty(const MetaPropertyId& id, MetaProperty& out_prop) const
+    ezResult MetaInfo::getProperty(const MetaPropertyId& id, MetaProperty& out_property) const
     {
-        auto iter = m_properties.Find(id);
-        if (!iter.IsValid())
+        for (auto& existingProperty : m_properties)
         {
-            return EZ_FAILURE;
+            if (existingProperty.getId() == id)
+            {
+                out_property = existingProperty;
+                return EZ_SUCCESS;
+            }
         }
 
-        out_prop = iter.Value();
-        return EZ_SUCCESS;
+        return EZ_FAILURE;
     }
 
     EZ_FORCE_INLINE
-    void MetaInfo::addProperty(const MetaProperty& prop)
+    void MetaInfo::addProperty(const MetaProperty& property)
     {
-        m_properties[prop.getId()] = prop;
+        for (auto& existingProperty : m_properties)
+        {
+            if (existingProperty.getId() == property.getId())
+            {
+                existingProperty = property;
+                return;
+            }
+        }
+
+        m_properties.PushBack(property);
     }
 }
