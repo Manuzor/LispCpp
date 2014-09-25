@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "lcpp/core/memory/garbageCollection.h"
 #include "lcpp/core/typeSystem/types/symbol.h"
+#include "lcpp/core/typeSystem/objectData.h"
+#include "lcpp/core/typeSystem/types/number.h"
 
 namespace lcpp
 {
@@ -250,4 +252,35 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
         CUT_ASSERT.isTrue(mem1.getStats().m_uiAllocations == 1);
         CUT_ASSERT.isTrue(mem1.getStats().m_uiAllocatedSize == sizeof(ezInt16));
     }
+}
+
+LCPP_TestCase(GarbageCollection, Collect)
+{
+    GarbageCollector::CInfo gcCinfo;
+
+    struct Dummy : public LispObject { number::Integer_t i; };
+    gcCinfo.m_pParentAllocator = defaultAllocator();
+    gcCinfo.m_uiInitialMemoryLimit = sizeof(Dummy) * 2;
+
+    GarbageCollector gc(gcCinfo);
+
+    auto pRoot = gc.create<Dummy>(number::getMetaInfoInteger());
+    auto pNonRoot = gc.create<Dummy>(number::getMetaInfoInteger());
+
+    gc.addRoot(pRoot);
+
+    CUT_ASSERT.isTrue(gc.isRoot(pRoot));
+    CUT_ASSERT.isFalse(gc.isRoot(pNonRoot));
+
+    CUT_ASSERT.isTrue(gc.isAlive(pRoot));
+    CUT_ASSERT.isTrue(gc.isAlive(pNonRoot));
+
+    CUT_ASSERT.notImplemented();
+
+    gc.collect();
+
+    CUT_ASSERT.isTrue(gc.isAlive(pRoot));
+    CUT_ASSERT.isFalse(gc.isAlive(pNonRoot));
+
+    return;
 }

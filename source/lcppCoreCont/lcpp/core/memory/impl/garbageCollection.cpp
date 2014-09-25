@@ -23,7 +23,8 @@ namespace lcpp
     }
 
     GarbageCollector::GarbageCollector(const CInfo& cinfo) :
-        m_pAllocator(cinfo.m_pParentAllocator)
+        m_pAllocator(cinfo.m_pParentAllocator),
+        m_roots(cinfo.m_pParentAllocator.get())
     {
         EZ_ASSERT(cinfo.m_uiInitialMemoryLimit > 0, "Invalid initial memory limit");
 

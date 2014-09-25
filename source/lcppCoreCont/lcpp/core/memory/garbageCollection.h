@@ -58,9 +58,20 @@ namespace lcpp
 
         void collect();
 
+        void addRoot(Ptr<CollectableBase> pCollectable);
+        void removeRoot(Ptr<CollectableBase> pCollectable);
+        bool isRoot(Ptr<CollectableBase> pCollectable) const;
+        bool isAlive(Ptr<CollectableBase> pCollectable) const;
+
+    private:
+
+        bool isValidEdenPtr(Ptr<CollectableBase> pCollectable) const;
+
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
+
+        ezHybridArray<Ptr<CollectableBase>, 64> m_roots;
 
         mutable FixedMemory m_edenSpace;
         mutable FixedMemory m_survivorSpace;

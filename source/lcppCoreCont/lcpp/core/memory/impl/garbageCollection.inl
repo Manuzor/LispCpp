@@ -95,4 +95,37 @@ namespace lcpp
         return pInstance;
     }
 
+    EZ_FORCE_INLINE
+    void GarbageCollector::addRoot(Ptr<CollectableBase> pCollectable)
+    {
+        EZ_ASSERT(!isRoot(pCollectable), "Cannot add same pointer as root more than once!");
+        m_roots.PushBack(pCollectable);
+    }
+
+    EZ_FORCE_INLINE
+    void GarbageCollector::removeRoot(Ptr<CollectableBase> pCollectable)
+    {
+        auto wasRemoved = m_roots.RemoveSwap(pCollectable);
+        EZ_ASSERT(wasRemoved, "Given pointer is not a root pointer!");
+    }
+
+    EZ_FORCE_INLINE
+    bool GarbageCollector::isRoot(Ptr<CollectableBase> pCollectable) const
+    {
+        return m_roots.Contains(pCollectable);
+    }
+    
+    EZ_FORCE_INLINE
+    bool GarbageCollector::isAlive(Ptr<CollectableBase> pCollectable) const
+    {
+        return isValidEdenPtr(pCollectable);
+    }
+
+    EZ_FORCE_INLINE
+    bool GarbageCollector::isValidEdenPtr(Ptr<CollectableBase> pCollectable) const
+    {
+        auto ptr = (byte_t*)pCollectable.get();
+        auto memory = m_edenSpace.getMemory();
+        return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
+    }
 }
