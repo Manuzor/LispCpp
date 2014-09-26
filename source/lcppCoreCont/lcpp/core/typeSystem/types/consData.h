@@ -12,8 +12,8 @@ namespace lcpp
         {
         public:
 
-            Ptr<LispObject> getCar();
-            Ptr<LispObject> getCdr();
+            Ptr<LispObject>& getCar();
+            Ptr<LispObject>& getCdr();
 
         public:
 

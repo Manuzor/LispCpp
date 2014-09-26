@@ -13,6 +13,9 @@ namespace lcpp
         template<typename T_Data>
         Ptr<LispObject> create(const MetaInfo& metaInfo);
 
+        template<typename T_Data>
+        Ptr<LispObject> create(Ptr<GarbageCollector> pGarbageCollector, const MetaInfo& metaInfo);
+
         LCPP_API_CORE_CONT bool isType(Ptr<LispObject> pObject, const Type& type);
 
         LCPP_API_CORE_CONT const Type& getType(Ptr<LispObject> pObject);

@@ -76,6 +76,7 @@ namespace lcpp
             {
                 CallFunction,
                 ToStringFunction,
+                ScanFunction,
                 DestructorFunction,
 
                 // Since property IDs are simply integers, you can easily define your own properties.

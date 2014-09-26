@@ -47,6 +47,9 @@ lcpp::LispRuntimeState::initialize()
     m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
     m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global"));
 
+    // Prevent collecting of the syntax and global environment.
+    getGarbageCollector()->addRoot(m_pSyntaxEnvironment);
+
     //////////////////////////////////////////////////////////////////////////
     
     m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
@@ -70,6 +73,8 @@ lcpp::LispRuntimeState::shutdown()
               "The LCPP_pRuntime was not shut down often enough!");
 
     ++m_stats.m_shutdownCount;
+
+    getGarbageCollector()->removeRoot(m_pSyntaxEnvironment);
 
     LCPP_DELETE(m_pAllocator, m_pReaderState);
 }

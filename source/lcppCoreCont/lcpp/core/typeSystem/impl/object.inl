@@ -6,9 +6,17 @@ namespace lcpp
     namespace object
     {
         template<typename T_Data>
-        inline
+        EZ_FORCE_INLINE
         Ptr<LispObject>
         create(Ptr<const MetaInfo> pMetaInfo)
+        {
+            return create<T_Data>(getGarbageCollector(), pMetaInfo);
+        }
+
+        template<typename T_Data>
+        EZ_FORCE_INLINE
+        Ptr<LispObject>
+        create(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo)
         {
             // Helper struct to determine the minimum memory needed for this lisp object using T_Data
             struct LispObjectProxy : public LispObject
@@ -25,9 +33,6 @@ namespace lcpp
             EZ_CHECK_AT_COMPILETIME(sizeof(LispObjectProxy) == sizeof(LispObjectProxyChecker));
 
             //////////////////////////////////////////////////////////////////////////
-
-            // TODO The runtime state should be passed to this function, which should contain the garbage collector.
-            auto pGarbageCollector = getGarbageCollector();
 
             auto pInstance = pGarbageCollector->create<LispObjectProxy>(pMetaInfo);
             pInstance->m_data = &pInstance->m_userData;

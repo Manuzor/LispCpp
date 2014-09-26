@@ -3,9 +3,16 @@
 namespace lcpp
 {
     EZ_FORCE_INLINE
+    CollectableBase::CollectableBase() :
+        m_bIsForwarded(false),
+        m_uiMemorySize(0)
+    {
+    }
+
+    EZ_FORCE_INLINE
     void CollectableBase::setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector)
     {
-        m_pGarbageCollector = pGarbageCollector;
+        m_pGarbageCollector = pGarbageCollector.get();
     }
 
     EZ_FORCE_INLINE
@@ -23,7 +30,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     void CollectableBase::setMetaInfo(Ptr<const MetaInfo> pMetaInfo)
     {
-        m_pMetaInfo = pMetaInfo;
+        m_pMetaInfo = pMetaInfo.get();
     }
 
     EZ_FORCE_INLINE
@@ -89,8 +96,9 @@ namespace lcpp
         }
 
         new (pInstance) T();
-        pInstance->setGarbageCollector(this);
-        pInstance->setMetaInfo(pMetaInfo);
+        pInstance->m_uiMemorySize = sizeof(T);
+        pInstance->m_pGarbageCollector = this;
+        pInstance->m_pMetaInfo = pMetaInfo.get();
 
         return pInstance;
     }
@@ -99,20 +107,20 @@ namespace lcpp
     void GarbageCollector::addRoot(Ptr<CollectableBase> pCollectable)
     {
         EZ_ASSERT(!isRoot(pCollectable), "Cannot add same pointer as root more than once!");
-        m_roots.PushBack(pCollectable);
+        m_roots.PushBack(pCollectable.get());
     }
 
     EZ_FORCE_INLINE
     void GarbageCollector::removeRoot(Ptr<CollectableBase> pCollectable)
     {
-        auto wasRemoved = m_roots.RemoveSwap(pCollectable);
+        auto wasRemoved = m_roots.RemoveSwap(pCollectable.get());
         EZ_ASSERT(wasRemoved, "Given pointer is not a root pointer!");
     }
 
     EZ_FORCE_INLINE
     bool GarbageCollector::isRoot(Ptr<CollectableBase> pCollectable) const
     {
-        return m_roots.Contains(pCollectable);
+        return m_roots.Contains(pCollectable.get());
     }
     
     EZ_FORCE_INLINE
@@ -122,9 +130,9 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    bool GarbageCollector::isValidEdenPtr(Ptr<CollectableBase> pCollectable) const
+    bool GarbageCollector::isValidEdenPtr(Ptr<CollectableBase> pObject) const
     {
-        auto ptr = (byte_t*)pCollectable.get();
+        auto ptr = (byte_t*)pObject.get();
         auto memory = m_edenSpace.getMemory();
         return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
     }

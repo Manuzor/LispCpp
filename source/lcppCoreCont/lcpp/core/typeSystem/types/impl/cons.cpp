@@ -16,6 +16,17 @@ namespace lcpp
 {
     namespace cons
     {
+        static void scan(Ptr<CollectableBase> pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
+        {
+            typeCheck(pCollectable, Type::Cons);
+            auto pObject = pCollectable.cast<LispObject>();
+
+            auto ppCar = &reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().m_pCar);
+            pointersToPatch.PushBack(ppCar);
+            
+            auto ppCdr = &reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().m_pCdr);
+            pointersToPatch.PushBack(ppCdr);
+        }
 
         Ptr<const MetaInfo> getMetaInfo()
         {
@@ -24,6 +35,7 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Cons);
                 meta.setPrettyName("cons");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, &scan));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

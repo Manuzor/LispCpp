@@ -4,6 +4,9 @@
 #include "lcpp/core/typeSystem/objectData.h"
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/types/nil.h"
 
 namespace lcpp
 {
@@ -295,11 +298,18 @@ LCPP_TestCase(GarbageCollection, Collect)
     GarbageCollector::CInfo gcCinfo;
 
     gcCinfo.m_pParentAllocator = defaultAllocator();
-    gcCinfo.m_uiInitialMemoryLimit = sizeof(TestType) * 2;
 
     GarbageCollector gc(gcCinfo);
 
-    auto pRoot = gc.create<TestType>(test::getMetaInfo());
+    auto pRoot = object::create<cons::Data>(&gc, cons::getMetaInfo());
+    auto pRoot_Car = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
+    pRoot_Car->getData<number::Integer_t>() = 42;
+    auto pRoot_Cdr = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
+    pRoot_Cdr->getData<number::Integer_t>() = 1337;
+
+    new (pRoot->getData<cons::Data>().m_pCar) Ptr<LispObject>(pRoot_Car);
+    new (pRoot->getData<cons::Data>().m_pCdr) Ptr<LispObject>(pRoot_Cdr);
+
     auto pNonRoot = gc.create<TestType>(test::getMetaInfo());
 
     gc.addRoot(pRoot);
@@ -310,13 +320,13 @@ LCPP_TestCase(GarbageCollection, Collect)
     CUT_ASSERT.isTrue(gc.isAlive(pRoot));
     CUT_ASSERT.isTrue(gc.isAlive(pNonRoot));
 
-    CUT_ASSERT.notImplemented();
-
     gc.collect();
+
+    CUT_ASSERT.notImplemented("Check if the collection was sucessful, somehow.");
 
     CUT_ASSERT.isTrue(gc.isAlive(pRoot));
     CUT_ASSERT.isFalse(gc.isAlive(pNonRoot));
-    
+
     auto& destroyedTestTypes = TestType::getDestroyedTestTypes();
     CUT_ASSERT.isFalse(destroyedTestTypes.Contains(pRoot));
     CUT_ASSERT.isTrue(destroyedTestTypes.Contains(pNonRoot));

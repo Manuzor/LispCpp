@@ -14,6 +14,8 @@ namespace lcpp
         friend GarbageCollector;
     public:
 
+        CollectableBase();
+
         /// \brief Gets the garbage collector associated with this collectable instance.
         Ptr<GarbageCollector> getGarbageCollector();
         Ptr<const GarbageCollector> getGarbageCollector() const;
@@ -25,13 +27,23 @@ namespace lcpp
         void setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector);
         void setMetaInfo(Ptr<const MetaInfo> pMetaInfo);
 
-    protected:
-        
-        Ptr<GarbageCollector> m_pGarbageCollector;
-        Ptr<const MetaInfo> m_pMetaInfo;
+    private:
+
+        bool m_bIsForwarded;
+
+        union
+        {
+            struct
+            {
+                GarbageCollector* m_pGarbageCollector;
+                const MetaInfo* m_pMetaInfo;
+                ezUInt64 m_uiMemorySize;
+            };
+            CollectableBase* m_pForwardPointer;
+        };
     };
 
-    typedef void (*DestructorFunction_t)(Ptr<CollectableBase>);
+    using DestructorFunction_t = void (*)(Ptr<CollectableBase>);
 
     class LCPP_API_CORE_CONT GarbageCollector
     {
@@ -47,6 +59,9 @@ namespace lcpp
         public:
             CInfo();
         };
+
+        using PatchablePointerArray = ezHybridArray<Ptr<CollectableBase>*, 8>;
+        using ScanFunction = void(*)(Ptr<CollectableBase>, PatchablePointerArray&);
 
     public:
 
@@ -67,13 +82,17 @@ namespace lcpp
 
     private:
 
-        bool isValidEdenPtr(Ptr<CollectableBase> pCollectable) const;
+        bool isValidEdenPtr(Ptr<CollectableBase> pObject) const;
+
+        void scanAndPatch(CollectableBase* pObject);
+
+        void addSurvivor(CollectableBase* pSurvivor);
 
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        ezHybridArray<Ptr<CollectableBase>, 64> m_roots;
+        ezHybridArray<CollectableBase*, 64> m_roots;
 
         mutable FixedMemory m_edenSpace;
         mutable FixedMemory m_survivorSpace;
