@@ -6,8 +6,59 @@ namespace lcpp
 {
     class MetaInfo;
     class GarbageCollector;
+    class CollectableBase;
 
     typedef unsigned char byte_t;
+
+    class StackPtrBase
+    {
+        friend GarbageCollector;
+    protected:
+        Ptr<CollectableBase> m_ptr;
+    };
+
+    template<typename T>
+    class StackPtr : public StackPtrBase
+    {
+        EZ_CHECK_AT_COMPILETIME_MSG((std::is_convertible<T, CollectableBase>::value), "T needs to be a collectable object!");
+    public:
+        // Default construct as nullptr
+        StackPtr();
+
+        // Copy constructor
+        StackPtr(const StackPtr& rhs);
+
+        // Move constructor
+        StackPtr(StackPtr&& rhs);
+
+        // Construct from Ptr
+        StackPtr(Ptr<T> ptr);
+
+        // Construct from other StackPtr<>
+        template<typename T_Other>
+        StackPtr(const StackPtr<T_Other>& other);
+
+        ~StackPtr();
+
+        void operator =(const StackPtr& toCopy);
+        void operator =(StackPtr&& toMove);
+        void operator =(Ptr<T> ptr);
+
+        T* operator ->() const;
+        T& operator *() const;
+
+        T* get() const;
+        bool isNull() const;
+
+        template<typename T_Other>
+        StackPtr<T_Other> cast() const;
+
+        operator bool() const;
+
+    private:
+        void addToGc() const;
+        void removeFromGc() const;
+    };
 
     class LCPP_API_CORE_CONT CollectableBase
     {
@@ -37,7 +88,8 @@ namespace lcpp
             {
                 GarbageCollector* m_pGarbageCollector;
                 const MetaInfo* m_pMetaInfo;
-                ezUInt64 m_uiMemorySize;
+                size_t m_uiMemorySize;
+                mutable ezUInt64 m_uiStackReferenceCount;
             };
             CollectableBase* m_pForwardPointer;
         };
@@ -80,6 +132,10 @@ namespace lcpp
         bool isRoot(Ptr<CollectableBase> pCollectable) const;
         bool isAlive(Ptr<CollectableBase> pCollectable) const;
 
+        void addStackPtr(const StackPtrBase* stackPtr) const;
+        void removeStackPtr(const StackPtrBase* stackPtr) const;
+        bool isOnStack(Ptr<CollectableBase> pCollectable) const;
+
     private:
 
         bool isValidEdenPtr(Ptr<CollectableBase> pObject) const;
@@ -92,7 +148,8 @@ namespace lcpp
 
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        ezHybridArray<CollectableBase*, 64> m_roots;
+        ezHybridArray<CollectableBase*, 16> m_roots;
+        mutable ezHybridArray<const StackPtrBase*, 128> m_stackPtrs;
 
         mutable FixedMemory m_edenSpace;
         mutable FixedMemory m_survivorSpace;
