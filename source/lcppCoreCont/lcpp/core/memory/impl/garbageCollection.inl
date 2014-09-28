@@ -279,21 +279,21 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::addStackPtr(const StackPtrBase* stackPtr) const
     {
-        m_stackPtrs.PushBack(stackPtr);
+        m_stackReferences.PushBack(stackPtr);
     }
 
     EZ_FORCE_INLINE
     void GarbageCollector::removeStackPtr(const StackPtrBase* stackPtr) const
     {
-        auto uiIndex = m_stackPtrs.LastIndexOf(stackPtr);
+        auto uiIndex = m_stackReferences.LastIndexOf(stackPtr);
         EZ_ASSERT(uiIndex != ezInvalidIndex, "");
-        m_stackPtrs.RemoveAtSwap(uiIndex);
+        m_stackReferences.RemoveAtSwap(uiIndex);
     }
 
     EZ_FORCE_INLINE
     bool GarbageCollector::isOnStack(Ptr<CollectableBase> pCollectable) const
     {
-        for (auto pStackPtr : m_stackPtrs)
+        for (auto pStackPtr : m_stackReferences)
         {
             if (pStackPtr->m_ptr == pCollectable)
                 return true;

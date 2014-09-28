@@ -14,7 +14,7 @@ namespace lcpp
     {
         friend GarbageCollector;
     protected:
-        Ptr<CollectableBase> m_ptr;
+        mutable Ptr<CollectableBase> m_ptr;
     };
 
     template<typename T>
@@ -149,7 +149,7 @@ namespace lcpp
         Ptr<ezAllocatorBase> m_pAllocator;
 
         ezHybridArray<CollectableBase*, 16> m_roots;
-        mutable ezHybridArray<const StackPtrBase*, 128> m_stackPtrs;
+        mutable ezHybridArray<const StackPtrBase*, 128> m_stackReferences;
 
         mutable FixedMemory m_edenSpace;
         mutable FixedMemory m_survivorSpace;

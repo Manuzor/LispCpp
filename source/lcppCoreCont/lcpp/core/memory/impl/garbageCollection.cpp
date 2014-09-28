@@ -51,6 +51,19 @@ namespace lcpp
             scanAndPatch(pRoot);
         }
 
+        // Make sure all stack reference stay alive
+        for (auto pStackPtr : m_stackReferences)
+        {
+            auto pCollectable = pStackPtr->m_ptr.get();
+            if (!pCollectable->m_bIsForwarded)
+                addSurvivor(pCollectable);
+
+            pCollectable = pCollectable->m_pForwardPointer;
+            scanAndPatch(pCollectable);
+
+            pStackPtr->m_ptr = pCollectable;
+        }
+
         // TODO "destroy" garbage.
 
         auto newSurvivorMemory = m_edenSpace.getEntireMemory();
