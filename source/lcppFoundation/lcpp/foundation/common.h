@@ -15,6 +15,8 @@
 #define LCPP_OVERRIDE override
 #define LCPP_FINAL final
 
+#define LCPP_Const(declaration) declaration const
+
 #include "lcpp/foundation/memory/allocator.h"
 
 #include "lcpp/foundation/wrapper.h"

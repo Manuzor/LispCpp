@@ -16,6 +16,26 @@ namespace lcpp
 {
     namespace env
     {
+        static void scan(Ptr<CollectableBase> pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
+        {
+            typeCheck(pCollectable, Type::Environment);
+            auto pObject = pCollectable.cast<LispObject>();
+
+            auto pName = reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().getName());
+            auto pParent = reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().getParent());
+
+            auto& table = detail::getTable(pObject);
+
+            for (auto iter = table.GetIterator(); iter.IsValid(); ++iter)
+            {
+                auto pKey = &reinterpret_cast<Ptr<CollectableBase>&>(const_cast<Ptr<LispObject>&>(iter.Key()));
+                auto pValue = &reinterpret_cast<Ptr<CollectableBase>&>(iter.Value());
+
+                pointersToPatch.PushBack(pKey);
+                pointersToPatch.PushBack(pValue);
+            }
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -23,6 +43,7 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Environment);
                 meta.setPrettyName("environment");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, &scan));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

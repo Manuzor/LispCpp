@@ -10,8 +10,8 @@ namespace lcpp
         {
         public:
 
-            Ptr<LispObject> getName();
-            Ptr<LispObject> getParent();
+            Ptr<LispObject>& getName();
+            Ptr<LispObject>& getParent();
             HashTable& getTable();
 
         public:
