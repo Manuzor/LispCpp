@@ -1,6 +1,5 @@
 #pragma once
 #include "lcpp/core/memory/garbageCollection.h"
-#include "lcpp/core/memory/refIndex.h"
 
 namespace lcpp
 {

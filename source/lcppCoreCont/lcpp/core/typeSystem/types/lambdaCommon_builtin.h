@@ -8,7 +8,7 @@ namespace lcpp
     {
         namespace builtin
         {
-            typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
+            typedef StackPtr<LispObject>(*Function_t)(StackPtr<LispObject>);
         }
     }
 }

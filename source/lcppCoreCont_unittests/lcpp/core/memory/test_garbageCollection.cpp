@@ -17,16 +17,16 @@ namespace lcpp
             class TestType : public LispObject
             {
             public:
-                static ezHybridArray<Ptr<TestType>, 8> getDestroyedTestTypes()
+                static ezHybridArray<StackPtr<TestType>, 8> getDestroyedTestTypes()
                 {
-                    ezHybridArray<Ptr<TestType>, 8> arr(defaultAllocator());
+                    ezHybridArray<StackPtr<TestType>, 8> arr(defaultAllocator());
                     return arr;
                 }
 
                 number::Integer_t m_integerData;
             };
 
-            void destroy(Ptr<LispObject> pObject)
+            void destroy(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::ENUM_COUNT);
 
@@ -157,15 +157,17 @@ LCPP_TestCase(GarbageCollection, StackPtr)
 
     GarbageCollector gc(gcCinfo);
 
-    auto pObject = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
-    CUT_ASSERT.isFalse(gc.isOnStack(pObject));
+    CUT_ASSERT.notImplemented();
 
-    {
-        StackPtr<LispObject> pObjectOnStack = pObject;
-        CUT_ASSERT.isTrue(gc.isOnStack(pObject));
-    }
-
-    CUT_ASSERT.isFalse(gc.isOnStack(pObject));
+    //auto pObject = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
+    //CUT_ASSERT.isFalse(gc.isOnStack(pObject));
+    //
+    //{
+    //    StackPtr<LispObject> pObjectOnStack = pObject;
+    //    CUT_ASSERT.isTrue(gc.isOnStack(pObject));
+    //}
+    //
+    //CUT_ASSERT.isFalse(gc.isOnStack(pObject));
 }
 
 LCPP_TestCase(GarbageCollection, Collect)
@@ -190,24 +192,24 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     auto pNonRoot = gc.create<TestType>(test::getMetaInfo());
 
-    gc.addRoot(pRoot);
+    gc.addRoot(pRoot.get());
 
-    CUT_ASSERT.isTrue(gc.isRoot(pRoot));
-    CUT_ASSERT.isFalse(gc.isRoot(pNonRoot));
+    CUT_ASSERT.isTrue(gc.isRoot(pRoot.get()));
+    CUT_ASSERT.isFalse(gc.isRoot(pNonRoot.get()));
 
-    CUT_ASSERT.isTrue(gc.isAlive(pRoot));
-    CUT_ASSERT.isTrue(gc.isAlive(pNonRoot));
+    CUT_ASSERT.isTrue(gc.isAlive(pRoot.get()));
+    CUT_ASSERT.isTrue(gc.isAlive(pNonRoot.get()));
 
     gc.collect();
 
     CUT_ASSERT.notImplemented("Check if the collection was successful, somehow.");
 
-    CUT_ASSERT.isTrue(gc.isAlive(pRoot));
-    CUT_ASSERT.isFalse(gc.isAlive(pNonRoot));
+    CUT_ASSERT.isTrue(gc.isAlive(pRoot.get()));
+    CUT_ASSERT.isFalse(gc.isAlive(pNonRoot.get()));
 
     auto& destroyedTestTypes = TestType::getDestroyedTestTypes();
-    CUT_ASSERT.isFalse(destroyedTestTypes.Contains(pRoot));
-    CUT_ASSERT.isTrue(destroyedTestTypes.Contains(pNonRoot));
+    CUT_ASSERT.isFalse(destroyedTestTypes.Contains(pRoot.cast<TestType>()));
+    CUT_ASSERT.isTrue(destroyedTestTypes.Contains(pNonRoot.get()));
 
     return;
 }

@@ -17,6 +17,10 @@
 #define VerboseDebugMessage Debug
 #endif
 
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
+lcpp::GarbageCollector* g_pGC(nullptr);
+#endif
+
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
     m_recursionDepth(0),
@@ -43,12 +47,14 @@ lcpp::LispRuntimeState::initialize()
     ++m_stats.m_initializationCount;
 
     m_pAllocator = defaultAllocator();
+    g_pGC = getGarbageCollector();
 
-    m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
+    auto pName = symbol::create("syntax");
+    m_pSyntaxEnvironment = env::createTopLevel(pName);
     m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global"));
 
     // Prevent collecting of the syntax and global environment.
-    getGarbageCollector()->addRoot(m_pSyntaxEnvironment);
+    getGarbageCollector()->addRoot(m_pSyntaxEnvironment.get());
 
     //////////////////////////////////////////////////////////////////////////
     
@@ -74,7 +80,7 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-    getGarbageCollector()->removeRoot(m_pSyntaxEnvironment);
+    getGarbageCollector()->removeRoot(m_pSyntaxEnvironment.get());
 
     LCPP_DELETE(m_pAllocator, m_pReaderState);
 }

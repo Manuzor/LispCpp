@@ -7,7 +7,7 @@ namespace lcpp
     {
         template<typename T_Data>
         EZ_FORCE_INLINE
-        Ptr<LispObject>
+        StackPtr<LispObject>
         create(Ptr<const MetaInfo> pMetaInfo)
         {
             return create<T_Data>(getGarbageCollector(), pMetaInfo);
@@ -15,7 +15,7 @@ namespace lcpp
 
         template<typename T_Data>
         EZ_FORCE_INLINE
-        Ptr<LispObject>
+        StackPtr<LispObject>
         create(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo)
         {
             // Helper struct to determine the minimum memory needed for this lisp object using T_Data

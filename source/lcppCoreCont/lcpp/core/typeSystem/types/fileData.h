@@ -12,7 +12,7 @@ namespace lcpp
             const ezOSFile& getFile() const;
 
             Ptr<LispObject> getFileName();
-            void setFileName(Ptr<LispObject> pValue);
+            void setFileName(StackPtr<LispObject> pValue);
 
         public:
 

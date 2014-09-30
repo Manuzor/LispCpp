@@ -9,13 +9,13 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    Ptr<LispObject> LispRuntimeState::getSyntaxEnvironment()
+    StackPtr<LispObject> LispRuntimeState::getSyntaxEnvironment()
     {
         return m_pSyntaxEnvironment;
     }
 
     EZ_FORCE_INLINE
-    Ptr<LispObject> LispRuntimeState::getGlobalEnvironment()
+    StackPtr<LispObject> LispRuntimeState::getGlobalEnvironment()
     {
         return m_pGlobalEnvironment;
     }

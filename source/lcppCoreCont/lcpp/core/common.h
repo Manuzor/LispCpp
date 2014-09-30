@@ -46,6 +46,12 @@
 
 #include "lcpp/core/memory/garbageCollection.h"
 
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
+extern lcpp::GarbageCollector* g_pGC;
+#endif
+
 #include "lcpp/core/commonTypes.h"
+
+#include "lcpp/core/typeSystem/objectData.h"
 
 #define LCPP_DeclareRawDataMember(typeName, memberName) char memberName [sizeof(typeName)]

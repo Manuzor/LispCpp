@@ -49,7 +49,7 @@ LCPP_TestCase(Environment, getBinding_addBinding_setBinding)
     auto pInteger_42 = number::create(42);
     auto pInteger_1337 = number::create(1337);
 
-    auto pResultObject = Ptr<LispObject>();
+    auto pResultObject = StackPtr<LispObject>();
     auto result = ezResult(EZ_FAILURE);
 
     result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);
@@ -131,7 +131,7 @@ LCPP_TestCase(Environment, qualifiedName)
     auto pEnvChild2 = env::create(pEnvChild1, symbol::create("child2")); ///< parent/child1/child2
     auto pEnvChild3 = env::create(pEnvChild2, symbol::create("child3")); ///< parent/child1/child2/child3
 
-    auto pName = Ptr<LispObject>();
+    auto pName = StackPtr<LispObject>();
 
     //////////////////////////////////////////////////////////////////////////
 

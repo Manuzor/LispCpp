@@ -18,8 +18,8 @@ namespace lcpp
     {
         static void scan(Ptr<CollectableBase> pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
         {
-            typeCheck(pCollectable, Type::Cons);
             auto pObject = pCollectable.cast<LispObject>();
+            typeCheck(pObject, Type::Cons);
 
             auto ppCar = &reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().m_pCar);
             pointersToPatch.PushBack(ppCar);
@@ -43,7 +43,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
+        StackPtr<LispObject> create(StackPtr<LispObject> pCar, StackPtr<LispObject> pCdr)
         {
             LCPP_LogBlock("cons::create");
 
@@ -57,21 +57,21 @@ namespace lcpp
         }
 
 
-        Ptr<LispObject> getCar(Ptr<LispObject> pCons)
+        StackPtr<LispObject> getCar(StackPtr<LispObject> pCons)
         {
             typeCheck(pCons, Type::Cons);
 
             return pCons->getData<Data>().getCar();
         }
 
-        Ptr<LispObject> getCdr(Ptr<LispObject> pCons)
+        StackPtr<LispObject> getCdr(StackPtr<LispObject> pCons)
         {
             typeCheck(pCons, Type::Cons);
 
             return pCons->getData<Data>().getCdr();
         }
 
-        ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack)
+        ezUInt32 pushAll(StackPtr<LispObject> pCons, Ptr<Stack> pStack)
         {
             LCPP_LogBlock("cons::pushAll");
             LCPP_LogVerboseDebugMessage("Cons = %s", str::getValue(object::toString(pCons)).GetData());
@@ -87,7 +87,7 @@ namespace lcpp
             return count;
         }
 
-        ezUInt32 pushAllReverse(Ptr<LispObject> pCons, Ptr<Stack> pStack)
+        ezUInt32 pushAllReverse(StackPtr<LispObject> pCons, Ptr<Stack> pStack)
         {
             LCPP_LogBlock("cons::pushAllReverse");
             LCPP_LogVerboseDebugMessage("Cons = %s", str::getValue(object::toString(pCons)).GetData());
@@ -106,7 +106,7 @@ namespace lcpp
             return count;
         }
 
-        Ptr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
+        StackPtr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
         {
             LCPP_LogBlock("cons::pack");
 
@@ -133,7 +133,7 @@ namespace lcpp
             return pCons;
         }
 
-        static void toStringHelper(Ptr<LispObject> pCons, ezStringBuilder& builder)
+        static void toStringHelper(StackPtr<LispObject> pCons, ezStringBuilder& builder)
         {
             auto pCar = getCar(pCons);
 
@@ -167,7 +167,7 @@ namespace lcpp
             }
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Cons);
             
@@ -181,7 +181,7 @@ namespace lcpp
 
     }
 
-    bool isCons(Ptr<LispObject> pObject)
+    bool isCons(StackPtr<LispObject> pObject)
     {
         return object::isType(pObject, Type::Cons);
     }

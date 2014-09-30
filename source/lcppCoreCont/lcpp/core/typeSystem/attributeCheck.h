@@ -6,9 +6,9 @@ namespace lcpp
 {
     class LispObject;
 
-    LCPP_API_CORE_CONT void attributeCheckAll(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags);
-    LCPP_API_CORE_CONT void attributeCheckAny(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags);
-    LCPP_API_CORE_CONT void attributeCheckNone(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags);
+    LCPP_API_CORE_CONT void attributeCheckAll(const StackPtr<LispObject>& pObject, const AttributeFlags& expectedFlags);
+    LCPP_API_CORE_CONT void attributeCheckAny(const StackPtr<LispObject>& pObject, const AttributeFlags& expectedFlags);
+    LCPP_API_CORE_CONT void attributeCheckNone(const StackPtr<LispObject>& pObject, const AttributeFlags& expectedFlags);
 
     void attributeCheckFailed(const char* szMessage);
 }

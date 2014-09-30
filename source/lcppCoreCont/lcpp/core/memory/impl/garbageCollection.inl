@@ -42,136 +42,6 @@ namespace lcpp
 
     //////////////////////////////////////////////////////////////////////////
 
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr()
-    {
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(const StackPtr& rhs)
-    {
-        m_ptr = rhs.m_ptr;
-        addToGc();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(StackPtr&& rhs)
-    {
-        m_ptr = std::move(rhs.m_ptr);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(Ptr<T> ptr)
-    {
-        m_ptr = ptr;
-        addToGc();
-    }
-
-    template<typename T>
-    template<typename T_Other>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(const StackPtr<T_Other>& other)
-    {
-        m_ptr = other.m_ptr;
-        addToGc();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::~StackPtr()
-    {
-        removeFromGc();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::operator=(const StackPtr& toCopy)
-    {
-        StackPtr<T> copy(toCopy);
-
-        using namespace std;
-        swap(m_ptr, copy.m_ptr);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::operator=(StackPtr&& toMove)
-    {
-        m_ptr = std::move(toMove.m_ptr);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::operator=(Ptr<T> pPtr)
-    {
-        *this = StackPtr<T>(pPtr);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    T* StackPtr<T>::operator ->() const
-    {
-        return get();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    T& StackPtr<T>::operator *() const
-    {
-        return *get();
-    }
-    
-    template<typename T>
-    EZ_FORCE_INLINE
-    T* StackPtr<T>::get() const
-    {
-        return static_cast<T*>(m_ptr.get());
-    }
-    
-    template<typename T>
-    EZ_FORCE_INLINE
-    bool StackPtr<T>::isNull() const
-    {
-        return m_ptr.isNull();
-    }
-
-    template<typename T>
-    template<typename T_Other>
-    EZ_FORCE_INLINE
-    StackPtr<T_Other> StackPtr<T>::cast() const
-    {
-        return m_ptr.cast<T_Other>();
-    }
-    
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::operator bool() const
-    {
-        return !isNull();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::addToGc() const
-    {
-        if(!isNull())
-            m_ptr->getGarbageCollector()->addStackPtr(this);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::removeFromGc() const
-    {
-        if(!isNull())
-            m_ptr->getGarbageCollector()->removeStackPtr(this);
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-
     EZ_FORCE_INLINE
     GarbageCollector::CInfo::CInfo() :
         m_uiInitialMemoryLimit(0)
@@ -195,7 +65,7 @@ namespace lcpp
 
     template<typename T>
     EZ_FORCE_INLINE
-    Ptr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
+    StackPtr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
     {
         LCPP_LogBlock("GarbageCollector::create");
         
@@ -297,18 +167,6 @@ namespace lcpp
         auto uiIndex = m_stackReferences.LastIndexOf(stackPtr);
         EZ_ASSERT(uiIndex != ezInvalidIndex, "");
         m_stackReferences.RemoveAtSwap(uiIndex);
-    }
-
-    EZ_FORCE_INLINE
-    bool GarbageCollector::isOnStack(Ptr<CollectableBase> pCollectable) const
-    {
-        for (auto pStackPtr : m_stackReferences)
-        {
-            if (pStackPtr->m_ptr == pCollectable)
-                return true;
-        }
-
-        return false;
     }
 
     EZ_FORCE_INLINE

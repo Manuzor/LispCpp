@@ -23,6 +23,6 @@ namespace lcpp
 
     namespace env
     {
-        typedef ezHashTable<Ptr<LispObject>, Ptr<LispObject>, ezHashHelper<Ptr<LispObject>>, AllocatorWrapper_Default> HashTable;
+        typedef ezHashTable<StackPtr<LispObject>, StackPtr<LispObject>, ezHashHelper<StackPtr<LispObject>>, AllocatorWrapper_Default> HashTable;
     }
 }

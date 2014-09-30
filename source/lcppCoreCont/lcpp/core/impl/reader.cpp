@@ -25,7 +25,7 @@ namespace lcpp
     namespace reader
     {
 
-        Ptr<LispObject> read(Ptr<LispObject> pCont)
+        StackPtr<LispObject> read(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
             auto pState = cont::getRuntimeState(pCont)->getReaderState();
@@ -42,7 +42,7 @@ namespace lcpp
             }
 
             auto pCharacter = symbol::create(stream::getCharacter(pStream));
-            auto pCharacterHandler = LCPP_pNil;
+            StackPtr<LispObject> pCharacterHandler = LCPP_pNil;
 
             if(env::getBinding(pState->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
             {
@@ -62,7 +62,7 @@ namespace lcpp
             LCPP_cont_tailCall(pCont, &detail::readAtom);
         }
 
-        void addCharacterMacro(Ptr<LispRuntimeState> pState, Ptr<LispObject> pCharacter, Ptr<LispObject> pLambda)
+        void addCharacterMacro(Ptr<LispRuntimeState> pState, StackPtr<LispObject> pCharacter, StackPtr<LispObject> pLambda)
         {
             static auto emptyString = String();
 
@@ -93,7 +93,7 @@ namespace lcpp
             }
         }
 
-        void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax)
+        void addSyntax(Ptr<LispRuntimeState> pState, StackPtr<LispObject> pSymbol, StackPtr<LispObject> pSyntax)
         {
             typeCheck(pSymbol, Type::Symbol);
             typeCheck(pSyntax, Type::Syntax);
@@ -106,14 +106,14 @@ namespace lcpp
             }
         }
 
-        ezResult getSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject>& out_pSyntax)
+        ezResult getSyntax(Ptr<LispRuntimeState> pState, StackPtr<LispObject> pSymbol, StackPtr<LispObject>& out_pSyntax)
         {
             return env::getBinding(pState->getSyntaxEnvironment(), pSymbol, out_pSyntax);
         }
 
         namespace detail
         {
-            Ptr<LispObject> readAtom(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readAtom(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont)->getReaderState();
@@ -196,7 +196,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &readSymbol);
             }
 
-            Ptr<LispObject> readSymbol(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readSymbol(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont)->getReaderState();
@@ -222,7 +222,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, symbol::create(theSymbol));
             }
 
-            Ptr<LispObject> readString(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readString(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont)->getReaderState();
@@ -263,7 +263,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, str::create(theString));
             }
 
-            Ptr<LispObject> readList(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readList(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -288,7 +288,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &readList_helper);
             }
 
-            Ptr<LispObject> readList_helper(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readList_helper(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -317,7 +317,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &read, pStream);
             }
 
-            Ptr<LispObject> readList_parsedCar(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readList_parsedCar(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -333,7 +333,7 @@ namespace lcpp
 
                 if(object::isType(pCar, Type::Symbol))
                 {
-                    auto pSyntax = LCPP_pNil;
+                    StackPtr<LispObject> pSyntax = LCPP_pNil;
 
                     if(getSyntax(pState, pCar, pSyntax).Succeeded())
                     {
@@ -351,7 +351,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &readList_helper, pEnv, pStream);
             }
 
-            Ptr<LispObject> readList_finalize(Ptr<LispObject> pCont)
+            StackPtr<LispObject> readList_finalize(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -367,7 +367,7 @@ namespace lcpp
 
             //////////////////////////////////////////////////////////////////////////
 
-            ezUInt32 skipSeparators(Ptr<State> pState, Ptr<LispObject> pStream)
+            ezUInt32 skipSeparators(Ptr<State> pState, StackPtr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
 
@@ -389,7 +389,7 @@ namespace lcpp
                 return count;
             }
 
-            ezUInt32 skipToFirstNewLine(Ptr<State> pState, Ptr<LispObject> pStream)
+            ezUInt32 skipToFirstNewLine(Ptr<State> pState, StackPtr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
 
@@ -404,7 +404,7 @@ namespace lcpp
                 return count;
             }
 
-            ezUInt32 advance(Ptr<State> pState, Ptr<LispObject> pStream)
+            ezUInt32 advance(Ptr<State> pState, StackPtr<LispObject> pStream)
             {
                 typeCheck(pStream, Type::Stream);
 

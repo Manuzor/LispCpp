@@ -12,15 +12,20 @@ namespace lcpp
 
     template<typename T_Key>
     inline
-    Ptr<LispObject> InsanceTable<T_Key>::get(const T_Key& key)
+    StackPtr<LispObject> InsanceTable<T_Key>::get(const T_Key& key)
     {
-        auto pResult = Ptr<LispObject>();
-        if(!m_table.TryGetValue(key, pResult))
+        StackPtr<LispObject> pResult;
+        LispObject* pRawResult;
+        if(!m_table.TryGetValue(key, pRawResult))
         {
             pResult = (*m_pFunctor_createNew)(key);
-            m_table[key] = pResult;
+            m_table[key] = pResult.get();
         }
-        EZ_ASSERT(!pResult.isNull(), "The result should never be a nullptr!");
+        else
+        {
+            pResult = pRawResult;
+        }
+        EZ_ASSERT(pResult, "The result should never be a nullptr!");
 
         return pResult;
     }

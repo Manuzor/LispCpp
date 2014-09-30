@@ -27,54 +27,54 @@ namespace lcpp
 {
     namespace object
     {
-        bool isType(Ptr<LispObject> pObject, const Type& type)
+        bool isType(StackPtr<LispObject> pObject, const Type& type)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
             return getType(pObject) == type;
         }
 
-        const Type& getType(Ptr<LispObject> pObject)
+        const Type& getType(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
             EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
             return pObject->getMetaInfo()->getType();
         }
 
-        const AttributeFlags& getAttributes(Ptr<LispObject> pObject)
+        const AttributeFlags& getAttributes(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
             EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
             return pObject->getMetaInfo()->getAttributes();
         }
 
-        const MetaInfo& getMetaInfo(Ptr<LispObject> pObject)
+        const MetaInfo& getMetaInfo(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid object.");
             EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
             return *pObject->getMetaInfo();
         }
 
-        bool isCallable(Ptr<LispObject> pObject)
+        bool isCallable(StackPtr<LispObject> pObject)
         {
             return getAttributes(pObject).isCallable();
         }
 
-        bool isBuiltin(Ptr<LispObject> pObject)
+        bool isBuiltin(StackPtr<LispObject> pObject)
         {
             return getAttributes(pObject).isBuiltin();
         }
 
-        bool isNameable(Ptr<LispObject> pObject)
+        bool isNameable(StackPtr<LispObject> pObject)
         {
             return getAttributes(pObject).isNameable();
         }
 
-        bool isEnvironmentContainer(Ptr<LispObject> pObject)
+        bool isEnvironmentContainer(StackPtr<LispObject> pObject)
         {
             return getAttributes(pObject).isEnvironmentContainer();
         }
 
-        Ptr<LispObject> call(Ptr<LispObject> pCont)
+        StackPtr<LispObject> call(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
@@ -96,7 +96,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -131,7 +131,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for toString."));
         }
 
-        Ptr<LispObject> getName(Ptr<LispObject> pObject)
+        StackPtr<LispObject> getName(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -147,7 +147,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
 
-        void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName)
+        void setName(StackPtr<LispObject> pObject, StackPtr<LispObject> pName)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -163,7 +163,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
 
-        bool hasName(Ptr<LispObject> pObject)
+        bool hasName(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -179,7 +179,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
 
-        Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject)
+        StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -197,7 +197,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput(message.GetData()));
         }
 
-        void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv)
+        void setEnvironment(StackPtr<LispObject> pObject, StackPtr<LispObject> pEnv)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -212,7 +212,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput(message.GetData()));
         }
 
-        bool hasEnvironment(Ptr<LispObject> pObject)
+        bool hasEnvironment(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 

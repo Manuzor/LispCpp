@@ -19,7 +19,7 @@ namespace lcpp
                 Ptr<Signature> getSignature();
 
                 Ptr<LispObject> getName();
-                void setName(Ptr<LispObject> pNewName);
+                void setName(StackPtr<LispObject> pNewName);
 
                 Function_t getFunction();
 

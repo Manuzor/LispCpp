@@ -1,5 +1,5 @@
 #pragma once
-#include "lcpp/core/memory/refIndex.h"
+#include "lcpp/core/memory/stackPtr.h"
 #include "lcpp/core/memory/fixedMemory.h"
 
 namespace lcpp
@@ -7,58 +7,9 @@ namespace lcpp
     class MetaInfo;
     class GarbageCollector;
     class CollectableBase;
+    class StackPtrBase;
 
     typedef unsigned char byte_t;
-
-    class StackPtrBase
-    {
-        friend GarbageCollector;
-    protected:
-        mutable Ptr<CollectableBase> m_ptr;
-    };
-
-    template<typename T>
-    class StackPtr : public StackPtrBase
-    {
-        EZ_CHECK_AT_COMPILETIME_MSG((std::is_convertible<T, CollectableBase>::value), "T needs to be a collectable object!");
-    public:
-        // Default construct as nullptr
-        StackPtr();
-
-        // Copy constructor
-        StackPtr(const StackPtr& rhs);
-
-        // Move constructor
-        StackPtr(StackPtr&& rhs);
-
-        // Construct from Ptr
-        StackPtr(Ptr<T> ptr);
-
-        // Construct from other StackPtr<>
-        template<typename T_Other>
-        StackPtr(const StackPtr<T_Other>& other);
-
-        ~StackPtr();
-
-        void operator =(const StackPtr& toCopy);
-        void operator =(StackPtr&& toMove);
-        void operator =(Ptr<T> ptr);
-
-        T* operator ->() const;
-        T& operator *() const;
-
-        T* get() const;
-        bool isNull() const;
-
-        template<typename T_Other>
-        StackPtr<T_Other> cast() const;
-
-        operator bool() const;
-
-    private:
-        void addToGc() const;
-        void removeFromGc() const;
-    };
 
     class LCPP_API_CORE_CONT CollectableBase
     {
@@ -123,7 +74,7 @@ namespace lcpp
         Ptr<T> createStatic(Ptr<const MetaInfo> pMetaInfo);
 
         template<typename T>
-        Ptr<T> create(Ptr<const MetaInfo> pMetaInfo);
+        StackPtr<T> create(Ptr<const MetaInfo> pMetaInfo);
 
         void collect();
 

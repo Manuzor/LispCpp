@@ -11,11 +11,11 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
 
     };
 
-    bool isNil(Ptr<LispObject> pObject);
+    bool isNil(StackPtr<LispObject> pObject);
 }
 
 #define LCPP_pNil ::lcpp::nil::create()

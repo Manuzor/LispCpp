@@ -44,7 +44,7 @@ namespace lcpp
                 return &meta;
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Ptr<LispObject> pArgList, Ptr<LispObject> pBodyList)
+            StackPtr<LispObject> create(StackPtr<LispObject> pParentEnv, StackPtr<LispObject> pArgList, StackPtr<LispObject> pBodyList)
             {
                 LCPP_LogBlock("lambda::userDefined::create");
 
@@ -76,7 +76,7 @@ namespace lcpp
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            StackPtr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -101,7 +101,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::call_updateEnv);
             }
 
-            Ptr<LispObject> detail::call_updateEnv(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::call_updateEnv(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -138,7 +138,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &call_updateEnv);
             }
 
-            Ptr<LispObject> detail::call_evalBody(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::call_evalBody(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -156,7 +156,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pBody);
             }
 
-            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::call_finalize(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -167,7 +167,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pStack->get(-1));
             }
 
-            Ptr<LispObject> getName(Ptr<LispObject> pLambda)
+            StackPtr<LispObject> getName(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
@@ -175,7 +175,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getName();
             }
 
-            void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
+            void setName(StackPtr<LispObject> pLambda, StackPtr<LispObject> pNewName)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
@@ -184,12 +184,12 @@ namespace lcpp
                 pLambda->getData<Data>().setName(pNewName);
             }
 
-            bool hasName(Ptr<LispObject> pLambda)
+            bool hasName(StackPtr<LispObject> pLambda)
             {
                 return !isNil(getName(pLambda));
             }
 
-            Ptr<LispObject> getEnvironment(Ptr<LispObject> pLambda)
+            StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
@@ -197,7 +197,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getEnv();
             }
 
-            Ptr<LispObject> getArgList(Ptr<LispObject> pLambda)
+            StackPtr<LispObject> getArgList(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
@@ -205,7 +205,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getArgList();
             }
 
-            Ptr<LispObject> getBody(Ptr<LispObject> pLambda)
+            StackPtr<LispObject> getBody(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
@@ -213,7 +213,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getBody();
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Lambda);
                 attributeCheckNone(pObject, AttributeFlags::Builtin);

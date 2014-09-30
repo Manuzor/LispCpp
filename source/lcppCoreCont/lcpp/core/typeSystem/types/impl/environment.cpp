@@ -18,8 +18,8 @@ namespace lcpp
     {
         static void scan(Ptr<CollectableBase> pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
         {
-            typeCheck(pCollectable, Type::Environment);
             auto pObject = pCollectable.cast<LispObject>();
+            typeCheck(pObject, Type::Environment);
 
             auto pName = reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().getName());
             auto pParent = reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().getParent());
@@ -28,7 +28,7 @@ namespace lcpp
 
             for (auto iter = table.GetIterator(); iter.IsValid(); ++iter)
             {
-                auto pKey = &reinterpret_cast<Ptr<CollectableBase>&>(const_cast<Ptr<LispObject>&>(iter.Key()));
+                auto pKey = &reinterpret_cast<Ptr<CollectableBase>&>(const_cast<StackPtr<LispObject>&>(iter.Key()));
                 auto pValue = &reinterpret_cast<Ptr<CollectableBase>&>(iter.Value());
 
                 pointersToPatch.PushBack(pKey);
@@ -50,8 +50,8 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(Ptr<LispObject> pParent,
-                               Ptr<LispObject> pName)
+        StackPtr<LispObject> create(StackPtr<LispObject> pParent,
+                               StackPtr<LispObject> pName)
         {
             LCPP_LogBlock("env::create");
 
@@ -69,26 +69,26 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> createTopLevel(Ptr<LispObject> pName)
+        StackPtr<LispObject> createTopLevel(StackPtr<LispObject> pName)
         {
             return create(LCPP_pNil, pName);
         }
 
-        Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent)
+        StackPtr<LispObject> createAnonymous(StackPtr<LispObject> pParent)
         {
             return create(pParent, symbol::create("anonymous"));
         }
 
         //////////////////////////////////////////////////////////////////////////
 
-        Ptr<LispObject> getName(Ptr<LispObject> pEnv)
+        StackPtr<LispObject> getName(StackPtr<LispObject> pEnv)
         {
             typeCheck(pEnv, Type::Environment);
 
             return pEnv->getData<Data>().getName();
         }
 
-        Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv)
+        StackPtr<LispObject> getQualifiedName(StackPtr<LispObject> pEnv)
         {
             typeCheck(pEnv, Type::Environment);
 
@@ -108,16 +108,16 @@ namespace lcpp
             return str::create(name);
         }
 
-        Ptr<LispObject> getParent(Ptr<LispObject> pEnv)
+        StackPtr<LispObject> getParent(StackPtr<LispObject> pEnv)
         {
             typeCheck(pEnv, Type::Environment);
 
             return pEnv->getData<Data>().getParent();
         }
 
-        void addBinding(Ptr<LispObject> pEnv,
-                        Ptr<LispObject> pSymbol,
-                        Ptr<LispObject> pValue)
+        void addBinding(StackPtr<LispObject> pEnv,
+                        StackPtr<LispObject> pSymbol,
+                        StackPtr<LispObject> pValue)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
@@ -127,9 +127,9 @@ namespace lcpp
             table[pSymbol] = pValue;
         }
 
-        ezResult setBinding(Ptr<LispObject> pEnv,
-                            Ptr<LispObject> pSymbol,
-                            Ptr<LispObject> pValue)
+        ezResult setBinding(StackPtr<LispObject> pEnv,
+                            StackPtr<LispObject> pSymbol,
+                            StackPtr<LispObject> pValue)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
@@ -152,16 +152,16 @@ namespace lcpp
             return EZ_FAILURE;
         }
 
-        ezResult getBinding(Ptr<LispObject> pEnv,
-                            Ptr<LispObject> pSymbol,
-                            Ptr<LispObject>& out_pValue)
+        ezResult getBinding(StackPtr<LispObject> pEnv,
+                            StackPtr<LispObject> pSymbol,
+                            StackPtr<LispObject>& out_pValue)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
 
             auto& table = detail::getTable(pEnv);
 
-            auto pResult = Ptr<LispObject>();
+            auto pResult = StackPtr<LispObject>();
             if(table.TryGetValue(pSymbol, pResult))
             {
                 out_pValue = pResult;
@@ -178,8 +178,8 @@ namespace lcpp
             return EZ_FAILURE;
         }
 
-        BindingLocation existsBinding(Ptr<LispObject> pEnv,
-                                      Ptr<LispObject> pSymbol)
+        BindingLocation existsBinding(StackPtr<LispObject> pEnv,
+                                      StackPtr<LispObject> pSymbol)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
@@ -207,7 +207,7 @@ namespace lcpp
 
         namespace detail
         {
-            HashTable& getTable(Ptr<LispObject> pEnv)
+            HashTable& getTable(StackPtr<LispObject> pEnv)
             {
                 return pEnv->getData<Data>().getTable();
             }

@@ -15,13 +15,13 @@ namespace lcpp
             EZ_FORCE_INLINE
             Ptr<LispObject> Data::getName()
             {
-                return reinterpret_cast<Ptr<LispObject>&>(m_pName);
+                return reinterpret_cast<StackPtr<LispObject>&>(m_pName);
             }
 
             EZ_FORCE_INLINE
-            void Data::setName(Ptr<LispObject> pNewName)
+            void Data::setName(StackPtr<LispObject> pNewName)
             {
-                reinterpret_cast<Ptr<LispObject>&>(m_pName) = pNewName;
+                reinterpret_cast<Ptr<LispObject>&>(m_pName) = pNewName.get();
             }
 
             EZ_FORCE_INLINE

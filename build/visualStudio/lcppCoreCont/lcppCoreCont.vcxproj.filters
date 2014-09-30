@@ -265,9 +265,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h">
       <Filter>lcpp\core\memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\refIndex.h">
-      <Filter>lcpp\core\memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\commonTypes.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
@@ -288,6 +285,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\allTypeData.h">
       <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\stackPtr.h">
+      <Filter>lcpp\core\memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -505,13 +505,13 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\refIndex.inl">
-      <Filter>lcpp\core\memory\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl">
       <Filter>lcpp\core\containers\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
   </ItemGroup>

@@ -146,4 +146,15 @@ namespace lcpp
         pSurvivor->m_bIsForwarded = true;
         pSurvivor->m_pForwardPointer = reinterpret_cast<CollectableBase*>(ptr);
     }
+
+    bool GarbageCollector::isOnStack(Ptr<CollectableBase> pCollectable) const
+    {
+        for (auto pStackPtr : m_stackReferences)
+        {
+            if (pStackPtr->m_ptr == pCollectable)
+                return true;
+        }
+
+        return false;
+    }
 }

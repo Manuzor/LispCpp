@@ -10,19 +10,19 @@ namespace lcpp
     {
     public:
 
-        typedef Ptr<LispObject>(*createNew_t)(const T_Key& value);
+        typedef StackPtr<LispObject>(*createNew_t)(const T_Key& value);
 
     public:
 
         InsanceTable(createNew_t pFunctor_createNew);
 
-        Ptr<LispObject> get(const T_Key& key);
+        StackPtr<LispObject> get(const T_Key& key);
 
     private:
 
         createNew_t m_pFunctor_createNew;
 
-        ezHashTable<T_Key, Ptr<LispObject>> m_table;
+        ezHashTable<T_Key, LispObject*> m_table;
 
     };
 }

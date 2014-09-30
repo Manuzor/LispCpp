@@ -43,7 +43,7 @@ namespace lcpp
                 return &meta;
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
+            StackPtr<LispObject> create(StackPtr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
             {
                 LCPP_LogBlock("lambda::builtin::create");
 
@@ -62,7 +62,7 @@ namespace lcpp
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            StackPtr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -93,7 +93,7 @@ namespace lcpp
                 LCPP_cont_jump(pContCall);
             }
 
-            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::call_finalize(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont);
@@ -103,7 +103,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pStack->get(-1));
             }
 
-            void checkArguments(Ptr<LispObject> pLambda, Ptr<LispObject> pCont)
+            void checkArguments(StackPtr<LispObject> pLambda, StackPtr<LispObject> pCont)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
@@ -145,7 +145,7 @@ namespace lcpp
                 LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
             }
 
-            Ptr<Signature> getSignature(Ptr<LispObject> pSyntax)
+            Ptr<Signature> getSignature(StackPtr<LispObject> pSyntax)
             {
                 typeCheck(pSyntax, Type::Lambda);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -153,7 +153,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getSignature();
             }
 
-            Ptr<LispObject> getName(Ptr<LispObject> pLambda)
+            StackPtr<LispObject> getName(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
@@ -161,7 +161,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getName();
             }
 
-            void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
+            void setName(StackPtr<LispObject> pLambda, StackPtr<LispObject> pNewName)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
@@ -170,12 +170,12 @@ namespace lcpp
                 pLambda->getData<Data>().setName(pNewName);
             }
 
-            bool hasName(Ptr<LispObject> pLambda)
+            bool hasName(StackPtr<LispObject> pLambda)
             {
                 return !isNil(getName(pLambda));
             }
 
-            Ptr<LispObject> getEnvironment(Ptr<LispObject> pLambda)
+            StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
@@ -183,7 +183,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getEnv();
             }
 
-            Function_t getFunction(Ptr<LispObject> pLambda)
+            Function_t getFunction(StackPtr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
@@ -191,7 +191,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getFunction();
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Lambda);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);

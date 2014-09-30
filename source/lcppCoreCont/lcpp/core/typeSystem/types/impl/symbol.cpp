@@ -35,7 +35,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(const String& value)
+        StackPtr<LispObject> create(const String& value)
         {
             LCPP_LogBlock("symbol::create");
 
@@ -44,7 +44,7 @@ namespace lcpp
             return symbolTable.get(value);
         }
 
-        Ptr<LispObject> createNew(const String& value)
+        StackPtr<LispObject> createNew(const String& value)
         {
             auto pInstance = object::create<Data>(getMetaInfo());
 
@@ -53,14 +53,14 @@ namespace lcpp
             return pInstance;
         }
 
-        const String& getValue(Ptr<LispObject> pObject)
+        const String& getValue(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Symbol);
 
             return pObject->getData<Data>().getValue();
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Symbol);
 

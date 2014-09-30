@@ -12,36 +12,36 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState);
-        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Function_t pFunction);
+        LCPP_API_CORE_CONT StackPtr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState);
+        LCPP_API_CORE_CONT StackPtr<LispObject> create(StackPtr<LispObject> pParent, Function_t pFunction);
 
-        LCPP_API_CORE_CONT void trampoline(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT void trampoline(StackPtr<LispObject> pCont);
 
-        LCPP_API_CORE_CONT Ptr<LispRuntimeState> getRuntimeState(Ptr<LispObject> pCont);
-        LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT Ptr<LispRuntimeState> getRuntimeState(StackPtr<LispObject> pCont);
+        LCPP_API_CORE_CONT StackPtr<LispObject> getParent(StackPtr<LispObject> pCont);
 
-        LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pCont);
-        LCPP_API_CORE_CONT void setFunction(Ptr<LispObject> pCont, Function_t pFunction);
+        LCPP_API_CORE_CONT Function_t getFunction(StackPtr<LispObject> pCont);
+        LCPP_API_CORE_CONT void setFunction(StackPtr<LispObject> pCont, Function_t pFunction);
 
-        LCPP_API_CORE_CONT Ptr<Stack> getStack(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT Ptr<Stack> getStack(StackPtr<LispObject> pCont);
 
-        LCPP_API_CORE_CONT UserData_t& getUserData(Ptr<LispObject> pCont);
-        LCPP_API_CORE_CONT void setUserData(Ptr<LispObject> pCont, UserData_t userData);
+        LCPP_API_CORE_CONT UserData_t& getUserData(StackPtr<LispObject> pCont);
+        LCPP_API_CORE_CONT void setUserData(StackPtr<LispObject> pCont, UserData_t userData);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
 
         namespace detail
         {
-            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall);
-            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0);
-            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1);
-            LCPP_API_CORE_CONT Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2);
+            LCPP_API_CORE_CONT StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall);
+            LCPP_API_CORE_CONT StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0);
+            LCPP_API_CORE_CONT StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0, StackPtr<LispObject> pArg1);
+            LCPP_API_CORE_CONT StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0, StackPtr<LispObject> pArg1, StackPtr<LispObject> pArg2);
 
-            Ptr<LispObject> tailCallHelper(Ptr<LispObject> pCont);
-            Ptr<LispObject> tailCallHelper(Ptr<LispObject> pCont, Function_t pFunction);
+            StackPtr<LispObject> tailCallHelper(StackPtr<LispObject> pCont);
+            StackPtr<LispObject> tailCallHelper(StackPtr<LispObject> pCont, Function_t pFunction);
 
-            Ptr<LispObject> returnHelper(Ptr<LispObject> pCont);
-            Ptr<LispObject> returnHelper(Ptr<LispObject> pCont, Ptr<LispObject> pReturnValue);
+            StackPtr<LispObject> returnHelper(StackPtr<LispObject> pCont);
+            StackPtr<LispObject> returnHelper(StackPtr<LispObject> pCont, StackPtr<LispObject> pReturnValue);
         }
     }
 }

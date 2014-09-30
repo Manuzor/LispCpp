@@ -25,7 +25,7 @@ LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)
 {
     auto pReaderState = LCPP_test_pRuntimeState->getReaderState();
     auto& syntaxCheck = pReaderState->m_syntaxCheckResult;
-    auto pObject = Ptr<LispObject>();
+    auto pObject = StackPtr<LispObject>();
 
     syntaxCheck.reset();
     pObject = readString("");
@@ -81,7 +81,7 @@ LCPP_TestCase(Reader, StreamPosition)
     {
         auto content = ezString("abc def");
         auto pStream = stream::create(content.GetIteratorFront());
-        auto pSymbol = Ptr<LispObject>();
+        auto pSymbol = StackPtr<LispObject>();
 
         pSymbol = readStream(pStream);
         CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
@@ -96,7 +96,7 @@ LCPP_TestCase(Reader, StreamPosition)
     {
         auto content = ezString("   1   2      3.4   5.6");
         auto pStream = stream::create(content.GetIteratorFront());
-        auto pNumber = Ptr<LispObject>();
+        auto pNumber = StackPtr<LispObject>();
 
         pNumber = readStream(pStream);
         CUT_ASSERT.isTrue(number::getInteger(pNumber) == 1);
@@ -224,7 +224,7 @@ LCPP_TestCase(Reader, State)
     auto pStream = stream::create(content.GetIteratorFront());
     auto& cursorPosition = pState->m_syntaxCheckResult.m_cursor.getPosition();
 
-    auto pResult = Ptr<LispObject>();
+    auto pResult = StackPtr<LispObject>();
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -273,10 +273,10 @@ LCPP_TestCase(Reader, Quote)
 
 namespace lcpp
 {
-    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont);
-    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont);
+    static StackPtr<LispObject> testCharacterMacro_finalize(StackPtr<LispObject> pCont);
+    static StackPtr<LispObject> testCharacterMacro(StackPtr<LispObject> pCont);
 
-    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont)
+    static StackPtr<LispObject> testCharacterMacro(StackPtr<LispObject> pCont)
     {
         typeCheck(pCont, Type::Continuation);
 
@@ -291,7 +291,7 @@ namespace lcpp
         LCPP_cont_call(pCont, &reader::read, pStream);
     }
 
-    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont)
+    static StackPtr<LispObject> testCharacterMacro_finalize(StackPtr<LispObject> pCont)
     {
         LCPP_cont_return(pCont, number::create(1337));
     }

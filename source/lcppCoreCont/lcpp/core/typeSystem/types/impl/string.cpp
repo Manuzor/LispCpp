@@ -25,7 +25,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(const String& value)
+        StackPtr<LispObject> create(const String& value)
         {
             LCPP_LogBlock("str::create");
 
@@ -36,14 +36,14 @@ namespace lcpp
             return pInstance;
         }
 
-        const String& getValue(Ptr<LispObject> pObject)
+        const String& getValue(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::String);
 
             return pObject->getData<Data>().getValue();
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::String);
 

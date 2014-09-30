@@ -28,7 +28,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create()
+        StackPtr<LispObject> create()
         {
             LCPP_LogBlock("time::create");
 
@@ -41,32 +41,32 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> create(const ezTime& theTime)
+        StackPtr<LispObject> create(const ezTime& theTime)
         {
             auto pInstance = create();
             pInstance->getData<Data>().setTime(theTime);
             return pInstance;
         }
 
-        ezTime& getTime(Ptr<LispObject> pTime)
+        ezTime& getTime(StackPtr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
             return pTime->getData<Data>().getTime();
         }
 
-        void setTime(Ptr<LispObject> pTime, const ezTime& theTime)
+        void setTime(StackPtr<LispObject> pTime, const ezTime& theTime)
         {
             typeCheck(pTime, Type::Time);
             pTime->getData<Data>().setTime(theTime);
         }
 
-        void setNow(Ptr<LispObject> pTime)
+        void setNow(StackPtr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
             pTime->getData<Data>().setTime(ezTime::Now());
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pTime)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
 

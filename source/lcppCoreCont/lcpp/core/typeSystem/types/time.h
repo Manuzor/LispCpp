@@ -9,14 +9,14 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> create();
-        LCPP_API_CORE_CONT Ptr<LispObject> create(const ezTime& theTime);
+        LCPP_API_CORE_CONT StackPtr<LispObject> create();
+        LCPP_API_CORE_CONT StackPtr<LispObject> create(const ezTime& theTime);
 
-        LCPP_API_CORE_CONT ezTime& getTime(Ptr<LispObject> pTime);
-        LCPP_API_CORE_CONT void setTime(Ptr<LispObject> pTime, const ezTime& theTime);
-        LCPP_API_CORE_CONT void setNow(Ptr<LispObject> pTime);
+        LCPP_API_CORE_CONT ezTime& getTime(StackPtr<LispObject> pTime);
+        LCPP_API_CORE_CONT void setTime(StackPtr<LispObject> pTime, const ezTime& theTime);
+        LCPP_API_CORE_CONT void setNow(StackPtr<LispObject> pTime);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pTime);
+        LCPP_API_CORE_CONT StackPtr<LispObject> toString(StackPtr<LispObject> pTime);
     }
 }
 

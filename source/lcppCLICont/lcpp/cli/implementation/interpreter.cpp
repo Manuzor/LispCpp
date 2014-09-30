@@ -59,10 +59,16 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
         {
             ezStringBuilder baseDir(dataDir);
-            baseDir.AppendPath("base");
-            auto result = ezFileSystem::AddDataDirectory(baseDir.GetData(), ezFileSystem::ReadOnly, "base-data");
-            if(!result.Succeeded())            {                baseDir.Prepend("Unable to add base dir: ");
-                throw std::exception(baseDir.GetData());            }
+            baseDir.AppendPath("base");
+
+            auto result = ezFileSystem::AddDataDirectory(baseDir.GetData(), ezFileSystem::ReadOnly, "base-data");
+
+            if(!result.Succeeded())
+            {
+                baseDir.Prepend("Unable to add base dir: ");
+
+                throw std::exception(baseDir.GetData());
+            }
 
             m_pState->setBaseDirectory(baseDir.GetData());
         }
@@ -71,10 +77,16 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
         {
             ezStringBuilder userDir(dataDir);
-            userDir.AppendPath("user");
-            auto result = ezFileSystem::AddDataDirectory(userDir.GetData(), ezFileSystem::ReadOnly, "user-data");
-            if(!result.Succeeded())            {                userDir.Prepend("Unable to add user dir: ");
-                throw std::exception(userDir.GetData());            }
+            userDir.AppendPath("user");
+
+            auto result = ezFileSystem::AddDataDirectory(userDir.GetData(), ezFileSystem::ReadOnly, "user-data");
+
+            if(!result.Succeeded())
+            {
+                userDir.Prepend("Unable to add user dir: ");
+
+                throw std::exception(userDir.GetData());
+            }
 
             m_pState->setUserDirectory(userDir.GetData());
         }
@@ -95,7 +107,7 @@ namespace lcpp
 
         std::ios_base::sync_with_stdio(false);
 
-        auto results = ezDeque<Ptr<LispObject>>(lcpp::defaultAllocator());
+        auto results = ezDeque<StackPtr<LispObject>>(lcpp::defaultAllocator());
 
         auto inputBuffer = std::string("");
 
@@ -271,7 +283,7 @@ namespace lcpp
         return;
     }
 
-    void Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
+    void Interpreter::readUserInput(ezDeque<StackPtr<LispObject>>& out_results)
     {
         auto pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
@@ -339,7 +351,7 @@ namespace lcpp
         }
     }
 
-    Ptr<LispObject> Interpreter::evaluateReaderOutput(Ptr<LispObject> pObject)
+    StackPtr<LispObject> Interpreter::evaluateReaderOutput(StackPtr<LispObject> pObject)
     {
         auto pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
@@ -353,7 +365,7 @@ namespace lcpp
         return pMainStack->get(0);
     }
 
-    void Interpreter::print(Ptr<LispObject> pToPrint)
+    void Interpreter::print(StackPtr<LispObject> pToPrint)
     {
         auto pContMain = cont::createTopLevel(m_pState);
 

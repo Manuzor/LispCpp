@@ -28,7 +28,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(ezStringIterator& iterator)
+        StackPtr<LispObject> create(ezStringIterator& iterator)
         {
             LCPP_LogBlock("stream::create");
 
@@ -41,21 +41,21 @@ namespace lcpp
             return pInstance;
         }
 
-        ezStringIterator& getIterator(Ptr<LispObject> pStream)
+        ezStringIterator& getIterator(StackPtr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
             return pStream->getData<Data>().getIterator();
         }
 
-        void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter)
+        void setIterator(StackPtr<LispObject> pStream, ezStringIterator& iter)
         {
             typeCheck(pStream, Type::Stream);
 
             pStream->getData<Data>().getIterator() = iter;
         }
 
-        ezUInt32 getCharacter(Ptr<LispObject> pStream)
+        ezUInt32 getCharacter(StackPtr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
@@ -63,7 +63,7 @@ namespace lcpp
             return iterator.GetCharacter();
         }
 
-        bool isValid(Ptr<LispObject> pStream)
+        bool isValid(StackPtr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
@@ -71,7 +71,7 @@ namespace lcpp
             return iterator.IsValid();
         }
 
-        ezUInt32 next(Ptr<LispObject> pStream)
+        ezUInt32 next(StackPtr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
@@ -80,7 +80,7 @@ namespace lcpp
             return iterator.GetCharacter();
         }
 
-        ezUInt32 getPosition(Ptr<LispObject> pStream)
+        ezUInt32 getPosition(StackPtr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
@@ -95,7 +95,7 @@ namespace lcpp
             return ezUInt32(position);
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             auto theString = ezStringBuilder();
             theString.Append("<stream at ");

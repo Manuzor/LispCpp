@@ -8,7 +8,7 @@ namespace lcpp
 {
 #if EZ_ENABLED(LCPP_RUNTIME_TYPE_CHECK)
 
-    void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType)
+    void typeCheck(const StackPtr<LispObject>& pObject, const Type& expectedType)
     {
         LCPP_LogBlock("typeCheck");
         LCPP_AssertObjectIsAlive(pObject.get());
@@ -26,7 +26,7 @@ namespace lcpp
         }
     }
 
-    void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
+    void typeCheck(const StackPtr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
     {
         LCPP_LogBlock("typeCheck");
         LCPP_AssertObjectIsAlive(pObject.get());

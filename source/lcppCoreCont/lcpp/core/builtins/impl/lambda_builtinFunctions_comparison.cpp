@@ -37,7 +37,7 @@ namespace lcpp
     {
         namespace builtin
         {
-            Ptr<LispObject> greaterThan(Ptr<LispObject> pCont)
+            StackPtr<LispObject> greaterThan(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -46,12 +46,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::greaterThan_helper);
             }
 
-            Ptr<LispObject> detail::greaterThan_helper(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::greaterThan_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineComparisonFunctionHelperContent(number::greaterThan);
             }
 
-            Ptr<LispObject> greaterThanOrEqual(Ptr<LispObject> pCont)
+            StackPtr<LispObject> greaterThanOrEqual(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -60,12 +60,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::greaterThanOrEqual_helper);
             }
 
-            Ptr<LispObject> detail::greaterThanOrEqual_helper(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::greaterThanOrEqual_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineComparisonFunctionHelperContent(number::greaterThanOrEqual);
             }
 
-            Ptr<LispObject> equal(Ptr<LispObject> pCont)
+            StackPtr<LispObject> equal(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -74,12 +74,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::equal_helper);
             }
 
-            Ptr<LispObject> detail::equal_helper(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::equal_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineComparisonFunctionHelperContent(number::equal);
             }
 
-            Ptr<LispObject> lowerThan(Ptr<LispObject> pCont)
+            StackPtr<LispObject> lowerThan(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -88,12 +88,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::lowerThan_helper);
             }
 
-            Ptr<LispObject> detail::lowerThan_helper(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::lowerThan_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineComparisonFunctionHelperContent(number::lowerThan);
             }
 
-            Ptr<LispObject> lowerThanOrEqual(Ptr<LispObject> pCont)
+            StackPtr<LispObject> lowerThanOrEqual(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -101,7 +101,7 @@ namespace lcpp
                 pStack->push(LCPP_pFalse);
                 LCPP_cont_tailCall(pCont, &detail::lowerThanOrEqual_helper);
             }
-            Ptr<LispObject> detail::lowerThanOrEqual_helper(Ptr<LispObject> pCont)
+            StackPtr<LispObject> detail::lowerThanOrEqual_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineComparisonFunctionHelperContent(number::lowerThanOrEqual);
             }

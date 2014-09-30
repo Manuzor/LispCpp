@@ -11,34 +11,34 @@ namespace lcpp
     namespace object
     {
         template<typename T_Data>
-        Ptr<LispObject> create(const MetaInfo& metaInfo);
+        StackPtr<LispObject> create(const MetaInfo& metaInfo);
 
         template<typename T_Data>
-        Ptr<LispObject> create(Ptr<GarbageCollector> pGarbageCollector, const MetaInfo& metaInfo);
+        StackPtr<LispObject> create(Ptr<GarbageCollector> pGarbageCollector, const MetaInfo& metaInfo);
 
-        LCPP_API_CORE_CONT bool isType(Ptr<LispObject> pObject, const Type& type);
+        LCPP_API_CORE_CONT bool isType(StackPtr<LispObject> pObject, const Type& type);
 
-        LCPP_API_CORE_CONT const Type& getType(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT const AttributeFlags& getAttributes(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT const Type& getType(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT const AttributeFlags& getAttributes(StackPtr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(StackPtr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT bool isCallable(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT bool isBuiltin(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT bool isNameable(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT bool isEnvironmentContainer(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isCallable(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isBuiltin(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isNameable(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isEnvironmentContainer(StackPtr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT StackPtr<LispObject> call(StackPtr<LispObject> pCont);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName);
-        LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT StackPtr<LispObject> getName(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT void setName(StackPtr<LispObject> pObject, StackPtr<LispObject> pName);
+        LCPP_API_CORE_CONT bool hasName(StackPtr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject);
-        LCPP_API_CORE_CONT void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv);
-        LCPP_API_CORE_CONT bool hasEnvironment(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT void setEnvironment(StackPtr<LispObject> pObject, StackPtr<LispObject> pEnv);
+        LCPP_API_CORE_CONT bool hasEnvironment(StackPtr<LispObject> pObject);
     }
 
 }

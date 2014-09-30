@@ -16,7 +16,7 @@ namespace lcpp
             ezUInt32 m_commentDelimiter;
             ezUInt32 m_newLineDelimiter;
             SyntaxCheckResult m_syntaxCheckResult;
-            Ptr<LispObject> m_pMacroEnv;
+            StackPtr<LispObject> m_pMacroEnv;
 
             State();
         };

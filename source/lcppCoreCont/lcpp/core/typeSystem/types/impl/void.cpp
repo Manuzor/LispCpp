@@ -29,9 +29,9 @@ namespace lcpp
         {
             LCPP_LogBlock("void_::create");
 
-            static auto pInstance = Ptr<LispObject>();
+            static Ptr<LispObject> pInstance;
 
-            if (!pInstance)
+            if (pInstance.isNull())
             {
                 auto pGarbageCollector = getGarbageCollector();
                 pInstance = pGarbageCollector->createStatic<LispObject>(getMetaInfo());
@@ -40,7 +40,7 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Void);
 

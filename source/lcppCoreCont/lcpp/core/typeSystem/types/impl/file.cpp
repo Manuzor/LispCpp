@@ -32,7 +32,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create()
+        StackPtr<LispObject> create()
         {
             LCPP_LogBlock("file::create");
 
@@ -46,7 +46,7 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> open(Ptr<LispObject> pFile, Ptr<LispObject> pStringFileName, Ptr<LispObject> pStringFileMode)
+        StackPtr<LispObject> open(StackPtr<LispObject> pFile, StackPtr<LispObject> pStringFileName, StackPtr<LispObject> pStringFileMode)
         {
             typeCheck(pFile, Type::File);
 
@@ -84,7 +84,7 @@ namespace lcpp
             return result.Succeeded() ? LCPP_pTrue : LCPP_pFalse;
         }
 
-        Ptr<LispObject> isOpen(Ptr<LispObject> pFile)
+        StackPtr<LispObject> isOpen(StackPtr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
 
@@ -93,7 +93,7 @@ namespace lcpp
             return wrappedFile.IsOpen() ? LCPP_pTrue : LCPP_pFalse;
         }
 
-        void close(Ptr<LispObject> pFile)
+        void close(StackPtr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
 
@@ -102,19 +102,19 @@ namespace lcpp
 
         }
 
-        Ptr<LispObject> getFileName(Ptr<LispObject> pFile)
+        StackPtr<LispObject> getFileName(StackPtr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
             return pFile->getData<Data>().getFileName();
         }
 
-        void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName)
+        void setFileName(StackPtr<LispObject> pFile, StackPtr<LispObject> pFileName)
         {
             typeCheck(pFile, Type::File);
             pFile->getData<Data>().setFileName(pFileName);
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pFile)
+        StackPtr<LispObject> toString(StackPtr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
 

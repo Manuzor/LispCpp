@@ -44,15 +44,15 @@ namespace lcpp { namespace test {
 
     };
 
-    Ptr<LispObject> readStream(Ptr<LispObject> pStream);
+    StackPtr<LispObject> readStream(StackPtr<LispObject> pStream);
 
-    Ptr<LispObject> readString(const ezString& content);
+    StackPtr<LispObject> readString(const ezString& content);
 
-    Ptr<LispObject> evalStream(Ptr<LispObject> pStream);
+    StackPtr<LispObject> evalStream(StackPtr<LispObject> pStream);
 
-    Ptr<LispObject> evalString(const ezString& content);
+    StackPtr<LispObject> evalString(const ezString& content);
 
-    Ptr<LispObject> evalObject(Ptr<LispObject> pObject);
+    StackPtr<LispObject> evalObject(StackPtr<LispObject> pObject);
 
 }} // namespace lcpp::test
 

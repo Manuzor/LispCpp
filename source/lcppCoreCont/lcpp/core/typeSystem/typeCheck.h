@@ -10,9 +10,9 @@ namespace lcpp
     /// \brief Checks whether the given \a pObject is of type \a expectedType.
     ///
     /// In case the type check fails, throws exceptions::TypeCheckFailed
-    LCPP_API_CORE_CONT void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType);
+    LCPP_API_CORE_CONT void typeCheck(const StackPtr<LispObject>& pObject, const Type& expectedType);
 
-    LCPP_API_CORE_CONT void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2);
+    LCPP_API_CORE_CONT void typeCheck(const StackPtr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2);
 
     void typeCheckFailed(const char* szMessage);
 }

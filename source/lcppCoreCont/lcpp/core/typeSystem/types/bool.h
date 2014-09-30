@@ -11,7 +11,7 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
     }
 
     namespace false_
@@ -20,12 +20,12 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
     }
 
-    bool isTrue(Ptr<LispObject> pObject);
+    bool isTrue(StackPtr<LispObject> pObject);
 
-    bool isFalse(Ptr<LispObject> pObject);
+    bool isFalse(StackPtr<LispObject> pObject);
 }
 
 #define LCPP_pTrue ::lcpp::true_::create()

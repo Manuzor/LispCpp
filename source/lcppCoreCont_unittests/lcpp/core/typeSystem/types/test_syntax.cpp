@@ -17,7 +17,7 @@ namespace lcpp
 {
     static auto g_wasCalled = bool(false);
 
-    static Ptr<LispObject> testBuiltin(Ptr<LispObject> pCont)
+    static StackPtr<LispObject> testBuiltin(StackPtr<LispObject> pCont)
     {
         typeCheck(pCont, Type::Continuation);
 
