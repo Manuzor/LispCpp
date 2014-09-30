@@ -14,6 +14,8 @@ namespace lcpp
         static GarbageCollector gc = []
         {
             GarbageCollector::CInfo cinfo;
+            cinfo.m_uiInitialMemoryLimit = 128 * 1024 * 1024; // 128 MiB
+            //cinfo.m_uiInitialMemoryLimit = 128;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             return GarbageCollector(cinfo);
@@ -24,7 +26,9 @@ namespace lcpp
 
     GarbageCollector::GarbageCollector(const CInfo& cinfo) :
         m_pAllocator(cinfo.m_pParentAllocator),
-        m_roots(cinfo.m_pParentAllocator.get())
+        m_roots(cinfo.m_pParentAllocator.get()),
+        m_uiCurrentGeneration(0),
+        m_bIsCollecting(false)
     {
         EZ_ASSERT(cinfo.m_uiInitialMemoryLimit > 0, "Invalid initial memory limit");
 
@@ -42,6 +46,14 @@ namespace lcpp
 
     void GarbageCollector::collect()
     {
+        EZ_ASSERT(m_uiCurrentGeneration < std::numeric_limits<decltype(m_uiCurrentGeneration)>::max(),
+                  "Congratulations, you collected a LOT of garbage...");
+
+        m_bIsCollecting = true;
+        LCPP_SCOPE_EXIT{ m_bIsCollecting = false; };
+
+        ++m_uiCurrentGeneration;
+
         for (auto& pRoot : m_roots)
         {
             addSurvivor(pRoot);
@@ -64,7 +76,7 @@ namespace lcpp
             pStackPtr->m_ptr = pCollectable;
         }
 
-
+        // Call the garbage's destroy functions.
         auto usedEden = m_edenSpace.getMemory();
         using IndexType = decltype(usedEden.getSize());
         IndexType i(0);
@@ -73,6 +85,10 @@ namespace lcpp
         {
             auto mem = &usedEden[i];
             auto pCollectable = reinterpret_cast<CollectableBase*>(mem);
+            i += pCollectable->m_uiMemorySize;
+
+            if (pCollectable->m_uiGeneration == m_uiCurrentGeneration)
+                continue;
 
             MetaProperty destructorProperty;
             if (pCollectable->m_pMetaInfo->getProperty(MetaProperty::Builtin::DestructorFunction, destructorProperty).Succeeded())
@@ -80,8 +96,6 @@ namespace lcpp
                 auto destructorFunction = destructorProperty.getData().as<DestructorFunction_t>();
                 (*destructorFunction)(pCollectable);
             }
-
-            i += pCollectable->m_uiMemorySize;
         }
 
         auto newSurvivorMemory = m_edenSpace.getEntireMemory();
@@ -91,6 +105,8 @@ namespace lcpp
 
     void GarbageCollector::scanAndPatch(CollectableBase* pObject)
     {
+        pObject->m_uiGeneration = m_uiCurrentGeneration;
+
         MetaProperty prop;
         if (pObject->m_pMetaInfo->getProperty(MetaProperty::Builtin::ScanFunction, prop).Failed())
         {
@@ -130,5 +146,4 @@ namespace lcpp
         pSurvivor->m_bIsForwarded = true;
         pSurvivor->m_pForwardPointer = reinterpret_cast<CollectableBase*>(ptr);
     }
-
 }

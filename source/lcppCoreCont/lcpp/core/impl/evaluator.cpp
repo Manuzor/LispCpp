@@ -46,7 +46,6 @@ namespace lcpp
                     LCPP_cont_return(pCont, pResult);
                 }
 
-                // TODO throw exception.
                 auto message = ezStringBuilder();
 
                 message.Format("No binding found for symbol '%s'.", symbol::getValue(pToEval).GetData());

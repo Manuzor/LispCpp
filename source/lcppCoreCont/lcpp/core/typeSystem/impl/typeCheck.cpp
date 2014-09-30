@@ -11,6 +11,7 @@ namespace lcpp
     void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType)
     {
         LCPP_LogBlock("typeCheck");
+        LCPP_AssertObjectIsAlive(pObject.get());
 
         EZ_ASSERT_ALWAYS(!pObject.isNull(), "Invalid object pointer.");
 
@@ -28,6 +29,7 @@ namespace lcpp
     void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
     {
         LCPP_LogBlock("typeCheck");
+        LCPP_AssertObjectIsAlive(pObject.get());
 
         EZ_ASSERT_ALWAYS(!pObject.isNull(), "Invalid object pointer.");
 

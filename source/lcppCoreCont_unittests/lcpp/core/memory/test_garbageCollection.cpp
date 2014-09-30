@@ -152,6 +152,7 @@ LCPP_TestCase(GarbageCollection, StackPtr)
 {
     GarbageCollector::CInfo gcCinfo;
 
+    gcCinfo.m_uiInitialMemoryLimit = 120 * 1024; // 120 KiB
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
     GarbageCollector gc(gcCinfo);
@@ -163,6 +164,7 @@ LCPP_TestCase(GarbageCollection, StackPtr)
         StackPtr<LispObject> pObjectOnStack = pObject;
         CUT_ASSERT.isTrue(gc.isOnStack(pObject));
     }
+
     CUT_ASSERT.isFalse(gc.isOnStack(pObject));
 }
 
@@ -172,6 +174,7 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     GarbageCollector::CInfo gcCinfo;
 
+    gcCinfo.m_uiInitialMemoryLimit = 120 * 1024; // 120 KiB
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
     GarbageCollector gc(gcCinfo);
@@ -197,7 +200,7 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     gc.collect();
 
-    CUT_ASSERT.notImplemented("Check if the collection was sucessful, somehow.");
+    CUT_ASSERT.notImplemented("Check if the collection was successful, somehow.");
 
     CUT_ASSERT.isTrue(gc.isAlive(pRoot));
     CUT_ASSERT.isFalse(gc.isAlive(pNonRoot));

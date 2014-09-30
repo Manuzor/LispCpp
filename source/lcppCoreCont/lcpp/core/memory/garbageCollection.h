@@ -89,7 +89,7 @@ namespace lcpp
                 GarbageCollector* m_pGarbageCollector;
                 const MetaInfo* m_pMetaInfo;
                 size_t m_uiMemorySize;
-                mutable ezUInt64 m_uiStackReferenceCount;
+                ezUInt32 m_uiGeneration;
             };
             CollectableBase* m_pForwardPointer;
         };
@@ -136,6 +136,9 @@ namespace lcpp
         void removeStackPtr(const StackPtrBase* stackPtr) const;
         bool isOnStack(Ptr<CollectableBase> pCollectable) const;
 
+        //bool isCollecting() const { return m_bIsCollecting; }
+        //ezUInt32 getCurrentGeneration() const { return m_uiCurrentGeneration; }
+
     private:
 
         bool isValidEdenPtr(Ptr<CollectableBase> pObject) const;
@@ -153,7 +156,16 @@ namespace lcpp
 
         mutable FixedMemory m_edenSpace;
         mutable FixedMemory m_survivorSpace;
+
+        ezUInt32 m_uiCurrentGeneration;
+        bool m_bIsCollecting;
     };
+
+    namespace detail
+    {
+        void assertObjectIsAlive(Ptr<CollectableBase> pCollectable);
+        void assertObjectIsAlive(CollectableBase* pCollectable);
+    }
 
     // TODO This function should be removed! Every LispObject that is created
     // should be created in the current LispRuntimeState context.
@@ -161,3 +173,5 @@ namespace lcpp
 }
 
 #include "lcpp/core/memory/impl/garbageCollection.inl"
+
+#define LCPP_AssertObjectIsAlive(pCollectable) ::lcpp::detail::assertObjectIsAlive(pCollectable)

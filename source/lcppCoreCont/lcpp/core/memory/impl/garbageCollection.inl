@@ -5,7 +5,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     CollectableBase::CollectableBase() :
         m_bIsForwarded(false),
-        m_uiMemorySize(0)
+        m_uiMemorySize(0),
+        m_uiGeneration(0)
     {
     }
 
@@ -173,7 +174,7 @@ namespace lcpp
 
     EZ_FORCE_INLINE
     GarbageCollector::CInfo::CInfo() :
-        m_uiInitialMemoryLimit(128 * 1024 * 1024) // 128 MiB
+        m_uiInitialMemoryLimit(0)
     {
     }
 
@@ -224,8 +225,7 @@ namespace lcpp
                     return nullptr;
                 }
 
-                // TODO Collect garbage.
-                LCPP_NOT_IMPLEMENTED;
+                collect();
             }
             else
             {
@@ -238,6 +238,7 @@ namespace lcpp
         pInstance->m_uiMemorySize = sizeof(T);
         pInstance->m_pGarbageCollector = this;
         pInstance->m_pMetaInfo = pMetaInfo.get();
+        pInstance->m_uiGeneration = m_uiCurrentGeneration;
 
         return pInstance;
     }
@@ -265,7 +266,15 @@ namespace lcpp
     EZ_FORCE_INLINE
     bool GarbageCollector::isAlive(Ptr<CollectableBase> pCollectable) const
     {
-        return isValidEdenPtr(pCollectable);
+        EZ_ASSERT(pCollectable->m_uiGeneration <= m_uiCurrentGeneration, "Invalid generation for object.");
+
+        if (m_bIsCollecting)
+        {
+            return pCollectable->m_uiGeneration == m_uiCurrentGeneration
+                || pCollectable->m_uiGeneration == m_uiCurrentGeneration - 1;
+        }
+
+        return pCollectable->m_uiGeneration == m_uiCurrentGeneration;
     }
 
     EZ_FORCE_INLINE
@@ -302,4 +311,20 @@ namespace lcpp
         return false;
     }
 
+    EZ_FORCE_INLINE
+    void detail::assertObjectIsAlive(Ptr<CollectableBase> pCollectable)
+    {
+        assertObjectIsAlive(pCollectable.get());
+    }
+
+    EZ_FORCE_INLINE
+    void detail::assertObjectIsAlive(CollectableBase* pCollectable)
+    {
+        EZ_ASSERT(pCollectable, "Invalid pointer.");
+
+        auto pGc = pCollectable->getGarbageCollector().get();
+        EZ_ASSERT(pGc, "The object was not created with a (properly implemented) garbage collector.");
+
+        EZ_ASSERT(pGc->isAlive(pCollectable), "The object is not alive at this point!");
+    }
 }
