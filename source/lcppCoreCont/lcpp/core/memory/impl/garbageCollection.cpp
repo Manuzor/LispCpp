@@ -64,7 +64,25 @@ namespace lcpp
             pStackPtr->m_ptr = pCollectable;
         }
 
-        // TODO "destroy" garbage.
+
+        auto usedEden = m_edenSpace.getMemory();
+        using IndexType = decltype(usedEden.getSize());
+        IndexType i(0);
+        IndexType endOfUsedEden(usedEden.getSize());
+        while(i < endOfUsedEden)
+        {
+            auto mem = &usedEden[i];
+            auto pCollectable = reinterpret_cast<CollectableBase*>(mem);
+
+            MetaProperty destructorProperty;
+            if (pCollectable->m_pMetaInfo->getProperty(MetaProperty::Builtin::DestructorFunction, destructorProperty).Succeeded())
+            {
+                auto destructorFunction = destructorProperty.getData().as<DestructorFunction_t>();
+                (*destructorFunction)(pCollectable);
+            }
+
+            i += pCollectable->m_uiMemorySize;
+        }
 
         auto newSurvivorMemory = m_edenSpace.getEntireMemory();
         m_edenSpace = m_survivorSpace;
