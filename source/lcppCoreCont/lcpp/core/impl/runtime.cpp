@@ -84,7 +84,11 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-    getGarbageCollector()->removeRoot(m_pSyntaxEnvironment.get());
+    // TODO Once we have a per-runtime garbage collector system running, uncomment the following line.
+    //m_pGC->clear();
+
+    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
+    m_pGC->removeRoot(m_pGlobalEnvironment.get());
 
     LCPP_DELETE(m_pAllocator, m_pReaderState);
 }

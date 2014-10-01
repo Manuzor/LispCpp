@@ -84,6 +84,9 @@ namespace lcpp
 
         GarbageCollector(const CInfo& cinfo);
 
+        void initialize(const CInfo& cinfo);
+        void clear();
+
         template<typename T>
         Ptr<T> createStatic(Ptr<const MetaInfo> pMetaInfo);
 

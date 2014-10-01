@@ -30,6 +30,11 @@ namespace lcpp
         m_uiCurrentGeneration(0),
         m_bIsCollecting(false)
     {
+        initialize(cinfo);
+    }
+
+    void GarbageCollector::initialize(const CInfo& cinfo)
+    {
         EZ_ASSERT(cinfo.m_uiInitialMemoryLimit > 0, "Invalid initial memory limit");
 
         const std::size_t memorySize = cinfo.m_uiInitialMemoryLimit;
@@ -42,6 +47,23 @@ namespace lcpp
         pMemory = EZ_NEW_RAW_BUFFER(m_pAllocator.get(), byte_t, memorySize);
         EZ_ASSERT(pMemory != nullptr, "Out of memory!");
         m_survivorSpace = Array<byte_t>(pMemory, memorySize);
+    }
+
+    void GarbageCollector::clear()
+    {
+        m_stackReferences.Clear();
+        m_roots.Clear();
+        collect(); // Should clean everything up.
+
+        byte_t* pMemory(nullptr);
+
+        pMemory = m_survivorSpace.getEntireMemory().getData();
+        EZ_DELETE_RAW_BUFFER(m_pAllocator.get(), pMemory);
+
+        pMemory = m_edenSpace.getEntireMemory().getData();
+        EZ_DELETE_RAW_BUFFER(m_pAllocator.get(), pMemory);
+
+        m_uiCurrentGeneration = 0;
     }
 
     void GarbageCollector::collect()
