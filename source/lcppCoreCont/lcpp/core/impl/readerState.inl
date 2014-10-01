@@ -10,8 +10,7 @@ namespace lcpp
             m_separators(" \t\r\n\v\f\a"),
             m_symbolDelimiters("()\""),
             m_commentDelimiter(';'),
-            m_newLineDelimiter('\n'),
-            m_syntaxCheckResult()
+            m_newLineDelimiter('\n')
         {
         }
     }

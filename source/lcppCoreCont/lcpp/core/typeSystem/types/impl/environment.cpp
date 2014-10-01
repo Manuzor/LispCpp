@@ -115,7 +115,7 @@ namespace lcpp
             return str::create(name);
         }
 
-        StackPtr<LispObject> getParent(StackPtr<LispObject> pEnv)
+        StackPtr<LispObject> getParent(Ptr<LispObject> pEnv)
         {
             typeCheck(pEnv, Type::Environment);
 
@@ -159,9 +159,9 @@ namespace lcpp
             return EZ_FAILURE;
         }
 
-        ezResult getBinding(StackPtr<LispObject> pEnv,
-                            StackPtr<LispObject> pSymbol,
-                            StackPtr<LispObject>& out_pValue)
+        ezResult getBinding(Ptr<LispObject> pEnv,
+                            Ptr<LispObject> pSymbol,
+                            Ptr<LispObject>& out_pValue)
         {
             typeCheck(pEnv, Type::Environment);
             typeCheck(pSymbol, Type::Symbol);
@@ -214,7 +214,7 @@ namespace lcpp
 
         namespace detail
         {
-            HashTable& getTable(StackPtr<LispObject> pEnv)
+            HashTable& getTable(Ptr<LispObject> pEnv)
             {
                 return pEnv->getData<Data>().getTable();
             }

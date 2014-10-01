@@ -42,7 +42,7 @@ namespace lcpp
             }
 
             auto pCharacter = symbol::create(stream::getCharacter(pStream));
-            StackPtr<LispObject> pCharacterHandler = LCPP_pNil;
+            auto pCharacterHandler = LCPP_pNil;
 
             if(env::getBinding(pState->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
             {
@@ -108,7 +108,10 @@ namespace lcpp
 
         ezResult getSyntax(Ptr<LispRuntimeState> pState, StackPtr<LispObject> pSymbol, StackPtr<LispObject>& out_pSyntax)
         {
-            return env::getBinding(pState->getSyntaxEnvironment(), pSymbol, out_pSyntax);
+            Ptr<LispObject> pFetchResult;
+            auto result = env::getBinding(pState->getSyntaxEnvironment(), pSymbol, pFetchResult);
+            out_pSyntax = pFetchResult;
+            return result;
         }
 
         namespace detail

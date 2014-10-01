@@ -38,7 +38,7 @@ namespace lcpp
 
             if(object::isType(pToEval, Type::Symbol))
             {
-                StackPtr<LispObject> pResult = LCPP_pNil;
+                auto pResult = LCPP_pNil;
                 auto result = env::getBinding(pEnv, pToEval, pResult);
 
                 if(result.Succeeded())

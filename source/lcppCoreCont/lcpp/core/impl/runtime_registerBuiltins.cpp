@@ -78,7 +78,15 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     //////////////////////////////////////////////////////////////////////////
     LCPP_AddBuiltin("+", &lambda::builtin::add, Signature::createVarArg());
     LCPP_AddBuiltin("-", &lambda::builtin::subtract, Signature::createVarArg(1));
-    LCPP_AddBuiltin("*", &lambda::builtin::multiply, Signature::createVarArg());
+    //LCPP_AddBuiltin("*", &lambda::builtin::multiply, Signature::createVarArg());
+
+    {
+        auto pName = symbol::create("*");
+        auto pBuiltin = lambda::builtin::create(m_pGlobalEnvironment, &lambda::builtin::subtract, Signature::createVarArg(1));
+        env::addBinding(m_pGlobalEnvironment, pName, pBuiltin);
+        if(!object::hasName(pBuiltin)) { object::setName(pBuiltin, pName); }
+    }
+
     LCPP_AddBuiltin("/", &lambda::builtin::divide, Signature::createVarArg(1));
     LCPP_AddBuiltin("%", &lambda::builtin::modulo, Signature::create(2));
 

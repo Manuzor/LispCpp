@@ -35,9 +35,9 @@ namespace lcpp
 
         Ptr<GarbageCollector> getGarabgeCollector();
 
-        StackPtr<LispObject> getSyntaxEnvironment();
+        Ptr<LispObject> getSyntaxEnvironment();
 
-        StackPtr<LispObject> getGlobalEnvironment();
+        Ptr<LispObject> getGlobalEnvironment();
 
         Ptr<reader::State> getReaderState();
         Ptr<const reader::State> getReaderState() const;
@@ -67,8 +67,8 @@ namespace lcpp
         Ptr<ezAllocatorBase> m_pAllocator;
         Ptr<GarbageCollector> m_pGC;
 
-        Ptr<LispObject> m_pSyntaxEnvironment;
-        Ptr<LispObject> m_pGlobalEnvironment;
+        StackPtr<LispObject> m_pSyntaxEnvironment;
+        StackPtr<LispObject> m_pGlobalEnvironment;
 
         Ptr<reader::State> m_pReaderState;
         Ptr<printer::State> m_pPrinterState;

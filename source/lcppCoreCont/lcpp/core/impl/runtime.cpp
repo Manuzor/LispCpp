@@ -49,21 +49,16 @@ lcpp::LispRuntimeState::initialize()
     m_pAllocator = defaultAllocator();
     m_pGC = lcpp::getGarbageCollector();
 
-    // Just for debuggin purposes.
+    // Just for debugging purposes.
     g_pGC = m_pGC.get();
 
-    m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
-    m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global"));
-    // Prevent collecting of the syntax and global environment.
-    getGarbageCollector()->addRoot(m_pGlobalEnvironment.get());
+    m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax")).get();
+    m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global")).get();
 
     //////////////////////////////////////////////////////////////////////////
 
     m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
     m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
-
-    // Prevent collecting of the reader macro environment.
-    getGarbageCollector()->addRoot(m_pReaderState->m_pMacroEnv.get());
 
     m_pPrinterState = LCPP_NEW(m_pAllocator, printer::State)();
     // TODO Set output stream of printer to stdout by default.
@@ -84,13 +79,12 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
+    LCPP_DELETE(m_pAllocator, m_pReaderState);
+    m_pGlobalEnvironment = nullptr;
+    m_pSyntaxEnvironment = nullptr;
+
     // TODO Once we have a per-runtime garbage collector system running, uncomment the following line.
     //m_pGC->clear();
-
-    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
-    m_pGC->removeRoot(m_pGlobalEnvironment.get());
-
-    LCPP_DELETE(m_pAllocator, m_pReaderState);
 }
 
 void

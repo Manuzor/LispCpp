@@ -24,9 +24,9 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Ptr<Signature> getSignature(StackPtr<LispObject> pSyntax);
 
-            LCPP_API_CORE_CONT StackPtr<LispObject> getName(StackPtr<LispObject> pSyntax);
+            LCPP_API_CORE_CONT StackPtr<LispObject> getName(Ptr<LispObject> pSyntax);
             LCPP_API_CORE_CONT void setName(StackPtr<LispObject> pSyntax, StackPtr<LispObject> pNewName);
-            LCPP_API_CORE_CONT bool hasName(StackPtr<LispObject> pSyntax);
+            LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pSyntax);
 
             LCPP_API_CORE_CONT Function_t getFunction(StackPtr<LispObject> pSyntax);
 

@@ -95,9 +95,10 @@ namespace lcpp
 
         void collect();
 
-        void addRoot(Ptr<CollectableBase> pCollectable);
-        void removeRoot(Ptr<CollectableBase> pCollectable);
-        bool isRoot(Ptr<CollectableBase> pCollectable) const;
+        /// \remarks We are expecting a pointer to a pointer here so we can patch it at any time.
+        void addRoot(CollectableBase** ppCollectable);
+        void removeRoot(CollectableBase** ppCollectable);
+        bool isRoot(CollectableBase** ppCollectable) const;
 
         /// \remarks WARNING: Be very careful with this method!
         ///                   It cannot check if the pointer is truly pointing to a valid object.
@@ -126,7 +127,7 @@ namespace lcpp
 
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        ezHybridArray<CollectableBase*, 16> m_roots;
+        ezHybridArray<CollectableBase**, 16> m_roots;
         mutable ezHybridArray<const StackPtrBase*, 128> m_stackReferences;
 
         mutable FixedMemory m_edenSpace;

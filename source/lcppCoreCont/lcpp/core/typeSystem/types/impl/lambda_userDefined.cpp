@@ -167,7 +167,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pStack->get(-1));
             }
 
-            StackPtr<LispObject> getName(StackPtr<LispObject> pLambda)
+            StackPtr<LispObject> getName(Ptr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
@@ -184,7 +184,7 @@ namespace lcpp
                 pLambda->getData<Data>().setName(pNewName);
             }
 
-            bool hasName(StackPtr<LispObject> pLambda)
+            bool hasName(Ptr<LispObject> pLambda)
             {
                 return !isNil(getName(pLambda));
             }

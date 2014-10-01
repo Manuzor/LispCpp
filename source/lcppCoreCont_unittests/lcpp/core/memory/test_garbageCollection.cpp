@@ -170,11 +170,6 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     auto pNonRoot = gc.create<TestType>(test::getMetaInfo());
 
-    gc.addRoot(pRoot.get());
-
-    CUT_ASSERT.isTrue(gc.isRoot(pRoot.get()));
-    CUT_ASSERT.isFalse(gc.isRoot(pNonRoot.get()));
-
     CUT_ASSERT.isTrue(gc.isAlive(pRoot.get()));
     CUT_ASSERT.isTrue(gc.isAlive(pNonRoot.get()));
 

@@ -115,24 +115,24 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    void GarbageCollector::addRoot(Ptr<CollectableBase> pCollectable)
+    void GarbageCollector::addRoot(CollectableBase** ppCollectable)
     {
         EZ_ASSERT(!m_bIsCollecting, "");
-        EZ_ASSERT(!isRoot(pCollectable), "Cannot add same pointer as root more than once!");
-        m_roots.PushBack(pCollectable.get());
+        EZ_ASSERT(!isRoot(ppCollectable), "Cannot add same pointer as root more than once!");
+        m_roots.PushBack(ppCollectable);
     }
 
     EZ_FORCE_INLINE
-    void GarbageCollector::removeRoot(Ptr<CollectableBase> pCollectable)
+    void GarbageCollector::removeRoot(CollectableBase** ppCollectable)
     {
-        auto wasRemoved = m_roots.RemoveSwap(pCollectable.get());
+        auto wasRemoved = m_roots.RemoveSwap(ppCollectable);
         EZ_ASSERT(wasRemoved, "Given pointer is not a root pointer!");
     }
 
     EZ_FORCE_INLINE
-    bool GarbageCollector::isRoot(Ptr<CollectableBase> pCollectable) const
+    bool GarbageCollector::isRoot(CollectableBase** ppCollectable) const
     {
-        return m_roots.Contains(pCollectable.get());
+        return m_roots.Contains(ppCollectable);
     }
 
     inline
@@ -181,6 +181,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::addStackPtr(const StackPtrBase* stackPtr) const
     {
+        EZ_ASSERT(!m_bIsCollecting, "You are not allowed to add a stack pointer while we're collecting!");
+
         // Prevent adding StackPtr of items that cannot be collected, such as nil, void_, etc.
         if(!isEdenObject(stackPtr->m_ptr)) return;
 
@@ -190,6 +192,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::removeStackPtr(const StackPtrBase* stackPtr) const
     {
+        EZ_ASSERT(!m_bIsCollecting, "You are not allowed to remove a stack pointer while we're collecting!");
+
         // Prevent removal of StackPtr of items that cannot be collected, such as nil, void_, etc.
         if(!isEdenObject(stackPtr->m_ptr)) return;
 

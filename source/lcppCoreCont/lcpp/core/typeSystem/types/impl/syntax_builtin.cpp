@@ -124,7 +124,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getSignature();
             }
 
-            StackPtr<LispObject> getName(StackPtr<LispObject> pSyntax)
+            StackPtr<LispObject> getName(Ptr<LispObject> pSyntax)
             {
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -141,7 +141,7 @@ namespace lcpp
                 pSyntax->getData<Data>().setName(pNewName);
             }
 
-            bool hasName(StackPtr<LispObject> pSyntax)
+            bool hasName(Ptr<LispObject> pSyntax)
             {
                 return !isNil(getName(pSyntax));
             }

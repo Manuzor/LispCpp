@@ -15,9 +15,9 @@ namespace lcpp
 
             LCPP_API_CORE_CONT StackPtr<LispObject> call(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT StackPtr<LispObject> getName(StackPtr<LispObject> pLambda);
+            LCPP_API_CORE_CONT StackPtr<LispObject> getName(Ptr<LispObject> pLambda);
             LCPP_API_CORE_CONT void setName(StackPtr<LispObject> pLambda, StackPtr<LispObject> pNewName);
-            LCPP_API_CORE_CONT bool hasName(StackPtr<LispObject> pLambda);
+            LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pLambda);
 
             LCPP_API_CORE_CONT StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pLambda);
 

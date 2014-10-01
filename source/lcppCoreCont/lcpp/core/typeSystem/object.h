@@ -19,17 +19,17 @@ namespace lcpp
         template<typename T_Data>
         Ptr<LispObject> createStatic(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo);
 
-        LCPP_API_CORE_CONT bool isType(StackPtr<LispObject> pObject, const Type& type);
+        LCPP_API_CORE_CONT bool isType(Ptr<LispObject> pObject, const Type& type);
 
-        LCPP_API_CORE_CONT const Type& getType(StackPtr<LispObject> pObject);
-        LCPP_API_CORE_CONT const AttributeFlags& getAttributes(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT const Type& getType(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT const AttributeFlags& getAttributes(Ptr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT const MetaInfo& getMetaInfo(Ptr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT bool isCallable(StackPtr<LispObject> pObject);
-        LCPP_API_CORE_CONT bool isBuiltin(StackPtr<LispObject> pObject);
-        LCPP_API_CORE_CONT bool isNameable(StackPtr<LispObject> pObject);
-        LCPP_API_CORE_CONT bool isEnvironmentContainer(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isCallable(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isBuiltin(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isNameable(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool isEnvironmentContainer(Ptr<LispObject> pObject);
 
         LCPP_API_CORE_CONT StackPtr<LispObject> call(StackPtr<LispObject> pCont);
 
@@ -37,11 +37,11 @@ namespace lcpp
 
         LCPP_API_CORE_CONT StackPtr<LispObject> getName(StackPtr<LispObject> pObject);
         LCPP_API_CORE_CONT void setName(StackPtr<LispObject> pObject, StackPtr<LispObject> pName);
-        LCPP_API_CORE_CONT bool hasName(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pObject);
 
         LCPP_API_CORE_CONT StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pObject);
         LCPP_API_CORE_CONT void setEnvironment(StackPtr<LispObject> pObject, StackPtr<LispObject> pEnv);
-        LCPP_API_CORE_CONT bool hasEnvironment(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT bool hasEnvironment(Ptr<LispObject> pObject);
     }
 
 }

@@ -8,7 +8,7 @@ namespace lcpp
 {
 #if EZ_ENABLED(LCPP_RUNTIME_TYPE_CHECK)
 
-    LCPP_API_CORE_CONT void attributeCheckAll(const StackPtr<LispObject>& pObject, const AttributeFlags& expectedFlags)
+    LCPP_API_CORE_CONT void attributeCheckAll(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
     {
         LCPP_LogBlock("attributeCheckAll");
 
@@ -25,7 +25,7 @@ namespace lcpp
         }
     }
 
-    LCPP_API_CORE_CONT void attributeCheckAny(const StackPtr<LispObject>& pObject, const AttributeFlags& expectedFlags)
+    LCPP_API_CORE_CONT void attributeCheckAny(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
     {
         LCPP_LogBlock("attributeCheckAny");
 
@@ -42,7 +42,7 @@ namespace lcpp
         }
     }
 
-    LCPP_API_CORE_CONT void attributeCheckNone(const StackPtr<LispObject>& pObject, const AttributeFlags& unexpectedFlags)
+    LCPP_API_CORE_CONT void attributeCheckNone(const Ptr<LispObject>& pObject, const AttributeFlags& unexpectedFlags)
     {
         LCPP_LogBlock("attributeCheckNone");
 

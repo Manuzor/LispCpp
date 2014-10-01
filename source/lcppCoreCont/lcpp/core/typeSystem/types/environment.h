@@ -18,7 +18,7 @@ namespace lcpp
 
         LCPP_API_CORE_CONT StackPtr<LispObject> getName(StackPtr<LispObject> pEnv);
         LCPP_API_CORE_CONT StackPtr<LispObject> getQualifiedName(StackPtr<LispObject> pEnv);
-        LCPP_API_CORE_CONT StackPtr<LispObject> getParent(StackPtr<LispObject> pEnv);
+        LCPP_API_CORE_CONT StackPtr<LispObject> getParent(Ptr<LispObject> pEnv);
 
         LCPP_API_CORE_CONT void addBinding(StackPtr<LispObject> pEnv,
                                            StackPtr<LispObject> pSymbol,
@@ -28,9 +28,9 @@ namespace lcpp
                                                StackPtr<LispObject> pSymbol,
                                                StackPtr<LispObject> pValue);
 
-        LCPP_API_CORE_CONT ezResult getBinding(StackPtr<LispObject> pEnv,
-                                               StackPtr<LispObject> pSymbol,
-                                               StackPtr<LispObject>& out_pValue);
+        LCPP_API_CORE_CONT ezResult getBinding(Ptr<LispObject> pEnv,
+                                               Ptr<LispObject> pSymbol,
+                                               Ptr<LispObject>& out_pValue);
 
         LCPP_API_CORE_CONT BindingLocation existsBinding(StackPtr<LispObject> pEnv,
                                                          StackPtr<LispObject> pSymbol);
@@ -39,7 +39,7 @@ namespace lcpp
 
         namespace detail
         {
-            LCPP_API_CORE_CONT HashTable& getTable(StackPtr<LispObject> pEnv);
+            LCPP_API_CORE_CONT HashTable& getTable(Ptr<LispObject> pEnv);
         }
     };
 }

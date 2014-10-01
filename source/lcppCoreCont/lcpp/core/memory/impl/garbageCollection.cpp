@@ -15,7 +15,7 @@ namespace lcpp
         {
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiInitialMemoryLimit = 128 * 1024 * 1024; // 128 MiB
-            cinfo.m_uiInitialMemoryLimit = 1024;
+            cinfo.m_uiInitialMemoryLimit = 2 * 1024;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             return GarbageCollector(cinfo);
@@ -78,8 +78,9 @@ namespace lcpp
 
         ++m_uiCurrentGeneration;
 
-        for (auto& pRoot : m_roots)
+        for (auto ppRoot : m_roots)
         {
+            auto& pRoot = *ppRoot;
             auto result = addSurvivor(pRoot);
             if (result.isOutOfMemory())
             {
@@ -105,9 +106,8 @@ namespace lcpp
             }
 
             pCollectable = pCollectable->m_pForwardPointer;
-            scanAndPatch(pCollectable);
-
             pStackPtr->m_ptr = pCollectable;
+            scanAndPatch(pCollectable);
         }
 
         // Destroy the garbage.

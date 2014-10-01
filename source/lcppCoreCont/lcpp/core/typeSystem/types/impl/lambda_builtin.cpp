@@ -153,7 +153,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getSignature();
             }
 
-            StackPtr<LispObject> getName(StackPtr<LispObject> pLambda)
+            StackPtr<LispObject> getName(Ptr<LispObject> pLambda)
             {
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
@@ -170,7 +170,7 @@ namespace lcpp
                 pLambda->getData<Data>().setName(pNewName);
             }
 
-            bool hasName(StackPtr<LispObject> pLambda)
+            bool hasName(Ptr<LispObject> pLambda)
             {
                 return !isNil(getName(pLambda));
             }

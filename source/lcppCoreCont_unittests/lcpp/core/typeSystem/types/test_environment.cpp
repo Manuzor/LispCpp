@@ -49,7 +49,7 @@ LCPP_TestCase(Environment, getBinding_addBinding_setBinding)
     auto pInteger_42 = number::create(42);
     auto pInteger_1337 = number::create(1337);
 
-    auto pResultObject = StackPtr<LispObject>();
+    Ptr<LispObject> pResultObject;
     auto result = ezResult(EZ_FAILURE);
 
     result = env::getBinding(pEnvParent, pSymbol_a, pResultObject);

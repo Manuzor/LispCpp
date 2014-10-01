@@ -11,16 +11,16 @@ namespace lcpp
 #if EZ_DISABLED(LCPP_RUNTIME_TYPE_CHECK)
 
     EZ_FORCE_INLINE
-    void attributeCheckAll(const StackPtr<LispObject>&, const AttributeFlags& expectedFlags) {}
+    void attributeCheckAll(const Ptr<LispObject>&, const AttributeFlags& expectedFlags) {}
 
     EZ_FORCE_INLINE
-    void attributeCheckAny(const StackPtr<LispObject>&, const AttributeFlags& expectedFlags) {}
+    void attributeCheckAny(const Ptr<LispObject>&, const AttributeFlags& expectedFlags) {}
 
     EZ_FORCE_INLINE
-    void attributeCheckAll(const StackPtr<LispObject>&, ezUInt32) {}
+    void attributeCheckAll(const Ptr<LispObject>&, ezUInt32) {}
 
     EZ_FORCE_INLINE
-    void attributeCheckAny(const StackPtr<LispObject>&, ezUInt32) {}
+    void attributeCheckAny(const Ptr<LispObject>&, ezUInt32) {}
 
 #endif
 }
