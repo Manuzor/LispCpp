@@ -15,7 +15,7 @@ namespace lcpp
         {
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiInitialMemoryLimit = 128 * 1024 * 1024; // 128 MiB
-            //cinfo.m_uiInitialMemoryLimit = 1024;
+            cinfo.m_uiInitialMemoryLimit = 1024;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             return GarbageCollector(cinfo);
@@ -69,7 +69,7 @@ namespace lcpp
         for (auto pStackPtr : m_stackReferences)
         {
             auto pCollectable = pStackPtr->m_ptr.get();
-            if (!pCollectable->m_bIsForwarded)
+            if (!pCollectable->isForwarded())
                 addSurvivor(pCollectable);
 
             pCollectable = pCollectable->m_pForwardPointer;
@@ -78,19 +78,29 @@ namespace lcpp
             pStackPtr->m_ptr = pCollectable;
         }
 
-        // Call the garbage's destroy functions.
+        // Destroy the garbage.
         auto usedEden = m_edenSpace.getMemory();
         using IndexType = decltype(usedEden.getSize());
         IndexType i(0);
         IndexType endOfUsedEden(usedEden.getSize());
         while(i < endOfUsedEden)
         {
-            auto mem = &usedEden[i];
-            auto pCollectable = reinterpret_cast<CollectableBase*>(mem);
+            auto pCollectable = reinterpret_cast<CollectableBase*>(&usedEden[i]);
             i += pCollectable->m_uiMemorySize;
 
-            if (pCollectable->m_uiGeneration == m_uiCurrentGeneration)
+            if (pCollectable->isForwarded())
+            {
+                EZ_ASSERT(pCollectable->m_uiGeneration == m_uiCurrentGeneration - 1,
+                          "If the object was valid and has been added as a survivor, "
+                          "it must have happened within this collection cycle.");
                 continue;
+            }
+
+            EZ_ASSERT(pCollectable->isAlive(),
+                      "Object should be considered alive at this point so we can destroy it. "
+                      "If it is not alive, it must have been destroyed already.");
+
+            pCollectable->m_state = GarbageState::Destroying;
 
             MetaProperty destructorProperty;
             if (pCollectable->m_pMetaInfo->getProperty(MetaProperty::Builtin::DestructorFunction, destructorProperty).Succeeded())
@@ -98,6 +108,8 @@ namespace lcpp
                 auto destructorFunction = destructorProperty.getData().as<DestructorFunction_t>();
                 (*destructorFunction)(pCollectable);
             }
+
+            pCollectable->m_state = GarbageState::Garbage;
         }
 
         auto newSurvivorMemory = m_edenSpace.getEntireMemory();
@@ -114,19 +126,19 @@ namespace lcpp
             return;
         }
 
-        auto scanner = prop.getData().as<ScanFunction>();
+        auto scanner = prop.getData().as<ScanFunction_t>();
 
-        PatchablePointerArray pointersToPatch;
+        PatchablePointerArray_t pointersToPatch;
         scanner(pObject, pointersToPatch);
 
         for (auto ppToPatch : pointersToPatch)
         {
             auto& pToPatch = *ppToPatch;
 
-            if (!isValidEdenPtr(pToPatch))
+            if (!isEdenObject(pToPatch))
                 continue;
 
-            if (!pToPatch->m_bIsForwarded)
+            if (!pToPatch->isForwarded())
             {
                 addSurvivor(pToPatch);
             }
@@ -142,7 +154,7 @@ namespace lcpp
         auto result = m_survivorSpace.allocate(ptr, pSurvivor->m_uiMemorySize);
         EZ_ASSERT(result.succeeded(), "Out of memory...");
         memcpy(ptr, pSurvivor, pSurvivor->m_uiMemorySize);
-        pSurvivor->m_bIsForwarded = true;
+        pSurvivor->m_state = GarbageState::Forwarded;
         pSurvivor->m_pForwardPointer = reinterpret_cast<CollectableBase*>(ptr);
         pSurvivor->m_pForwardPointer->m_uiGeneration = m_uiCurrentGeneration;
     }

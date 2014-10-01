@@ -11,6 +11,15 @@ namespace lcpp
 
     typedef unsigned char byte_t;
 
+    enum class GarbageState
+    {
+        Initial,
+        Alive,
+        Forwarded,
+        Destroying,
+        Garbage
+    };
+
     class LCPP_API_CORE_CONT CollectableBase
     {
         friend GarbageCollector;
@@ -29,9 +38,15 @@ namespace lcpp
         void setGarbageCollector(Ptr<GarbageCollector> pGarbageCollector);
         void setMetaInfo(Ptr<const MetaInfo> pMetaInfo);
 
+        bool isInitial() const    { return m_state == GarbageState::Initial; }
+        bool isAlive() const      { return m_state == GarbageState::Alive; }
+        bool isForwarded() const  { return m_state == GarbageState::Forwarded; }
+        bool isDestroying() const { return m_state == GarbageState::Destroying; }
+        bool isGarbage() const    { return m_state == GarbageState::Garbage; }
+
     private:
 
-        bool m_bIsForwarded;
+        GarbageState m_state;
 
         union
         {
@@ -46,7 +61,9 @@ namespace lcpp
         };
     };
 
-    using DestructorFunction_t = void (*)(Ptr<CollectableBase>);
+    using DestructorFunction_t = void (*)(CollectableBase*);
+    using PatchablePointerArray_t = ezHybridArray<CollectableBase**, 32>;
+    using ScanFunction_t = void(*)(CollectableBase*, PatchablePointerArray_t&);
 
     class LCPP_API_CORE_CONT GarbageCollector
     {
@@ -63,9 +80,6 @@ namespace lcpp
             CInfo();
         };
 
-        using PatchablePointerArray = ezHybridArray<CollectableBase**, 32>;
-        using ScanFunction = void(*)(CollectableBase*, PatchablePointerArray&);
-
     public:
 
         GarbageCollector(const CInfo& cinfo);
@@ -81,6 +95,11 @@ namespace lcpp
         void addRoot(Ptr<CollectableBase> pCollectable);
         void removeRoot(Ptr<CollectableBase> pCollectable);
         bool isRoot(Ptr<CollectableBase> pCollectable) const;
+
+        /// \remarks WARNING: Be very careful with this method!
+        ///                   It cannot check if the pointer is truly pointing to a valid object.
+        ///                   Use this only in controlled environment.
+        /// \remarks It is mainly used for unit testing the garbage collector.
         bool isAlive(Ptr<CollectableBase> pCollectable) const;
 
         void addStackPtr(const StackPtrBase* stackPtr) const;
@@ -93,7 +112,8 @@ namespace lcpp
 
     private:
 
-        bool isValidEdenPtr(Ptr<CollectableBase> pObject) const;
+        bool isEdenObject(Ptr<CollectableBase> pObject) const;
+        bool isSurvivorObject(Ptr<CollectableBase> pObject) const;
 
         void scanAndPatch(CollectableBase* pObject);
 

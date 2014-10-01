@@ -16,7 +16,7 @@ namespace lcpp
 {
     namespace cons
     {
-        static void scan(CollectableBase* pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
+        static void scan(CollectableBase* pCollectable, PatchablePointerArray_t& pointersToPatch)
         {
             Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
             typeCheck(pObject, Type::Cons);
@@ -35,7 +35,7 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Cons);
                 meta.setPrettyName("cons");
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, &scan));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, ScanFunction_t(&scan)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

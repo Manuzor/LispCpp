@@ -40,7 +40,7 @@ namespace lcpp
                     MetaInfo meta;
                     meta.setPrettyName("testType");
                     meta.setType(Type::ENUM_COUNT);
-                    meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction, &destroy));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction, DestructorFunction_t(&destroy)));
                     return meta;
                 }();
 

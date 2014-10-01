@@ -16,7 +16,7 @@ namespace lcpp
 {
     namespace env
     {
-        static void scan(CollectableBase* pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
+        static void scan(CollectableBase* pCollectable, PatchablePointerArray_t& pointersToPatch)
         {
             Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
             typeCheck(pObject, Type::Environment);
@@ -34,6 +34,15 @@ namespace lcpp
             }
         }
 
+        static void destroy(CollectableBase* pCollectable)
+        {
+            Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
+            typeCheck(pObject, Type::Environment);
+
+            auto& table = pObject->getData<Data>().getTable();
+            table.~HashTable();
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -41,7 +50,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Environment);
                 meta.setPrettyName("environment");
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, &scan));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, ScanFunction_t(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction, DestructorFunction_t(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

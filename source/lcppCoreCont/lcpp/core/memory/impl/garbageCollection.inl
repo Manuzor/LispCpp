@@ -4,7 +4,7 @@ namespace lcpp
 {
     EZ_FORCE_INLINE
     CollectableBase::CollectableBase() :
-        m_bIsForwarded(false),
+        m_state(GarbageState::Initial),
         m_uiMemorySize(0),
         m_uiGeneration(0)
     {
@@ -109,6 +109,7 @@ namespace lcpp
         pInstance->m_pGarbageCollector = this;
         pInstance->m_pMetaInfo = pMetaInfo.get();
         pInstance->m_uiGeneration = m_uiCurrentGeneration;
+        pInstance->m_state = GarbageState::Alive;
 
         return pInstance;
     }
@@ -116,6 +117,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::addRoot(Ptr<CollectableBase> pCollectable)
     {
+        EZ_ASSERT(!m_bIsCollecting, "");
         EZ_ASSERT(!isRoot(pCollectable), "Cannot add same pointer as root more than once!");
         m_roots.PushBack(pCollectable.get());
     }
@@ -132,37 +134,55 @@ namespace lcpp
     {
         return m_roots.Contains(pCollectable.get());
     }
-    
-    EZ_FORCE_INLINE
+
+    inline
     bool GarbageCollector::isAlive(Ptr<CollectableBase> pCollectable) const
     {
-        if(!isValidEdenPtr(pCollectable))
-            return true; // It's not our pointer, so we have to assume it is alive.
-
-        EZ_ASSERT(pCollectable->m_uiGeneration <= m_uiCurrentGeneration, "Invalid generation for object.");
-
+        // Since we cannot say with 100% certainty that an object is alive while we are collecting garbage,
+        // we are thinking positive and assume that it is alive.
         if (m_bIsCollecting)
+            return true;
+
+        if (isEdenObject(pCollectable))
         {
-            return pCollectable->m_uiGeneration == m_uiCurrentGeneration
-                || pCollectable->m_uiGeneration == m_uiCurrentGeneration - 1;
+            EZ_ASSERT(pCollectable->m_uiGeneration <= m_uiCurrentGeneration, "Invalid generation for object.");
+
+            if(pCollectable->isAlive())
+            {
+                EZ_ASSERT(pCollectable->m_uiGeneration == m_uiCurrentGeneration, "Invalid generation for object.");
+                return true;
+            }
+        }
+        else if(isSurvivorObject(pCollectable))
+        {
+            return false;
         }
 
-        return pCollectable->m_uiGeneration == m_uiCurrentGeneration;
+        // It is not our pointer, so we have to assume it is alive.
+        return true;
     }
 
     EZ_FORCE_INLINE
-    bool GarbageCollector::isValidEdenPtr(Ptr<CollectableBase> pObject) const
+    bool GarbageCollector::isEdenObject(Ptr<CollectableBase> pObject) const
     {
         auto ptr = (byte_t*)pObject.get();
         auto memory = m_edenSpace.getMemory();
         return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
     }
-    
+
+    EZ_FORCE_INLINE
+    bool GarbageCollector::isSurvivorObject(Ptr<CollectableBase> pObject) const
+    {
+        auto ptr = (byte_t*)pObject.get();
+        auto memory = m_survivorSpace.getEntireMemory();
+        return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
+    }
+
     EZ_FORCE_INLINE
     void GarbageCollector::addStackPtr(const StackPtrBase* stackPtr) const
     {
         // Prevent adding StackPtr of items that cannot be collected, such as nil, void_, etc.
-        if(!isValidEdenPtr(stackPtr->m_ptr)) return;
+        if(!isEdenObject(stackPtr->m_ptr)) return;
 
         m_stackReferences.PushBack(stackPtr);
     }
@@ -171,7 +191,7 @@ namespace lcpp
     void GarbageCollector::removeStackPtr(const StackPtrBase* stackPtr) const
     {
         // Prevent removal of StackPtr of items that cannot be collected, such as nil, void_, etc.
-        if(!isValidEdenPtr(stackPtr->m_ptr)) return;
+        if(!isEdenObject(stackPtr->m_ptr)) return;
 
         auto uiIndex = m_stackReferences.LastIndexOf(stackPtr);
         EZ_ASSERT(uiIndex != ezInvalidIndex, "");

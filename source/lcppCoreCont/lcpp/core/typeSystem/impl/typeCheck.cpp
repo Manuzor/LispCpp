@@ -6,10 +6,15 @@
 
 namespace lcpp
 {
+    ezUInt32 g_typeCheckOverride(0);
+
 #if EZ_ENABLED(LCPP_RUNTIME_TYPE_CHECK)
 
-    void typeCheck(const StackPtr<LispObject>& pObject, const Type& expectedType)
+    void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType)
     {
+        if (g_typeCheckOverride > 0)
+            return;
+
         LCPP_LogBlock("typeCheck");
         LCPP_AssertObjectIsAlive(pObject.get());
 
@@ -26,8 +31,11 @@ namespace lcpp
         }
     }
 
-    void typeCheck(const StackPtr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
+    void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
     {
+        if (g_typeCheckOverride > 0)
+            return;
+
         LCPP_LogBlock("typeCheck");
         LCPP_AssertObjectIsAlive(pObject.get());
 
