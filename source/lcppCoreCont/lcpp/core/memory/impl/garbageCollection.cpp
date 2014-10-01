@@ -80,7 +80,11 @@ namespace lcpp
 
         for (auto& pRoot : m_roots)
         {
-            addSurvivor(pRoot);
+            auto result = addSurvivor(pRoot);
+            if (result.isOutOfMemory())
+            {
+                LCPP_NOT_IMPLEMENTED;
+            }
             // Replace the old location of the root in the m_roots array with the new location.
             pRoot = pRoot->m_pForwardPointer;
 
@@ -92,7 +96,13 @@ namespace lcpp
         {
             auto pCollectable = pStackPtr->m_ptr.get();
             if (!pCollectable->isForwarded())
-                addSurvivor(pCollectable);
+            {
+                auto result = addSurvivor(pCollectable);
+                if (result.isOutOfMemory())
+                {
+                    LCPP_NOT_IMPLEMENTED;
+                }
+            }
 
             pCollectable = pCollectable->m_pForwardPointer;
             scanAndPatch(pCollectable);
@@ -162,7 +172,11 @@ namespace lcpp
 
             if (!pToPatch->isForwarded())
             {
-                addSurvivor(pToPatch);
+                auto result = addSurvivor(pToPatch);
+                if (result.isOutOfMemory())
+                {
+                    LCPP_NOT_IMPLEMENTED;
+                }
             }
 
             // Patch the pointer.
@@ -170,15 +184,19 @@ namespace lcpp
         }
     }
 
-    void GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
+    AllocatorResult GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
     {
         byte_t* ptr;
         auto result = m_survivorSpace.allocate(ptr, pSurvivor->m_uiMemorySize);
-        EZ_ASSERT(result.succeeded(), "Out of memory...");
+        if (!result.succeeded())
+            return result;
+
         memcpy(ptr, pSurvivor, pSurvivor->m_uiMemorySize);
         pSurvivor->m_state = GarbageState::Forwarded;
         pSurvivor->m_pForwardPointer = reinterpret_cast<CollectableBase*>(ptr);
         pSurvivor->m_pForwardPointer->m_uiGeneration = m_uiCurrentGeneration;
+
+        return result;
     }
 
     bool GarbageCollector::isOnStack(Ptr<CollectableBase> pCollectable) const

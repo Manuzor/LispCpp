@@ -120,7 +120,7 @@ namespace lcpp
 
         void scanAndPatch(CollectableBase* pObject);
 
-        void addSurvivor(CollectableBase* pSurvivor);
+        AllocatorResult addSurvivor(CollectableBase* pSurvivor);
 
     private:
 
