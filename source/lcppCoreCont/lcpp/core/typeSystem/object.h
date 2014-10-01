@@ -11,10 +11,13 @@ namespace lcpp
     namespace object
     {
         template<typename T_Data>
-        StackPtr<LispObject> create(const MetaInfo& metaInfo);
+        StackPtr<LispObject> create(Ptr<const MetaInfo> pMetaInfo);
 
         template<typename T_Data>
-        StackPtr<LispObject> create(Ptr<GarbageCollector> pGarbageCollector, const MetaInfo& metaInfo);
+        StackPtr<LispObject> create(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo);
+
+        template<typename T_Data>
+        Ptr<LispObject> createStatic(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo);
 
         LCPP_API_CORE_CONT bool isType(StackPtr<LispObject> pObject, const Type& type);
 

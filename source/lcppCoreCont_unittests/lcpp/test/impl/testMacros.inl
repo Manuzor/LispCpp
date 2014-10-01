@@ -1,6 +1,6 @@
 
-// The arguments are not strings, use them like this: LCPP_TEST(Hello, World)
-#define LCPP_TestCase(groupName, testName)                          \
+// The arguments are not strings, use them like this: LCPP_TestCase(Hello, World)
+#define LCPP_TestCase(groupName, testName)                      \
 namespace lcpp { namespace test {                               \
     class UnitTest_##groupName##testName :                      \
         public UnitTest                                         \

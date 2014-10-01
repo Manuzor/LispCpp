@@ -20,7 +20,7 @@ namespace lcpp
 
             LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
 
-            LCPP_DeclareRawDataMember(HashTable, m_table);
+            HashTable m_table;
         };
     };
 }

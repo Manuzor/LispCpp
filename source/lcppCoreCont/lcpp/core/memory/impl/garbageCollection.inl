@@ -67,12 +67,12 @@ namespace lcpp
     EZ_FORCE_INLINE
     StackPtr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
     {
-        LCPP_LogBlock("GarbageCollector::create");
-        
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
-
-        LCPP_LogBlock("GarbageCollector::basicCreate");
         
+        LCPP_LogBlock("GarbageCollector::create");
+
+        EZ_ASSERT(!m_bIsCollecting, "Cannot create new objects while collecting!");
+
         T* pInstance = nullptr;
 
         ezUInt32 uiNumTries(0);
@@ -136,6 +136,9 @@ namespace lcpp
     EZ_FORCE_INLINE
     bool GarbageCollector::isAlive(Ptr<CollectableBase> pCollectable) const
     {
+        if(!isValidEdenPtr(pCollectable))
+            return true; // It's not our pointer, so we have to assume it is alive.
+
         EZ_ASSERT(pCollectable->m_uiGeneration <= m_uiCurrentGeneration, "Invalid generation for object.");
 
         if (m_bIsCollecting)
@@ -158,12 +161,18 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::addStackPtr(const StackPtrBase* stackPtr) const
     {
+        // Prevent adding StackPtr of items that cannot be collected, such as nil, void_, etc.
+        if(!isValidEdenPtr(stackPtr->m_ptr)) return;
+
         m_stackReferences.PushBack(stackPtr);
     }
 
     EZ_FORCE_INLINE
     void GarbageCollector::removeStackPtr(const StackPtrBase* stackPtr) const
     {
+        // Prevent removal of StackPtr of items that cannot be collected, such as nil, void_, etc.
+        if(!isValidEdenPtr(stackPtr->m_ptr)) return;
+
         auto uiIndex = m_stackReferences.LastIndexOf(stackPtr);
         EZ_ASSERT(uiIndex != ezInvalidIndex, "");
         m_stackReferences.RemoveAtSwap(uiIndex);

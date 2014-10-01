@@ -18,7 +18,7 @@ namespace lcpp
         EZ_FORCE_INLINE
         HashTable& Data::getTable()
         {
-            return reinterpret_cast<HashTable&>(m_table);
+            return m_table;
         }
 
     };

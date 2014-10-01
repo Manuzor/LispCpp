@@ -32,7 +32,7 @@
 #define LCPP_AddSyntax(szName, pFunction, signature) \
     reader::addSyntax(this, symbol::create(szName), syntax::builtin::create(pFunction, signature))
 
-#define LCPP_AddMacro(...)
+#define LCPP_AddMacro(...) LCPP_NOT_IMPLEMENTED;
 
 #define LCPP_AddBuiltin(szName, pFunction, signature)                                        \
     do {                                                                                     \
@@ -96,7 +96,18 @@ void lcpp::LispRuntimeState::registerBuiltIns()
 
     LCPP_AddBuiltin("cons", &lambda::builtin::cons, Signature::create(2));
     LCPP_AddBuiltin("car", &lambda::builtin::car, Signature::create(1));
-    LCPP_AddBuiltin("cdr", &lambda::builtin::cdr, Signature::create(1));
+
+    do {
+        auto pName = symbol::create("cdr");
+        auto pBuiltin = lambda::builtin::create(m_pGlobalEnvironment, &lambda::builtin::cdr, Signature::create(1));
+        env::addBinding(m_pGlobalEnvironment, pName, pBuiltin);
+        if(!object::hasName(pBuiltin))
+        {
+            object::setName(pBuiltin, pName);
+        }
+    } while(false);
+
+    //LCPP_AddBuiltin("cdr", &lambda::builtin::cdr, Signature::create(1));
     LCPP_AddBuiltin("list", &lambda::builtin::list, Signature::createVarArg());
 
     LCPP_AddBuiltin("eq?", &lambda::builtin::eqq, Signature::create(2));

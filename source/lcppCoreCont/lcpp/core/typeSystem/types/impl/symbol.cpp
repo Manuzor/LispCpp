@@ -46,7 +46,7 @@ namespace lcpp
 
         StackPtr<LispObject> createNew(const String& value)
         {
-            auto pInstance = object::create<Data>(getMetaInfo());
+            auto pInstance = object::createStatic<Data>(getGarbageCollector(), getMetaInfo());
 
             new (pInstance->getData<Data>().m_pRawData) String(value);
 

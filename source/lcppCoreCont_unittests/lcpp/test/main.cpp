@@ -171,9 +171,9 @@ int main(int argc, const char* argv[])
 
     auto& testManager = cut::IUnitTestManager::instance();
 
-
-    testManager.run("Object", "AllTypes");
-    testManager.runAll();
+    testManager.run("StackPtr", "Basics");
+    //testManager.run("Object", "AllTypes");
+    //testManager.runAll();
 
     testManager.printStatistics();
 

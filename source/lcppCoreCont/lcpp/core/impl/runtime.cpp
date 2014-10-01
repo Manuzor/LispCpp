@@ -47,19 +47,23 @@ lcpp::LispRuntimeState::initialize()
     ++m_stats.m_initializationCount;
 
     m_pAllocator = defaultAllocator();
-    g_pGC = getGarbageCollector();
+    m_pGC = lcpp::getGarbageCollector();
 
-    auto pName = symbol::create("syntax");
-    m_pSyntaxEnvironment = env::createTopLevel(pName);
+    // Just for debuggin purposes.
+    g_pGC = m_pGC.get();
+
+    m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
     m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global"));
-
     // Prevent collecting of the syntax and global environment.
-    getGarbageCollector()->addRoot(m_pSyntaxEnvironment.get());
+    getGarbageCollector()->addRoot(m_pGlobalEnvironment.get());
 
     //////////////////////////////////////////////////////////////////////////
-    
+
     m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
     m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
+
+    // Prevent collecting of the reader macro environment.
+    getGarbageCollector()->addRoot(m_pReaderState->m_pMacroEnv.get());
 
     m_pPrinterState = LCPP_NEW(m_pAllocator, printer::State)();
     // TODO Set output stream of printer to stdout by default.

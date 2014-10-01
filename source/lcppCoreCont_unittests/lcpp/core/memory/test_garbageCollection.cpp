@@ -148,28 +148,6 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
     }
 }
 
-LCPP_TestCase(GarbageCollection, StackPtr)
-{
-    GarbageCollector::CInfo gcCinfo;
-
-    gcCinfo.m_uiInitialMemoryLimit = 120 * 1024; // 120 KiB
-    gcCinfo.m_pParentAllocator = defaultAllocator();
-
-    GarbageCollector gc(gcCinfo);
-
-    CUT_ASSERT.notImplemented();
-
-    //auto pObject = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
-    //CUT_ASSERT.isFalse(gc.isOnStack(pObject));
-    //
-    //{
-    //    StackPtr<LispObject> pObjectOnStack = pObject;
-    //    CUT_ASSERT.isTrue(gc.isOnStack(pObject));
-    //}
-    //
-    //CUT_ASSERT.isFalse(gc.isOnStack(pObject));
-}
-
 LCPP_TestCase(GarbageCollection, Collect)
 {
     TestType::getDestroyedTestTypes().Clear();

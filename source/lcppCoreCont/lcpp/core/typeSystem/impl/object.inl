@@ -39,5 +39,23 @@ namespace lcpp
 
             return pInstance.cast<LispObject>();
         }
+
+        template<typename T_Data>
+        EZ_FORCE_INLINE
+        Ptr<LispObject>
+        createStatic(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo)
+        {
+            // Helper struct to determine the minimum memory needed for this lisp object using T_Data
+            struct LispObjectProxy : public LispObject
+            {
+                T_Data m_userData;
+            };
+
+            auto pInstance = pGarbageCollector->createStatic<LispObjectProxy>(pMetaInfo);
+            pInstance->m_data = &pInstance->m_userData;
+
+            return pInstance.cast<LispObject>();
+        }
+
     }
 }

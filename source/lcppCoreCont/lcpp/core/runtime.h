@@ -33,7 +33,7 @@ namespace lcpp
 
         Statistics m_stats;
 
-        Ptr<ezAllocatorBase> allocator();
+        Ptr<GarbageCollector> getGarabgeCollector();
 
         StackPtr<LispObject> getSyntaxEnvironment();
 
@@ -65,6 +65,7 @@ namespace lcpp
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
+        Ptr<GarbageCollector> m_pGC;
 
         Ptr<LispObject> m_pSyntaxEnvironment;
         Ptr<LispObject> m_pGlobalEnvironment;

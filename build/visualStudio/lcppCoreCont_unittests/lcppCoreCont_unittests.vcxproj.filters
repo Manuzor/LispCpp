@@ -136,6 +136,9 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\memory\test_garbageCollection.cpp">
       <Filter>lcpp\core\memory</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\memory\test_stackPtr.cpp">
+      <Filter>lcpp\core\memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont_unittests\lcpp\test\impl\testMacros.inl">

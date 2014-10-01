@@ -63,8 +63,8 @@ namespace lcpp
             CInfo();
         };
 
-        using PatchablePointerArray = ezHybridArray<Ptr<CollectableBase>*, 8>;
-        using ScanFunction = void(*)(Ptr<CollectableBase>, PatchablePointerArray&);
+        using PatchablePointerArray = ezHybridArray<CollectableBase**, 32>;
+        using ScanFunction = void(*)(CollectableBase*, PatchablePointerArray&);
 
     public:
 
@@ -86,6 +86,7 @@ namespace lcpp
         void addStackPtr(const StackPtrBase* stackPtr) const;
         void removeStackPtr(const StackPtrBase* stackPtr) const;
         bool isOnStack(Ptr<CollectableBase> pCollectable) const;
+        ezUInt32 getNumStackReferences() const { return m_stackReferences.GetCount(); }
 
         //bool isCollecting() const { return m_bIsCollecting; }
         //ezUInt32 getCurrentGeneration() const { return m_uiCurrentGeneration; }

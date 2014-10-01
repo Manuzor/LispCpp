@@ -3,9 +3,9 @@ namespace lcpp
 {
 
     EZ_FORCE_INLINE
-    Ptr<ezAllocatorBase> LispRuntimeState::allocator()
+    Ptr<GarbageCollector> LispRuntimeState::getGarabgeCollector()
     {
-        return m_pAllocator;
+        return m_pGC;
     }
 
     EZ_FORCE_INLINE

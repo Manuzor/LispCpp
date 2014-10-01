@@ -16,23 +16,21 @@ namespace lcpp
 {
     namespace env
     {
-        static void scan(Ptr<CollectableBase> pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
+        static void scan(CollectableBase* pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
         {
-            auto pObject = pCollectable.cast<LispObject>();
+            Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
             typeCheck(pObject, Type::Environment);
 
-            auto pName = reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().getName());
-            auto pParent = reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().getParent());
+            // Note: Symbols are not garbage collected.
+
+            auto ppParent = &reinterpret_cast<CollectableBase*&>(pObject->getData<Data>().getParent().get());
+            pointersToPatch.PushBack(ppParent);
 
             auto& table = detail::getTable(pObject);
-
             for (auto iter = table.GetIterator(); iter.IsValid(); ++iter)
             {
-                auto pKey = &reinterpret_cast<Ptr<CollectableBase>&>(const_cast<StackPtr<LispObject>&>(iter.Key()));
-                auto pValue = &reinterpret_cast<Ptr<CollectableBase>&>(iter.Value());
-
-                pointersToPatch.PushBack(pKey);
-                pointersToPatch.PushBack(pValue);
+                auto ppValue = &reinterpret_cast<CollectableBase*&>(iter.Value());
+                pointersToPatch.PushBack(ppValue);
             }
         }
 
@@ -62,9 +60,8 @@ namespace lcpp
 
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_pName) Ptr<LispObject>(pName);
+            new (data.m_pName) Ptr<LispObject>(pName.get());
             new (data.m_pParent) Ptr<LispObject>(pParent);
-            new (data.m_table) HashTable();
 
             return pInstance;
         }
@@ -124,7 +121,7 @@ namespace lcpp
 
             auto& table = detail::getTable(pEnv);
 
-            table[pSymbol] = pValue;
+            table[pSymbol.get()] = pValue.get();
         }
 
         ezResult setBinding(StackPtr<LispObject> pEnv,
@@ -136,9 +133,9 @@ namespace lcpp
 
             auto& table = detail::getTable(pEnv);
 
-            if(table.KeyExists(pSymbol))
+            if(table.KeyExists(pSymbol.get()))
             {
-                table[pSymbol] = pValue;
+                table[pSymbol.get()] = pValue.get();
                 return EZ_SUCCESS;
             }
 
@@ -161,10 +158,10 @@ namespace lcpp
 
             auto& table = detail::getTable(pEnv);
 
-            auto pResult = StackPtr<LispObject>();
-            if(table.TryGetValue(pSymbol, pResult))
+            LispObject* pLookupResult(nullptr);
+            if(table.TryGetValue(pSymbol.get(), pLookupResult))
             {
-                out_pValue = pResult;
+                out_pValue = pLookupResult;
                 return EZ_SUCCESS;
             }
 
@@ -186,7 +183,7 @@ namespace lcpp
 
             auto& table = detail::getTable(pEnv);
 
-            if(table.KeyExists(pSymbol))
+            if(table.KeyExists(pSymbol.get()))
             {
                 return BindingLocation::Local;
             }

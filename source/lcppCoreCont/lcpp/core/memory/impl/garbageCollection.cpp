@@ -15,7 +15,7 @@ namespace lcpp
         {
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiInitialMemoryLimit = 128 * 1024 * 1024; // 128 MiB
-            //cinfo.m_uiInitialMemoryLimit = 128;
+            //cinfo.m_uiInitialMemoryLimit = 1024;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             return GarbageCollector(cinfo);
@@ -48,6 +48,8 @@ namespace lcpp
     {
         EZ_ASSERT(m_uiCurrentGeneration < std::numeric_limits<decltype(m_uiCurrentGeneration)>::max(),
                   "Congratulations, you collected a LOT of garbage...");
+
+        EZ_ASSERT(!m_bIsCollecting, "We are already collecting!");
 
         m_bIsCollecting = true;
         LCPP_SCOPE_EXIT{ m_bIsCollecting = false; };
@@ -105,8 +107,6 @@ namespace lcpp
 
     void GarbageCollector::scanAndPatch(CollectableBase* pObject)
     {
-        pObject->m_uiGeneration = m_uiCurrentGeneration;
-
         MetaProperty prop;
         if (pObject->m_pMetaInfo->getProperty(MetaProperty::Builtin::ScanFunction, prop).Failed())
         {
@@ -117,34 +117,34 @@ namespace lcpp
         auto scanner = prop.getData().as<ScanFunction>();
 
         PatchablePointerArray pointersToPatch;
-        scanner(Ptr<CollectableBase>(pObject), pointersToPatch);
+        scanner(pObject, pointersToPatch);
 
         for (auto ppToPatch : pointersToPatch)
         {
-            auto& pObject = *ppToPatch;
+            auto& pToPatch = *ppToPatch;
 
-            if (!isValidEdenPtr(pObject))
-            {
+            if (!isValidEdenPtr(pToPatch))
                 continue;
-            }
 
-            if (!pObject->m_bIsForwarded)
+            if (!pToPatch->m_bIsForwarded)
             {
-                addSurvivor(pObject.get());
+                addSurvivor(pToPatch);
             }
 
             // Patch the pointer.
-            pObject = pObject->m_pForwardPointer;
+            pToPatch = pToPatch->m_pForwardPointer;
         }
     }
 
     void GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
     {
         byte_t* ptr;
-        m_survivorSpace.allocate(ptr, pSurvivor->m_uiMemorySize);
+        auto result = m_survivorSpace.allocate(ptr, pSurvivor->m_uiMemorySize);
+        EZ_ASSERT(result.succeeded(), "Out of memory...");
         memcpy(ptr, pSurvivor, pSurvivor->m_uiMemorySize);
         pSurvivor->m_bIsForwarded = true;
         pSurvivor->m_pForwardPointer = reinterpret_cast<CollectableBase*>(ptr);
+        pSurvivor->m_pForwardPointer->m_uiGeneration = m_uiCurrentGeneration;
     }
 
     bool GarbageCollector::isOnStack(Ptr<CollectableBase> pCollectable) const

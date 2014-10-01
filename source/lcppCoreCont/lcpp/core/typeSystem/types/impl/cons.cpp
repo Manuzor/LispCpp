@@ -16,15 +16,15 @@ namespace lcpp
 {
     namespace cons
     {
-        static void scan(Ptr<CollectableBase> pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
+        static void scan(CollectableBase* pCollectable, GarbageCollector::PatchablePointerArray& pointersToPatch)
         {
-            auto pObject = pCollectable.cast<LispObject>();
+            Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
             typeCheck(pObject, Type::Cons);
 
-            auto ppCar = &reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().m_pCar);
+            auto ppCar = &reinterpret_cast<CollectableBase*&>(pObject->getData<Data>().m_pCar);
             pointersToPatch.PushBack(ppCar);
             
-            auto ppCdr = &reinterpret_cast<Ptr<CollectableBase>&>(pObject->getData<Data>().m_pCdr);
+            auto ppCdr = &reinterpret_cast<CollectableBase*&>(pObject->getData<Data>().m_pCdr);
             pointersToPatch.PushBack(ppCdr);
         }
 
