@@ -39,8 +39,12 @@
     <Type Name="lcpp::CollectableBase">
         <DisplayString>{*m_pMetaInfo}</DisplayString>
         <Expand>
-            <Item Name="GC">*m_pGarbageCollector</Item>
-            <Item Name="MetaInfo">*m_pMetaInfo</Item>
+            <Item Name="State">m_state</Item>
+            <Item Name="GC"          Condition="m_state == lcpp::GarbageState::Alive">*m_pGarbageCollector</Item>
+            <Item Name="MetaInfo"    Condition="m_state == lcpp::GarbageState::Alive">*m_pMetaInfo        </Item>
+            <Item Name="Memory Size" Condition="m_state == lcpp::GarbageState::Alive">m_uiMemorySize      </Item>
+            <Item Name="Generation"  Condition="m_state == lcpp::GarbageState::Alive">m_uiGeneration      </Item>
+            <Item Name="Forwarded Object" Condition="m_state == lcpp::GarbageState::Forwarded">*m_pForwardPointer</Item>
         </Expand>
     </Type>
 
@@ -140,7 +144,7 @@
         <Expand>
             <Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
             <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
-            <ExpandedItem>(ezHashTableBase&lt;lcpp::Ptr&lt;lcpp::LispObject&gt;,lcpp::Ptr&lt;lcpp::LispObject&gt;,ezHashHelper&lt;lcpp::Ptr&lt;lcpp::LispObject&gt; &gt; &gt; *)m_table</ExpandedItem>
+            <ExpandedItem>m_table</ExpandedItem>
         </Expand>
     </Type>
 
