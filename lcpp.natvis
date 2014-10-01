@@ -11,18 +11,36 @@
     </Type>
 
     <Type Name="lcpp::Ptr &lt; lcpp::LispObject &gt;">
+        <AlternativeType Name="lcpp::Ptr &lt; lcpp::CollectableBase &gt;"></AlternativeType>
         <DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
         <DisplayString>{*((lcpp::LispObject*)m_pPtr)}</DisplayString>
         <Expand>
-            <ExpandedItem>*((lcpp::LispObject*)m_pPtr),view(base)</ExpandedItem>
+            <ExpandedItem>*((lcpp::LispObject*)m_pPtr)</ExpandedItem>
+        </Expand>
+    </Type>
+
+    <Type Name="lcpp::Ptr &lt; lcpp::LispObject &gt;">
+        <DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
+        <DisplayString>{*((lcpp::LispObject*)m_pPtr)}</DisplayString>
+        <Expand>
+            <ExpandedItem>*((lcpp::LispObject*)m_pPtr)</ExpandedItem>
+        </Expand>
+    </Type>
+
+    <Type Name="lcpp::StackPtr &lt; lcpp::LispObject &gt;">
+        <AlternativeType Name="lcpp::StackPtr &lt; lcpp::CollectableBase &gt;"></AlternativeType>
+        <DisplayString Condition="m_ptr.m_pPtr == nullptr">nullptr</DisplayString>
+        <DisplayString>{*((lcpp::LispObject*)m_ptr.m_pPtr)}</DisplayString>
+        <Expand>
+            <ExpandedItem>*((lcpp::LispObject*)m_ptr.m_pPtr)</ExpandedItem>
         </Expand>
     </Type>
 
     <Type Name="lcpp::CollectableBase">
-        <DisplayString>{*m_pMetaInfo.m_pPtr}</DisplayString>
+        <DisplayString>{*m_pMetaInfo}</DisplayString>
         <Expand>
-            <Item Name="GC">*m_pGarbageCollector.m_pPtr</Item>
-            <Item Name="MetaInfo">*m_pMetaInfo.m_pPtr</Item>
+            <Item Name="GC">*m_pGarbageCollector</Item>
+            <Item Name="MetaInfo">*m_pMetaInfo</Item>
         </Expand>
     </Type>
 
@@ -46,45 +64,45 @@
     -->
 
     <Type Name="lcpp::LispObject">
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  0">Nil '()</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  1">Void #v</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  2">True #t</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  3">False #f</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  4">{*((ezInt64*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  5">{*((double*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  6">{*((lcpp::symbol::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  7">{*((lcpp::str::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{*((lcpp::stream::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  9">({*((lcpp::cons::Data*)m_data)})</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 10
-                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{*((lcpp::lambda::builtin::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 10
-                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) == 0">{*((lcpp::lambda::userDefined::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 11
-                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{*((lcpp::syntax::builtin::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 12">{*((lcpp::env::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 13">{*((lcpp::file::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 14">{*((lcpp::cont::Data*)m_data)}</DisplayString>
-        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 15">{*((lcpp::time::Data*)m_data)}</DisplayString>
-        <DisplayString>[Unknown Type] { ((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id }</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  0">Nil '()</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  1">Void #v</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  2">True #t</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  3">False #f</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  4">{*((ezInt64*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  5">{*((double*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  6">{*((lcpp::symbol::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  7">{*((lcpp::str::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  8">{*((lcpp::stream::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  9">({*((lcpp::cons::Data*)m_data)})</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">{*((lcpp::lambda::builtin::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) == 0">{*((lcpp::lambda::userDefined::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 11
+                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">{*((lcpp::syntax::builtin::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 12">{*((lcpp::env::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 13">{*((lcpp::file::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 14">{*((lcpp::cont::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 15">{*((lcpp::time::Data*)m_data)}</DisplayString>
+        <DisplayString>[Unknown Type] { ((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id }</DisplayString>
         <Expand>
             <ExpandedItem ExcludeView="base">((lcpp::CollectableBase*)this)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  4">*((ezInt64*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  5">*((double*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  6">*((lcpp::symbol::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  7">*((lcpp::str::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  8">*((lcpp::stream::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id ==  9">*((lcpp::cons::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 10
-                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">*((lcpp::lambda::builtin::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 10
-                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) == 0">*((lcpp::lambda::userDefined::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 11
-                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">*((lcpp::syntax::builtin::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 12">*((lcpp::env::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 13">*((lcpp::file::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 14">*((lcpp::cont::Data*)m_data)</ExpandedItem>
-            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo.m_pPtr->m_type.m_id == 15">*((lcpp::time::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  4">*((ezInt64*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  5">*((double*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  6">*((lcpp::symbol::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  7">*((lcpp::str::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  8">*((lcpp::stream::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  9">*((lcpp::cons::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">*((lcpp::lambda::builtin::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) == 0">*((lcpp::lambda::userDefined::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 11
+                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">*((lcpp::syntax::builtin::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 12">*((lcpp::env::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 13">*((lcpp::file::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 14">*((lcpp::cont::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 15">*((lcpp::time::Data*)m_data)</ExpandedItem>
 
     </Expand>
     </Type>
