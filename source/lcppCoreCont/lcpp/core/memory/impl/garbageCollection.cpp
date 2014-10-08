@@ -33,10 +33,12 @@ namespace lcpp
 
     void GarbageCollector::initialize(const CInfo& cinfo)
     {
-        EZ_ASSERT(cinfo.m_uiNumPages > 0, "Invalid initial memory limit");
+        EZ_ASSERT(cinfo.m_uiNumPages > 0, "Invalid initial number of pages");
+        m_pools.Clear();
+        m_pools.SetCountUninitialized(NumMemoryPools);
 
-        for (auto i = 0; i < NumMemoryPools; ++i)
-            m_pools[i] = FixedMemory(cinfo.m_uiNumPages);
+        for (auto& pool : m_pools)
+            pool = FixedMemory(cinfo.m_uiNumPages);
     }
 
     void GarbageCollector::clear()
@@ -44,10 +46,8 @@ namespace lcpp
         m_stackReferences.Clear();
         collect(); // Should clean everything up.
 
-        byte_t* pMemory(nullptr);
-
-        for (auto i = 0; i < NumMemoryPools; ++i)
-            m_pools[i].free();
+        for (auto& pool : m_pools)
+            pool.free();
 
         m_uiCurrentGeneration = 0;
     }

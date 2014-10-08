@@ -158,7 +158,7 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     GarbageCollector::CInfo gcCinfo;
 
-    gcCinfo.m_uiNumPages = 120 * 1024; // 120 KiB
+    gcCinfo.m_uiNumPages = 1;
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
     GarbageCollector gc(gcCinfo);

@@ -49,8 +49,9 @@ lcpp::LispRuntimeState::initialize()
     m_pAllocator = defaultAllocator();
     m_pGC = lcpp::getGarbageCollector();
 
-    // Just for debugging purposes.
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
     g_pGC = m_pGC.get();
+#endif
 
     m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax")).get();
     m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global")).get();

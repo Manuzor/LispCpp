@@ -143,7 +143,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     void FixedMemory::free()
     {
-#if EZ_ENABLED(LCPP_GC_KeepAllocatedMemory)
+#if EZ_DISABLED(LCPP_GC_KeepAllocatedMemory)
         if (m_memory.getData() != nullptr)
         {
             VirtualFree(m_memory.getData(), m_memory.getSize(), MEM_DECOMMIT | MEM_RELEASE);

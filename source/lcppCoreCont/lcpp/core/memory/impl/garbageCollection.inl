@@ -80,11 +80,8 @@ namespace lcpp
         {
             ++uiNumTries;
             auto result = m_pEdenSpace->allocate(pInstance);
-
             if (result.succeeded())
-            {
                 break;
-            }
 
             if (result.isOutOfMemory())
             {

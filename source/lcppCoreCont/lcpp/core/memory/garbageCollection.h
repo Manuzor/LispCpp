@@ -127,8 +127,7 @@ namespace lcpp
         mutable ezHybridArray<const StackPtrBase*, 128> m_stackReferences;
 
         enum { NumMemoryPools = 2 };
-
-        FixedMemory m_pools[NumMemoryPools];
+        ezStaticArray<FixedMemory, NumMemoryPools> m_pools;
 
         mutable FixedMemory* m_pEdenSpace;
         mutable FixedMemory* m_pSurvivorSpace;
