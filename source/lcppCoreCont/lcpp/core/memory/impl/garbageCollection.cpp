@@ -26,7 +26,6 @@ namespace lcpp
 
     GarbageCollector::GarbageCollector(const CInfo& cinfo) :
         m_pAllocator(cinfo.m_pParentAllocator),
-        m_roots(cinfo.m_pParentAllocator.get()),
         m_uiCurrentGeneration(0),
         m_bIsCollecting(false)
     {
@@ -52,7 +51,6 @@ namespace lcpp
     void GarbageCollector::clear()
     {
         m_stackReferences.Clear();
-        m_roots.Clear();
         collect(); // Should clean everything up.
 
         byte_t* pMemory(nullptr);
@@ -78,21 +76,7 @@ namespace lcpp
 
         ++m_uiCurrentGeneration;
 
-        for (auto ppRoot : m_roots)
-        {
-            auto& pRoot = *ppRoot;
-            auto result = addSurvivor(pRoot);
-            if (result.isOutOfMemory())
-            {
-                LCPP_NOT_IMPLEMENTED;
-            }
-            // Replace the old location of the root in the m_roots array with the new location.
-            pRoot = pRoot->m_pForwardPointer;
-
-            scanAndPatch(pRoot);
-        }
-
-        // Make sure all stack reference stay alive
+        // Make sure all stack references stay alive
         for (auto pStackPtr : m_stackReferences)
         {
             auto pCollectable = pStackPtr->m_ptr.get();

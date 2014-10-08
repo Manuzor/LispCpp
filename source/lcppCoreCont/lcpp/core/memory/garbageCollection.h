@@ -95,17 +95,13 @@ namespace lcpp
 
         void collect();
 
-        /// \remarks We are expecting a pointer to a pointer here so we can patch it at any time.
-        void addRoot(CollectableBase** ppCollectable);
-        void removeRoot(CollectableBase** ppCollectable);
-        bool isRoot(CollectableBase** ppCollectable) const;
-
         /// \remarks WARNING: Be very careful with this method!
         ///                   It cannot check if the pointer is truly pointing to a valid object.
         ///                   Use this only in controlled environment.
         /// \remarks It is mainly used for unit testing the garbage collector.
         bool isAlive(Ptr<CollectableBase> pCollectable) const;
 
+        /// \brief Adds a pointer to a StackPtrBase struct, which will be patched when garbage is collected.
         void addStackPtr(const StackPtrBase* stackPtr) const;
         void removeStackPtr(const StackPtrBase* stackPtr) const;
         bool isOnStack(Ptr<CollectableBase> pCollectable) const;
@@ -127,7 +123,6 @@ namespace lcpp
 
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        ezHybridArray<CollectableBase**, 16> m_roots;
         mutable ezHybridArray<const StackPtrBase*, 128> m_stackReferences;
 
         mutable FixedMemory m_edenSpace;

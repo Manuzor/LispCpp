@@ -68,7 +68,7 @@ namespace lcpp
     StackPtr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
     {
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
-        
+
         LCPP_LogBlock("GarbageCollector::create");
 
         EZ_ASSERT(!m_bIsCollecting, "Cannot create new objects while collecting!");
@@ -111,28 +111,8 @@ namespace lcpp
         pInstance->m_uiGeneration = m_uiCurrentGeneration;
         pInstance->m_state = GarbageState::Alive;
 
+
         return pInstance;
-    }
-
-    EZ_FORCE_INLINE
-    void GarbageCollector::addRoot(CollectableBase** ppCollectable)
-    {
-        EZ_ASSERT(!m_bIsCollecting, "");
-        EZ_ASSERT(!isRoot(ppCollectable), "Cannot add same pointer as root more than once!");
-        m_roots.PushBack(ppCollectable);
-    }
-
-    EZ_FORCE_INLINE
-    void GarbageCollector::removeRoot(CollectableBase** ppCollectable)
-    {
-        auto wasRemoved = m_roots.RemoveSwap(ppCollectable);
-        EZ_ASSERT(wasRemoved, "Given pointer is not a root pointer!");
-    }
-
-    EZ_FORCE_INLINE
-    bool GarbageCollector::isRoot(CollectableBase** ppCollectable) const
-    {
-        return m_roots.Contains(ppCollectable);
     }
 
     inline
