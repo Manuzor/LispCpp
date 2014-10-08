@@ -79,16 +79,18 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    FixedMemory::FixedMemory(Array<byte_t> memory) :
-        m_uiAllocationPointer(0),
-        m_memory(memory)
+    FixedMemory::FixedMemory(size_t uiNumPages) :
+        m_uiAllocationPointer(0)
     {
+        const size_t uiMemorySize = uiNumPages * GarbageCollectorPageSize;
+        auto pMemory = (byte_t*)VirtualAlloc(nullptr, uiMemorySize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+        m_memory.assign(pMemory, uiMemorySize);
     }
 
     EZ_FORCE_INLINE
     FixedMemory::~FixedMemory()
     {
-        clear();
+        free();
     }
     
     template<typename T>
@@ -118,33 +120,42 @@ namespace lcpp
 
         return Success;
     }
-    
+
     EZ_FORCE_INLINE
-    void FixedMemory::clear()
+    void FixedMemory::reset()
     {
-        m_memory.reset();
+#if EZ_DISABLED(LCPP_GC_AlwaysCreateNewSurvivor)
+        DWORD oldProtect;
+        bool result = VirtualProtect(m_memory.getData(), m_memory.getSize(), PAGE_READWRITE, &oldProtect);
+        EZ_ASSERT(result, "");
+#endif
         m_uiAllocationPointer = 0;
-        m_stats = Stats();
+    }
+
+    EZ_FORCE_INLINE
+    void FixedMemory::protect()
+    {
+        DWORD oldProtect;
+        bool result = VirtualProtect(m_memory.getData(), m_memory.getSize(), PAGE_NOACCESS, &oldProtect) == 0 ? false : true;
+        EZ_ASSERT(result, "");
+    }
+
+    EZ_FORCE_INLINE
+    void FixedMemory::free()
+    {
+#if EZ_ENABLED(LCPP_GC_KeepAllocatedMemory)
+        if (m_memory.getData() != nullptr)
+        {
+            VirtualFree(m_memory.getData(), m_memory.getSize(), MEM_DECOMMIT | MEM_RELEASE);
+            m_memory.reset();
+        }
+#endif
     }
 
     EZ_FORCE_INLINE
     std::size_t FixedMemory::getAllocationPointer() const
     {
         return m_uiAllocationPointer;
-    }
-    
-    EZ_FORCE_INLINE
-    void FixedMemory::assign(Array<byte_t> memory)
-    {
-        m_memory = memory;
-        m_uiAllocationPointer = 0;
-        m_stats = Stats();
-    }
-
-    EZ_FORCE_INLINE
-    void FixedMemory::operator=(Array<byte_t> memory)
-    {
-        assign(memory);
     }
 
     EZ_FORCE_INLINE

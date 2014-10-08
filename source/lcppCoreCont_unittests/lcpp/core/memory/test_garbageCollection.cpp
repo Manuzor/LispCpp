@@ -52,6 +52,8 @@ namespace lcpp
 
 LCPP_TestGroup(GarbageCollection);
 
+#if 0
+
 LCPP_TestCase(GarbageCollection, FixedMemory)
 {
     // No memory.
@@ -148,13 +150,15 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
     }
 }
 
+#endif
+
 LCPP_TestCase(GarbageCollection, Collect)
 {
     TestType::getDestroyedTestTypes().Clear();
 
     GarbageCollector::CInfo gcCinfo;
 
-    gcCinfo.m_uiInitialMemoryLimit = 120 * 1024; // 120 KiB
+    gcCinfo.m_uiNumPages = 120 * 1024; // 120 KiB
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
     GarbageCollector gc(gcCinfo);

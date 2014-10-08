@@ -1,4 +1,5 @@
 #pragma once
+#include "lcpp/core/memory/garbageCollectionCommon.h"
 #include "lcpp/core/containers/array.h"
 
 namespace lcpp
@@ -89,7 +90,7 @@ namespace lcpp
     public:
 
         FixedMemory();
-        FixedMemory(Array<byte_t> memory);
+        explicit FixedMemory(size_t uiNumPages);
         ~FixedMemory();
 
         /// \brief Allocates enough bytes to store a \a T object in it.
@@ -98,13 +99,11 @@ namespace lcpp
         template<typename T>
         AllocatorResult allocate(T*& out_pMemory, std::size_t uiCount = 1);
 
-        void clear();
+        void reset();
 
-        /// \brief
-        void assign(Array<byte_t> memory);
+        void protect();
 
-        /// \see assign
-        void operator =(Array<byte_t> memory);
+        void free();
 
         /// \brief Gets the part of the available memory that contains valid allocations.
         Array<byte_t> getMemory() const;

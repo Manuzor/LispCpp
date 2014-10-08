@@ -44,7 +44,7 @@ namespace lcpp
 
     EZ_FORCE_INLINE
     GarbageCollector::CInfo::CInfo() :
-        m_uiInitialMemoryLimit(0)
+        m_uiNumPages(0)
     {
     }
 
@@ -79,7 +79,7 @@ namespace lcpp
         while(true)
         {
             ++uiNumTries;
-            auto result = m_edenSpace.allocate(pInstance);
+            auto result = m_pEdenSpace->allocate(pInstance);
 
             if (result.succeeded())
             {
@@ -111,6 +111,11 @@ namespace lcpp
         pInstance->m_uiGeneration = m_uiCurrentGeneration;
         pInstance->m_state = GarbageState::Alive;
 
+#if EZ_ENABLED(LCPP_GC_CollectAfterAllocation)
+        StackPtr<T> pSafeInstance(pInstance);
+        collect();
+        pSafeInstance = nullptr;
+#endif
 
         return pInstance;
     }
@@ -146,7 +151,7 @@ namespace lcpp
     bool GarbageCollector::isEdenObject(Ptr<CollectableBase> pObject) const
     {
         auto ptr = (byte_t*)pObject.get();
-        auto memory = m_edenSpace.getMemory();
+        auto memory = m_pEdenSpace->getMemory();
         return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
     }
 
@@ -154,7 +159,7 @@ namespace lcpp
     bool GarbageCollector::isSurvivorObject(Ptr<CollectableBase> pObject) const
     {
         auto ptr = (byte_t*)pObject.get();
-        auto memory = m_survivorSpace.getEntireMemory();
+        auto memory = m_pSurvivorSpace->getEntireMemory();
         return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
     }
 

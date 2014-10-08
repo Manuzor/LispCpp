@@ -14,8 +14,7 @@ namespace lcpp
         static GarbageCollector gc = []
         {
             GarbageCollector::CInfo cinfo;
-            cinfo.m_uiInitialMemoryLimit = 128 * 1024 * 1024; // 128 MiB
-            cinfo.m_uiInitialMemoryLimit = 2 * 1024;
+            cinfo.m_uiNumPages = 1;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             return GarbageCollector(cinfo);
@@ -34,18 +33,10 @@ namespace lcpp
 
     void GarbageCollector::initialize(const CInfo& cinfo)
     {
-        EZ_ASSERT(cinfo.m_uiInitialMemoryLimit > 0, "Invalid initial memory limit");
+        EZ_ASSERT(cinfo.m_uiNumPages > 0, "Invalid initial memory limit");
 
-        const std::size_t memorySize = cinfo.m_uiInitialMemoryLimit;
-        byte_t* pMemory = nullptr;
-
-        pMemory = EZ_NEW_RAW_BUFFER(m_pAllocator.get(), byte_t, memorySize);
-        EZ_ASSERT(pMemory != nullptr, "Out of memory!");
-        m_edenSpace = Array<byte_t>(pMemory, memorySize);
-
-        pMemory = EZ_NEW_RAW_BUFFER(m_pAllocator.get(), byte_t, memorySize);
-        EZ_ASSERT(pMemory != nullptr, "Out of memory!");
-        m_survivorSpace = Array<byte_t>(pMemory, memorySize);
+        for (auto i = 0; i < NumMemoryPools; ++i)
+            m_pools[i] = FixedMemory(cinfo.m_uiNumPages);
     }
 
     void GarbageCollector::clear()
@@ -55,11 +46,8 @@ namespace lcpp
 
         byte_t* pMemory(nullptr);
 
-        pMemory = m_survivorSpace.getEntireMemory().getData();
-        EZ_DELETE_RAW_BUFFER(m_pAllocator.get(), pMemory);
-
-        pMemory = m_edenSpace.getEntireMemory().getData();
-        EZ_DELETE_RAW_BUFFER(m_pAllocator.get(), pMemory);
+        for (auto i = 0; i < NumMemoryPools; ++i)
+            m_pools[i].free();
 
         m_uiCurrentGeneration = 0;
     }
@@ -95,7 +83,7 @@ namespace lcpp
         }
 
         // Destroy the garbage.
-        auto usedEden = m_edenSpace.getMemory();
+        auto usedEden = m_pEdenSpace->getMemory();
         using IndexType = decltype(usedEden.getSize());
         IndexType i(0);
         IndexType endOfUsedEden(usedEden.getSize());
@@ -128,9 +116,7 @@ namespace lcpp
             pCollectable->m_state = GarbageState::Garbage;
         }
 
-        auto newSurvivorMemory = m_edenSpace.getEntireMemory();
-        m_edenSpace = m_survivorSpace;
-        m_survivorSpace = newSurvivorMemory;
+        std::swap(m_pEdenSpace, m_pSurvivorSpace);
     }
 
     void GarbageCollector::scanAndPatch(CollectableBase* pObject)
@@ -171,7 +157,7 @@ namespace lcpp
     AllocatorResult GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
     {
         byte_t* ptr;
-        auto result = m_survivorSpace.allocate(ptr, pSurvivor->m_uiMemorySize);
+        auto result = m_pSurvivorSpace->allocate(ptr, pSurvivor->m_uiMemorySize);
         if (!result.succeeded())
             return result;
 

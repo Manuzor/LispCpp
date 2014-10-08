@@ -14,7 +14,7 @@ LCPP_TestCase(StackPtr, Basics)
 {
     GarbageCollector::CInfo gcCinfo;
 
-    gcCinfo.m_uiInitialMemoryLimit = 120 * 1024; // 120 KiB
+    gcCinfo.m_uiNumPages = 120 * 1024; // 120 KiB
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
     GarbageCollector gc(gcCinfo);

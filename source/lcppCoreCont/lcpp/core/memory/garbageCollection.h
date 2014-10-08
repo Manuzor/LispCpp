@@ -1,4 +1,5 @@
 #pragma once
+#include "lcpp/core/memory/garbageCollectionCommon.h"
 #include "lcpp/core/memory/stackPtr.h"
 #include "lcpp/core/memory/fixedMemory.h"
 
@@ -74,7 +75,7 @@ namespace lcpp
         {
         public:
             Ptr<ezAllocatorBase> m_pParentAllocator;
-            ezUInt32 m_uiInitialMemoryLimit; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
+            ezUInt32 m_uiNumPages; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
 
         public:
             CInfo();
@@ -125,8 +126,12 @@ namespace lcpp
 
         mutable ezHybridArray<const StackPtrBase*, 128> m_stackReferences;
 
-        mutable FixedMemory m_edenSpace;
-        mutable FixedMemory m_survivorSpace;
+        enum { NumMemoryPools = 2 };
+
+        FixedMemory m_pools[NumMemoryPools];
+
+        mutable FixedMemory* m_pEdenSpace;
+        mutable FixedMemory* m_pSurvivorSpace;
 
         ezUInt32 m_uiCurrentGeneration;
         bool m_bIsCollecting;

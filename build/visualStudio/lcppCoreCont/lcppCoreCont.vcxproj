@@ -44,6 +44,7 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\ioUtils.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\fixedMemory.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollectionCommon.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\stackPtr.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\preprocessorUtils\disableVerboseLoggingLocally.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printer.h" />

@@ -289,6 +289,9 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\stackPtr.h">
       <Filter>lcpp\core\memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollectionCommon.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
