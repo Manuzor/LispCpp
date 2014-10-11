@@ -1,6 +1,73 @@
 
 namespace lcpp
 {
+    EZ_FORCE_INLINE
+    StackPtrBase::StackPtrBase(CollectableBase* ptr) :
+        m_uiIndex(s_uiNextIndex++)
+    {
+        EZ_ASSERT(s_uiNextIndex < NumMaxStackPtrs, "Maximum number of supported stack ptrs reached.");
+        s_ptrTable[m_uiIndex] = ptr;
+        LCPP_InDebug( m_pLastLookup = ptr; );
+    }
+
+    EZ_FORCE_INLINE
+    StackPtrBase::StackPtrBase(const StackPtrBase& toCopy)
+    {
+        auto ptr = s_ptrTable[toCopy.m_uiIndex];
+        EZ_ASSERT(ptr != nullptr, "");
+        m_uiIndex = s_uiNextIndex++;
+        s_ptrTable[m_uiIndex] = ptr;
+        LCPP_InDebug( m_pLastLookup = ptr; );
+    }
+
+    EZ_FORCE_INLINE
+    StackPtrBase::~StackPtrBase()
+    {
+        auto uiExepectedIndex = --s_uiNextIndex;
+        EZ_ASSERT(m_uiIndex == uiExepectedIndex, "Destructing in wrong order!");
+        LCPP_InDebug( m_pLastLookup = nullptr; );
+    }
+
+    EZ_FORCE_INLINE
+    void StackPtrBase::operator=(const StackPtrBase& toCopy)
+    {
+        auto ptr = s_ptrTable[toCopy.m_uiIndex];
+        EZ_ASSERT(ptr != nullptr, "");
+        m_uiIndex = s_uiNextIndex++;
+        s_ptrTable[m_uiIndex] = ptr;
+        LCPP_InDebug( m_pLastLookup = ptr; );
+    }
+
+    EZ_FORCE_INLINE
+    void StackPtrBase::operator=(CollectableBase* ptr)
+    {
+        EZ_ASSERT(ptr != nullptr, "");
+        s_ptrTable[m_uiIndex] = ptr;
+        LCPP_InDebug( m_pLastLookup = ptr; );
+    }
+
+    EZ_FORCE_INLINE
+    CollectableBase* StackPtrBase::get()
+    {
+        LCPP_InDebug(
+            auto pResult = s_ptrTable[m_uiIndex];
+            EZ_ASSERT(pResult != nullptr, "");
+            m_pLastLookup = pResult;
+            return pResult;
+        );
+        LCPP_InNonDebug( return s_ptrTable[m_uiIndex]; );
+    }
+
+    EZ_FORCE_INLINE
+    bool StackPtrBase::isNull()
+    {
+        auto ptr = s_ptrTable[m_uiIndex];
+        LCPP_InDebug( m_pLastLookup = ptr; );
+        return ptr == nullptr;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
     template<typename T>
     EZ_FORCE_INLINE
     StackPtr<T>::StackPtr(StackPtr& rhs) :
@@ -17,7 +84,7 @@ namespace lcpp
 
     template<typename T>
     EZ_FORCE_INLINE
-    lcpp::StackPtr<T>::StackPtr(T* ptr) :
+    StackPtr<T>::StackPtr(T* ptr) :
         StackPtrBase(ptr)
     {
     }

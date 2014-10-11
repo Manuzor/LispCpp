@@ -76,6 +76,12 @@ namespace lcpp
         T* pInstance = nullptr;
 
         ezUInt32 uiNumTries(0);
+
+#if EZ_ENABLED(LCPP_GC_CollectBeforeEachAllocation)
+        ++uiNumTries;
+        collect();
+#endif
+
         while(true)
         {
             ++uiNumTries;
@@ -107,12 +113,6 @@ namespace lcpp
         pInstance->m_pMetaInfo = pMetaInfo.get();
         pInstance->m_uiGeneration = m_uiCurrentGeneration;
         pInstance->m_state = GarbageState::Alive;
-
-#if EZ_ENABLED(LCPP_GC_CollectAfterAllocation)
-        StackPtr<T> pSafeInstance(pInstance);
-        collect();
-        pSafeInstance = nullptr;
-#endif
 
         return pInstance;
     }

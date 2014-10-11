@@ -16,63 +16,16 @@ namespace lcpp
 
     protected:
 
-        StackPtrBase(CollectableBase* ptr) :
-            m_uiIndex(s_uiNextIndex++)
-        {
-            EZ_ASSERT(s_uiNextIndex < NumMaxStackPtrs, "Maximum number of supported stack ptrs reached.");
-            s_ptrTable[m_uiIndex] = ptr;
-            LCPP_InDebug( m_pLastLookup = ptr; );
-        }
+        StackPtrBase(CollectableBase* ptr);
+        StackPtrBase(const StackPtrBase& toCopy);
 
-        StackPtrBase(const StackPtrBase& toCopy)
-        {
-            auto ptr = s_ptrTable[toCopy.m_uiIndex];
-            EZ_ASSERT(ptr != nullptr, "");
-            m_uiIndex = s_uiNextIndex++;
-            s_ptrTable[m_uiIndex] = ptr;
-            LCPP_InDebug( m_pLastLookup = ptr; );
-        }
+        ~StackPtrBase();
 
-        ~StackPtrBase()
-        {
-            auto uiExepectedIndex = --s_uiNextIndex;
-            EZ_ASSERT(m_uiIndex == uiExepectedIndex, "Destructing in wrong order!");
-            LCPP_InDebug( m_pLastLookup = nullptr; );
-        }
+        void operator=(const StackPtrBase& toCopy);
+        void operator=(CollectableBase* ptr);
 
-        void operator=(const StackPtrBase& toCopy)
-        {
-            auto ptr = s_ptrTable[toCopy.m_uiIndex];
-            EZ_ASSERT(ptr != nullptr, "");
-            m_uiIndex = s_uiNextIndex++;
-            s_ptrTable[m_uiIndex] = ptr;
-            LCPP_InDebug( m_pLastLookup = ptr; );
-        }
-
-        void operator=(CollectableBase* ptr)
-        {
-            EZ_ASSERT(ptr != nullptr, "");
-            s_ptrTable[m_uiIndex] = ptr;
-            LCPP_InDebug( m_pLastLookup = ptr; );
-        }
-
-        CollectableBase* get()
-        {
-            LCPP_InDebug(
-                auto pResult = s_ptrTable[m_uiIndex];
-                EZ_ASSERT(pResult != nullptr, "");
-                m_pLastLookup = pResult;
-                return pResult;
-            );
-            LCPP_InNonDebug( return s_ptrTable[m_uiIndex]; );
-        }
-
-        bool isNull()
-        {
-            auto ptr = s_ptrTable[m_uiIndex];
-            LCPP_InDebug( m_pLastLookup = ptr; );
-            return ptr == nullptr;
-        }
+        CollectableBase* get();
+        bool isNull();
 
     protected:
         ezUInt32 m_uiIndex;
@@ -84,7 +37,7 @@ namespace lcpp
     {
         //EZ_CHECK_AT_COMPILETIME_MSG((std::is_convertible<T, CollectableBase>::value), "T needs to be a collectable object!");
     public:
-        
+
         // Disable move constructor and assignment
         StackPtr(StackPtr&& toMove) = delete;
         void operator =(StackPtr&& toMove) = delete;

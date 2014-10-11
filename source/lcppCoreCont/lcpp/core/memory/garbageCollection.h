@@ -132,17 +132,18 @@ namespace lcpp
         bool isEdenObject(Ptr<CollectableBase> pObject) const;
         bool isSurvivorObject(Ptr<CollectableBase> pObject) const;
 
-        /// \brief Scans and patches WITHIN \a pObject.
-        void scanAndPatch(CollectableBase* pObject);
-
         /// \brief Goes through the survivors using the scan pointer.
         /// \return Number of survivors scanned.
-        ezUInt64 scanSurvivors();
+        ezUInt64 scanSurvivorSpace();
 
         /// \brief Helper to keep the code cleaner.
         ScanFunction_t getScanFunction(CollectableBase* pObject);
 
+        void addStackPointersToSurvivorSpace();
+
         void destroyGarbage();
+
+        void addRootsToSurvivorSpace();
 
     private:
 

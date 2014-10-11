@@ -77,6 +77,22 @@ namespace lcpp
         m_ScanPointer = m_pSurvivorSpace->getBeginning();
 
         // Make sure all roots stay alive
+        addRootsToSurvivorSpace();
+        scanSurvivorSpace();
+
+        // Make sure the stack pointers stay valid
+        addStackPointersToSurvivorSpace();
+        scanSurvivorSpace();
+
+        destroyGarbage();
+
+        std::swap(m_pEdenSpace, m_pSurvivorSpace);
+        m_pSurvivorSpace->protect();
+        m_ScanPointer = nullptr;
+    }
+
+    void GarbageCollector::addRootsToSurvivorSpace()
+    {
         for (auto ppRoot : m_roots)
         {
             auto& pRoot = *ppRoot;
@@ -86,10 +102,10 @@ namespace lcpp
                 LCPP_NOT_IMPLEMENTED;
             }
         }
+    }
 
-        scanSurvivors();
-
-        // Scan and patch all stack pointers.
+    void GarbageCollector::addStackPointersToSurvivorSpace()
+    {
         for (ezUInt32 i = 0; i < StackPtrBase::s_uiNextIndex; ++i)
         {
             auto& pCollectable = StackPtrBase::s_ptrTable[i];
@@ -99,15 +115,6 @@ namespace lcpp
                 LCPP_NOT_IMPLEMENTED;
             }
         }
-
-        scanSurvivors();
-
-        destroyGarbage();
-
-        std::swap(m_pEdenSpace, m_pSurvivorSpace);
-
-        m_pSurvivorSpace->protect();
-        m_ScanPointer = nullptr;
     }
 
     void GarbageCollector::destroyGarbage()
@@ -143,27 +150,19 @@ namespace lcpp
         }
     }
 
-    void GarbageCollector::scanAndPatch(CollectableBase* pObject)
-    {
-        auto scanner = getScanFunction(pObject);
-
-        if (scanner == nullptr)
-        {
-            // The object has no scan function, which means there's nothing to scan or patch
-            return;
-        }
-
-        // The objects are responsible for patching themselves.
-        scanner(pObject, this);
-    }
-
-    ezUInt64 GarbageCollector::scanSurvivors()
+    ezUInt64 GarbageCollector::scanSurvivorSpace()
     {
         ezUInt64 uiScanCount(0);
         while(m_ScanPointer < m_pSurvivorSpace->getAllocationPointer())
         {
             auto pToScan = reinterpret_cast<CollectableBase*>(m_ScanPointer);
-            scanAndPatch(pToScan);
+
+            auto scanner = getScanFunction(pToScan);
+            if (scanner)
+            {
+                // The objects are responsible for patching themselves.
+                scanner(pToScan, this);
+            }
             ++uiScanCount;
         }
         return uiScanCount;
