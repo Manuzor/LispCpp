@@ -107,7 +107,7 @@ namespace lcpp
 
         std::ios_base::sync_with_stdio(false);
 
-        auto results = ezDeque<StackPtr<LispObject>>(lcpp::defaultAllocator());
+        auto results = ezDeque<Ptr<LispObject>>(lcpp::defaultAllocator());
 
         auto inputBuffer = std::string("");
 
@@ -283,7 +283,7 @@ namespace lcpp
         return;
     }
 
-    void Interpreter::readUserInput(ezDeque<StackPtr<LispObject>>& out_results)
+    void Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
     {
         auto pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
@@ -351,7 +351,7 @@ namespace lcpp
         }
     }
 
-    StackPtr<LispObject> Interpreter::evaluateReaderOutput(StackPtr<LispObject> pObject)
+    Ptr<LispObject> Interpreter::evaluateReaderOutput(Ptr<LispObject> pObject)
     {
         auto pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
@@ -365,7 +365,7 @@ namespace lcpp
         return pMainStack->get(0);
     }
 
-    void Interpreter::print(StackPtr<LispObject> pToPrint)
+    void Interpreter::print(Ptr<LispObject> pToPrint)
     {
         auto pContMain = cont::createTopLevel(m_pState);
 

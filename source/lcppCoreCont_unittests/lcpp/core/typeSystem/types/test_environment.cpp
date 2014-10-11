@@ -131,7 +131,7 @@ LCPP_TestCase(Environment, qualifiedName)
     auto pEnvChild2 = env::create(pEnvChild1, symbol::create("child2")); ///< parent/child1/child2
     auto pEnvChild3 = env::create(pEnvChild2, symbol::create("child3")); ///< parent/child1/child2/child3
 
-    auto pName = StackPtr<LispObject>();
+    auto pName = Ptr<LispObject>();
 
     //////////////////////////////////////////////////////////////////////////
 

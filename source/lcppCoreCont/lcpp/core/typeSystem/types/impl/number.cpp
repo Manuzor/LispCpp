@@ -46,7 +46,7 @@ namespace lcpp
             return &meta;
         }
 
-        StackPtr<LispObject> create(Integer_t value)
+        Ptr<LispObject> create(Integer_t value)
         {
             LCPP_LogBlock("number::create", getMetaInfoInteger()->getPrettyName());
 
@@ -57,7 +57,7 @@ namespace lcpp
             return pInstance;
         }
 
-        StackPtr<LispObject> create(Float_t value)
+        Ptr<LispObject> create(Float_t value)
         {
             LCPP_LogBlock("number::create", getMetaInfoFloat()->getPrettyName());
 
@@ -68,21 +68,21 @@ namespace lcpp
             return pInstance;
         }
 
-        Integer_t getInteger(StackPtr<LispObject> pObject)
+        Integer_t getInteger(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer);
 
             return pObject->getData<Integer_t>();
         }
 
-        Float_t getFloat(StackPtr<LispObject> pObject)
+        Float_t getFloat(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Float);
 
             return pObject->getData<Float_t>();
         }
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 
@@ -100,7 +100,7 @@ namespace lcpp
             return str::create(stringValue.GetData());
         }
 
-        StackPtr<LispObject> negate(StackPtr<LispObject> pObject)
+        Ptr<LispObject> negate(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 
@@ -112,7 +112,7 @@ namespace lcpp
             return create(-getFloat(pObject));
         }
 
-        StackPtr<LispObject> invert(StackPtr<LispObject> pObject)
+        Ptr<LispObject> invert(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 
@@ -129,7 +129,7 @@ namespace lcpp
             return create(Float_t(1.0f) / getFloat(pObject));
         }
 
-        StackPtr<LispObject> isZero(StackPtr<LispObject> pObject)
+        Ptr<LispObject> isZero(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 
@@ -166,28 +166,28 @@ namespace lcpp
         }                                                                    \
     }
 
-        StackPtr<LispObject> add(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> add(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pNil;
             LCPP_number_defineArithmeticFunctionContent(pResult , pLhs, pRhs, +);
             return pResult;
         }
 
-        StackPtr<LispObject> subtract(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> subtract(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pNil;
             LCPP_number_defineArithmeticFunctionContent(pResult, pLhs, pRhs, -);
             return pResult;
         }
 
-        StackPtr<LispObject> multiply(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> multiply(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pNil;
             LCPP_number_defineArithmeticFunctionContent(pResult, pLhs, pRhs, *);
             return pResult;
         }
 
-        StackPtr<LispObject> divide(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> divide(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             if(isTrue(isZero(pRhs)))
             {
@@ -199,7 +199,7 @@ namespace lcpp
             return pResult;
         }
 
-        StackPtr<LispObject> modulo(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> modulo(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             if(isTrue(isZero(pRhs)))
             {
@@ -237,35 +237,35 @@ namespace lcpp
         }                                                                              \
     }
 
-        StackPtr<LispObject> greaterThan(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> greaterThan(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pFalse;
             LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, > );
             return pResult;
         }
 
-        StackPtr<LispObject> greaterThanOrEqual(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> greaterThanOrEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pFalse;
             LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, >=);
             return pResult;
         }
 
-        StackPtr<LispObject> equal(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> equal(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pFalse;
             LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, ==);
             return pResult;
         }
 
-        StackPtr<LispObject> lowerThan(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> lowerThan(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pFalse;
             LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, <);
             return pResult;
         }
 
-        StackPtr<LispObject> lowerThanOrEqual(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        Ptr<LispObject> lowerThanOrEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             auto pResult = LCPP_pFalse;
             LCPP_number_defineComparisonFunctionContent(pResult, pLhs, pRhs, <=);

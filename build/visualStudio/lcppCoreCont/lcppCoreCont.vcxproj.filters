@@ -383,6 +383,9 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.cpp">
       <Filter>lcpp\core\memory\impl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.cpp">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl">

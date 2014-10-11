@@ -9,11 +9,11 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
-        LCPP_API_CORE_CONT StackPtr<LispObject> create(const String& value);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(const String& value);
 
-        LCPP_API_CORE_CONT const String& getValue(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT const String& getValue(Ptr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
 
     }
 }

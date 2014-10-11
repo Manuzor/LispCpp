@@ -22,7 +22,7 @@ namespace lcpp
 {
     static auto g_wasCalled = bool(false);
 
-    static StackPtr<LispObject> testBuiltin(StackPtr<LispObject> pCont)
+    static Ptr<LispObject> testBuiltin(Ptr<LispObject> pCont)
     {
         typeCheck(pCont, Type::Continuation);
 

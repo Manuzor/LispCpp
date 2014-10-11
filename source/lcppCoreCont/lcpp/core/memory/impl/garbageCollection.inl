@@ -44,7 +44,7 @@ namespace lcpp
 
     EZ_FORCE_INLINE
     GarbageCollector::CInfo::CInfo() :
-        m_uiNumPages(0)
+        m_uiNumInitialPages(0)
     {
     }
 
@@ -65,13 +65,13 @@ namespace lcpp
 
     template<typename T>
     EZ_FORCE_INLINE
-    StackPtr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
+    Ptr<T> GarbageCollector::create(Ptr<const MetaInfo> pMetaInfo)
     {
         EZ_CHECK_AT_COMPILETIME((std::is_convertible<T, CollectableBase>::value));
 
         LCPP_LogBlock("GarbageCollector::create");
 
-        EZ_ASSERT(!m_bIsCollecting, "Cannot create new objects while collecting!");
+        EZ_ASSERT(!isCollecting(), "Cannot create new objects while collecting!");
 
         T* pInstance = nullptr;
 
@@ -122,7 +122,7 @@ namespace lcpp
     {
         // Since we cannot say with 100% certainty that an object is alive while we are collecting garbage,
         // we are thinking positive and assume that it is alive.
-        if (m_bIsCollecting)
+        if (isCollecting())
             return true;
 
         if (isEdenObject(pCollectable))
@@ -147,41 +147,25 @@ namespace lcpp
     EZ_FORCE_INLINE
     bool GarbageCollector::isEdenObject(Ptr<CollectableBase> pObject) const
     {
-        auto ptr = (byte_t*)pObject.get();
-        auto memory = m_pEdenSpace->getMemory();
-        return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
+        auto ptr = reinterpret_cast<byte_t*>(pObject.get());
+        return ptr >= m_pEdenSpace->getBeginning() && ptr <= m_pEdenSpace->getAllocationPointer();
     }
 
     EZ_FORCE_INLINE
     bool GarbageCollector::isSurvivorObject(Ptr<CollectableBase> pObject) const
     {
-        auto ptr = (byte_t*)pObject.get();
-        auto memory = m_pSurvivorSpace->getEntireMemory();
-        return ptr >= memory.getData() && ptr < (memory.getData() + memory.getSize());
+        auto ptr = reinterpret_cast<byte_t*>(pObject.get());
+        return ptr >= m_pSurvivorSpace->getBeginning() && ptr <= m_pSurvivorSpace->getAllocationPointer();
     }
 
     EZ_FORCE_INLINE
-    void GarbageCollector::addStackPtr(const StackPtrBase* stackPtr) const
+    ScanFunction_t GarbageCollector::getScanFunction(CollectableBase* pObject)
     {
-        EZ_ASSERT(!m_bIsCollecting, "You are not allowed to add a stack pointer while we're collecting!");
+        MetaProperty prop;
+        if (pObject->m_pMetaInfo->getProperty(MetaProperty::Builtin::ScanFunction, prop).Failed())
+            return nullptr;
 
-        // Prevent adding StackPtr of items that cannot be collected, such as nil, void_, etc.
-        if(!isEdenObject(stackPtr->m_ptr)) return;
-
-        m_stackReferences.PushBack(stackPtr);
-    }
-
-    EZ_FORCE_INLINE
-    void GarbageCollector::removeStackPtr(const StackPtrBase* stackPtr) const
-    {
-        EZ_ASSERT(!m_bIsCollecting, "You are not allowed to remove a stack pointer while we're collecting!");
-
-        // Prevent removal of StackPtr of items that cannot be collected, such as nil, void_, etc.
-        if(!isEdenObject(stackPtr->m_ptr)) return;
-
-        auto uiIndex = m_stackReferences.LastIndexOf(stackPtr);
-        EZ_ASSERT(uiIndex != ezInvalidIndex, "");
-        m_stackReferences.RemoveAtSwap(uiIndex);
+        return prop.getData().as<ScanFunction_t>();
     }
 
     EZ_FORCE_INLINE

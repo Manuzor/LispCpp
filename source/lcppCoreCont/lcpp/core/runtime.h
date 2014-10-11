@@ -67,8 +67,8 @@ namespace lcpp
         Ptr<ezAllocatorBase> m_pAllocator;
         Ptr<GarbageCollector> m_pGC;
 
-        StackPtr<LispObject> m_pSyntaxEnvironment;
-        StackPtr<LispObject> m_pGlobalEnvironment;
+        Ptr<LispObject> m_pSyntaxEnvironment;
+        Ptr<LispObject> m_pGlobalEnvironment;
 
         Ptr<reader::State> m_pReaderState;
         Ptr<printer::State> m_pPrinterState;

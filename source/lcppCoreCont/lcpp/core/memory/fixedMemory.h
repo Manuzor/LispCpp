@@ -105,16 +105,21 @@ namespace lcpp
 
         void free();
 
+        const byte_t* getBeginning() const;         ///< Points to the first valid byte.
+        byte_t* getBeginning();                     ///< Points to the first valid byte.
+
+        const byte_t* getEnd() const;               ///< Points past the first valid byte.
+        byte_t* getEnd();                           ///< Points past the first valid byte.
+
+        const byte_t* getAllocationPointer() const; ///< Points to the first byte that would be allocated by \a allocate.
+        byte_t* getAllocationPointer();             ///< Points to the first byte that would be allocated by \a allocate.
+
         /// \brief Gets the part of the available memory that contains valid allocations.
-        Array<byte_t> getMemory() const;
+        const Array<byte_t> getAllocatedMemory() const;
 
         /// \brief Gets the entire memory block used by this MemoryStack.
         /// \remark If you need
-        Array<byte_t> getEntireMemory() const;
-
-        /// \brief The current index of the next free byte within this memory.
-        /// Will always be the same as getMemory().getSize().
-        std::size_t getAllocationPointer() const;
+        const Array<byte_t> getEntireMemory() const;
 
         std::size_t getAvailableMemorySize() const;
 
@@ -126,7 +131,7 @@ namespace lcpp
         Array<byte_t> m_memory;
 
         /// \brief Always points on the top of the stack, i.e. on the next free index.
-        std::size_t m_uiAllocationPointer;
+        std::size_t m_uiAllocationIndex;
 
         Stats m_stats;
     };

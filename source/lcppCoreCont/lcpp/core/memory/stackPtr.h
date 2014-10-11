@@ -9,7 +9,74 @@ namespace lcpp
     {
         friend GarbageCollector;
     protected:
-        mutable Ptr<CollectableBase> m_ptr;
+
+        enum { NumMaxStackPtrs = 1024 };
+        LCPP_API_CORE_CONT static CollectableBase* s_ptrTable[NumMaxStackPtrs];
+        LCPP_API_CORE_CONT static ezUInt32 s_uiNextIndex;
+
+    protected:
+
+        StackPtrBase(CollectableBase* ptr) :
+            m_uiIndex(s_uiNextIndex++)
+        {
+            EZ_ASSERT(s_uiNextIndex < NumMaxStackPtrs, "Maximum number of supported stack ptrs reached.");
+            s_ptrTable[m_uiIndex] = ptr;
+            LCPP_InDebug( m_pLastLookup = ptr; );
+        }
+
+        StackPtrBase(const StackPtrBase& toCopy)
+        {
+            auto ptr = s_ptrTable[toCopy.m_uiIndex];
+            EZ_ASSERT(ptr != nullptr, "");
+            m_uiIndex = s_uiNextIndex++;
+            s_ptrTable[m_uiIndex] = ptr;
+            LCPP_InDebug( m_pLastLookup = ptr; );
+        }
+
+        ~StackPtrBase()
+        {
+            auto uiExepectedIndex = --s_uiNextIndex;
+            EZ_ASSERT(m_uiIndex == uiExepectedIndex, "Destructing in wrong order!");
+            LCPP_InDebug( m_pLastLookup = nullptr; );
+        }
+
+        void operator=(const StackPtrBase& toCopy)
+        {
+            auto ptr = s_ptrTable[toCopy.m_uiIndex];
+            EZ_ASSERT(ptr != nullptr, "");
+            m_uiIndex = s_uiNextIndex++;
+            s_ptrTable[m_uiIndex] = ptr;
+            LCPP_InDebug( m_pLastLookup = ptr; );
+        }
+
+        void operator=(CollectableBase* ptr)
+        {
+            EZ_ASSERT(ptr != nullptr, "");
+            s_ptrTable[m_uiIndex] = ptr;
+            LCPP_InDebug( m_pLastLookup = ptr; );
+        }
+
+        CollectableBase* get()
+        {
+            LCPP_InDebug(
+                auto pResult = s_ptrTable[m_uiIndex];
+                EZ_ASSERT(pResult != nullptr, "");
+                m_pLastLookup = pResult;
+                return pResult;
+            );
+            LCPP_InNonDebug( return s_ptrTable[m_uiIndex]; );
+        }
+
+        bool isNull()
+        {
+            auto ptr = s_ptrTable[m_uiIndex];
+            LCPP_InDebug( m_pLastLookup = ptr; );
+            return ptr == nullptr;
+        }
+
+    protected:
+        ezUInt32 m_uiIndex;
+        LCPP_InDebug( mutable CollectableBase* m_pLastLookup; );
     };
 
     template<typename T>
@@ -17,14 +84,13 @@ namespace lcpp
     {
         //EZ_CHECK_AT_COMPILETIME_MSG((std::is_convertible<T, CollectableBase>::value), "T needs to be a collectable object!");
     public:
-        // Default construct as nullptr
-        StackPtr();
+        
+        // Disable move constructor and assignment
+        StackPtr(StackPtr&& toMove) = delete;
+        void operator =(StackPtr&& toMove) = delete;
 
         // Copy constructor
-        StackPtr(const StackPtr& rhs);
-
-        // Move constructor
-        StackPtr(StackPtr&& rhs);
+        StackPtr(StackPtr& rhs);
 
         // Construct from Ptr
         StackPtr(Ptr<T> ptr);
@@ -32,33 +98,25 @@ namespace lcpp
         // Construct from raw ptr
         StackPtr(T* ptr);
 
-        // Construct from other StackPtr<>
-        template<typename T_Other>
-        StackPtr(const StackPtr<T_Other>& other);
-
         ~StackPtr();
 
-        void operator =(const StackPtr& toCopy);
-        void operator =(StackPtr&& toMove);
+        void operator =(StackPtr& toCopy);
         void operator =(Ptr<T> ptr);
         void operator =(T* ptr);
 
-        T* operator ->() const;
-        T& operator *() const;
+        T* operator ->();
+        T& operator *();
 
-        T* get() const;
-        bool isNull() const;
+        T* get();
+        bool isNull();
 
         template<typename T_Other>
-        StackPtr<T_Other> cast() const;
+        StackPtr<T_Other> cast();
 
-        operator bool() const;
+        operator bool();
 
-        operator Ptr<T>() { return m_ptr.cast<T>(); }
-
-    private:
-        void addToGc() const;
-        void removeFromGc() const;
+        operator Ptr<T>() { return get(); }
+        operator T*() { return get(); }
     };
 }
 

@@ -16,16 +16,20 @@ namespace lcpp
 {
     namespace cons
     {
-        static void scan(CollectableBase* pCollectable, PatchablePointerArray_t& pointersToPatch)
+        static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
         {
             Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
             typeCheck(pObject, Type::Cons);
 
-            auto ppCar = &reinterpret_cast<CollectableBase*&>(pObject->getData<Data>().m_pCar);
-            pointersToPatch.PushBack(ppCar);
-            
-            auto ppCdr = &reinterpret_cast<CollectableBase*&>(pObject->getData<Data>().m_pCdr);
-            pointersToPatch.PushBack(ppCdr);
+            {
+                auto pCar = pObject->getData<Data>().getCar().get();
+                pCar = pGC->addSurvivor(pCar);
+            }
+
+            {
+                auto pCdr = pObject->getData<Data>().getCar().get();
+                pCdr = pGC->addSurvivor(pCdr);
+            }
         }
 
         Ptr<const MetaInfo> getMetaInfo()
@@ -35,7 +39,7 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Cons);
                 meta.setPrettyName("cons");
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, ScanFunction_t(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.
@@ -43,7 +47,7 @@ namespace lcpp
             return &meta;
         }
 
-        StackPtr<LispObject> create(StackPtr<LispObject> pCar, StackPtr<LispObject> pCdr)
+        Ptr<LispObject> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
         {
             LCPP_LogBlock("cons::create");
 
@@ -57,21 +61,21 @@ namespace lcpp
         }
 
 
-        StackPtr<LispObject> getCar(StackPtr<LispObject> pCons)
+        Ptr<LispObject> getCar(Ptr<LispObject> pCons)
         {
             typeCheck(pCons, Type::Cons);
 
             return pCons->getData<Data>().getCar();
         }
 
-        StackPtr<LispObject> getCdr(StackPtr<LispObject> pCons)
+        Ptr<LispObject> getCdr(Ptr<LispObject> pCons)
         {
             typeCheck(pCons, Type::Cons);
 
             return pCons->getData<Data>().getCdr();
         }
 
-        ezUInt32 pushAll(StackPtr<LispObject> pCons, Ptr<Stack> pStack)
+        ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack)
         {
             LCPP_LogBlock("cons::pushAll");
             LCPP_LogVerboseDebugMessage("Cons = %s", str::getValue(object::toString(pCons)).GetData());
@@ -87,7 +91,7 @@ namespace lcpp
             return count;
         }
 
-        ezUInt32 pushAllReverse(StackPtr<LispObject> pCons, Ptr<Stack> pStack)
+        ezUInt32 pushAllReverse(Ptr<LispObject> pCons, Ptr<Stack> pStack)
         {
             LCPP_LogBlock("cons::pushAllReverse");
             LCPP_LogVerboseDebugMessage("Cons = %s", str::getValue(object::toString(pCons)).GetData());
@@ -106,7 +110,7 @@ namespace lcpp
             return count;
         }
 
-        StackPtr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
+        Ptr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
         {
             LCPP_LogBlock("cons::pack");
 
@@ -133,7 +137,7 @@ namespace lcpp
             return pCons;
         }
 
-        static void toStringHelper(StackPtr<LispObject> pCons, ezStringBuilder& builder)
+        static void toStringHelper(Ptr<LispObject> pCons, ezStringBuilder& builder)
         {
             auto pCar = getCar(pCons);
 
@@ -154,7 +158,7 @@ namespace lcpp
             {
                 return;
             }
-            
+
             builder.Append(' ');
 
             if (isCons(pCdr))
@@ -167,10 +171,10 @@ namespace lcpp
             }
         }
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Cons);
-            
+
             auto builder = ezStringBuilder();
             builder.Append('(');
             toStringHelper(pObject, builder);
@@ -181,7 +185,7 @@ namespace lcpp
 
     }
 
-    bool isCons(StackPtr<LispObject> pObject)
+    bool isCons(Ptr<LispObject> pObject)
     {
         return object::isType(pObject, Type::Cons);
     }

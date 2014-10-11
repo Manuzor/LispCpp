@@ -7,13 +7,13 @@ namespace lcpp
         namespace detail
         {
             EZ_FORCE_INLINE
-            StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall)
             {
                 return create(pCont, pToCall);
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0)
             {
                 auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
@@ -22,7 +22,7 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0, StackPtr<LispObject> pArg1)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1)
             {
                 auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
@@ -32,7 +32,7 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0, StackPtr<LispObject> pArg1, StackPtr<LispObject> pArg2)
+            Ptr<LispObject> callHelper(Ptr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1, Ptr<LispObject> pArg2)
             {
                 auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
@@ -43,26 +43,26 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> tailCallHelper(StackPtr<LispObject> pCont)
+            Ptr<LispObject> tailCallHelper(Ptr<LispObject> pCont)
             {
                 return pCont;
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> tailCallHelper(StackPtr<LispObject> pCont, Function_t pFunction)
+            Ptr<LispObject> tailCallHelper(Ptr<LispObject> pCont, Function_t pFunction)
             {
                 cont::setFunction(pCont, pFunction);
                 return pCont;
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> returnHelper(StackPtr<LispObject> pCont)
+            Ptr<LispObject> returnHelper(Ptr<LispObject> pCont)
             {
                 return getParent(pCont);
             }
 
             EZ_FORCE_INLINE
-            StackPtr<LispObject> returnHelper(StackPtr<LispObject> pCont, StackPtr<LispObject> pReturnValue)
+            Ptr<LispObject> returnHelper(Ptr<LispObject> pCont, Ptr<LispObject> pReturnValue)
             {
                 auto pContParent = getParent(pCont);
                 getStack(pContParent)->push(pReturnValue);

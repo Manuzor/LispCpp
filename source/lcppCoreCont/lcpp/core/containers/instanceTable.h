@@ -10,13 +10,13 @@ namespace lcpp
     {
     public:
 
-        typedef StackPtr<LispObject>(*createNew_t)(const T_Key& value);
+        typedef Ptr<LispObject>(*createNew_t)(const T_Key& value);
 
     public:
 
         InsanceTable(createNew_t pFunctor_createNew);
 
-        StackPtr<LispObject> get(const T_Key& key);
+        Ptr<LispObject> get(const T_Key& key);
 
     private:
 

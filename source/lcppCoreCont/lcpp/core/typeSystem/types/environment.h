@@ -10,32 +10,32 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
-        LCPP_API_CORE_CONT StackPtr<LispObject> create(StackPtr<LispObject> pParent, StackPtr<LispObject>pName);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Ptr<LispObject>pName);
 
-        LCPP_API_CORE_CONT StackPtr<LispObject> createTopLevel(StackPtr<LispObject> pName);
+        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispObject> pName);
 
-        LCPP_API_CORE_CONT StackPtr<LispObject> createAnonymous(StackPtr<LispObject> pParent);
+        LCPP_API_CORE_CONT Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent);
 
-        LCPP_API_CORE_CONT StackPtr<LispObject> getName(StackPtr<LispObject> pEnv);
-        LCPP_API_CORE_CONT StackPtr<LispObject> getQualifiedName(StackPtr<LispObject> pEnv);
-        LCPP_API_CORE_CONT StackPtr<LispObject> getParent(Ptr<LispObject> pEnv);
+        LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pEnv);
+        LCPP_API_CORE_CONT Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv);
+        LCPP_API_CORE_CONT Ptr<LispObject> getParent(Ptr<LispObject> pEnv);
 
-        LCPP_API_CORE_CONT void addBinding(StackPtr<LispObject> pEnv,
-                                           StackPtr<LispObject> pSymbol,
-                                           StackPtr<LispObject> pValue);
+        LCPP_API_CORE_CONT void addBinding(Ptr<LispObject> pEnv,
+                                           Ptr<LispObject> pSymbol,
+                                           Ptr<LispObject> pValue);
 
-        LCPP_API_CORE_CONT ezResult setBinding(StackPtr<LispObject> pEnv,
-                                               StackPtr<LispObject> pSymbol,
-                                               StackPtr<LispObject> pValue);
+        LCPP_API_CORE_CONT ezResult setBinding(Ptr<LispObject> pEnv,
+                                               Ptr<LispObject> pSymbol,
+                                               Ptr<LispObject> pValue);
 
         LCPP_API_CORE_CONT ezResult getBinding(Ptr<LispObject> pEnv,
                                                Ptr<LispObject> pSymbol,
                                                Ptr<LispObject>& out_pValue);
 
-        LCPP_API_CORE_CONT BindingLocation existsBinding(StackPtr<LispObject> pEnv,
-                                                         StackPtr<LispObject> pSymbol);
+        LCPP_API_CORE_CONT BindingLocation existsBinding(Ptr<LispObject> pEnv,
+                                                         Ptr<LispObject> pSymbol);
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject);
+        Ptr<LispObject> toString(Ptr<LispObject> pObject);
 
         namespace detail
         {

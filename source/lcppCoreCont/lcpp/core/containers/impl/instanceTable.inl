@@ -12,9 +12,9 @@ namespace lcpp
 
     template<typename T_Key>
     inline
-    StackPtr<LispObject> InsanceTable<T_Key>::get(const T_Key& key)
+    Ptr<LispObject> InsanceTable<T_Key>::get(const T_Key& key)
     {
-        StackPtr<LispObject> pResult;
+        Ptr<LispObject> pResult;
         LispObject* pRawResult;
         if(!m_table.TryGetValue(key, pRawResult))
         {

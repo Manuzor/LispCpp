@@ -9,6 +9,7 @@ namespace lcpp
 // The following defines are only used for debugging.
 
 /// Will always create a new survivor space instead of re-using the existing one.
+/// \remark Beware that the garbage collector will leak memory when using this option.
 #define LCPP_GC_AlwaysCreateNewSurvivor EZ_ON
 
 /// Will collect after each allocation.

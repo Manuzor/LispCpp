@@ -40,13 +40,11 @@ namespace lcpp
             return pInstance;
         }
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Void);
 
-            static auto pString = str::create("#v");
-
-            return pString;
+            return str::create("#v");
         }
 
     }

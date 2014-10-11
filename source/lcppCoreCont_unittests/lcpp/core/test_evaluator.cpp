@@ -21,7 +21,7 @@ LCPP_TestGroup(Evaluator);
 
 LCPP_TestCase(Evaluator, EvalEmptyOrWhitespaceString)
 {
-    auto pObject = StackPtr<LispObject>();
+    auto pObject = Ptr<LispObject>();
 
     pObject = evalString("");
     CUT_ASSERT.isTrue(isVoid(pObject));
@@ -32,7 +32,7 @@ LCPP_TestCase(Evaluator, EvalEmptyOrWhitespaceString)
 
 LCPP_TestCase(Evaluator, EvalSymbolInEnv)
 {
-    auto pObject = StackPtr<LispObject>();
+    auto pObject = Ptr<LispObject>();
 
     env::addBinding(LCPP_test_pRuntimeState->getGlobalEnvironment(), symbol::create("x"), number::create(1337));
 

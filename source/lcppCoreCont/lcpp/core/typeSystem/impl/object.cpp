@@ -74,7 +74,7 @@ namespace lcpp
             return getAttributes(pObject).isEnvironmentContainer();
         }
 
-        StackPtr<LispObject> call(StackPtr<LispObject> pCont)
+        Ptr<LispObject> call(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
@@ -96,7 +96,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
         }
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -131,7 +131,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for toString."));
         }
 
-        StackPtr<LispObject> getName(StackPtr<LispObject> pObject)
+        Ptr<LispObject> getName(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -147,7 +147,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
 
-        void setName(StackPtr<LispObject> pObject, StackPtr<LispObject> pName)
+        void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -179,7 +179,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for getName."));
         }
 
-        StackPtr<LispObject> getEnvironment(StackPtr<LispObject> pObject)
+        Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
@@ -197,7 +197,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput(message.GetData()));
         }
 
-        void setEnvironment(StackPtr<LispObject> pObject, StackPtr<LispObject> pEnv)
+        void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 

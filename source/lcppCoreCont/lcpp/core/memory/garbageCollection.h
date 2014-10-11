@@ -62,11 +62,31 @@ namespace lcpp
         };
     };
 
-    using DestructorFunction_t = void (*)(CollectableBase*);
-    using PatchablePointerArray_t = ezHybridArray<CollectableBase**, 32>;
-    using ScanFunction_t = void(*)(CollectableBase*, PatchablePointerArray_t&);
+    class GarbageCollectionContext
+    {
+    public:
 
-    class LCPP_API_CORE_CONT GarbageCollector
+        /// \brief Convenience function for cleaner code
+        template<typename T>
+        EZ_FORCE_INLINE
+        T* addSurvivor(T* pSurvivor)
+        {
+            return static_cast<T*>(addSurvivor(static_cast<CollectableBase*>(pSurvivor)));
+        }
+
+    protected:
+
+        /// \brief Adds the given \a pObject as survivor, and returns the new address to it.
+        /// \return \c nullptr if the operation failed.
+        virtual CollectableBase* addSurvivor(CollectableBase* pSurvivor) = 0;
+
+    };
+
+    using DestructorFunction_t = void (*)(CollectableBase*);
+    using PatchablePointerArray_t = ezDynamicArray<CollectableBase**>;
+    using ScanFunction_t = void(*)(CollectableBase*, GarbageCollectionContext*);
+
+    class LCPP_API_CORE_CONT GarbageCollector : public GarbageCollectionContext
     {
         friend CollectableBase;
     public:
@@ -75,7 +95,7 @@ namespace lcpp
         {
         public:
             Ptr<ezAllocatorBase> m_pParentAllocator;
-            ezUInt32 m_uiNumPages; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
+            ezUInt32 m_uiNumInitialPages; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
 
         public:
             CInfo();
@@ -92,7 +112,7 @@ namespace lcpp
         Ptr<T> createStatic(Ptr<const MetaInfo> pMetaInfo);
 
         template<typename T>
-        StackPtr<T> create(Ptr<const MetaInfo> pMetaInfo);
+        Ptr<T> create(Ptr<const MetaInfo> pMetaInfo);
 
         void collect();
 
@@ -102,38 +122,45 @@ namespace lcpp
         /// \remarks It is mainly used for unit testing the garbage collector.
         bool isAlive(Ptr<CollectableBase> pCollectable) const;
 
-        /// \brief Adds a pointer to a StackPtrBase struct, which will be patched when garbage is collected.
-        void addStackPtr(const StackPtrBase* stackPtr) const;
-        void removeStackPtr(const StackPtrBase* stackPtr) const;
-        bool isOnStack(Ptr<CollectableBase> pCollectable) const;
-        ezUInt32 getNumStackReferences() const { return m_stackReferences.GetCount(); }
-
-        //bool isCollecting() const { return m_bIsCollecting; }
+        EZ_FORCE_INLINE bool isCollecting() const { return m_ScanPointer != nullptr; }
         //ezUInt32 getCurrentGeneration() const { return m_uiCurrentGeneration; }
+
+        virtual CollectableBase* addSurvivor(CollectableBase* pSurvivor) override;
 
     private:
 
         bool isEdenObject(Ptr<CollectableBase> pObject) const;
         bool isSurvivorObject(Ptr<CollectableBase> pObject) const;
 
+        /// \brief Scans and patches WITHIN \a pObject.
         void scanAndPatch(CollectableBase* pObject);
 
-        AllocatorResult addSurvivor(CollectableBase* pSurvivor);
+        /// \brief Goes through the survivors using the scan pointer.
+        /// \return Number of survivors scanned.
+        ezUInt64 scanSurvivors();
+
+        /// \brief Helper to keep the code cleaner.
+        ScanFunction_t getScanFunction(CollectableBase* pObject);
+
+        void destroyGarbage();
 
     private:
 
         Ptr<ezAllocatorBase> m_pAllocator;
 
-        mutable ezHybridArray<const StackPtrBase*, 128> m_stackReferences;
+        mutable ezHybridArray<CollectableBase**, 16> m_roots;
 
         enum { NumMemoryPools = 2 };
         ezStaticArray<FixedMemory, NumMemoryPools> m_pools;
 
+        EZ_CHECK_AT_COMPILETIME_MSG(NumMemoryPools >= 2, "Need at least 2 memory pools.");
+
         mutable FixedMemory* m_pEdenSpace;
         mutable FixedMemory* m_pSurvivorSpace;
 
+        ezUInt32 m_uiNumCurrentPages;
         ezUInt32 m_uiCurrentGeneration;
-        bool m_bIsCollecting;
+        byte_t* m_ScanPointer;
     };
 
     namespace detail

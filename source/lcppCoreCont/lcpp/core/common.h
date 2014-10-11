@@ -44,6 +44,14 @@
 
 #endif
 
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
+#define LCPP_InDebug(...) __VA_ARGS__
+#define LCPP_InNonDebug(...)
+#else
+#define LCPP_InDebug(...)
+#define LCPP_InNonDebug(...) __VA_ARGS__
+#endif
+
 #include "lcpp/core/memory/garbageCollection.h"
 
 #if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)

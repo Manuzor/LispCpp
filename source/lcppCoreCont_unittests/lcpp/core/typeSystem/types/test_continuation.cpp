@@ -10,7 +10,7 @@
 
 namespace lcpp
 {
-    static StackPtr<LispObject> accumulator(StackPtr<LispObject> pCont)
+    static Ptr<LispObject> accumulator(Ptr<LispObject> pCont)
     {
         auto pStack = cont::getStack(pCont);
 
@@ -59,7 +59,7 @@ LCPP_TestCase(Continuation, Basics)
 
 LCPP_TestCase(Continuation, toString)
 {
-    auto dummyFunc = [](StackPtr<LispObject>){ return StackPtr<LispObject>(LCPP_pNil); };
+    auto dummyFunc = [](Ptr<LispObject>){ return Ptr<LispObject>(LCPP_pNil); };
     auto pContRoot = cont::createTopLevel(LCPP_test_pRuntimeState);
     auto pContChild = cont::create(pContRoot, dummyFunc);
 

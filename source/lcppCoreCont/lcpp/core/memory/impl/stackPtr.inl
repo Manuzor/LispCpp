@@ -3,154 +3,94 @@ namespace lcpp
 {
     template<typename T>
     EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr()
+    StackPtr<T>::StackPtr(StackPtr& rhs) :
+        StackPtrBase(rhs.get())
     {
     }
 
     template<typename T>
     EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(const StackPtr& rhs)
+    StackPtr<T>::StackPtr(Ptr<T> ptr) :
+        StackPtrBase(ptr.get())
     {
-        m_ptr = rhs.m_ptr;
-        addToGc();
     }
 
     template<typename T>
     EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(StackPtr&& rhs)
+    lcpp::StackPtr<T>::StackPtr(T* ptr) :
+        StackPtrBase(ptr)
     {
-        rhs.removeFromGc();
-        m_ptr = std::move(rhs.m_ptr);
-        addToGc();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(Ptr<T> ptr)
-    {
-        m_ptr = ptr;
-        addToGc();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    lcpp::StackPtr<T>::StackPtr(T* ptr)
-    {
-        m_ptr = ptr;
-        addToGc();
-    }
-
-    template<typename T>
-    template<typename T_Other>
-    EZ_FORCE_INLINE
-    StackPtr<T>::StackPtr(const StackPtr<T_Other>& other)
-    {
-        m_ptr = other.get();
-        addToGc();
     }
 
     template<typename T>
     EZ_FORCE_INLINE
     StackPtr<T>::~StackPtr()
     {
-        removeFromGc();
+        StackPtrBase::~StackPtrBase();
     }
 
     template<typename T>
     EZ_FORCE_INLINE
-    void StackPtr<T>::operator=(const StackPtr& toCopy)
+    void StackPtr<T>::operator=(StackPtr& toCopy)
     {
-        StackPtr<T> copy(toCopy);
-
-        using namespace std;
-        swap(m_ptr, copy.m_ptr);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::operator=(StackPtr&& toMove)
-    {
-        removeFromGc();
-        toMove.removeFromGc();
-        m_ptr = std::move(toMove.m_ptr);
-        addToGc();
+        StackPtrBase::operator=(static_cast<StackPtrBase&>(toCopy).get());
     }
 
     template<typename T>
     EZ_FORCE_INLINE
     void StackPtr<T>::operator=(Ptr<T> pPtr)
     {
-        removeFromGc();
-        m_ptr = pPtr;
-        addToGc();
+        StackPtrBase::operator=(static_cast<CollectableBase*>(pPtr.get()));
     }
 
     template<typename T>
     EZ_FORCE_INLINE
     void StackPtr<T>::operator=(T* pPtr)
     {
-        removeFromGc();
-        m_ptr = pPtr;
-        addToGc();
+        StackPtrBase::operator=(static_cast<CollectableBase*>(pPtr));
     }
 
     template<typename T>
     EZ_FORCE_INLINE
-    T* StackPtr<T>::operator ->() const
+    T* StackPtr<T>::operator ->()
     {
-        return get();
+        return static_cast<T*>(StackPtrBase::get());
     }
 
     template<typename T>
     EZ_FORCE_INLINE
-    T& StackPtr<T>::operator *() const
+    T& StackPtr<T>::operator *()
     {
-        return *get();
+        return *static_cast<T*>(StackPtrBase::get());
     }
-    
+
     template<typename T>
     EZ_FORCE_INLINE
-    T* StackPtr<T>::get() const
+    T* StackPtr<T>::get()
     {
-        return static_cast<T*>(m_ptr.get());
+        return static_cast<T*>(StackPtrBase::get());
     }
-    
+
     template<typename T>
     EZ_FORCE_INLINE
-    bool StackPtr<T>::isNull() const
+    bool StackPtr<T>::isNull()
     {
-        return m_ptr.isNull();
+        return StackPtrBase::isNull();
     }
 
     template<typename T>
     template<typename T_Other>
     EZ_FORCE_INLINE
-    StackPtr<T_Other> StackPtr<T>::cast() const
+    StackPtr<T_Other> StackPtr<T>::cast()
     {
-        return m_ptr.cast<T_Other>();
+        return static_cast<T_Other*>(get());
     }
-    
+
     template<typename T>
     EZ_FORCE_INLINE
-    StackPtr<T>::operator bool() const
+    StackPtr<T>::operator bool()
     {
         return !isNull();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::addToGc() const
-    {
-        if(!isNull())
-            m_ptr->getGarbageCollector()->addStackPtr(this);
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
-    void StackPtr<T>::removeFromGc() const
-    {
-        if(!isNull())
-            m_ptr->getGarbageCollector()->removeStackPtr(this);
     }
 }
 

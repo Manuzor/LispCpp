@@ -14,7 +14,7 @@ namespace lcpp
         static GarbageCollector gc = []
         {
             GarbageCollector::CInfo cinfo;
-            cinfo.m_uiNumPages = 1;
+            cinfo.m_uiNumInitialPages = 1;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             return GarbageCollector(cinfo);
@@ -25,25 +25,33 @@ namespace lcpp
 
     GarbageCollector::GarbageCollector(const CInfo& cinfo) :
         m_pAllocator(cinfo.m_pParentAllocator),
+        m_uiNumCurrentPages(cinfo.m_uiNumInitialPages),
         m_uiCurrentGeneration(0),
-        m_bIsCollecting(false)
+        m_ScanPointer(nullptr)
     {
         initialize(cinfo);
     }
 
     void GarbageCollector::initialize(const CInfo& cinfo)
     {
-        EZ_ASSERT(cinfo.m_uiNumPages > 0, "Invalid initial number of pages");
+        EZ_ASSERT(cinfo.m_uiNumInitialPages > 0, "Invalid initial number of pages");
+        m_uiNumCurrentPages = cinfo.m_uiNumInitialPages;
         m_pools.Clear();
         m_pools.SetCountUninitialized(NumMemoryPools);
 
         for (auto& pool : m_pools)
-            pool = FixedMemory(cinfo.m_uiNumPages);
+            pool = FixedMemory(m_uiNumCurrentPages);
+
+        m_pEdenSpace = &m_pools[0];
+        m_pSurvivorSpace = &m_pools[1];
+        m_pSurvivorSpace->protect();
+
+        m_ScanPointer = nullptr;
     }
 
     void GarbageCollector::clear()
     {
-        m_stackReferences.Clear();
+        m_ScanPointer = nullptr;
         collect(); // Should clean everything up.
 
         for (auto& pool : m_pools)
@@ -57,40 +65,59 @@ namespace lcpp
         EZ_ASSERT(m_uiCurrentGeneration < std::numeric_limits<decltype(m_uiCurrentGeneration)>::max(),
                   "Congratulations, you collected a LOT of garbage...");
 
-        EZ_ASSERT(!m_bIsCollecting, "We are already collecting!");
-
-        m_bIsCollecting = true;
-        LCPP_SCOPE_EXIT{ m_bIsCollecting = false; };
+        EZ_ASSERT(!isCollecting(), "We are already collecting!");
 
         ++m_uiCurrentGeneration;
 
-        // Make sure all stack references stay alive
-        for (auto pStackPtr : m_stackReferences)
-        {
-            auto pCollectable = pStackPtr->m_ptr.get();
-            if (!pCollectable->isForwarded())
-            {
-                auto result = addSurvivor(pCollectable);
-                if (result.isOutOfMemory())
-                {
-                    LCPP_NOT_IMPLEMENTED;
-                }
-            }
+#if EZ_ENABLED(LCPP_GC_AlwaysCreateNewSurvivor)
+        // Note: Survivor is already protected at this point.
+        *m_pSurvivorSpace = FixedMemory(m_uiNumCurrentPages);
+#endif
 
-            pCollectable = pCollectable->m_pForwardPointer;
-            pStackPtr->m_ptr = pCollectable;
-            scanAndPatch(pCollectable);
+        m_ScanPointer = m_pSurvivorSpace->getBeginning();
+
+        // Make sure all roots stay alive
+        for (auto ppRoot : m_roots)
+        {
+            auto& pRoot = *ppRoot;
+            pRoot = addSurvivor(pRoot);
+            if (pRoot == nullptr)
+            {
+                LCPP_NOT_IMPLEMENTED;
+            }
         }
 
-        // Destroy the garbage.
-        auto usedEden = m_pEdenSpace->getMemory();
-        using IndexType = decltype(usedEden.getSize());
-        IndexType i(0);
-        IndexType endOfUsedEden(usedEden.getSize());
-        while(i < endOfUsedEden)
+        scanSurvivors();
+
+        // Scan and patch all stack pointers.
+        for (ezUInt32 i = 0; i < StackPtrBase::s_uiNextIndex; ++i)
         {
-            auto pCollectable = reinterpret_cast<CollectableBase*>(&usedEden[i]);
-            i += pCollectable->m_uiMemorySize;
+            auto& pCollectable = StackPtrBase::s_ptrTable[i];
+            pCollectable = addSurvivor(pCollectable);
+            if (pCollectable == nullptr)
+            {
+                LCPP_NOT_IMPLEMENTED;
+            }
+        }
+
+        scanSurvivors();
+
+        destroyGarbage();
+
+        std::swap(m_pEdenSpace, m_pSurvivorSpace);
+
+        m_pSurvivorSpace->protect();
+        m_ScanPointer = nullptr;
+    }
+
+    void GarbageCollector::destroyGarbage()
+    {
+        auto pMemory = m_pEdenSpace->getBeginning();
+        auto pMemoryEnd = m_pEdenSpace->getAllocationPointer();
+        while(pMemory < pMemoryEnd)
+        {
+            auto pCollectable = reinterpret_cast<CollectableBase*>(pMemory);
+            pMemory += pCollectable->m_uiMemorySize;
 
             if (pCollectable->isForwarded())
             {
@@ -104,79 +131,64 @@ namespace lcpp
                       "Object should be considered alive at this point so we can destroy it. "
                       "If it is not alive, it must have been destroyed already.");
 
-            pCollectable->m_state = GarbageState::Destroying;
-
             MetaProperty destructorProperty;
             if (pCollectable->m_pMetaInfo->getProperty(MetaProperty::Builtin::DestructorFunction, destructorProperty).Succeeded())
             {
+                pCollectable->m_state = GarbageState::Destroying;
                 auto destructorFunction = destructorProperty.getData().as<DestructorFunction_t>();
                 (*destructorFunction)(pCollectable);
             }
 
             pCollectable->m_state = GarbageState::Garbage;
         }
-
-        std::swap(m_pEdenSpace, m_pSurvivorSpace);
     }
 
     void GarbageCollector::scanAndPatch(CollectableBase* pObject)
     {
-        MetaProperty prop;
-        if (pObject->m_pMetaInfo->getProperty(MetaProperty::Builtin::ScanFunction, prop).Failed())
+        auto scanner = getScanFunction(pObject);
+
+        if (scanner == nullptr)
         {
-            // The object does not have a scan function, which means there are no pointers to patch.
+            // The object has no scan function, which means there's nothing to scan or patch
             return;
         }
 
-        auto scanner = prop.getData().as<ScanFunction_t>();
-
-        PatchablePointerArray_t pointersToPatch;
-        scanner(pObject, pointersToPatch);
-
-        for (auto ppToPatch : pointersToPatch)
-        {
-            auto& pToPatch = *ppToPatch;
-
-            if (!isEdenObject(pToPatch))
-                continue;
-
-            if (!pToPatch->isForwarded())
-            {
-                auto result = addSurvivor(pToPatch);
-                if (result.isOutOfMemory())
-                {
-                    LCPP_NOT_IMPLEMENTED;
-                }
-            }
-
-            // Patch the pointer.
-            pToPatch = pToPatch->m_pForwardPointer;
-        }
+        // The objects are responsible for patching themselves.
+        scanner(pObject, this);
     }
 
-    AllocatorResult GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
+    ezUInt64 GarbageCollector::scanSurvivors()
     {
+        ezUInt64 uiScanCount(0);
+        while(m_ScanPointer < m_pSurvivorSpace->getAllocationPointer())
+        {
+            auto pToScan = reinterpret_cast<CollectableBase*>(m_ScanPointer);
+            scanAndPatch(pToScan);
+            ++uiScanCount;
+        }
+        return uiScanCount;
+    }
+
+    CollectableBase* GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
+    {
+        EZ_ASSERT(isCollecting(), "Can only add survivors while collecting!");
+
+        if(pSurvivor->isForwarded())
+            return pSurvivor->m_pForwardPointer;
+
         byte_t* ptr;
         auto result = m_pSurvivorSpace->allocate(ptr, pSurvivor->m_uiMemorySize);
         if (!result.succeeded())
-            return result;
+            return nullptr;
 
         memcpy(ptr, pSurvivor, pSurvivor->m_uiMemorySize);
+        auto pResult = reinterpret_cast<CollectableBase*>(ptr);
+        pResult->m_uiGeneration = m_uiCurrentGeneration;
+
         pSurvivor->m_state = GarbageState::Forwarded;
-        pSurvivor->m_pForwardPointer = reinterpret_cast<CollectableBase*>(ptr);
-        pSurvivor->m_pForwardPointer->m_uiGeneration = m_uiCurrentGeneration;
+        pSurvivor->m_pForwardPointer = pResult;
 
-        return result;
+        return pResult;
     }
 
-    bool GarbageCollector::isOnStack(Ptr<CollectableBase> pCollectable) const
-    {
-        for (auto pStackPtr : m_stackReferences)
-        {
-            if (pStackPtr->m_ptr == pCollectable)
-                return true;
-        }
-
-        return false;
-    }
 }

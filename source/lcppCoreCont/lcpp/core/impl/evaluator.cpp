@@ -22,7 +22,7 @@ namespace lcpp
     namespace eval
     {
 
-        StackPtr<LispObject> evaluate(StackPtr<LispObject> pCont)
+        Ptr<LispObject> evaluate(Ptr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
@@ -68,7 +68,7 @@ namespace lcpp
 
         namespace detail
         {
-            StackPtr<LispObject> evaluateCallable(StackPtr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -124,7 +124,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &evaluateCallable_evalEach);
             }
 
-            StackPtr<LispObject> evaluateCallable_evalEach(StackPtr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable_evalEach(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -146,7 +146,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &evaluate, pEnv, pToEval);
             }
 
-            StackPtr<LispObject> evaluateCallable_processEvaluatedArg(StackPtr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable_processEvaluatedArg(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -163,7 +163,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, evaluateCallable_evalEach);
             }
 
-            StackPtr<LispObject> evaluateCallable_call(StackPtr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable_call(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 

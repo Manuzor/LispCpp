@@ -13,7 +13,7 @@ namespace lcpp
         EZ_FORCE_INLINE
         Ptr<LispObject> Data::getParent()
         {
-            return reinterpret_cast<StackPtr<LispObject>&>(m_pParent);
+            return reinterpret_cast<Ptr<LispObject>&>(m_pParent);
         }
 
         EZ_FORCE_INLINE

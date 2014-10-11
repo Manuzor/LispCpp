@@ -11,57 +11,57 @@ namespace lcpp
         {
             // Arithmetic
             //////////////////////////////////////////////////////////////////////////
-            LCPP_API_CORE_CONT StackPtr<LispObject> add(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> subtract(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> multiply(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> divide(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> modulo(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> add(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> subtract(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> multiply(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> divide(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> modulo(Ptr<LispObject> pCont);
 
             // Comparison
             //////////////////////////////////////////////////////////////////////////
-            LCPP_API_CORE_CONT StackPtr<LispObject> greaterThan(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> greaterThanOrEqual(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> equal(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> lowerThan(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> lowerThanOrEqual(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> greaterThan(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> greaterThanOrEqual(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> equal(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> lowerThan(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> lowerThanOrEqual(Ptr<LispObject> pCont);
 
             //////////////////////////////////////////////////////////////////////////
-            LCPP_API_CORE_CONT StackPtr<LispObject> read(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> eval(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> print(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> eval(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> print(Ptr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT StackPtr<LispObject> exit(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> exit(Ptr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT StackPtr<LispObject> cons(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> car(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> cdr(StackPtr<LispObject> pCont);
-            LCPP_API_CORE_CONT StackPtr<LispObject> list(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> cons(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> car(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> cdr(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> list(Ptr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT StackPtr<LispObject> eqq(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> eqq(Ptr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT StackPtr<LispObject> recursionLimit(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> recursionLimit(Ptr<LispObject> pCont);
 
             namespace detail
             {
-                StackPtr<LispObject> add_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> subtract_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> multiply_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> divide_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> add_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> subtract_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> multiply_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> divide_helper(Ptr<LispObject> pCont);
 
-                StackPtr<LispObject> greaterThan_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> greaterThanOrEqual_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> equal_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> lowerThan_helper(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> lowerThanOrEqual_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> greaterThan_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> greaterThanOrEqual_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> equal_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> lowerThan_helper(Ptr<LispObject> pCont);
+                Ptr<LispObject> lowerThanOrEqual_helper(Ptr<LispObject> pCont);
             }
 
             namespace file
             {
-                StackPtr<LispObject> open(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> isOpen(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> close(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> readString(StackPtr<LispObject> pCont);
-                StackPtr<LispObject> eval(StackPtr<LispObject> pCont);
+                Ptr<LispObject> open(Ptr<LispObject> pCont);
+                Ptr<LispObject> isOpen(Ptr<LispObject> pCont);
+                Ptr<LispObject> close(Ptr<LispObject> pCont);
+                Ptr<LispObject> readString(Ptr<LispObject> pCont);
+                Ptr<LispObject> eval(Ptr<LispObject> pCont);
             }
         }
     }

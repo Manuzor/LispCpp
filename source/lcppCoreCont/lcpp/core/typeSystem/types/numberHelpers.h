@@ -8,11 +8,11 @@ namespace lcpp
 
     namespace number
     {
-        StackPtr<LispObject> create(FloatAlternative_t value);
+        Ptr<LispObject> create(FloatAlternative_t value);
 
         // Helper to help the compiler choose the Integer_t overload.
         template<typename T_Number>
-        StackPtr<LispObject> create(T_Number value);
+        Ptr<LispObject> create(T_Number value);
     }
 }
 

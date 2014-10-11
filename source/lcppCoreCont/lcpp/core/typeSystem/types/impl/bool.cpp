@@ -41,7 +41,7 @@ namespace lcpp
             return pInstance;
         }
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::True);
 
@@ -83,7 +83,7 @@ namespace lcpp
             return pInstance;
         }
 
-        StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+        Ptr<LispObject> toString(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::False);
 

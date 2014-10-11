@@ -28,7 +28,7 @@ namespace lcpp
     {
         namespace builtin
         {
-            StackPtr<LispObject> read(StackPtr<LispObject> pCont)
+            Ptr<LispObject> read(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -63,7 +63,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &reader::read);
             }
 
-            StackPtr<LispObject> eval(StackPtr<LispObject> pCont)
+            Ptr<LispObject> eval(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -91,7 +91,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &eval::evaluate);
             }
 
-            StackPtr<LispObject> print(StackPtr<LispObject> pCont)
+            Ptr<LispObject> print(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -101,7 +101,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &lcpp::printer::print, pToPrint);
             }
 
-            StackPtr<LispObject> exit(StackPtr<LispObject> pCont)
+            Ptr<LispObject> exit(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -120,7 +120,7 @@ namespace lcpp
                 LCPP_THROW(exceptions::Exit(exitCode, message.GetData()));
             }
 
-            StackPtr<LispObject> cons(StackPtr<LispObject> pCont)
+            Ptr<LispObject> cons(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -133,7 +133,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pCons);
             }
 
-            StackPtr<LispObject> car(StackPtr<LispObject> pCont)
+            Ptr<LispObject> car(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -146,7 +146,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pCar);
             }
 
-            StackPtr<LispObject> cdr(StackPtr<LispObject> pCont)
+            Ptr<LispObject> cdr(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -159,7 +159,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pCdr);
             }
 
-            StackPtr<LispObject> list(StackPtr<LispObject> pCont)
+            Ptr<LispObject> list(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -169,7 +169,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pCons);
             }
 
-            StackPtr<LispObject> eqq(StackPtr<LispObject> pCont)
+            Ptr<LispObject> eqq(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -182,7 +182,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pResult);
             }
 
-            StackPtr<LispObject> recursionLimit(StackPtr<LispObject> pCont)
+            Ptr<LispObject> recursionLimit(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -207,7 +207,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
-            StackPtr<LispObject> file::open(StackPtr<LispObject> pCont)
+            Ptr<LispObject> file::open(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -279,7 +279,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pFalse);
             }
 
-            StackPtr<LispObject> file::isOpen(StackPtr<LispObject> pCont)
+            Ptr<LispObject> file::isOpen(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -290,7 +290,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, lcpp::file::isOpen(pFile));
             }
 
-            StackPtr<LispObject> file::close(StackPtr<LispObject> pCont)
+            Ptr<LispObject> file::close(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -303,7 +303,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
-            StackPtr<LispObject> file::readString(StackPtr<LispObject> pCont)
+            Ptr<LispObject> file::readString(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont);
@@ -346,7 +346,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pString);
             }
 
-            StackPtr<LispObject> file::eval(StackPtr<LispObject> pCont)
+            Ptr<LispObject> file::eval(Ptr<LispObject> pCont)
             {
                 LCPP_NOT_IMPLEMENTED;
 

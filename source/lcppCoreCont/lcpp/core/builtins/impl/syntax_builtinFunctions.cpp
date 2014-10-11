@@ -39,7 +39,7 @@ namespace lcpp
     {
         namespace builtin
         {
-            StackPtr<LispObject> if_(StackPtr<LispObject> pCont)
+            Ptr<LispObject> if_(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -49,7 +49,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pCondition);
             }
 
-            StackPtr<LispObject> detail::if_helper(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::if_helper(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -72,7 +72,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &eval::evaluate);
             }
 
-            StackPtr<LispObject> define(StackPtr<LispObject> pCont)
+            Ptr<LispObject> define(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -130,7 +130,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToDefine);
             }
 
-            StackPtr<LispObject> detail::define_addBinding(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::define_addBinding(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -153,7 +153,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
-            StackPtr<LispObject> set(StackPtr<LispObject> pCont)
+            Ptr<LispObject> set(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -181,7 +181,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &define);
             }
 
-            StackPtr<LispObject> begin(StackPtr<LispObject> pCont)
+            Ptr<LispObject> begin(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -192,7 +192,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::begin_helper);
             }
 
-            StackPtr<LispObject> detail::begin_helper(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::begin_helper(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -213,7 +213,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
             }
 
-            StackPtr<LispObject> lambda(StackPtr<LispObject> pCont)
+            Ptr<LispObject> lambda(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -224,7 +224,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pLambda);
             }
 
-            StackPtr<LispObject> quote(StackPtr<LispObject> pCont)
+            Ptr<LispObject> quote(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -233,7 +233,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pUnevaluatedArg);
             }
 
-            StackPtr<LispObject> and(StackPtr<LispObject> pCont)
+            Ptr<LispObject> and(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -250,7 +250,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pFirstToEval);
             }
 
-            StackPtr<LispObject> detail::and_helper(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::and_helper(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -273,7 +273,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
             }
 
-            StackPtr<LispObject> or(StackPtr<LispObject> pCont)
+            Ptr<LispObject> or(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -290,7 +290,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pFirstToEval);
             }
 
-            StackPtr<LispObject> detail::or_helper(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::or_helper(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -313,7 +313,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
             }
 
-            StackPtr<LispObject> time(StackPtr<LispObject> pCont)
+            Ptr<LispObject> time(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -330,7 +330,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToCall);
             }
 
-            StackPtr<LispObject> detail::time_finalize(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::time_finalize(Ptr<LispObject> pCont)
             {
                 auto endTime = ezTime::Now();
 
@@ -346,7 +346,7 @@ namespace lcpp
                 LCPP_cont_return(pCont, pTime);
             }
 
-            StackPtr<LispObject> assertion(StackPtr<LispObject> pCont)
+            Ptr<LispObject> assertion(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
@@ -364,7 +364,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pUnevaluatedCondition);
             }
             
-            StackPtr<LispObject> detail::assertion_finalize(StackPtr<LispObject> pCont)
+            Ptr<LispObject> detail::assertion_finalize(Ptr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 

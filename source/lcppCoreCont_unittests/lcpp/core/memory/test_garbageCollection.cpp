@@ -17,16 +17,16 @@ namespace lcpp
             class TestType : public LispObject
             {
             public:
-                static ezHybridArray<StackPtr<TestType>, 8> getDestroyedTestTypes()
+                static ezHybridArray<Ptr<TestType>, 8> getDestroyedTestTypes()
                 {
-                    ezHybridArray<StackPtr<TestType>, 8> arr(defaultAllocator());
+                    ezHybridArray<Ptr<TestType>, 8> arr(defaultAllocator());
                     return arr;
                 }
 
                 number::Integer_t m_integerData;
             };
 
-            void destroy(StackPtr<LispObject> pObject)
+            void destroy(Ptr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::ENUM_COUNT);
 
@@ -158,7 +158,7 @@ LCPP_TestCase(GarbageCollection, Collect)
 
     GarbageCollector::CInfo gcCinfo;
 
-    gcCinfo.m_uiNumPages = 1;
+    gcCinfo.m_uiNumInitialPages = 1;
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
     GarbageCollector gc(gcCinfo);

@@ -38,7 +38,7 @@ namespace lcpp
                 return &meta;
             }
 
-            StackPtr<LispObject> create(Function_t pFunction, const Signature& signature)
+            Ptr<LispObject> create(Function_t pFunction, const Signature& signature)
             {
                 LCPP_LogBlock("syntax::builtin::create");
 
@@ -55,7 +55,7 @@ namespace lcpp
                 return pInstance;
             }
 
-            StackPtr<LispObject> call(StackPtr<LispObject> pCont)
+            Ptr<LispObject> call(Ptr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -70,7 +70,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, pFunction);
             }
 
-            void checkArguments(StackPtr<LispObject> pSyntax, StackPtr<LispObject> pCont)
+            void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont)
             {
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -116,7 +116,7 @@ namespace lcpp
                 LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
             }
 
-            Ptr<Signature> getSignature(StackPtr<LispObject> pSyntax)
+            Ptr<Signature> getSignature(Ptr<LispObject> pSyntax)
             {
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -124,7 +124,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getSignature();
             }
 
-            StackPtr<LispObject> getName(Ptr<LispObject> pSyntax)
+            Ptr<LispObject> getName(Ptr<LispObject> pSyntax)
             {
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -132,7 +132,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getName();
             }
 
-            void setName(StackPtr<LispObject> pSyntax, StackPtr<LispObject> pNewName)
+            void setName(Ptr<LispObject> pSyntax, Ptr<LispObject> pNewName)
             {
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -146,7 +146,7 @@ namespace lcpp
                 return !isNil(getName(pSyntax));
             }
 
-            Function_t getFunction(StackPtr<LispObject> pSyntax)
+            Function_t getFunction(Ptr<LispObject> pSyntax)
             {
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
@@ -154,7 +154,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getFunction();
             }
 
-            StackPtr<LispObject> toString(StackPtr<LispObject> pObject)
+            Ptr<LispObject> toString(Ptr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Syntax);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);

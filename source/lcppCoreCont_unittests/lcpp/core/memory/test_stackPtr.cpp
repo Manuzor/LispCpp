@@ -8,6 +8,8 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 
+#if 0
+
 LCPP_TestGroup(StackPtr);
 
 LCPP_TestCase(StackPtr, Basics)
@@ -28,3 +30,5 @@ LCPP_TestCase(StackPtr, Basics)
 
     CUT_ASSERT.isTrue(gc.getNumStackReferences() == 0);
 }
+
+#endif

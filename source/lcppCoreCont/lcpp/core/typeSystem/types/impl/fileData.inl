@@ -18,13 +18,13 @@ namespace lcpp
         EZ_FORCE_INLINE
         Ptr<LispObject> Data::getFileName()
         {
-            return reinterpret_cast<StackPtr<LispObject>&>(m_pFileName);
+            return reinterpret_cast<Ptr<LispObject>&>(m_pFileName);
         }
 
         EZ_FORCE_INLINE
-        void Data::setFileName(StackPtr<LispObject> pValue)
+        void Data::setFileName(Ptr<LispObject> pValue)
         {
-            reinterpret_cast<StackPtr<LispObject>&>(m_pFileName) = pValue;
+            reinterpret_cast<Ptr<LispObject>&>(m_pFileName) = pValue;
         }
     }
 }

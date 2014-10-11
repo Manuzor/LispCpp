@@ -26,7 +26,7 @@ void lcpp::test::UnitTest::shutdown()
     // TODO shutdown stuff here on a per-test basis
 }
 
-lcpp::StackPtr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream)
+lcpp::Ptr<LispObject> lcpp::test::readStream(Ptr<LispObject> pStream)
 {
     typeCheck(pStream, Type::Stream);
 
@@ -41,14 +41,14 @@ lcpp::StackPtr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream)
     return pMainStack->get(0);
 }
 
-lcpp::StackPtr<LispObject> lcpp::test::readString(const ezString& content)
+lcpp::Ptr<LispObject> lcpp::test::readString(const ezString& content)
 {
     auto pStream = stream::create(content.GetIteratorFront());
 
     return readStream(pStream);
 }
 
-lcpp::StackPtr<LispObject> lcpp::test::evalStream(StackPtr<LispObject> pStream)
+lcpp::Ptr<LispObject> lcpp::test::evalStream(Ptr<LispObject> pStream)
 {
     auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
     auto pContEval = cont::create(pContMain, &eval::evaluate);
@@ -62,14 +62,14 @@ lcpp::StackPtr<LispObject> lcpp::test::evalStream(StackPtr<LispObject> pStream)
     return cont::getStack(pContMain)->get(-1);
 }
 
-lcpp::StackPtr<LispObject> lcpp::test::evalString(const ezString& content)
+lcpp::Ptr<LispObject> lcpp::test::evalString(const ezString& content)
 {
     auto pStream = stream::create(content.GetIteratorFront());
 
     return evalStream(pStream);
 }
 
-StackPtr<LispObject> lcpp::test::evalObject(StackPtr<LispObject> pObject)
+Ptr<LispObject> lcpp::test::evalObject(Ptr<LispObject> pObject)
 {
     auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
     auto pContEval = cont::create(pContMain, &eval::evaluate);

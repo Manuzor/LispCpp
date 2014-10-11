@@ -32,9 +32,9 @@ namespace lcpp
 
         void prepareUserPrompt(ezStreamWriterBase& outputStream, bool printNewLine, ezUInt32 currentLine);
 
-        void readUserInput(ezDeque<StackPtr<LispObject>>& out_results);
-        StackPtr<LispObject> evaluateReaderOutput(StackPtr<LispObject> pObject);
-        void print(StackPtr<LispObject> pToPrint);
+        void readUserInput(ezDeque<Ptr<LispObject>>& out_results);
+        Ptr<LispObject> evaluateReaderOutput(Ptr<LispObject> pObject);
+        void print(Ptr<LispObject> pToPrint);
 
         void addPadding(ezStringBuilder& builder, ezUInt32 paddingCharacter = ' ');
         void addPadding(ezStreamWriterBase& outputStream, ezUInt32 paddingCharacter = ' ');

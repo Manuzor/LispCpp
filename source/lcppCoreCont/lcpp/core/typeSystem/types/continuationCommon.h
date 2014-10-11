@@ -6,7 +6,7 @@ namespace lcpp
 
     namespace cont
     {
-        typedef StackPtr<LispObject>(*Function_t)(StackPtr<LispObject>);
+        typedef Ptr<LispObject>(*Function_t)(Ptr<LispObject>);
 
         typedef std::size_t UserData_t;
         EZ_CHECK_AT_COMPILETIME(sizeof(UserData_t) >= sizeof(void*));

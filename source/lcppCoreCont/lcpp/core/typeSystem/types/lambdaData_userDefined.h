@@ -13,7 +13,7 @@ namespace lcpp
             public:
 
                 Ptr<LispObject> getName();
-                void setName(StackPtr<LispObject> pNewName);
+                void setName(Ptr<LispObject> pNewName);
 
                 Ptr<LispObject> getEnv();
                 Ptr<LispObject> getArgList();
