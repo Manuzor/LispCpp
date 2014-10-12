@@ -18,21 +18,19 @@
             <ExpandedItem>*((lcpp::LispObject*)m_pPtr)</ExpandedItem>
         </Expand>
     </Type>
-
-    <Type Name="lcpp::Ptr &lt; lcpp::LispObject &gt;">
-        <DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
-        <DisplayString>{*((lcpp::LispObject*)m_pPtr)}</DisplayString>
+    <Type Name="lcpp::StackPtrBase">
+        <DisplayString>StackPtr at { m_uiIndex }: { *m_pLastLookup }</DisplayString>
         <Expand>
-            <ExpandedItem>*((lcpp::LispObject*)m_pPtr)</ExpandedItem>
+            <Item Name="Index">m_uiIndex</Item>
+            <Item Name="Ptr">m_pLastLookup</Item>
         </Expand>
     </Type>
 
     <Type Name="lcpp::StackPtr &lt; lcpp::LispObject &gt;">
         <AlternativeType Name="lcpp::StackPtr &lt; lcpp::CollectableBase &gt;"></AlternativeType>
-        <DisplayString Condition="m_ptr.m_pPtr == nullptr">nullptr</DisplayString>
-        <DisplayString>{*((lcpp::LispObject*)m_ptr.m_pPtr)}</DisplayString>
+        <DisplayString>{ m_pLastLookup }</DisplayString>
         <Expand>
-            <ExpandedItem>*((lcpp::LispObject*)m_ptr.m_pPtr)</ExpandedItem>
+            <Item Name="Ptr">m_pLastLookup</Item>
         </Expand>
     </Type>
 
