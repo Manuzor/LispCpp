@@ -1,7 +1,7 @@
 
 namespace lcpp
 {
-    EZ_FORCE_INLINE
+    inline
     StackPtrBase::StackPtrBase(CollectableBase* ptr) :
         m_uiIndex(s_uiNextIndex++)
     {
@@ -10,17 +10,15 @@ namespace lcpp
         LCPP_InDebug( m_pLastLookup = ptr; );
     }
 
-    EZ_FORCE_INLINE
-    StackPtrBase::StackPtrBase(const StackPtrBase& toCopy)
+    inline
+    StackPtrBase::StackPtrBase(const StackPtrBase& toCopy) :
+        m_uiIndex(s_uiNextIndex++)
     {
-        auto ptr = s_ptrTable[toCopy.m_uiIndex];
-        EZ_ASSERT(ptr != nullptr, "");
-        m_uiIndex = s_uiNextIndex++;
-        s_ptrTable[m_uiIndex] = ptr;
-        LCPP_InDebug( m_pLastLookup = ptr; );
+        EZ_ASSERT(s_uiNextIndex < NumMaxStackPtrs, "Maximum number of supported stack ptrs reached.");
+        *this = toCopy;
     }
 
-    EZ_FORCE_INLINE
+    inline
     StackPtrBase::~StackPtrBase()
     {
         auto uiExepectedIndex = --s_uiNextIndex;
@@ -28,25 +26,22 @@ namespace lcpp
         LCPP_InDebug( m_pLastLookup = nullptr; );
     }
 
-    EZ_FORCE_INLINE
+    inline
     void StackPtrBase::operator=(const StackPtrBase& toCopy)
     {
-        auto ptr = s_ptrTable[toCopy.m_uiIndex];
-        EZ_ASSERT(ptr != nullptr, "");
-        m_uiIndex = s_uiNextIndex++;
-        s_ptrTable[m_uiIndex] = ptr;
-        LCPP_InDebug( m_pLastLookup = ptr; );
+        *this = s_ptrTable[toCopy.m_uiIndex];
     }
 
-    EZ_FORCE_INLINE
+    inline
     void StackPtrBase::operator=(CollectableBase* ptr)
     {
+        ezLog::Debug("StackPtrBase ptr assignment: index = %u, ptr = %x", m_uiIndex, ptr);
         EZ_ASSERT(ptr != nullptr, "");
         s_ptrTable[m_uiIndex] = ptr;
         LCPP_InDebug( m_pLastLookup = ptr; );
     }
 
-    EZ_FORCE_INLINE
+    inline
     CollectableBase* StackPtrBase::get()
     {
         LCPP_InDebug(
@@ -58,7 +53,7 @@ namespace lcpp
         LCPP_InNonDebug( return s_ptrTable[m_uiIndex]; );
     }
 
-    EZ_FORCE_INLINE
+    inline
     bool StackPtrBase::isNull()
     {
         auto ptr = s_ptrTable[m_uiIndex];

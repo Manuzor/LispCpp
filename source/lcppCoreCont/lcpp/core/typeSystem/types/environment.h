@@ -10,11 +10,11 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> create(Ptr<LispObject> pParent, Ptr<LispObject>pName);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(StackPtr<LispObject> pParent, StackPtr<LispObject>pName);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispObject> pName);
+        LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(StackPtr<LispObject> pName);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent);
+        LCPP_API_CORE_CONT Ptr<LispObject> createAnonymous(StackPtr<LispObject> pParent);
 
         LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pEnv);
         LCPP_API_CORE_CONT Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv);

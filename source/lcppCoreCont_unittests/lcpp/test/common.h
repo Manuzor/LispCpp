@@ -22,6 +22,14 @@ namespace lcpp { namespace test {
         virtual void doRun() = 0;
     };
 
+    class UnitTestNoInit :
+        public cut::IUnitTest
+    {
+    public:
+
+        UnitTestNoInit(cut::UnitTestGroup& group);
+    };
+
     class TestStringStream :
         public ezStreamWriterBase
     {

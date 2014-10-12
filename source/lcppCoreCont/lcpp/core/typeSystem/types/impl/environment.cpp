@@ -58,8 +58,8 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(Ptr<LispObject> pParent,
-                               Ptr<LispObject> pName)
+        Ptr<LispObject> create(StackPtr<LispObject> pParent,
+                               StackPtr<LispObject> pName)
         {
             LCPP_LogBlock("env::create");
 
@@ -76,12 +76,12 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> createTopLevel(Ptr<LispObject> pName)
+        Ptr<LispObject> createTopLevel(StackPtr<LispObject> pName)
         {
             return create(LCPP_pNil, pName);
         }
 
-        Ptr<LispObject> createAnonymous(Ptr<LispObject> pParent)
+        Ptr<LispObject> createAnonymous(StackPtr<LispObject> pParent)
         {
             return create(pParent, symbol::create("anonymous"));
         }

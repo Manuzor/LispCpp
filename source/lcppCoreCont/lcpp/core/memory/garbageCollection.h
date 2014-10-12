@@ -127,6 +127,12 @@ namespace lcpp
 
         virtual CollectableBase* addSurvivor(CollectableBase* pSurvivor) override;
 
+        template<typename T>
+        void addRoot(T*& pCollectable);
+
+        template<typename T>
+        void removeRoot(T*& pCollectable);
+
     private:
 
         bool isEdenObject(Ptr<CollectableBase> pObject) const;

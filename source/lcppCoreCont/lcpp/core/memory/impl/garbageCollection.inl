@@ -168,6 +168,22 @@ namespace lcpp
         return prop.getData().as<ScanFunction_t>();
     }
 
+    template<typename T>
+    EZ_FORCE_INLINE
+    void GarbageCollector::addRoot(T*& pCollectable)
+    {
+        auto ppCollectable = (CollectableBase**)&pCollectable;
+        m_roots.PushBack(ppCollectable);
+    }
+
+    template<typename T>
+    EZ_FORCE_INLINE
+    void GarbageCollector::removeRoot(T*& pCollectable)
+    {
+        auto ppCollectable = (CollectableBase**)&pCollectable;
+        m_roots.RemoveSwap(ppCollectable);
+    }
+
     EZ_FORCE_INLINE
     void detail::assertObjectIsAlive(Ptr<CollectableBase> pCollectable)
     {

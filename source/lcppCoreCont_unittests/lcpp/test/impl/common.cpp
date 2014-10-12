@@ -26,6 +26,11 @@ void lcpp::test::UnitTest::shutdown()
     // TODO shutdown stuff here on a per-test basis
 }
 
+lcpp::test::UnitTestNoInit::UnitTestNoInit(cut::UnitTestGroup& group)
+{
+    group.registerUnitTest(this);
+}
+
 lcpp::Ptr<LispObject> lcpp::test::readStream(Ptr<LispObject> pStream)
 {
     typeCheck(pStream, Type::Stream);

@@ -164,6 +164,7 @@ namespace lcpp
                 scanner(pToScan, this);
             }
             ++uiScanCount;
+            m_ScanPointer += pToScan->m_uiMemorySize;
         }
         return uiScanCount;
     }
@@ -171,6 +172,9 @@ namespace lcpp
     CollectableBase* GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
     {
         EZ_ASSERT(isCollecting(), "Can only add survivors while collecting!");
+
+        if(!isEdenObject(pSurvivor))
+            return pSurvivor; // It's not managed by this collector.
 
         if(pSurvivor->isForwarded())
             return pSurvivor->m_pForwardPointer;

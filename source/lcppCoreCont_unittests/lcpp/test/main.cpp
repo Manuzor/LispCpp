@@ -70,7 +70,7 @@ namespace cut
                 case LogBlockAction::End:
                 {
                     EZ_ASSERT(m_logBlocks.GetCount() > 0, "Invalid state of the LogBlock stack.");
-                    
+
                     auto& pBlock = m_logBlocks.PeekBack();
                     EZ_DELETE(lcpp::defaultAllocator(), pBlock);
                     m_logBlocks.PopBack();
@@ -115,6 +115,8 @@ static void initialize()
     ezGlobalLog::AddLogWriter(ezLogWriter::Console::LogMessageHandler);
     ezGlobalLog::AddLogWriter(ezLogWriter::VisualStudio::LogMessageHandler);
 
+    ezGlobalLog::SetLogLevel(ezLogMsgType::All);
+
     ezStringBuilder testDir;
     lcpp::getCurrentWorkingDirectory(testDir);
 
@@ -140,7 +142,7 @@ static void initialize()
         testDir.Prepend("Failed to add test data directory: ");
         throw std::exception(testDir.GetData());
     }
-        
+
     LCPP_test_pRuntimeState->setUserDirectory(testDir.GetData());
 }
 
@@ -158,6 +160,10 @@ static void shutdown()
     lcpp::shutdown();
 }
 
+void staticTests()
+{
+}
+
 int main(int argc, const char* argv[])
 {
     initialize();
@@ -171,8 +177,8 @@ int main(int argc, const char* argv[])
 
     auto& testManager = cut::IUnitTestManager::instance();
 
-    //testManager.run("StackPtr", "Basics");
-    testManager.run("Object", "AllTypes");
+    testManager.run("StackPtr", "Basics");
+    //testManager.run("Object", "AllTypes");
     //testManager.runAll();
 
     testManager.printStatistics();

@@ -54,12 +54,15 @@ lcpp::LispRuntimeState::initialize()
 #endif
 
     m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax")).get();
-    m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global")).get();
+    m_pGC->addRoot(m_pSyntaxEnvironment.get());
+    m_pGlobalEnvironment = env::create(getSyntaxEnvironment(), symbol::create("global")).get();
+    m_pGC->addRoot(m_pGlobalEnvironment.get());
 
     //////////////////////////////////////////////////////////////////////////
 
     m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
     m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
+    m_pGC->addRoot(m_pReaderState->m_pMacroEnv.get());
 
     m_pPrinterState = LCPP_NEW(m_pAllocator, printer::State)();
     // TODO Set output stream of printer to stdout by default.
