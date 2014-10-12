@@ -86,13 +86,6 @@ namespace lcpp
 
     template<typename T>
     EZ_FORCE_INLINE
-    StackPtr<T>::~StackPtr()
-    {
-        StackPtrBase::~StackPtrBase();
-    }
-
-    template<typename T>
-    EZ_FORCE_INLINE
     void StackPtr<T>::operator=(StackPtr& toCopy)
     {
         StackPtrBase::operator=(static_cast<StackPtrBase&>(toCopy).get());

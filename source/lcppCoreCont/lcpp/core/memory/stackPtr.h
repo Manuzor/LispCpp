@@ -8,7 +8,7 @@ namespace lcpp
     class StackPtrBase
     {
         friend GarbageCollector;
-    protected:
+    public:
 
         enum { NumMaxStackPtrs = 1024 };
         LCPP_API_CORE_CONT static CollectableBase* s_ptrTable[NumMaxStackPtrs];
@@ -50,8 +50,6 @@ namespace lcpp
 
         // Construct from raw ptr
         StackPtr(T* ptr);
-
-        ~StackPtr();
 
         void operator =(StackPtr& toCopy);
         void operator =(Ptr<T> ptr);
