@@ -28,9 +28,9 @@
 
     <Type Name="lcpp::StackPtr &lt; lcpp::LispObject &gt;">
         <AlternativeType Name="lcpp::StackPtr &lt; lcpp::CollectableBase &gt;"></AlternativeType>
-        <DisplayString>{ m_pLastLookup }</DisplayString>
+        <DisplayString>{ (lcpp::LispObject*)m_pLastLookup }</DisplayString>
         <Expand>
-            <Item Name="Ptr">m_pLastLookup</Item>
+            <ExpandedItem>*((lcpp::LispObject*)m_pLastLookup)</ExpandedItem>
         </Expand>
     </Type>
 
@@ -138,7 +138,7 @@
     </Type>
 
     <Type Name="lcpp::env::Data">
-        <DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
+        <DisplayString>Env Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
         <Expand>
             <Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
             <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
@@ -147,7 +147,7 @@
     </Type>
 
     <Type Name="lcpp::cont::Data">
-        <DisplayString>Function={m_pFunction,na}</DisplayString>
+        <DisplayString>Cont Function={m_pFunction,na}</DisplayString>
         <Expand>
             <Item Name="Function">m_pFunction,na</Item>
             <Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
@@ -157,7 +157,7 @@
     </Type>
 
     <Type Name="lcpp::stream::Data">
-        <DisplayString>Current={((ezStringIterator*)m_iterator)->m_pCurrent,s8}</DisplayString>
+        <DisplayString>Stream Current={((ezStringIterator*)m_iterator)->m_pCurrent,s8}</DisplayString>
         <StringView>((ezStringIterator*)m_iterator)->m_pCurrent,s8</StringView>
         <Expand>
             <ExpandedItem>*((ezStringIterator*)m_iterator)</ExpandedItem>
@@ -172,7 +172,7 @@
     </Type>
 
     <Type Name="lcpp::lambda::builtin::Data">
-        <DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+        <DisplayString>Bultin Lambda Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
         <Expand>
             <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
             <Item Name="Function">m_pFunction</Item>
@@ -181,7 +181,7 @@
     </Type>
 
     <Type Name="lcpp::lambda::userDefined::Data">
-        <DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
+        <DisplayString>User Lambda Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
         <Expand>
             <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
             <Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
@@ -191,7 +191,7 @@
     </Type>
 
     <Type Name="lcpp::syntax::builtin::Data">
-        <DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+        <DisplayString>Builtin Syntax Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
         <Expand>
             <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
             <Item Name="Function">m_pFunction</Item>
@@ -199,7 +199,7 @@
     </Type>
 
     <Type Name="lcpp::file::Data">
-        <DisplayString>{*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pFileName)}</DisplayString>
+        <DisplayString>File Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pFileName)}</DisplayString>
         <Expand>
             <Synthetic Name="Open State" Condition="(*((ezOSFile*)m_file)).m_FileMode != ezFileMode::None">
                 <DisplayString>File is open.</DisplayString>
