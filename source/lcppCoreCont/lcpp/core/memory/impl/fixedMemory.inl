@@ -64,27 +64,9 @@ namespace lcpp
     //////////////////////////////////////////////////////////////////////////
 
     EZ_FORCE_INLINE
-    FixedMemory::Stats::Stats() :
-        m_uiAllocations(0),
-        m_uiAllocatedSize(0)
+    FixedMemory::FixedMemory()
     {
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-
-    EZ_FORCE_INLINE
-    FixedMemory::FixedMemory() :
-        m_uiAllocationIndex(0)
-    {
-    }
-
-    EZ_FORCE_INLINE
-    FixedMemory::FixedMemory(size_t uiNumPages) :
-        m_uiAllocationIndex(0)
-    {
-        const size_t uiMemorySize = uiNumPages * GarbageCollectorPageSize;
-        auto pMemory = (byte_t*)VirtualAlloc(nullptr, uiMemorySize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-        m_memory.assign(pMemory, uiMemorySize);
+        ezMemoryUtils::ZeroFill(this);
     }
 
     EZ_FORCE_INLINE
@@ -97,6 +79,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     AllocatorResult FixedMemory::allocate(T*& out_pMemory, std::size_t uiCount)
     {
+        EZ_ASSERT(m_pBegin, "Invalid state.");
+
         const auto uiSize = sizeof(T) * uiCount;
 
         if (uiSize == 0)
@@ -105,111 +89,162 @@ namespace lcpp
             return NothingChanged;
         }
 
-        if (m_uiAllocationIndex + uiSize > m_memory.getSize())
+        if (m_pAllocationPointer + uiSize > m_pEnd)
         {
             out_pMemory = nullptr;
             return OutOfMemory;
         }
 
-        out_pMemory = (T*)&m_memory[m_uiAllocationIndex];
-        m_uiAllocationIndex += uiSize;
+        out_pMemory = (T*)m_pAllocationPointer;
+        m_pAllocationPointer += uiSize;
+
+        LCPP_InDebug( memset(out_pMemory, 0xcacacaca, uiSize); );
 
         // Update stats
-        ++m_stats.m_uiAllocations;
-        m_stats.m_uiAllocatedSize += uiSize;
+        ++m_uiNumAllocations;
 
         return Success;
+    }
+    
+    EZ_FORCE_INLINE
+    void FixedMemory::initialize(size_t uiNumPages)
+    {
+        const size_t uiMemorySize = uiNumPages * GarbageCollectorPageSize;
+        m_pBegin = (byte_t*)VirtualAlloc(nullptr, uiMemorySize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+        m_pEnd = m_pBegin + uiMemorySize;
+        internalReset();
+
+        LCPP_InDebug( fill(0xcdcdcdcd); );
     }
 
     EZ_FORCE_INLINE
     void FixedMemory::reset()
     {
-#if EZ_DISABLED(LCPP_GC_AlwaysCreateNewSurvivor)
-        DWORD oldProtect;
-        bool result = VirtualProtect(m_memory.getData(), m_memory.getSize(), PAGE_READWRITE, &oldProtect);
-        EZ_ASSERT(result, "");
-#endif
-        m_uiAllocationIndex = 0;
+        EZ_ASSERT(m_pBegin, "Cannot reset after free was called. You have to call initialize again.");
+
+        removeProtection();
+        internalReset();
+
+        LCPP_InDebug( fill(0xcfcfcfcf); );
+    }
+    
+    EZ_FORCE_INLINE
+    void FixedMemory::internalReset()
+    {
+        m_pAllocationPointer = m_pBegin;
+        m_uiNumAllocations = 0;
+        LCPP_InDebug( m_state = State::Available; );
     }
 
     EZ_FORCE_INLINE
     void FixedMemory::protect()
     {
         DWORD oldProtect;
-        bool result = VirtualProtect(m_memory.getData(), m_memory.getSize(), PAGE_NOACCESS, &oldProtect) == 0 ? false : true;
-        EZ_ASSERT(result, "");
+        bool result = VirtualProtect(m_pBegin, getEntireMemorySize(), PAGE_NOACCESS, &oldProtect) == 0 ? false : true;
+        EZ_ASSERT(result, "VirtualProtect PAGE_NOACCESS failed.");
+        LCPP_InDebug( m_state = State::Protected; );
+    }
+    
+    EZ_FORCE_INLINE
+    void FixedMemory::removeProtection()
+    {
+        DWORD oldProtect;
+        bool result = VirtualProtect(m_pBegin, getEntireMemorySize(), PAGE_READWRITE, &oldProtect) == 0 ? false : true;
+        EZ_ASSERT(result, "VirtualProtect PAGE_READWRITE failed.");
+        LCPP_InDebug( m_state = State::Unprotected; );
     }
 
     EZ_FORCE_INLINE
     void FixedMemory::free()
     {
-#if EZ_DISABLED(LCPP_GC_KeepAllocatedMemory)
-        if (m_memory.getData() != nullptr)
-        {
-            VirtualFree(m_memory.getData(), m_memory.getSize(), MEM_DECOMMIT | MEM_RELEASE);
-            m_memory.reset();
-        }
-#endif
+        if (m_pBegin == nullptr)
+            return;
+
+        LCPP_InDebug
+        (
+            removeProtection();
+            fill(0xfeeefeee);
+        );
+
+        VirtualFree(m_pBegin, getEntireMemorySize(), MEM_DECOMMIT | MEM_RELEASE);
+        m_pBegin = nullptr;
+        m_pAllocationPointer = nullptr;
+        m_pEnd = nullptr;
+        m_uiNumAllocations = 0;
+
+        LCPP_InDebug( m_state = State::Freed; );
     }
 
     EZ_FORCE_INLINE
     const lcpp::byte_t* FixedMemory::getBeginning() const
     {
-        return &m_memory[0];
+        return m_pBegin;
     }
 
     EZ_FORCE_INLINE
     lcpp::byte_t* FixedMemory::getBeginning()
     {
-        return &m_memory[0];
+        return m_pBegin;
     }
 
     EZ_FORCE_INLINE
     const lcpp::byte_t* FixedMemory::getEnd() const
     {
-        return &m_memory[m_memory.getSize()];
+        return m_pEnd;
     }
 
     EZ_FORCE_INLINE
     lcpp::byte_t* FixedMemory::getEnd()
     {
-        return &m_memory[m_memory.getSize()];
+        return m_pEnd;
     }
 
     EZ_FORCE_INLINE
     const lcpp::byte_t* FixedMemory::getAllocationPointer() const
     {
-        return getBeginning() + m_uiAllocationIndex;
+        return m_pAllocationPointer;
     }
 
     EZ_FORCE_INLINE
     lcpp::byte_t* FixedMemory::getAllocationPointer()
     {
-        return getBeginning() + m_uiAllocationIndex;
+        return m_pAllocationPointer;
     }
 
     EZ_FORCE_INLINE
-    const Array<byte_t> FixedMemory::getAllocatedMemory() const
+    std::size_t FixedMemory::getEntireMemorySize() const
     {
-        return m_memory(0, m_uiAllocationIndex);
+        return m_pEnd - m_pBegin;
     }
 
     EZ_FORCE_INLINE
-    const Array<byte_t> FixedMemory::getEntireMemory() const
+    std::size_t FixedMemory::getAllocatedMemorySize() const
     {
-        return m_memory;
+        return m_pAllocationPointer - m_pBegin;
     }
 
     EZ_FORCE_INLINE
-    std::size_t FixedMemory::getAvailableMemorySize() const
+    std::size_t FixedMemory::getFreeMemorySize() const
     {
-        return m_memory.getSize() - m_uiAllocationIndex;
+        return m_pEnd - m_pAllocationPointer;
+    }
+    
+    EZ_FORCE_INLINE
+    std::size_t FixedMemory::getNumAllocations() const
+    {
+        return m_uiNumAllocations;
     }
 
     EZ_FORCE_INLINE
-    FixedMemory::Stats FixedMemory::getStats() const
+    bool FixedMemory::contains(byte_t* ptr) const
     {
-        return m_stats;
+        return ptr >= m_pBegin && ptr < m_pEnd;
+    }
+
+    EZ_FORCE_INLINE
+    void FixedMemory::fill(int pattern)
+    {
+        memset(m_pBegin, pattern, getEntireMemorySize());
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -238,9 +273,7 @@ namespace lcpp
     void MemoryStackAllocator::Deallocate(void* ptr)
     {
         EZ_ASSERT(!m_pStack.isNull(), "");
-
-        EZ_ASSERT(ptr >= m_pStack->getBeginning(), "");
-        EZ_ASSERT(ptr <= m_pStack->getAllocationPointer(), "");
+        EZ_ASSERT(m_pStack->contains((byte_t*)ptr), "");
     }
 
     EZ_FORCE_INLINE
@@ -256,10 +289,8 @@ namespace lcpp
         EZ_ASSERT(!m_pStack.isNull(), "");
 
         Stats stats;
-        auto stackStats = m_pStack->getStats();
-
-        stats.m_uiNumAllocations = stackStats.m_uiAllocations;
-        stats.m_uiAllocationSize = stackStats.m_uiAllocatedSize;
+        stats.m_uiNumAllocations = m_pStack->getNumAllocations();
+        stats.m_uiAllocationSize = m_pStack->getAllocatedMemorySize();
 
         return stats;
     }

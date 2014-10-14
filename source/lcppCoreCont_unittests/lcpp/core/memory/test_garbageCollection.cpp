@@ -8,46 +8,16 @@
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 
-namespace lcpp
+namespace
 {
-    namespace test
+    class TestType : public lcpp::CollectableBase
     {
-        namespace
-        {
-            class TestType : public LispObject
-            {
-            public:
-                static ezHybridArray<Ptr<TestType>, 8> getDestroyedTestTypes()
-                {
-                    ezHybridArray<Ptr<TestType>, 8> arr(defaultAllocator());
-                    return arr;
-                }
+    public:
+        TestType() : m_iData(0) {}
 
-                number::Integer_t m_integerData;
-            };
-
-            void destroy(Ptr<LispObject> pObject)
-            {
-                typeCheck(pObject, Type::ENUM_COUNT);
-
-                CUT_ASSERT.isFalse(TestType::getDestroyedTestTypes().Contains(pObject));
-                TestType::getDestroyedTestTypes().PushBack(pObject);
-            }
-
-            Ptr<const MetaInfo> getMetaInfo()
-            {
-                static auto meta = []{
-                    MetaInfo meta;
-                    meta.setPrettyName("testType");
-                    meta.setType(Type::ENUM_COUNT);
-                    meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction, DestructorFunction_t(&destroy)));
-                    return meta;
-                }();
-
-                return &meta;
-            }
-        }
-    }
+    public:
+        ezInt32 m_iData;
+    };
 }
 
 LCPP_TestGroup(GarbageCollection);
@@ -152,41 +122,16 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
 
 #endif
 
-LCPP_TestCase(GarbageCollection, Collect)
+LCPP_TestCaseNoInit(GarbageCollection, Basics)
 {
-    TestType::getDestroyedTestTypes().Clear();
-
     GarbageCollector::CInfo gcCinfo;
 
     gcCinfo.m_uiNumInitialPages = 1;
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
-    GarbageCollector gc(gcCinfo);
-
-    auto pRoot = object::create<cons::Data>(&gc, cons::getMetaInfo());
-    auto pRoot_Car = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
-    pRoot_Car->getData<number::Integer_t>() = 42;
-    auto pRoot_Cdr = object::create<number::Integer_t>(&gc, number::getMetaInfoInteger());
-    pRoot_Cdr->getData<number::Integer_t>() = 1337;
-
-    new (pRoot->getData<cons::Data>().m_pCar) Ptr<LispObject>(pRoot_Car);
-    new (pRoot->getData<cons::Data>().m_pCdr) Ptr<LispObject>(pRoot_Cdr);
-
-    auto pNonRoot = gc.create<TestType>(test::getMetaInfo());
-
-    CUT_ASSERT.isTrue(gc.isAlive(pRoot.get()));
-    CUT_ASSERT.isTrue(gc.isAlive(pNonRoot.get()));
-
-    gc.collect();
-
-    CUT_ASSERT.notImplemented("Check if the collection was successful, somehow.");
-
-    CUT_ASSERT.isTrue(gc.isAlive(pRoot.get()));
-    CUT_ASSERT.isFalse(gc.isAlive(pNonRoot.get()));
-
-    auto& destroyedTestTypes = TestType::getDestroyedTestTypes();
-    CUT_ASSERT.isFalse(destroyedTestTypes.Contains(pRoot.cast<TestType>()));
-    CUT_ASSERT.isTrue(destroyedTestTypes.Contains(pNonRoot.get()));
-
-    return;
+    GarbageCollector gc;
+    gc.initialize(gcCinfo);
+    gc.clear();
+    gc.initialize(gcCinfo);
+    gc.clear();
 }

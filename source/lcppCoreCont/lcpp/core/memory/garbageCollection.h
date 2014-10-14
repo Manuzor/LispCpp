@@ -103,7 +103,11 @@ namespace lcpp
 
     public:
 
-        GarbageCollector(const CInfo& cinfo);
+        GarbageCollector(GarbageCollector&&) = delete;
+        GarbageCollector(const GarbageCollector&) = delete;
+        void operator=(const GarbageCollector&) = delete;
+
+        GarbageCollector();
 
         void initialize(const CInfo& cinfo);
         void clear();
@@ -135,6 +139,9 @@ namespace lcpp
 
     private:
 
+        void prepareCollectionCycle();
+        void finalizeCollectionCycle();
+
         bool isEdenObject(Ptr<CollectableBase> pObject) const;
         bool isSurvivorObject(Ptr<CollectableBase> pObject) const;
 
@@ -158,7 +165,7 @@ namespace lcpp
         mutable ezHybridArray<CollectableBase**, 16> m_roots;
 
         enum { NumMemoryPools = 2 };
-        ezStaticArray<FixedMemory, NumMemoryPools> m_pools;
+        FixedMemory m_pools[NumMemoryPools];
 
         EZ_CHECK_AT_COMPILETIME_MSG(NumMemoryPools >= 2, "Need at least 2 memory pools.");
 

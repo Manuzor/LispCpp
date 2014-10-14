@@ -18,7 +18,10 @@ namespace lcpp
     {
         static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
         {
-            auto pObject = static_cast<LispObject*>(pCollectable);
+            static ezUInt32 uiScanCount(0);
+            ++uiScanCount;
+
+            auto pObject = reinterpret_cast<LispObject*>(pCollectable);
             typeCheck(pObject, Type::Environment);
 
             // Note: Symbols are not garbage collected.

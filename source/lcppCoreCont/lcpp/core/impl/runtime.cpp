@@ -83,6 +83,8 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
+    LCPP_DELETE(m_pAllocator, m_pPrinterState->m_pOutStream);
+    LCPP_DELETE(m_pAllocator, m_pPrinterState);
     LCPP_DELETE(m_pAllocator, m_pReaderState);
     m_pGlobalEnvironment = nullptr;
     m_pSyntaxEnvironment = nullptr;

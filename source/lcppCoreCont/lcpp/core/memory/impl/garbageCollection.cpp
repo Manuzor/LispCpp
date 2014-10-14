@@ -11,57 +11,68 @@ namespace lcpp
 {
     GarbageCollector* getGarbageCollector()
     {
-        static GarbageCollector gc = []
+        static GarbageCollector* pGC = nullptr;
+
+        if (pGC == nullptr)
         {
+            static GarbageCollector instance;
+
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiNumInitialPages = 1;
             cinfo.m_pParentAllocator = defaultAllocator();
 
-            return GarbageCollector(cinfo);
-        }(); // Note that this lambda is immediately called.
+            instance.initialize(cinfo);
+            pGC = &instance;
+        }
 
-        return &gc;
+        return pGC;
     }
 
-    GarbageCollector::GarbageCollector(const CInfo& cinfo) :
-        m_pAllocator(cinfo.m_pParentAllocator),
-        m_uiNumCurrentPages(cinfo.m_uiNumInitialPages),
-        m_uiCurrentGeneration(0),
-        m_ScanPointer(nullptr)
+    GarbageCollector::GarbageCollector() :
+        m_pAllocator(nullptr)
     {
-        initialize(cinfo);
     }
 
     void GarbageCollector::initialize(const CInfo& cinfo)
     {
+        m_pAllocator = cinfo.m_pParentAllocator;
+
         EZ_ASSERT(cinfo.m_uiNumInitialPages > 0, "Invalid initial number of pages");
         m_uiNumCurrentPages = cinfo.m_uiNumInitialPages;
-        m_pools.Clear();
-        m_pools.SetCountUninitialized(NumMemoryPools);
 
-        for (auto& pool : m_pools)
-            pool = FixedMemory(m_uiNumCurrentPages);
+        for (int i = 0; i < NumMemoryPools; ++i)
+            m_pools[i].initialize(m_uiNumCurrentPages);
 
         m_pEdenSpace = &m_pools[0];
         m_pSurvivorSpace = &m_pools[1];
         m_pSurvivorSpace->protect();
 
         m_ScanPointer = nullptr;
+        m_uiCurrentGeneration = 0;
     }
 
     void GarbageCollector::clear()
     {
+        EZ_ASSERT(!m_pAllocator.isNull(), "Not initialized.");
+
         m_ScanPointer = nullptr;
         collect(); // Should clean everything up.
 
-        for (auto& pool : m_pools)
-            pool.free();
+        m_pEdenSpace = nullptr;
+        m_pSurvivorSpace = nullptr;
 
-        m_uiCurrentGeneration = 0;
+        for (int i = 0; i < NumMemoryPools; ++i)
+        {
+            m_pools[i].free();
+        }
+
+        m_uiCurrentGeneration = std::numeric_limits<decltype(m_uiCurrentGeneration)>::max();
     }
 
-    void GarbageCollector::collect()
+    void GarbageCollector::prepareCollectionCycle()
     {
+        EZ_ASSERT(!m_pAllocator.isNull(), "Not initialized.");
+
         EZ_ASSERT(m_uiCurrentGeneration < std::numeric_limits<decltype(m_uiCurrentGeneration)>::max(),
                   "Congratulations, you collected a LOT of garbage...");
 
@@ -71,10 +82,17 @@ namespace lcpp
 
 #if EZ_ENABLED(LCPP_GC_AlwaysCreateNewSurvivor)
         // Note: Survivor is already protected at this point.
-        *m_pSurvivorSpace = FixedMemory(m_uiNumCurrentPages);
+        m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
+#else
+        // Prepare the survivor space for new allocations, discarding all garbage it contains.
+        m_pSurvivorSpace->reset();
 #endif
-
         m_ScanPointer = m_pSurvivorSpace->getBeginning();
+    }
+
+    void GarbageCollector::collect()
+    {
+        prepareCollectionCycle();
 
         // Make sure all roots stay alive
         addRootsToSurvivorSpace();
@@ -86,8 +104,17 @@ namespace lcpp
 
         destroyGarbage();
 
+        finalizeCollectionCycle();
+    }
+
+    void GarbageCollector::finalizeCollectionCycle()
+    {
+        // Protect the garbage.
+        m_pEdenSpace->protect();
+
         std::swap(m_pEdenSpace, m_pSurvivorSpace);
-        m_pSurvivorSpace->protect();
+
+        // Reset the scan pointer.
         m_ScanPointer = nullptr;
     }
 
@@ -160,6 +187,7 @@ namespace lcpp
             auto scanner = getScanFunction(pToScan);
             if (scanner)
             {
+                EZ_ASSERT(pToScan->isAlive(), "");
                 // The objects are responsible for patching themselves.
                 scanner(pToScan, this);
             }

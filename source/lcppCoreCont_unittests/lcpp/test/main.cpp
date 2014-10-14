@@ -174,6 +174,7 @@ int main(int argc, const char* argv[])
     auto& testManager = cut::IUnitTestManager::instance();
 
     testManager.run("StackPtr", "Basics");
+    testManager.run("GarbageCollection", "Basics");
     //testManager.run("Object", "AllTypes");
     //testManager.runAll();
 

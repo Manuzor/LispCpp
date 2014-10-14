@@ -75,22 +75,22 @@ namespace lcpp
     {
     public:
 
-        class Stats
+        enum class State
         {
-        public:
-            EZ_DECLARE_POD_TYPE();
-
-            std::size_t m_uiAllocations;
-            std::size_t m_uiAllocatedSize;
-
-        public:
-            Stats();
+            Invalid,
+            Available,
+            Freed,
+            PseudoFreed, ///< Used for debugging when we actually did not free anything.
+            Protected,
+            Unprotected,
         };
 
     public:
+        FixedMemory(FixedMemory&&) = delete;
+        FixedMemory(const FixedMemory&) = delete;
+        void operator=(const FixedMemory&) = delete;
 
         FixedMemory();
-        explicit FixedMemory(size_t uiNumPages);
         ~FixedMemory();
 
         /// \brief Allocates enough bytes to store a \a T object in it.
@@ -99,10 +99,17 @@ namespace lcpp
         template<typename T>
         AllocatorResult allocate(T*& out_pMemory, std::size_t uiCount = 1);
 
+        /// \brief Will allocate new memory without touching the previously allocated memory.
+        /// \remarks Memory will be leaked if \c free was not called before and this is not the initial call to this function.
+        void initialize(size_t uiNumPages);
+
+        /// \brief Resets the state of this instance without allocating or freeing memory.
         void reset();
 
+        /// \brief Protects the entire allocated memory from any kind of access (read/write/execute).
         void protect();
 
+        /// \brief Frees the allocated memory and effectively invalidates this object.
         void free();
 
         const byte_t* getBeginning() const;         ///< Points to the first valid byte.
@@ -114,26 +121,26 @@ namespace lcpp
         const byte_t* getAllocationPointer() const; ///< Points to the first byte that would be allocated by \a allocate.
         byte_t* getAllocationPointer();             ///< Points to the first byte that would be allocated by \a allocate.
 
-        /// \brief Gets the part of the available memory that contains valid allocations.
-        const Array<byte_t> getAllocatedMemory() const;
+        std::size_t getAllocatedMemorySize() const;
+        std::size_t getFreeMemorySize() const;
+        std::size_t getEntireMemorySize() const;
+        std::size_t getNumAllocations() const;
 
-        /// \brief Gets the entire memory block used by this MemoryStack.
-        /// \remark If you need
-        const Array<byte_t> getEntireMemory() const;
-
-        std::size_t getAvailableMemorySize() const;
-
-        Stats getStats() const;
+        bool contains(byte_t* ptr) const;
 
     private:
 
-        /// \brief Wraps the actual data.
-        Array<byte_t> m_memory;
+        void internalReset();
+        void fill(int pattern);
+        void removeProtection();
 
-        /// \brief Always points on the top of the stack, i.e. on the next free index.
-        std::size_t m_uiAllocationIndex;
+        byte_t* m_pBegin;
+        byte_t* m_pEnd;
+        byte_t* m_pAllocationPointer;
 
-        Stats m_stats;
+        ezUInt64 m_uiNumAllocations;
+
+        State m_state;
     };
 
     bool operator ==(const AllocatorResult& lhs, const AllocatorResult& rhs);
