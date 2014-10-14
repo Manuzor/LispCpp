@@ -10,14 +10,53 @@
 
 namespace
 {
+    void scan(lcpp::CollectableBase* pCollectable, lcpp::GarbageCollectionContext* pGC);
+    void destroy(lcpp::CollectableBase* pCollectable);
+
     class TestType : public lcpp::CollectableBase
     {
+    public:
+        static lcpp::MetaInfo* getMetaInfo()
+        {
+            using namespace lcpp;
+            static MetaInfo* pMeta = nullptr;
+
+            if (pMeta == nullptr)
+            {
+                static MetaInfo meta;
+                meta.setType(Type::Nil); // Act as nil...
+                meta.setPrettyName("TestType");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
+
+                pMeta = &meta;
+            }
+
+            return pMeta;
+        }
+
     public:
         TestType() : m_iData(0) {}
 
     public:
         ezInt32 m_iData;
     };
+
+    void scan(lcpp::CollectableBase* pCollectable, lcpp::GarbageCollectionContext* pGC)
+    {
+        auto pTest = static_cast<TestType*>(pCollectable);
+
+        CUT_ASSERT.isTrue(pTest->m_iData == 42);
+    }
+
+    void destroy(lcpp::CollectableBase* pCollectable)
+    {
+        auto pTest = static_cast<TestType*>(pCollectable);
+
+        CUT_ASSERT.isTrue(pTest->m_iData == 1337);
+    }
 }
 
 LCPP_TestGroup(GarbageCollection);
@@ -125,7 +164,6 @@ LCPP_TestCase(GarbageCollection, FixedMemory)
 LCPP_TestCaseNoInit(GarbageCollection, Basics)
 {
     GarbageCollector::CInfo gcCinfo;
-
     gcCinfo.m_uiNumInitialPages = 1;
     gcCinfo.m_pParentAllocator = defaultAllocator();
 
@@ -133,5 +171,26 @@ LCPP_TestCaseNoInit(GarbageCollection, Basics)
     gc.initialize(gcCinfo);
     gc.clear();
     gc.initialize(gcCinfo);
-    gc.clear();
+
+    auto pWillBeCollected = gc.create<TestType>(TestType::getMetaInfo());
+    CUT_ASSERT.isTrue(pWillBeCollected->m_iData == 0, "No default construction.");
+    pWillBeCollected->m_iData = 1337;
+
+    gc.collect();
+    //pWillBeCollected->m_iData = 1; // Should trigger an access violation.
+
+    {
+        StackPtr<TestType> pSafeInstance = gc.create<TestType>(TestType::getMetaInfo());
+        pSafeInstance->m_iData = 42;
+
+        for(int i = 0; i < 10; ++i)
+        {
+            gc.collect();
+            CUT_ASSERT.isTrue(pSafeInstance->m_iData == 42);
+        }
+
+        pSafeInstance->m_iData = 1337;
+    }
+
+    gc.collect();
 }
