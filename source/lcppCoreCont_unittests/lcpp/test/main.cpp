@@ -160,10 +160,6 @@ static void shutdown()
     lcpp::shutdown();
 }
 
-void staticTests()
-{
-}
-
 int main(int argc, const char* argv[])
 {
     initialize();
