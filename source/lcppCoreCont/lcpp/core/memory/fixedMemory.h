@@ -125,6 +125,7 @@ namespace lcpp
         std::size_t getFreeMemorySize() const;
         std::size_t getEntireMemorySize() const;
         std::size_t getNumAllocations() const;
+        float getPercentageFilled() const;
 
         bool contains(byte_t* ptr) const;
 

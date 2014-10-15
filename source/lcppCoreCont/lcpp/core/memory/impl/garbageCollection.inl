@@ -44,7 +44,8 @@ namespace lcpp
 
     EZ_FORCE_INLINE
     GarbageCollector::CInfo::CInfo() :
-        m_uiNumInitialPages(0)
+        m_uiNumInitialPages(0),
+        m_fGrowingThreshold(0.66f)
     {
     }
 
@@ -71,6 +72,7 @@ namespace lcpp
 
         LCPP_LogBlock("GarbageCollector::create");
 
+        EZ_ASSERT(!m_pAllocator.isNull(), "Not initialized.");
         EZ_ASSERT(!isCollecting(), "Cannot create new objects while collecting!");
 
         T* pInstance = nullptr;

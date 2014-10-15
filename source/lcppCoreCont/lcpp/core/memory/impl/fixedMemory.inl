@@ -248,6 +248,14 @@ namespace lcpp
         memset(m_pBegin, pattern, getEntireMemorySize());
     }
 
+    EZ_FORCE_INLINE
+    float FixedMemory::getPercentageFilled() const
+    {
+        auto entireSize = double(getEntireMemorySize());
+        auto allocatedSize = double(getAllocatedMemorySize());
+        return float(allocatedSize / entireSize);
+    }
+
     //////////////////////////////////////////////////////////////////////////
 
     EZ_FORCE_INLINE

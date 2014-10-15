@@ -96,6 +96,7 @@ namespace lcpp
         public:
             Ptr<ezAllocatorBase> m_pParentAllocator;
             ezUInt32 m_uiNumInitialPages; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
+            float m_fGrowingThreshold; ///< Threshold of range [0.0f, 1.0f] at which to start growing the number of pages used.
 
         public:
             CInfo();
@@ -172,9 +173,11 @@ namespace lcpp
         mutable FixedMemory* m_pEdenSpace;
         mutable FixedMemory* m_pSurvivorSpace;
 
+        float m_fGrowingThreshold;
         ezUInt32 m_uiNumCurrentPages;
         ezUInt32 m_uiCurrentGeneration;
         byte_t* m_ScanPointer;
+        bool m_bGrowBeforeNextCollection;
     };
 
     namespace detail

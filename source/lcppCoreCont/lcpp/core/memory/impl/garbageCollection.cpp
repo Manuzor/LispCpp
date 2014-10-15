@@ -37,6 +37,9 @@ namespace lcpp
     {
         m_pAllocator = cinfo.m_pParentAllocator;
 
+        EZ_ASSERT(cinfo.m_fGrowingThreshold >= 0.0f && cinfo.m_fGrowingThreshold <= 1.0f, "Invalid growing threshold.");
+        m_fGrowingThreshold = cinfo.m_fGrowingThreshold;
+
         EZ_ASSERT(cinfo.m_uiNumInitialPages > 0, "Invalid initial number of pages");
         m_uiNumCurrentPages = cinfo.m_uiNumInitialPages;
 
@@ -81,12 +84,29 @@ namespace lcpp
         ++m_uiCurrentGeneration;
 
 #if EZ_ENABLED(LCPP_GC_AlwaysCreateNewSurvivor)
-        // Note: Survivor is already protected at this point.
+        if(m_bGrowBeforeNextCollection)
+        {
+            m_uiNumCurrentPages *= 2;
+            m_bGrowBeforeNextCollection = false;
+        }
         m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
 #else
-        // Prepare the survivor space for new allocations, discarding all garbage it contains.
-        m_pSurvivorSpace->reset();
+        if (m_bGrowBeforeNextCollection)
+        {
+            m_bGrowBeforeNextCollection = false;
+            m_uiNumCurrentPages *= 2;
+            m_pSurvivorSpace->free();
+            // Note: Survivor is already protected at this point.
+            m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
+        }
+        else
+        {
+            // Prepare the survivor space for new allocations, discarding all garbage it contains.
+            m_pSurvivorSpace->reset();
+        }
 #endif
+
+
         m_ScanPointer = m_pSurvivorSpace->getBeginning();
     }
 
@@ -116,6 +136,8 @@ namespace lcpp
 
         // Reset the scan pointer.
         m_ScanPointer = nullptr;
+
+        m_bGrowBeforeNextCollection = m_pEdenSpace->getPercentageFilled() > m_fGrowingThreshold;
     }
 
     void GarbageCollector::addRootsToSurvivorSpace()
