@@ -44,9 +44,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Nil);
 
-            static auto pString = str::create("()");
-
-            return pString;
+            return str::create("()");
         }
 
     }

@@ -31,7 +31,7 @@ lcpp::test::UnitTestNoInit::UnitTestNoInit(cut::UnitTestGroup& group)
     group.registerUnitTest(this);
 }
 
-lcpp::Ptr<LispObject> lcpp::test::readStream(Ptr<LispObject> pStream)
+lcpp::Ptr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream)
 {
     typeCheck(pStream, Type::Stream);
 
@@ -53,7 +53,7 @@ lcpp::Ptr<LispObject> lcpp::test::readString(const ezString& content)
     return readStream(pStream);
 }
 
-lcpp::Ptr<LispObject> lcpp::test::evalStream(Ptr<LispObject> pStream)
+lcpp::Ptr<LispObject> lcpp::test::evalStream(StackPtr<LispObject> pStream)
 {
     StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
     StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
@@ -74,7 +74,7 @@ lcpp::Ptr<LispObject> lcpp::test::evalString(const ezString& content)
     return evalStream(pStream);
 }
 
-Ptr<LispObject> lcpp::test::evalObject(Ptr<LispObject> pObject)
+Ptr<LispObject> lcpp::test::evalObject(StackPtr<LispObject> pObject)
 {
     StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
     StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);

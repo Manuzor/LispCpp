@@ -141,6 +141,7 @@ namespace lcpp
     void FixedMemory::protect()
     {
         DWORD oldProtect;
+        LCPP_InDebug( fill(0xbaadf00d); );
         bool result = VirtualProtect(m_pBegin, getEntireMemorySize(), PAGE_NOACCESS, &oldProtect) == 0 ? false : true;
         EZ_ASSERT(result, "VirtualProtect PAGE_NOACCESS failed.");
         LCPP_InDebug( m_state = State::Protected; );

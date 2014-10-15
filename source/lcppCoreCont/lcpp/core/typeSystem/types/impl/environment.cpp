@@ -71,6 +71,8 @@ namespace lcpp
 
             auto pInstance = object::create<Data>(getMetaInfo());
 
+            LCPP_GC_PreventCollectionInScope;
+
             auto& data = pInstance->getData<Data>();
 
             new (data.m_pName) Ptr<LispObject>(pName.get());

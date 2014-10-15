@@ -33,6 +33,7 @@ namespace lcpp
             //////////////////////////////////////////////////////////////////////////
 
             auto pInstance = pGarbageCollector->create<LispObjectProxy>(pMetaInfo);
+            EZ_ASSERT(pInstance->m_uiMemorySize == sizeof(LispObjectProxy), "");
 
             return pInstance.cast<LispObject>();
         }

@@ -29,7 +29,8 @@ namespace lcpp
     }
 
     GarbageCollector::GarbageCollector() :
-        m_pAllocator(nullptr)
+        m_pAllocator(nullptr),
+        m_uiNumCollectionPreventions(0)
     {
     }
 
@@ -105,13 +106,16 @@ namespace lcpp
             m_pSurvivorSpace->reset();
         }
 #endif
-
+        printf("Eden range:     0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pEdenSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pEdenSpace->getEnd()));
+        printf("Survivor range: 0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getEnd()));
 
         m_ScanPointer = m_pSurvivorSpace->getBeginning();
     }
 
     void GarbageCollector::collect()
     {
+        EZ_ASSERT(m_uiNumCollectionPreventions == 0, "Collection is not enabled at this point.");
+
         prepareCollectionCycle();
 
         // Make sure all roots stay alive
@@ -222,6 +226,7 @@ namespace lcpp
     CollectableBase* GarbageCollector::addSurvivor(CollectableBase* pSurvivor)
     {
         EZ_ASSERT(isCollecting(), "Can only add survivors while collecting!");
+        EZ_ASSERT(pSurvivor != nullptr, "nullptr not allowed as survivor!");
 
         if(!isEdenObject(pSurvivor))
             return pSurvivor; // It's not managed by this collector.

@@ -86,9 +86,12 @@ namespace lcpp
     using PatchablePointerArray_t = ezDynamicArray<CollectableBase**>;
     using ScanFunction_t = void(*)(CollectableBase*, GarbageCollectionContext*);
 
+    struct PreventCollection;
+
     class LCPP_API_CORE_CONT GarbageCollector : public GarbageCollectionContext
     {
         friend CollectableBase;
+        friend PreventCollection;
     public:
 
         class CInfo
@@ -178,6 +181,7 @@ namespace lcpp
         ezUInt32 m_uiCurrentGeneration;
         byte_t* m_ScanPointer;
         bool m_bGrowBeforeNextCollection;
+        ezUInt32 m_uiNumCollectionPreventions;
     };
 
     namespace detail
@@ -189,8 +193,19 @@ namespace lcpp
     // TODO This function should be removed! Every LispObject that is created
     // should be created in the current LispRuntimeState context.
     LCPP_API_CORE_CONT GarbageCollector* getGarbageCollector();
+
+    struct PreventCollection
+    {
+        PreventCollection()                      : m_pGC(getGarbageCollector())    { ++m_pGC->m_uiNumCollectionPreventions; }
+        PreventCollection(GarbageCollector* pGC) : m_pGC(pGC)                      { ++m_pGC->m_uiNumCollectionPreventions; }
+
+        ~PreventCollection()                                                       { --m_pGC->m_uiNumCollectionPreventions; m_pGC = nullptr; }
+
+        GarbageCollector* m_pGC;
+    };
 }
 
 #include "lcpp/core/memory/impl/garbageCollection.inl"
 
 #define LCPP_AssertObjectIsAlive(pCollectable) ::lcpp::detail::assertObjectIsAlive(pCollectable)
+#define LCPP_GC_PreventCollectionInScope ::lcpp::PreventCollection EZ_CONCAT(_PreventCollection_, EZ_SOURCE_LINE)

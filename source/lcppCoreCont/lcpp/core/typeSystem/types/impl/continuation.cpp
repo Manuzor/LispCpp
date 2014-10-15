@@ -15,7 +15,7 @@ namespace lcpp
 {
     namespace cont
     {
-        static void scan(lcpp::CollectableBase* pCollectable, lcpp::GarbageCollectionContext* pGC)
+        static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
         {
             auto pCont = static_cast<LispObject*>(pCollectable);
             typeCheck(pCont, Type::Continuation);
@@ -55,6 +55,8 @@ namespace lcpp
         Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState)
         {
             auto pInstance = object::create<Data>(getMetaInfo());
+
+            LCPP_GC_PreventCollectionInScope;
             auto& data = pInstance->getData<Data>();
 
             new (data.m_pRuntimeState) Ptr<LispRuntimeState>(pRuntimeState);
