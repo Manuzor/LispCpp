@@ -11,7 +11,7 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 
     };
 

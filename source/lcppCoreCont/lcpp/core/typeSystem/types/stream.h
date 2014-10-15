@@ -23,6 +23,6 @@ namespace lcpp
 
         LCPP_API_CORE_CONT ezUInt32 getPosition(Ptr<LispObject> pStream);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
     };
 }

@@ -33,7 +33,6 @@ namespace lcpp
             //////////////////////////////////////////////////////////////////////////
 
             auto pInstance = pGarbageCollector->create<LispObjectProxy>(pMetaInfo);
-            pInstance->m_data = &pInstance->m_userData;
 
             return pInstance.cast<LispObject>();
         }
@@ -49,7 +48,6 @@ namespace lcpp
             };
 
             auto pInstance = pGarbageCollector->createStatic<LispObjectProxy>(pMetaInfo);
-            pInstance->m_data = &pInstance->m_userData;
 
             return pInstance.cast<LispObject>();
         }

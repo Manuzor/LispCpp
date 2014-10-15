@@ -26,7 +26,7 @@ namespace lcpp
 
             // Note: Symbols are not garbage collected.
 
-            auto& pParent = pObject->getData<Data>().getParent().get();
+            LispObject*& pParent = pObject->getData<Data>().getParent().get();
             pParent = pGC->addSurvivor(pParent);
 
             auto& table = detail::getTable(pObject);

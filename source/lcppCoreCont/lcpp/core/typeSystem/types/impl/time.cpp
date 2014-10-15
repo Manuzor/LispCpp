@@ -66,7 +66,7 @@ namespace lcpp
             pTime->getData<Data>().setTime(ezTime::Now());
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pTime)
+        Ptr<LispObject> toString(StackPtr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
 

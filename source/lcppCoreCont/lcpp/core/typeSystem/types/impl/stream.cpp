@@ -95,7 +95,7 @@ namespace lcpp
             return ezUInt32(position);
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             auto theString = ezStringBuilder();
             theString.Append("<stream at ");
@@ -111,7 +111,7 @@ namespace lcpp
 
                 theString.AppendFormat("%u: \"%s\"", position, currentData);
             }
-            
+
             theString.Append('>');
             return str::create(theString);
         }

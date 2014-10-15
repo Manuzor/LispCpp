@@ -31,9 +31,9 @@ namespace lcpp
         LCPP_API_CORE_CONT bool isNameable(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT bool isEnvironmentContainer(Ptr<LispObject> pObject);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT Ptr<LispObject> call(StackPtr<LispObject> pCont);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 
         LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName);

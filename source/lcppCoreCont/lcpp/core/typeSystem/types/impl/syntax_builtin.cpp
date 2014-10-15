@@ -55,7 +55,7 @@ namespace lcpp
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            Ptr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -154,7 +154,7 @@ namespace lcpp
                 return pSyntax->getData<Data>().getFunction();
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            Ptr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Syntax);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);

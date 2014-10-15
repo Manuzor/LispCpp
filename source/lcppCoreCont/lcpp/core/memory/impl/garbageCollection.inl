@@ -172,6 +172,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     void GarbageCollector::addRoot(T*& pCollectable)
     {
+        EZ_ASSERT(pCollectable != nullptr, "Cannot register nullptr as root!");
         auto ppCollectable = (CollectableBase**)&pCollectable;
         m_roots.PushBack(ppCollectable);
     }

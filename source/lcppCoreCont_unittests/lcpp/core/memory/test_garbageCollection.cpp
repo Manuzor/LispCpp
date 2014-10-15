@@ -177,7 +177,7 @@ LCPP_TestCaseNoInit(GarbageCollection, Basics)
     pWillBeCollected->m_iData = 1337;
 
     gc.collect();
-    //pWillBeCollected->m_iData = 1; // Should trigger an access violation.
+    // pWillBeCollected->m_iData = 1; // Should trigger an access violation.
 
     {
         StackPtr<TestType> pSafeInstance = gc.create<TestType>(TestType::getMetaInfo());

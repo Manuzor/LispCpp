@@ -35,7 +35,7 @@ namespace lcpp
         LCPP_API_CORE_CONT BindingLocation existsBinding(Ptr<LispObject> pEnv,
                                                          Ptr<LispObject> pSymbol);
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 
         namespace detail
         {

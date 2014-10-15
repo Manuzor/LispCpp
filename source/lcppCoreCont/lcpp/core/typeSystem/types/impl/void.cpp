@@ -40,7 +40,7 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Void);
 

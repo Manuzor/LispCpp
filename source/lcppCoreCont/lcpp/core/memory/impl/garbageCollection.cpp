@@ -210,7 +210,9 @@ namespace lcpp
         byte_t* ptr;
         auto result = m_pSurvivorSpace->allocate(ptr, pSurvivor->m_uiMemorySize);
         if (!result.succeeded())
+        {
             return nullptr;
+        }
 
         memcpy(ptr, pSurvivor, pSurvivor->m_uiMemorySize);
         auto pResult = reinterpret_cast<CollectableBase*>(ptr);

@@ -43,17 +43,17 @@ namespace lcpp
                 return &meta;
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
+            Ptr<LispObject> create(StackPtr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
             {
                 LCPP_LogBlock("lambda::builtin::create");
 
                 typeCheck(pParentEnv, Type::Environment);
 
-                auto pInstance = object::create<Data>(getMetaInfo());
-                auto& data = pInstance->getData<Data>();
+                StackPtr<LispObject> pInstance = object::create<Data>(getMetaInfo());
 
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
 
+                auto& data = pInstance->getData<Data>();
                 data.m_signature = signature;
                 new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
                 new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
@@ -62,7 +62,7 @@ namespace lcpp
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            Ptr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -93,7 +93,7 @@ namespace lcpp
                 LCPP_cont_jump(pContCall);
             }
 
-            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::call_finalize(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont);
@@ -191,7 +191,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getFunction();
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            Ptr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Lambda);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);

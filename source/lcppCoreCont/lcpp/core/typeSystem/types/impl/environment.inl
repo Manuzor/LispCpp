@@ -4,7 +4,7 @@ namespace lcpp
     namespace env
     {
         EZ_FORCE_INLINE
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             return getQualifiedName(pObject);
         }

@@ -74,7 +74,7 @@ namespace lcpp
             return getAttributes(pObject).isEnvironmentContainer();
         }
 
-        Ptr<LispObject> call(Ptr<LispObject> pCont)
+        Ptr<LispObject> call(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
@@ -96,7 +96,7 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 

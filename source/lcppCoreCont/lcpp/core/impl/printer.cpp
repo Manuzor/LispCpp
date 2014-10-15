@@ -17,7 +17,7 @@ namespace lcpp
     namespace printer
     {
 
-        Ptr<LispObject> print(Ptr<LispObject> pCont)
+        Ptr<LispObject> print(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
             auto pStack = cont::getStack(pCont);
@@ -47,7 +47,7 @@ namespace lcpp
             LCPP_cont_tailCall(pCont);
         }
 
-        Ptr<LispObject> lineBreak(Ptr<LispObject> pCont)
+        Ptr<LispObject> lineBreak(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
             auto pState = cont::getRuntimeState(pCont);

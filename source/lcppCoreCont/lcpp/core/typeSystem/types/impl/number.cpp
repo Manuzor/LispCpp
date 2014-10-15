@@ -82,7 +82,7 @@ namespace lcpp
             return pObject->getData<Float_t>();
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 

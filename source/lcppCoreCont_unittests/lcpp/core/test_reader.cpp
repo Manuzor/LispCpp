@@ -273,10 +273,10 @@ LCPP_TestCase(Reader, Quote)
 
 namespace lcpp
 {
-    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont);
-    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont);
+    static Ptr<LispObject> testCharacterMacro_finalize(StackPtr<LispObject> pCont);
+    static Ptr<LispObject> testCharacterMacro(StackPtr<LispObject> pCont);
 
-    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont)
+    static Ptr<LispObject> testCharacterMacro(StackPtr<LispObject> pCont)
     {
         typeCheck(pCont, Type::Continuation);
 
@@ -291,7 +291,7 @@ namespace lcpp
         LCPP_cont_call(pCont, &reader::read, pStream);
     }
 
-    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont)
+    static Ptr<LispObject> testCharacterMacro_finalize(StackPtr<LispObject> pCont)
     {
         LCPP_cont_return(pCont, number::create(1337));
     }

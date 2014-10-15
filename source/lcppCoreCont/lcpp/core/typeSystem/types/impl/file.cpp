@@ -114,7 +114,7 @@ namespace lcpp
             pFile->getData<Data>().setFileName(pFileName);
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pFile)
+        Ptr<LispObject> toString(StackPtr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
 

@@ -175,8 +175,8 @@ int main(int argc, const char* argv[])
 
     testManager.run("StackPtr", "Basics");
     testManager.run("GarbageCollection", "Basics");
-    //testManager.run("Object", "AllTypes");
-    //testManager.runAll();
+    testManager.run("Object", "AllTypes");
+    testManager.runAll();
 
     testManager.printStatistics();
 

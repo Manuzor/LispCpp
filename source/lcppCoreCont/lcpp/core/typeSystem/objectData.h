@@ -10,9 +10,6 @@ namespace lcpp
 
         template<typename T_Data>
         T_Data& getData();
-
-        /// \brief Do not use this member directly!
-        void* m_data;
     };
 }
 

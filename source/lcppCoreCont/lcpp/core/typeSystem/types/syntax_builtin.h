@@ -19,7 +19,7 @@ namespace lcpp
 
             Ptr<LispObject> create(Function_t pFunction);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> call(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> call(StackPtr<LispObject> pCont);
             LCPP_API_CORE_CONT void checkArguments(Ptr<LispObject> pSyntax, Ptr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<Signature> getSignature(Ptr<LispObject> pSyntax);
@@ -30,7 +30,7 @@ namespace lcpp
 
             LCPP_API_CORE_CONT Function_t getFunction(Ptr<LispObject> pSyntax);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+            LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
         }
     }
 }

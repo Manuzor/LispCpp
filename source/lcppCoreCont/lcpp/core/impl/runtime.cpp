@@ -83,6 +83,10 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
+    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
+    m_pGC->removeRoot(m_pGlobalEnvironment.get());
+    m_pGC->removeRoot(m_pSyntaxEnvironment.get());
+
     LCPP_DELETE(m_pAllocator, m_pPrinterState->m_pOutStream);
     LCPP_DELETE(m_pAllocator, m_pPrinterState);
     LCPP_DELETE(m_pAllocator, m_pReaderState);

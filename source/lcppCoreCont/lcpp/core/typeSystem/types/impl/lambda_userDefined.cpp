@@ -44,7 +44,7 @@ namespace lcpp
                 return &meta;
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv, Ptr<LispObject> pArgList, Ptr<LispObject> pBodyList)
+            Ptr<LispObject> create(StackPtr<LispObject> pParentEnv, StackPtr<LispObject> pArgList, StackPtr<LispObject> pBodyList)
             {
                 LCPP_LogBlock("lambda::userDefined::create");
 
@@ -76,7 +76,7 @@ namespace lcpp
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            Ptr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -101,7 +101,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::call_updateEnv);
             }
 
-            Ptr<LispObject> detail::call_updateEnv(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::call_updateEnv(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -138,7 +138,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &call_updateEnv);
             }
 
-            Ptr<LispObject> detail::call_evalBody(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::call_evalBody(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -156,7 +156,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pBody);
             }
 
-            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::call_finalize(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -213,7 +213,7 @@ namespace lcpp
                 return pLambda->getData<Data>().getBody();
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            Ptr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Lambda);
                 attributeCheckNone(pObject, AttributeFlags::Builtin);

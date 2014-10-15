@@ -105,12 +105,13 @@ namespace lcpp
 
         return Success;
     }
-    
+
     EZ_FORCE_INLINE
     void FixedMemory::initialize(size_t uiNumPages)
     {
         const size_t uiMemorySize = uiNumPages * GarbageCollectorPageSize;
         m_pBegin = (byte_t*)VirtualAlloc(nullptr, uiMemorySize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+        EZ_ASSERT(m_pBegin != nullptr, "");
         m_pEnd = m_pBegin + uiMemorySize;
         internalReset();
 
@@ -127,7 +128,7 @@ namespace lcpp
 
         LCPP_InDebug( fill(0xcfcfcfcf); );
     }
-    
+
     EZ_FORCE_INLINE
     void FixedMemory::internalReset()
     {
@@ -144,7 +145,7 @@ namespace lcpp
         EZ_ASSERT(result, "VirtualProtect PAGE_NOACCESS failed.");
         LCPP_InDebug( m_state = State::Protected; );
     }
-    
+
     EZ_FORCE_INLINE
     void FixedMemory::removeProtection()
     {
@@ -228,7 +229,7 @@ namespace lcpp
     {
         return m_pEnd - m_pAllocationPointer;
     }
-    
+
     EZ_FORCE_INLINE
     std::size_t FixedMemory::getNumAllocations() const
     {

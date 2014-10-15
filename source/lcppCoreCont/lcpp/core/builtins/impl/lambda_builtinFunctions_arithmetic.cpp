@@ -39,7 +39,7 @@ namespace lcpp
     {
         namespace builtin
         {
-            Ptr<LispObject> add(Ptr<LispObject> pCont)
+            Ptr<LispObject> add(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -54,12 +54,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::add_helper);
             }
 
-            Ptr<LispObject> detail::add_helper(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::add_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineArithmeticFunctionHelperContent(number::add);
             }
 
-            Ptr<LispObject> subtract(Ptr<LispObject> pCont)
+            Ptr<LispObject> subtract(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -75,12 +75,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::subtract_helper);
             }
 
-            Ptr<LispObject> detail::subtract_helper(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::subtract_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineArithmeticFunctionHelperContent(number::subtract);
             }
 
-            Ptr<LispObject> multiply(Ptr<LispObject> pCont)
+            Ptr<LispObject> multiply(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -95,12 +95,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::multiply_helper);
             }
 
-            Ptr<LispObject> detail::multiply_helper(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::multiply_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineArithmeticFunctionHelperContent(number::multiply);
             }
 
-            Ptr<LispObject> divide(Ptr<LispObject> pCont)
+            Ptr<LispObject> divide(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
@@ -123,12 +123,12 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &detail::divide_helper);
             }
 
-            Ptr<LispObject> detail::divide_helper(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::divide_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_lambda_builtinFunctions_defineArithmeticFunctionHelperContent(number::divide);
             }
 
-            Ptr<LispObject> modulo(Ptr<LispObject> pCont)
+            Ptr<LispObject> modulo(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);

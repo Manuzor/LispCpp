@@ -60,7 +60,7 @@ namespace lcpp
             return pObject->getData<Data>().getValue();
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Symbol);
 

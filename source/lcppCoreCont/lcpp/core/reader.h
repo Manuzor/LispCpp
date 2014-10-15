@@ -11,7 +11,7 @@ namespace lcpp
         /// \remark Continuation function.
         /// Expects the following arguments:
         /// [0]: stream from which to read from.
-        LCPP_API_CORE_CONT Ptr<LispObject> read(Ptr<LispObject> pCont);
+        LCPP_API_CORE_CONT Ptr<LispObject> read(StackPtr<LispObject> pCont);
 
         /// \brief Defines a new character macro.
         /// \a pCharacter must be a symbol object which only has 1 character.
@@ -22,17 +22,17 @@ namespace lcpp
 
         namespace detail
         {
-            LCPP_API_CORE_CONT Ptr<LispObject> readAtom(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT Ptr<LispObject> readString(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readAtom(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readString(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> readList(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT Ptr<LispObject> readList_helper(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT Ptr<LispObject> readList_parsedCar(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT Ptr<LispObject> readList_finalize(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList_helper(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList_parsedCar(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readList_finalize(StackPtr<LispObject> pCont);
 
             //////////////////////////////////////////////////////////////////////////
-            
+
             LCPP_API_CORE_CONT ezUInt32 skipSeparators(Ptr<State> pState, Ptr<LispObject> pStream);
             LCPP_API_CORE_CONT ezUInt32 skipToFirstNewLine(Ptr<State> pState, Ptr<LispObject> pStream);
 
