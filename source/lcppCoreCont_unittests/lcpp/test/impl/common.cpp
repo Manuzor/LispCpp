@@ -35,10 +35,10 @@ lcpp::Ptr<LispObject> lcpp::test::readStream(Ptr<LispObject> pStream)
 {
     typeCheck(pStream, Type::Stream);
 
-    auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
     auto pMainStack = cont::getStack(pContMain);
 
-    auto pContRead = cont::create(pContMain, &reader::read);
+    StackPtr<LispObject> pContRead = cont::create(pContMain, &reader::read);
     cont::getStack(pContRead)->push(pStream);
 
     cont::trampoline(pContRead);
@@ -48,18 +48,18 @@ lcpp::Ptr<LispObject> lcpp::test::readStream(Ptr<LispObject> pStream)
 
 lcpp::Ptr<LispObject> lcpp::test::readString(const ezString& content)
 {
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
     return readStream(pStream);
 }
 
 lcpp::Ptr<LispObject> lcpp::test::evalStream(Ptr<LispObject> pStream)
 {
-    auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-    auto pContEval = cont::create(pContMain, &eval::evaluate);
+    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
     cont::getStack(pContEval)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
 
-    auto pContRead = cont::create(pContEval, &reader::read);
+    StackPtr<LispObject> pContRead = cont::create(pContEval, &reader::read);
     cont::getStack(pContRead)->push(pStream);
 
     cont::trampoline(pContRead);
@@ -69,15 +69,15 @@ lcpp::Ptr<LispObject> lcpp::test::evalStream(Ptr<LispObject> pStream)
 
 lcpp::Ptr<LispObject> lcpp::test::evalString(const ezString& content)
 {
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
     return evalStream(pStream);
 }
 
 Ptr<LispObject> lcpp::test::evalObject(Ptr<LispObject> pObject)
 {
-    auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-    auto pContEval = cont::create(pContMain, &eval::evaluate);
+    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
     auto pStackEval = cont::getStack(pContEval);
     pStackEval->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
     pStackEval->push(pObject);

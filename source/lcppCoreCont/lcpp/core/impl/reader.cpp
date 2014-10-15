@@ -24,17 +24,20 @@ namespace lcpp
 {
     namespace reader
     {
+        static Ptr<reader::State> getReaderState(Ptr<LispObject> pCont)
+        {
+            return cont::getRuntimeState(pCont)->getReaderState();
+        }
 
         Ptr<LispObject> read(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
-            auto pState = cont::getRuntimeState(pCont)->getReaderState();
 
             auto pStack = cont::getStack(pCont);
-            auto pStream = pStack->get(0);
+            auto& pStream = pStack->get(0);
             typeCheck(pStream, Type::Stream);
 
-            detail::skipSeparators(pState, pStream);
+            detail::skipSeparators(getReaderState(pCont), pStream);
 
             if (!stream::isValid(pStream))
             {
@@ -44,10 +47,10 @@ namespace lcpp
             StackPtr<LispObject> pCharacter = symbol::create(stream::getCharacter(pStream));
             auto pCharacterHandler = LCPP_pNil;
 
-            if(env::getBinding(pState->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
+            if(env::getBinding(getReaderState(pCont)->m_pMacroEnv, pCharacter, pCharacterHandler).Succeeded())
             {
                 pStack->clear();
-                pStack->push(pState->m_pMacroEnv);
+                pStack->push(getReaderState(pCont)->m_pMacroEnv);
                 pStack->push(pStream);
                 pStack->push(pCharacterHandler);
                 LCPP_cont_tailCall(pCont, &object::call);

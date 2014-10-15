@@ -15,6 +15,22 @@ namespace lcpp
 {
     namespace cont
     {
+        static void scan(lcpp::CollectableBase* pCollectable, lcpp::GarbageCollectionContext* pGC)
+        {
+            auto pCont = static_cast<LispObject*>(pCollectable);
+            typeCheck(pCont, Type::Continuation);
+
+            auto& pParent = pCont->getData<Data>().getParent().get();
+            pParent = pGC->addSurvivor(pParent);
+
+            auto& stack = pCont->getData<Data>().getStack();
+            for(size_t i = 0; i < stack.size(); i++)
+            {
+                auto& pToPatch = stack.get(i).get();
+                pToPatch = pGC->addSurvivor(pToPatch);
+            }
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -22,6 +38,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Continuation);
                 meta.setPrettyName("continuation");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.
