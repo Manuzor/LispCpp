@@ -9,20 +9,9 @@ namespace lcpp
         class Data
         {
         public:
-
-            Ptr<LispObject>& getName();
-            Ptr<LispObject>& getParent();
-            HashTable& getTable();
-
-        public:
-
-            LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
-
-            LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pParent);
-
+            Ptr<LispObject> m_pName;
+            Ptr<LispObject> m_pParent;
             HashTable m_table;
         };
     };
 }
-
-#include "lcpp/core/typeSystem/types/impl/environmentData.inl"

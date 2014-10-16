@@ -22,12 +22,12 @@ namespace lcpp
             typeCheck(pObject, Type::Cons);
 
             {
-                auto pCar = pObject->getData<Data>().getCar().get();
+                auto pCar = pObject->getData<Data>().m_pCar.get();
                 pCar = pGC->addSurvivor(pCar);
             }
 
             {
-                auto pCdr = pObject->getData<Data>().getCar().get();
+                auto pCdr = pObject->getData<Data>().m_pCdr.get();
                 pCdr = pGC->addSurvivor(pCdr);
             }
         }
@@ -56,8 +56,8 @@ namespace lcpp
             LCPP_GC_PreventCollectionInScope;
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_pCar) Ptr<LispObject>(pCar);
-            new (data.m_pCdr) Ptr<LispObject>(pCdr);
+            data.m_pCar = pCar;
+            data.m_pCdr = pCdr;
 
             return pInstance;
         }
@@ -67,14 +67,14 @@ namespace lcpp
         {
             typeCheck(pCons, Type::Cons);
 
-            return pCons->getData<Data>().getCar();
+            return pCons->getData<Data>().m_pCar;
         }
 
         Ptr<LispObject> getCdr(Ptr<LispObject> pCons)
         {
             typeCheck(pCons, Type::Cons);
 
-            return pCons->getData<Data>().getCdr();
+            return pCons->getData<Data>().m_pCdr;
         }
 
         ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack)

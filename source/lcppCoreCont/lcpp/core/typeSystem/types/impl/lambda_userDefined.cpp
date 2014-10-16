@@ -60,10 +60,10 @@ namespace lcpp
 
                 pBodyList = cons::create(pBegin, pBodyList);
 
-                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
-                new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
-                new (data.m_pArgList) Ptr<LispObject>(pArgList);
-                new (data.m_pBody) Ptr<LispObject>(pBodyList);
+                data.m_pName = LCPP_pNil;
+                data.m_pEnv = pLocalEnv;
+                data.m_pArgList = pArgList.get();
+                data.m_pBody = pBodyList.get();
 
                 while(!isNil(pArgList))
                 {
@@ -172,7 +172,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getName();
+                return pLambda->getData<Data>().m_pName;
             }
 
             void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
@@ -181,7 +181,7 @@ namespace lcpp
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pLambda->getData<Data>().setName(pNewName);
+                pLambda->getData<Data>().m_pName = pNewName;
             }
 
             bool hasName(Ptr<LispObject> pLambda)
@@ -194,7 +194,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getEnv();
+                return pLambda->getData<Data>().m_pEnv;
             }
 
             Ptr<LispObject> getArgList(Ptr<LispObject> pLambda)
@@ -202,7 +202,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getArgList();
+                return pLambda->getData<Data>().m_pArgList;
             }
 
             Ptr<LispObject> getBody(Ptr<LispObject> pLambda)
@@ -210,7 +210,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getBody();
+                return pLambda->getData<Data>().m_pBody;
             }
 
             Ptr<LispObject> toString(StackPtr<LispObject> pObject)

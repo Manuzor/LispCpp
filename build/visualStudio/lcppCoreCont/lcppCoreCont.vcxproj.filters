@@ -469,43 +469,13 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\time.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\timeData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\fileData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\consData.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuationData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environmentCommon.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environmentData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambdaData_builtin.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\streamData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stringData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbolData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntaxData_builtin.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambdaData_userDefined.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl">

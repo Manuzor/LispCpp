@@ -8,14 +8,7 @@ namespace lcpp
         class Data
         {
         public:
-
-            ezStringIterator& getIterator();
-
-        public:
-
-            LCPP_DeclareRawDataMember(ezStringIterator, m_iterator);
+            ezStringIterator m_stringView;
         };
     };
 }
-
-#include "lcpp/core/typeSystem/types/impl/streamData.inl"

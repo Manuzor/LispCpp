@@ -48,7 +48,7 @@ namespace lcpp
         {
             auto pInstance = object::createStatic<Data>(getGarbageCollector(), getMetaInfo());
 
-            new (pInstance->getData<Data>().m_pRawData) String(value);
+            pInstance->getData<Data>().m_string = value;
 
             return pInstance;
         }
@@ -57,7 +57,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Symbol);
 
-            return pObject->getData<Data>().getValue();
+            return pObject->getData<Data>().m_string;
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)

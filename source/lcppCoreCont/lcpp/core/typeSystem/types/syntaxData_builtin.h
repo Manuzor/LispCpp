@@ -15,23 +15,10 @@ namespace lcpp
             class Data
             {
             public:
-
-                Ptr<Signature> getSignature();
-
-                Ptr<LispObject> getName();
-                void setName(Ptr<LispObject> pNewName);
-
-                Function_t getFunction();
-
-            public:
-
                 Signature m_signature;
-                LCPP_DeclareRawDataMember(Ptr<LispObject>, m_pName);
+                Ptr<LispObject> m_pName;
                 Function_t m_pFunction;
-
             };
         }
     }
 }
-
-#include "lcpp/core/typeSystem/types/impl/syntaxData_builtin.inl"

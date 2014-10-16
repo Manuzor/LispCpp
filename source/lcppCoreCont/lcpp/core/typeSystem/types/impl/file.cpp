@@ -40,8 +40,7 @@ namespace lcpp
 
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_pFileName) Ptr<LispObject>(LCPP_pNil);
-            new (data.m_file) ezOSFile();
+            data.m_pFileName = LCPP_pNil;
 
             return pInstance;
         }
@@ -50,8 +49,8 @@ namespace lcpp
         {
             typeCheck(pFile, Type::File);
 
-            pFile->getData<Data>().setFileName(pStringFileName);
-            auto& wrappedFile = pFile->getData<Data>().getFile();
+            pFile->getData<Data>().m_pFileName = pStringFileName;
+            auto& wrappedFile = pFile->getData<Data>().m_file;
             if(wrappedFile.IsOpen())
             {
                 wrappedFile.Close();
@@ -88,7 +87,7 @@ namespace lcpp
         {
             typeCheck(pFile, Type::File);
 
-            auto& wrappedFile = pFile->getData<Data>().getFile();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
 
             return wrappedFile.IsOpen() ? LCPP_pTrue : LCPP_pFalse;
         }
@@ -97,7 +96,7 @@ namespace lcpp
         {
             typeCheck(pFile, Type::File);
 
-            auto& wrappedFile = pFile->getData<Data>().getFile();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
             wrappedFile.Close();
 
         }
@@ -105,13 +104,13 @@ namespace lcpp
         Ptr<LispObject> getFileName(Ptr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
-            return pFile->getData<Data>().getFileName();
+            return pFile->getData<Data>().m_pFileName;
         }
 
         void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName)
         {
             typeCheck(pFile, Type::File);
-            pFile->getData<Data>().setFileName(pFileName);
+            pFile->getData<Data>().m_pFileName = pFileName;
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pFile)
@@ -120,8 +119,8 @@ namespace lcpp
 
             auto output = ezStringBuilder();
 
-            auto& wrappedFile = pFile->getData<Data>().getFile();
-            auto pFileName = pFile->getData<Data>().getFileName();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
+            auto pFileName = pFile->getData<Data>().m_pFileName;
 
             if (wrappedFile.IsOpen())
             {

@@ -26,7 +26,7 @@ namespace lcpp
 
             // Note: Symbols are not garbage collected.
 
-            auto& pParent = pObject->getData<Data>().getParent().get();
+            auto& pParent = pObject->getData<Data>().m_pParent.get();
             pParent = pGC->addSurvivor(pParent);
 
             auto& table = detail::getTable(pObject);
@@ -42,7 +42,7 @@ namespace lcpp
             Ptr<LispObject> pObject(static_cast<LispObject*>(pCollectable));
             typeCheck(pObject, Type::Environment);
 
-            auto& table = pObject->getData<Data>().getTable();
+            auto& table = pObject->getData<Data>().m_table;
             table.~HashTable();
         }
 
@@ -75,8 +75,8 @@ namespace lcpp
 
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_pName) Ptr<LispObject>(pName.get());
-            new (data.m_pParent) Ptr<LispObject>(pParent);
+            data.m_pName = pName.get();
+            data.m_pParent = pParent.get();
 
             return pInstance;
         }
@@ -97,7 +97,7 @@ namespace lcpp
         {
             typeCheck(pEnv, Type::Environment);
 
-            return pEnv->getData<Data>().getName();
+            return pEnv->getData<Data>().m_pName;
         }
 
         Ptr<LispObject> getQualifiedName(Ptr<LispObject> pEnv)
@@ -124,7 +124,7 @@ namespace lcpp
         {
             typeCheck(pEnv, Type::Environment);
 
-            return pEnv->getData<Data>().getParent();
+            return pEnv->getData<Data>().m_pParent;
         }
 
         void addBinding(Ptr<LispObject> pEnv,
@@ -221,7 +221,7 @@ namespace lcpp
         {
             HashTable& getTable(Ptr<LispObject> pEnv)
             {
-                return pEnv->getData<Data>().getTable();
+                return pEnv->getData<Data>().m_table;
             }
         }
     }

@@ -55,8 +55,8 @@ namespace lcpp
 
                 auto& data = pInstance->getData<Data>();
                 data.m_signature = signature;
-                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
-                new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
+                data.m_pName = LCPP_pNil;
+                data.m_pEnv = pLocalEnv;
                 data.m_pFunction = pFunction;
 
                 return pInstance;
@@ -150,7 +150,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Lambda);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->getData<Data>().getSignature();
+                return &pSyntax->getData<Data>().m_signature;
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)
@@ -158,7 +158,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getName();
+                return pLambda->getData<Data>().m_pName;
             }
 
             void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
@@ -167,7 +167,7 @@ namespace lcpp
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pLambda->getData<Data>().setName(pNewName);
+                pLambda->getData<Data>().m_pName = pNewName;
             }
 
             bool hasName(Ptr<LispObject> pLambda)
@@ -180,7 +180,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getEnv();
+                return pLambda->getData<Data>().m_pEnv;
             }
 
             Function_t getFunction(Ptr<LispObject> pLambda)
@@ -188,7 +188,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->getData<Data>().getFunction();
+                return pLambda->getData<Data>().m_pFunction;
             }
 
             Ptr<LispObject> toString(StackPtr<LispObject> pObject)

@@ -20,10 +20,10 @@ namespace lcpp
             auto pCont = static_cast<LispObject*>(pCollectable);
             typeCheck(pCont, Type::Continuation);
 
-            auto& pParent = pCont->getData<Data>().getParent().get();
+            auto& pParent = pCont->getData<Data>().m_pParent.get();
             pParent = pGC->addSurvivor(pParent);
 
-            auto& stack = pCont->getData<Data>().getStack();
+            auto& stack = pCont->getData<Data>().m_stack;
             for(size_t i = 0; i < stack.size(); i++)
             {
                 auto& pToPatch = stack.get(i).get();
@@ -59,10 +59,9 @@ namespace lcpp
             LCPP_GC_PreventCollectionInScope;
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_pRuntimeState) Ptr<LispRuntimeState>(pRuntimeState);
-            new (data.m_pParent) Ptr<LispObject>(LCPP_pNil);
+            data.m_pRuntimeState = pRuntimeState;
+            data.m_pParent = LCPP_pNil;
             data.m_pFunction = &breakTrampoline;
-            new (data.m_stack) Stack();
 
             return pInstance;
         }
@@ -76,11 +75,10 @@ namespace lcpp
             auto pInstance = object::create<Data>(getMetaInfo());
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_pRuntimeState) Ptr<LispRuntimeState>(getRuntimeState(pParent));
-            new (data.m_pParent) Ptr<LispObject>(pParent);
+            data.m_pRuntimeState = getRuntimeState(pParent);
+            data.m_pParent = pParent.get();
             data.m_pFunction = pFunction;
-            new (data.m_stack) Stack();
-            data.m_userData = UserData_t();
+            data.m_userData = 0;
 
             return pInstance;
         }
@@ -109,49 +107,49 @@ namespace lcpp
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->getData<Data>().getRuntimeState();
+            return pCont->getData<Data>().m_pRuntimeState;
         }
 
         Ptr<LispObject> getParent(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->getData<Data>().getParent();
+            return pCont->getData<Data>().m_pParent;
         }
 
         Function_t getFunction(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->getData<Data>().getFunction();
+            return pCont->getData<Data>().m_pFunction;
         }
 
         void setFunction(StackPtr<LispObject> pCont, Function_t pFunction)
         {
             typeCheck(pCont, Type::Continuation);
 
-            pCont->getData<Data>().setFunction(pFunction);
+            pCont->getData<Data>().m_pFunction = pFunction;
         }
 
         Ptr<Stack> getStack(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return &pCont->getData<Data>().getStack();
+            return &pCont->getData<Data>().m_stack;
         }
 
         UserData_t& getUserData(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
-            return pCont->getData<Data>().getUserData();
+            return pCont->getData<Data>().m_userData;
         }
 
         void setUserData(StackPtr<LispObject> pCont, UserData_t userData)
         {
             typeCheck(pCont, Type::Continuation);
 
-            pCont->getData<Data>().getUserData() = userData;
+            pCont->getData<Data>().m_userData = userData;
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)

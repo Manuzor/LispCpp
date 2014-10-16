@@ -49,7 +49,7 @@ namespace lcpp
                 auto& data = pInstance->getData<Data>();
 
                 data.m_signature = signature;
-                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
+                data.m_pName = LCPP_pNil;
                 data.m_pFunction = pFunction;
 
                 return pInstance;
@@ -121,7 +121,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->getData<Data>().getSignature();
+                return &pSyntax->getData<Data>().m_signature;
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pSyntax)
@@ -129,7 +129,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->getData<Data>().getName();
+                return pSyntax->getData<Data>().m_pName;
             }
 
             void setName(Ptr<LispObject> pSyntax, Ptr<LispObject> pNewName)
@@ -138,7 +138,7 @@ namespace lcpp
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pSyntax->getData<Data>().setName(pNewName);
+                pSyntax->getData<Data>().m_pName = pNewName;
             }
 
             bool hasName(Ptr<LispObject> pSyntax)
@@ -151,7 +151,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->getData<Data>().getFunction();
+                return pSyntax->getData<Data>().m_pFunction;
             }
 
             Ptr<LispObject> toString(StackPtr<LispObject> pObject)

@@ -34,36 +34,32 @@ namespace lcpp
 
             auto pInstance = object::create<Data>(getMetaInfo());
 
-            auto& data = pInstance->getData<Data>();
-
-            new (data.m_time) ezTime();
-
             return pInstance;
         }
 
         Ptr<LispObject> create(const ezTime& theTime)
         {
             auto pInstance = create();
-            pInstance->getData<Data>().setTime(theTime);
+            pInstance->getData<Data>().m_time = theTime;
             return pInstance;
         }
 
         ezTime& getTime(Ptr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
-            return pTime->getData<Data>().getTime();
+            return pTime->getData<Data>().m_time;
         }
 
         void setTime(Ptr<LispObject> pTime, const ezTime& theTime)
         {
             typeCheck(pTime, Type::Time);
-            pTime->getData<Data>().setTime(theTime);
+            pTime->getData<Data>().m_time = theTime;
         }
 
         void setNow(Ptr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
-            pTime->getData<Data>().setTime(ezTime::Now());
+            pTime->getData<Data>().m_time = ezTime::Now();
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pTime)
@@ -71,7 +67,7 @@ namespace lcpp
             typeCheck(pTime, Type::Time);
 
             auto stringRepresentation = ezStringBuilder();
-            stringRepresentation.Format("%fms", pTime->getData<Data>().getTime().GetMilliseconds());
+            stringRepresentation.Format("%fms", pTime->getData<Data>().m_time.GetMilliseconds());
 
             return str::create(stringRepresentation.GetData());
         }
