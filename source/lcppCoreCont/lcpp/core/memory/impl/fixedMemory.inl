@@ -246,7 +246,7 @@ namespace lcpp
     EZ_FORCE_INLINE
     void FixedMemory::fill(int pattern)
     {
-        memset(m_pBegin, pattern, getEntireMemorySize());
+        //memset(m_pBegin, pattern, getEntireMemorySize());
     }
 
     EZ_FORCE_INLINE

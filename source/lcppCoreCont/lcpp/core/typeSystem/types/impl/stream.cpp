@@ -36,7 +36,7 @@ namespace lcpp
 
             auto& data = pInstance->getData<Data>();
 
-            new (data.m_iterator) ezStringIterator(iterator);
+            data.m_stringView = iterator;
 
             return pInstance;
         }
@@ -45,21 +45,21 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            return pStream->getData<Data>().getIterator();
+            return pStream->getData<Data>().m_stringView;
         }
 
         void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter)
         {
             typeCheck(pStream, Type::Stream);
 
-            pStream->getData<Data>().getIterator() = iter;
+            pStream->getData<Data>().m_stringView = iter;
         }
 
         ezUInt32 getCharacter(Ptr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->getData<Data>().getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
             return iterator.GetCharacter();
         }
 
@@ -67,7 +67,7 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->getData<Data>().getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
             return iterator.IsValid();
         }
 
@@ -75,7 +75,7 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->getData<Data>().getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
             ++iterator;
             return iterator.GetCharacter();
         }
@@ -84,7 +84,7 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->getData<Data>().getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
 
             if(!iterator.IsValid())
             {

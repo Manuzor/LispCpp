@@ -18,7 +18,7 @@ namespace lcpp
             static GarbageCollector instance;
 
             GarbageCollector::CInfo cinfo;
-            cinfo.m_uiNumInitialPages = 1;
+            cinfo.m_uiNumInitialPages = 10 * 1024;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             instance.initialize(cinfo);
@@ -106,8 +106,8 @@ namespace lcpp
             m_pSurvivorSpace->reset();
         }
 #endif
-        printf("Eden range:     0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pEdenSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pEdenSpace->getEnd()));
-        printf("Survivor range: 0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getEnd()));
+        //printf("Eden range:     0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pEdenSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pEdenSpace->getEnd()));
+        //printf("Survivor range: 0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getEnd()));
 
         m_ScanPointer = m_pSurvivorSpace->getBeginning();
     }
