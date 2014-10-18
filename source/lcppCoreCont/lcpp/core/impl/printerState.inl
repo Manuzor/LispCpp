@@ -6,8 +6,20 @@ namespace lcpp
     {
         EZ_FORCE_INLINE
         State::State() :
-            m_pOutStream(nullptr)
+            m_pOutStream(&m_stdOutStream)
         {
+        }
+
+        EZ_FORCE_INLINE
+        State::~State()
+        {
+            m_pOutStream = nullptr;
+        }
+
+        EZ_FORCE_INLINE
+        void State::reset()
+        {
+            m_pOutStream = &m_stdOutStream;
         }
     }
 }

@@ -10,8 +10,6 @@
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/containers/stack.h"
 
-#include "lcpp/core/ioUtils.h"
-
 #ifndef VerboseDebugMessage
 // Enable this to allow verbose debug messages
 #define VerboseDebugMessage Debug
@@ -61,12 +59,11 @@ lcpp::LispRuntimeState::initialize()
 
     //////////////////////////////////////////////////////////////////////////
 
-    m_pReaderState = new reader::State();
-    m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
-    m_pGC->addRoot(m_pReaderState->m_pMacroEnv.get());
+    m_readerState.reset();
+    m_readerState.m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
+    m_pGC->addRoot(m_readerState.m_pMacroEnv.get());
 
-    m_pPrinterState = new printer::State();
-    m_pPrinterState->m_pOutStream = new StandardOutputStream();
+    m_printerState.reset();
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -84,13 +81,12 @@ lcpp::LispRuntimeState::shutdown()
     ++m_stats.m_shutdownCount;
 
 
-    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
+    m_pGC->removeRoot(m_readerState.m_pMacroEnv.get());
     m_pGC->removeRoot(m_pGlobalEnvironment);
     m_pGC->removeRoot(m_pSyntaxEnvironment);
 
-    delete m_pPrinterState->m_pOutStream; m_pPrinterState->m_pOutStream = nullptr;
-    delete m_pPrinterState; m_pPrinterState = nullptr;
-    delete m_pReaderState; m_pReaderState = nullptr;
+    m_readerState.m_pMacroEnv = nullptr;
+    m_printerState.m_pOutStream = &m_printerState.m_stdOutStream;
     m_pGlobalEnvironment = nullptr;
     m_pSyntaxEnvironment = nullptr;
 

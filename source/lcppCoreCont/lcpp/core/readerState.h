@@ -18,9 +18,12 @@ namespace lcpp
             SyntaxCheckResult m_syntaxCheckResult;
             Ptr<LispObject> m_pMacroEnv;
 
+        public:
             State();
+
+            void reset();
         };
-    }
+}
 }
 
 #include "lcpp/core/impl/readerState.inl"
