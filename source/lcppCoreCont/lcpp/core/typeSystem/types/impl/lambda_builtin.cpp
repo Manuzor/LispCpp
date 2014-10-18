@@ -54,7 +54,7 @@ namespace lcpp
                 return &meta;
             }
 
-            Ptr<LispObject> create(StackPtr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
+            Ptr<LispObject> create(StackPtr<LispObject> pParentEnv, Function_t pFunction, const Signature& signature)
             {
                 LCPP_LogBlock("lambda::builtin::create");
 

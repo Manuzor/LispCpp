@@ -11,6 +11,14 @@ namespace lcpp
 {
     namespace str
     {
+        static void destroy(CollectableBase* pCollectable)
+        {
+            auto pString = static_cast<LispObject*>(pCollectable);
+            typeCheck(pString, Type::String);
+
+            pString->getData<Data>().m_string.~String();
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -18,6 +26,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::String);
                 meta.setPrettyName("string");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

@@ -42,6 +42,8 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv);
         LCPP_API_CORE_CONT bool hasEnvironment(Ptr<LispObject> pObject);
+
+        LCPP_API_CORE_CONT void destroy(Ptr<LispObject> pObject);
     }
 
 }

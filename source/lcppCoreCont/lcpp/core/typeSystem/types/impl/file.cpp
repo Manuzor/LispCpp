@@ -18,6 +18,15 @@ namespace lcpp
 {
     namespace file
     {
+        static void destroy(CollectableBase* pCollectable)
+        {
+            auto pObject = static_cast<LispObject*>(pCollectable);
+            typeCheck(pObject, Type::File);
+
+            auto& theFile = pObject->getData<Data>().m_file;
+            theFile.~ezOSFile();
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []

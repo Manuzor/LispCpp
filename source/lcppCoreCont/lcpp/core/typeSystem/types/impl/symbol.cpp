@@ -21,6 +21,14 @@ namespace lcpp
 {
     namespace symbol
     {
+        static void destroy(CollectableBase* pCollectable)
+        {
+            auto pSymbol = static_cast<LispObject*>(pCollectable);
+            typeCheck(pSymbol, Type::Symbol);
+
+            pSymbol->getData<Data>().m_string.~String();
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -28,6 +36,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Symbol);
                 meta.setPrettyName("symbol");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

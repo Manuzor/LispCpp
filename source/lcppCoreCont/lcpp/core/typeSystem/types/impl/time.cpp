@@ -14,6 +14,14 @@ namespace lcpp
 {
     namespace time
     {
+        static void destroy(CollectableBase* pCollectable)
+        {
+            auto pTime = static_cast<LispObject*>(pCollectable);
+            typeCheck(pTime, Type::Time);
+
+            pTime->getData<Data>().m_time.~ezTime();
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -21,6 +29,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Time);
                 meta.setPrettyName("time");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

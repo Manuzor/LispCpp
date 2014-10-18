@@ -229,5 +229,17 @@ namespace lcpp
             EZ_REPORT_FAILURE(message.GetData());
             LCPP_THROW(exceptions::InvalidInput(message.GetData()));
         }
+
+        LCPP_API_CORE_CONT void destroy(Ptr<LispObject> pObject)
+        {
+            MetaProperty prop;
+            if (pObject->getMetaInfo()->getProperty(MetaProperty::Builtin::DestructorFunction, prop).Failed())
+                return;
+
+            auto pDestroy = prop.getData().as<DestructorFunction_t>();
+            EZ_ASSERT(pDestroy, "Invalid destructor function");
+            (*pDestroy)(pObject.get());
+        }
+
     }
 }

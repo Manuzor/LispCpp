@@ -31,6 +31,19 @@ namespace lcpp
             }
         }
 
+        static void destroy(lcpp::CollectableBase* pCollectable)
+        {
+            auto pCont = static_cast<LispObject*>(pCollectable);
+            typeCheck(pCont, Type::Continuation);
+
+            auto& stack = pCont->getData<Data>().m_stack;
+            for (decltype(stack.size()) i = 0; i < stack.size(); ++i)
+            {
+                auto& ptr = stack.get(i);
+                object::destroy(ptr);
+            }
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []

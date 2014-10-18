@@ -14,6 +14,14 @@ namespace lcpp
 {
     namespace stream
     {
+        static void destroy(CollectableBase* pCollectable)
+        {
+            auto pStream = static_cast<LispObject*>(pCollectable);
+            typeCheck(pStream, Type::Stream);
+
+            pStream->getData<Data>().m_stringView.~ezStringIterator();
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -21,6 +29,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Stream);
                 meta.setPrettyName("stream");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.
