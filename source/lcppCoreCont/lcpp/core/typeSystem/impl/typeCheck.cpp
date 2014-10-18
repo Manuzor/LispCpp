@@ -12,6 +12,8 @@ namespace lcpp
 
     void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType)
     {
+        LCPP_GC_PreventCollectionInScope;
+
         if (g_typeCheckOverride > 0)
             return;
 
@@ -33,6 +35,8 @@ namespace lcpp
 
     void typeCheck(const Ptr<LispObject>& pObject, const Type& expectedType1, const Type& expectedType2)
     {
+        LCPP_GC_PreventCollectionInScope;
+
         if (g_typeCheckOverride > 0)
             return;
 

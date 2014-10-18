@@ -162,7 +162,7 @@ namespace lcpp
 
         void addRootsToSurvivorSpace();
 
-    private:
+    public:
 
         Ptr<ezAllocatorBase> m_pAllocator;
 

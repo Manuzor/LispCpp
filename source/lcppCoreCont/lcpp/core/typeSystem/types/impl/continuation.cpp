@@ -28,7 +28,9 @@ namespace lcpp
             {
                 auto& pToPatch = stack.get(i).get();
                 pToPatch = pGC->addSurvivor(pToPatch);
+                //EZ_ASSERT(static_cast<GarbageCollector*>(pGC)->m_pSurvivorSpace->contains((byte_t*)pToPatch), "");
             }
+
         }
 
         static void destroy(lcpp::CollectableBase* pCollectable)

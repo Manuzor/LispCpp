@@ -13,7 +13,7 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            Ptr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0)
+            Ptr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0)
             {
                 auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);
@@ -22,7 +22,7 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            Ptr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, Ptr<LispObject> pArg0, Ptr<LispObject> pArg1)
+            Ptr<LispObject> callHelper(StackPtr<LispObject> pCont, Function_t pToCall, StackPtr<LispObject> pArg0, StackPtr<LispObject> pArg1)
             {
                 auto pContNew = create(pCont, pToCall);
                 auto pStack = getStack(pContNew);

@@ -60,7 +60,7 @@ namespace lcpp
 
                 typeCheck(pParentEnv, Type::Environment);
 
-                auto pLocalEnv = env::createAnonymous(pParentEnv);
+                StackPtr<LispObject> pLocalEnv = env::createAnonymous(pParentEnv);
 
                 auto pInstance = object::create<Data>(getMetaInfo());
                 LCPP_GC_PreventCollectionInScope;
@@ -68,7 +68,7 @@ namespace lcpp
                 auto& data = pInstance->getData<Data>();
                 data.m_signature = signature;
                 data.m_pName = LCPP_pNil;
-                data.m_pEnv = pLocalEnv;
+                data.m_pEnv = pLocalEnv.get();
                 data.m_pFunction = pFunction;
 
                 return pInstance;

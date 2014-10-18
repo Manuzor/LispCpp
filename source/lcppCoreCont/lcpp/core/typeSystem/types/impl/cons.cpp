@@ -11,6 +11,7 @@
 #include "lcpp/core/typeSystem/types/nil.h"
 
 #include "lcpp/core/preprocessorUtils/disableVerboseLoggingLocally.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
 
 namespace lcpp
 {
@@ -47,7 +48,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(Ptr<LispObject> pCar, Ptr<LispObject> pCdr)
+        Ptr<LispObject> create(StackPtr<LispObject> pCar, StackPtr<LispObject> pCdr)
         {
             LCPP_LogBlock("cons::create");
 
@@ -56,8 +57,8 @@ namespace lcpp
             LCPP_GC_PreventCollectionInScope;
             auto& data = pInstance->getData<Data>();
 
-            data.m_pCar = pCar;
-            data.m_pCdr = pCdr;
+            data.m_pCar = pCar.get();
+            data.m_pCdr = pCdr.get();
 
             return pInstance;
         }
@@ -79,6 +80,8 @@ namespace lcpp
 
         ezUInt32 pushAll(Ptr<LispObject> pCons, Ptr<Stack> pStack)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             LCPP_LogBlock("cons::pushAll");
             LCPP_LogVerboseDebugMessage("Cons = %s", str::getValue(object::toString(pCons)).GetData());
             ezUInt32 count(0);
@@ -95,6 +98,8 @@ namespace lcpp
 
         ezUInt32 pushAllReverse(Ptr<LispObject> pCons, Ptr<Stack> pStack)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             LCPP_LogBlock("cons::pushAllReverse");
             LCPP_LogVerboseDebugMessage("Cons = %s", str::getValue(object::toString(pCons)).GetData());
             Stack tempStack;
@@ -112,28 +117,24 @@ namespace lcpp
             return count;
         }
 
-        Ptr<LispObject> pack(Ptr<Stack> pStack, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
+        Ptr<LispObject> pack(StackPtr<LispObject> pCont, ezInt32 relativeIndexFrom, ezUInt32 maxAmount)
         {
             LCPP_LogBlock("cons::pack");
 
-            const auto startIndex = pStack->convertToAbsolute(relativeIndexFrom);
-            auto amount = ezMath::Min(pStack->size(), pStack->size() - startIndex, maxAmount);
+            // ri = 1
+            // ma = 3
+            // st = (1 2 3 4 5 6 7 8)
+            // re = (2 3 4)
 
-            auto pCons = LCPP_pNil;
-            Stack tempStack;
+            const ezInt32 startIndex = cont::getStack(pCont)->convertToAbsolute(relativeIndexFrom);
+            EZ_ASSERT(startIndex >= 0, "");
+            ezInt32 amount = ezMath::Min(cont::getStack(pCont)->size() - startIndex, maxAmount);
 
-            for(auto i = ezUInt32(0); i < amount; ++i)
+            StackPtr<LispObject> pCons = LCPP_pNil;
+
+            for (ezInt32 i = startIndex + amount; i <= startIndex; --i)
             {
-                auto index = ezInt32(relativeIndexFrom + i);
-                auto pCar = pStack->get(index);
-                tempStack.push(pCar);
-            }
-
-            while(!tempStack.isEmpty())
-            {
-                auto pCar = tempStack.get(-1);
-                tempStack.pop();
-                pCons = cons::create(pCar, pCons);
+                pCons = cons::create(cont::getStack(pCont)->get(i), pCons);
             }
 
             return pCons;
@@ -141,6 +142,8 @@ namespace lcpp
 
         static void toStringHelper(Ptr<LispObject> pCons, ezStringBuilder& builder)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             auto pCar = getCar(pCons);
 
             if (isCons(pCar))

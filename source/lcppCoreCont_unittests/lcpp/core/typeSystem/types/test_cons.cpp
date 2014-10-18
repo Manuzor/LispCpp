@@ -11,6 +11,7 @@
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/typeSystem/types/number.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
 
 LCPP_TestGroup(Cons);
 
@@ -97,18 +98,20 @@ LCPP_TestCase(Cons, toString)
 
 LCPP_TestCase(Cons, pack)
 {
-    auto stack = Stack();
+    StackPtr<LispObject> pCont = cont::createTopLevel(LCPP_test_pRuntimeState);
+
+#define stack (*cont::getStack(pCont))
 
     stack.push(number::create(1));
     stack.push(number::create(2));
     stack.push(number::create(3));
 
-    auto pCons = LCPP_pNil;
-    auto pCar = LCPP_pNil;
-    
+    StackPtr<LispObject> pCons = LCPP_pNil;
+    StackPtr<LispObject> pCar = LCPP_pNil;
+
     //////////////////////////////////////////////////////////////////////////
 
-    pCons = cons::pack(&stack, 0);
+    pCons = cons::pack(pCont, 0);
 
     pCar = cons::getCar(pCons);
     pCons = cons::getCdr(pCons);
@@ -125,7 +128,7 @@ LCPP_TestCase(Cons, pack)
 
     //////////////////////////////////////////////////////////////////////////
 
-    pCons = cons::pack(&stack, 0, 2);
+    pCons = cons::pack(pCont, 0, 2);
 
     pCar = cons::getCar(pCons);
     pCons = cons::getCdr(pCons);
@@ -138,7 +141,7 @@ LCPP_TestCase(Cons, pack)
 
     //////////////////////////////////////////////////////////////////////////
 
-    pCons = cons::pack(&stack, -1);
+    pCons = cons::pack(pCont, -1);
 
     pCar = cons::getCar(pCons);
     pCons = cons::getCdr(pCons);
@@ -147,10 +150,12 @@ LCPP_TestCase(Cons, pack)
 
     //////////////////////////////////////////////////////////////////////////
 
-    pCons = cons::pack(&stack, -2, 1);
+    pCons = cons::pack(pCont, -2, 1);
 
     pCar = cons::getCar(pCons);
     pCons = cons::getCdr(pCons);
     CUT_ASSERT.isTrue(number::getInteger(pCar) == 2);
     CUT_ASSERT.isTrue(isNil(pCons));
+
+#undef stack
 }

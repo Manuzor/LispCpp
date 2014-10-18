@@ -67,6 +67,8 @@ namespace lcpp
 
         void addCharacterMacro(Ptr<LispRuntimeState> pState, Ptr<LispObject> pCharacter, Ptr<LispObject> pLambda)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             static auto emptyString = String();
 
             auto pEnv = pState->getReaderState()->m_pMacroEnv;
@@ -98,6 +100,8 @@ namespace lcpp
 
         void addSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject> pSyntax)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             typeCheck(pSymbol, Type::Symbol);
             typeCheck(pSyntax, Type::Syntax);
 
@@ -111,6 +115,8 @@ namespace lcpp
 
         ezResult getSyntax(Ptr<LispRuntimeState> pState, Ptr<LispObject> pSymbol, Ptr<LispObject>& out_pSyntax)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             Ptr<LispObject> pFetchResult;
             auto result = env::getBinding(pState->getSyntaxEnvironment(), pSymbol, pFetchResult);
             out_pSyntax = pFetchResult;
@@ -375,6 +381,8 @@ namespace lcpp
 
             ezUInt32 skipSeparators(Ptr<State> pState, Ptr<LispObject> pStream)
             {
+                LCPP_GC_PreventCollectionInScope;
+
                 typeCheck(pStream, Type::Stream);
 
                 ezUInt32 count = 0;
@@ -397,6 +405,8 @@ namespace lcpp
 
             ezUInt32 skipToFirstNewLine(Ptr<State> pState, Ptr<LispObject> pStream)
             {
+                LCPP_GC_PreventCollectionInScope;
+
                 typeCheck(pStream, Type::Stream);
 
                 auto count = ezUInt32(0);
@@ -412,6 +422,8 @@ namespace lcpp
 
             ezUInt32 advance(Ptr<State> pState, Ptr<LispObject> pStream)
             {
+                LCPP_GC_PreventCollectionInScope;
+
                 typeCheck(pStream, Type::Stream);
 
                 auto count = ezUInt32(1);

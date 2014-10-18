@@ -67,7 +67,7 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
-                
+
                 const auto argCount = pStack->size() - 1;
 
                 auto pArg0 = pStack->get(1);
@@ -116,7 +116,7 @@ namespace lcpp
 
                 auto message = ezStringBuilder();
                 message.Format("Exiting with exit code %d.", exitCode);
-                
+
                 LCPP_THROW(exceptions::Exit(exitCode, message.GetData()));
             }
 
@@ -162,9 +162,8 @@ namespace lcpp
             Ptr<LispObject> list(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
-                auto pStack = cont::getStack(pCont);
 
-                auto pCons = lcpp::cons::pack(pStack, 1);
+                auto pCons = lcpp::cons::pack(pCont, 1);
 
                 LCPP_cont_return(pCont, pCons);
             }
@@ -195,7 +194,7 @@ namespace lcpp
                     auto recursionLimit = pState->getRecursionLimit();
                     LCPP_cont_return(pCont, number::create(recursionLimit));
                 }
-                
+
                 auto pRecursionLimit = pStack->get(1);
 
                 // In case the recursion limit integer type changes
@@ -358,7 +357,7 @@ namespace lcpp
                 if (object::isType(pFile, Type::String))
                 {
                 }
-                
+
 
                 typeCheck(pFile, Type::File);
 

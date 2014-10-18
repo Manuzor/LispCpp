@@ -10,6 +10,8 @@ namespace lcpp
 
     LCPP_API_CORE_CONT void attributeCheckAll(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
     {
+        LCPP_GC_PreventCollectionInScope;
+
         LCPP_LogBlock("attributeCheckAll");
 
         EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
@@ -27,6 +29,8 @@ namespace lcpp
 
     LCPP_API_CORE_CONT void attributeCheckAny(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
     {
+        LCPP_GC_PreventCollectionInScope;
+
         LCPP_LogBlock("attributeCheckAny");
 
         EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
@@ -44,6 +48,8 @@ namespace lcpp
 
     LCPP_API_CORE_CONT void attributeCheckNone(const Ptr<LispObject>& pObject, const AttributeFlags& unexpectedFlags)
     {
+        LCPP_GC_PreventCollectionInScope;
+
         LCPP_LogBlock("attributeCheckNone");
 
         EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
