@@ -18,7 +18,8 @@ lcpp::test::UnitTest::UnitTest(cut::UnitTestGroup& group)
 
 void lcpp::test::UnitTest::inititialize()
 {
-    LCPP_test_pRuntimeState->initialize();
+    static ElectricFenceAllocator allocator(defaultAllocator());
+    LCPP_test_pRuntimeState->initialize(&allocator);
 }
 
 void lcpp::test::UnitTest::shutdown()

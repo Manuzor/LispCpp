@@ -12,7 +12,7 @@ namespace lcpp
 
             if (!pRuntime)
             {
-                static auto runtime = LispRuntimeState();
+                static LispRuntimeState runtime;
                 pRuntime = &runtime;
             }
 

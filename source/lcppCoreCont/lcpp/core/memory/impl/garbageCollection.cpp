@@ -128,12 +128,6 @@ namespace lcpp
 
         destroyGarbage();
 
-        for (ezUInt32 i = 0; i < StackPtrBase::s_uiNextIndex; ++i)
-        {
-            auto pObject = StackPtrBase::s_ptrTable[i];
-
-        }
-
         finalizeCollectionCycle();
     }
 

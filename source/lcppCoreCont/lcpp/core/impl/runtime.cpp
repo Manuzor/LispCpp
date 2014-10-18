@@ -29,7 +29,7 @@ lcpp::LispRuntimeState::LispRuntimeState() :
 }
 
 void
-lcpp::LispRuntimeState::initialize()
+lcpp::LispRuntimeState::initialize(ezAllocatorBase* pAllocator)
 {
     EZ_ASSERT(m_stats.m_shutdownCount <= m_stats.m_initializationCount,
               "LCPP_pRuntime was shut down more often than it was initialized!");
@@ -45,7 +45,7 @@ lcpp::LispRuntimeState::initialize()
 
     ++m_stats.m_initializationCount;
 
-    m_pAllocator = defaultAllocator();
+    m_pAllocator = pAllocator ? pAllocator : defaultAllocator();
     m_pGC = lcpp::getGarbageCollector();
 
 #if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
