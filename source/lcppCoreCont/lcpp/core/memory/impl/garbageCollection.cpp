@@ -18,7 +18,7 @@ namespace lcpp
             static GarbageCollector instance;
 
             GarbageCollector::CInfo cinfo;
-            cinfo.m_uiNumInitialPages = 10 * 1024;
+            cinfo.m_uiNumInitialPages = 1;
             cinfo.m_pParentAllocator = defaultAllocator();
 
             instance.initialize(cinfo);
