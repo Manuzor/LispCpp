@@ -167,7 +167,9 @@ namespace lcpp
         if (pObject->m_pMetaInfo->getProperty(MetaProperty::Builtin::ScanFunction, prop).Failed())
             return nullptr;
 
-        return prop.getData().as<ScanFunction_t>();
+        auto scanner = prop.getData().as<ScanFunction_t>();
+        EZ_ASSERT(scanner, "Invalid function pointer!");
+        return scanner;
     }
 
     template<typename T>

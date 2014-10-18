@@ -60,9 +60,10 @@ namespace lcpp
 
                 typeCheck(pParentEnv, Type::Environment);
 
-                StackPtr<LispObject> pInstance = object::create<Data>(getMetaInfo());
-
                 auto pLocalEnv = env::createAnonymous(pParentEnv);
+
+                auto pInstance = object::create<Data>(getMetaInfo());
+                LCPP_GC_PreventCollectionInScope;
 
                 auto& data = pInstance->getData<Data>();
                 data.m_signature = signature;

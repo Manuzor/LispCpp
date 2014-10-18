@@ -97,7 +97,13 @@ void lcpp::LispRuntimeState::registerBuiltIns()
 
     LCPP_AddBuiltin("cons", &lambda::builtin::cons, Signature::create(2));
     LCPP_AddBuiltin("car", &lambda::builtin::car, Signature::create(1));
-    LCPP_AddBuiltin("cdr", &lambda::builtin::cdr, Signature::create(1));
+    //LCPP_AddBuiltin("cdr", &lambda::builtin::cdr, Signature::create(1));
+    do {
+        auto pName = symbol::create("cdr");
+        auto pBuiltin = lambda::builtin::create(getGlobalEnvironment(), &lambda::builtin::cdr, Signature::create(1));
+        env::addBinding(getGlobalEnvironment(), pName, pBuiltin);
+        if(!object::hasName(pBuiltin)) { object::setName(pBuiltin, pName); }
+    } while(false);
 
     LCPP_AddBuiltin("list", &lambda::builtin::list, Signature::createVarArg());
 
