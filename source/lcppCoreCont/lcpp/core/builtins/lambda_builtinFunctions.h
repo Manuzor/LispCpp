@@ -43,11 +43,6 @@ namespace lcpp
 
             namespace detail
             {
-                Ptr<LispObject> add_helper(StackPtr<LispObject> pCont);
-                Ptr<LispObject> subtract_helper(StackPtr<LispObject> pCont);
-                Ptr<LispObject> multiply_helper(StackPtr<LispObject> pCont);
-                Ptr<LispObject> divide_helper(StackPtr<LispObject> pCont);
-
                 Ptr<LispObject> greaterThan_helper(StackPtr<LispObject> pCont);
                 Ptr<LispObject> greaterThanOrEqual_helper(StackPtr<LispObject> pCont);
                 Ptr<LispObject> equal_helper(StackPtr<LispObject> pCont);
