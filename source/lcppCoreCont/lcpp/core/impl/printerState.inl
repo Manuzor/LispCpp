@@ -6,7 +6,7 @@ namespace lcpp
     {
         EZ_FORCE_INLINE
         State::State() :
-            m_pOutStream()
+            m_pOutStream(nullptr)
         {
         }
     }

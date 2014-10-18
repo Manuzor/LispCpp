@@ -40,6 +40,7 @@ lcpp::LispRuntimeState::initialize()
     {
         shutdown();
     }
+    ezLog::Dev("Initializing runtime @  0x%016llX", this);
 
     EZ_ASSERT(m_stats.m_initializationCount == m_stats.m_shutdownCount,
               "LCPP_pRuntime initialization and shutdown count must be balanced!");
@@ -54,19 +55,18 @@ lcpp::LispRuntimeState::initialize()
 #endif
 
     m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax")).get();
-    m_pGC->addRoot(m_pSyntaxEnvironment.get());
+    m_pGC->addRoot(m_pSyntaxEnvironment);
     m_pGlobalEnvironment = env::create(getSyntaxEnvironment(), symbol::create("global")).get();
-    m_pGC->addRoot(m_pGlobalEnvironment.get());
+    m_pGC->addRoot(m_pGlobalEnvironment);
 
     //////////////////////////////////////////////////////////////////////////
 
-    m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
+    m_pReaderState = new reader::State();
     m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
     m_pGC->addRoot(m_pReaderState->m_pMacroEnv.get());
 
-    m_pPrinterState = LCPP_NEW(m_pAllocator, printer::State)();
-    // TODO Set output stream of printer to stdout by default.
-    m_pPrinterState->m_pOutStream = LCPP_NEW(m_pAllocator, StandardOutputStream)();
+    m_pPrinterState = new printer::State();
+    m_pPrinterState->m_pOutStream = new StandardOutputStream();
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -83,13 +83,14 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
-    m_pGC->removeRoot(m_pGlobalEnvironment.get());
-    m_pGC->removeRoot(m_pSyntaxEnvironment.get());
 
-    LCPP_DELETE(m_pAllocator, m_pPrinterState->m_pOutStream);
-    LCPP_DELETE(m_pAllocator, m_pPrinterState);
-    LCPP_DELETE(m_pAllocator, m_pReaderState);
+    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
+    m_pGC->removeRoot(m_pGlobalEnvironment);
+    m_pGC->removeRoot(m_pSyntaxEnvironment);
+
+    delete m_pPrinterState->m_pOutStream; m_pPrinterState->m_pOutStream = nullptr;
+    delete m_pPrinterState; m_pPrinterState = nullptr;
+    delete m_pReaderState; m_pReaderState = nullptr;
     m_pGlobalEnvironment = nullptr;
     m_pSyntaxEnvironment = nullptr;
 

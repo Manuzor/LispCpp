@@ -35,7 +35,6 @@ namespace lcpp
     inline
     void StackPtrBase::operator=(CollectableBase* ptr)
     {
-        ezLog::Debug("StackPtrBase ptr assignment: index = %u, ptr = %x", m_uiIndex, ptr);
         EZ_ASSERT(ptr != nullptr, "");
         s_ptrTable[m_uiIndex] = ptr;
         LCPP_InDebug( m_pLastLookup = ptr; );

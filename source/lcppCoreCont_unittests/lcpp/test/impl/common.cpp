@@ -24,11 +24,44 @@ void lcpp::test::UnitTest::inititialize()
 void lcpp::test::UnitTest::shutdown()
 {
     // TODO shutdown stuff here on a per-test basis
+    LCPP_test_pRuntimeState->shutdown();
 }
 
 lcpp::test::UnitTestNoInit::UnitTestNoInit(cut::UnitTestGroup& group)
 {
     group.registerUnitTest(this);
+}
+
+ezUInt32 lcpp::test::detail::g_uiDebugBreakOnExceptions = 0;
+ezUInt32 lcpp::test::detail::g_uiLogExceptions = 0;
+
+EZ_ON_GLOBAL_EVENT(ThrowException)
+{
+    if (lcpp::test::detail::g_uiDebugBreakOnExceptions > 0)
+    {
+        auto pException = (lcpp::exceptions::ExceptionBase*)param0.Get<void*>();
+        auto szMessage = pException->what();
+        if(szMessage)
+        {
+            ezLog::Dev("%s(%u): Exception in function '%s':",
+                       pException->getFileName(),
+                       pException->getLineNumber(),
+                       pException->getFunctionName());
+            ezLog::Dev("  %s", szMessage);
+        }
+        else
+        {
+            ezLog::Dev("%s(%u): Exception in function '%s'.",
+                       pException->getFileName(),
+                       pException->getLineNumber(),
+                       pException->getFunctionName());
+        }
+    }
+
+    if (lcpp::test::detail::g_uiDebugBreakOnExceptions > 0)
+    {
+        EZ_DEBUG_BREAK;
+    }
 }
 
 lcpp::Ptr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream)

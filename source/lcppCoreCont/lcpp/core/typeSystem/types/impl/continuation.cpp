@@ -62,6 +62,7 @@ namespace lcpp
             data.m_pRuntimeState = pRuntimeState;
             data.m_pParent = LCPP_pNil;
             data.m_pFunction = &breakTrampoline;
+            data.m_userData = 0;
 
             return pInstance;
         }

@@ -8,7 +8,7 @@ namespace lcpp
         {
         public:
 
-            Ptr<ezStreamWriterBase> m_pOutStream;
+            ezStreamWriterBase* m_pOutStream;
 
         public:
 

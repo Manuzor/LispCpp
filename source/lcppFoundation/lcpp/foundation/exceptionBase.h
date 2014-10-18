@@ -29,7 +29,7 @@ namespace lcpp
             const char* m_szFileName;
             const char* m_szFunctionName;
         };
-        
+
         class NotImplemented :
             public ExceptionBase
         {
@@ -42,11 +42,12 @@ namespace lcpp
     }
 }
 
-#define LCPP_THROW(ex) do                                \
-{                                                        \
-    auto _theException = ex;                             \
-    _theException.setLineNumber(EZ_SOURCE_LINE);         \
-    _theException.setFileName(EZ_SOURCE_FILE);           \
-    _theException.setFunctionName(EZ_SOURCE_FUNCTION);   \
-    throw _theException;                                 \
+#define LCPP_THROW(ex) do                              \
+{                                                      \
+    auto _theException = ex;                           \
+    _theException.setLineNumber(EZ_SOURCE_LINE);       \
+    _theException.setFileName(EZ_SOURCE_FILE);         \
+    _theException.setFunctionName(EZ_SOURCE_FUNCTION); \
+    ezGlobalEvent::Broadcast("ThrowException", static_cast<lcpp::exceptions::ExceptionBase*>(&_theException)); \
+    throw _theException;                               \
 } while (false)

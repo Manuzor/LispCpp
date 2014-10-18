@@ -52,6 +52,25 @@ namespace lcpp { namespace test {
 
     };
 
+    namespace detail
+    {
+        extern ezUInt32 g_uiDebugBreakOnExceptions;
+
+        struct DebugBreakOnExceptions
+        {
+            DebugBreakOnExceptions()  { ++g_uiDebugBreakOnExceptions; }
+            ~DebugBreakOnExceptions() { --g_uiDebugBreakOnExceptions; }
+        };
+
+        extern ezUInt32 g_uiLogExceptions;
+
+        struct LogExceptions
+        {
+            LogExceptions()  { ++g_uiDebugBreakOnExceptions; }
+            ~LogExceptions() { --g_uiDebugBreakOnExceptions; }
+        };
+    }
+
     Ptr<LispObject> readStream(StackPtr<LispObject> pStream);
 
     Ptr<LispObject> readString(const ezString& content);
@@ -63,6 +82,9 @@ namespace lcpp { namespace test {
     Ptr<LispObject> evalObject(StackPtr<LispObject> pObject);
 
 }} // namespace lcpp::test
+
+#define LCPP_TEST_DebugBreakOnExceptionsInThisScope ::lcpp::test::detail::DebugBreakOnExceptions EZ_CONCAT(_DebugBreakOnExceptions_, EZ_SOURCE_LINE)
+#define LCPP_TEST_LogExceptionsInThisScope ::lcpp::test::detail::LogExceptions EZ_CONCAT(_DebugBreakOnExceptions_, EZ_SOURCE_LINE)
 
 #include "lcpp/test/impl/testGroupMacros.inl"
 #include "lcpp/test/impl/testMacros.inl"

@@ -34,7 +34,7 @@ namespace lcpp
             typeCheck(pCont, Type::Continuation);
 
             auto pStack = cont::getStack(pCont);
-            auto& pStream = pStack->get(0);
+            StackPtr<LispObject> pStream = pStack->get(0);
             typeCheck(pStream, Type::Stream);
 
             detail::skipSeparators(getReaderState(pCont), pStream);
