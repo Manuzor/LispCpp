@@ -109,7 +109,6 @@ namespace lcpp
         //printf("Eden range:     0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pEdenSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pEdenSpace->getEnd()));
         //printf("Survivor range: 0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getEnd()));
 
-        m_ScanPointer = m_pSurvivorSpace->getBeginning();
     }
 
     void GarbageCollector::collect()
@@ -117,6 +116,9 @@ namespace lcpp
         EZ_ASSERT(m_uiNumCollectionPreventions == 0, "Collection is not enabled at this point.");
 
         prepareCollectionCycle();
+
+        m_ScanPointer = m_pSurvivorSpace->getBeginning();
+        LCPP_SCOPE_EXIT{ m_ScanPointer = nullptr; };
 
         // Make sure all roots stay alive
         addRootsToSurvivorSpace();
@@ -137,9 +139,6 @@ namespace lcpp
         m_pEdenSpace->protect();
 
         std::swap(m_pEdenSpace, m_pSurvivorSpace);
-
-        // Reset the scan pointer.
-        m_ScanPointer = nullptr;
 
         m_bGrowBeforeNextCollection = m_pEdenSpace->getPercentageFilled() > m_fGrowingThreshold;
     }

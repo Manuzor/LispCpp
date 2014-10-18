@@ -15,12 +15,10 @@ namespace lcpp
             Data() :
                 m_stack(*new Stack())
             {
-                printf("Created  Data: %016llX Stack: %016llX\n", reinterpret_cast<ezUInt64>(this), reinterpret_cast<ezUInt64>(&m_stack));
             }
 
             ~Data()
             {
-                printf("Deleting Data: %016llX Stack: %016llX\n", reinterpret_cast<ezUInt64>(this), reinterpret_cast<ezUInt64>(&m_stack));
                 delete &m_stack;
             }
 

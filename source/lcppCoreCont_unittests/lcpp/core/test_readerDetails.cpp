@@ -12,7 +12,7 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
     auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("  \t\r\n  \v  \n\n\n\n\r\nhello-world");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
     auto count = reader::detail::skipSeparators(pState, pStream);
 
@@ -39,12 +39,10 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
 
 LCPP_TestCase(ReaderDetails, skipToFirstNewLine)
 {
-    auto pState = LCPP_test_pRuntimeState->getReaderState();
-
     auto content = ezString("  ;this is a comment with whitespace \nXello World");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
-    auto count = reader::detail::skipToFirstNewLine(pState, pStream);
+    auto count = reader::detail::skipToFirstNewLine(LCPP_test_pRuntimeState->getReaderState(), pStream);
 
     CUT_ASSERT.isTrue(count == 37);
     CUT_ASSERT.isTrue(stream::getCharacter(pStream) == '\n');
@@ -56,7 +54,7 @@ LCPP_TestCase(ReaderDetails, advance)
     auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("a\nb");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
     auto count = ezUInt32(0);
 
     CUT_ASSERT.isTrue(stream::getCharacter(pStream) == 'a');

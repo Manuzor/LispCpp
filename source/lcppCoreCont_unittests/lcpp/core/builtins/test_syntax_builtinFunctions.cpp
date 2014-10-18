@@ -50,9 +50,11 @@ LCPP_TestCase(Syntax_BuiltinFunctions, define)
 
 LCPP_TestCase(Syntax_BuiltinFunctions, define_name)
 {
+    LCPP_TEST_DebugBreakOnExceptionsInThisScope;
+
     auto pResult = evalString("(define x (lambda () 42))");
     pResult = evalString("x");
-    
+
     CUT_ASSERT.isTrue(object::hasName(pResult));
     CUT_ASSERT.isTrue(symbol::getValue(object::getName(pResult)).IsEqual("x"));
 }

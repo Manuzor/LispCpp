@@ -25,12 +25,12 @@
 #include "lcpp/core/typeSystem/types/string.h"
 
 // Provides the variables pStack and pEnv in the current context.
-#define LCPP_SyntaxBuiltinFunction_CommonBody \
-    typeCheck(pCont, Type::Continuation);     \
-                                              \
-    auto pStack = cont::getStack(pCont);      \
-                                              \
-    auto pEnv = pStack->get(0);               \
+#define LCPP_SyntaxBuiltinFunction_CommonBody   \
+    typeCheck(pCont, Type::Continuation);       \
+                                                \
+    auto pStack = cont::getStack(pCont);        \
+                                                \
+    StackPtr<LispObject> pEnv = pStack->get(0); \
     typeCheck(pEnv, Type::Environment)
 
 namespace lcpp
@@ -219,8 +219,6 @@ namespace lcpp
 
                 StackPtr<LispObject> pArgNameList = pStack->get(1);
                 StackPtr<LispObject> pBodyList = cons::pack(pCont, 2);
-
-                LCPP_GC_PreventCollectionInScope;
 
                 auto pLambda = lcpp::lambda::userDefined::create(pEnv, pArgNameList, pBodyList);
                 LCPP_cont_return(pCont, pLambda);

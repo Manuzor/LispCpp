@@ -4,8 +4,9 @@
 ezAllocatorBase* lcpp::defaultAllocator()
 {
     static NonTrackingHeapAllocator allocator("lcpp/NonTrackingHeapAllocator");
+    static ElectricFenceAllocator ef(&allocator);
 
-    return &allocator;
+    return &ef;
 }
 
 lcpp::ElectricFenceAllocator::ElectricFenceAllocator(ezAllocatorBase* pInternalContainerAllocator) :
@@ -74,7 +75,6 @@ void lcpp::ElectricFenceAllocator::Deallocate(void* ptr)
     if (ptr == nullptr)
         return;
 
-
     auto it = m_allocationMap.Find(ptr);
     EZ_ASSERT(it.IsValid(), "Double or invalid free!");
 
@@ -88,6 +88,7 @@ void lcpp::ElectricFenceAllocator::Deallocate(void* ptr)
         PAGE_NOACCESS,
         &unused
         );
+
     m_freeQueue.PushBack(allocationInfo);
     if (m_freeQueue.GetCount() > s_maxFreeQueueElements)
     {

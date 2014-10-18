@@ -7,7 +7,7 @@ namespace lcpp
         class Data
         {
         public:
-            String m_string;
+            char* m_szString;
         };
     }
 }

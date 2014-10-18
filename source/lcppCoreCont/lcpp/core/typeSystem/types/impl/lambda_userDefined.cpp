@@ -30,7 +30,7 @@ namespace lcpp
             {
                 auto pLambda = static_cast<LispObject*>(pCollectable);
                 typeCheck(pLambda, Type::Lambda);
-                attributeCheckAny(pLambda, AttributeFlags::Builtin);
+                attributeCheckNone(pLambda, AttributeFlags::Builtin);
 
                 auto& data = pLambda->getData<Data>();
 
@@ -69,20 +69,19 @@ namespace lcpp
 
                 typeCheck(pParentEnv, Type::Environment);
 
-                auto pInstance = object::create<Data>(getMetaInfo());
-                auto& data = pInstance->getData<Data>();
-
-                auto pLocalEnv = env::createAnonymous(pParentEnv);
-
-                static auto pBegin = syntax::builtin::create(&syntax::builtin::begin,
-                                                             Signature::createVarArg());
-
+                StackPtr<LispObject> pBegin = syntax::builtin::create(&syntax::builtin::begin,
+                                                                      Signature::createVarArg());
+                StackPtr<LispObject> pLocalEnv = env::createAnonymous(pParentEnv);
                 pBodyList = cons::create(pBegin, pBodyList);
 
-                data.m_pName = LCPP_pNil;
-                data.m_pEnv = pLocalEnv;
-                data.m_pArgList = pArgList.get();
-                data.m_pBody = pBodyList.get();
+                StackPtr<LispObject> pInstance = object::create<Data>(getMetaInfo());
+                {
+                    auto& data = pInstance->getData<Data>();
+                    data.m_pName = LCPP_pNil;
+                    data.m_pEnv = pLocalEnv.get();
+                    data.m_pArgList = pArgList.get();
+                    data.m_pBody = pBodyList.get();
+                }
 
                 while(!isNil(pArgList))
                 {

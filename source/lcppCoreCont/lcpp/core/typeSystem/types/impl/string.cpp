@@ -16,7 +16,7 @@ namespace lcpp
             auto pString = static_cast<LispObject*>(pCollectable);
             typeCheck(pString, Type::String);
 
-            pString->getData<Data>().m_string.~String();
+            defaultAllocator()->Deallocate(pString->getData<Data>().m_szString);
         }
 
         Ptr<const MetaInfo> getMetaInfo()
@@ -41,16 +41,19 @@ namespace lcpp
 
             auto pInstance = object::create<Data>(getMetaInfo());
 
-            pInstance->getData<Data>().m_string = value;
+            auto uiSize = value.GetElementCount() + 1; // ez stores the \0 character at the end and we will copy it over.
+            auto szString = (char*)defaultAllocator()->Allocate(uiSize, EZ_ALIGNMENT_OF(char*));
+            ezMemoryUtils::Copy(szString, value.GetData(), uiSize);
 
+            pInstance->getData<Data>().m_szString = szString;
             return pInstance;
         }
 
-        const String& getValue(Ptr<LispObject> pObject)
+        String getValue(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::String);
 
-            return pObject->getData<Data>().m_string;
+            return pObject->getData<Data>().m_szString;
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)
@@ -58,7 +61,7 @@ namespace lcpp
             typeCheck(pObject, Type::String);
 
             ezStringBuilder theString;
-            theString.AppendFormat("\"%s\"", getValue(pObject).GetData());
+            theString.AppendFormat("\"%s\"", pObject->getData<Data>().m_szString);
 
             return str::create(theString);
         }
