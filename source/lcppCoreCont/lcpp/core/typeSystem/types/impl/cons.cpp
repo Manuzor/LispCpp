@@ -22,12 +22,12 @@ namespace lcpp
             typeCheck(pObject, Type::Cons);
 
             {
-                auto pCar = pObject->getData<Data>().m_pCar.get();
+                auto& pCar = pObject->getData<Data>().m_pCar.get();
                 pCar = pGC->addSurvivor(pCar);
             }
 
             {
-                auto pCdr = pObject->getData<Data>().m_pCdr.get();
+                auto& pCdr = pObject->getData<Data>().m_pCdr.get();
                 pCdr = pGC->addSurvivor(pCdr);
             }
         }

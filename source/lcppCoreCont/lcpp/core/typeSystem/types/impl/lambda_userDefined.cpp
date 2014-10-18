@@ -26,6 +26,24 @@ namespace lcpp
     {
         namespace userDefined
         {
+            static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
+            {
+                auto pLambda = static_cast<LispObject*>(pCollectable);
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
+
+                auto& data = pLambda->getData<Data>();
+
+                auto& pEnv = data.m_pEnv.get();
+                pEnv = pGC->addSurvivor(pEnv);
+
+                auto& pArgList = data.m_pArgList.get();
+                pArgList = pGC->addSurvivor(pArgList);
+
+                auto& pBody = data.m_pBody.get();
+                pBody = pGC->addSurvivor(pBody);
+            }
+
             Ptr<const MetaInfo> getMetaInfo()
             {
                 static auto meta = []
@@ -37,6 +55,7 @@ namespace lcpp
                                        | AttributeFlags::EnvironmentContainer);
                     meta.setPrettyName("procedure");
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
 
                     return meta;
                 }(); // Note that this lambda is immediately called.

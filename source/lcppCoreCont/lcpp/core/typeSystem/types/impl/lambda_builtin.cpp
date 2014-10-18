@@ -23,6 +23,16 @@ namespace lcpp
     {
         namespace builtin
         {
+            static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
+            {
+                auto pLambda = static_cast<LispObject*>(pCollectable);
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
+
+                auto& pEnv = pLambda->getData<Data>().m_pEnv.get();
+                pEnv = pGC->addSurvivor(pEnv);
+            }
+
             Ptr<const MetaInfo> getMetaInfo()
             {
                 static auto meta = []
@@ -36,6 +46,7 @@ namespace lcpp
                     meta.setPrettyName("builtin-procedure");
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::ToStringFunction, &toString));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
 
                     return meta;
                 }(); // Note that this lambda is immediately called.
