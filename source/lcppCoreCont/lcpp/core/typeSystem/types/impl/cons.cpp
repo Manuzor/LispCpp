@@ -146,11 +146,9 @@ namespace lcpp
             return pCons;
         }
 
-        static void toStringHelper(Ptr<LispObject> pCons, ezStringBuilder& builder)
+        static void toStringHelper(StackPtr<LispObject> pCons, ezStringBuilder& builder)
         {
-            LCPP_GC_PreventCollectionInScope;
-
-            auto pCar = getCar(pCons);
+            StackPtr<LispObject> pCar = getCar(pCons);
 
             if (isCons(pCar))
             {
@@ -163,7 +161,7 @@ namespace lcpp
                 builder.Append(str::getValue(object::toString(pCar)).GetData());
             }
 
-            auto pCdr = getCdr(pCons);
+            StackPtr<LispObject> pCdr = getCdr(pCons);
 
             if (isNil(pCdr))
             {

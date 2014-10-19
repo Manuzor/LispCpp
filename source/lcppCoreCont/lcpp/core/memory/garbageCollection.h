@@ -141,6 +141,8 @@ namespace lcpp
         template<typename T>
         void removeRoot(T*& pCollectable);
 
+        ezUInt32 getNumRoots() const { return m_roots.GetCount(); }
+
     private:
 
         void prepareCollectionCycle();

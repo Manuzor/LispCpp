@@ -25,6 +25,7 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
     pStream = stream::create(content.GetIteratorFront());
     auto rt = LispRuntimeState();
     rt.initialize();
+    LCPP_SCOPE_EXIT{ rt.shutdown(); };
     rt.getReaderState()->m_separators = " abcdefghijklmnopqrstuvwxyz";
 
     count = reader::detail::skipSeparators(rt.getReaderState(), pStream);
@@ -39,6 +40,7 @@ LCPP_TestCase(ReaderDetails, skipSeparators)
 
 LCPP_TestCase(ReaderDetails, skipToFirstNewLine)
 {
+    auto pRuntimeState = LCPP_test_pRuntimeState;
     auto content = ezString("  ;this is a comment with whitespace \nXello World");
     StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
@@ -51,6 +53,7 @@ LCPP_TestCase(ReaderDetails, skipToFirstNewLine)
 
 LCPP_TestCase(ReaderDetails, advance)
 {
+    auto pRuntimeState = LCPP_test_pRuntimeState;
     auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("a\nb");

@@ -80,7 +80,6 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-
     m_pGC->removeRoot(m_readerState.m_pMacroEnv.get());
     m_pGC->removeRoot(m_pGlobalEnvironment);
     m_pGC->removeRoot(m_pSyntaxEnvironment);
