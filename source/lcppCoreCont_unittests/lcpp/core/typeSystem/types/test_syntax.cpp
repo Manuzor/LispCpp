@@ -32,14 +32,14 @@ LCPP_TestGroup(Syntax);
 
 LCPP_TestCase(Syntax, Builtin)
 {
-    auto pLambda = syntax::builtin::create(&testBuiltin);
+    StackPtr<LispObject> pLambda = syntax::builtin::create(&testBuiltin);
 
     g_wasCalled = false;
-    auto pResult = LCPP_pFalse;
+    StackPtr<LispObject> pResult = LCPP_pFalse;
 
     {
-        auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-        auto pContCall = cont::create(pContMain, &object::call);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+        StackPtr<LispObject> pContCall = cont::create(pContMain, &object::call);
         cont::getStack(pContCall)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
         cont::getStack(pContCall)->push(pLambda);
 
@@ -54,9 +54,7 @@ LCPP_TestCase(Syntax, Builtin)
 
 LCPP_TestCase(Syntax, Builtin_Name)
 {
-    auto pState = LCPP_test_pRuntimeState;
-
-    auto pSyntax = syntax::builtin::create(&testBuiltin);
+    StackPtr<LispObject> pSyntax = syntax::builtin::create(&testBuiltin);
 
     CUT_ASSERT.isFalse(syntax::builtin::hasName(pSyntax));
     CUT_ASSERT.isTrue(isNil(syntax::builtin::getName(pSyntax)));
@@ -69,9 +67,9 @@ LCPP_TestCase(Syntax, Builtin_Name)
 
 LCPP_TestCase(Syntax, Builtin_toString)
 {
-    auto pSyntax = syntax::builtin::create(&testBuiltin);
+    StackPtr<LispObject> pSyntax = syntax::builtin::create(&testBuiltin);
 
-    auto pString = object::toString(pSyntax);
+    StackPtr<LispObject> pString = object::toString(pSyntax);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-syntax>"));
 
     syntax::builtin::setName(pSyntax, symbol::create("my-syntax"));
@@ -82,10 +80,8 @@ LCPP_TestCase(Syntax, Builtin_toString)
 
 LCPP_TestCase(Syntax, UserDefined)
 {
-    auto pState = LCPP_test_pRuntimeState;
+    StackPtr<LispObject> pArgList = LCPP_pNil;
+    StackPtr<LispObject> pBody = cons::create(number::create(1337), LCPP_pNil);
 
-    auto pArgList = LCPP_pNil;
-    auto pBody = cons::create(number::create(1337), LCPP_pNil);
-
-    //auto pLambda = syntax::create(pState->getGlobalEnvironment(), pArgList, pBody);
+    //StackPtr<LispObject> pLambda = syntax::create(LCPP_test_pRuntimeState->getGlobalEnvironment(), pArgList, pBody);
 }
