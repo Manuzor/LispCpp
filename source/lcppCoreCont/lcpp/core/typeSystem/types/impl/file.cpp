@@ -140,7 +140,7 @@ namespace lcpp
         void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName)
         {
             typeCheck(pFile, Type::File);
-            if(!isNil(pFileName)) typeCheck(pFile, Type::String);
+            if(!isNil(pFileName)) typeCheck(pFileName, Type::String);
             pFile->getData<Data>().m_pFileName = pFileName;
         }
 

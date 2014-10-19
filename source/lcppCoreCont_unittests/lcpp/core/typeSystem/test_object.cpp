@@ -41,20 +41,18 @@ LCPP_TestCase(Object, AllTypes)
     auto pFalse = LCPP_pFalse;
     auto pVoid = LCPP_pVoid;
 
-    auto pInteger = number::create(42);
-    auto pFloat = number::create(3.1415f);
+    StackPtr<LispObject> pInteger = number::create(42);
+    StackPtr<LispObject> pFloat = number::create(3.1415f);
 
-    auto pSymbol = symbol::create("hello-world");
-    auto pString = str::create("this-is-a-string");
-    auto pStream = stream::create(streamContent.GetIteratorFront());
+    StackPtr<LispObject> pSymbol = symbol::create("hello-world");
+    StackPtr<LispObject> pString = str::create("this-is-a-string");
+    StackPtr<LispObject> pStream = stream::create(streamContent.GetIteratorFront());
 
-    auto pCons = cons::create(pInteger, cons::create(cons::create(pFloat, pTrue), cons::create(pSymbol, cons::create(pString, LCPP_pNil))));
-    auto pEnv = env::createTopLevel(pSymbol);
-    auto pLambda = lambda::builtin::create(pEnv, &lambda::builtin::add, Signature::create(2, 42));
-    auto pSyntax = syntax::builtin::create(&syntax::builtin::define);
+    StackPtr<LispObject> pCons = cons::create(pInteger, cons::create(cons::create(pFloat, pTrue), cons::create(pSymbol, cons::create(pString, LCPP_pNil))));
+    StackPtr<LispObject> pEnv = env::createTopLevel(pSymbol);
+    StackPtr<LispObject> pLambda = lambda::builtin::create(pEnv, &lambda::builtin::add, Signature::create(2, 42));
+    StackPtr<LispObject> pSyntax = syntax::builtin::create(&syntax::builtin::define);
 
-    auto pFile = file::create();
+    StackPtr<LispObject> pFile = file::create();
     file::setFileName(pFile, pString);
-
-    return;
 }
