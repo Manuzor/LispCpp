@@ -121,20 +121,26 @@ namespace lcpp
         {
             LCPP_LogBlock("cons::pack");
 
-            // ri = 1
-            // ma = 3
-            // st = (1 2 3 4 5 6 7 8)
-            // re = (2 3 4)
+            /// Calculating the indices:
+            ///       [0 1 2 3 4 5]
+            /// low  --^
+            /// high ------------^
+            /// amount = 6
+            /// => high = low + amount - 1; => high = 0 + 6 - 1 = 5
 
-            const ezInt32 startIndex = cont::getStack(pCont)->convertToAbsolute(relativeIndexFrom);
-            EZ_ASSERT(startIndex >= 0, "");
-            ezInt32 amount = ezMath::Min(cont::getStack(pCont)->size() - startIndex, maxAmount);
+            const ezInt32 lowIndex = cont::getStack(pCont)->convertToAbsolute(relativeIndexFrom);
+            EZ_ASSERT(lowIndex >= 0, "");
+            ezInt32 amount = ezMath::Min(cont::getStack(pCont)->size() - lowIndex, maxAmount);
+            const ezInt32 highIndex = lowIndex + amount - 1;
+            EZ_ASSERT(highIndex >= lowIndex, "");
 
             StackPtr<LispObject> pCons = LCPP_pNil;
 
-            for (ezInt32 i = startIndex + amount; i <= startIndex; --i)
+            for (auto index = highIndex;
+                 amount > 0;
+                 --amount, --index)
             {
-                pCons = cons::create(cont::getStack(pCont)->get(i), pCons);
+                pCons = cons::create(cont::getStack(pCont)->get(index), pCons);
             }
 
             return pCons;

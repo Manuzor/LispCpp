@@ -50,8 +50,6 @@ LCPP_TestCase(Syntax_BuiltinFunctions, define)
 
 LCPP_TestCase(Syntax_BuiltinFunctions, define_name)
 {
-    LCPP_TEST_DebugBreakOnExceptionsInThisScope;
-
     auto pResult = evalString("(define x (lambda () 42))");
     pResult = evalString("x");
 
@@ -61,6 +59,8 @@ LCPP_TestCase(Syntax_BuiltinFunctions, define_name)
 
 LCPP_TestCase(Syntax_BuiltinFunctions, define_shortHandLambdaSyntax)
 {
+    LCPP_TEST_DebugBreakOnExceptionsInThisScope;
+
     auto pResult = LCPP_pNil;
 
     evalString("(define (the-answer) 42)");
