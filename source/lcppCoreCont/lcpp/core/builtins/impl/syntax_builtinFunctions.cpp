@@ -86,7 +86,7 @@ namespace lcpp
                 if (object::isType(pFirstArg, Type::Cons))
                 {
                     pSymbol = cons::getCar(pFirstArg);
-                    auto pArgNameList = cons::getCdr(pFirstArg);
+                    StackPtr<LispObject> pArgNameList = cons::getCdr(pFirstArg);
 
                     auto pContCall = cont::create(pCont, &lambda);
                     auto pStackCall = cont::getStack(pContCall);
