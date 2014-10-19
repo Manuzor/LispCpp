@@ -8,6 +8,7 @@ namespace lcpp
         {
         public:
             char* m_szString;
+            ezUInt64 m_uiLength;
         };
     }
 }

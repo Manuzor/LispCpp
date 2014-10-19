@@ -35,18 +35,24 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(const String& value)
+        static Ptr<LispObject> create(const char* szStringData, ezUInt64 uiLen)
         {
             LCPP_LogBlock("str::create");
 
             auto pInstance = object::create<Data>(getMetaInfo());
 
-            auto uiSize = value.GetElementCount() + 1; // ez stores the \0 character at the end and we will copy it over.
-            auto szString = (char*)defaultAllocator()->Allocate(uiSize, EZ_ALIGNMENT_OF(char*));
-            ezMemoryUtils::Copy(szString, value.GetData(), uiSize);
+            auto szString = (char*)defaultAllocator()->Allocate(uiLen + 1, EZ_ALIGNMENT_OF(char*));
+            ezMemoryUtils::Copy(szString, szStringData, uiLen + 1);
+            szString[uiLen] = '\0';
 
             pInstance->getData<Data>().m_szString = szString;
+            pInstance->getData<Data>().m_uiLength = uiLen;
             return pInstance;
+        }
+
+        Ptr<LispObject> create(const String& value)
+        {
+            return create(value.GetData(), value.GetElementCount());
         }
 
         String getValue(Ptr<LispObject> pObject)
@@ -60,10 +66,18 @@ namespace lcpp
         {
             typeCheck(pObject, Type::String);
 
-            ezStringBuilder theString;
-            theString.AppendFormat("\"%s\"", pObject->getData<Data>().m_szString);
+            auto uiOriginalLen = pObject->getData<Data>().m_uiLength;
+            auto szOriginalData = pObject->getData<Data>().m_szString;
+            auto uiLen = uiOriginalLen + 3;
+            auto szData = (char*)alloca(uiOriginalLen + 3);
 
-            return str::create(theString);
+            // String layout:               "...."\0
+            szData[0] = '"';          // ---^
+            szData[uiLen - 2] = '"';  // --------^
+            szData[uiLen - 1] = '\0'; // ---------^^
+            ezMemoryUtils::Copy(szData + 1, szOriginalData, uiOriginalLen);
+
+            return str::create(szData, uiLen);
         }
 
     }

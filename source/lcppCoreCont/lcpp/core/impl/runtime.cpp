@@ -38,7 +38,6 @@ lcpp::LispRuntimeState::initialize(ezAllocatorBase* pAllocator)
     {
         shutdown();
     }
-    ezLog::Dev("Initializing runtime @  0x%016llX", this);
 
     EZ_ASSERT(m_stats.m_initializationCount == m_stats.m_shutdownCount,
               "LCPP_pRuntime initialization and shutdown count must be balanced!");

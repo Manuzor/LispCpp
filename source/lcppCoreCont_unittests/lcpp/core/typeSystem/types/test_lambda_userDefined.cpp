@@ -22,21 +22,18 @@ LCPP_TestGroup(Lambda_UserDefined);
 
 LCPP_TestCase(Lambda_UserDefined, Basics)
 {
-    auto pState = LCPP_test_pRuntimeState;
+    StackPtr<LispObject> pArgList = cons::create(symbol::create("x"), LCPP_pNil);
+    StackPtr<LispObject> pBodyList = cons::create(number::create(1337), LCPP_pNil);
 
-    auto pArgList = cons::create(symbol::create("x"), LCPP_pNil);
-    auto pBodyList = cons::create(number::create(1337), LCPP_pNil);
+    StackPtr<LispObject> pLambda = lambda::userDefined::create(LCPP_test_pRuntimeState->getGlobalEnvironment(), pArgList, pBodyList);
 
-    auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
-
-    auto pResult = LCPP_pFalse;
+    StackPtr<LispObject> pResult = LCPP_pFalse;
 
     {
-        auto pContMain = cont::createTopLevel(pState);
-        auto pContCall = cont::create(pContMain, &object::call);
-        auto pStackCall = cont::getStack(pContCall);
-        pStackCall->push(pState->getGlobalEnvironment());
-        pStackCall->push(pLambda);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+        StackPtr<LispObject> pContCall = cont::create(pContMain, &object::call);
+        cont::getStack(pContCall)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
+        cont::getStack(pContCall)->push(pLambda);
 
         cont::trampoline(pContCall);
 
@@ -50,12 +47,12 @@ LCPP_TestCase(Lambda_UserDefined, toString)
 {
     auto pState = LCPP_test_pRuntimeState;
 
-    auto pArgList = LCPP_pNil;
-    auto pBodyList = cons::create(number::create(1337), LCPP_pNil);
+    StackPtr<LispObject> pArgList = LCPP_pNil;
+    StackPtr<LispObject> pBodyList = cons::create(number::create(1337), LCPP_pNil);
 
-    auto pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
+    StackPtr<LispObject> pLambda = lambda::userDefined::create(pState->getGlobalEnvironment(), pArgList, pBodyList);
 
-    auto pString = object::toString(pLambda);
+    StackPtr<LispObject> pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<procedure>"));
 
@@ -75,7 +72,7 @@ LCPP_TestCase(Lambda_UserDefined, uniqueCallerEnv)
                    "    )                         "
                    ")                             ";
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
     evalString(content);
 
     pResult = evalString("(f 42 #t)");

@@ -37,9 +37,9 @@ LCPP_TestGroup(Lambda_Builtin);
 
 LCPP_TestCase(Lambda_Builtin, Basics)
 {
-    auto pLambda = lambda::builtin::create(LCPP_test_pRuntimeState->getGlobalEnvironment(),
-                                           &testBuiltin,
-                                           Signature::create(0, Signature::VarArg));
+    StackPtr<LispObject> pLambda = lambda::builtin::create(LCPP_test_pRuntimeState->getGlobalEnvironment(),
+                                                           &testBuiltin,
+                                                           Signature::create(0, Signature::VarArg));
 
     g_wasCalled = false;
     StackPtr<LispObject> pResult = LCPP_pFalse;

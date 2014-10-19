@@ -12,7 +12,7 @@ LCPP_TestGroup(Stream);
 LCPP_TestCase(Stream, Basics)
 {
     auto content = ezString("abcdef");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
     CUT_ASSERT.isTrue(pStream);
     CUT_ASSERT.isTrue(object::isType(pStream, Type::Stream));
@@ -31,7 +31,7 @@ LCPP_TestCase(Stream, Basics)
 LCPP_TestCase(Stream, getPosition)
 {
     auto content = ezString("abcdef");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
     CUT_ASSERT.isTrue(stream::getPosition(pStream) == 0);
 
@@ -63,8 +63,8 @@ LCPP_TestCase(Stream, getPosition)
 LCPP_TestCase(Stream, toString)
 {
     auto content = ezString("abcdef");
-    auto pStream = stream::create(content.GetIteratorFront());
-    auto pString = LCPP_pNil;
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pString = LCPP_pNil;
 
     pString = object::toString(pStream);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<stream at 0: \"abcdef\">"));

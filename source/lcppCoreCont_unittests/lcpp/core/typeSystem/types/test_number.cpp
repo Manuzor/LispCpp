@@ -11,10 +11,10 @@ LCPP_TestGroup(Number);
 
 LCPP_TestCase(Number, Basics)
 {
-    auto pInteger_One = number::create(1);
-    auto pInteger_Two = number::create(2U);
-    auto pFloat_One = number::create(1.0);
-    auto pFloat_Two = number::create(1.0f);
+    StackPtr<LispObject> pInteger_One = number::create(1);
+    StackPtr<LispObject> pInteger_Two = number::create(2U);
+    StackPtr<LispObject> pFloat_One = number::create(1.0);
+    StackPtr<LispObject> pFloat_Two = number::create(1.0f);
 
     CUT_ASSERT.isTrue(object::isType(pInteger_One, Type::Integer));
     CUT_ASSERT.isTrue(object::isType(pInteger_Two, Type::Integer));
@@ -25,22 +25,22 @@ LCPP_TestCase(Number, Basics)
 
 LCPP_TestCase(Number, getInteger)
 {
-    auto pNumber = number::create(42);
+    StackPtr<LispObject> pNumber = number::create(42);
     CUT_ASSERT.isTrue(number::getInteger(pNumber) == 42);
 }
 
 LCPP_TestCase(Number, getFloat)
 {
-    auto pNumber = number::create(3.1415);
+    StackPtr<LispObject> pNumber = number::create(3.1415);
     CUT_ASSERT.isTrue(number::getFloat(pNumber) == 3.1415);
 }
 
 LCPP_TestCase(Number, toString)
 {
-    auto pInteger_42 = number::create(42);
-    auto pFloat_3_1415 = number::create(3.1415);
+    StackPtr<LispObject> pInteger_42 = number::create(42);
+    StackPtr<LispObject> pFloat_3_1415 = number::create(3.1415);
 
-    auto pString = LCPP_pNil;
+    StackPtr<LispObject> pString = LCPP_pNil;
 
     pString = object::toString(pInteger_42);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("42"));
