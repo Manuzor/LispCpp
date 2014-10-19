@@ -2,7 +2,7 @@
 #if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
 
     #undef LCPP_ContinuationDebug
-    #define LCPP_ContinuationDebug EZ_ON
+    #define LCPP_ContinuationDebug EZ_OFF
 
 #else
 

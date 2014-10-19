@@ -82,7 +82,7 @@ lcpp::Ptr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream)
 
 lcpp::Ptr<LispObject> lcpp::test::readString(const ezString& content)
 {
-    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(str::create(content.GetData(), content.GetElementCount()));
 
     return readStream(pStream);
 }
@@ -103,7 +103,7 @@ lcpp::Ptr<LispObject> lcpp::test::evalStream(StackPtr<LispObject> pStream)
 
 lcpp::Ptr<LispObject> lcpp::test::evalString(const ezString& content)
 {
-    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(str::create(content.GetData(), content.GetElementCount()));
 
     return evalStream(pStream);
 }

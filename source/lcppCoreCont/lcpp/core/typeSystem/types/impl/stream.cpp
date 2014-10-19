@@ -9,11 +9,21 @@
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/stringData.h"
 
 namespace lcpp
 {
     namespace stream
     {
+        static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
+        {
+            auto pStream = static_cast<LispObject*>(pCollectable);
+            typeCheck(pStream, Type::Stream);
+
+            auto& pString = pStream->getData<Data>().m_pString.get();
+            pString = pGC->addSurvivor(pString);
+        }
+
         static void destroy(CollectableBase* pCollectable)
         {
             auto pStream = static_cast<LispObject*>(pCollectable);
@@ -29,6 +39,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Stream);
                 meta.setPrettyName("stream");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
                                               static_cast<DestructorFunction_t>(&destroy)));
 
@@ -38,15 +50,19 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(ezStringIterator& iterator)
+        Ptr<LispObject> create(StackPtr<LispObject> pString)
         {
             LCPP_LogBlock("stream::create");
+            typeCheck(pString, Type::String);
 
             auto pInstance = object::create<Data>(getMetaInfo());
 
             auto& data = pInstance->getData<Data>();
 
-            data.m_stringView = iterator;
+            data.m_pString = pString.get();
+            auto pFirst = data.m_pString->getData<str::Data>().m_szString;
+            auto pEnd = pFirst + data.m_pString->getData<str::Data>().m_uiLength;
+            data.m_stringView = ezStringIterator(pFirst, pEnd, pFirst);
 
             return pInstance;
         }

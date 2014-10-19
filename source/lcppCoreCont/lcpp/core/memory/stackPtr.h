@@ -11,7 +11,7 @@ namespace lcpp
     public:
 
         enum { NumMaxStackPtrs = 1024 };
-        LCPP_API_CORE_CONT static CollectableBase* s_ptrTable[NumMaxStackPtrs];
+        LCPP_API_CORE_CONT static CollectableBase* volatile s_ptrTable[NumMaxStackPtrs];
         LCPP_API_CORE_CONT static ezUInt32 s_uiNextIndex;
 
     protected:

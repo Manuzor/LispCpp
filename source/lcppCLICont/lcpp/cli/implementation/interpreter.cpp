@@ -242,7 +242,7 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
-        auto pStream = stream::create(fileContent.GetIteratorFront());
+        auto pStream = stream::create(fileContent);
         pStackRead->push(pStream);
 
         while(true)
@@ -268,7 +268,7 @@ namespace lcpp
             {
                 break;
             }
-            
+
             cont::setFunction(pContEval, &eval::evaluate);
             pStackEval->clear();
             pStackEval->push(m_pState->getGlobalEnvironment());

@@ -3,6 +3,6 @@
 
 namespace lcpp
 {
-    CollectableBase* StackPtrBase::s_ptrTable[StackPtrBase::NumMaxStackPtrs];
+    CollectableBase* volatile StackPtrBase::s_ptrTable[StackPtrBase::NumMaxStackPtrs];
     ezUInt32 StackPtrBase::s_uiNextIndex(0);
 }

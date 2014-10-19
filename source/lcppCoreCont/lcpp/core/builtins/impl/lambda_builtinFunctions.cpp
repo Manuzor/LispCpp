@@ -56,7 +56,7 @@ namespace lcpp
                 }
 
                 auto pContent = str::create(content.GetData(), content.GetElementCount());
-                auto pStream = stream::create(str::getValue(pContent).GetIteratorFront());
+                auto pStream = stream::create(pContent);
 
                 pStack->clear();
                 pStack->push(pStream);

@@ -8,6 +8,7 @@ namespace lcpp
         class Data
         {
         public:
+            Ptr<LispObject> m_pString;
             ezStringIterator m_stringView;
         };
     };
