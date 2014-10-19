@@ -18,12 +18,21 @@ namespace lcpp
 {
     namespace file
     {
+        static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
+        {
+            auto pFile = static_cast<LispObject*>(pCollectable);
+            typeCheck(pFile, Type::File);
+
+            auto& pFileName = pFile->getData<Data>().m_pFileName.get();
+            pFileName = pGC->addSurvivor(pFileName);
+        }
+
         static void destroy(CollectableBase* pCollectable)
         {
-            auto pObject = static_cast<LispObject*>(pCollectable);
-            typeCheck(pObject, Type::File);
+            auto pFile = static_cast<LispObject*>(pCollectable);
+            typeCheck(pFile, Type::File);
 
-            auto& theFile = pObject->getData<Data>().m_file;
+            auto& theFile = pFile->getData<Data>().m_file;
             theFile.~ezOSFile();
         }
 
@@ -34,6 +43,10 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::File);
                 meta.setPrettyName("file");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.
@@ -54,11 +67,15 @@ namespace lcpp
             return pInstance;
         }
 
-        Ptr<LispObject> open(Ptr<LispObject> pFile, Ptr<LispObject> pStringFileName, Ptr<LispObject> pStringFileMode)
+        Ptr<LispObject> open(StackPtr<LispObject> pFile, StackPtr<LispObject> pStringFileName, StackPtr<LispObject> pStringFileMode)
         {
-            typeCheck(pFile, Type::File);
+            LCPP_GC_PreventCollectionInScope;
 
-            pFile->getData<Data>().m_pFileName = pStringFileName;
+            typeCheck(pFile, Type::File);
+            typeCheck(pStringFileName, Type::String);
+            typeCheck(pStringFileMode, Type::String);
+
+            pFile->getData<Data>().m_pFileName = pStringFileName.get();
             auto& wrappedFile = pFile->getData<Data>().m_file;
             if(wrappedFile.IsOpen())
             {
@@ -94,6 +111,8 @@ namespace lcpp
 
         Ptr<LispObject> isOpen(Ptr<LispObject> pFile)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             typeCheck(pFile, Type::File);
 
             auto& wrappedFile = pFile->getData<Data>().m_file;
@@ -103,6 +122,8 @@ namespace lcpp
 
         void close(Ptr<LispObject> pFile)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             typeCheck(pFile, Type::File);
 
             auto& wrappedFile = pFile->getData<Data>().m_file;
@@ -119,6 +140,7 @@ namespace lcpp
         void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName)
         {
             typeCheck(pFile, Type::File);
+            if(!isNil(pFileName)) typeCheck(pFile, Type::String);
             pFile->getData<Data>().m_pFileName = pFileName;
         }
 
@@ -129,7 +151,7 @@ namespace lcpp
             auto output = ezStringBuilder();
 
             auto& wrappedFile = pFile->getData<Data>().m_file;
-            auto pFileName = pFile->getData<Data>().m_pFileName;
+            StackPtr<LispObject> pFileName = pFile->getData<Data>().m_pFileName;
 
             if (wrappedFile.IsOpen())
             {

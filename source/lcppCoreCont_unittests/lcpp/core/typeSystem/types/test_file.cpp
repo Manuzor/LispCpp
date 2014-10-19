@@ -19,10 +19,10 @@ LCPP_TestCase(File, Basics)
     filePath.AppendPath("data1", "test", "testFile.txt");
     filePath.MakeCleanPath();
 
-    auto pFile = file::create();
+    StackPtr<LispObject> pFile = file::create();
     typeCheck(pFile, Type::File);
-    
-    auto pResult = LCPP_pNil;
+
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = file::isOpen(pFile);
     CUT_ASSERT.isTrue(isFalse(pResult));
@@ -49,15 +49,15 @@ LCPP_TestCase(File, Basics)
 
 LCPP_TestCase(File, readString)
 {
-    auto pResult = evalString("(file.read-string \"testFile.txt\")");
+    StackPtr<LispObject> pResult = evalString("(file.read-string \"testFile.txt\")");
     CUT_ASSERT.isTrue(str::getValue(pResult).IsEqual("line1\nline2\nline3 - the last line"));
 }
 
 LCPP_TestCase(File, toString)
 {
-    auto pFile = file::create();
-    auto pString = LCPP_pNil;
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pFile = file::create();
+    StackPtr<LispObject> pString = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
     ezStringBuilder expectedStringOutput;
 
     ezStringBuilder filePath;

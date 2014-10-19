@@ -7,7 +7,10 @@ namespace lcpp
         class Data
         {
         public:
-            ezOSFile m_file;
+            Data() : m_file(*new ezOSFile()) {}
+            ~Data() { delete &m_file; }
+
+            ezOSFile& m_file;
             Ptr<LispObject> m_pFileName;
         };
     }

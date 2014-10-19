@@ -38,17 +38,15 @@ LCPP_TestGroup(Continuation);
 
 LCPP_TestCase(Continuation, Basics)
 {
-    auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
     CUT_ASSERT.isTrue(object::isType(pContMain, Type::Continuation));
 
-    auto pContChild = cont::create(pContMain, &accumulator);
-
-    auto pChildStack = cont::getStack(pContChild);
+    StackPtr<LispObject> pContChild = cont::create(pContMain, &accumulator);
 
     auto numIterations = number::Integer_t(3);
 
-    pChildStack->push(number::create(0));
-    pChildStack->push(number::create(numIterations));
+    cont::getStack(pContChild)->push(number::create(0));
+    cont::getStack(pContChild)->push(number::create(numIterations));
 
     cont::trampoline(pContChild);
 
@@ -60,10 +58,10 @@ LCPP_TestCase(Continuation, Basics)
 LCPP_TestCase(Continuation, toString)
 {
     auto dummyFunc = [](StackPtr<LispObject>){ return Ptr<LispObject>(LCPP_pNil); };
-    auto pContRoot = cont::createTopLevel(LCPP_test_pRuntimeState);
-    auto pContChild = cont::create(pContRoot, dummyFunc);
+    StackPtr<LispObject> pContRoot = cont::createTopLevel(LCPP_test_pRuntimeState);
+    StackPtr<LispObject> pContChild = cont::create(pContRoot, dummyFunc);
 
-    auto pString = LCPP_pNil;
+    StackPtr<LispObject> pString = LCPP_pNil;
 
     pString = object::toString(pContRoot);
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<continuation>"));
