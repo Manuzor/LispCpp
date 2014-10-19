@@ -25,7 +25,7 @@ LCPP_TestGroup(Lambda_BuiltinFunctions);
 
 LCPP_TestCase(Lambda_BuiltinFunctions, add)
 {
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(+)");
     CUT_ASSERT.isTrue(number::isZero(pResult));
@@ -39,7 +39,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, add)
 
 LCPP_TestCase(Lambda_BuiltinFunctions, subtract)
 {
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(-)"); });
 
@@ -61,7 +61,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, subtract)
 
 LCPP_TestCase(Lambda_BuiltinFunctions, multiply)
 {
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(*)");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1);
@@ -75,7 +75,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, multiply)
 
 LCPP_TestCase(Lambda_BuiltinFunctions, divide)
 {
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(/)"); });
 
@@ -99,7 +99,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, modulo)
     CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(% 1)"); });
     CUT_ASSERT.throws<exceptions::ArgumentCount>([]{ evalString("(% 1 2 3)"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(% 42 3)");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 0);
@@ -121,7 +121,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, greaterThan)
 
     CUT_ASSERT.throws<exceptions::TypeCheckFailed>([]{ evalString("(> 1 \"hello\")"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(> 1 2)");
     CUT_ASSERT.isTrue(isFalse(pResult));
@@ -140,7 +140,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, greaterThanOrEqual)
 
     CUT_ASSERT.throws<exceptions::TypeCheckFailed>([]{ evalString("(>= 1 \"hello\")"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(>= 1 2)");
     CUT_ASSERT.isTrue(isFalse(pResult));
@@ -159,7 +159,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, equal)
 
     CUT_ASSERT.throws<exceptions::TypeCheckFailed>([]{ evalString("(= 1 \"hello\")"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(= 1 2)");
     CUT_ASSERT.isTrue(isFalse(pResult));
@@ -178,7 +178,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, lowerThan)
 
     CUT_ASSERT.throws<exceptions::TypeCheckFailed>([]{ evalString("(< 1 \"hello\")"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(< 1 2)");
     CUT_ASSERT.isTrue(isTrue(pResult));
@@ -197,7 +197,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, lowerThanOrEqual)
 
     CUT_ASSERT.throws<exceptions::TypeCheckFailed>([]{ evalString("(<= 1 \"hello\")"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(<= 1 2)");
     CUT_ASSERT.isTrue(isTrue(pResult));
@@ -213,11 +213,11 @@ LCPP_TestCase(Lambda_BuiltinFunctions, read)
 {
     CUT_ASSERT.throwsNothing([]{ evalString("read"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(read \"(define x 1336) (define y (+ x 1)) 42\")");
     CUT_ASSERT.isTrue(object::isType(pResult, Type::Cons));
-    auto pName = syntax::builtin::getName(cons::getCar(pResult));
+    StackPtr<LispObject> pName = syntax::builtin::getName(cons::getCar(pResult));
     const auto& nameValue = symbol::getValue(pName);
     CUT_ASSERT.isTrue(nameValue.IsEqual("begin"));
 
@@ -235,7 +235,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, eval)
 {
     CUT_ASSERT.throwsNothing([]{ evalString("eval"); });
 
-    auto pResult = LCPP_pNil;
+    StackPtr<LispObject> pResult = LCPP_pNil;
 
     pResult = evalString("(eval (read \"(define x 42) 1337\"))");
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
@@ -253,7 +253,7 @@ LCPP_TestCase(Lambda_BuiltinFunctions, print)
     auto testStream = TestStringStream();
     pPrinterState->m_pOutStream = &testStream;
 
-    auto pResult = evalString("(print 42)");
+    StackPtr<LispObject> pResult = evalString("(print 42)");
     CUT_ASSERT.isTrue(isVoid(pResult));
 
     CUT_ASSERT.isTrue(testStream.m_content.IsEqual("42\n"));

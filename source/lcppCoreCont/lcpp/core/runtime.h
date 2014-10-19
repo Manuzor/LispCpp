@@ -70,8 +70,8 @@ namespace lcpp
         LispObject* m_pSyntaxEnvironment;
         LispObject* m_pGlobalEnvironment;
 
-        reader::State m_readerState;
-        printer::State m_printerState;
+        reader::State* m_pReaderState;
+        printer::State* m_pPrinterState;
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;

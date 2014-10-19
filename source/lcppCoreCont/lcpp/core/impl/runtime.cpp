@@ -58,11 +58,11 @@ lcpp::LispRuntimeState::initialize(ezAllocatorBase* pAllocator)
 
     //////////////////////////////////////////////////////////////////////////
 
-    m_readerState.reset();
-    m_readerState.m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
-    m_pGC->addRoot(m_readerState.m_pMacroEnv.get());
+    m_pReaderState = EZ_NEW(defaultAllocator(), reader::State);
+    m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
+    m_pGC->addRoot(m_pReaderState->m_pMacroEnv.get());
 
-    m_printerState.reset();
+    m_pPrinterState = EZ_NEW(defaultAllocator(), printer::State);
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -79,12 +79,14 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-    m_pGC->removeRoot(m_readerState.m_pMacroEnv.get());
+    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
     m_pGC->removeRoot(m_pGlobalEnvironment);
     m_pGC->removeRoot(m_pSyntaxEnvironment);
 
-    m_readerState.m_pMacroEnv = nullptr;
-    m_printerState.m_pOutStream = &m_printerState.m_stdOutStream;
+    m_pReaderState->m_pMacroEnv = nullptr;
+    EZ_DELETE(defaultAllocator(), m_pReaderState);
+    m_pPrinterState->m_pOutStream = nullptr;
+    EZ_DELETE(defaultAllocator(), m_pPrinterState);
     m_pGlobalEnvironment = nullptr;
     m_pSyntaxEnvironment = nullptr;
 

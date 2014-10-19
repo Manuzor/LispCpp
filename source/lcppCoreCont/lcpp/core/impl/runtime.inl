@@ -23,25 +23,25 @@ namespace lcpp
     EZ_FORCE_INLINE
     Ptr<reader::State> LispRuntimeState::getReaderState()
     {
-        return &m_readerState;
+        return m_pReaderState;
     }
 
     EZ_FORCE_INLINE
     Ptr<const reader::State> LispRuntimeState::getReaderState() const
     {
-        return &m_readerState;
+        return m_pReaderState;
     }
 
     EZ_FORCE_INLINE
     Ptr<printer::State> LispRuntimeState::getPrinterState()
     {
-        return &m_printerState;
+        return m_pPrinterState;
     }
 
     EZ_FORCE_INLINE
         Ptr<const printer::State> LispRuntimeState::getPrinterState() const
     {
-        return &m_printerState;
+        return m_pPrinterState;
     }
 
     EZ_FORCE_INLINE
