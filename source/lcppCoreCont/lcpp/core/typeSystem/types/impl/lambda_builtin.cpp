@@ -218,7 +218,7 @@ namespace lcpp
 
                 theString.Append('>');
 
-                return str::create(theString);
+                return str::create(theString.GetData(), theString.GetElementCount());
             }
         }
     }

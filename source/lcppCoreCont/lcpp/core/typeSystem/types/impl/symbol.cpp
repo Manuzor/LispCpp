@@ -74,7 +74,8 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Symbol);
 
-            return str::create(getValue(pObject).GetData());
+            auto& sData = pObject->getData<Data>().m_string;
+            return str::create(sData.GetData(), sData.GetElementCount());
         }
 
     }

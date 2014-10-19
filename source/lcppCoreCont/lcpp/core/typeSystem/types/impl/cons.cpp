@@ -189,7 +189,7 @@ namespace lcpp
             toStringHelper(pObject, builder);
             builder.Append(')');
 
-            return str::create(builder);
+            return str::create(builder.GetData(), builder.GetElementCount());
         }
 
     }

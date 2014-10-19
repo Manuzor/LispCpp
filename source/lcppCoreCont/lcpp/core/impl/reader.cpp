@@ -272,7 +272,7 @@ namespace lcpp
 
                 // Read the trailing " character.
                 advance(pState, pStream);
-                LCPP_cont_return(pCont, str::create(theString));
+                LCPP_cont_return(pCont, str::create(theString.GetData(), theString.GetElementCount()));
             }
 
             Ptr<LispObject> readList(StackPtr<LispObject> pCont)

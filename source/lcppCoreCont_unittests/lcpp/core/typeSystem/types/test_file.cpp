@@ -27,7 +27,7 @@ LCPP_TestCase(File, Basics)
     pResult = file::isOpen(pFile);
     CUT_ASSERT.isTrue(isFalse(pResult));
 
-    pResult = file::open(pFile, str::create(filePath.GetData()), str::create("r"));
+    pResult = file::open(pFile, str::create(filePath.GetIteratorFront()), str::create("r"));
     CUT_ASSERT.isTrue(isTrue(pResult));
 
     pResult = file::isOpen(pFile);
@@ -40,7 +40,7 @@ LCPP_TestCase(File, Basics)
 
     filePath.AppendPath("I", "Do", "Not", "Exist");
 
-    pResult = file::open(pFile, str::create(filePath.GetData()), str::create("r"));
+    pResult = file::open(pFile, str::create(filePath.GetIteratorFront()), str::create("r"));
     CUT_ASSERT.isTrue(isFalse(pResult));
 
     pResult = file::isOpen(pFile);
@@ -69,7 +69,7 @@ LCPP_TestCase(File, toString)
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<closed file>"));
 
     //////////////////////////////////////////////////////////////////////////
-    pResult = file::open(pFile, str::create(filePath.GetData()), str::create("r"));
+    pResult = file::open(pFile, str::create(filePath.GetIteratorFront()), str::create("r"));
     CUT_ASSERT.isTrue(isTrue(pResult));
 
     expectedStringOutput.Format("<open file: \"%s\">", filePath.GetData());
@@ -95,7 +95,7 @@ LCPP_TestCase(File, toString)
 
     //////////////////////////////////////////////////////////////////////////
     ezStringBuilder nonExistantFile("This/Is/No/Path.extension");
-    pResult = file::open(pFile, str::create(nonExistantFile.GetData()), str::create("r"));
+    pResult = file::open(pFile, str::create(nonExistantFile.GetIteratorFront()), str::create("r"));
     CUT_ASSERT.isTrue(isFalse(pResult));
 
     expectedStringOutput.Format("<closed file: \"%s\">", nonExistantFile.GetData());

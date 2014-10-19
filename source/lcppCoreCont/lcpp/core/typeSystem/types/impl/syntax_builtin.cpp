@@ -159,7 +159,7 @@ namespace lcpp
                 typeCheck(pObject, Type::Syntax);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
-                auto theString = ezStringBuilder();
+                ezStringBuilder theString;
                 theString.AppendFormat("<%s", getMetaInfo()->getPrettyName());
 
                 if(hasName(pObject))
@@ -169,7 +169,7 @@ namespace lcpp
 
                 theString.Append('>');
 
-                return str::create(theString);
+                return str::create(theString.GetData(), theString.GetElementCount());
             }
 
         }

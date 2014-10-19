@@ -124,7 +124,7 @@ namespace lcpp
                 name.Prepend('/');
             }
 
-            return str::create(name);
+            return str::create(name.GetData(), name.GetElementCount());
         }
 
         Ptr<LispObject> getParent(Ptr<LispObject> pEnv)

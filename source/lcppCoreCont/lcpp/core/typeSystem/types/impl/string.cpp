@@ -35,7 +35,7 @@ namespace lcpp
             return &meta;
         }
 
-        static Ptr<LispObject> create(const char* szStringData, ezUInt64 uiLen)
+        Ptr<LispObject> create(const char* szStringData, ezUInt64 uiLen)
         {
             LCPP_LogBlock("str::create");
 
@@ -48,11 +48,6 @@ namespace lcpp
             pInstance->getData<Data>().m_szString = szString;
             pInstance->getData<Data>().m_uiLength = uiLen;
             return pInstance;
-        }
-
-        Ptr<LispObject> create(const String& value)
-        {
-            return create(value.GetData(), value.GetElementCount());
         }
 
         String getValue(Ptr<LispObject> pObject)

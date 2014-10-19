@@ -97,7 +97,7 @@ namespace lcpp
                 stringValue = lcpp::toString(getFloat(pObject));
             }
 
-            return str::create(stringValue.GetData());
+            return str::create(stringValue.GetData(), stringValue.GetElementCount());
         }
 
         Ptr<LispObject> negate(Ptr<LispObject> pObject)

@@ -107,7 +107,7 @@ namespace lcpp
 
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
-            auto theString = ezStringBuilder();
+            ezStringBuilder theString;
             theString.Append("<stream at ");
 
             if (!isValid(pObject))
@@ -123,7 +123,7 @@ namespace lcpp
             }
 
             theString.Append('>');
-            return str::create(theString);
+            return str::create(theString.GetData(), theString.GetElementCount());
         }
 
     }

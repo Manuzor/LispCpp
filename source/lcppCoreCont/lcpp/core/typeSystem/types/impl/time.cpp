@@ -76,10 +76,10 @@ namespace lcpp
         {
             typeCheck(pTime, Type::Time);
 
-            auto stringRepresentation = ezStringBuilder();
+            ezStringBuilder stringRepresentation;
             stringRepresentation.Format("%fms", pTime->getData<Data>().m_time.GetMilliseconds());
 
-            return str::create(stringRepresentation.GetData());
+            return str::create(stringRepresentation.GetData(), stringRepresentation.GetElementCount());
         }
 
 

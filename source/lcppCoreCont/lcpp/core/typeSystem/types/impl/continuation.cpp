@@ -171,7 +171,6 @@ namespace lcpp
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Continuation);
-
             return str::create("<continuation>");
         }
     }

@@ -55,7 +55,7 @@ namespace lcpp
                     typeCheckFailed(message.GetData());
                 }
 
-                auto pContent = str::create(content);
+                auto pContent = str::create(content.GetData(), content.GetElementCount());
                 auto pStream = stream::create(str::getValue(pContent).GetIteratorFront());
 
                 pStack->clear();
@@ -254,7 +254,7 @@ namespace lcpp
                 if(absoluteFileName.IsRelativePath())
                 {
                     absoluteFileName.MakeAbsolutePath(cont::getRuntimeState(pCont)->getUserDirectory());
-                    pFileName = str::create(absoluteFileName);
+                    pFileName = str::create(absoluteFileName.GetData(), absoluteFileName.GetElementCount());
                 }
 
                 // Make sure the file exists.
@@ -339,7 +339,7 @@ namespace lcpp
                     rawFileContent[fileSize32] = '\0';
 
                     auto szString = reinterpret_cast<const char*>(&rawFileContent[0]);
-                    pString = str::create(szString);
+                    pString = str::create(szString, fileSize32);
                 }
 
                 LCPP_cont_return(pCont, pString);

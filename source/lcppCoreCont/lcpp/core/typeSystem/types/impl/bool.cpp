@@ -45,9 +45,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::True);
 
-            static auto pString = str::create("#t");
-
-            return pString;
+            return str::create("#t");
         }
 
     }
@@ -87,9 +85,7 @@ namespace lcpp
         {
             typeCheck(pObject, Type::False);
 
-            static auto pString = str::create("#f");
-
-            return pString;
+            return str::create("#f");
         }
 
     }

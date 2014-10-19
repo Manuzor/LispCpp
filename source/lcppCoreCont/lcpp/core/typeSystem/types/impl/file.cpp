@@ -171,7 +171,7 @@ namespace lcpp
                 }
             }
 
-            return str::create(output.GetData());
+            return str::create(output.GetData(), output.GetElementCount());
         }
 
     }
