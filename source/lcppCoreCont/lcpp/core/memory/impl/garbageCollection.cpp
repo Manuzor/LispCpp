@@ -30,7 +30,8 @@ namespace lcpp
 
     GarbageCollector::GarbageCollector() :
         m_pAllocator(nullptr),
-        m_uiNumCollectionPreventions(0)
+        m_uiNumCollectionPreventions(0),
+        m_bGrowBeforeNextCollection(false)
     {
     }
 
@@ -53,6 +54,7 @@ namespace lcpp
 
         m_ScanPointer = nullptr;
         m_uiCurrentGeneration = 0;
+        m_bGrowBeforeNextCollection = false;
     }
 
     void GarbageCollector::clear()
@@ -60,7 +62,7 @@ namespace lcpp
         EZ_ASSERT(!m_pAllocator.isNull(), "Not initialized.");
 
         m_ScanPointer = nullptr;
-        collect(); // Should clean everything up.
+        collect(0); // Should clean everything up.
 
         m_pEdenSpace = nullptr;
         m_pSurvivorSpace = nullptr;
@@ -92,11 +94,25 @@ namespace lcpp
         }
         m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
 #else
+        bool bInitializeSurvivor = m_bGrowBeforeNextCollection || m_pSurvivorSpace->getEntireMemorySize() < m_pEdenSpace->getEntireMemorySize();
         if (m_bGrowBeforeNextCollection)
         {
             m_bGrowBeforeNextCollection = false;
+
+            ezLog::Dev("Growing GC memory");
+            ezLog::Dev("  from %u pages (%u KiB)", m_uiNumCurrentPages, m_uiNumCurrentPages * GarbageCollectorPageSize / 1024);
+
             m_uiNumCurrentPages *= 2;
+
+            ezLog::Dev("  to   %u pages (%u KiB)", m_uiNumCurrentPages, m_uiNumCurrentPages * GarbageCollectorPageSize / 1024);
+            printStats();
+        }
+
+        if(bInitializeSurvivor)
+        {
+#if EZ_DISABLED(LCPP_GC_KeepAllocatedMemory)
             m_pSurvivorSpace->free();
+#endif
             // Note: Survivor is already protected at this point.
             m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
         }
@@ -109,11 +125,18 @@ namespace lcpp
         //printf("Eden range:     0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pEdenSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pEdenSpace->getEnd()));
         //printf("Survivor range: 0x%016llX - 0x%016llX\n", reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getBeginning()), reinterpret_cast<ezUInt64>(m_pSurvivorSpace->getEnd()));
 
+        EZ_ASSERT(m_pSurvivorSpace->getEntireMemorySize() >= m_pEdenSpace->getEntireMemorySize(), "");
     }
 
-    void GarbageCollector::collect()
+    void GarbageCollector::collect(std::size_t uiNumMinBytesToFree)
     {
         EZ_ASSERT(m_uiNumCollectionPreventions == 0, "Collection is not enabled at this point.");
+
+        while(m_uiNumCurrentPages * GarbageCollectorPageSize - m_pSurvivorSpace->getAllocatedMemorySize() < uiNumMinBytesToFree)
+        {
+            m_bGrowBeforeNextCollection = true;
+            m_uiNumCurrentPages *= 2;
+        }
 
         prepareCollectionCycle();
 
@@ -140,7 +163,15 @@ namespace lcpp
 
         std::swap(m_pEdenSpace, m_pSurvivorSpace);
 
-        m_bGrowBeforeNextCollection = m_pEdenSpace->getPercentageFilled() > m_fGrowingThreshold;
+        auto fPercentFilled = m_pEdenSpace->getPercentageFilled();
+        m_bGrowBeforeNextCollection = fPercentFilled > m_fGrowingThreshold;
+        if (m_bGrowBeforeNextCollection)
+        {
+            ezLog::Dev("GC will grow next cycle. Currently filled by %f%%", fPercentFilled * 100);
+            printStats();
+        }
+
+        EZ_ASSERT(m_pEdenSpace->getEntireMemorySize() >= m_pSurvivorSpace->getEntireMemorySize(), "");
     }
 
     void GarbageCollector::addRootsToSurvivorSpace()
@@ -248,6 +279,19 @@ namespace lcpp
         pSurvivor->m_pForwardPointer = pResult;
 
         return pResult;
+    }
+
+    void GarbageCollector::printStats()
+    {
+        ezLog::Dev("Growing threshold: %f%%", m_fGrowingThreshold * 100);
+        ezLog::Dev("Survivor: %u B / %u B (%u Pages)",
+                   m_pSurvivorSpace->getAllocatedMemorySize(),
+                   m_pSurvivorSpace->getEntireMemorySize(),
+                   m_pSurvivorSpace->getEntireMemorySize() / GarbageCollectorPageSize);
+        ezLog::Dev("Eden:     %u B / %u B (%u Pages)",
+                   m_pEdenSpace->getAllocatedMemorySize(),
+                   m_pEdenSpace->getEntireMemorySize(),
+                   m_pEdenSpace->getEntireMemorySize() / GarbageCollectorPageSize);
     }
 
 }

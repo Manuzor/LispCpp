@@ -176,7 +176,7 @@ LCPP_TestCaseNoInit(GarbageCollection, Basics)
     CUT_ASSERT.isTrue(pWillBeCollected->m_iData == 0, "No default construction.");
     pWillBeCollected->m_iData = 1337;
 
-    gc.collect();
+    gc.collect(0);
     // pWillBeCollected->m_iData = 1; // Should trigger an access violation.
 
     {
@@ -185,12 +185,12 @@ LCPP_TestCaseNoInit(GarbageCollection, Basics)
 
         for(int i = 0; i < 10; ++i)
         {
-            gc.collect();
+            gc.collect(0);
             CUT_ASSERT.isTrue(pSafeInstance->m_iData == 42);
         }
 
         pSafeInstance->m_iData = 1337;
     }
 
-    gc.collect();
+    gc.collect(0);
 }

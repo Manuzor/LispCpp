@@ -41,11 +41,18 @@ namespace lcpp
 
             auto pInstance = object::create<Data>(getMetaInfo());
 
-            auto szString = (char*)defaultAllocator()->Allocate(uiLen + 1, EZ_ALIGNMENT_OF(char*));
-            ezMemoryUtils::Copy(szString, szStringData, uiLen + 1);
-            szString[uiLen] = '\0';
+            if(szStringData != nullptr)
+            {
+                auto szString = (char*)defaultAllocator()->Allocate(uiLen + 1, EZ_ALIGNMENT_OF(char*));
+                ezMemoryUtils::Copy(szString, szStringData, uiLen + 1);
+                szString[uiLen] = '\0';
+                pInstance->getData<Data>().m_szString = szString;
+            }
+            else
+            {
+                pInstance->getData<Data>().m_szString = nullptr;
+            }
 
-            pInstance->getData<Data>().m_szString = szString;
             pInstance->getData<Data>().m_uiLength = uiLen;
             return pInstance;
         }

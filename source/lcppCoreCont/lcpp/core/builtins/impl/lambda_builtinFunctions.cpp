@@ -308,7 +308,7 @@ namespace lcpp
                 auto pState = cont::getRuntimeState(pCont);
                 auto pStack = cont::getStack(pCont);
 
-                auto pFileName = pStack->get(1);
+                StackPtr<LispObject> pFileName = pStack->get(1);
                 typeCheck(pFileName, Type::String);
 
                 auto szFileNameValue = str::getValue(pFileName).GetData();

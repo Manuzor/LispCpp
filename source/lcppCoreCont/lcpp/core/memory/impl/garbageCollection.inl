@@ -81,7 +81,7 @@ namespace lcpp
 
 #if EZ_ENABLED(LCPP_GC_CollectBeforeEachAllocation)
         ++uiNumTries;
-        collect();
+        collect(1);
 #endif
 
         while(true)
@@ -93,14 +93,14 @@ namespace lcpp
 
             if (result.isOutOfMemory())
             {
-                if (uiNumTries >= 2)
+                if (uiNumTries >= 3)
                 {
                     // TODO Resize the internal array?
                     EZ_REPORT_FAILURE("Out of memory!");
                     return nullptr;
                 }
 
-                collect();
+                collect(sizeof(T));
             }
             else
             {

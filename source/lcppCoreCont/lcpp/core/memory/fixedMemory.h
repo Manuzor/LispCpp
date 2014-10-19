@@ -80,7 +80,6 @@ namespace lcpp
             Invalid,
             Available,
             Freed,
-            PseudoFreed, ///< Used for debugging when we actually did not free anything.
             Protected,
             Unprotected,
         };

@@ -122,7 +122,7 @@ namespace lcpp
         template<typename T>
         Ptr<T> create(Ptr<const MetaInfo> pMetaInfo);
 
-        void collect();
+        void collect(std::size_t uiNumMinBytesToFree);
 
         /// \remarks WARNING: Be very careful with this method!
         ///                   It cannot check if the pointer is truly pointing to a valid object.
@@ -163,6 +163,8 @@ namespace lcpp
         void destroyGarbage();
 
         void addRootsToSurvivorSpace();
+
+        void printStats();
 
     public:
 
