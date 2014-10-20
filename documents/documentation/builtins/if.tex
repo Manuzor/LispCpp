@@ -1,0 +1,26 @@
+\subsection{Syntax 'if'}
+\label{builtins/if}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(if condition then else)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[condition] The condition to be evaluated.
+	\item[then] Will be evaluated if the given condition is not \lstinline|#f|.
+	\item[else] Will be evaluated if the given condition is \lstinline|#f|.
+\end{description}
+
+\subsubsection*{Description}
+If the given \lstinline|condition| evaluates to something that is not \lstinline|#f|, the \lstinline|then| argument is evaluated and the result of that is returned. In case the given \lstinline|condition| is \lstinline|#f|, the \lstinline|else| argument is evaluated and returned.
+
+Note that it is guaranteed that either \lstinline|then| or \lstinline|else| is evaluated, but never both or none.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(if #t 1 2) ; Yields 1
+(if #f 1 2) ; Yields 2
+(if #f (print "Hello") (print "Goodbye")) ; prints "Goodbye"
+\end{lstlisting}
