@@ -1,0 +1,24 @@
+\subsection{Syntax 'begin'}
+\label{builtins/begin}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(begin [expression...])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[expression...] One or more expressions that will be evaluated in the same order that they are given.
+\end{description}
+
+\subsubsection*{Description}
+Acts basically like a \lstinline|lambda| except that it does not accept additional arguments and does not create an inner environment. The surrounding environment becomes the one within the \lstinline|begin| statement. When used in an assignment or return context, the last evaluated result within the \lstinline|begin| statement's body will be returned.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(begin (print "hello") (print "world")) ; Prints "hello\nworld\n"
+(define x (begin 1 2 3)) ; x equals to 3 now.
+
+; Will never return 1337 but print a string and return 42.
+(if #f 1337 (begin (print "Returning the answer.") 42))
+\end{lstlisting}
