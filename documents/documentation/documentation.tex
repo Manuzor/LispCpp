@@ -1,19 +1,33 @@
 % !TeX encoding = UTF-8
 % !TeX spellcheck = en_US
 % !TeX root = template_Report.tex
-\documentclass[a4paper]{report}
-
+\documentclass[a4paper]{scrartcl}
+\usepackage{listings}
 
 % Title Page
 \title{LispCpp Documentation}
-\author{Manuel Maier, Matriculation Number 28535}
+\subtitle{Course "Design and Implementation of modern Programming languages" held by Claus Gittinger}
+\author{Manuel Maier, Matriculation Number 28535\\
+	Suttgart Media University}
 \date{\today}
 
 \begin{document}
 \maketitle
+\tableofcontents
 
+\section{Features}
+	pass
+	
+\section{Built-in Syntax}
+	Within this section, a simple declaration syntax is used:
 
-\section{Introduction}
-Hello world.
+	Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
+
+	Parameters enclosed in brackets are optional: \lstinline|[param]| or \lstinline|[param...]|
+
+	Everything else is regular LISP syntax.
+
+\input{builtins/define}
+\input{builtins/lambda}
 
 \end{document}

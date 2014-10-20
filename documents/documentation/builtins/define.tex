@@ -1,0 +1,32 @@
+\subsection{define}
+\label{builtins/define}
+
+\subsubsection{Declaration}
+\begin{lstlisting}
+(define symbol expression)
+(define (symbol [arg]) code [code...])
+\end{lstlisting}
+
+\subsubsection{Parameters}
+\begin{description}
+	\item[symbol] The unevaluated symbol to bind the result of the expression to.
+	\item[expression] The result of expression is bound to the specified symbol.
+	\item[code] An expression that will be evaluated when the lambda is called.
+	\item[arg] An optional unevaluated symbol to bind values to that are available when executing all code argument.
+\end{description}
+
+\subsubsection{Description}
+Binds the value of the given evaluated expression to the given unevaluated symbol.
+
+The second form is equivalent to the following:
+\begin{lstlisting}
+(define symbol (lambda ([arg...]) code [code...]))
+\end{lstlisting}
+
+\subsubsection{Examples}
+\begin{lstlisting}
+(define x 1)
+(define value "value")
+(define another-value (+ 1 2 3)) ; another-value is then equal to 6
+(define (make-adder x) (lambda (n) (+ x n)))
+\end{lstlisting}
