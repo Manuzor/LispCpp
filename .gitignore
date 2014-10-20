@@ -28,3 +28,4 @@ CMakeLists.txt
 ########## Documentation specific stuff ##########
 documents/documentation/*.pdf
 documents/documentation/*.log
+documents/documentation/*.out
