@@ -23,7 +23,7 @@
 	\lstset{numbers=none}
 	\lstset{numberstyle=\ttfamily\color{codeLineNumbers}}
 	\lstset{breaklines=true}
-	\lstset{morekeywords={define,if,lambda}}
+	\lstset{morekeywords={define,if,lambda,quote}}
 \usepackage{todonotes}
 \usepackage{enumitem}
 \setlist[description]{leftmargin=\parindent,labelindent=\parindent}
@@ -47,15 +47,18 @@
 \section{Built-ins}
 	Within this section, a simple declaration syntax is used, mixed with the regular LISP syntax:
 
+	Declarations for procedures look like they're called at that instance. This was done to keep it more simple.
+
 	Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
 
 	Parameters enclosed in brackets are optional: \lstinline|[param]| or \lstinline|[param...]|
 
-	Everything else is regular LISP syntax.
+	Everything else is regular LISP syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. They are built-ins after all.
 
 	\input{builtins/symbols}
 
 	\input{builtins/define-and-set}
 	\input{builtins/lambda}
+	\input{builtins/quote}
 
 \end{document}
