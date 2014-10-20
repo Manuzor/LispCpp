@@ -7,6 +7,22 @@ namespace cut
 
 	typedef std::vector<IUnitTest*> UnitTestContainer;
 
+	struct TestRunResult
+	{
+		enum Enum
+		{
+			Succeeded,
+			Failed,
+		};
+
+		TestRunResult(Enum value) : m_value(value){}
+
+		bool suceeded() { return m_value == Succeeded; }
+		bool failed() { return m_value == Failed; }
+
+		Enum m_value;
+	};
+
 	class IUnitTestGroup
 	{
 	public:
@@ -14,11 +30,15 @@ namespace cut
 
 		virtual void registerUnitTest(IUnitTest* unitTest) = 0;
 
+		virtual TestRunResult runTest(IUnitTest* pTest) = 0;
+
 		virtual std::size_t runAllTests() = 0;
 
 		virtual std::size_t numberOfUnitTests() = 0;
 
 		virtual StringRef getName() const = 0;
+
+		virtual IUnitTest* getTest(StringRef testName) = 0;
 	};
 
 	class UnitTestGroup :
@@ -30,6 +50,8 @@ namespace cut
 		virtual ~UnitTestGroup();
 
 		virtual void registerUnitTest(IUnitTest* unitTest) CUT_OVERRIDE;
+		
+		virtual TestRunResult runTest(IUnitTest* pTest) CUT_OVERRIDE;
 
 		virtual std::size_t runAllTests() CUT_OVERRIDE;
 
@@ -37,6 +59,7 @@ namespace cut
 
 		virtual StringRef getName() const CUT_OVERRIDE;
 
+		virtual IUnitTest* getTest(StringRef testName) CUT_OVERRIDE;
 
 	protected:
 		std::string m_name;

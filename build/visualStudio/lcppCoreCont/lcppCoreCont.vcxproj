@@ -19,12 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\api.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\lambda_builtinFunctions.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\builtins\syntax_builtinFunctions.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\array.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\stack.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies\ezEngine.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\evaluator.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\assertException.h" />
@@ -39,6 +42,11 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\typeCheckFailedException.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\signature.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\ioUtils.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\fixedMemory.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollectionCommon.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\stackPtr.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\preprocessorUtils\disableVerboseLoggingLocally.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printer.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\printerState.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\reader.h" />
@@ -47,9 +55,10 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\runtime.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\syntaxCheckResult.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\commonTypes.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\allTypeData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attribute.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\attributeCheck.h" />
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypes.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\object.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\type.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\objectData.h" />
@@ -57,19 +66,33 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\typeCheck.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\bool.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\cons.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\consData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuation.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuationCommon.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuationData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environment.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environmentCommon.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environmentData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\file.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\fileData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuationMacros.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaCommon_builtin.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaData_builtin.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaData_userDefined.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda_builtin.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambda_userDefined.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\nil.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\number.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\numberHelpers.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\stream.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamCommon.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\string.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\stringData.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbol.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbolData.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntaxCommon_builtin.h" />
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntaxData_builtin.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntax_builtin.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\time.h" />
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\timeData.h" />
@@ -88,6 +111,8 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\reader.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime_registerBuiltins.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.cpp" />
@@ -114,6 +139,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\instanceTable.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\impl\signature.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\ioUtils.inl" />
@@ -123,6 +149,9 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\object.inl" />
@@ -131,22 +160,18 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\typeCheck.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\bool.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\consData.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environment.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environmentCommon.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\fileData.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_builtin.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\nil.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\number.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\numberHelpers.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\symbol.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\time.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\timeData.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\void.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -251,10 +276,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>LCPP_CORE_CONT_INCLUDE_ALL;LCPP_EXPORT_CORE_CONT;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Zo</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

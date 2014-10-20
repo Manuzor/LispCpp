@@ -15,6 +15,8 @@
 #define LCPP_OVERRIDE override
 #define LCPP_FINAL final
 
+#define LCPP_Const(declaration) declaration const
+
 #include "lcpp/foundation/memory/allocator.h"
 
 #include "lcpp/foundation/wrapper.h"
@@ -61,10 +63,6 @@ namespace lcpp
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 #define LCPP_UNUSED(anything) ((void)anything)
 #define LCPP_NOT_IMPLEMENTED EZ_REPORT_FAILURE("Not implemented."); throw exceptions::NotImplemented()
-
-// Use VerboseDebugMessage to disable verbose debug loggings,
-// otherwise use something like Info or Debug.
-#define LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME VerboseDebugMessage
 
 #include "lcpp/foundation/exceptionBase.h"
 

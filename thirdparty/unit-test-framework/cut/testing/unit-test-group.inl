@@ -2,6 +2,7 @@
 #include "cut/exceptions.h"
 #include "cut/testing/unit-test.h"
 #include "cut/testing/unit-test-manager.h"
+#include <sstream>
 
 inline
 cut::UnitTestGroup::UnitTestGroup(StringRef groupName, Lambda_t initialization, Lambda_t shutdown) :
@@ -42,94 +43,108 @@ cut::UnitTestGroup::runAllTests()
 		if(!IUnitTestManager::instance().isUnitTestOrGroupEnabled(getName(), unitTestName))
 		{
 			logMessage(format(
-				"Skipping disabled unit test \"%s\".\n",
+				"Skipping disabled unit test \"%s\".",
 				unitTestName));
 			continue;
 		}
 
-		try
-		{
-			LogBlock runSingleTest(format("Running test \"%s\"", unitTestName));
-			unitTest->run();
-		}
-		catch (exceptions::UnitTestFailure& failure)
+		if (runTest(unitTest).failed())
 		{
 			++failed;
-
-			if (failure.message().empty())
-			{
-				logFailure(format("%s(%d): Unit test \"%s\" failed.\n",
-				                  failure.file(),
-				                  failure.line(),
-				                  unitTestName
-				                  ));
-			}
-			else
-			{
-				logFailure(format("%s(%d): Unit test \"%s\" failed:\n  %s\n",
-				                  failure.file(),
-				                  failure.line(),
-				                  unitTestName,
-				                  failure.message().cString()
-				                  ));
-			}
-		}
-		catch (exceptions::UnitTestSuccess& success)
-		{
-			if(success.message().empty())
-			{
-				logSuccess(format("%s(%d): Unit test \"%s\" succeeded prematurely.\n",
-				                  success.file(),
-				                  success.line(),
-				                  unitTestName
-				                  ));
-			}
-			else
-			{
-				logSuccess(format("%s(%d): Unit test \"%s\" succeeded prematurely:\n  %s\n",
-				                  success.file(),
-				                  success.line(),
-				                  unitTestName,
-				                  success.message().cString()
-				                  ));
-			}
-		}
-		catch(exceptions::UnitTestNotImplemented& notImplemented)
-		{
-			IUnitTestManager::instance().statistics().testsNotImplemented++;
-
-			if(notImplemented.message().empty())
-			{
-				logWarning(format("%s(%d): Unit test \"%s\" is not implemented.\n",
-					notImplemented.file(),
-					notImplemented.line(),
-					unitTestName
-					));
-			}
-			else
-			{
-				logWarning(format("%s(%d): Unit test \"%s\" is not implemented:\n  %s\n",
-					notImplemented.file(),
-					notImplemented.line(),
-					unitTestName,
-					notImplemented.message().cString()
-					));
-			}
-		}
-		catch (std::exception& ex)
-		{
-			++failed;
-			logFailure(format("Unit test \"%s\" failed due to an unhandled std::exception: %s\n",
-			                  unitTestName,
-			                  ex.what()));
-		}
-		catch (...)
-		{
-			++failed;
-			logFailure(format("Unit test \"%s\" failed due to an unknown exception.\n", unitTestName));
 		}
 	}
 	return failed;
+}
+
+inline
+cut::TestRunResult
+cut::UnitTestGroup::runTest(IUnitTest* pTest)
+{
+	LogBlock runSingleTest("Unit Test");
+
+	TestRunResult result(TestRunResult::Succeeded);
+
+	auto unitTestName = pTest->getName().cString();
+	logMessage(format("Name: \"%s\".", unitTestName));
+
+	try
+	{
+		pTest->run();
+	}
+	catch (exceptions::UnitTestFailure& failure)
+	{
+		result = TestRunResult::Failed;
+
+		if (failure.message().empty())
+		{
+			logFailure(format("%s(%d): Unit test \"%s\" failed.",
+							  failure.file(),
+							  failure.line(),
+							  unitTestName));
+		}
+		else
+		{
+			logFailure(format("%s(%d): Unit test \"%s\" failed:",
+							  failure.file(),
+							  failure.line(),
+							  unitTestName));
+			logFailure(format("  %s", failure.message().cString()));
+		}
+	}
+	catch (exceptions::UnitTestSuccess& success)
+	{
+		if(success.message().empty())
+		{
+			logSuccess(format("%s(%d): Unit test \"%s\" succeeded prematurely.",
+							  success.file(),
+							  success.line(),
+							  unitTestName
+							  ));
+		}
+		else
+		{
+			logSuccess(format("%s(%d): Unit test \"%s\" succeeded prematurely:",
+							  success.file(),
+							  success.line(),
+							  unitTestName
+							  ));
+			logSuccess(format("  %s", success.message().cString()));
+		}
+	}
+	catch(exceptions::UnitTestNotImplemented& notImplemented)
+	{
+		IUnitTestManager::instance().statistics().testsNotImplemented++;
+
+		if(notImplemented.message().empty())
+		{
+			logWarning(format("%s(%d): Unit test \"%s\" is not implemented.",
+							  notImplemented.file(),
+							  notImplemented.line(),
+							  unitTestName));
+		}
+		else
+		{
+			logWarning(format("%s(%d): Unit test \"%s\" is not implemented:",
+							  notImplemented.file(),
+							  notImplemented.line(),
+							  unitTestName ));
+			logWarning(format("  %s", notImplemented.message().cString()));
+		}
+	}
+	catch (std::exception& ex)
+	{
+		result = TestRunResult::Failed;
+		logFailure(format("Unit test \"%s\" failed due to an unhandled std::exception: %s",
+			                unitTestName,
+			                ex.what()));
+	}
+	catch (...)
+	{
+		result = TestRunResult::Failed;
+		logFailure(format("Unit test \"%s\" failed due to an unknown exception.", unitTestName));
+	}
+
+	return result;
 }
 
 inline
@@ -144,4 +159,19 @@ cut::StringRef
 cut::UnitTestGroup::getName() const
 {
 	return m_name;
+}
+
+inline
+cut::IUnitTest*
+cut::UnitTestGroup::getTest(StringRef testName)
+{
+	for (auto pTest : m_unitTests)
+	{
+		if (pTest->getName() == testName)
+		{
+			return pTest;
+		}
+	}
+
+	return nullptr;
 }

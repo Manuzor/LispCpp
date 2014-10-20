@@ -72,7 +72,15 @@ lcpp::Ptr<T>::operator =(T* pPtr)
 
 template<typename T>
 inline
-T*
+T*&
+lcpp::Ptr<T>::get()
+{
+    return m_pPtr;
+}
+
+template<typename T>
+inline
+LCPP_Const(T*)&
 lcpp::Ptr<T>::get() const
 {
     return m_pPtr;

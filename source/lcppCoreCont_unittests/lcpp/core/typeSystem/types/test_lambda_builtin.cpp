@@ -22,7 +22,7 @@ namespace lcpp
 {
     static auto g_wasCalled = bool(false);
 
-    static Ptr<LispObject> testBuiltin(Ptr<LispObject> pCont)
+    static Ptr<LispObject> testBuiltin(StackPtr<LispObject> pCont)
     {
         typeCheck(pCont, Type::Continuation);
 
@@ -37,16 +37,16 @@ LCPP_TestGroup(Lambda_Builtin);
 
 LCPP_TestCase(Lambda_Builtin, Basics)
 {
-    auto pState = LCPP_test_pRuntimeState;
-
-    auto pLambda = lambda::builtin::create(pState->getGlobalEnvironment(), &testBuiltin, Signature::create(0, Signature::VarArg));
+    StackPtr<LispObject> pLambda = lambda::builtin::create(LCPP_test_pRuntimeState->getGlobalEnvironment(),
+                                                           &testBuiltin,
+                                                           Signature::create(0, Signature::VarArg));
 
     g_wasCalled = false;
-    auto pResult = LCPP_pFalse;
+    StackPtr<LispObject> pResult = LCPP_pFalse;
 
     {
-        auto pContMain = cont::createTopLevel(pState);
-        auto pContCall = cont::create(pContMain, &object::call);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+        StackPtr<LispObject> pContCall = cont::create(pContMain, &object::call);
         cont::getStack(pContCall)->push(pLambda);
 
         cont::trampoline(pContCall);
@@ -60,10 +60,9 @@ LCPP_TestCase(Lambda_Builtin, Basics)
 
 LCPP_TestCase(Lambda_Builtin, Name)
 {
-    auto pState = LCPP_test_pRuntimeState;
-    auto pEnv = pState->getGlobalEnvironment();
+    StackPtr<LispObject> pEnv = LCPP_test_pRuntimeState->getGlobalEnvironment();
 
-    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
+    StackPtr<LispObject> pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
 
     CUT_ASSERT.isFalse(lambda::builtin::hasName(pLambda));
     CUT_ASSERT.isTrue(isNil(lambda::builtin::getName(pLambda)));
@@ -76,12 +75,11 @@ LCPP_TestCase(Lambda_Builtin, Name)
 
 LCPP_TestCase(Lambda_Builtin, toString)
 {
-    auto pState = LCPP_test_pRuntimeState;
-    auto pEnv = pState->getGlobalEnvironment();
+    StackPtr<LispObject> pEnv = LCPP_test_pRuntimeState->getGlobalEnvironment();
 
-    auto pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
+    StackPtr<LispObject> pLambda = lambda::builtin::create(pEnv, &testBuiltin, Signature::create(0, Signature::VarArg));
 
-    auto pString = object::toString(pLambda);
+    StackPtr<LispObject> pString = object::toString(pLambda);
 
     CUT_ASSERT.isTrue(str::getValue(pString).IsEqual("<builtin-procedure>"));
 

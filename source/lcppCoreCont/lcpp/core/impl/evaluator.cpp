@@ -22,7 +22,7 @@ namespace lcpp
     namespace eval
     {
 
-        Ptr<LispObject> evaluate(Ptr<LispObject> pCont)
+        Ptr<LispObject> evaluate(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
@@ -46,8 +46,7 @@ namespace lcpp
                     LCPP_cont_return(pCont, pResult);
                 }
 
-                // TODO throw exception.
-                auto message = ezStringBuilder();
+                ezStringBuilder message;
 
                 message.Format("No binding found for symbol '%s'.", symbol::getValue(pToEval).GetData());
                 LCPP_THROW(exceptions::NoBindingFound(message.GetData()));
@@ -69,7 +68,7 @@ namespace lcpp
 
         namespace detail
         {
-            Ptr<LispObject> evaluateCallable(Ptr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -110,7 +109,7 @@ namespace lcpp
 
                 // If it is not syntax, then it must be of Type::Lambda
                 typeCheck(pToCall, Type::Lambda);
-                
+
                 // Assumed lambda signature: <unique-env> [<arg>...]
 
                 // Push all arguments on the stack
@@ -125,7 +124,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, &evaluateCallable_evalEach);
             }
 
-            Ptr<LispObject> evaluateCallable_evalEach(Ptr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable_evalEach(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -139,7 +138,7 @@ namespace lcpp
                 {
                     LCPP_cont_tailCall(pCont, &evaluateCallable_call);
                 }
-                
+
                 auto pToEval = pStack->get(index);
 
                 cont::setFunction(pCont, &evaluateCallable_processEvaluatedArg);
@@ -147,7 +146,7 @@ namespace lcpp
                 LCPP_cont_call(pCont, &evaluate, pEnv, pToEval);
             }
 
-            Ptr<LispObject> evaluateCallable_processEvaluatedArg(Ptr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable_processEvaluatedArg(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -164,7 +163,7 @@ namespace lcpp
                 LCPP_cont_tailCall(pCont, evaluateCallable_evalEach);
             }
 
-            Ptr<LispObject> evaluateCallable_call(Ptr<LispObject> pCont)
+            Ptr<LispObject> evaluateCallable_call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 

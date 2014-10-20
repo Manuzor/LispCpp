@@ -8,7 +8,11 @@
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/syntaxData_builtin.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -16,31 +20,42 @@ namespace lcpp
     {
         namespace builtin
         {
-            const MetaInfo& metaInfo()
+            Ptr<const MetaInfo> getMetaInfo()
             {
-                static auto meta = MetaInfo(Type::Syntax,
-                                            AttributeFlags::Callable | AttributeFlags::Builtin | AttributeFlags::Nameable,
-                                            "builtin-syntax");
+                static auto meta = []
+                {
+                    auto meta = MetaInfo();
+                    meta.setType(Type::Syntax);
+                    meta.setAttributes(AttributeFlags::Callable
+                                       | AttributeFlags::Builtin
+                                       | AttributeFlags::Nameable);
+                    meta.setPrettyName("builtin-syntax");
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
 
-                return meta;
+                    return meta;
+                }(); // Note that this lambda is immediately called.
+
+                return &meta;
             }
 
             Ptr<LispObject> create(Function_t pFunction, const Signature& signature)
             {
+                LCPP_LogBlock("syntax::builtin::create");
+
                 EZ_ASSERT(pFunction, "Invalid function pointer.");
                 EZ_ASSERT(signature.m_argCountMin <= signature.m_argCountMax, "Invalid virtual signature.");
 
-                auto pInstance = object::create<Data>(metaInfo());
-                auto& data = pInstance->m_syntax_builtin;
+                auto pInstance = object::create<Data>(getMetaInfo());
+                auto& data = pInstance->getData<Data>();
 
                 data.m_signature = signature;
-                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
+                data.m_pName = LCPP_pNil;
                 data.m_pFunction = pFunction;
 
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            Ptr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -106,7 +121,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_syntax_builtin.getSignature();
+                return &pSyntax->getData<Data>().m_signature;
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pSyntax)
@@ -114,7 +129,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_syntax_builtin.getName();
+                return pSyntax->getData<Data>().m_pName;
             }
 
             void setName(Ptr<LispObject> pSyntax, Ptr<LispObject> pNewName)
@@ -123,7 +138,7 @@ namespace lcpp
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pSyntax->m_syntax_builtin.setName(pNewName);
+                pSyntax->getData<Data>().m_pName = pNewName;
             }
 
             bool hasName(Ptr<LispObject> pSyntax)
@@ -136,16 +151,16 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Syntax);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_syntax_builtin.getFunction();
+                return pSyntax->getData<Data>().m_pFunction;
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            Ptr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Syntax);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
-                auto theString = ezStringBuilder();
-                theString.AppendFormat("<%s", metaInfo().getPrettyName());
+                ezStringBuilder theString;
+                theString.AppendFormat("<%s", getMetaInfo()->getPrettyName());
 
                 if(hasName(pObject))
                 {
@@ -154,7 +169,7 @@ namespace lcpp
 
                 theString.Append('>');
 
-                return str::create(theString);
+                return str::create(theString.GetData(), theString.GetElementCount());
             }
 
         }

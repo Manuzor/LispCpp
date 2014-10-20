@@ -25,10 +25,9 @@ LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)
 {
     auto pReaderState = LCPP_test_pRuntimeState->getReaderState();
     auto& syntaxCheck = pReaderState->m_syntaxCheckResult;
-    auto pObject = Ptr<LispObject>();
 
     syntaxCheck.reset();
-    pObject = readString("");
+    StackPtr<LispObject> pObject = readString("");
     CUT_ASSERT.isTrue(isVoid(pObject));
     CUT_ASSERT.isTrue(syntaxCheck.m_isPureWhitespace);
 
@@ -39,7 +38,7 @@ LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)
 
     {
         auto content = ezString("   \n\r\t\t   42  \n\r");
-        auto pStream = stream::create(content.GetIteratorFront());
+        StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
         // stream:   "   \n\r\t\t   42  \n\r"
         // position: -^
@@ -60,17 +59,17 @@ LCPP_TestCase(Reader, ReadEmptyOrWhitespaceString)
 LCPP_TestCase(Reader, Atoms)
 {
     {
-        auto pInteger = readString("42");
+        StackPtr<LispObject> pInteger = readString("42");
         CUT_ASSERT.isTrue(number::getInteger(pInteger) == 42);
     }
 
     {
-        auto pFloat = readString("3.1415");
+        StackPtr<LispObject> pFloat = readString("3.1415");
         CUT_ASSERT.isTrue(number::getFloat(pFloat) == 3.1415);
     }
 
     {
-        auto pSymbol = readString("abc");
+        StackPtr<LispObject> pSymbol = readString("abc");
         CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
     }
 }
@@ -80,8 +79,8 @@ LCPP_TestCase(Reader, StreamPosition)
     // Symbols
     {
         auto content = ezString("abc def");
-        auto pStream = stream::create(content.GetIteratorFront());
-        auto pSymbol = Ptr<LispObject>();
+        StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
+        Ptr<LispObject> pSymbol;
 
         pSymbol = readStream(pStream);
         CUT_ASSERT.isTrue(symbol::getValue(pSymbol).IsEqual("abc"));
@@ -95,10 +94,9 @@ LCPP_TestCase(Reader, StreamPosition)
     // Numbers
     {
         auto content = ezString("   1   2      3.4   5.6");
-        auto pStream = stream::create(content.GetIteratorFront());
-        auto pNumber = Ptr<LispObject>();
+        StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
-        pNumber = readStream(pStream);
+        StackPtr<LispObject> pNumber = readStream(pStream);
         CUT_ASSERT.isTrue(number::getInteger(pNumber) == 1);
         CUT_ASSERT.isTrue(stream::getPosition(pStream) == 4);
 
@@ -120,8 +118,8 @@ LCPP_TestCase(Reader, StreamPosition)
 LCPP_TestCase(Reader, String)
 {
     auto content = ezString("   \"hello world\"abc def");
-    auto pStream = stream::create(content.GetIteratorFront());
-    auto pResult = readStream(pStream);
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pResult = readStream(pStream);
 
     CUT_ASSERT.throwsNothing([&]{ typeCheck(pResult, Type::String); });
     CUT_ASSERT.isTrue(str::getValue(pResult).IsEqual("hello world"));
@@ -133,7 +131,7 @@ LCPP_TestCase(Reader, String)
 LCPP_TestCase(Reader, IncompleteString)
 {
     auto content = ezString("   \"hello ");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
 
     try
     {
@@ -158,23 +156,23 @@ LCPP_TestCase(Reader, IncompleteString)
 LCPP_TestCase(Reader, List)
 {
     {
-        auto pNil = readString("    (    )   ");
+        StackPtr<LispObject> pNil = readString("    (    )   ");
 
         CUT_ASSERT.isTrue(isNil(pNil));
     }
 
     {
-        auto pCons = readString("   (      x  )   ");
-        auto pCar = cons::getCar(pCons);
-        auto pCdr = cons::getCdr(pCons);
+        StackPtr<LispObject> pCons = readString("   (      x  )   ");
+        StackPtr<LispObject> pCar = cons::getCar(pCons);
+        StackPtr<LispObject> pCdr = cons::getCdr(pCons);
 
         CUT_ASSERT.isTrue(symbol::getValue(pCar).IsEqual("x"));
         CUT_ASSERT.isTrue(isNil(pCdr));
     }
 
     {
-        auto pCar = LCPP_pNil;
-        auto pCons = readString("   (  42  x   3.1415    )   ");
+        StackPtr<LispObject> pCar = LCPP_pNil;
+        StackPtr<LispObject> pCons = readString("   (  42  x   3.1415    )   ");
 
         pCar = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);
@@ -192,24 +190,24 @@ LCPP_TestCase(Reader, List)
     }
 
     {
-        auto pCons = readString("(lambda()42 1337)");
+        StackPtr<LispObject> pCons = readString("(lambda()42 1337)");
 
-        auto pSyntax_lambda = cons::getCar(pCons);
+        StackPtr<LispObject> pSyntax_lambda = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);
 
         CUT_ASSERT.isTrue(object::isType(pSyntax_lambda, Type::Syntax));
 
-        auto pNil = cons::getCar(pCons);
+        StackPtr<LispObject> pNil = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);
 
         CUT_ASSERT.isTrue(isNil(pNil));
 
-        auto pInteger_42 = cons::getCar(pCons);
+        StackPtr<LispObject> pInteger_42 = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);
 
         CUT_ASSERT.isTrue(number::getInteger(pInteger_42) == 42);
 
-        auto pInteger_1337 = cons::getCar(pCons);
+        StackPtr<LispObject> pInteger_1337 = cons::getCar(pCons);
         pCons = cons::getCdr(pCons);
 
         CUT_ASSERT.isTrue(number::getInteger(pInteger_1337) == 1337);
@@ -221,10 +219,10 @@ LCPP_TestCase(Reader, State)
     auto pState = LCPP_test_pRuntimeState->getReaderState();
 
     auto content = ezString("   123\r\n abc\n \n");
-    auto pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
     auto& cursorPosition = pState->m_syntaxCheckResult.m_cursor.getPosition();
 
-    auto pResult = Ptr<LispObject>();
+    Ptr<LispObject> pResult;
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -257,8 +255,8 @@ LCPP_TestCase(Reader, State)
 
 LCPP_TestCase(Reader, Quote)
 {
-    auto pCar = LCPP_pNil;
-    auto pCons = readString("  (   quote       x  )");
+    StackPtr<LispObject> pCar = LCPP_pNil;
+    StackPtr<LispObject> pCons = readString("  (   quote       x  )");
 
     pCar = cons::getCar(pCons);
     pCons = cons::getCdr(pCons);
@@ -273,10 +271,10 @@ LCPP_TestCase(Reader, Quote)
 
 namespace lcpp
 {
-    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont);
-    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont);
+    static Ptr<LispObject> testCharacterMacro_finalize(StackPtr<LispObject> pCont);
+    static Ptr<LispObject> testCharacterMacro(StackPtr<LispObject> pCont);
 
-    static Ptr<LispObject> testCharacterMacro(Ptr<LispObject> pCont)
+    static Ptr<LispObject> testCharacterMacro(StackPtr<LispObject> pCont)
     {
         typeCheck(pCont, Type::Continuation);
 
@@ -291,7 +289,7 @@ namespace lcpp
         LCPP_cont_call(pCont, &reader::read, pStream);
     }
 
-    static Ptr<LispObject> testCharacterMacro_finalize(Ptr<LispObject> pCont)
+    static Ptr<LispObject> testCharacterMacro_finalize(StackPtr<LispObject> pCont)
     {
         LCPP_cont_return(pCont, number::create(1337));
     }
@@ -306,8 +304,8 @@ LCPP_TestCase(Reader, CharacterMacro)
                               lambda::builtin::create(pState->getGlobalEnvironment(), &testCharacterMacro, Signature::create(1)));
 
     auto content = ezString("/hello-world");
-    auto pStream = stream::create(content.GetIteratorFront());
-    auto pResult = readStream(pStream);
+    StackPtr<LispObject> pStream = stream::create(content.GetIteratorFront());
+    StackPtr<LispObject> pResult = readStream(pStream);
 
     CUT_ASSERT.isTrue(number::getInteger(pResult) == 1337);
     CUT_ASSERT.isTrue(stream::getPosition(pStream) == stream::EndOfStream);

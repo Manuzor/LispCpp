@@ -1,4 +1,4 @@
-# Ignored directories
+########## Ignored directories ##########
 output/*
 temp/*
 log/
@@ -8,7 +8,7 @@ ipch
 
 unit-tests.log
 
-# Ignored file types
+########## Ignored file types ##########
 *.obj
 *.exe
 *.dll
@@ -19,3 +19,12 @@ unit-tests.log
 *.suo
 
 CMakeLists.txt
+
+########## LaTeX stuff ##########
+*.aux
+*.toc
+*.synctex.gz
+
+########## Documentation specific stuff ##########
+documents/documentation/*.pdf
+documents/documentation/*.log

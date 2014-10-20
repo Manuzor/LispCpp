@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "lcpp/core/runtime.h"
 
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/lambdaData_builtin.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/attribute.h"
@@ -9,6 +11,11 @@
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/attributeCheck.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -16,33 +23,58 @@ namespace lcpp
     {
         namespace builtin
         {
-            const MetaInfo& metaInfo()
+            static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
             {
-                static auto meta = MetaInfo(Type::Lambda,
-                                            AttributeFlags::Callable | AttributeFlags::Builtin | AttributeFlags::Nameable | AttributeFlags::EnvironmentContainer,
-                                            "builtin-procedure");
+                auto pLambda = static_cast<LispObject*>(pCollectable);
+                typeCheck(pLambda, Type::Lambda);
+                attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return meta;
+                auto& pEnv = pLambda->getData<Data>().m_pEnv.get();
+                pEnv = pGC->addSurvivor(pEnv);
             }
 
-            Ptr<LispObject> create(Ptr<LispObject> pParentEnv,Function_t pFunction, const Signature& signature)
+            Ptr<const MetaInfo> getMetaInfo()
             {
+                static auto meta = []
+                {
+                    auto meta = MetaInfo();
+                    meta.setType(Type::Lambda);
+                    meta.setAttributes(AttributeFlags::Callable
+                                     | AttributeFlags::Builtin
+                                     | AttributeFlags::Nameable
+                                     | AttributeFlags::EnvironmentContainer);
+                    meta.setPrettyName("builtin-procedure");
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::ToStringFunction, &toString));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
+
+                    return meta;
+                }(); // Note that this lambda is immediately called.
+
+                return &meta;
+            }
+
+            Ptr<LispObject> create(StackPtr<LispObject> pParentEnv, Function_t pFunction, const Signature& signature)
+            {
+                LCPP_LogBlock("lambda::builtin::create");
+
                 typeCheck(pParentEnv, Type::Environment);
 
-                auto pInstance = object::create<Data>(metaInfo());
-                auto& data = pInstance->m_lambda_builtin;
+                StackPtr<LispObject> pLocalEnv = env::createAnonymous(pParentEnv);
 
-                auto pLocalEnv = env::createAnonymous(pParentEnv);
+                auto pInstance = object::create<Data>(getMetaInfo());
+                LCPP_GC_PreventCollectionInScope;
 
+                auto& data = pInstance->getData<Data>();
                 data.m_signature = signature;
-                new (data.m_pName) Ptr<LispObject>(LCPP_pNil);
-                new (data.m_pEnv) Ptr<LispObject>(pLocalEnv);
+                data.m_pName = LCPP_pNil;
+                data.m_pEnv = pLocalEnv.get();
                 data.m_pFunction = pFunction;
 
                 return pInstance;
             }
 
-            Ptr<LispObject> call(Ptr<LispObject> pCont)
+            Ptr<LispObject> call(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
 
@@ -73,7 +105,7 @@ namespace lcpp
                 LCPP_cont_jump(pContCall);
             }
 
-            Ptr<LispObject> detail::call_finalize(Ptr<LispObject> pCont)
+            Ptr<LispObject> detail::call_finalize(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont);
@@ -130,7 +162,7 @@ namespace lcpp
                 typeCheck(pSyntax, Type::Lambda);
                 attributeCheckAny(pSyntax, AttributeFlags::Builtin);
 
-                return pSyntax->m_lambda_builtin.getSignature();
+                return &pSyntax->getData<Data>().m_signature;
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)
@@ -138,7 +170,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_builtin.getName();
+                return pLambda->getData<Data>().m_pName;
             }
 
             void setName(Ptr<LispObject> pLambda, Ptr<LispObject> pNewName)
@@ -147,7 +179,7 @@ namespace lcpp
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
                 typeCheck(pNewName, Type::Symbol);
 
-                pLambda->m_lambda_builtin.setName(pNewName);
+                pLambda->getData<Data>().m_pName = pNewName;
             }
 
             bool hasName(Ptr<LispObject> pLambda)
@@ -160,7 +192,7 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_builtin.getEnv();
+                return pLambda->getData<Data>().m_pEnv;
             }
 
             Function_t getFunction(Ptr<LispObject> pLambda)
@@ -168,16 +200,16 @@ namespace lcpp
                 typeCheck(pLambda, Type::Lambda);
                 attributeCheckAny(pLambda, AttributeFlags::Builtin);
 
-                return pLambda->m_lambda_builtin.getFunction();
+                return pLambda->getData<Data>().m_pFunction;
             }
 
-            Ptr<LispObject> toString(Ptr<LispObject> pObject)
+            Ptr<LispObject> toString(StackPtr<LispObject> pObject)
             {
                 typeCheck(pObject, Type::Lambda);
                 attributeCheckAny(pObject, AttributeFlags::Builtin);
 
                 auto theString = ezStringBuilder();
-                theString.AppendFormat("<%s", metaInfo().getPrettyName());
+                theString.AppendFormat("<%s", getMetaInfo()->getPrettyName());
 
                 if (hasName(pObject))
                 {
@@ -186,7 +218,7 @@ namespace lcpp
 
                 theString.Append('>');
 
-                return str::create(theString);
+                return str::create(theString.GetData(), theString.GetElementCount());
             }
         }
     }

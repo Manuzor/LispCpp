@@ -191,6 +191,7 @@ $(ProjectDir)\lcppCLICont_postBuild.bat</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(LCPP_Root)/source/lcppCoreCont;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zo</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -1,19 +1,19 @@
 (define (computePrimes num)
     (define (isPrime primes cur)
-		(if (eq? primes nil)
+		(if (eq? primes null)
 			;then
-			true
+			#t
 			;else
-			(if (== (% cur (first primes)) 0)
+			(if (= (% cur (car primes)) 0)
 				;then
-				false
+				#f
 				;else
-				(isPrime (rest primes) cur)
+				(isPrime (cdr primes) cur)
 			)
 		)
     )
     (define (helper primes cur i)
-        (if (== num i)
+        (if (= num i)
             ;then
             primes
             ;else
@@ -28,5 +28,5 @@
             )
         )
     )
-    (helper (cons 2 nil) 3 1)
+    (helper (cons 2 null) 3 1)
 )

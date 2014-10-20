@@ -12,35 +12,71 @@
 #include "lcpp/core/typeSystem/types/fileData.h"
 #include "lcpp/core/typeSystem/types/nil.h"
 #include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
     namespace file
     {
-        const MetaInfo& metaInfo()
+        static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
         {
-            static auto meta = MetaInfo(Type::File, "file");
-            return meta;
+            auto pFile = static_cast<LispObject*>(pCollectable);
+            typeCheck(pFile, Type::File);
+
+            auto& pFileName = pFile->getData<Data>().m_pFileName.get();
+            pFileName = pGC->addSurvivor(pFileName);
+        }
+
+        static void destroy(CollectableBase* pCollectable)
+        {
+            auto pFile = static_cast<LispObject*>(pCollectable);
+            typeCheck(pFile, Type::File);
+
+            auto& theFile = pFile->getData<Data>().m_file;
+            theFile.~ezOSFile();
+        }
+
+        Ptr<const MetaInfo> getMetaInfo()
+        {
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::File);
+                meta.setPrettyName("file");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return &meta;
         }
 
         Ptr<LispObject> create()
         {
-            auto pInstance = object::create<Data>(metaInfo());
+            LCPP_LogBlock("file::create");
 
-            auto& data = pInstance->m_file;
+            auto pInstance = object::create<Data>(getMetaInfo());
 
-            new (data.m_pFileName) Ptr<LispObject>(LCPP_pNil);
-            new (data.m_file) ezOSFile();
+            auto& data = pInstance->getData<Data>();
+
+            data.m_pFileName = LCPP_pNil;
 
             return pInstance;
         }
 
-        Ptr<LispObject> open(Ptr<LispObject> pFile, Ptr<LispObject> pStringFileName, Ptr<LispObject> pStringFileMode)
+        Ptr<LispObject> open(StackPtr<LispObject> pFile, StackPtr<LispObject> pStringFileName, StackPtr<LispObject> pStringFileMode)
         {
-            typeCheck(pFile, Type::File);
+            LCPP_GC_PreventCollectionInScope;
 
-            pFile->m_file.setFileName(pStringFileName);
-            auto& wrappedFile = pFile->m_file.getFile();
+            typeCheck(pFile, Type::File);
+            typeCheck(pStringFileName, Type::String);
+            typeCheck(pStringFileMode, Type::String);
+
+            pFile->getData<Data>().m_pFileName = pStringFileName.get();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
             if(wrappedFile.IsOpen())
             {
                 wrappedFile.Close();
@@ -75,18 +111,22 @@ namespace lcpp
 
         Ptr<LispObject> isOpen(Ptr<LispObject> pFile)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             typeCheck(pFile, Type::File);
 
-            auto& wrappedFile = pFile->m_file.getFile();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
 
             return wrappedFile.IsOpen() ? LCPP_pTrue : LCPP_pFalse;
         }
 
         void close(Ptr<LispObject> pFile)
         {
+            LCPP_GC_PreventCollectionInScope;
+
             typeCheck(pFile, Type::File);
 
-            auto& wrappedFile = pFile->m_file.getFile();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
             wrappedFile.Close();
 
         }
@@ -94,43 +134,44 @@ namespace lcpp
         Ptr<LispObject> getFileName(Ptr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
-            return pFile->m_file.getFileName();
+            return pFile->getData<Data>().m_pFileName;
         }
 
         void setFileName(Ptr<LispObject> pFile, Ptr<LispObject> pFileName)
         {
             typeCheck(pFile, Type::File);
-            pFile->m_file.setFileName(pFileName);
+            if(!isNil(pFileName)) typeCheck(pFileName, Type::String);
+            pFile->getData<Data>().m_pFileName = pFileName;
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pFile)
+        Ptr<LispObject> toString(StackPtr<LispObject> pFile)
         {
             typeCheck(pFile, Type::File);
 
             auto output = ezStringBuilder();
 
-            auto& wrappedFile = pFile->m_file.getFile();
-            auto pFileName = pFile->m_file.getFileName();
+            auto& wrappedFile = pFile->getData<Data>().m_file;
+            StackPtr<LispObject> pFileName = pFile->getData<Data>().m_pFileName;
 
             if (wrappedFile.IsOpen())
             {
                 auto& fileNameValue = str::getValue(pFileName);
-                output.AppendFormat("<open %s: \"%s\">", metaInfo().getPrettyName(), fileNameValue.GetData());
+                output.AppendFormat("<open %s: \"%s\">", getMetaInfo()->getPrettyName(), fileNameValue.GetData());
             }
             else
             {
                 if(isNil(pFileName))
                 {
-                    output.AppendFormat("<closed %s>", metaInfo().getPrettyName());
+                    output.AppendFormat("<closed %s>", getMetaInfo()->getPrettyName());
                 }
                 else
                 {
                     auto& fileNameValue = str::getValue(pFileName);
-                    output.AppendFormat("<closed %s: \"%s\">", metaInfo().getPrettyName(), fileNameValue.GetData());
+                    output.AppendFormat("<closed %s: \"%s\">", getMetaInfo()->getPrettyName(), fileNameValue.GetData());
                 }
             }
 
-            return str::create(output.GetData());
+            return str::create(output.GetData(), output.GetElementCount());
         }
 
     }

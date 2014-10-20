@@ -14,11 +14,16 @@ namespace lcpp
     inline
     Ptr<LispObject> InsanceTable<T_Key>::get(const T_Key& key)
     {
-        auto pResult = Ptr<LispObject>();
-        if(!m_table.TryGetValue(key, pResult))
+        Ptr<LispObject> pResult;
+        LispObject* pRawResult;
+        if(!m_table.TryGetValue(key, pRawResult))
         {
             pResult = (*m_pFunctor_createNew)(key);
-            m_table[key] = pResult;
+            m_table[key] = pResult.get();
+        }
+        else
+        {
+            pResult = pRawResult;
         }
         EZ_ASSERT(pResult, "The result should never be a nullptr!");
 

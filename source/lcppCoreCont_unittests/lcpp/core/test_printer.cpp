@@ -10,8 +10,8 @@ LCPP_TestGroup(Printer);
 
 LCPP_TestCase(Printer, StandardOutput)
 {
-    auto pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-    auto pContCall = cont::create(pContMain, &printer::print);
+    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+    StackPtr<LispObject> pContCall = cont::create(pContMain, &printer::print);
     cont::getStack(pContCall)->push(number::create(42));
 
     cont::trampoline(pContCall);
@@ -27,8 +27,8 @@ LCPP_TestCase(Printer, CustomStream)
     auto pState = LCPP_test_pRuntimeState;
     pState->getPrinterState()->m_pOutStream = &stream;
 
-    auto pContMain = cont::createTopLevel(pState);
-    auto pContCall = cont::create(pContMain, &printer::print);
+    StackPtr<LispObject> pContMain = cont::createTopLevel(pState);
+    StackPtr<LispObject> pContCall = cont::create(pContMain, &printer::print);
     cont::getStack(pContCall)->push(number::create(42));
 
     CUT_ASSERT.isTrue(stream.m_content.IsEmpty());

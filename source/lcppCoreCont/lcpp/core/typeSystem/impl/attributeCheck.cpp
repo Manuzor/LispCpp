@@ -10,37 +10,58 @@ namespace lcpp
 
     LCPP_API_CORE_CONT void attributeCheckAll(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
     {
-        EZ_ASSERT(pObject, "Invalid object pointer.");
+        LCPP_GC_PreventCollectionInScope;
+
+        LCPP_LogBlock("attributeCheckAll");
+
+        EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualFlags = object::getAttributes(pObject);
 
         if(actualFlags != expectedFlags)
         {
-            attributeCheckFailed("Invalid attribute flags.");
+            ezStringBuilder theString;
+            theString.Append("Attribute check failed, expected all flags of: ");
+            expectedFlags.toString(theString);
+            attributeCheckFailed(theString.GetData());
         }
     }
 
     LCPP_API_CORE_CONT void attributeCheckAny(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
     {
-        EZ_ASSERT(pObject, "Invalid object pointer.");
+        LCPP_GC_PreventCollectionInScope;
+
+        LCPP_LogBlock("attributeCheckAny");
+
+        EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualFlags = object::getAttributes(pObject);
 
         if((actualFlags.getFlags() & expectedFlags.getFlags()) == 0)
         {
-            attributeCheckFailed("Invalid attribute flags.");
+            ezStringBuilder theString;
+            theString.Append("Attribute check failed, expected any flags of: ");
+            expectedFlags.toString(theString);
+            attributeCheckFailed(theString.GetData());
         }
     }
 
-    LCPP_API_CORE_CONT void attributeCheckNone(const Ptr<LispObject>& pObject, const AttributeFlags& expectedFlags)
+    LCPP_API_CORE_CONT void attributeCheckNone(const Ptr<LispObject>& pObject, const AttributeFlags& unexpectedFlags)
     {
-        EZ_ASSERT(pObject, "Invalid object pointer.");
+        LCPP_GC_PreventCollectionInScope;
+
+        LCPP_LogBlock("attributeCheckNone");
+
+        EZ_ASSERT(!pObject.isNull(), "Invalid object pointer.");
 
         auto& actualFlags = object::getAttributes(pObject);
 
-        if((actualFlags.getFlags() & expectedFlags.getFlags()) != 0)
+        if((actualFlags.getFlags() & unexpectedFlags.getFlags()) != 0)
         {
-            attributeCheckFailed("Invalid attribute flags.");
+            ezStringBuilder theString;
+            theString.Append("Attribute check failed, expected no flags of: ");
+            unexpectedFlags.toString(theString);
+            attributeCheckFailed(theString.GetData());
         }
     }
 

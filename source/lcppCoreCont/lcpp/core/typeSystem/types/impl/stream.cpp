@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/types/stream.h"
+#include "lcpp/core/typeSystem/types/streamData.h"
 #include "lcpp/core/typeSystem/object.h"
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
@@ -7,24 +8,61 @@
 #include "lcpp/core/typeSystem/objectData.h"
 
 #include "lcpp/core/runtime.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/stringData.h"
 
 namespace lcpp
 {
     namespace stream
     {
-        const MetaInfo& metaInfo()
+        static void scan(CollectableBase* pCollectable, GarbageCollectionContext* pGC)
         {
-            static auto meta = MetaInfo(Type::Stream, "stream");
-            return meta;
+            auto pStream = static_cast<LispObject*>(pCollectable);
+            typeCheck(pStream, Type::Stream);
+
+            auto& pString = pStream->getData<Data>().m_pString.get();
+            pString = pGC->addSurvivor(pString);
         }
 
-        Ptr<LispObject> create(ezStringIterator& iterator)
+        static void destroy(CollectableBase* pCollectable)
         {
-            auto pInstance = object::create<Data>(metaInfo());
+            auto pStream = static_cast<LispObject*>(pCollectable);
+            typeCheck(pStream, Type::Stream);
 
-            auto& data = pInstance->m_stream;
+            pStream->getData<Data>().m_stringView.~ezStringIterator();
+        }
 
-            new (data.m_iterator) ezStringIterator(iterator);
+        Ptr<const MetaInfo> getMetaInfo()
+        {
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Stream);
+                meta.setPrettyName("stream");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return &meta;
+        }
+
+        Ptr<LispObject> create(StackPtr<LispObject> pString)
+        {
+            LCPP_LogBlock("stream::create");
+            typeCheck(pString, Type::String);
+
+            auto pInstance = object::create<Data>(getMetaInfo());
+
+            auto& data = pInstance->getData<Data>();
+
+            data.m_pString = pString.get();
+            auto pFirst = data.m_pString->getData<str::Data>().m_szString;
+            auto pEnd = pFirst + data.m_pString->getData<str::Data>().m_uiLength;
+            data.m_stringView = ezStringIterator(pFirst, pEnd, pFirst);
 
             return pInstance;
         }
@@ -33,21 +71,21 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            return pStream->m_stream.getIterator();
+            return pStream->getData<Data>().m_stringView;
         }
 
         void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter)
         {
             typeCheck(pStream, Type::Stream);
 
-            pStream->m_stream.getIterator() = iter;
+            pStream->getData<Data>().m_stringView = iter;
         }
 
         ezUInt32 getCharacter(Ptr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->m_stream.getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
             return iterator.GetCharacter();
         }
 
@@ -55,7 +93,7 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->m_stream.getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
             return iterator.IsValid();
         }
 
@@ -63,7 +101,7 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->m_stream.getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
             ++iterator;
             return iterator.GetCharacter();
         }
@@ -72,7 +110,7 @@ namespace lcpp
         {
             typeCheck(pStream, Type::Stream);
 
-            auto& iterator = pStream->m_stream.getIterator();
+            auto& iterator = pStream->getData<Data>().m_stringView;
 
             if(!iterator.IsValid())
             {
@@ -83,9 +121,9 @@ namespace lcpp
             return ezUInt32(position);
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
-            auto theString = ezStringBuilder();
+            ezStringBuilder theString;
             theString.Append("<stream at ");
 
             if (!isValid(pObject))
@@ -99,9 +137,9 @@ namespace lcpp
 
                 theString.AppendFormat("%u: \"%s\"", position, currentData);
             }
-            
+
             theString.Append('>');
-            return str::create(theString);
+            return str::create(theString.GetData(), theString.GetElementCount());
         }
 
     }

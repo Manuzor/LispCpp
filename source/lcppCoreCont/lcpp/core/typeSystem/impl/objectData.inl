@@ -1,9 +1,11 @@
 
 namespace lcpp
 {
-    inline
-    LispObject::LispObject(const MetaInfo& metaInfo)
+    template<typename T_Data>
+    EZ_FORCE_INLINE
+    T_Data& lcpp::LispObject::getData()
     {
-        m_header.m_pMetaInfo = &metaInfo;
+        auto pData = reinterpret_cast<T_Data*>(this + 1);
+        return *pData;
     }
 }

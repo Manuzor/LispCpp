@@ -11,28 +11,41 @@ namespace lcpp
 {
     namespace nil
     {
+        Ptr<const MetaInfo> getMetaInfo()
+        {
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Nil);
+                meta.setPrettyName("nil");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return &meta;
+        }
+
         Ptr<LispObject> create()
         {
-            static auto pInstance = Ptr<LispObject>();
+            LCPP_LogBlock("nil::create");
 
-            if (!pInstance)
+            static Ptr<LispObject> pInstance;
+
+            if (pInstance.isNull())
             {
-                static auto meta = MetaInfo(Type::Nil, "nil");
-
-                auto pAllocator = defaultAllocator();
-                pInstance = LCPP_NEW(pAllocator, LispObject)(meta);
+                auto pGarbageCollector = getGarbageCollector();
+                pInstance = pGarbageCollector->createStatic<LispObject>(getMetaInfo());
             }
 
             return pInstance;
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Nil);
 
-            static auto pString = str::create("()");
-
-            return pString;
+            return str::create("()");
         }
+
     }
 }

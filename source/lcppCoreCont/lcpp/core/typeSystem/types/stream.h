@@ -1,4 +1,6 @@
 #pragma once
+#include "lcpp/core/typeSystem/types/streamCommon.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
@@ -7,29 +9,19 @@ namespace lcpp
 
     namespace stream
     {
-        LCPP_API_CORE_CONT const MetaInfo& metaInfo();
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> create(ezStringIterator& iterator);
+        //LCPP_API_CORE_CONT Ptr<LispObject> create(ezStringIterator& iterator);
+        LCPP_API_CORE_CONT Ptr<LispObject> create(StackPtr<LispObject> pString);
 
-        //////////////////////////////////////////////////////////////////////////
-
-        enum
+        inline Ptr<LispObject> create(Ptr<LispObject> pString)
         {
-            EndOfStream = ezUInt32(-1),
-        };
-        
-        class Data
-        {
-        public:
+            StackPtr<LispObject> pArg(pString);
+            return create(pArg);
+        }
 
-            ezStringIterator& getIterator();
-
-        public:
-
-            LCPP_DeclareRawDataMember(ezStringIterator, m_iterator);
-        };
-
-        //////////////////////////////////////////////////////////////////////////
+        template<typename T>
+        Ptr<LispObject> create(const T& theString) { return create(str::create(theString.GetData(), theString.GetElementCount())); }
 
         LCPP_API_CORE_CONT ezStringIterator& getIterator(Ptr<LispObject> pStream);
         LCPP_API_CORE_CONT void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter);
@@ -42,8 +34,6 @@ namespace lcpp
 
         LCPP_API_CORE_CONT ezUInt32 getPosition(Ptr<LispObject> pStream);
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
     };
 }
-
-#include "lcpp/core/typeSystem/types/impl/stream.inl"

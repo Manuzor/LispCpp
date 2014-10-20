@@ -18,11 +18,13 @@ namespace cut
 
 		virtual void registerUnitTestGroup(IUnitTestGroup* testGroup) CUT_OVERRIDE;
 
+		virtual void run(StringRef groupName, StringRef testName) CUT_OVERRIDE;
 		virtual void runAll() CUT_OVERRIDE;
 
 		virtual void updateStatistics() CUT_OVERRIDE;
 		virtual UnitTestStatistics& statistics() CUT_OVERRIDE;
 		virtual const UnitTestStatistics& statistics() const CUT_OVERRIDE;
+		virtual void printStatistics() const CUT_OVERRIDE;
 
 		virtual void disableUnitTestOrGroup(StringRef groupName) CUT_OVERRIDE;
 		virtual void disableUnitTestOrGroup(StringRef groupName, StringRef testName) CUT_OVERRIDE;
@@ -41,7 +43,5 @@ namespace cut
 
 		std::vector<std::string> m_disabledUnitTestGroups;
 		std::multimap<std::string, std::string> m_disabledUnitTests;
-
-		void printStats() const;
 	};
 }

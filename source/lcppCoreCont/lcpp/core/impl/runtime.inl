@@ -3,27 +3,15 @@ namespace lcpp
 {
 
     EZ_FORCE_INLINE
-    Ptr<ezAllocatorBase> LispRuntimeState::allocator()
+    Ptr<GarbageCollector> LispRuntimeState::getGarabgeCollector()
     {
-        return m_pAllocator;
-    }
-
-    EZ_FORCE_INLINE
-    Ptr<const LispObject> LispRuntimeState::getSyntaxEnvironment() const
-    {
-        return m_pSyntaxEnvironment;
+        return m_pGC;
     }
 
     EZ_FORCE_INLINE
     Ptr<LispObject> LispRuntimeState::getSyntaxEnvironment()
     {
         return m_pSyntaxEnvironment;
-    }
-
-    EZ_FORCE_INLINE
-    Ptr<const LispObject> LispRuntimeState::getGlobalEnvironment() const
-    {
-        return m_pGlobalEnvironment;
     }
 
     EZ_FORCE_INLINE

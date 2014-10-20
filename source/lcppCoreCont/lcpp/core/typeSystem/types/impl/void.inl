@@ -1,7 +1,7 @@
 
 namespace lcpp
 {
-    inline
+    EZ_FORCE_INLINE
     bool isVoid(Ptr<LispObject> pObject)
     {
         // Idenity check.

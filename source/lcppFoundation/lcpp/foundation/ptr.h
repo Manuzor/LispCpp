@@ -30,7 +30,8 @@ namespace lcpp
         T* operator ->() const; // [tested]
         T& operator *() const; // [tested]
 
-        T* get() const; // [tested]
+        T*& get(); // [tested]
+        LCPP_Const(T*)& get() const; // [tested]
         bool isNull() const; // [tested]
 
         template<typename T_Other>

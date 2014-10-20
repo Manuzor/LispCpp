@@ -12,37 +12,58 @@
 
 #include "lcpp/foundation/conversion.h"
 #include "lcpp/core/exceptions/arithmeticException.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
     namespace number
     {
-        const MetaInfo& metaInfoInteger()
+        Ptr<const MetaInfo> getMetaInfoInteger()
         {
-            static auto meta = MetaInfo(Type::Integer, "integer");
-            return meta;
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Integer);
+                meta.setPrettyName("integer");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return &meta;
         }
 
-        const MetaInfo& metaInfoFloat()
+        Ptr<const MetaInfo> getMetaInfoFloat()
         {
-            static auto meta = MetaInfo(Type::Float, "float");
-            return meta;
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Float);
+                meta.setPrettyName("float");
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return &meta;
         }
 
         Ptr<LispObject> create(Integer_t value)
         {
-            auto pInstance = object::create<Integer_t>(metaInfoInteger());
+            LCPP_LogBlock("number::create", getMetaInfoInteger()->getPrettyName());
 
-            pInstance->m_integer = value;
+            auto pInstance = object::create<Integer_t>(getMetaInfoInteger());
+
+            pInstance->getData<Integer_t>() = value;
 
             return pInstance;
         }
 
         Ptr<LispObject> create(Float_t value)
         {
-            auto pInstance = object::create<Float_t>(metaInfoFloat());
+            LCPP_LogBlock("number::create", getMetaInfoFloat()->getPrettyName());
 
-            pInstance->m_float = value;
+            auto pInstance = object::create<Float_t>(getMetaInfoFloat());
+
+            pInstance->getData<Float_t>() = value;
 
             return pInstance;
         }
@@ -51,17 +72,17 @@ namespace lcpp
         {
             typeCheck(pObject, Type::Integer);
 
-            return pObject->m_integer;
+            return pObject->getData<Integer_t>();
         }
 
         Float_t getFloat(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Float);
 
-            return pObject->m_float;
+            return pObject->getData<Float_t>();
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
             typeCheck(pObject, Type::Integer, Type::Float);
 
@@ -76,7 +97,7 @@ namespace lcpp
                 stringValue = lcpp::toString(getFloat(pObject));
             }
 
-            return str::create(stringValue.GetData());
+            return str::create(stringValue.GetData(), stringValue.GetElementCount());
         }
 
         Ptr<LispObject> negate(Ptr<LispObject> pObject)

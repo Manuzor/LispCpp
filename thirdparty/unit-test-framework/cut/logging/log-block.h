@@ -11,8 +11,7 @@ namespace cut
 		~LogBlock();
 
 	private:
-		std::string m_begin;
-		std::string m_end;
+		std::string m_name;
 	};
 }
 

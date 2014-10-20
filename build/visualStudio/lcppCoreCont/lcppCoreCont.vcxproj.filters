@@ -46,6 +46,15 @@
     <Filter Include="lcpp\core\dependencies">
       <UniqueIdentifier>{326b1269-f2a0-4038-ac80-6a0c1a62352a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lcpp\core\memory">
+      <UniqueIdentifier>{f8f09f1f-5183-4ca4-b02a-e2ad516b4dff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\memory\impl">
+      <UniqueIdentifier>{6b45a446-b11c-4dcb-a815-e8671466b576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lcpp\core\preprocessorUtils">
+      <UniqueIdentifier>{141e2e7d-517b-461b-b621-0eea719d65ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\common.h">
@@ -93,9 +102,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\config.h">
       <Filter>lcpp\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\includeAllTypes.h">
-      <Filter>lcpp\core\typeSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\metaInfo.h">
       <Filter>lcpp\core\typeSystem</Filter>
@@ -214,6 +220,78 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\exceptions\assertException.h">
       <Filter>lcpp\core\exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\consData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuationData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environmentData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaData_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaData_userDefined.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\stringData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\symbolData.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntaxData_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\continuationCommon.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\environmentCommon.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\lambdaCommon_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\syntaxCommon_builtin.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\streamCommon.h">
+      <Filter>lcpp\core\typeSystem\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollection.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\commonTypes.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\api.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\dependencies.h">
+      <Filter>lcpp\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\preprocessorUtils\disableVerboseLoggingLocally.h">
+      <Filter>lcpp\core\preprocessorUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\array.h">
+      <Filter>lcpp\core\containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\fixedMemory.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\allTypeData.h">
+      <Filter>lcpp\core\typeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\stackPtr.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\garbageCollectionCommon.h">
+      <Filter>lcpp\core\memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\stack.cpp">
@@ -302,6 +380,12 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.cpp">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.cpp">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.cpp">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\type.inl">
@@ -349,17 +433,11 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\continuation.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\stream.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl">
       <Filter>lcpp\core\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\readerState.inl">
       <Filter>lcpp\core\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\cons.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
@@ -370,13 +448,7 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl">
       <Filter>lcpp\core\typeSystem\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\string.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\syntax_builtin.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\lambda_userDefined.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\functionUtils\impl\signature.inl">
@@ -397,14 +469,26 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\time.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\timeData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\fileData.inl">
-      <Filter>lcpp\core\typeSystem\types\impl</Filter>
-    </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\file.inl">
       <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\consData.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\types\impl\environmentCommon.inl">
+      <Filter>lcpp\core\typeSystem\types\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl">
+      <Filter>lcpp\core\containers\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
     </None>
   </ItemGroup>
 </Project>

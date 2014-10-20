@@ -1,6 +1,6 @@
 
 // The argument is not a string, use it like this: LCPP_TEST_GROUP(Hello)
-#define LCPP_TestGroup(groupName)                         \
+#define LCPP_TestGroup(groupName)                          \
 namespace lcpp { namespace test {                          \
     class UnitTestGroup_##groupName :                      \
         public cut::UnitTestGroup                          \

@@ -59,10 +59,16 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
         {
             ezStringBuilder baseDir(dataDir);
-            baseDir.AppendPath("base");
-            auto result = ezFileSystem::AddDataDirectory(baseDir.GetData(), ezFileSystem::ReadOnly, "base-data");
-            if(!result.Succeeded())            {                baseDir.Prepend("Unable to add base dir: ");
-                throw std::exception(baseDir.GetData());            }
+            baseDir.AppendPath("base");
+
+            auto result = ezFileSystem::AddDataDirectory(baseDir.GetData(), ezFileSystem::ReadOnly, "base-data");
+
+            if(!result.Succeeded())
+            {
+                baseDir.Prepend("Unable to add base dir: ");
+
+                throw std::exception(baseDir.GetData());
+            }
 
             m_pState->setBaseDirectory(baseDir.GetData());
         }
@@ -71,10 +77,16 @@ namespace lcpp
         //////////////////////////////////////////////////////////////////////////
         {
             ezStringBuilder userDir(dataDir);
-            userDir.AppendPath("user");
-            auto result = ezFileSystem::AddDataDirectory(userDir.GetData(), ezFileSystem::ReadOnly, "user-data");
-            if(!result.Succeeded())            {                userDir.Prepend("Unable to add user dir: ");
-                throw std::exception(userDir.GetData());            }
+            userDir.AppendPath("user");
+
+            auto result = ezFileSystem::AddDataDirectory(userDir.GetData(), ezFileSystem::ReadOnly, "user-data");
+
+            if(!result.Succeeded())
+            {
+                userDir.Prepend("Unable to add user dir: ");
+
+                throw std::exception(userDir.GetData());
+            }
 
             m_pState->setUserDirectory(userDir.GetData());
         }
@@ -119,10 +131,19 @@ namespace lcpp
             try
             {
                 readUserInput(results);
+                LCPP_SCOPE_EXIT
+                {
+                    while(!results.IsEmpty())
+                    {
+                        m_pState->getGarabgeCollector()->removeRoot(results.PeekFront().get());
+                        results.PopFront();
+                    }
+                };
 
                 while(!results.IsEmpty())
                 {
-                    auto pResult = results.PeekFront();
+                    StackPtr<LispObject> pResult = results.PeekFront();
+                    m_pState->getGarabgeCollector()->removeRoot(results.PeekFront().get());
                     results.PopFront();
 
                     auto pToPrint = evaluateReaderOutput(pResult);
@@ -185,15 +206,15 @@ namespace lcpp
 
     void Interpreter::evalInitFile()
     {
-        auto pContMain = cont::createTopLevel(m_pState);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
         auto pStackMain = cont::getStack(pContMain);
 
-        auto pContEval = cont::create(pContMain, &eval::evaluate);
+        StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
         auto pStackEval = cont::getStack(pContEval);
         pStackEval->push(m_pState->getGlobalEnvironment());
         // eval::evaluate needs a second argument, the object to evaluate, which will be provided by reader::read.
 
-        auto pContRead = cont::create(pContEval, &reader::read);
+        StackPtr<LispObject> pContRead = cont::create(pContEval, &reader::read);
         auto pStackRead = cont::getStack(pContRead);
         auto& outputStream = *m_pState->getPrinterState()->m_pOutStream;
 
@@ -230,7 +251,7 @@ namespace lcpp
 
         //////////////////////////////////////////////////////////////////////////
 
-        auto pStream = stream::create(fileContent.GetIteratorFront());
+        StackPtr<LispObject> pStream = stream::create(fileContent);
         pStackRead->push(pStream);
 
         while(true)
@@ -256,7 +277,7 @@ namespace lcpp
             {
                 break;
             }
-            
+
             cont::setFunction(pContEval, &eval::evaluate);
             pStackEval->clear();
             pStackEval->push(m_pState->getGlobalEnvironment());
@@ -273,14 +294,14 @@ namespace lcpp
 
     void Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
     {
-        auto pContMain = cont::createTopLevel(m_pState);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
 
-        auto pContRead = cont::create(pContMain, &reader::read);
+        StackPtr<LispObject> pContRead = cont::create(pContMain, &reader::read);
         auto pReadStack = cont::getStack(pContRead);
 
         auto inputBuffer = std::string();
-        auto pStream = stream::create(ezStringIterator());
+        StackPtr<LispObject> pStream = stream::create(ezStringIterator());
         auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
 
         // Multiline input, e.g. (define (fac n)
@@ -315,6 +336,7 @@ namespace lcpp
 
                     auto pResult = pMainStack->get(0);
                     out_results.PushBack(pResult);
+                    m_pState->getGarabgeCollector()->addRoot(out_results.PeekBack().get());
 
                     {
                         auto& iterator = stream::getIterator(pStream);
@@ -339,25 +361,24 @@ namespace lcpp
         }
     }
 
-    Ptr<LispObject> Interpreter::evaluateReaderOutput(Ptr<LispObject> pObject)
+    Ptr<LispObject> Interpreter::evaluateReaderOutput(StackPtr<LispObject> pObject)
     {
-        auto pContMain = cont::createTopLevel(m_pState);
-        auto pMainStack = cont::getStack(pContMain);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
 
-        auto pContEvaluate = cont::create(pContMain, &eval::evaluate);
+        StackPtr<LispObject> pContEvaluate = cont::create(pContMain, &eval::evaluate);
         cont::getStack(pContEvaluate)->push(m_pState->getGlobalEnvironment());
         cont::getStack(pContEvaluate)->push(pObject);
 
         cont::trampoline(pContEvaluate);
 
-        return pMainStack->get(0);
+        return cont::getStack(pContMain)->get(0);
     }
 
-    void Interpreter::print(Ptr<LispObject> pToPrint)
+    void Interpreter::print(StackPtr<LispObject> pToPrint)
     {
-        auto pContMain = cont::createTopLevel(m_pState);
+        StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
 
-        auto pContRead = cont::create(pContMain, &printer::print);
+        StackPtr<LispObject> pContRead = cont::create(pContMain, &printer::print);
         cont::getStack(pContRead)->push(pToPrint);
 
         cont::trampoline(pContRead);

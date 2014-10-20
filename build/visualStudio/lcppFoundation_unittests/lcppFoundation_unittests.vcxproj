@@ -167,6 +167,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <AdditionalIncludeDirectories>$(LCPP_Root)/source/lcppCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zo</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

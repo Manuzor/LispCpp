@@ -1,31 +1,57 @@
+#include "lcpp/core/memory/garbageCollection.h"
+#include "lcpp/core/typeSystem/objectData.h"
 
 namespace lcpp
 {
     namespace object
     {
         template<typename T_Data>
-        inline
-        Ptr<LispObject>
-        create(const MetaInfo& metaInfo)
+        EZ_FORCE_INLINE
+        Ptr<LispObject> create(Ptr<const MetaInfo> pMetaInfo)
         {
-            // TODO This whole function needs more case, most likely...
+            return create<T_Data>(getGarbageCollector(), pMetaInfo);
+        }
 
+        template<typename T_Data>
+        EZ_FORCE_INLINE
+        Ptr<LispObject> create(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo)
+        {
             // Helper struct to determine the minimum memory needed for this lisp object using T_Data
-            struct LispObjectProxy
+            struct LispObjectProxy : public LispObject
             {
-                LispObjectHeader h;
+                T_Data m_userData;
+            };
+
+            struct LispObjectProxyChecker
+            {
+                LispObject o;
                 T_Data d;
             };
 
-            auto pAllocator = defaultAllocator();
+            EZ_CHECK_AT_COMPILETIME(sizeof(LispObjectProxy) == sizeof(LispObjectProxyChecker));
 
-            auto size = sizeof(LispObjectProxy);
+            //////////////////////////////////////////////////////////////////////////
 
-            auto pMem = static_cast<void*>(LCPP_NEW(pAllocator, LispObjectProxy)());
+            auto pInstance = pGarbageCollector->create<LispObjectProxy>(pMetaInfo);
+            EZ_ASSERT(pInstance->m_uiMemorySize == sizeof(LispObjectProxy), "");
 
-            memset(pMem, 0xdadadada, size);
-
-            return new (pMem) LispObject(metaInfo);
+            return pInstance.cast<LispObject>();
         }
+
+        template<typename T_Data>
+        EZ_FORCE_INLINE
+        Ptr<LispObject> createStatic(Ptr<GarbageCollector> pGarbageCollector, Ptr<const MetaInfo> pMetaInfo)
+        {
+            // Helper struct to determine the minimum memory needed for this lisp object using T_Data
+            struct LispObjectProxy : public LispObject
+            {
+                T_Data m_userData;
+            };
+
+            auto pInstance = pGarbageCollector->createStatic<LispObjectProxy>(pMetaInfo);
+
+            return pInstance.cast<LispObject>();
+        }
+
     }
 }

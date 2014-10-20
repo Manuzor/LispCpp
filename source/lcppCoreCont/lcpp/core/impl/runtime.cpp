@@ -10,10 +10,14 @@
 #include "lcpp/core/typeSystem/types/environment.h"
 #include "lcpp/core/containers/stack.h"
 
-#include "lcpp/core/ioUtils.h"
+#ifndef VerboseDebugMessage
+// Enable this to allow verbose debug messages
+#define VerboseDebugMessage Debug
+#endif
 
-// Enable this to allow debug messages
-#define VerboseDebugMessage LCPP_LOGGING_VERBOSE_DEBUG_FUNCTION_NAME
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
+lcpp::GarbageCollector* g_pGC(nullptr);
+#endif
 
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
@@ -25,7 +29,7 @@ lcpp::LispRuntimeState::LispRuntimeState() :
 }
 
 void
-lcpp::LispRuntimeState::initialize()
+lcpp::LispRuntimeState::initialize(ezAllocatorBase* pAllocator)
 {
     EZ_ASSERT(m_stats.m_shutdownCount <= m_stats.m_initializationCount,
               "LCPP_pRuntime was shut down more often than it was initialized!");
@@ -40,19 +44,25 @@ lcpp::LispRuntimeState::initialize()
 
     ++m_stats.m_initializationCount;
 
-    m_pAllocator = defaultAllocator();
+    m_pAllocator = pAllocator ? pAllocator : defaultAllocator();
+    m_pGC = lcpp::getGarbageCollector();
 
-    m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax"));
-    m_pGlobalEnvironment = env::create(m_pSyntaxEnvironment, symbol::create("global"));
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
+    g_pGC = m_pGC.get();
+#endif
+
+    m_pSyntaxEnvironment = env::createTopLevel(symbol::create("syntax")).get();
+    m_pGC->addRoot(m_pSyntaxEnvironment);
+    m_pGlobalEnvironment = env::create(getSyntaxEnvironment(), symbol::create("global")).get();
+    m_pGC->addRoot(m_pGlobalEnvironment);
 
     //////////////////////////////////////////////////////////////////////////
-    
-    m_pReaderState = LCPP_NEW(m_pAllocator, reader::State)();
-    m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
 
-    m_pPrinterState = LCPP_NEW(m_pAllocator, printer::State)();
-    // TODO Set output stream of printer to stdout by default.
-    m_pPrinterState->m_pOutStream = LCPP_NEW(m_pAllocator, StandardOutputStream)();
+    m_pReaderState = EZ_NEW(defaultAllocator(), reader::State);
+    m_pReaderState->m_pMacroEnv = env::createTopLevel(symbol::create("reader-macros"));
+    m_pGC->addRoot(m_pReaderState->m_pMacroEnv.get());
+
+    m_pPrinterState = EZ_NEW(defaultAllocator(), printer::State);
 
     //////////////////////////////////////////////////////////////////////////
 
@@ -69,7 +79,19 @@ lcpp::LispRuntimeState::shutdown()
 
     ++m_stats.m_shutdownCount;
 
-    LCPP_DELETE(m_pAllocator, m_pReaderState);
+    m_pGC->removeRoot(m_pReaderState->m_pMacroEnv.get());
+    m_pGC->removeRoot(m_pGlobalEnvironment);
+    m_pGC->removeRoot(m_pSyntaxEnvironment);
+
+    m_pReaderState->m_pMacroEnv = nullptr;
+    EZ_DELETE(defaultAllocator(), m_pReaderState);
+    m_pPrinterState->m_pOutStream = nullptr;
+    EZ_DELETE(defaultAllocator(), m_pPrinterState);
+    m_pGlobalEnvironment = nullptr;
+    m_pSyntaxEnvironment = nullptr;
+
+    // TODO Once we have a per-runtime garbage collector system running, uncomment the following line.
+    //m_pGC->clear();
 }
 
 void

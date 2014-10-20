@@ -1,10 +1,27 @@
 #include "stdafx.h"
 #include "lcpp/core/typeSystem/object.h"
+#include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/type.h"
 #include "lcpp/core/typeSystem/typeCheck.h"
 #include "lcpp/core/typeSystem/objectData.h"
 
 #include "lcpp/core/exceptions/invalidInputException.h"
+
+#include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/syntax_builtin.h"
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/nil.h"
+#include "lcpp/core/typeSystem/types/void.h"
+#include "lcpp/core/typeSystem/types/bool.h"
+#include "lcpp/core/typeSystem/types/number.h"
+#include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/typeSystem/types/stream.h"
+#include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/typeSystem/types/file.h"
+#include "lcpp/core/typeSystem/types/time.h"
+#include "lcpp/core/typeSystem/types/environment.h"
+#include "lcpp/core/typeSystem/types/symbol.h"
 
 namespace lcpp
 {
@@ -12,35 +29,29 @@ namespace lcpp
     {
         bool isType(Ptr<LispObject> pObject, const Type& type)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
             return getType(pObject) == type;
         }
 
         const Type& getType(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
-            EZ_ASSERT(pObject->m_header.m_pMetaInfo, "No valid type info.");
-            return pObject->m_header.m_pMetaInfo->getType();
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
+            EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
+            return pObject->getMetaInfo()->getType();
         }
 
         const AttributeFlags& getAttributes(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
-            EZ_ASSERT(pObject->m_header.m_pMetaInfo, "No valid type info.");
-            return pObject->m_header.m_pMetaInfo->getAttributes();
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
+            EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
+            return pObject->getMetaInfo()->getAttributes();
         }
 
         const MetaInfo& getMetaInfo(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid object.");
-            EZ_ASSERT(pObject->m_header.m_pMetaInfo, "No valid type info.");
-            return *pObject->m_header.m_pMetaInfo;
-        }
-
-        const LispObjectHeader& getHeader(Ptr<LispObject> pObject)
-        {
-            EZ_ASSERT(pObject, "Invalid object.");
-            return pObject->m_header;
+            EZ_ASSERT(!pObject.isNull(), "Invalid object.");
+            EZ_ASSERT(!pObject->getMetaInfo().isNull(), "No valid type info.");
+            return *pObject->getMetaInfo();
         }
 
         bool isCallable(Ptr<LispObject> pObject)
@@ -63,7 +74,7 @@ namespace lcpp
             return getAttributes(pObject).isEnvironmentContainer();
         }
 
-        Ptr<LispObject> call(Ptr<LispObject> pCont)
+        Ptr<LispObject> call(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
 
@@ -71,40 +82,23 @@ namespace lcpp
 
             auto pCallable = pStack->get(-1);
 
-            if(!isCallable(pCallable))
+            MetaProperty prop;
+            const auto& metaInfo = getMetaInfo(pCallable);
+            if(metaInfo.getProperty(MetaProperty::Builtin::CallFunction, prop).Succeeded())
             {
-                LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
-            }
-
-            auto& type = object::getType(pCallable);
-
-            switch(type.getId())
-            {
-            case Type::Syntax:
-                if(isBuiltin(pCallable))
-                {
-                    LCPP_cont_tailCall(pCont, &syntax::builtin::call);
-                }
-                // TODO support user defined syntax.
-                LCPP_NOT_IMPLEMENTED;
-            case Type::Lambda:
-                if (isBuiltin(pCallable))
-                {
-                    LCPP_cont_tailCall(pCont, &lambda::builtin::call);
-                }
-                LCPP_cont_tailCall(pCont, &lambda::userDefined::call);
+                auto pFunction = prop.getData().as<cont::Function_t>();
+                LCPP_cont_tailCall(pCont, pFunction);
             }
 
             EZ_REPORT_FAILURE("pCallable has the Callable attribute set "
-                              "but is not supported in the switch above. "
-                              "Did you forget to add code to the switch?");
+                              "but does not have the property MetaProperty::Builtin::CallFunction.");
 
-            return nullptr;
+            LCPP_THROW(exceptions::InvalidInput("Argument is not callable."));
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pObject)
+        Ptr<LispObject> toString(StackPtr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -139,7 +133,7 @@ namespace lcpp
 
         Ptr<LispObject> getName(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -155,7 +149,7 @@ namespace lcpp
 
         void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -171,7 +165,7 @@ namespace lcpp
 
         bool hasName(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -187,7 +181,7 @@ namespace lcpp
 
         Ptr<LispObject> getEnvironment(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -205,7 +199,7 @@ namespace lcpp
 
         void setEnvironment(Ptr<LispObject> pObject, Ptr<LispObject> pEnv)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -220,7 +214,7 @@ namespace lcpp
 
         bool hasEnvironment(Ptr<LispObject> pObject)
         {
-            EZ_ASSERT(pObject, "Invalid pointer.");
+            EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
 
             auto& type = object::getType(pObject);
 
@@ -235,5 +229,17 @@ namespace lcpp
             EZ_REPORT_FAILURE(message.GetData());
             LCPP_THROW(exceptions::InvalidInput(message.GetData()));
         }
+
+        LCPP_API_CORE_CONT void destroy(Ptr<LispObject> pObject)
+        {
+            MetaProperty prop;
+            if (pObject->getMetaInfo()->getProperty(MetaProperty::Builtin::DestructorFunction, prop).Failed())
+                return;
+
+            auto pDestroy = prop.getData().as<DestructorFunction_t>();
+            EZ_ASSERT(pDestroy, "Invalid destructor function");
+            (*pDestroy)(pObject.get());
+        }
+
     }
 }

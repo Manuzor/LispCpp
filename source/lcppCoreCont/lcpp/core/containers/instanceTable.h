@@ -22,7 +22,7 @@ namespace lcpp
 
         createNew_t m_pFunctor_createNew;
 
-        ezHashTable<T_Key, Ptr<LispObject>> m_table;
+        ezHashTable<T_Key, LispObject*> m_table;
 
     };
 }

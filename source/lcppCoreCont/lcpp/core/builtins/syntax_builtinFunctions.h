@@ -9,35 +9,35 @@ namespace lcpp
     {
         namespace builtin
         {
-            LCPP_API_CORE_CONT Ptr<LispObject> if_(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> if_(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> define(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> define(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> set(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> set(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> begin(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> begin(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> lambda(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> lambda(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> quote(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> quote(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> and(Ptr<LispObject> pCont);
-            LCPP_API_CORE_CONT Ptr<LispObject> or(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> and(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> or(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> time(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> time(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> assertion(Ptr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> assertion(StackPtr<LispObject> pCont);
 
             namespace detail
             {
-                Ptr<LispObject> if_helper(Ptr<LispObject> pCont);
-                Ptr<LispObject> define_addBinding(Ptr<LispObject> pCont);
-                Ptr<LispObject> begin_helper(Ptr<LispObject> pCont);
-                Ptr<LispObject> lambda_helper(Ptr<LispObject> pCont);
-                Ptr<LispObject> and_helper(Ptr<LispObject> pCont);
-                Ptr<LispObject> or_helper(Ptr<LispObject> pCont);
-                Ptr<LispObject> time_finalize(Ptr<LispObject> pCont);
-                Ptr<LispObject> assertion_finalize(Ptr<LispObject> pCont);
+                Ptr<LispObject> if_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> define_addBinding(StackPtr<LispObject> pCont);
+                Ptr<LispObject> begin_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> lambda_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> and_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> or_helper(StackPtr<LispObject> pCont);
+                Ptr<LispObject> time_finalize(StackPtr<LispObject> pCont);
+                Ptr<LispObject> assertion_finalize(StackPtr<LispObject> pCont);
             }
         }
     }

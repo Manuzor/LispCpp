@@ -26,19 +26,17 @@ namespace lcpp
 
         // Initialization
         //////////////////////////////////////////////////////////////////////////
-        void initialize();
+        void initialize(ezAllocatorBase* = nullptr);
         void shutdown();
 
         //////////////////////////////////////////////////////////////////////////
 
         Statistics m_stats;
 
-        Ptr<ezAllocatorBase> allocator();
+        Ptr<GarbageCollector> getGarabgeCollector();
 
-        Ptr<const LispObject> getSyntaxEnvironment() const;
         Ptr<LispObject> getSyntaxEnvironment();
 
-        Ptr<const LispObject> getGlobalEnvironment() const;
         Ptr<LispObject> getGlobalEnvironment();
 
         Ptr<reader::State> getReaderState();
@@ -66,13 +64,14 @@ namespace lcpp
 
     private:
 
-        Ptr<ezAllocatorBase> m_pAllocator;
+        ezAllocatorBase* m_pAllocator;
+        Ptr<GarbageCollector> m_pGC;
 
-        Ptr<LispObject> m_pSyntaxEnvironment;
-        Ptr<LispObject> m_pGlobalEnvironment;
+        LispObject* m_pSyntaxEnvironment;
+        LispObject* m_pGlobalEnvironment;
 
-        Ptr<reader::State> m_pReaderState;
-        Ptr<printer::State> m_pPrinterState;
+        reader::State* m_pReaderState;
+        printer::State* m_pPrinterState;
 
         ezUInt32 m_recursionLimit;
         ezUInt32 m_recursionDepth;

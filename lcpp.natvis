@@ -1,156 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
-	<Type Name="lcpp::Ptr&lt;*&gt;">
-		<DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
-		<DisplayString>{m_pPtr}</DisplayString>
-		<Expand>
-			<Item Name="[ptr]">m_pPtr</Item>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::Ptr&lt;*&gt;">
+        <DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
+        <DisplayString>{m_pPtr}</DisplayString>
+        <Expand>
+            <Item Name="[ptr]">m_pPtr</Item>
+            <ExpandedItem>*m_pPtr</ExpandedItem>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::Ptr&lt;lcpp::LispObject&gt;">
-		<DisplayString>{*m_pPtr}</DisplayString>
-		<Expand>
-			<ExpandedItem>*m_pPtr</ExpandedItem>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::Ptr &lt; lcpp::LispObject &gt;">
+        <AlternativeType Name="lcpp::Ptr &lt; lcpp::CollectableBase &gt;"></AlternativeType>
+        <DisplayString Condition="m_pPtr == nullptr">nullptr</DisplayString>
+        <DisplayString>{*((lcpp::LispObject*)m_pPtr)}</DisplayString>
+        <Expand>
+            <ExpandedItem>*((lcpp::LispObject*)m_pPtr)</ExpandedItem>
+        </Expand>
+    </Type>
+    <Type Name="lcpp::StackPtrBase">
+        <DisplayString>StackPtr at { m_uiIndex }: { *m_pLastLookup }</DisplayString>
+        <Expand>
+            <Item Name="Index">m_uiIndex</Item>
+            <Item Name="Ptr">m_pLastLookup</Item>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::LispObject">
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  0">Nil '()</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  1">Void #v</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  2">True #t</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  3">False #f</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">{m_header}: {m_integer}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">{m_header}: {m_float}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">{m_header}: {m_symbol}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">{m_header}: {m_string}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">{m_header}: {m_stream}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">{m_header}: {m_cons}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_lambda_builtin}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">{m_header}: {m_lambda_userDefined}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">{m_header}: {m_syntax_builtin}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">{m_header}: Not implemented in .natvis file for user-defined syntax.</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">{m_header}: {m_env}</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">{m_header}: Not implemented in the .natvis file.</DisplayString>
-		<DisplayString Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 14">{m_header}: {m_cont}</DisplayString>
-		<DisplayString>[Unknown Type]{m_header}</DisplayString>
-		<Expand>
-			<Item Name="Header">m_header</Item>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  4">m_integer</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  5">m_float</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  6">m_symbol</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  7">m_string</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  8">m_stream</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id ==  9">m_cons</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">m_lambda_builtin</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 10">m_lambda_userDefined</ExpandedItem>
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11 &amp;&amp; (m_header.m_pMetaInfo.m_pPtr->m_attributes.m_flags &amp; 2) != 0">m_syntax_builtin</ExpandedItem>
-			<!--<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 11">Not implemented in .natvis file for user-defined syntax.</ExpandedItem>-->
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 12">m_env</ExpandedItem>
-			<!--<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 13">Not implemented in the .natvis file.</ExpandedItem>-->
-			<ExpandedItem Condition="m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 14">m_cont</ExpandedItem>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::StackPtr &lt; lcpp::LispObject &gt;">
+        <AlternativeType Name="lcpp::StackPtr &lt; lcpp::CollectableBase &gt;"></AlternativeType>
+        <DisplayString>{ (lcpp::LispObject*)m_pLastLookup }</DisplayString>
+        <Expand>
+            <ExpandedItem>*((lcpp::LispObject*)m_pLastLookup)</ExpandedItem>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::LispObjectHeader">
-		<DisplayString>{*m_pMetaInfo.m_pPtr}</DisplayString>
-	</Type>
+    <Type Name="lcpp::CollectableBase">
+        <DisplayString>{*m_pMetaInfo}</DisplayString>
+        <Expand>
+            <Item Name="State">m_state</Item>
+            <Item Name="GC"          Condition="m_state == lcpp::GarbageState::Alive">*m_pGarbageCollector</Item>
+            <Item Name="MetaInfo"    Condition="m_state == lcpp::GarbageState::Alive">*m_pMetaInfo        </Item>
+            <Item Name="Memory Size" Condition="m_state == lcpp::GarbageState::Alive">m_uiMemorySize      </Item>
+            <Item Name="Generation"  Condition="m_state == lcpp::GarbageState::Alive">m_uiGeneration      </Item>
+            <Item Name="Forwarded Object" Condition="m_state == lcpp::GarbageState::Forwarded">*m_pForwardPointer</Item>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::MetaInfo">
-		<DisplayString>{m_type}</DisplayString>
-	</Type>
+    <!--
+        Nil          = 0
+        Void         = 1
+        True         = 2
+        False        = 3
+        Integer      = 4
+        Float        = 5
+        Symbol       = 6
+        String       = 7
+        Stream       = 8
+        Cons         = 9
+        Lambda       = 10
+        Syntax       = 11
+        Environment  = 12
+        File         = 13
+        Continuation = 14
+        Time         = 15
+    -->
 
-	<Type Name="lcpp::Type">
-		<DisplayString>{m_id}</DisplayString>
-	</Type>
+    <Type Name="lcpp::LispObject">
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  0">Nil '()</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  1">Void #v</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  2">True #t</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  3">False #f</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  4">{*((ezInt64*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  5">{*((double*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  6">{*((lcpp::symbol::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  7">{*((lcpp::str::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  8">{*((lcpp::stream::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  9">({*((lcpp::cons::Data*)m_data)})</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">{*((lcpp::lambda::builtin::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) == 0">{*((lcpp::lambda::userDefined::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 11
+                      &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">{*((lcpp::syntax::builtin::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 12">{*((lcpp::env::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 13">{*((lcpp::file::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 14">{*((lcpp::cont::Data*)m_data)}</DisplayString>
+        <DisplayString Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 15">{*((lcpp::time::Data*)m_data)}</DisplayString>
+        <DisplayString>[Unknown Type] { ((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id }</DisplayString>
+        <Expand>
+            <ExpandedItem ExcludeView="base">((lcpp::CollectableBase*)this)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  4">*((ezInt64*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  5">*((double*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  6">*((lcpp::symbol::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  7">*((lcpp::str::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  8">*((lcpp::stream::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id ==  9">*((lcpp::cons::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">*((lcpp::lambda::builtin::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 10
+                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) == 0">*((lcpp::lambda::userDefined::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 11
+                         &amp;&amp; (((lcpp::CollectableBase*)this)->m_pMetaInfo->m_attributes.m_flags &amp; 2) != 0">*((lcpp::syntax::builtin::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 12">*((lcpp::env::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 13">*((lcpp::file::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 14">*((lcpp::cont::Data*)m_data)</ExpandedItem>
+            <ExpandedItem Condition="((lcpp::CollectableBase*)this)->m_pMetaInfo->m_type.m_id == 15">*((lcpp::time::Data*)m_data)</ExpandedItem>
 
-	<Type Name="lcpp::Stack">
-		<DisplayString>{m_stack}</DisplayString>
-		<Expand>
-			<Item Name="Allocator">m_pAllocator.m_pPtr</Item>
-			<Item Name="NilElement">m_nilElement</Item>
-			<ExpandedItem>m_stack</ExpandedItem>
-		</Expand>
-	</Type>
+    </Expand>
+    </Type>
 
-	<!-- type specific data -->
+    <Type Name="lcpp::MetaInfo">
+        <DisplayString>{m_type}</DisplayString>
+    </Type>
 
-	<Type Name="lcpp::symbol::Data">
-		<DisplayString>{*((String*)m_pRawData)}</DisplayString>
-		<Expand>
-			<ExpandedItem>*((String*)m_pRawData)</ExpandedItem>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::Type">
+        <DisplayString>{m_id}</DisplayString>
+    </Type>
 
-	<Type Name="lcpp::str::Data">
-		<DisplayString>{*((String*)m_pRawData)}</DisplayString>
-		<Expand>
-			<ExpandedItem>*((String*)m_pRawData)</ExpandedItem>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::Stack">
+        <DisplayString>{m_stack}</DisplayString>
+        <Expand>
+            <Item Name="Allocator">m_pAllocator.m_pPtr</Item>
+            <Item Name="NilElement">m_nilElement</Item>
+            <ExpandedItem>m_stack</ExpandedItem>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::env::Data">
-		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
-		<Expand>
-			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
-			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
-			<ExpandedItem>(ezHashTableBase&lt;lcpp::Ptr&lt;lcpp::LispObject&gt;,lcpp::Ptr&lt;lcpp::LispObject&gt;,ezHashHelper&lt;lcpp::Ptr&lt;lcpp::LispObject&gt; &gt; &gt; *)m_table</ExpandedItem>
-		</Expand>
-	</Type>
+    <!-- type specific data -->
 
-	<Type Name="lcpp::cont::Data">
-		<DisplayString>Function={m_pFunction,na}</DisplayString>
-		<Expand>
-			<Item Name="Function">m_pFunction,na</Item>
-			<Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
-			<Item Name="UserData">m_userData</Item>
-			<Item Name="Stack">*((lcpp::Stack*)m_stack)</Item>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::symbol::Data">
+        <AlternativeType Name="lcpp::str::Data"/>
+        <DisplayString>{((String*)m_pRawData)->m_Data.m_pElements,s8}</DisplayString>
+        <StringView>((String*)m_pRawData)->m_Data.m_pElements,s8</StringView>
+        <Expand>
+            <Item Name="String Data">(String*)m_pRawData</Item>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::stream::Data">
-		<DisplayString>Current={((ezStringIterator*)m_iterator)->m_pCurrent,s8}</DisplayString>
-		<StringView>((ezStringIterator*)m_iterator)->m_pCurrent,s8</StringView>
-		<Expand>
-			<ExpandedItem>*((ezStringIterator*)m_iterator)</ExpandedItem>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::env::Data">
+        <DisplayString>Env Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
+        <Expand>
+            <Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
+            <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+            <ExpandedItem>m_table</ExpandedItem>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::cons::Data">
-		<Expand>
-			<Item Name="Car">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCar)</Item>
-			<!-- Display Cdr as another cons, if it is a cons. -->
-			<Item Name="Cdr" Condition="((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)->m_pPtr->m_header.m_pMetaInfo.m_pPtr->m_type.m_id == 9">((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)->m_pPtr->m_cons</Item>
-			<Item Name="Cdr" Condition="((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)->m_pPtr->m_header.m_pMetaInfo.m_pPtr->m_type.m_id != 9">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)</Item>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::cont::Data">
+        <DisplayString>Cont Function={m_pFunction,na}</DisplayString>
+        <Expand>
+            <Item Name="Function">m_pFunction,na</Item>
+            <Item Name="Parent">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pParent)</Item>
+            <Item Name="UserData">m_userData</Item>
+            <Item Name="Stack">*((lcpp::Stack*)m_stack)</Item>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::lambda::builtin::Data">
-		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
-		<Expand>
-			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
-			<Item Name="Function">m_pFunction</Item>
-			<Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::stream::Data">
+        <DisplayString>Stream Current={((ezStringIterator*)m_iterator)->m_pCurrent,s8}</DisplayString>
+        <StringView>((ezStringIterator*)m_iterator)->m_pCurrent,s8</StringView>
+        <Expand>
+            <ExpandedItem>*((ezStringIterator*)m_iterator)</ExpandedItem>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::lambda::userDefined::Data">
-		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
-		<Expand>
-			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
-			<Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
-			<Item Name="ArgList">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pArgList)</Item>
-			<Item Name="Body">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pBody)</Item>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::cons::Data">
+        <Expand>
+            <Item Name="Car">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCar)</Item>
+            <Item Name="Cdr">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pCdr)</Item>
+        </Expand>
+    </Type>
 
-	<Type Name="lcpp::syntax::builtin::Data">
-		<DisplayString>Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
-		<Expand>
-			<Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
-			<Item Name="Function">m_pFunction</Item>
-		</Expand>
-	</Type>
+    <Type Name="lcpp::lambda::builtin::Data">
+        <DisplayString>Bultin Lambda Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+        <Expand>
+            <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+            <Item Name="Function">m_pFunction</Item>
+            <Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="lcpp::lambda::userDefined::Data">
+        <DisplayString>User Lambda Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}</DisplayString>
+        <Expand>
+            <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+            <Item Name="Environment">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pEnv)</Item>
+            <Item Name="ArgList">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pArgList)</Item>
+            <Item Name="Body">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pBody)</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="lcpp::syntax::builtin::Data">
+        <DisplayString>Builtin Syntax Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)}, Function={m_pFunction,na}</DisplayString>
+        <Expand>
+            <Item Name="Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pName)</Item>
+            <Item Name="Function">m_pFunction</Item>
+        </Expand>
+    </Type>
+
+    <Type Name="lcpp::file::Data">
+        <DisplayString>File Name={*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pFileName)}</DisplayString>
+        <Expand>
+            <Synthetic Name="Open State" Condition="(*((ezOSFile*)m_file)).m_FileMode != ezFileMode::None">
+                <DisplayString>File is open.</DisplayString>
+            </Synthetic>
+            <Synthetic Name="Open State" Condition="(*((ezOSFile*)m_file)).m_FileMode == ezFileMode::None">
+                <DisplayString>File is closed.</DisplayString>
+            </Synthetic>
+            <Item Name="File">*((ezOSFile*)m_file)</Item>
+            <Item Name="File Name">*((lcpp::Ptr&lt;lcpp::LispObject&gt;*)m_pFileName)</Item>
+        </Expand>
+    </Type>
 
 </AutoVisualizer>

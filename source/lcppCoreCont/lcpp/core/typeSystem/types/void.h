@@ -3,13 +3,15 @@
 namespace lcpp
 {
     class LispObject;
+    class MetaInfo;
 
     namespace void_
     {
+        LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
         LCPP_API_CORE_CONT Ptr<LispObject> create();
 
-        LCPP_API_CORE_CONT Ptr<LispObject> toString(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 
     };
 

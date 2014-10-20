@@ -8,24 +8,41 @@
 
 #include "lcpp/core/typeSystem/types/time.h"
 #include "lcpp/core/typeSystem/types/timeData.h"
+#include "lcpp/core/typeSystem/types/string.h"
 
 namespace lcpp
 {
     namespace time
     {
-        const MetaInfo& metaInfo()
+        static void destroy(CollectableBase* pCollectable)
         {
-            static auto meta = MetaInfo(Type::Time, "time");
-            return meta;
+            auto pTime = static_cast<LispObject*>(pCollectable);
+            typeCheck(pTime, Type::Time);
+
+            pTime->getData<Data>().m_time.~ezTime();
+        }
+
+        Ptr<const MetaInfo> getMetaInfo()
+        {
+            static auto meta = []
+            {
+                auto meta = MetaInfo();
+                meta.setType(Type::Time);
+                meta.setPrettyName("time");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
+
+                return meta;
+            }(); // Note that this lambda is immediately called.
+
+            return &meta;
         }
 
         Ptr<LispObject> create()
         {
-            auto pInstance = object::create<Data>(metaInfo());
+            LCPP_LogBlock("time::create");
 
-            auto& data = pInstance->m_time;
-
-            new (data.m_time) ezTime();
+            auto pInstance = object::create<Data>(getMetaInfo());
 
             return pInstance;
         }
@@ -33,36 +50,36 @@ namespace lcpp
         Ptr<LispObject> create(const ezTime& theTime)
         {
             auto pInstance = create();
-            pInstance->m_time.setTime(theTime);
+            pInstance->getData<Data>().m_time = theTime;
             return pInstance;
         }
 
         ezTime& getTime(Ptr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
-            return pTime->m_time.getTime();
+            return pTime->getData<Data>().m_time;
         }
 
         void setTime(Ptr<LispObject> pTime, const ezTime& theTime)
         {
             typeCheck(pTime, Type::Time);
-            pTime->m_time.setTime(theTime);
+            pTime->getData<Data>().m_time = theTime;
         }
 
         void setNow(Ptr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
-            pTime->m_time.setTime(ezTime::Now());
+            pTime->getData<Data>().m_time = ezTime::Now();
         }
 
-        Ptr<LispObject> toString(Ptr<LispObject> pTime)
+        Ptr<LispObject> toString(StackPtr<LispObject> pTime)
         {
             typeCheck(pTime, Type::Time);
 
-            auto stringRepresentation = ezStringBuilder();
-            stringRepresentation.Format("%fms", pTime->m_time.getTime().GetMilliseconds());
+            ezStringBuilder stringRepresentation;
+            stringRepresentation.Format("%fms", pTime->getData<Data>().m_time.GetMilliseconds());
 
-            return str::create(stringRepresentation.GetData());
+            return str::create(stringRepresentation.GetData(), stringRepresentation.GetElementCount());
         }
 
 
