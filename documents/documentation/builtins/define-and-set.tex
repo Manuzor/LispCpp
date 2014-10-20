@@ -1,13 +1,15 @@
-\subsection{define}
+\subsection{Syntax 'define' and 'set!'}
 \label{builtins/define}
 
-\subsubsection{Declaration}
+\subsubsection*{Declaration}
 \begin{lstlisting}
 (define symbol expression)
 (define (symbol [arg]) code [code...])
+(set! symbol expression)
+(set! (symbol [arg]) code [code...])
 \end{lstlisting}
 
-\subsubsection{Parameters}
+\subsubsection*{Parameters}
 \begin{description}
 	\item[symbol] The unevaluated symbol to bind the result of the expression to.
 	\item[expression] The result of expression is bound to the specified symbol.
@@ -15,15 +17,17 @@
 	\item[arg] An optional unevaluated symbol to bind values to that are available when executing all code argument.
 \end{description}
 
-\subsubsection{Description}
+\subsubsection*{Description}
 Binds the value of the given evaluated expression to the given unevaluated symbol.
 
-The second form is equivalent to the following:
+The only difference between \lstinline|define| and \lstinline|set!| is basically that \lstinline|set!| can only overwrite existing bindings. If a binding for a symbol does not exist yet, \lstinline|set!| will fail.
+
+The second forms are equivalent to the following:
 \begin{lstlisting}
 (define symbol (lambda ([arg...]) code [code...]))
 \end{lstlisting}
 
-\subsubsection{Examples}
+\subsubsection*{Examples}
 \begin{lstlisting}
 (define x 1)
 (define value "value")

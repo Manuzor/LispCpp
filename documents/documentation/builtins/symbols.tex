@@ -1,0 +1,21 @@
+\subsection{Pre-defined symbols}
+\label{builtins/predefined-symbols}
+
+\subsubsection{Symbols}
+\begin{lstlisting}
+#t #f #v null
+\end{lstlisting}
+
+\subsubsection*{Description}
+The symbol \lstinline|#t| represents the value 'true'.\\
+The symbol \lstinline|#f| represents the value 'false'.\\
+The symbol \lstinline|#v| represents a non-value, i.e. "void".\\
+The symbol \lstinline|null| represents an empty list.
+
+\subsubsection{Examples}
+\begin{lstlisting}
+(if #t 1 2) ; Will always yield 1
+(if #f 1 2) ; Will always yield 2
+(print #v) ; Will never print anything
+(cons 1 (cons 2 null)) ; Creates a regular list equivalent to '(1 2)
+\end{lstlisting}

@@ -2,24 +2,49 @@
 % !TeX spellcheck = en_US
 % !TeX root = template_Report.tex
 \documentclass[a4paper]{scrartcl}
+\usepackage{fontspec}
+\setmonofont{Consolas}
+\usepackage{color}
+	\definecolor{codeComment}{RGB}{0,128,0}
+	\definecolor{codeKeyword}{RGB}{0,0,255}
+	\definecolor{codeIdentifier}{RGB}{64,64,64}
+	\definecolor{codeString}{RGB}{163,21,21}
+	\definecolor{codeLineNumbers}{RGB}{0,0,0}
 \usepackage{listings}
+	\lstset{language=Lisp}
+	\lstset{basicstyle=\ttfamily\small}
+	\lstset{keywordstyle=\color{codeKeyword}}
+	\lstset{commentstyle=\color{codeComment}}
+	\lstset{identifierstyle=\color{codeIdentifier}}
+	\lstset{stringstyle=\color{codeString}}
+	\lstset{showstringspaces=false}
+	\lstset{tabsize=4}
+	\lstset{captionpos=b}
+	\lstset{numbers=left}
+	\lstset{numberstyle=\ttfamily\color{codeLineNumbers}}
+	\lstset{breaklines=true}
+	\lstset{morekeywords={define,if,lambda}}
+\usepackage{todonotes}
+\usepackage{enumitem}
+\setlist[description]{leftmargin=\parindent,labelindent=\parindent}
 
 % Title Page
 \title{LispCpp Documentation}
 \subtitle{Course "Design and Implementation of modern Programming languages" held by Claus Gittinger}
 \author{Manuel Maier, Matriculation Number 28535\\
-	Suttgart Media University}
+	Stuttgart Media University}
 \date{\today}
 
 \begin{document}
 \maketitle
 \tableofcontents
+\clearpage
 
 \section{Features}
-	pass
+	\todo{Describe all features in a list with concise comments.}
 	
-\section{Built-in Syntax}
-	Within this section, a simple declaration syntax is used:
+\section{Built-ins}
+	Within this section, a simple declaration syntax is used, mixed with the regular LISP syntax:
 
 	Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
 
@@ -27,7 +52,9 @@
 
 	Everything else is regular LISP syntax.
 
-\input{builtins/define}
-\input{builtins/lambda}
+	\input{builtins/symbols}
+
+	\input{builtins/define-and-set}
+	\input{builtins/lambda}
 
 \end{document}

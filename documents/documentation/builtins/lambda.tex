@@ -1,4 +1,4 @@
-\subsection{lambda}
+\subsection{Syntax lambda}
 \label{builtins/lambda}
 
 \subsubsection*{Declaration}
@@ -17,13 +17,13 @@ Creates a procedure object that can be used to execute user-defined code. Will r
 
 A lambda needs at least one code element in its body.
 
-\subsubsection{Examples}
+\subsubsection*{Examples}
 \begin{lstlisting}
 ; Returns the integer 42 when executed.
-(lambda() 42)
+(lambda () 42)
 
 ; Binds the value 42 to the symbol x.
-(define x ((lambda() 42)))
+(define x ((lambda () 42)))
 
 ; Short-hand syntax to create lambda objects.
 (define (make-adder x) (lambda (n) (+ x n)))
