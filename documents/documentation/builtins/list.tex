@@ -1,0 +1,22 @@
+\subsection{Procedure 'list'}
+\label{builtins/list}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(list [object...])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[object] May be of any type.
+\end{description}
+
+\subsubsection*{Description}
+Creates a regular list of cons cells from the given arguments. If no arguments are given, the empty list \lstinline|null| (see \ref{builtins/symbols}) is returned.
+
+\subsubsection*{Examples}
+\begin{lstlisting}[escapechar=`]
+(list) ; Yields the empty list 'null'
+
+(list 1 2 3) ; Logically equivalent to (cons 1(cons 2(cons 3 null)))
+\end{lstlisting}
