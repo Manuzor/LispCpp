@@ -1,0 +1,22 @@
+\subsection{Syntax 'assert'}
+\label{builtins/assert}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(assert condition [message])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[condition] The condition to be tested.
+	\item[message] An optional message of type string which will be output in case the condition evaluates to \false{}.
+\end{description}
+
+\subsubsection*{Description}
+Evaluates the given \lstinline|condition| and triggers an error when it is \false{}. If the \lstinline|message| argument is given, and it is a string, it is displayed as part of the error message. If the given condition evaluates to \true{}, nothing else is done.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(assert (and #t 42))
+(assert #f "This condition always triggers an error.")
+\end{lstlisting}
