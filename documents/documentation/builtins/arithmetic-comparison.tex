@@ -1,0 +1,28 @@
+\subsection{Procedure '>', '>=', '=', '<', and '<='}
+\label{builtins/arithmetic-comparison}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(>  op op [op...])
+(>= op op [op...])
+(=  op op [op...])
+(<  op op [op...])
+(<= op op [op...])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[op] The operand of either integer or float type to compare against one or more other operands.
+\end{description}
+
+\subsubsection*{Description}
+These are the typical arithmetic comparison operators. Each of them takes at least 2 arguments of either integer or float type.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(<  1 2) ; #t
+(<= 1 2) ; #t
+(=  1 2) ; #f
+(>  1 2) ; #f
+(>= 1 2) ; #f
+\end{lstlisting}

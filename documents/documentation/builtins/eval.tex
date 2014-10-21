@@ -1,0 +1,24 @@
+\subsection{Procedure 'eval'}
+\label{builtins/eval}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(eval object)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[object] Any type of object that will be evaluated.
+\end{description}
+
+\subsubsection*{Description}
+Returns the result of evaluating the given \lstinline|object|.
+
+\subsubsection*{Examples}
+\begin{lstlisting}[escapechar=`]
+(eval 1) ; Evaluates to itself
+(eval "foo") ; Also evaluates to itself
+
+; Evaluates the result of read (see `\ref{builtins/read}`)
+(eval (read "1")) ; Evalutes to the integer 1
+\end{lstlisting}

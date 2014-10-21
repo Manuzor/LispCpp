@@ -52,14 +52,15 @@
 	
 \section{Built-in Symbols, Syntax, and Procedures}
 	Within this section, a simple declaration syntax is used, mixed with the regular LISP syntax:
+	
+	\begin{itemize}
+		\item Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
+		\item Parameters enclosed in brackets are optional: \lstinline|[param]| or \lstinline|[param...]|
+		\item Procedure declarations follow this pattern:\\
+			  \lstinline|(procedure-name required [optional])|
+	\end{itemize}
 
-	Declarations for procedures look like they're called at that instance. This was done to keep it more simple.
-
-	Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
-
-	Parameters enclosed in brackets are optional: \lstinline|[param]| or \lstinline|[param...]|
-
-	Everything else is regular LISP syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. They are built-ins after all.
+	Everything else is regular LISP syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. These are built-ins after all.
 
 	\input{builtins/symbols}
 
@@ -73,5 +74,9 @@
 	\input{builtins/assert}
 
 	\input{builtins/arithmetic-operations}
+	\input{builtins/arithmetic-comparison}
+	\input{builtins/read}
+	\input{builtins/eval}
+	\input{builtins/print}
 
 \end{document}
