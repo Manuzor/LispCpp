@@ -35,9 +35,9 @@
 % Title Page
 \title{LispCpp\\
 	Documentation and Reference Manual}
-\subtitle{For the Course\\
-	"Design and Implementation of Modern Programming languages"\\
-	in Summer Term 2014 Held by Claus Gittinger}
+\subtitle{"Design and Implementation of Modern Programming languages"\\
+	Summer Term 2014\\
+	Held by Claus Gittinger}
 \author{Manuel Maier, Matriculation Number 28535\\
 		Stuttgart Media University}
 \date{\today}
@@ -47,13 +47,36 @@
 \tableofcontents
 \clearpage
 
-\section{Feature Overview}
-	\todo{Describe all features in a list with concise comments.}
-	
-\section{Garbage Collection}
+\section{Introduction and Document Overview}
+\label{overview}
+	This document is the documentation and reference manual for the LISP interpreter "LispCpp", written in C++ by Manuel Maier for the course "Design and Implementation of Modern Programming languages" held by Claus Gittinger at the Stuttgart Media University in the summer term 2014. It might seem like quite a long document, but do not worry, most of it is just a list of all the built-ins.
 
-\section{Numbers}
-	Numbers in lcpp come in two flavors:
+	For the guide on how to use the interpreter, check section \ref{usage}. For an overview of the implemented features, check section \ref{features}. Section \ref{builtins} lists all built-in symbols and procedures and explains how to use them.
+
+\section{Third Party Software}
+\label{thirdparty}
+\subsection{ezEngine}
+\label{ez}
+	\url{http://ezengine.net/}\\
+	Used for string operations, basic containers (dynamic array, hash map, etc.), file I\slash{}O, preprocessor utilities, and platform abstraction. The ezEngine is an open-source project licensed under a Creative Commons Attribution 3.0 Unported License.
+
+\section{Feature Overview}
+\label{features}
+	This interpreter is written in C++11 and has only been tested using Microsoft Visual Studio 2013 and the compiler that ships with it. For the most part, the code is platform independent, mostly due to usage of the ezEngine (see \ref{ez}), except for the implementation of the garbage collector (see \ref{gc}), which uses Win32 specific functions.
+
+	The interpreter uses a Baker-style garbage collection algorithm, continuation passing, and supports integers as well as floating point numbers.
+
+\subsection{Garbage Collection}
+\label{gc}
+	The garbage collector can be configured to use a specific number of memory pages as initial memory size. This defaults to 1 page of 4096 KiB. For memory allocation the Win32 API function \lstinline|VirtualAlloc| is used. For debugging purposes, \lstinline|VirtualProtect| was an enormous help finding bugs in the implementation of the garbage collector.
+
+	Since it is a Baker style garbage collector, there are two spaces of memory used, namely the eden space and the survivor space. After each collection cycle, the roles of the eden space and survivor space are swapped. outside of the collection cycle, i.e. during regular runtime, the survivor space is not used at all and is protected using \lstinline|VirtualProtect| and the \lstinline|PAGE_NOACCESS| argument, which issues a hardware error if the survivor space is accessed in any kind of way, be it reading, writing, or execution access.
+
+	After a collection cycle, if the fill level of the new eden space is above a certain threshold\footnote{This threshold is configurable.}, a flag is set to indicate that the garbage collector needs to allocate new memory before the next collection cycle. When a new collection cycle is performed, and the flag is set, the number of currently allocated memory pages is adjusted so that it can take enough LISP objects to stay below the threshold mentioned before. The amount of memory allocated by the garbage collector does never shrink. A collection cycle can be triggered manually, but is usually triggered when the user tries to allocate memory for new LISP objects.
+
+\subsection{Numbers}
+\label{numbers}
+	Numbers in LispCpp come in two flavors:
 	\begin{itemize}
 		\item Signed 64-bit integers
 		\item IEEE 754 double precision floating point numbers.
@@ -62,10 +85,38 @@
 	Except for the modulo procedure \lstinline|%| all arithmetic operations described in \ref{builtins/arithmetic-operations} and \ref{builtins/arithmetic-comparison} work with either of these flavors as arguments.
 	
 	There is no support for big integers (yet).
+	
+\subsection{Top-Level Environments}
+\label{env}
+	There are two kinds of top-level environments used in the current runtime implementation:
+	\begin{itemize}
+		\item Syntax environment
+		\item Character-Macro environment
+	\end{itemize}
+
+	The syntax environment stores all syntax procedures. It is available at both parsing time as well as evaluation time. At parsing time the syntax environment is used to replace occurrences of syntax symbols with the actual syntax objects they're bound to. For example, if the reader parses the string \lstinline|"(define x 1)"| it produces a cons-list where the first element is the built-in syntax object called 'define' (see \ref{builtins/define}).
+
+	The syntax environment, however, is not the environment the user defines variables in. For this purpose an environment called 'global' is created when the interpreter is started. The parent environment of 'global' is the syntax environment. This allows the user to shadow built-in syntax symbols with custom implementations, if they wish to do that. The global environment is only available at evaluation-time, not at parsing-time.
+
+	The character-macro environment stores all built-in procedure objects that would be called at parsing-time when a certain character was parsed. In the current implementation there are only two built-in character macros:
+	\begin{description}
+		\item[(] Used to parse a list, such as \lstinline|(1 2 3)|
+		\item["] Used to parse a string object, such as "hello world"
+	\end{description}
+
+	A future feature that could be implemented using this environment is support for user-defined character macros. Such a feature would enable the user to parse an XML document as a series of LISP objects, for example.
+
+\section{Usage}
+\label{usage}
+	The interactive REPL\footnote{Read-Eval-Print-Loop} accepts multi-line input. This feature can be triggered by opening a parenthesis and typing ENTER, so the REPL basically waits for the parenthesis to be balanced. If a syntax error is produced, such as \lstinline|())|, the REPL will issue an error, informing the user of the line and column it expected something else than was given.
+
+	\todo{extend this section a bit}
+
 
 \section{Built-in Symbols, Syntax, and Procedures}
+\label{builtins}
 	Within this section, a simple declaration syntax is used, mixed with the regular LISP syntax:
-	
+
 	\begin{itemize}
 		\item Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
 		\item Parameters enclosed in brackets are optional: \lstinline|[param]| or \lstinline|[param...]|
