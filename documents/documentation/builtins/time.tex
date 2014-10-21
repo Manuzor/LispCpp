@@ -1,0 +1,22 @@
+\subsection{Syntax 'time'}
+\label{builtins/time}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(time expression)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[expression] The expression to time.
+\end{description}
+
+\subsubsection*{Description}
+Measures the time it takes to evaluate the given expression and returns an object containing this timing information.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(time 1)
+(time (fac 20))
+(time (tak 3 6 12))
+\end{lstlisting}
