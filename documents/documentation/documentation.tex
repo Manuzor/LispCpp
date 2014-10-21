@@ -47,9 +47,22 @@
 \tableofcontents
 \clearpage
 
-\section{Features}
+\section{Feature Overview}
 	\todo{Describe all features in a list with concise comments.}
 	
+\section{Garbage Collection}
+
+\section{Numbers}
+	Numbers in lcpp come in two flavors:
+	\begin{itemize}
+		\item Signed 64-bit integers
+		\item IEEE 754 double precision floating point numbers.
+	\end{itemize}
+
+	Except for the modulo procedure \lstinline|%| all arithmetic operations described in \ref{builtins/arithmetic-operations} and \ref{builtins/arithmetic-comparison} work with either of these flavors as arguments.
+	
+	There is no support for big integers (yet).
+
 \section{Built-in Symbols, Syntax, and Procedures}
 	Within this section, a simple declaration syntax is used, mixed with the regular LISP syntax:
 	
@@ -62,8 +75,10 @@
 
 	Everything else is regular LISP syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. These are built-ins after all.
 
+	% Symbols
 	\input{builtins/symbols}
 
+	% Syntax
 	\input{builtins/define-and-set}
 	\input{builtins/lambda}
 	\input{builtins/quote}
@@ -73,6 +88,7 @@
 	\input{builtins/time}
 	\input{builtins/assert}
 
+	% Procedures
 	\input{builtins/arithmetic-operations}
 	\input{builtins/arithmetic-comparison}
 	\input{builtins/read}
