@@ -1,0 +1,21 @@
+\subsection{Procedure 'eq?'}
+\label{builtins/eq}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(eq? object object)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[object] An object of any type.
+\end{description}
+
+\subsubsection*{Description}
+Returns \true{} if both arguments are the exact same objects, else \false{} is returned.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(eq? (quote a) (quote a)) ; Yields #t
+(eq? (cons 1 2) (cons 1 2)) ; Yields #f
+\end{lstlisting}
