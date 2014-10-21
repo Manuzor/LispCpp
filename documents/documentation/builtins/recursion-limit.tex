@@ -1,0 +1,22 @@
+\subsection{Procedure 'get-recursion-limit' and 'set-recursion-limit'}
+\label{builtins/recursion-limit}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(set-recursion-limit limit)
+(get-recursion-limit)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[limit] The new limit.
+\end{description}
+
+\subsubsection*{Description}
+Gets or sets the current recursion limit. The default value is 255.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(set-recursion-limit 1000)
+(get-recursion-limit) ; Yields 1000
+\end{lstlisting}
