@@ -1,0 +1,22 @@
+\subsection{Procedure 'file.open'}
+\label{builtins/file.open}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(file.open file-or-filename [file-mode])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[file-or-filename] Can be a string type object containing the name of the file to open or a file type object which will be re-open.
+	\item[file-mode] A string object describing the mode in which to open the file. One of \lstinline|"r"|, \lstinline|"w"|, and \lstinline|"rw"|. Defaults to \lstinline|"r"|.
+\end{description}
+
+\subsubsection*{Description}
+Opens a file with the given file mode and returns a handle to it.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(file.open "the-file.txt") ; Opens the-file.txt in read-only mode.
+(file.open "the-file.txt" "rw") ; Opens the-file.txt in read-write mode.
+\end{lstlisting}
