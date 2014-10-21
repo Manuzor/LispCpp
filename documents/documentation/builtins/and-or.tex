@@ -1,0 +1,26 @@
+\subsection{Syntax 'and' and 'or'}
+\label{<key>}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(and [expression...])
+(or [expression...])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[expression...] An expression to be evaluated. Note that all expressions are evaluated lazily.
+\end{description}
+
+\subsubsection*{Description}
+Syntax \lstinline|and| evaluates the given expressions in the order they are given and returns \true{} if \textbf{all} evaluate to be not \false{}. The first expression that is evaluated to be \false{} will cancel the evaluation of the remaining expressions. If no argument is given, \true{} is returned.
+
+Syntax \lstinline|or| evaluates the given expressions in the order they are given and returns \true if \textbf{any} evaluate to be \true{}. The first expression that is evaluated to be \true{} will cancel the evaluation of the remaining expressions. If no argument is given, \false{} is returned.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(and )
+; Both examples below will always print "hello"
+(and (print "hello") #f (print "world"))
+(or  #f (print "hello") (print "world"))
+\end{lstlisting}

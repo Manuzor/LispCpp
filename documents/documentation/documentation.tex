@@ -29,6 +29,9 @@
 \setlist[description]{leftmargin=\parindent,labelindent=\parindent}
 \usepackage[pdfborder={0 0 0 0}]{hyperref}
 
+\newcommand{\false}{\lstinline|\#f|}
+\newcommand{\true}{\lstinline|\#t|}
+
 % Title Page
 \title{LispCpp\\
 	Documentation and Reference Manual}
@@ -65,5 +68,6 @@
 	\input{builtins/quote}
 	\input{builtins/begin}
 	\input{builtins/if}
+	\input{builtins/and-or}
 
 \end{document}
