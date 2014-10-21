@@ -1,0 +1,21 @@
+\subsection{Procedure 'exit'}
+\label{builtins/exit}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(exit [code])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[code] An integer type object containing the exit code. If it is not given, the exit code 0 is used by default.
+\end{description}
+
+\subsubsection*{Description}
+Exits the interpreter session with the optional exit code or 0.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(exit)
+(exit 42)
+\end{lstlisting}
