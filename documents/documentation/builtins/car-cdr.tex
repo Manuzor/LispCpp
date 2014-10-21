@@ -1,0 +1,22 @@
+\subsection{Procedure 'car' and 'cdr'}
+\label{builtins/car-cdr}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(car cons-cell)
+(cdr cons-cell)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[cons-cell] An object of type cons.
+\end{description}
+
+\subsubsection*{Description}
+The procedure \lstinline|car| returns the left (or first) object in the given cons cell. The procedure \lstinline|cdr| returns the right (or second) object in the given cons cell.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(car (cons 1 2)) ; Yields 1
+(cdr (cons 1 2)) ; Yields 2
+\end{lstlisting}
