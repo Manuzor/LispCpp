@@ -1,0 +1,24 @@
+\subsection{Procedure '+', '-', '*', '/', and '\%'}
+\label{builtins/arithmetic-operations}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(+ [op...])
+(- op [op...])
+(* [op...])
+(/ op [op...])
+(% op op)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[op] An operand of the arithmetic operation. Must be of either integer or a float type. Note that the procedure '\%' only accepts integer type operands.
+\end{description}
+
+\subsubsection*{Description}
+These are the typical arithmetic operations one would expect. The procedures \lstinline|+| and \lstinline|*| return 0 and 1 when no argument is given, respectively. The procedure \lstinline|%| requires exactly 2 arguments of type integer, all other arithmetic operations take either integer or float type numbers, or a mix of them.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(sample-code param0 param1 ...)
+\end{lstlisting}
