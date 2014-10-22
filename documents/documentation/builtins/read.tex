@@ -1,0 +1,25 @@
+\subsection{Procedure 'read'}
+\label{builtins/read}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(read the-string)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[the-string] The string type object to be parsed.
+\end{description}
+
+\subsubsection*{Description}
+Parses a given string for LISP syntax and returns an object that can be evaluated by the function \lstinline|eval| (see \ref{builtins/eval}).
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(read "1") ; Returns the integer 1
+(read "hello") ; Returns the symbol 'hello'
+
+; Returns a cons list containing 2 symbols and 1 integer.
+; It is logically equivalent to (quote (define x 1))
+(read "(define x 1)")
+\end{lstlisting}

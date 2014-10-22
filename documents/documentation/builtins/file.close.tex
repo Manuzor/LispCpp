@@ -1,0 +1,21 @@
+\subsection{Procedure 'file.close'}
+\label{builtins/file.close}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(file.close file-object)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[file-object] The handle to the file that should be closed.
+\end{description}
+
+\subsubsection*{Description}
+Closes the given file. If the file was already closed, nothing is done.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+; Works only if the-file.txt exists, of course.
+(file.close (file.open "the-file.txt"))
+\end{lstlisting}

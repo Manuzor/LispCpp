@@ -1,0 +1,30 @@
+\subsection{Syntax 'lambda'}
+\label{builtins/lambda}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(lambda ([arg...]) code [code...])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[arg...] Zero or more unevaluated symbols to bind values to when the given lambda
+	\item[code/code...] An expression that will be evaluated when the produced lambda object is called. These code expressions are executed in the order they are given.
+\end{description}
+
+\subsubsection*{Description}
+Creates a procedure object that can be used to execute user-defined code. Will return the evaluated result of the last code argument when executed.
+
+A lambda needs at least one code element in its body.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+; Returns the integer 42 when executed.
+(lambda () 42)
+
+; Binds the value 42 to the symbol x.
+(define x ((lambda () 42)))
+
+; Short-hand syntax to create lambda objects.
+(define (make-adder x) (lambda (n) (+ x n)))
+\end{lstlisting}

@@ -1,0 +1,21 @@
+\subsection{Procedure 'file.is-open'}
+\label{builtins/file.is-open}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(file.is-open file-object)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[file-object] An object of type file.
+\end{description}
+
+\subsubsection*{Description}
+Checks whether the given file object is open or not and returns \true{} or \false{} accordingly.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+; Yields #t (if my-file.txt exists, of course...)
+(file.is-open file.open("my-file.txt"))
+\end{lstlisting}

@@ -1,0 +1,21 @@
+\subsection{Syntax 'quote'}
+\label{builtins/quote}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(quote expression)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[expression] The expression is not evaluated but returned as the symbol or list that it represents.
+\end{description}
+
+\subsubsection*{Description}
+Quotes the given expression argument. Note that only one argument can be specified.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(quote hello) ; Yields the symbol 'hello', not the value that might be bound to that symbol
+(quote (1 2 3)) ; Logically equivalent to (list 1 2 3)
+\end{lstlisting}

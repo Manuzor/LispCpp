@@ -1,0 +1,23 @@
+\subsection{Procedure 'cons'}
+\label{builtins/cons}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(cons left right)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[left] An object of any type to be placed in the left part (car) of the cons cell.
+	\item[right] An object of any type to be placed in the right part (cdr) of the cons cell.
+\end{description}
+
+\subsubsection*{Description}
+Creates a new cons-cell that stores two LISP objects.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(cons 1 2); Prints (1 . 2)
+(cons 1 (cons 2 (cons 3 null))) ; Prints (1 2 3)
+(cons (cons (cons 1 null) 2 ) 3) ; Prints (((1) . 2) . 3)
+\end{lstlisting}
