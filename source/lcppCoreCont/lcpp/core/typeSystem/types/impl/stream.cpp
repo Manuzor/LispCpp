@@ -74,10 +74,19 @@ namespace lcpp
             return pStream->getData<Data>().m_stringView;
         }
 
-        void setIterator(Ptr<LispObject> pStream, ezStringIterator& iter)
+        Ptr<LispObject> getString(Ptr<LispObject> pStream)
         {
             typeCheck(pStream, Type::Stream);
 
+            return pStream->getData<Data>().m_pString;
+        }
+
+        void setStringAndIterator(Ptr<LispObject> pStream, Ptr<LispObject> pString, ezStringIterator& iter)
+        {
+            typeCheck(pStream, Type::Stream);
+            typeCheck(pString, Type::String);
+
+            pStream->getData<Data>().m_pString = pString;
             pStream->getData<Data>().m_stringView = iter;
         }
 

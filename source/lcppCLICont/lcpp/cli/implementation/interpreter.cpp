@@ -309,7 +309,8 @@ namespace lcpp
         StackPtr<LispObject> pContRead = cont::create(pContMain, &reader::read);
 
         std::string inputBuffer;
-        StackPtr<LispObject> pStream = stream::create(ezStringIterator());
+        StackPtr<LispObject> pInputString = str::create("");
+        StackPtr<LispObject> pStream = stream::create(pInputString);
         auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
 
         ezUInt32 uiNumUserInputLines(1);
@@ -324,7 +325,8 @@ namespace lcpp
             {
                 std::getline(m_in, inputBuffer);
                 m_readerBuffer.AppendFormat("%s", inputBuffer.c_str());
-                stream::setIterator(pStream, m_readerBuffer.GetIteratorFront());
+                pInputString = str::create(m_readerBuffer.GetIteratorFront());
+                pStream = stream::create(pInputString);
 
                 // Multiple objects per line, e.g.: "(fac 1)  2  (isPrime 42)"
                 while(true)
@@ -351,7 +353,8 @@ namespace lcpp
                     {
                         auto& iterator = stream::getIterator(pStream);
                         m_readerBuffer = iterator;
-                        stream::setIterator(pStream, m_readerBuffer.GetIteratorFront());
+                        pInputString = str::create(m_readerBuffer.GetIteratorFront());
+                        pStream = stream::create(pInputString);
                     }
 
                     if(!stream::isValid(pStream))
