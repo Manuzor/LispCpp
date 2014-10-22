@@ -211,9 +211,9 @@ namespace lcpp
                 typeCheck(pCont, Type::Continuation);
                 auto pStack = cont::getStack(pCont);
 
-                auto pFile = pStack->get(1);
+                StackPtr<LispObject> pFile = pStack->get(1);
 
-                auto pFileMode = pStack->get(2);
+                StackPtr<LispObject> pFileMode = pStack->get(2);
 
                 if(isNil(pFileMode))
                 {
@@ -224,7 +224,7 @@ namespace lcpp
 
                 // Get the file name.
                 //////////////////////////////////////////////////////////////////////////
-                auto pFileName = LCPP_pNil;
+                StackPtr<LispObject> pFileName = LCPP_pNil;
 
                 if(object::isType(pFile, Type::File))
                 {
@@ -267,7 +267,7 @@ namespace lcpp
                     LCPP_THROW(exceptions::FileDoesNotExist(message.GetData()));
                 }
 
-                auto pResult = lcpp::file::open(pFile, pFileName, pFileMode);
+                StackPtr<LispObject> pResult = lcpp::file::open(pFile, pFileName, pFileMode);
 
                 if (isTrue(pResult))
                 {

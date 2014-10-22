@@ -16,4 +16,4 @@ namespace lcpp
 #define LCPP_GC_CollectBeforeEachAllocation EZ_ON
 
 /// Will never free allocated memory but leave it alive and (hopefully) protected.
-#define LCPP_GC_KeepAllocatedMemory EZ_OFF
+#define LCPP_GC_KeepAllocatedMemory EZ_ON

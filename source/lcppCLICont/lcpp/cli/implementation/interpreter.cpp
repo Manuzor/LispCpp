@@ -26,6 +26,15 @@
 
 #include "lcpp/core/exceptions/fileException.h"
 
+static bool g_debugBreakOnException = false;
+
+EZ_ON_GLOBAL_EVENT(ThrowException)
+{
+    auto pException = (lcpp::exceptions::ExceptionBase*)param0.Get<void*>();
+    auto szMessage = pException->what();
+    return;
+}
+
 namespace lcpp
 {
     Interpreter::Interpreter() :

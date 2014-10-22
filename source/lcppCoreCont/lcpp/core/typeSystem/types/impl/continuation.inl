@@ -62,7 +62,7 @@ namespace lcpp
             }
 
             EZ_FORCE_INLINE
-            Ptr<LispObject> returnHelper(StackPtr<LispObject> pCont, Ptr<LispObject> pReturnValue)
+            Ptr<LispObject> returnHelper(StackPtr<LispObject> pCont, StackPtr<LispObject> pReturnValue)
             {
                 auto pContParent = getParent(pCont);
                 getStack(pContParent)->push(pReturnValue);
