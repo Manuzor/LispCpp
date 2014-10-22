@@ -16,7 +16,7 @@ namespace lcpp
         template<ezUInt64 N>
         EZ_FORCE_INLINE Ptr<LispObject> create(const char (&szData)[N]) { return create(szData, N - 1); }
 
-        LCPP_API_CORE_CONT String getValue(Ptr<LispObject> pObject);
+        LCPP_API_CORE_CONT ezStringIterator getValue(Ptr<LispObject> pObject);
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 

@@ -116,11 +116,11 @@ namespace lcpp
 
         std::ios_base::sync_with_stdio(false);
 
-        auto results = ezDeque<Ptr<LispObject>>(lcpp::defaultAllocator());
+        ezDeque<Ptr<LispObject>> results(lcpp::defaultAllocator());
 
-        auto inputBuffer = std::string("");
+        std::string inputBuffer("");
 
-        auto currentLine = ezUInt32(0);
+        ezUInt32 currentLine(0);
 
         auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
         auto& outputStream = *m_pState->getPrinterState()->m_pOutStream;
@@ -134,13 +134,12 @@ namespace lcpp
             syntaxCheck.reset();
             m_readerBuffer.Clear();
             results.Clear();
+            EZ_ASSERT(results.IsEmpty(), "");
 
             prepareUserPrompt(outputStream, false, currentLine);
 
             try
             {
-                auto uiNumReadLines = readUserInput(results);
-                currentLine += uiNumReadLines - 1;
                 LCPP_SCOPE_EXIT
                 {
                     while(!results.IsEmpty())
@@ -149,6 +148,8 @@ namespace lcpp
                         results.PopFront();
                     }
                 };
+                auto uiNumReadLines = readUserInput(results);
+                currentLine += uiNumReadLines - 1;
 
                 while(!results.IsEmpty())
                 {
@@ -305,12 +306,10 @@ namespace lcpp
     ezUInt32 Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
     {
         StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
-        auto pMainStack = cont::getStack(pContMain);
 
         StackPtr<LispObject> pContRead = cont::create(pContMain, &reader::read);
-        auto pReadStack = cont::getStack(pContRead);
 
-        auto inputBuffer = std::string();
+        std::string inputBuffer;
         StackPtr<LispObject> pStream = stream::create(ezStringIterator());
         auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
 
@@ -331,10 +330,10 @@ namespace lcpp
                 // Multiple objects per line, e.g.: "(fac 1)  2  (isPrime 42)"
                 while(true)
                 {
-                    pMainStack->clear();
-                    pReadStack->clear();
+                    cont::getStack(pContMain)->clear();
+                    cont::getStack(pContRead)->clear();
 
-                    pReadStack->push(pStream);
+                    cont::getStack(pContRead)->push(pStream);
 
                     syntaxCheck.reset();
 
@@ -346,7 +345,7 @@ namespace lcpp
                         break;
                     }
 
-                    auto pResult = pMainStack->get(0);
+                    auto pResult = cont::getStack(pContMain)->get(0);
                     out_results.PushBack(pResult);
                     m_pState->getGarabgeCollector()->addRoot(out_results.PeekBack().get());
 

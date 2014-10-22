@@ -36,12 +36,12 @@ namespace lcpp
 
             if(object::isType(pToPrint, Type::String))
             {
-                *pOutput << "\"" << str::getValue(pToPrint) << "\"";
+                *pOutput << "\"" << str::getValue(pToPrint).GetData() << "\"";
             }
             else
             {
                 auto pStringObject = object::toString(pToPrint);
-                *pOutput << str::getValue(pStringObject);
+                *pOutput << str::getValue(pStringObject).GetData();
             }
 
             LCPP_cont_tailCall(pCont);

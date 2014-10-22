@@ -57,11 +57,12 @@ namespace lcpp
             return pInstance;
         }
 
-        String getValue(Ptr<LispObject> pObject)
+        ezStringIterator getValue(Ptr<LispObject> pObject)
         {
             typeCheck(pObject, Type::String);
 
-            return pObject->getData<Data>().m_szString;
+            auto& data = pObject->getData<Data>();
+            return ezStringIterator(data.m_szString, data.m_szString + data.m_uiLength, data.m_szString);
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)
