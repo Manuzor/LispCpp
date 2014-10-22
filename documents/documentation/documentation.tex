@@ -125,13 +125,11 @@
 
 \subsection{REPL}
 \label{usage/repl}
-	The interactive REPL\footnote{Read-Eval-Print-Loop} accepts multi-line input. This feature can be triggered by opening a parenthesis and typing ENTER, so the REPL basically waits for the parenthesis to be balanced. If a syntax error is produced, such as \lstinline|())|, the REPL will issue an error, informing the user of the line and column it expected something else than was given. The interpreter is also counting the number of lines the user gives as input and displays this number to the left of the prompt character such as \lstinline|128>| when 128 lines were punched in.
-
-	\todo{extend this section a bit}
+	The interactive REPL\footnote{Read-Eval-Print-Loop} accepts multi-line input. This feature can be triggered by opening a parenthesis and hitting Return or Enter. The REPL basically waits for the parenthesis to be balanced. If a syntax error is produced, such as \lstinline|())|, the REPL will issue an error, informing the user of the line and column it expected something else than was given. The interpreter is also counting the number of lines the user gives as input and displays this number to the left of the prompt character such as \lstinline|128>| when 128 lines were punched in.
 
 \section{Built-in Symbols, Syntax, and Procedures}
 \label{builtins}
-	Within this section, a simple declaration syntax is used, mixed with the regular LISP syntax:
+	This section is a compilation of all available objects and built-in procedures available to the user out of the box. A simple declaration syntax is used in this section, mixed with the regular LISP syntax:
 
 	\begin{itemize}
 		\item Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
