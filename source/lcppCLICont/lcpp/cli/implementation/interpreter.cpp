@@ -130,7 +130,8 @@ namespace lcpp
 
             try
             {
-                readUserInput(results);
+                auto uiNumReadLines = readUserInput(results);
+                currentLine += uiNumReadLines - 1;
                 LCPP_SCOPE_EXIT
                 {
                     while(!results.IsEmpty())
@@ -292,7 +293,7 @@ namespace lcpp
         return;
     }
 
-    void Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
+    ezUInt32 Interpreter::readUserInput(ezDeque<Ptr<LispObject>>& out_results)
     {
         StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
         auto pMainStack = cont::getStack(pContMain);
@@ -303,6 +304,8 @@ namespace lcpp
         auto inputBuffer = std::string();
         StackPtr<LispObject> pStream = stream::create(ezStringIterator());
         auto& syntaxCheck = m_pState->getReaderState()->m_syntaxCheckResult;
+
+        ezUInt32 uiNumUserInputLines(1);
 
         // Multiline input, e.g. (define (fac n)
         //                         (if (<= n 1)
@@ -353,12 +356,15 @@ namespace lcpp
             catch(exceptions::MissingRightListDelimiter&)
             {
                 lineBreak(m_readerBuffer);
+                ++uiNumUserInputLines;
                 addPadding(*m_pState->getPrinterState()->m_pOutStream, '.');
                 continue;
             }
             // If we reach this point, no exception was thrown and everything is fine.
             break;
         }
+
+        return uiNumUserInputLines;
     }
 
     Ptr<LispObject> Interpreter::evaluateReaderOutput(StackPtr<LispObject> pObject)
@@ -398,7 +404,7 @@ namespace lcpp
     void Interpreter::addPadding(ezStringBuilder& builder, ezUInt32 paddingCharacter)
     {
         const auto maxCount = m_userPrompt.GetCharacterCount() - 1;
-        for(auto count = ezUInt32(0); count < maxCount; ++count)
+        for(ezUInt32 count = 0; count < maxCount; ++count)
         {
             builder.Append(paddingCharacter);
         }
@@ -419,7 +425,7 @@ namespace lcpp
 
     void Interpreter::lineBreak(ezStreamWriterBase& outputStream)
     {
-        auto output = ezStringBuilder();
+        ezStringBuilder output;
         lineBreak(output);
         outputStream << output;
     }
