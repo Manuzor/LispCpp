@@ -28,7 +28,6 @@ namespace lcpp
             {
                 auto& pToPatch = stack.get(i).get();
                 pToPatch = pGC->addSurvivor(pToPatch);
-                //EZ_ASSERT(static_cast<GarbageCollector*>(pGC)->m_pSurvivorSpace->contains((byte_t*)pToPatch), "");
             }
 
         }
@@ -38,12 +37,7 @@ namespace lcpp
             auto pCont = static_cast<LispObject*>(pCollectable);
             typeCheck(pCont, Type::Continuation);
 
-            auto& stack = pCont->getData<Data>().m_stack;
-            for (decltype(stack.size()) i = 0; i < stack.size(); ++i)
-            {
-                auto& ptr = stack.get(i);
-                object::destroy(ptr);
-            }
+            pCont->getData<Data>().m_stack.~Stack();
         }
 
         Ptr<const MetaInfo> getMetaInfo()

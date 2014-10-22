@@ -217,20 +217,17 @@ namespace lcpp
     void Interpreter::evalInitFile()
     {
         StackPtr<LispObject> pContMain = cont::createTopLevel(m_pState);
-        auto pStackMain = cont::getStack(pContMain);
 
         StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
-        auto pStackEval = cont::getStack(pContEval);
-        pStackEval->push(m_pState->getGlobalEnvironment());
+        cont::getStack(pContEval)->push(m_pState->getGlobalEnvironment());
         // eval::evaluate needs a second argument, the object to evaluate, which will be provided by reader::read.
 
         StackPtr<LispObject> pContRead = cont::create(pContEval, &reader::read);
-        auto pStackRead = cont::getStack(pContRead);
         auto& outputStream = *m_pState->getPrinterState()->m_pOutStream;
 
         //////////////////////////////////////////////////////////////////////////
 
-        ezStringBuilder fileContent;
+        StackPtr<LispObject> pStream = LCPP_pNil;
 
         {
             ezStringBuilder absoluteFileName("init.lisp");
@@ -255,14 +252,13 @@ namespace lcpp
 
             rawFileContent[fileSize32] = '\0';
 
-            auto szString = reinterpret_cast<const char*>(&rawFileContent[0]);
-            fileContent = szString;
+            pStream = stream::create(str::create((const char*)&rawFileContent[0], fileSize32));
         }
 
         //////////////////////////////////////////////////////////////////////////
 
-        StackPtr<LispObject> pStream = stream::create(fileContent);
-        pStackRead->push(pStream);
+        typeCheck(pStream, Type::Stream);
+        cont::getStack(pContRead)->push(pStream);
 
         while(true)
         {
@@ -289,14 +285,13 @@ namespace lcpp
             }
 
             cont::setFunction(pContEval, &eval::evaluate);
-            pStackEval->clear();
-            pStackEval->push(m_pState->getGlobalEnvironment());
+            cont::getStack(pContEval)->clear();
+            cont::getStack(pContEval)->push(m_pState->getGlobalEnvironment());
 
             cont::setFunction(pContRead, &reader::read);
-            pStackRead->clear();
-            pStackRead->push(pStream);
+            cont::getStack(pContRead)->clear();
+            cont::getStack(pContRead)->push(pStream);
         }
-
 
         // Check pStackMain.
         return;

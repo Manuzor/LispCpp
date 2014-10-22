@@ -31,11 +31,10 @@ namespace lcpp
             Ptr<LispObject> read(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
-                auto pStack = cont::getStack(pCont);
 
-                auto pToRead = pStack->get(1);
+                StackPtr<LispObject> pToRead = cont::getStack(pCont)->get(1);
 
-                auto content = ezStringBuilder();
+                ezStringBuilder content;
 
                 if (object::isType(pToRead, Type::String))
                 {
@@ -47,7 +46,7 @@ namespace lcpp
                 }
                 else
                 {
-                    auto message = ezStringBuilder();
+                    ezStringBuilder message;
                     message.Format("Expected either type \"%s\" or \"%s\", got \"%s\".",
                                    str::getMetaInfo()->getPrettyName(),
                                    stream::getMetaInfo()->getPrettyName(),
@@ -55,11 +54,11 @@ namespace lcpp
                     typeCheckFailed(message.GetData());
                 }
 
-                auto pContent = str::create(content.GetData(), content.GetElementCount());
-                auto pStream = stream::create(pContent);
+                StackPtr<LispObject> pContent = str::create(content.GetData(), content.GetElementCount());
+                StackPtr<LispObject> pStream = stream::create(pContent);
 
-                pStack->clear();
-                pStack->push(pStream);
+                cont::getStack(pCont)->clear();
+                cont::getStack(pCont)->push(pStream);
                 LCPP_cont_tailCall(pCont, &reader::read);
             }
 

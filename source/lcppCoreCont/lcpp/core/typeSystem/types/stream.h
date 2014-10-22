@@ -26,7 +26,6 @@ namespace lcpp
         LCPP_API_CORE_CONT Ptr<LispObject> getString(Ptr<LispObject> pStream);
 
         LCPP_API_CORE_CONT ezStringIterator& getIterator(Ptr<LispObject> pStream);
-        LCPP_API_CORE_CONT void setStringAndIterator(Ptr<LispObject> pStream, Ptr<LispObject> pString, ezStringIterator& iter);
 
         LCPP_API_CORE_CONT ezUInt32 getCharacter(Ptr<LispObject> pStream);
 

@@ -132,6 +132,9 @@ namespace lcpp
     {
         EZ_ASSERT(m_uiNumCollectionPreventions == 0, "Collection is not enabled at this point.");
 
+        bool bExceptionsEnabled = false;
+        LCPP_SCOPE_EXIT{ EZ_ASSERT(bExceptionsEnabled, "An exception was thrown during a gc collection cycle."); };
+
         while(m_uiNumCurrentPages * GarbageCollectorPageSize - m_pSurvivorSpace->getAllocatedMemorySize() < uiNumMinBytesToFree)
         {
             m_bGrowBeforeNextCollection = true;
@@ -154,6 +157,8 @@ namespace lcpp
         destroyGarbage();
 
         finalizeCollectionCycle();
+
+        bExceptionsEnabled = true;
     }
 
     void GarbageCollector::finalizeCollectionCycle()

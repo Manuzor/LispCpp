@@ -43,13 +43,6 @@ namespace lcpp
             typeCheck(pObject, Type::Environment);
 
             auto& table = pObject->getData<Data>().m_table;
-
-            for (auto it = table.GetIterator(); it.IsValid(); ++it)
-            {
-                auto& ptr = it.Value();
-                object::destroy(ptr);
-            }
-
             table.~HashTable();
         }
 

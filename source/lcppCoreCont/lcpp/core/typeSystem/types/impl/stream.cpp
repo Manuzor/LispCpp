@@ -24,14 +24,6 @@ namespace lcpp
             pString = pGC->addSurvivor(pString);
         }
 
-        static void destroy(CollectableBase* pCollectable)
-        {
-            auto pStream = static_cast<LispObject*>(pCollectable);
-            typeCheck(pStream, Type::Stream);
-
-            pStream->getData<Data>().m_stringView.~ezStringIterator();
-        }
-
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -41,8 +33,6 @@ namespace lcpp
                 meta.setPrettyName("stream");
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
                                               static_cast<ScanFunction_t>(&scan)));
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
-                                              static_cast<DestructorFunction_t>(&destroy)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.
@@ -79,15 +69,6 @@ namespace lcpp
             typeCheck(pStream, Type::Stream);
 
             return pStream->getData<Data>().m_pString;
-        }
-
-        void setStringAndIterator(Ptr<LispObject> pStream, Ptr<LispObject> pString, ezStringIterator& iter)
-        {
-            typeCheck(pStream, Type::Stream);
-            typeCheck(pString, Type::String);
-
-            pStream->getData<Data>().m_pString = pString;
-            pStream->getData<Data>().m_stringView = iter;
         }
 
         ezUInt32 getCharacter(Ptr<LispObject> pStream)
