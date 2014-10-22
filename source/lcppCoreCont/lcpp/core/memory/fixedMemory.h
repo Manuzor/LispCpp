@@ -75,6 +75,7 @@ namespace lcpp
     {
     public:
 
+#if EZ_ENABLED(EZ_COMPILE_FOR_DEBUG)
         enum class State
         {
             Invalid,
@@ -83,6 +84,7 @@ namespace lcpp
             Protected,
             Unprotected,
         };
+#endif
 
     public:
         FixedMemory(FixedMemory&&) = delete;
@@ -140,7 +142,7 @@ namespace lcpp
 
         ezUInt64 m_uiNumAllocations;
 
-        State m_state;
+        LCPP_InDebug( State m_state; );
     };
 
     bool operator ==(const AllocatorResult& lhs, const AllocatorResult& rhs);

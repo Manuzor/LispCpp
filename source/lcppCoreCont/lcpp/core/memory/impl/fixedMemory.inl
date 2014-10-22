@@ -67,7 +67,7 @@ namespace lcpp
     FixedMemory::FixedMemory()
     {
         ezMemoryUtils::ZeroFill(this);
-        m_state = State::Invalid;
+        LCPP_InDebug( m_state = State::Invalid; );
     }
 
     EZ_FORCE_INLINE
@@ -80,8 +80,8 @@ namespace lcpp
     EZ_FORCE_INLINE
     AllocatorResult FixedMemory::allocate(T*& out_pMemory, std::size_t uiCount)
     {
-        EZ_ASSERT(m_state == State::Available && m_pBegin != nullptr,
-                  "Invalid state.");
+        LCPP_InDebug(EZ_ASSERT(m_state == State::Available && m_pBegin != nullptr,
+                  "Invalid state."));
 
         const auto uiSize = sizeof(T) * uiCount;
 
