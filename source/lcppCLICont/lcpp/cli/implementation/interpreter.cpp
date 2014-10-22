@@ -133,7 +133,6 @@ namespace lcpp
 
             syntaxCheck.reset();
             m_readerBuffer.Clear();
-            results.Clear();
             EZ_ASSERT(results.IsEmpty(), "");
 
             prepareUserPrompt(outputStream, false, currentLine);

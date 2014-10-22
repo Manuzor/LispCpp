@@ -20,9 +20,8 @@ namespace lcpp
         Ptr<LispObject> print(StackPtr<LispObject> pCont)
         {
             typeCheck(pCont, Type::Continuation);
-            auto pStack = cont::getStack(pCont);
 
-            if (pStack->isEmpty())
+            if (cont::getStack(pCont)->isEmpty())
             {
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
@@ -31,8 +30,8 @@ namespace lcpp
 
             auto pOutput = pState->getPrinterState()->m_pOutStream;
 
-            auto pToPrint = pStack->get(-1);
-            pStack->pop();
+            StackPtr<LispObject> pToPrint = cont::getStack(pCont)->get(-1);
+            cont::getStack(pCont)->pop();
 
             if(object::isType(pToPrint, Type::String))
             {
@@ -40,7 +39,7 @@ namespace lcpp
             }
             else
             {
-                auto pStringObject = object::toString(pToPrint);
+                StackPtr<LispObject> pStringObject = object::toString(pToPrint);
                 *pOutput << str::getValue(pStringObject).GetData();
             }
 
