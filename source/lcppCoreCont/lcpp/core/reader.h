@@ -25,6 +25,7 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> readAtom(StackPtr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> readSymbol(StackPtr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> readString(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> readQuote(StackPtr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<LispObject> readList(StackPtr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> readList_helper(StackPtr<LispObject> pCont);

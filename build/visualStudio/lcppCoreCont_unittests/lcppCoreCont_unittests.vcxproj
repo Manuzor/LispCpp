@@ -30,7 +30,7 @@
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\containers\test_stack.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\memory\test_garbageCollection.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\memory\test_stackPtr.cpp" />
-    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\tests.cpp" />
+    <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_thaut.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_evaluator.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_printer.cpp" />
     <ClCompile Include="..\..\..\source\lcppCoreCont_unittests\lcpp\core\test_reader.cpp" />

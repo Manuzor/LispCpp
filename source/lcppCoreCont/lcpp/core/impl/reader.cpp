@@ -275,6 +275,26 @@ namespace lcpp
                 LCPP_cont_return(pCont, str::create(theString.GetData(), theString.GetElementCount()));
             }
 
+            Ptr<LispObject> readQuote(StackPtr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                auto pStack = cont::getStack(pCont);
+                auto pStream = pStack->get(1);
+
+                if (stream::getCharacter(pStream) != '\'')
+                {
+                    LCPP_THROW(exceptions::InvalidInput("Expected a ' character."));
+                }
+
+                stream::next(pStream);
+
+                pStack->clear();
+                pStack->push(pStream);
+
+                LCPP_cont_tailCall(pCont, &read);
+            }
+
             Ptr<LispObject> readList(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);

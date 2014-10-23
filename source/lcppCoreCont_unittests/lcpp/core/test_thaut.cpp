@@ -11,7 +11,6 @@ namespace lcpp {
             StackPtr<LispObject> pResult = evalString(szToTest, -1);
             StackPtr<LispObject> pString = object::toString(pResult);
             CUT_ASSERT.isTrue(ezStringUtils::IsEqual(szExpected, str::getValue(pString).GetData()));
-            CUT_ASSERT.notImplemented();
         }
     }
 }
@@ -85,61 +84,61 @@ LCPP_TestCase(ThautTests, Test_13)
 
 LCPP_TestCase(ThautTests, Test_14)
 {
-    testExecute("(define (add1 x) (add x 1)) (add1 3)", "4");
+    testExecute("(define (add1 x) (+ x 1)) (add1 3)", "4");
 }
 
 LCPP_TestCase(ThautTests, Test_15)
 {
-    testExecute("(if true 1 2)", "1");
+    testExecute("(if #t 1 2)", "1");
 }
 
 LCPP_TestCase(ThautTests, Test_16)
 {
-    testExecute("(if false 1 2)", "2");
+    testExecute("(if #f 1 2)", "2");
 }
 
 LCPP_TestCase(ThautTests, Test_17)
 {
-    testExecute("(if true (if true 1 2) 3)", "1");
+    testExecute("(if #t (if #t 1 2) 3)", "1");
 }
 
 LCPP_TestCase(ThautTests, Test_18)
 {
-    testExecute("(if true (if false 1 2) 3)", "2");
+    testExecute("(if #t (if #f 1 2) 3)", "2");
 }
 
 LCPP_TestCase(ThautTests, Test_19)
 {
-    testExecute("(if false (if false 1 2) 3)", "3");
+    testExecute("(if #f (if #f 1 2) 3)", "3");
 }
 
 LCPP_TestCase(ThautTests, Test_20)
 {
-    testExecute("(if true (if true 1 2) (if true 3 4))", "1");
+    testExecute("(if #t (if #t 1 2) (if #t 3 4))", "1");
 }
 
 LCPP_TestCase(ThautTests, Test_21)
 {
-    testExecute("(if true (if false 1 2) (if true 3 4))", "2");
+    testExecute("(if #t (if #f 1 2) (if #t 3 4))", "2");
 }
 
 LCPP_TestCase(ThautTests, Test_22)
 {
-    testExecute("(if false (if true 1 2) (if true 3 4))", "3");
+    testExecute("(if #f (if #t 1 2) (if #t 3 4))", "3");
 }
 
 LCPP_TestCase(ThautTests, Test_23)
 {
-    testExecute("(if false (if true 1 2) (if false 3 4))", "4");
+    testExecute("(if #f (if #t 1 2) (if #f 3 4))", "4");
 }
 
 LCPP_TestCase(ThautTests, Test_24)
 {
-    testExecute("(define (add x y) (+ x y)) (define (test) (add 2 3)) (test)", "5");
 }
 
 LCPP_TestCase(ThautTests, Test_25)
 {
+    testExecute("(define (add x y) (+ x y)) (define (test) (add 2 3)) (test)", "5");
     testExecute("(define (add x y) (+ x y 1)) (test)", "6");
 }
 
@@ -151,16 +150,16 @@ LCPP_TestCase(ThautTests, Test_26)
 LCPP_TestCase(ThautTests, Test_27)
 {
     testExecute("(define consTest (cons 1 2))\nconsTest", "(1 . 2)");
+    testExecute("(car consTest)", "1");
+    testExecute("(cdr consTest)", "2");
 }
 
 LCPP_TestCase(ThautTests, Test_28)
 {
-    testExecute("(first consTest)", "1");
 }
 
 LCPP_TestCase(ThautTests, Test_29)
 {
-    testExecute("(rest consTest)", "2");
 }
 
 LCPP_TestCase(ThautTests, Test_30)
@@ -175,22 +174,29 @@ LCPP_TestCase(ThautTests, Test_31)
 
 LCPP_TestCase(ThautTests, Test_32)
 {
+    testExecute("(quote (1 2 3))", "(1 2 3)");
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("'(1 2 3)", "(1 2 3)");
 }
 
 LCPP_TestCase(ThautTests, Test_33)
 {
+    testExecute("(quote symbol)", "symbol");
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("'symbol", "symbol");
 }
 
 LCPP_TestCase(ThautTests, Test_34)
 {
-    testExecute("(define var2 2) (set! var2 4) var2", "4");
 }
 
 LCPP_TestCase(ThautTests, Test_35)
 {
+    testExecute("(define var2 2) (set! var2 4) var2", "4");
     testExecute("(set! var2 10) var2", "10");
+    testExecute("(set! var2 (quote (1 2 3))) var2", "(1 2 3)");
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
+    testExecute("(set! var2 '(1 2 3)) var2", "(1 2 3)");
 }
 
 LCPP_TestCase(ThautTests, Test_36)
@@ -200,11 +206,12 @@ LCPP_TestCase(ThautTests, Test_36)
 
 LCPP_TestCase(ThautTests, Test_37)
 {
-    testExecute("(set! var2 '(1 2 3)) var2", "(1 2 3)");
 }
 
 LCPP_TestCase(ThautTests, Test_38)
 {
+    testExecute("((lambda () (define x 3) (set! x (quote (1 2 3))) x))", "(1 2 3)");
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("((lambda () (define x 3) (set! x '(1 2 3)) x))", "(1 2 3)");
 }
 
@@ -226,11 +233,12 @@ LCPP_TestCase(ThautTests, Test_41)
 LCPP_TestCase(ThautTests, Test_42)
 {
     testExecute("(define (makeAdder x) (lambda (y) (+ x y)))\n((makeAdder 5) 2)", "7");
+    testExecute("((makeAdder 4) 2)", "6");
+    testExecute("(define (makeLazyAdd x adder) (lambda () (adder x)))\n((makeLazyAdd 3 (makeAdder 9)))", "12");
 }
 
 LCPP_TestCase(ThautTests, Test_43)
 {
-    testExecute("((makeAdder 4) 2)", "6");
 }
 
 LCPP_TestCase(ThautTests, Test_44)
@@ -245,31 +253,32 @@ LCPP_TestCase(ThautTests, Test_45)
 
 LCPP_TestCase(ThautTests, Test_46)
 {
-    testExecute("(define (makeLazyAdd x adder) (lambda () (adder x)))\n((makeLazyAdd 3 (makeAdder 9)))", "12");
 }
 
 LCPP_TestCase(ThautTests, Test_47)
 {
-    testExecute("(eq? nil nil)", "#t");
+    testExecute("(eq? null null)", "#t");
 }
 
 LCPP_TestCase(ThautTests, Test_48)
 {
-    testExecute("(eq? true false)", "#f");
+    testExecute("(eq? #t #f)", "#f");
 }
 
 LCPP_TestCase(ThautTests, Test_49)
 {
-    testExecute("(eq? true true)", "#t");
+    testExecute("(eq? #t #t)", "#t");
 }
 
 LCPP_TestCase(ThautTests, Test_50)
 {
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("(eq? 'test 'test)", "#t");
 }
 
 LCPP_TestCase(ThautTests, Test_51)
 {
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("(eq? 'test 'blup)", "#f");
 }
 
@@ -280,32 +289,45 @@ LCPP_TestCase(ThautTests, Test_52)
 
 LCPP_TestCase(ThautTests, Test_53)
 {
-    testExecute("(define (innerSameName pair)\n(define (helper pair) (+ pair 1))\n(+ (helper (first pair))\n(helper (first (rest pair)))))\n(innerSameName '(4 5))", "11");
+    testExecute("(define (innerSameName pair)"
+                "  (define (helper pair) (+ pair 1))"
+                "  (+ (helper (car pair))\n(helper (car (cdr pair)))))"
+                "(innerSameName (quote (4 5)))", "11");
 }
 
 LCPP_TestCase(ThautTests, Test_54)
 {
-    testExecute("(define (fac x)\n(define (helper i sum)\n(if (== i x)\n(+ sum i)\n(helper (+ i 1) (+ sum i))))\n(helper 0 0))\n(fac 10)", "55");
+    testExecute("(define (fac x)"
+            "  (define (helper i sum)"
+            "    (if = i x)"
+            "    (+ sum i)"
+            "    (helper (+ i 1) (+ sum i))))"
+            "  (helper 0 0))"
+            "(fac 10)", "55");
 }
 
 LCPP_TestCase(ThautTests, Test_55)
 {
+    testExecute("(define (executeFile name) (eval (read (file.read-string name))))", "#v");
     testExecute("(executeFile \"prime.lisp\")", "#v");
+    testExecute("(computePrimes 10)", "(29 23 19 17 13 11 7 5 3 2)");
 }
 
 LCPP_TestCase(ThautTests, Test_56)
 {
-    testExecute("(computePrimes 10)", "(29 23 19 17 13 11 7 5 3 2)");
 }
 
 LCPP_TestCase(ThautTests, Test_57)
 {
-    testExecute("(define (overflow x max)\n (if (== x max)\n x\n (+ 1 (overflow (+ x 1) max)))) (overflow 0 1000)", "2000");
+    testExecute("(define (overflow x max)"
+            "  (if (= x max)"
+            "    x"
+            "    (+ 1 (overflow (+ x 1) max))))"
+            "(overflow 0 1000)", "2000");
 }
 
 LCPP_TestCase(ThautTests, Test_58)
 {
-    testExecute("(computePrimes 10)", "(29 23 19 17 13 11 7 5 3 2)");
 }
 
 LCPP_TestCase(ThautTests, Test_59)
@@ -320,26 +342,29 @@ LCPP_TestCase(ThautTests, Test_60)
 
 LCPP_TestCase(ThautTests, Test_61)
 {
-    testExecute("((lambda () \n(define x 0) \n((lambda () \n((lambda () (set! x 12))) \nx)) \n))", "12");
+    testExecute("((lambda () (define x 0) ((lambda () ((lambda () (set! x 12))) x)) ))", "12");
 }
 
 LCPP_TestCase(ThautTests, Test_62)
 {
+    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("(executeFile \"oopTest.lisp\")", "");
 }
 
 LCPP_TestCase(ThautTests, Test_63)
 {
-    testExecute("(executeFile \"stdlib.lisp\")", "");
+    testExecute("(define (executeFile name) (eval (read (file.read-string name))))", "#v");
+    testExecute("(executeFile \"stdlib.lisp\")", "#v");
+    testExecute("(executeFile \"stdlib.lisp\")", "#v"); // execute a second time to make sure reloading works
 }
 
 LCPP_TestCase(ThautTests, Test_64)
 {
-    testExecute("(executeFile \"stdlib.lisp\")", ""); // execute a second time to make sure reloading works
 }
 
 LCPP_TestCase(ThautTests, Test_65)
 {
+    evalString("(eval (read (file.read-string \"stdlib.lisp\")))");
     testExecute(
         "((lambda () "
         "  (filter "
@@ -353,20 +378,22 @@ LCPP_TestCase(ThautTests, Test_65)
         "          false"
         "        )"
         "      ))))))", "(1 3 7)");
+    testExecute("(filter (iota 0 10000 1) (lambda (x) (== (% x 1000) 0)))", "(0 1000 2000 3000 4000 5000 6000 7000 8000 9000)");
 }
 
 LCPP_TestCase(ThautTests, Test_66)
 {
-    testExecute("(filter (iota 0 10000 1) (lambda (x) (== (% x 1000) 0)))", "(0 1000 2000 3000 4000 5000 6000 7000 8000 9000)");
 }
 
 LCPP_TestCase(ThautTests, Test_67)
 {
+    evalString("(eval (read (file.read-string \"stdlib.lisp\")))");
     testExecute("(reduce (iota 0 1000 1) +)", "499500");
 }
 
 LCPP_TestCase(ThautTests, Test_68)
 {
+    evalString("(eval (read (file.read-string \"stdlib.lisp\")))");
     testExecute("(list-tail '(1 2 3 4) 2)", "(3 4)");
 }
 
