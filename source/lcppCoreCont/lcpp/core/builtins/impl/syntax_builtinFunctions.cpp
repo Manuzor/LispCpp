@@ -153,32 +153,40 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
-            Ptr<LispObject> set(StackPtr<LispObject> pCont)
+            static Ptr<LispObject> set_helper(StackPtr<LispObject> pCont)
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
-                auto pSymbol = LCPP_pNil;
-                auto pFirstArg = pStack->get(1);
+                StackPtr<LispObject> pSymbol = pStack->get(1);
+                StackPtr<LispObject> pValue = pStack->get(2);
 
-                if (object::isType(pFirstArg, Type::Cons))
+                if (env::setBinding(pEnv, pSymbol, pValue).Failed())
                 {
-                    pSymbol = cons::getCar(pFirstArg);
-                }
-                else
-                {
-                    pSymbol = pFirstArg;
-                }
-
-                auto bindingLocation = env::existsBinding(pEnv, pSymbol);
-
-                if(bindingLocation.doesNotExist())
-                {
-                    auto message = ezStringBuilder();
+                    ezStringBuilder message;
                     message.Format("Cannot set symbol \"%s\" before its definition.", symbol::getValue(pSymbol).GetData());
                     LCPP_THROW(exceptions::NoBindingFound(message.GetData()));
                 }
 
-                LCPP_cont_tailCall(pCont, &define);
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> set(StackPtr<LispObject> pCont)
+            {
+                LCPP_SyntaxBuiltinFunction_CommonBody;
+
+                auto argCount = pStack->size() - 1; // The env.
+
+                if(argCount > 2) // env, key, value
+                {
+                    ezStringBuilder message;
+                    message.Format("Expected 2 arguments, got %u.", pStack->size());
+                    LCPP_THROW(exceptions::ArgumentCount(message.GetData()));
+                }
+
+                StackPtr<LispObject> pUnevaluatedArg = pStack->get(2);
+                pStack->pop();
+                cont::setFunction(pCont, &set_helper);
+                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pUnevaluatedArg);
             }
 
             Ptr<LispObject> begin(StackPtr<LispObject> pCont)

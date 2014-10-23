@@ -71,13 +71,13 @@ namespace lcpp { namespace test {
         };
     }
 
-    Ptr<LispObject> readStream(StackPtr<LispObject> pStream);
+    Ptr<LispObject> readStream(StackPtr<LispObject> pStream, size_t uiMaxNumReads = 1);
 
-    Ptr<LispObject> readString(const ezString& content);
+    Ptr<LispObject> readString(const ezString& content, size_t uiMaxNumReads = 1);
 
-    Ptr<LispObject> evalStream(StackPtr<LispObject> pStream);
+    Ptr<LispObject> evalStream(StackPtr<LispObject> pStream, size_t uiMaxNumReads = 1);
 
-    Ptr<LispObject> evalString(const ezString& content);
+    Ptr<LispObject> evalString(const ezString& content, size_t uiMaxNumReads = 1);
 
     Ptr<LispObject> evalObject(StackPtr<LispObject> pObject);
 

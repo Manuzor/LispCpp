@@ -7,6 +7,7 @@
 #include "lcpp/core/typeSystem/types/stream.h"
 #include "lcpp/core/evaluator.h"
 #include "lcpp/core/reader.h"
+#include "lcpp/core/typeSystem/types/void.h"
 
 using namespace lcpp;
 using namespace lcpp::test;
@@ -65,47 +66,70 @@ EZ_ON_GLOBAL_EVENT(ThrowException)
     }
 }
 
-lcpp::Ptr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream)
+lcpp::Ptr<LispObject> lcpp::test::readStream(StackPtr<LispObject> pStream, size_t uiMaxNumReads)
 {
     typeCheck(pStream, Type::Stream);
+    EZ_ASSERT(uiMaxNumReads > 0, "Invalid argument.");
 
-    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-    auto pMainStack = cont::getStack(pContMain);
+    while(true)
+    {
+        StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+        StackPtr<LispObject> pContRead = cont::create(pContMain, &reader::read);
+        cont::getStack(pContRead)->push(pStream);
 
-    StackPtr<LispObject> pContRead = cont::create(pContMain, &reader::read);
-    cont::getStack(pContRead)->push(pStream);
+        cont::trampoline(pContRead);
 
-    cont::trampoline(pContRead);
+        --uiMaxNumReads;
+        if(uiMaxNumReads == 0 || !stream::isValid(pStream))
+        {
+            return cont::getStack(pContMain)->get(-1);
+        }
+    }
 
-    return pMainStack->get(0);
+    EZ_REPORT_FAILURE("Should never reach this code.");
+
+    // Shut the compiler up.
+    return LCPP_pVoid;
 }
 
-lcpp::Ptr<LispObject> lcpp::test::readString(const ezString& content)
+lcpp::Ptr<LispObject> lcpp::test::readString(const ezString& content, size_t uiMaxNumReads)
 {
     StackPtr<LispObject> pStream = stream::create(str::create(content.GetData(), content.GetElementCount()));
 
-    return readStream(pStream);
+    return readStream(pStream, uiMaxNumReads);
 }
 
-lcpp::Ptr<LispObject> lcpp::test::evalStream(StackPtr<LispObject> pStream)
+lcpp::Ptr<LispObject> lcpp::test::evalStream(StackPtr<LispObject> pStream, size_t uiMaxNumReads)
 {
-    StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
-    StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
-    cont::getStack(pContEval)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
+    while(true)
+    {
+        StackPtr<LispObject> pContMain = cont::createTopLevel(LCPP_test_pRuntimeState);
+        StackPtr<LispObject> pContEval = cont::create(pContMain, &eval::evaluate);
+        cont::getStack(pContEval)->push(LCPP_test_pRuntimeState->getGlobalEnvironment());
 
-    StackPtr<LispObject> pContRead = cont::create(pContEval, &reader::read);
-    cont::getStack(pContRead)->push(pStream);
+        StackPtr<LispObject> pContRead = cont::create(pContEval, &reader::read);
+        cont::getStack(pContRead)->push(pStream);
 
-    cont::trampoline(pContRead);
+        cont::trampoline(pContRead);
 
-    return cont::getStack(pContMain)->get(-1);
+        --uiMaxNumReads;
+        if(uiMaxNumReads == 0 || !stream::isValid(pStream))
+        {
+            return cont::getStack(pContMain)->get(-1);
+        }
+    }
+
+    EZ_REPORT_FAILURE("Should never reach this code.");
+
+    // Shut the compiler up.
+    return LCPP_pVoid;
 }
 
-lcpp::Ptr<LispObject> lcpp::test::evalString(const ezString& content)
+lcpp::Ptr<LispObject> lcpp::test::evalString(const ezString& content, size_t uiMaxNumReads)
 {
     StackPtr<LispObject> pStream = stream::create(str::create(content.GetData(), content.GetElementCount()));
 
-    return evalStream(pStream);
+    return evalStream(pStream, uiMaxNumReads);
 }
 
 Ptr<LispObject> lcpp::test::evalObject(StackPtr<LispObject> pObject)

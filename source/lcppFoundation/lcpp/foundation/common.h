@@ -62,7 +62,7 @@ namespace lcpp
 #define LCPP_DISALLOW_COPY_ASSIGNMENT(type) private: void operator = (const type&)
 #define LCPP_DISALLOW_CONSTRUCTION(type) EZ_DISALLOW_COPY_AND_ASSIGN(type); type(); ~type()
 #define LCPP_UNUSED(anything) ((void)anything)
-#define LCPP_NOT_IMPLEMENTED EZ_REPORT_FAILURE("Not implemented."); throw exceptions::NotImplemented()
+#define LCPP_NOT_IMPLEMENTED EZ_REPORT_FAILURE("Not implemented."); throw ::lcpp::exceptions::NotImplemented()
 
 #include "lcpp/foundation/exceptionBase.h"
 
