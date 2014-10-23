@@ -315,7 +315,7 @@ LCPP_TestCase(ThautTests, Test_59)
 
 LCPP_TestCase(ThautTests, Test_60)
 {
-    testExecute("((lambda () (define x 0) ((lambda () (set! x 123) (set! x (+ x 1)))) (set! x (+ x 1))))", "125");
+    testExecute("((lambda () (define x 0) ((lambda () (set! x 123) (set! x (+ x 1)))) (set! x (+ x 1)) x))", "125");
 }
 
 LCPP_TestCase(ThautTests, Test_61)
