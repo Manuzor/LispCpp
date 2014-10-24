@@ -97,3 +97,14 @@ lcpp::LispRuntimeState::setRecursionLimit(ezUInt32 newLimit)
 {
     m_recursionLimit = newLimit;
 }
+
+void
+lcpp::LispRuntimeState::checkDepthIsOK(ezUInt32 uiDepth) const
+{
+    if (uiDepth < m_recursionLimit)
+        return;
+
+    ezStringBuilder message;
+    message.Format("Exceeded recursion limit of %u.", m_recursionLimit);
+    LCPP_THROW(exceptions::Runtime(message.GetData()));
+}

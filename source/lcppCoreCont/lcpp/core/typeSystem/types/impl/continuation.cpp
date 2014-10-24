@@ -100,6 +100,8 @@ namespace lcpp
             data.m_userData = 0;
             data.m_uiDepth = pParent->getData<Data>().m_uiDepth + 1;
 
+            data.m_pRuntimeState->checkDepthIsOK(data.m_uiDepth);
+
             return pInstance;
         }
 

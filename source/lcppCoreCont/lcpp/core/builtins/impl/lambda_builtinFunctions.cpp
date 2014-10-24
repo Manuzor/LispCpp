@@ -246,7 +246,7 @@ namespace lcpp
                     message.Format("Cannot set new recursion limit from %u to %u "
                                    "because the current recursion depth is at %u.",
                                    pState->getRecursionLimit(), newLimit, currentDepth);
-                    throw exceptions::Runtime(message.GetData());
+                    LCPP_THROW(exceptions::Runtime(message.GetData()));
                 }
 
                 pState->setRecursionLimit(newLimit);

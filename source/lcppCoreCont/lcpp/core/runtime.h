@@ -48,6 +48,8 @@ namespace lcpp
         ezUInt32 getRecursionLimit() const;
         void setRecursionLimit(ezUInt32 newLimit);
 
+        void checkDepthIsOK(ezUInt32 uiDepth) const;
+
         void setBaseDirectory(const char* szName);
         const char* getBaseDirectory() const;
 
