@@ -21,6 +21,7 @@
 #include "lcpp/core/exceptions/fileException.h"
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/types/cons.h"
+#include "lcpp/core/exceptions/runtimeException.h"
 
 namespace lcpp
 {
@@ -236,8 +237,19 @@ namespace lcpp
                 typedef decltype(pState->getRecursionLimit()) RecursionLimit_t;
                 EZ_CHECK_AT_COMPILETIME(std::is_integral<RecursionLimit_t>::value);
 
-                auto recursionLimit = RecursionLimit_t(number::getInteger(pRecursionLimit));
-                pState->setRecursionLimit(recursionLimit);
+                auto newLimit = RecursionLimit_t(number::getInteger(pRecursionLimit));
+                auto currentDepth = cont::getDepth(pCont);
+
+                if(currentDepth >= newLimit)
+                {
+                    ezStringBuilder message;
+                    message.Format("Cannot set new recursion limit from %u to %u "
+                                   "because the current recursion depth is at %u.",
+                                   pState->getRecursionLimit(), newLimit, currentDepth);
+                    throw exceptions::Runtime(message.GetData());
+                }
+
+                pState->setRecursionLimit(newLimit);
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 

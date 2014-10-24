@@ -39,15 +39,9 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-        Ptr<const printer::State> LispRuntimeState::getPrinterState() const
+    Ptr<const printer::State> LispRuntimeState::getPrinterState() const
     {
         return m_pPrinterState;
-    }
-
-    EZ_FORCE_INLINE
-    ezUInt32 LispRuntimeState::getRecursionDepth() const
-    {
-        return m_recursionDepth;
     }
 
     EZ_FORCE_INLINE
@@ -57,7 +51,7 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-        void LispRuntimeState::setBaseDirectory(const char* szName)
+    void LispRuntimeState::setBaseDirectory(const char* szName)
     {
         m_baseDirectory = szName;
     }

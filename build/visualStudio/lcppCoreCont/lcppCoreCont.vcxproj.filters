@@ -88,9 +88,6 @@
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\instanceTable.h">
       <Filter>lcpp\core\containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\recursionCounter.h">
-      <Filter>lcpp\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\lcppCoreCont\lcpp\core\sourceCursor.h">
       <Filter>lcpp\core</Filter>
     </ClInclude>
@@ -398,9 +395,6 @@
       <Filter>lcpp\core\containers\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl">
-      <Filter>lcpp\core\impl</Filter>
-    </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\recursionCounter.inl">
       <Filter>lcpp\core\impl</Filter>
     </None>
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\metaInfo.inl">

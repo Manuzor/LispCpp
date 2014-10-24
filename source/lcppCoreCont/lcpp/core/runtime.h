@@ -45,16 +45,8 @@ namespace lcpp
         Ptr<printer::State> getPrinterState();
         Ptr<const printer::State> getPrinterState() const;
 
-        ezUInt32 getRecursionDepth() const;
-
         ezUInt32 getRecursionLimit() const;
         void setRecursionLimit(ezUInt32 newLimit);
-
-        /// Used when making a call
-        void increaseRecursionDepth();
-
-        /// Used when finishing a call
-        void decreaseRecursionDepth();
 
         void setBaseDirectory(const char* szName);
         const char* getBaseDirectory() const;
@@ -74,7 +66,6 @@ namespace lcpp
         printer::State* m_pPrinterState;
 
         ezUInt32 m_recursionLimit;
-        ezUInt32 m_recursionDepth;
         ezString m_baseDirectory;
         ezString m_userDirectory;
 

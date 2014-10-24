@@ -1,7 +1,6 @@
 #include "stdafx.h"
 
 #include "lcpp/core/runtime.h"
-#include "lcpp/core/recursionCounter.h"
 
 #include "lcpp/core/exceptions/runtimeException.h"
 
@@ -21,8 +20,7 @@ lcpp::GarbageCollector* g_pGC(nullptr);
 
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
-    m_recursionDepth(0),
-    m_recursionLimit(255),
+    m_recursionLimit(1024),
     m_baseDirectory("."),
     m_userDirectory(".")
 {
@@ -97,34 +95,5 @@ lcpp::LispRuntimeState::shutdown()
 void
 lcpp::LispRuntimeState::setRecursionLimit(ezUInt32 newLimit)
 {
-    if(m_recursionDepth >= newLimit)
-    {
-        ezStringBuilder message;
-        message.Format("Cannot set new recursion limit from %u to %u "
-                       "because the current recursion depth is at %u.",
-                       m_recursionLimit, newLimit, m_recursionDepth);
-        throw exceptions::Runtime(message.GetData());
-    }
     m_recursionLimit = newLimit;
-}
-
-void lcpp::LispRuntimeState::increaseRecursionDepth()
-{
-    EZ_ASSERT(m_recursionDepth < m_recursionLimit, "Invalid current callStackDepth!");
-    ++m_recursionDepth;
-    if(m_recursionDepth >= m_recursionLimit)
-    {
-        // Reset the recursion depth.
-        m_recursionDepth = 0;
-
-        ezStringBuilder message;
-        message.Format("Exceeded max call stack depth of %u", m_recursionLimit);
-        throw exceptions::Runtime(message.GetData());
-    }
-}
-
-void lcpp::LispRuntimeState::decreaseRecursionDepth()
-{
-    EZ_ASSERT(m_recursionDepth > 0, "Cannot decrease the recursion depth below 0!");
-    --m_recursionDepth;
 }

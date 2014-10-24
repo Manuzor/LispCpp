@@ -80,6 +80,7 @@ namespace lcpp
             data.m_pParent = LCPP_pNil;
             data.m_pFunction = &breakTrampoline;
             data.m_userData = 0;
+            data.m_uiDepth = 0;
 
             return pInstance;
         }
@@ -97,6 +98,7 @@ namespace lcpp
             data.m_pParent = pParent.get();
             data.m_pFunction = pFunction;
             data.m_userData = 0;
+            data.m_uiDepth = pParent->getData<Data>().m_uiDepth + 1;
 
             return pInstance;
         }
@@ -168,6 +170,13 @@ namespace lcpp
             typeCheck(pCont, Type::Continuation);
 
             pCont->getData<Data>().m_userData = userData;
+        }
+
+        ezUInt32 getDepth(StackPtr<LispObject> pCont)
+        {
+            typeCheck(pCont, Type::Continuation);
+
+            return pCont->getData<Data>().m_uiDepth;
         }
 
         Ptr<LispObject> toString(StackPtr<LispObject> pObject)

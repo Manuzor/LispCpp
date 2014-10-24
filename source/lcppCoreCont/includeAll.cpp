@@ -28,7 +28,6 @@
 #include "lcpp/core/printerState.h"
 #include "lcpp/core/reader.h"
 #include "lcpp/core/readerState.h"
-#include "lcpp/core/recursionCounter.h"
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/sourceCursor.h"
 #include "lcpp/core/syntaxCheckResult.h"

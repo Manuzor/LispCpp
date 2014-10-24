@@ -373,7 +373,7 @@ LCPP_TestCase(ThautTests, Test_65)
         "          #f"
         "        )"
         "      ))))))", "(1 3 7)");
-    testExecute("(filter (iota 0 10000 1) (lambda (x) (== (% x 1000) 0)))", "(0 1000 2000 3000 4000 5000 6000 7000 8000 9000)");
+    testExecute("(filter (iota 0 10000 1) (lambda (x) (= (% x 1000) 0)))", "(0 1000 2000 3000 4000 5000 6000 7000 8000 9000)");
 }
 
 LCPP_TestCase(ThautTests, Test_66)

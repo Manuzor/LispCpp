@@ -176,13 +176,14 @@ int main(int argc, const char* argv[])
     testManager.run("StackPtr", "Basics");
     testManager.run("GarbageCollection", "Basics");
     testManager.run("Object", "AllTypes");
-    ezStringBuilder sTest;
-    for(int i = 1; i < 80; ++i)
-    {
-        sTest.Format("Test_%.2d", i);
-        testManager.run("ThautTests", sTest.GetData());
-    }
-    //testManager.runAll();
+    // The code below runs only the tests Test_01-Test_80 from the ThautTests group.
+    //ezStringBuilder sTest;
+    //for(int i = 1; i < 80 + 1; ++i)
+    //{
+    //    sTest.Format("Test_%.2d", i);
+    //    testManager.run("ThautTests", sTest.GetData());
+    //}
+    testManager.runAll();
 
     testManager.printStatistics();
 

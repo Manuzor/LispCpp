@@ -105,8 +105,6 @@ namespace lcpp
                     pStackCall->push(pToPush);
                 }
 
-                pState->increaseRecursionDepth();
-
                 cont::setFunction(pCont, &detail::call_finalize);
                 LCPP_cont_jump(pContCall);
             }
@@ -115,7 +113,6 @@ namespace lcpp
             {
                 typeCheck(pCont, Type::Continuation);
                 auto pState = cont::getRuntimeState(pCont);
-                pState->decreaseRecursionDepth();
 
                 auto pStack = cont::getStack(pCont);
                 LCPP_cont_return(pCont, pStack->get(-1));

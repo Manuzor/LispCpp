@@ -30,6 +30,7 @@ namespace lcpp
             Function_t m_pFunction;
             Stack& m_stack;
             UserData_t m_userData;
+            ezUInt32 m_uiDepth;
         };
     }
 }

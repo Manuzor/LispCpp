@@ -106,7 +106,6 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
                 auto pState = cont::getRuntimeState(pCont);
-                pState->increaseRecursionDepth();
 
                 auto pEnv = pStack->get(0);
                 typeCheck(pEnv, Type::Environment);
@@ -186,7 +185,6 @@ namespace lcpp
 
                 auto pStack = cont::getStack(pCont);
                 auto pState = cont::getRuntimeState(pCont);
-                pState->decreaseRecursionDepth();
 
                 LCPP_cont_return(pCont, pStack->get(-1));
             }
