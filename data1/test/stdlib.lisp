@@ -1,5 +1,3 @@
-(define (vmTest actual expected) (assert (=)))
-
 ; negates a given boolean value
 (define (not boolean)
   (if boolean #f #t)
@@ -14,8 +12,8 @@
 		)
 	)
 	(if (= start end)
-		nil
-		(helper nil (- end step))
+		null
+		(helper null (- end step))
 	)
 )
 
@@ -23,43 +21,43 @@
 (define (reverse list)
 	(define (helper result remaining)
 		(if (pair? remaining)
-			(helper (cons (first remaining) result) (rest remaining))
+			(helper (cons (car remaining) result) (cdr remaining))
 			result
 		)
 	)
-	(helper nil list)
+	(helper null list)
 )
 
 ; maps elements to new values
 (define (map list func)
 	(define (helper result remaining)
 		(if (pair? remaining)
-			(helper (cons (func (first remaining)) result) (rest remaining))
+			(helper (cons (func (car remaining)) result) (cdr remaining))
 			result
 		)
 	)
-	(reverse (helper nil list))
+	(reverse (helper null list))
 )
 
 ; filters elements of a list
 (define (filter list condition)
 	(define (helper result remaining)
 		(if (pair? remaining)
-			(if (condition (first remaining))
-				(helper (cons (first remaining) result) (rest remaining))
-				(helper result (rest remaining))
+			(if (condition (car remaining))
+				(helper (cons (car remaining) result) (cdr remaining))
+				(helper result (cdr remaining))
 			)
 			result
 		)
 	)
-	(reverse (helper nil list))
+	(reverse (helper null list))
 )
 
 ; computes the length of a list
 (define (length list)
 	(define (helper sum remaining)
 		(if (pair? remaining)
-			(helper (+ sum 1) (rest remaining))
+			(helper (+ sum 1) (cdr remaining))
 			sum
 		)
 	)
@@ -70,7 +68,7 @@
 (define (append list1 list2)
   (define (helper appendTo appendFrom)
     (if (pair? appendFrom)
-        (helper (cons (first appendFrom) appendTo) (rest appendFrom))
+        (helper (cons (car appendFrom) appendTo) (cdr appendFrom))
         appendTo
     )
   )
@@ -81,20 +79,20 @@
 (define (partition list condition)
   (define (helper matching nonMatching remaining)
     (if (pair? remaining)
-	  (if (condition (first remaining))
-	    (helper (cons (first remaining) matching) nonMatching (rest remaining))
-		(helper matching (cons (first remaining) nonMatching) (rest remaining))
+	  (if (condition (car remaining))
+	    (helper (cons (car remaining) matching) nonMatching (cdr remaining))
+		(helper matching (cons (car remaining) nonMatching) (cdr remaining))
       )
 	  (append (reverse matching) (reverse nonMatching))
 	)
   )
-  (helper nil nil list)
+  (helper null null list)
 )
 
 ; returns the tail of the list omitting k elements at the start
 (define (list-tail list k)
   (if (and (pair? list) (> k 0))
-    (list-tail (rest list) (- k 1))
+    (list-tail (cdr list) (- k 1))
     list
   )
 )
@@ -103,11 +101,11 @@
 (define (reduce list action)
   (define (helper cur remaining)
     (if (pair? remaining)
-      (helper (action (first remaining) cur) (rest remaining))
+      (helper (action (car remaining) cur) (cdr remaining))
       cur
     )
   )
-  (helper (first list) (rest list))
+  (helper (car list) (cdr list))
 )
 
 ; measures the execution time of the given lambda and prints it to stdout
@@ -122,18 +120,19 @@
 (define (last l)
   (define (helper cur remaining)
     (if (pair? remaining)
-		(helper (first remaining) (rest remaining))
+		(helper (car remaining) (cdr remaining))
 		cur
 	)
   )
-  (helper nil l)
+  (helper null l)
 )
 
 
 ; test routine for the stdlib
+(define (vmTest actual expected) (assert (eqv? actual expected)))
 (define (stdlib-test)
   (vmTest (last '(1 2 3)) 3)
-  (vmTest (eq? (last nil) nil) #t)
+  (vmTest (eq? (last null) null) #t)
   (vmTest (partition '(1 2 3 4) (lambda (x) (= (% x 2) 0))) '(2 4 1 3))
   (vmTest (iota 0 4 1) '(0 1 2 3))
   (vmTest (iota 5 0 -1) '(5 4 3 2 1))
@@ -142,10 +141,8 @@
   (vmTest (filter (iota 0 10 1) (lambda (x) (= (% x 2) 0))) '(0 2 4 6 8))
   (vmTest (append '(1 2) '(3 4 5)) '(1 2 3 4 5))
   (vmTest (length '(1 2 3)) 3)
-  (vmTest (length nil) 0)
+  (vmTest (length null) 0)
   (vmTest (reduce '(1 2 3) +) 6)
   (vmTest (list-tail '(1 2 3 4 5) 2) '(3 4 5))
 )
 (stdlib-test)
-
-

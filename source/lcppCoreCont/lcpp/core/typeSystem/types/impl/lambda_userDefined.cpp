@@ -44,6 +44,11 @@ namespace lcpp
                 pBody = pGC->addSurvivor(pBody);
             }
 
+            static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+            {
+                return pLhs == pRhs;
+            }
+
             Ptr<const MetaInfo> getMetaInfo()
             {
                 static auto meta = []
@@ -56,6 +61,7 @@ namespace lcpp
                     meta.setPrettyName("procedure");
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::CallFunction, &call));
                     meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction, static_cast<IsEqualFunction_t>(&isEqual)));
 
                     return meta;
                 }(); // Note that this lambda is immediately called.

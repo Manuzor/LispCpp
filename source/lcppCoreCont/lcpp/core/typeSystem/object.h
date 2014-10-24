@@ -35,6 +35,8 @@ namespace lcpp
 
         LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 
+        LCPP_API_CORE_CONT Ptr<LispObject> isEqual(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs);
+
         LCPP_API_CORE_CONT Ptr<LispObject> getName(Ptr<LispObject> pObject);
         LCPP_API_CORE_CONT void setName(Ptr<LispObject> pObject, Ptr<LispObject> pName);
         LCPP_API_CORE_CONT bool hasName(Ptr<LispObject> pObject);

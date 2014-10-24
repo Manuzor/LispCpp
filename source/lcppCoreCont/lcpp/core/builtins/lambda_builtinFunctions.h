@@ -37,7 +37,11 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> cdr(StackPtr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> list(StackPtr<LispObject> pCont);
 
+            LCPP_API_CORE_CONT Ptr<LispObject> string(StackPtr<LispObject> pCont);
+
             LCPP_API_CORE_CONT Ptr<LispObject> eqq(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> eqv(StackPtr<LispObject> pCont);
+            LCPP_API_CORE_CONT Ptr<LispObject> isPair(StackPtr<LispObject> pCont);
 
             LCPP_API_CORE_CONT Ptr<LispObject> recursionLimit(StackPtr<LispObject> pCont);
 
@@ -56,7 +60,6 @@ namespace lcpp
                 Ptr<LispObject> isOpen(StackPtr<LispObject> pCont);
                 Ptr<LispObject> close(StackPtr<LispObject> pCont);
                 Ptr<LispObject> readString(StackPtr<LispObject> pCont);
-                Ptr<LispObject> eval(StackPtr<LispObject> pCont);
             }
         }
     }

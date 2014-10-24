@@ -40,6 +40,12 @@ namespace lcpp
             pCont->getData<Data>().m_stack.~Stack();
         }
 
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            typeCheck(pLhs, Type::Environment);
+            return pLhs == pRhs;
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -49,6 +55,8 @@ namespace lcpp
                 meta.setPrettyName("continuation");
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
                                               static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction,
+                                              static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

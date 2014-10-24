@@ -1,0 +1,21 @@
+\subsection{Procedure 'eqv?'}
+\label{builtins/eqv}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(eqv? to-compare)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[to-compare] The object to compare against another object.
+\end{description}
+
+\subsubsection*{Description}
+Compares if the two given objects are equal in terms of their value. This is not an identity comparison, i.e. the objects do not have to be located at the same address.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(eqv? "hello" "hello") ; #t
+(eqv? "hello" "world") ; #f
+\end{lstlisting}

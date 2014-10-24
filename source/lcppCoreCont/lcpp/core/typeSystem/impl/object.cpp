@@ -131,6 +131,31 @@ namespace lcpp
             LCPP_THROW(exceptions::InvalidInput("Unsupported type for toString."));
         }
 
+        Ptr<LispObject> isEqual(StackPtr<LispObject> pLhs, StackPtr<LispObject> pRhs)
+        {
+            LCPP_GC_PreventCollectionInScope;
+
+            MetaProperty prop;
+
+            // Check if lhs has an IsEqual operator
+            if(getMetaInfo(pLhs).getProperty(MetaProperty::Builtin::IsEqualFunction, prop).Succeeded())
+            {
+                auto pFunction = prop.getData().as<IsEqualFunction_t>();
+                return (*pFunction)(pLhs, pRhs) ? LCPP_pTrue : LCPP_pFalse;
+            }
+
+            // Check if rhs has an IsEqual operator
+            if(getMetaInfo(pRhs).getProperty(MetaProperty::Builtin::IsEqualFunction, prop).Succeeded())
+            {
+                auto pFunction = prop.getData().as<IsEqualFunction_t>();
+                return (*pFunction)(pRhs, pLhs) ? LCPP_pTrue : LCPP_pFalse;
+            }
+
+            EZ_REPORT_FAILURE("Arguments cannot be compared for value-equality.");
+
+            LCPP_THROW(exceptions::InvalidInput("Arguments cannot be compared for value-equality."));
+        }
+
         Ptr<LispObject> getName(Ptr<LispObject> pObject)
         {
             EZ_ASSERT(!pObject.isNull(), "Invalid pointer.");
@@ -229,5 +254,6 @@ namespace lcpp
             EZ_REPORT_FAILURE(message.GetData());
             LCPP_THROW(exceptions::InvalidInput(message.GetData()));
         }
+
     }
 }

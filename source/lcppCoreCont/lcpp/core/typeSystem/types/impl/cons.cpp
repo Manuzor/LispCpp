@@ -12,6 +12,7 @@
 
 #include "lcpp/core/preprocessorUtils/disableVerboseLoggingLocally.h"
 #include "lcpp/core/typeSystem/types/continuation.h"
+#include "lcpp/core/typeSystem/types/bool.h"
 
 namespace lcpp
 {
@@ -33,6 +34,30 @@ namespace lcpp
             }
         }
 
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            typeCheck(pLhs, Type::Cons, Type::Nil);
+
+            bool bAtLeastOneIsNil = isNil(pLhs) || isNil(pRhs);
+            auto lhsType = object::getType(pLhs);
+            auto rhsType = object::getType(pRhs);
+            if(bAtLeastOneIsNil && lhsType != rhsType)
+                return false;
+
+            bool bBothAreNil = isNil(pLhs) && isNil(pRhs);
+            if(bBothAreNil)
+                return true;
+
+            auto pLhsCar = getCar(pLhs); auto pLhsCdr = getCdr(pLhs);
+            auto pRhsCar = getCar(pRhs); auto pRhsCdr = getCdr(pRhs);
+
+            auto bCarsAreEqual = object::isEqual(pLhsCar, pRhsCar);
+            if (isFalse(bCarsAreEqual))
+                return false;
+
+            return isEqual(pLhsCdr, pRhsCdr);
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -40,7 +65,10 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Cons);
                 meta.setPrettyName("cons");
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction,
+                                              static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

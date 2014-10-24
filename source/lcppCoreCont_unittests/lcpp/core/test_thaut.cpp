@@ -179,15 +179,11 @@ LCPP_TestCase(ThautTests, Test_31)
 
 LCPP_TestCase(ThautTests, Test_32)
 {
-    testExecute("(quote (1 2 3))", "(1 2 3)");
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("'(1 2 3)", "(1 2 3)");
 }
 
 LCPP_TestCase(ThautTests, Test_33)
 {
-    testExecute("(quote symbol)", "symbol");
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("'symbol", "symbol");
 }
 
@@ -199,8 +195,6 @@ LCPP_TestCase(ThautTests, Test_35)
 {
     testExecute("(define var2 2) (set! var2 4) var2", "4");
     testExecute("(set! var2 10) var2", "10");
-    testExecute("(set! var2 (quote (1 2 3))) var2", "(1 2 3)");
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("(set! var2 '(1 2 3)) var2", "(1 2 3)");
 }
 
@@ -215,8 +209,6 @@ LCPP_TestCase(ThautTests, Test_37)
 
 LCPP_TestCase(ThautTests, Test_38)
 {
-    testExecute("((lambda () (define x 3) (set! x (quote (1 2 3))) x))", "(1 2 3)");
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("((lambda () (define x 3) (set! x '(1 2 3)) x))", "(1 2 3)");
 }
 
@@ -277,13 +269,11 @@ LCPP_TestCase(ThautTests, Test_49)
 
 LCPP_TestCase(ThautTests, Test_50)
 {
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("(eq? 'test 'test)", "#t");
 }
 
 LCPP_TestCase(ThautTests, Test_51)
 {
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
     testExecute("(eq? 'test 'blup)", "#f");
 }
 
@@ -302,13 +292,13 @@ LCPP_TestCase(ThautTests, Test_53)
 
 LCPP_TestCase(ThautTests, Test_54)
 {
-    testExecute("(define (fac x)"
-            "  (define (helper i sum)"
-            "    (if = i x)"
-            "    (+ sum i)"
-            "    (helper (+ i 1) (+ sum i))))"
-            "  (helper 0 0))"
-            "(fac 10)", "55");
+  testExecute("(define (fac x)"
+              "  (define (helper i sum)"
+              "    (if (= i x)"
+              "      (+ sum i)"
+              "      (helper (+ i 1) (+ sum i))))"
+              "  (helper 0 0))"
+              "(fac 10)", "55");
 }
 
 LCPP_TestCase(ThautTests, Test_55)
@@ -352,15 +342,15 @@ LCPP_TestCase(ThautTests, Test_61)
 
 LCPP_TestCase(ThautTests, Test_62)
 {
-    CUT_ASSERT.notImplemented("Not supporting ' quoting yet");
-    testExecute("(executeFile \"oopTest.lisp\")", "");
+    evalString("(define (executeFile name) (eval (read (file.read-string name))))");
+    testExecute("(executeFile \"oopTest.lisp\")", "#t"); // The last return value within the file.
 }
 
 LCPP_TestCase(ThautTests, Test_63)
 {
-    testExecute("(define (executeFile name) (eval (read (file.read-string name))))", "#v");
-    testExecute("(executeFile \"stdlib.lisp\")", "#v");
-    testExecute("(executeFile \"stdlib.lisp\")", "#v"); // execute a second time to make sure reloading works
+    evalString("(define (executeFile name) (eval (read (file.read-string name))))");
+    testExecute("(executeFile \"stdlib.lisp\")", "#t");
+    testExecute("(executeFile \"stdlib.lisp\")", "#t"); // execute a second time to make sure reloading works
 }
 
 LCPP_TestCase(ThautTests, Test_64)
@@ -379,8 +369,8 @@ LCPP_TestCase(ThautTests, Test_65)
         "      (lambda (x) "
         "        (print (cons x last)) "
         "        (if (> x (* last 2)) "
-        "          ((lambda () (set! last x) true))"
-        "          false"
+        "          ((lambda () (set! last x) #t))"
+        "          #f"
         "        )"
         "      ))))))", "(1 3 7)");
     testExecute("(filter (iota 0 10000 1) (lambda (x) (== (% x 1000) 0)))", "(0 1000 2000 3000 4000 5000 6000 7000 8000 9000)");
@@ -419,12 +409,12 @@ LCPP_TestCase(ThautTests, Test_71)
         "  (define x 3)"
         "  (begin"
         "    (define x 5)"
-        "    (vmTest x 5)"
+        "    (assert (= x 5))"
         "  )"
         "  (define y 7)"
-        "  (vmTest y 7)"
+        "  (assert (= y 7))"
         "  x"
-        "))", "3");
+        "))", "5");
 }
 
 LCPP_TestCase(ThautTests, Test_72)
@@ -434,13 +424,13 @@ LCPP_TestCase(ThautTests, Test_72)
         "  (define (x) 3)"
         "  (begin "
         "    (define (x) 5)"
-        "    (vmTest (x) 5)"
+        "    (assert (= (x) 5))"
         "  )"
         "  (define (y) 7)"
-        "  (vmTest (y) 7)"
+        "  (assert (= (y) 7))"
         "  (x)"
         "))"
-        , "3");
+        , "5");
 }
 
 LCPP_TestCase(ThautTests, Test_73)
@@ -458,7 +448,7 @@ LCPP_TestCase(ThautTests, Test_74)
         "((lambda ()"
         "  (define x 1)"
         "  (begin "
-        "    (vmTest x 1)"
+        "    (assert (= x 1))"
         "    (set! x 2)"
         "  )"
         "  x"
@@ -467,22 +457,6 @@ LCPP_TestCase(ThautTests, Test_74)
 
 LCPP_TestCase(ThautTests, Test_75)
 {
-    testExecute(
-        "((lambda () "
-        "  (define x 5) "
-        "  ((lambda () (set! x 7)))"
-        "  (vmTest x 7)"
-        "  (begin "
-        "    (define x 10) "
-        "    (vmTest x 10)"
-        "    ((lambda () (set! x 3)))"
-        "    (vmTest x 3)"
-        "  ) "
-        "  (vmTest x 7)"
-        "  ((lambda () (set! x 1)))"
-        "  (vmTest x 1)"
-        "  0"
-        "))", "0");
 }
 
 LCPP_TestCase(ThautTests, Test_76)
@@ -500,6 +474,7 @@ LCPP_TestCase(ThautTests, Test_76)
 
 LCPP_TestCase(ThautTests, Test_77)
 {
+    evalString("(eval (read (file.read-string \"stdlib.lisp\")))");
     testExecute(
         "((lambda () "
         "  (filter "
@@ -509,8 +484,8 @@ LCPP_TestCase(ThautTests, Test_77)
         "      (lambda (x) "
         "        (print (cons x last)) "
         "        (if (> x (* last 2)) "
-        "          (begin (set! last x) true)"
-        "          false"
+        "          (begin (set! last x) #t)"
+        "          #f"
         "        )"
         "))))))", "(1 3 7)");
 }
@@ -529,8 +504,8 @@ LCPP_TestCase(ThautTests, Test_78)
         "    )"
         "  )"
         "  (if (< a 0)"
-        "    (display " - ")"
-        "    (display " + ")"
+        "    (print \" - \")"
+        "    (print \" + \")"
         "  )"
         "  (func1 11)"
         ") 10)", "0");
@@ -538,30 +513,32 @@ LCPP_TestCase(ThautTests, Test_78)
 
 LCPP_TestCase(ThautTests, Test_79)
 {
+    CUT_ASSERT.notImplemented("Not supporting call/cc yet.");
     testExecute(
         "(define i 0)"
         "(define (for start end func)"
         "  ((lambda ()"
-        "    (define jmp nil)"
+        "    (define jmp null)"
         "    (call/cc (lambda (cont) (set! jmp cont)))"
-        "    (display \"jmp: \") (print jmp) (display \"\n\")"
+        "    (print \"jmp: \") (print jmp) (print \"\\n\")"
         "    (if (< start end)"
         "      (begin "
         "        (func)"
         "        (set! start (+ start 1))"
-        "        (jmp nil)"
+        "        (jmp null)"
         "      )"
         "      ;else"
-        "      nil"
+        "      null"
         "    )"
         "  ))"
         ")"
-        "(for 0 10 (lambda () (display \"call/cc\n\") (set! i (+ i 1))))"
+        "(for 0 10 (lambda () (print \"call/cc\\n\") (set! i (+ i 1))))"
         "i", "10");
 }
 
 LCPP_TestCase(ThautTests, Test_80)
 {
+    CUT_ASSERT.notImplemented("Not supporting call/cc yet.");
     testExecute(
         "(define (f return)"
         "  (return 2)"

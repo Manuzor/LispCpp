@@ -1,0 +1,22 @@
+\subsection{Procedure 'pair?'}
+\label{builtins/pairq}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(pair? to-test)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[to-test] The object which shall be tested to be a pair or not.
+\end{description}
+
+\subsubsection*{Description}
+Checks if the argument is a pair, i.e. a cons-cell, and returns \true{} if it is, \false{} otherwise.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(pair? 1) ; Yields #f
+(pair? (cons 1 2)) ; Yields #t
+(pair? (list 1 2 3 4)) ; Yields #t
+\end{lstlisting}

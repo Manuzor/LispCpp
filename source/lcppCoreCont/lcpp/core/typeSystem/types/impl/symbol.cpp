@@ -29,6 +29,12 @@ namespace lcpp
             pSymbol->getData<Data>().m_string.~String();
         }
 
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            typeCheck(pLhs, Type::Symbol);
+            return pLhs == pRhs;
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -38,6 +44,7 @@ namespace lcpp
                 meta.setPrettyName("symbol");
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
                                               static_cast<DestructorFunction_t>(&destroy)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction, static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

@@ -46,6 +46,11 @@ namespace lcpp
             table.~HashTable();
         }
 
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            return pLhs == pRhs;
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -53,8 +58,12 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Environment);
                 meta.setPrettyName("environment");
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction, static_cast<ScanFunction_t>(&scan)));
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction, static_cast<DestructorFunction_t>(&destroy)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::ScanFunction,
+                                              static_cast<ScanFunction_t>(&scan)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
+                                              static_cast<DestructorFunction_t>(&destroy)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction,
+                                              static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

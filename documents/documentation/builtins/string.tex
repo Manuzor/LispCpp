@@ -1,0 +1,22 @@
+\subsection{Procedure 'string'}
+\label{builtins/string}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(string object)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[object] The object to be "converted" to a string.
+\end{description}
+
+\subsubsection*{Description}
+Gets the string representation of the given object.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(string "hello") ; "hello"
+(string 42) ; "42"
+(string (list 2 4 8 (cons 16 32))) ; "(2 4 8 (16 . 32))"
+\end{lstlisting}

@@ -167,6 +167,21 @@ namespace lcpp
                 LCPP_cont_return(pCont, pCons);
             }
 
+            Ptr<LispObject> string(StackPtr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                auto pMakeThisAString = cont::getStack(pCont)->get(1);
+
+                // Check if it is a string already.
+                if (object::isType(pMakeThisAString, Type::String))
+                {
+                    LCPP_cont_return(pCont, pMakeThisAString);
+                }
+
+                LCPP_cont_return(pCont, object::toString(pMakeThisAString));
+            }
+
             Ptr<LispObject> eqq(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
@@ -178,6 +193,27 @@ namespace lcpp
                 auto pResult = pArg0 == pArg1 ? LCPP_pTrue : LCPP_pFalse;
 
                 LCPP_cont_return(pCont, pResult);
+            }
+
+            Ptr<LispObject> eqv(StackPtr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+                auto pStack = cont::getStack(pCont);
+
+                auto pArg0 = pStack->get(1);
+                auto pArg1 = pStack->get(2);
+
+                auto pResult = object::isEqual(pArg0, pArg1) ? LCPP_pTrue : LCPP_pFalse;
+
+                LCPP_cont_return(pCont, pResult);
+            }
+
+            Ptr<LispObject> isPair(StackPtr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                auto bIsCons = object::isType(cont::getStack(pCont)->get(1), Type::Cons);
+                LCPP_cont_return(pCont, bIsCons ? LCPP_pTrue : LCPP_pFalse);
             }
 
             Ptr<LispObject> recursionLimit(StackPtr<LispObject> pCont)
@@ -342,27 +378,6 @@ namespace lcpp
                 }
 
                 LCPP_cont_return(pCont, pString);
-            }
-
-            Ptr<LispObject> file::eval(StackPtr<LispObject> pCont)
-            {
-                LCPP_NOT_IMPLEMENTED;
-
-                typeCheck(pCont, Type::Continuation);
-                auto pStack = cont::getStack(pCont);
-
-                auto pFile = pStack->get(1);
-
-                if (object::isType(pFile, Type::String))
-                {
-                }
-
-
-                typeCheck(pFile, Type::File);
-
-                lcpp::file::close(pFile);
-
-                LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
         }

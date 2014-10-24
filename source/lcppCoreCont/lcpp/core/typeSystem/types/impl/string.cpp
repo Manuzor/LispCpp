@@ -19,6 +19,12 @@ namespace lcpp
             defaultAllocator()->Deallocate(pString->getData<Data>().m_szString);
         }
 
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            return ezStringUtils::IsEqual(pLhs->getData<Data>().m_szString,
+                                          pRhs->getData<Data>().m_szString);
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -28,6 +34,7 @@ namespace lcpp
                 meta.setPrettyName("string");
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
                                               static_cast<DestructorFunction_t>(&destroy)));
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction, static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

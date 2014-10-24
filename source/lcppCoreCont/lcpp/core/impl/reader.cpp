@@ -456,7 +456,8 @@ namespace lcpp
                 auto count = ezUInt32(0);
                 auto& iter = stream::getIterator(pStream);
 
-                while(!isNewLine(pState, iter.GetCharacter()))
+                while(!isNewLine(pState, iter.GetCharacter())
+                   && stream::isValid(pStream))
                 {
                     count += advance(pState, pStream);
                 }

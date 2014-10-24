@@ -25,4 +25,6 @@ namespace lcpp
     {
         typedef ezHashTable<LispObject*, LispObject*, ezHashHelper<LispObject*>, AllocatorWrapper_Default> HashTable;
     }
+
+    typedef bool(*IsEqualFunction_t)(Ptr<LispObject>, Ptr<LispObject>);
 }

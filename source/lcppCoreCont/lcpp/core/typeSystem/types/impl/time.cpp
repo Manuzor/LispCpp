@@ -22,6 +22,11 @@ namespace lcpp
             pTime->getData<Data>().m_time.~ezTime();
         }
 
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            return getTime(pLhs) == getTime(pRhs);
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -31,6 +36,7 @@ namespace lcpp
                 meta.setPrettyName("time");
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
                                               static_cast<DestructorFunction_t>(&destroy)));
+                    meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction, static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

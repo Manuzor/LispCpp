@@ -18,6 +18,11 @@ namespace lcpp
 {
     namespace number
     {
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            return isTrue(equal(pLhs, pRhs));
+        }
+
         Ptr<const MetaInfo> getMetaInfoInteger()
         {
             static auto meta = []
@@ -25,6 +30,7 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Integer);
                 meta.setPrettyName("integer");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction, static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

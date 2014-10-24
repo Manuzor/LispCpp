@@ -11,6 +11,12 @@ namespace lcpp
 {
     namespace nil
     {
+        static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
+        {
+            typeCheck(pLhs, Type::Nil);
+            return pLhs == pRhs;
+        }
+
         Ptr<const MetaInfo> getMetaInfo()
         {
             static auto meta = []
@@ -18,6 +24,8 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Nil);
                 meta.setPrettyName("nil");
+                meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction,
+                                              static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
             }(); // Note that this lambda is immediately called.

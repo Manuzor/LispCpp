@@ -14,8 +14,14 @@
 \subsubsection*{Description}
 Quotes the given expression argument. Note that only one argument can be specified.
 
+For convenience, there is a short-hand syntax using the \lstinline|'| character. See below for examples.
+
 \subsubsection*{Examples}
 \begin{lstlisting}
 (quote hello) ; Yields the symbol 'hello', not the value that might be bound to that symbol
 (quote (1 2 3)) ; Logically equivalent to (list 1 2 3)
+
+; Same as the above, using short-hand syntax
+'hello
+'(1 2 3)
 \end{lstlisting}
