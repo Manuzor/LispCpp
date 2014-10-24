@@ -275,6 +275,32 @@ namespace lcpp
                 LCPP_cont_return(pCont, str::create(theString.GetData(), theString.GetElementCount()));
             }
 
+            static Ptr<LispObject> quoteHelper(StackPtr<LispObject> pCont)
+            {
+                typeCheck(pCont, Type::Continuation);
+
+                StackPtr<LispObject> pReadResult = cont::getStack(pCont)->get(-1);
+
+                StackPtr<LispObject> pGlobalEnv = cont::getRuntimeState(pCont)->getGlobalEnvironment();
+
+                StackPtr<LispObject> pQuote = LCPP_pNil;
+
+                {
+                    LCPP_GC_PreventCollectionInScope;
+
+                    Ptr<LispObject> pRawQuote;
+                    env::getBinding(pGlobalEnv, symbol::create("quote"), pRawQuote);
+                    pQuote = pRawQuote;
+                }
+
+                // (quote <read-result>)
+                StackPtr<LispObject> pQuoteCall = cons::create(pQuote,
+                                                  cons::create(pReadResult,
+                                                               LCPP_pNil));
+
+                LCPP_cont_return(pCont, pQuoteCall);
+            }
+
             Ptr<LispObject> readQuote(StackPtr<LispObject> pCont)
             {
                 typeCheck(pCont, Type::Continuation);
@@ -289,10 +315,8 @@ namespace lcpp
 
                 stream::next(pStream);
 
-                pStack->clear();
-                pStack->push(pStream);
-
-                LCPP_cont_tailCall(pCont, &read);
+                cont::setFunction(pCont, &quoteHelper);
+                LCPP_cont_call(pCont, &read, pStream);
             }
 
             Ptr<LispObject> readList(StackPtr<LispObject> pCont)

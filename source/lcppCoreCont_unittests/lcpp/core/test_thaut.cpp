@@ -1,3 +1,8 @@
+//////////////////////////////////////////////////////////////////////////
+/// Most parts of this file's test cases are taken from                ///
+/// the thLisp project by Benjamin Thaut.                              ///
+//////////////////////////////////////////////////////////////////////////
+
 #include "stdafx.h"
 #include "lcpp/foundation/exceptionBase.h"
 #include "lcpp/core/typeSystem/object.h"
