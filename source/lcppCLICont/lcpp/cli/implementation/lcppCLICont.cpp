@@ -80,6 +80,16 @@ void parseCommandLineArgs(int argc, const char* argv[])
     ezCommandLineUtils cmd;
     cmd.SetCommandLine(argc, argv);
 
+    if (cmd.GetBoolOption("-v"))
+    {
+        ezGlobalLog::SetLogLevel(ezLogMsgType::All);
+    }
+
+    if (cmd.GetBoolOption("-q"))
+    {
+        ezGlobalLog::SetLogLevel(ezLogMsgType::None);
+    }
+
     ezStringBuilder sCurrentArg;
     for(int i = 1; i < argc; ++i)
     {
@@ -87,7 +97,6 @@ void parseCommandLineArgs(int argc, const char* argv[])
 
         if (sCurrentArg.IsEqual("-v"))
         {
-            ezGlobalLog::SetLogLevel(ezLogMsgType::All);
         }
         else if (sCurrentArg.IsEqual("-q"))
         {

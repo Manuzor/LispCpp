@@ -1,7 +1,7 @@
 import zipfile
 
 TargetZipFileName = "temp/LispCpp.zip"
-with zipfile.ZipFile(TargetZipFileName, mode='w', compression=zipfile.ZIP_STORED) as pack:
+with zipfile.ZipFile(TargetZipFileName, mode='w', compression=zipfile.ZIP_LZMA) as pack:
     # Run-scripts for easier running of the binaries.
     pack.writestr("Run64.bat", r"@bin\WinVs2013Release64\lcppCLICont.exe")
     pack.writestr("Run32.bat", r"@bin\WinVs2013Release32\lcppCLICont.exe")
