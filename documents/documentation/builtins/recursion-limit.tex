@@ -13,7 +13,9 @@
 \end{description}
 
 \subsubsection*{Description}
-Gets or sets the current recursion limit. If \lstinline|set-recursion-limit| is called with an argument that is smaller than the current recursion depth, an error is issued. The default value is 255.
+Gets or sets the current recursion limit. If \lstinline|set-recursion-limit| is called with an argument that is smaller than the current recursion depth, an error is issued. The default value is 1024.
+
+Recursion depth is measured using continuations. See \ref{continuations} for more information.
 
 \subsubsection*{Examples}
 \begin{lstlisting}

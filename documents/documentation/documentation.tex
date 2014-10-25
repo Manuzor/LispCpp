@@ -31,6 +31,7 @@
 
 \newcommand{\false}{\lstinline|\#f|}
 \newcommand{\true}{\lstinline|\#t|}
+\newcommand{\lisp}{Lisp}
 
 % Title Page
 \title{LispCpp\\
@@ -49,7 +50,7 @@
 
 \section{Introduction and Document Overview}
 \label{overview}
-	This document is the documentation and reference manual for the LISP interpreter "LispCpp", written in C++ by Manuel Maier for the course "Design and Implementation of Modern Programming languages" held by Claus Gittinger at the Stuttgart Media University in the summer term 2014. It might seem like quite a long document, but do not worry, most of it is just a list of all the built-ins.
+	This document is the documentation and reference manual for the \lisp{} interpreter "LispCpp", written in C++ by Manuel Maier for the course "Design and Implementation of Modern Programming languages" held by Claus Gittinger at the Stuttgart Media University in the summer term 2014. It might seem like quite a long document, but do not worry, most of it is just a list of all the built-ins.
 
 	For the guide on how to use the interpreter, check section \ref{usage}. For an overview of the implemented features, check section \ref{features}. Section \ref{builtins} lists all built-in symbols and procedures and explains how to use them.
 
@@ -72,7 +73,15 @@
 
 	Since it is a Baker style garbage collector, there are two spaces of memory used, namely the eden space and the survivor space. After each collection cycle, the roles of the eden space and survivor space are swapped. outside of the collection cycle, i.e. during regular runtime, the survivor space is not used at all and is protected using \lstinline|VirtualProtect| and the \lstinline|PAGE_NOACCESS| argument, which issues a hardware error if the survivor space is accessed in any kind of way, be it reading, writing, or execution access.
 
-	After a collection cycle, if the fill level of the new eden space is above a certain threshold\footnote{This threshold is configurable.}, a flag is set to indicate that the garbage collector needs to allocate new memory before the next collection cycle. When a new collection cycle is performed, and the flag is set, the number of currently allocated memory pages is adjusted so that it can take enough LISP objects to stay below the threshold mentioned before. The amount of memory allocated by the garbage collector does never shrink. A collection cycle can be triggered manually, but is usually triggered when the user tries to allocate memory for new LISP objects.
+	After a collection cycle, if the fill level of the new eden space is above a certain threshold\footnote{This threshold is configurable.}, a flag is set to indicate that the garbage collector needs to allocate new memory before the next collection cycle. When a new collection cycle is performed, and the flag is set, the number of currently allocated memory pages is adjusted so that it can take enough \lisp{} objects to stay below the threshold mentioned before. The amount of memory allocated by the garbage collector does never shrink. A collection cycle can be triggered manually, but is usually triggered when the user tries to allocate memory for new \lisp{} objects.
+
+\subsection{Continuations}
+\label{continuations}
+	LispCpp uses continuation passing in the reader, evaluator, and printer parts of the implementation. This makes it easy to support tail-call elimination and a stack size that is only limited by the installed main memory of the host computer.
+
+	Every continuation object has an unsigned integer field recording the depth in which it was created. The depth $d$ will be initialized as 0 if it is a top-level continuation, i.e. if it is an entry point. For child continuations, the depth $d_{child}$ is simply calculated like this: $$d_{child}=d_{parent}+1$$
+
+	This depth is used to determine whether the current recursion limit was reached, in which case execution is aborted and an error is issued. The recursion limit can be configured using the built-in procedure \lstinline|set-recursion-limit| (see \ref{builtins/recursion-limit}).
 
 \subsection{Numbers}
 \label{numbers}
@@ -82,10 +91,10 @@
 		\item IEEE 754 double precision floating point numbers.
 	\end{itemize}
 
-	Except for the modulo procedure \lstinline|%| all arithmetic operations described in \ref{builtins/arithmetic-operations} and \ref{builtins/arithmetic-comparison} work with either of these flavors as arguments.
-	
+	Except for the modulo procedure \lstinline|%| all arithmetic operations described in \ref{builtins/arithmetic-operations} and \ref{builtins/arithmetic-comparison} work with either of these number types as arguments.
+
 	There is no support for big integers (yet).
-	
+
 \subsection{Top-Level Environments}
 \label{env}
 	There are two kinds of top-level environments used in the current runtime implementation:
@@ -101,10 +110,10 @@
 	The character-macro environment stores all built-in procedure objects that would be called at parsing-time when a certain character was parsed. In the current implementation there are only two built-in character macros:
 	\begin{description}
 		\item[(] Used to parse a list, such as \lstinline|(1 2 3)|
-		\item["] Used to parse a string object, such as "hello world"
+		\item["] Used to parse a string object, such as \lstinline|"hello world"|
 	\end{description}
 
-	A future feature that could be implemented using this environment is support for user-defined character macros. Such a feature would enable the user to parse an XML document as a series of LISP objects, for example.
+	A future feature that could be implemented using this environment is support for user-defined character macros. Such a feature would enable the user to parse an XML document as a series of \lisp{} objects, for example.
 
 \section{Usage}
 \label{usage}
@@ -129,7 +138,7 @@
 
 \section{Built-in Symbols, Syntax, and Procedures}
 \label{builtins}
-	This section is a compilation of all available objects and built-in procedures available to the user out of the box. A simple declaration syntax is used in this section, mixed with the regular LISP syntax:
+	This section is a compilation of all available objects and built-in procedures available to the user out of the box. A simple declaration syntax is used in this section, mixed with the regular \lisp{} syntax:
 
 	\begin{itemize}
 		\item Parameters preceded by an ellipse describe that the parameter may appear zero, one, or multiple times: \lstinline|param...|
@@ -138,7 +147,7 @@
 			  \lstinline|(procedure-name required [optional])|
 	\end{itemize}
 
-	Everything else is regular LISP syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. These are built-ins after all.
+	Everything else is regular \lisp{} syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. These are built-ins after all.
 
 	% Symbols
 	\input{builtins/symbols}
