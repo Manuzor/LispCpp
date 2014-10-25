@@ -42,7 +42,7 @@ namespace lcpp
             return &meta;
         }
 
-        Ptr<LispObject> create(const char* szStringData, ezUInt64 uiLen)
+        Ptr<LispObject> create(const char* szStringData, std::size_t uiLen)
         {
             LCPP_LogBlock("str::create");
 

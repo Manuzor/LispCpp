@@ -13,12 +13,12 @@
 \end{description}
 
 \subsubsection*{Description}
-Gets or sets the current recursion limit. If \lstinline|set-recursion-limit| is called with an argument that is smaller than the current recursion depth, an error is issued. The default value is 1024.
+Gets or sets the current recursion limit. If \lstinline|set-recursion-limit| is called with an argument that is smaller than the current recursion depth, an error is issued. The default value is \recursionLimit{}.
 
 Recursion depth is measured using continuations. See \ref{continuations} for more information.
 
 \subsubsection*{Examples}
 \begin{lstlisting}
-(set-recursion-limit 1000)
-(get-recursion-limit) ; Yields 1000
+(set-recursion-limit 123)
+(get-recursion-limit) ; Yields 123
 \end{lstlisting}

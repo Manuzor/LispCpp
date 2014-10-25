@@ -140,7 +140,7 @@ namespace lcpp
         byte_t* m_pEnd;
         byte_t* m_pAllocationPointer;
 
-        ezUInt64 m_uiNumAllocations;
+        std::size_t m_uiNumAllocations;
 
         LCPP_InDebug( State m_state; );
     };
