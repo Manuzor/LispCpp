@@ -4,7 +4,7 @@
 \documentclass[a4paper]{scrartcl}
 \usepackage{fontspec}
 \setmonofont{Consolas}
-\usepackage{color}
+\usepackage{xcolor}
 	\definecolor{codeComment}{RGB}{0,128,0}
 	\definecolor{codeKeyword}{RGB}{0,0,255}
 	\definecolor{codeIdentifier}{RGB}{64,64,64}
@@ -92,7 +92,7 @@
 		\item IEEE 754 double precision floating point numbers.
 	\end{itemize}
 
-	Except for the modulo procedure \lstinline|%| all arithmetic operations described in \ref{builtins/arithmetic-operations} and \ref{builtins/arithmetic-comparison} work with either of these number types as arguments.
+	All arithmetic operations described in \ref{builtins/arithmetic-operations} and \ref{builtins/arithmetic-comparison} work with either of these number types as arguments, except for the modulo procedure \lstinline|%|.
 
 	There is no support for big integers (yet).
 
