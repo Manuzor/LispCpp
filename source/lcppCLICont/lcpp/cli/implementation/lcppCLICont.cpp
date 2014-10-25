@@ -6,6 +6,7 @@
 #include "lcpp/cli/exceptions.h"
 #include "lcpp/cli/interpreter.h"
 #include "lcpp/cli/ioUtils.h"
+#include <Foundation/Utilities/CommandLineUtils.h>
 
 namespace lcpp
 {
@@ -76,13 +77,22 @@ void parseCommandLineArgs(int argc, const char* argv[])
 {
     if(argc == 1) { return; }
 
-    if(lcpp::String(argv[1]).IsEqual("-d"))
+    ezCommandLineUtils cmd;
+    cmd.SetCommandLine(argc, argv);
+
+    ezStringBuilder sCurrentArg;
+    for(int i = 1; i < argc; ++i)
     {
-        ezGlobalLog::SetLogLevel(ezLogMsgType::All);
-    }
-    else
-    {
-        ezGlobalLog::SetLogLevel(ezLogMsgType::None);
+        sCurrentArg = argv[i];
+
+        if (sCurrentArg.IsEqual("-v"))
+        {
+            ezGlobalLog::SetLogLevel(ezLogMsgType::All);
+        }
+        else if (sCurrentArg.IsEqual("-q"))
+        {
+            ezGlobalLog::SetLogLevel(ezLogMsgType::None);
+        }
     }
 }
 

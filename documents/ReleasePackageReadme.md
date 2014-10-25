@@ -12,3 +12,9 @@ Binaries
 --------
 
 The binaries can be found in below the "bin/" folder in "bin/WinVs2013Release64" and "bin/WinVs2013Release32". They have to be executed from the root of this package in order to work correctly. Use the files "Run64.bat" or "Run32.bat" to run the interactive interpreter in 64bit or 32bit respectively.
+
+Sources
+-------
+
+The sources for this project are not distributed within this package. You can find them on github:
+https://github.com/Manuzor/LispCpp

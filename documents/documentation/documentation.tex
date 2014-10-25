@@ -133,6 +133,14 @@
 
 	You have to run the interpreter from the "lcpp" directory so that it can find the "data1" directory in its working directory.
 
+\subsection{Command-Line Arguments}
+\label{usage/cmd-args}
+	\begin{description}
+		\item[-v] Being verbose, i.e. logging information to console and to a log file.
+		\item[-q] Being quiet, i.e. no logging at all.
+	\end{description}
+	By default the logging is turned on but not everything is logged. The location of the log file is "temp/log/lcppCLI.log.html"\footnote{Relative to the working directory of the executable}.
+
 \subsection{Read-Eval-Print-Loop (REPL)}
 \label{usage/repl}
 	The interactive REPL accepts multi-line input. This feature can be triggered by opening a parenthesis and hitting Return or Enter. The REPL basically waits for the parenthesis to be balanced. If a syntax error is produced, such as \lstinline|())|, the REPL will issue an error, informing the user of the line and column it expected something else than was given. The interpreter is also counting the number of lines the user gives as input and displays this number to the left of the prompt character such as \lstinline|128>| when 128 lines were punched in.
