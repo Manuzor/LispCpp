@@ -19,6 +19,7 @@ namespace lcpp
 
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiNumInitialPages = 1;
+            cinfo.m_uiMaxPagesPerPool = 16;//131072; // 1 GiB
             cinfo.m_pParentAllocator = defaultAllocator();
 
             instance.initialize(cinfo);
@@ -44,6 +45,9 @@ namespace lcpp
 
         EZ_ASSERT(cinfo.m_uiNumInitialPages > 0, "Invalid initial number of pages");
         m_uiNumCurrentPages = cinfo.m_uiNumInitialPages;
+
+        EZ_ASSERT(cinfo.m_uiMaxPagesPerPool >= cinfo.m_uiNumInitialPages, "Invalid number of max allocated pages.");
+        m_uiMaxNumPages = cinfo.m_uiMaxPagesPerPool;
 
         for (int i = 0; i < NumMemoryPools; ++i)
             m_pools[i].initialize(m_uiNumCurrentPages);
@@ -89,7 +93,7 @@ namespace lcpp
 #if EZ_ENABLED(LCPP_GC_AlwaysCreateNewSurvivor)
         if(m_bGrowBeforeNextCollection)
         {
-            m_uiNumCurrentPages *= 2;
+            increaseNumCurrentPages();
             m_bGrowBeforeNextCollection = false;
         }
         m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
@@ -102,7 +106,7 @@ namespace lcpp
             ezLog::Dev("Growing GC memory");
             ezLog::Dev("  from %u pages (%u KiB)", m_uiNumCurrentPages, m_uiNumCurrentPages * GarbageCollectorPageSize / 1024);
 
-            m_uiNumCurrentPages *= 2;
+            increaseNumCurrentPages();
 
             ezLog::Dev("  to   %u pages (%u KiB)", m_uiNumCurrentPages, m_uiNumCurrentPages * GarbageCollectorPageSize / 1024);
             printStats();
@@ -138,7 +142,10 @@ namespace lcpp
         while(m_uiNumCurrentPages * GarbageCollectorPageSize - m_pSurvivorSpace->getAllocatedMemorySize() < uiNumMinBytesToFree)
         {
             m_bGrowBeforeNextCollection = true;
-            m_uiNumCurrentPages *= 2;
+            increaseNumCurrentPages();
+
+            if(m_uiNumCurrentPages == m_uiMaxNumPages)
+                break;
         }
 
         prepareCollectionCycle();
@@ -286,16 +293,29 @@ namespace lcpp
         return pResult;
     }
 
+    void GarbageCollector::increaseNumCurrentPages()
+    {
+        ezUInt32 uiNewAmountOfPages = m_uiNumCurrentPages * 2;
+        if (uiNewAmountOfPages > m_uiMaxNumPages)
+        {
+            ezLog::Warning("Reached maximum number of memory pages. Cannot increase allocated memory size from now on.");
+            uiNewAmountOfPages = m_uiMaxNumPages;
+        }
+
+        m_uiNumCurrentPages = uiNewAmountOfPages;
+    }
+
     void GarbageCollector::printStats()
     {
         ezLog::Dev("Growing threshold: %f%%", m_fGrowingThreshold * 100);
-        ezLog::Dev("Survivor: %u B / %u B (%u Pages)",
-                   m_pSurvivorSpace->getAllocatedMemorySize(),
-                   m_pSurvivorSpace->getEntireMemorySize(),
+        ezLog::Dev("Max Memory Per Pool: %u KiB (%u Pages)", m_uiMaxNumPages * GarbageCollectorPageSize / 1024, m_uiMaxNumPages);
+        ezLog::Dev("Survivor: %u KiB / %u KiB (%u Pages)",
+                   m_pSurvivorSpace->getAllocatedMemorySize() / 1024,
+                   m_pSurvivorSpace->getEntireMemorySize() / 1024,
                    m_pSurvivorSpace->getEntireMemorySize() / GarbageCollectorPageSize);
-        ezLog::Dev("Eden:     %u B / %u B (%u Pages)",
-                   m_pEdenSpace->getAllocatedMemorySize(),
-                   m_pEdenSpace->getEntireMemorySize(),
+        ezLog::Dev("Eden:     %u KiB / %u KiB (%u Pages)",
+                   m_pEdenSpace->getAllocatedMemorySize() / 1024,
+                   m_pEdenSpace->getEntireMemorySize() / 1024,
                    m_pEdenSpace->getEntireMemorySize() / GarbageCollectorPageSize);
     }
 

@@ -1,4 +1,5 @@
 #include "lcpp/core/typeSystem/metaInfo.h"
+#include "lcpp/core/exceptions/runtimeException.h"
 
 namespace lcpp
 {
@@ -95,9 +96,7 @@ namespace lcpp
             {
                 if (uiNumTries >= 3)
                 {
-                    // TODO Resize the internal array?
-                    EZ_REPORT_FAILURE("Out of memory!");
-                    return nullptr;
+                    LCPP_THROW(exceptions::Runtime("Garbage collector is out of memory!"));
                 }
 
                 collect(sizeof(T));

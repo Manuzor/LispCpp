@@ -98,8 +98,17 @@ namespace lcpp
         {
         public:
             Ptr<ezAllocatorBase> m_pParentAllocator;
-            ezUInt32 m_uiNumInitialPages; ///< Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
-            float m_fGrowingThreshold; ///< Threshold of range [0.0f, 1.0f] at which to start growing the number of pages used.
+
+            /// Number of bytes for the used memory (eden) and the copying pool (survivor) EACH.
+            ezUInt32 m_uiNumInitialPages;
+
+            /// Threshold of range [0.0f, 1.0f] at which to start growing the number of pages used.
+            float m_fGrowingThreshold;
+
+            /// Maximum number of pages this garbage collector should be allocating at all.
+            /// Keep in mind that this implementation needs 2 pools of equal size to live at the same time.
+            /// Defaults to 2 GiB of memory allocated.
+            ezUInt32 m_uiMaxPagesPerPool;
 
         public:
             CInfo();
@@ -166,6 +175,8 @@ namespace lcpp
 
         void printStats();
 
+        void increaseNumCurrentPages();
+
     public:
 
         Ptr<ezAllocatorBase> m_pAllocator;
@@ -182,6 +193,7 @@ namespace lcpp
 
         float m_fGrowingThreshold;
         ezUInt32 m_uiNumCurrentPages;
+        ezUInt32 m_uiMaxNumPages;
         ezUInt32 m_uiCurrentGeneration;
         byte_t* m_ScanPointer;
         bool m_bGrowBeforeNextCollection;
