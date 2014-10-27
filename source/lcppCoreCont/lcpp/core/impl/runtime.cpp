@@ -20,7 +20,6 @@ lcpp::GarbageCollector* g_pGC(nullptr);
 
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
-    m_recursionLimit(1024),
     m_baseDirectory("."),
     m_userDirectory(".")
 {
@@ -90,21 +89,4 @@ lcpp::LispRuntimeState::shutdown()
 
     // TODO Once we have a per-runtime garbage collector system running, uncomment the following line.
     //m_pGC->clear();
-}
-
-void
-lcpp::LispRuntimeState::setRecursionLimit(ezUInt32 newLimit)
-{
-    m_recursionLimit = newLimit;
-}
-
-void
-lcpp::LispRuntimeState::checkDepthIsOK(ezUInt32 uiDepth) const
-{
-    if (uiDepth < m_recursionLimit)
-        return;
-
-    ezStringBuilder message;
-    message.Format("Exceeded recursion limit of %u.", m_recursionLimit);
-    LCPP_THROW(exceptions::Runtime(message.GetData()));
 }

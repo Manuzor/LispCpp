@@ -28,8 +28,6 @@ namespace lcpp
         LCPP_API_CORE_CONT UserData_t& getUserData(StackPtr<LispObject> pCont);
         LCPP_API_CORE_CONT void setUserData(StackPtr<LispObject> pCont, UserData_t userData);
 
-        LCPP_API_CORE_CONT ezUInt32 getDepth(StackPtr<LispObject> pCont);
-
         LCPP_API_CORE_CONT Ptr<LispObject> toString(StackPtr<LispObject> pObject);
 
         namespace detail

@@ -19,7 +19,7 @@ namespace lcpp
 
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiNumInitialPages = 1;
-            cinfo.m_uiMaxPagesPerPool = 16;//131072; // 1 GiB
+            cinfo.m_uiMaxPagesPerPool = 131072; // 1 GiB
             cinfo.m_pParentAllocator = defaultAllocator();
 
             instance.initialize(cinfo);

@@ -45,12 +45,6 @@ namespace lcpp
     }
 
     EZ_FORCE_INLINE
-    ezUInt32 LispRuntimeState::getRecursionLimit() const
-    {
-        return m_recursionLimit;
-    }
-
-    EZ_FORCE_INLINE
     void LispRuntimeState::setBaseDirectory(const char* szName)
     {
         m_baseDirectory = szName;

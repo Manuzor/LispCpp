@@ -43,7 +43,7 @@ namespace lcpp
             LCPP_API_CORE_CONT Ptr<LispObject> eqv(StackPtr<LispObject> pCont);
             LCPP_API_CORE_CONT Ptr<LispObject> isPair(StackPtr<LispObject> pCont);
 
-            LCPP_API_CORE_CONT Ptr<LispObject> recursionLimit(StackPtr<LispObject> pCont);
+            //7LCPP_API_CORE_CONT Ptr<LispObject> recursionLimit(StackPtr<LispObject> pCont);
 
             namespace detail
             {

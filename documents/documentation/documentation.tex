@@ -78,11 +78,8 @@
 
 \subsection{Continuations}
 \label{continuations}
-	LispCpp uses continuation passing in the reader, evaluator, and printer parts of the implementation. This makes it easy to support tail-call elimination and a stack size that is only limited by the installed main memory of the host computer.
+	LispCpp uses continuation passing in the reader, evaluator, and printer parts of the implementation. This makes it easy to support tail-call optimization and a stack size that is only limited by the installed main memory of the host computer.
 
-	Every continuation object has an unsigned integer field recording the depth in which it was created. The depth $d$ will be initialized as 0 if it is a top-level continuation, i.e. if it is an entry point. For child continuations, the depth $d_{child}$ is simply calculated like this: $$d_{child}=d_{parent}+1$$
-
-	If this depth $d_{child}$ reaches or exceeds the recursion limit, program execution is aborted and an error is issued. The recursion limit defaults to \recursionLimit{} and can be configured using the built-in procedure \lstinline|set-recursion-limit| (see \ref{builtins/recursion-limit}).
 
 \subsection{Numbers}
 \label{numbers}
@@ -158,6 +155,8 @@
 
 	Everything else is regular \lisp{} syntax. Note that these are not the actual declarations, they're just there for the purposes of this documentation. These are built-ins after all.
 
+	The Scheme implementation of DrRacket 6.0 was taken as a reference for how the built-in procedures behave, e.g. \lstinline|(+)| returns 0 (see \ref{builtins/arithmetic-operations}), just as it does in DrRacket.
+
 	% Symbols
 	\input{builtins/symbols}
 
@@ -185,7 +184,6 @@
 	\input{builtins/eq}
 	\input{builtins/eqv}
 	\input{builtins/pairq}
-	\input{builtins/recursion-limit}
 	\input{builtins/file.open}
 	\input{builtins/file.is-open}
 	\input{builtins/file.close}
