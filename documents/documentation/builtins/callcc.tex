@@ -1,0 +1,24 @@
+\subsection{Procedure 'call/cc'}
+\label{builtins/callcc}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(call/cc proc)
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[proc] A procedure accepting exactly one argument.
+\end{description}
+
+\subsubsection*{Description}
+Calls the given procedure with the current continuation as its argument.
+\todo{Explain in more detail}
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+; Prints 1 forever
+(define jmp nil)
+(print (call/cc (lambda (x) (set! jmp x)))
+(jmp 1)
+\end{lstlisting}
