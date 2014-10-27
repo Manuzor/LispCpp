@@ -103,8 +103,8 @@ namespace lcpp
         }
         m_pSurvivorSpace->initialize(m_uiNumCurrentPages);
 #else
-        bool bInitializeSurvivor = m_bGrowBeforeNextCollection || m_pSurvivorSpace->getEntireMemorySize() < m_pEdenSpace->getEntireMemorySize();
-        if (m_bGrowBeforeNextCollection)
+        bool bDoGrow = m_bGrowBeforeNextCollection && m_uiNumCurrentPages < m_uiMaxNumPages;
+        if (bDoGrow)
         {
             m_bGrowBeforeNextCollection = false;
 
@@ -112,12 +112,14 @@ namespace lcpp
             ezLog::Dev("  from %u pages (%u KiB)", m_uiNumCurrentPages, m_uiNumCurrentPages * GarbageCollectorPageSize / 1024);
 
             increaseNumCurrentPages();
+            if(m_uiNumCurrentPages == m_uiMaxNumPages)
+                bDoGrow = false;
 
             ezLog::Dev("  to   %u pages (%u KiB)", m_uiNumCurrentPages, m_uiNumCurrentPages * GarbageCollectorPageSize / 1024);
             printStats();
         }
 
-        if(bInitializeSurvivor)
+        if(bDoGrow || m_pSurvivorSpace->getEntireMemorySize() < m_pEdenSpace->getEntireMemorySize())
         {
 #if EZ_DISABLED(LCPP_GC_KeepAllocatedMemory)
             m_pSurvivorSpace->free();
@@ -143,6 +145,8 @@ namespace lcpp
 
         bool bExceptionsEnabled = false;
         LCPP_SCOPE_EXIT{ EZ_ASSERT(bExceptionsEnabled, "An exception was thrown during a gc collection cycle."); };
+
+        ezLog::Dev("Garbage collection started, trying to free at least %u bytes.", uiNumMinBytesToFree);
 
         while(m_uiNumCurrentPages * GarbageCollectorPageSize - m_pSurvivorSpace->getAllocatedMemorySize() < uiNumMinBytesToFree)
         {
@@ -190,7 +194,7 @@ namespace lcpp
 
         EZ_ASSERT(m_pEdenSpace->getEntireMemorySize() >= m_pSurvivorSpace->getEntireMemorySize(), "");
 
-        ezLog::Dev("Collection stats:");
+        ezLog::Dev("Garbage collection stats:");
         for(int i = 0; i < Type::ENUM_COUNT; ++i)
         {
             if(m_collectionStats[i] == 0)

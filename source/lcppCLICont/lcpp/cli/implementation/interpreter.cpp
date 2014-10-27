@@ -66,23 +66,8 @@ namespace lcpp
     {
     }
 
-    struct A
-    {
-    };
-
-    struct B
-    {
-        A* pA;
-
-        B() : pA(EZ_NEW(defaultAllocator(), A)) {}
-        B(B* pOther) : pA(pOther->pA) {}
-    };
-
     void Interpreter::initialize()
     {
-        auto pB1 = EZ_NEW(defaultAllocator(), B);
-        auto pB2 = EZ_NEW(defaultAllocator(), B)(pB1);
-
         m_pState->initialize();
         g_pRunTime = m_pState.get();
 

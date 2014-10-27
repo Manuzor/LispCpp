@@ -452,11 +452,7 @@ namespace lcpp
 
             Ptr<LispObject> dumpMemoryLeaks(StackPtr<LispObject> pCont)
             {
-                auto it = ezMemoryTracker::GetIterator();
-                while(it.IsValid())
-                {
-                    it.Stats();
-                }
+                ezMemoryTracker::DumpMemoryLeaks();
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 

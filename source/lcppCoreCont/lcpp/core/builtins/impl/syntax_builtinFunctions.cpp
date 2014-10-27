@@ -193,6 +193,11 @@ namespace lcpp
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
+                if (pStack->size() == 1)
+                {
+                    LCPP_cont_return(pCont, LCPP_pVoid);
+                }
+
                 cont::setUserData(pCont, 1);
 
                 pStack->push(LCPP_pVoid);
