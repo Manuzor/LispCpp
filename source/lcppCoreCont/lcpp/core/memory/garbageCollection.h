@@ -152,6 +152,8 @@ namespace lcpp
 
         ezUInt32 getNumRoots() const { return m_roots.GetCount(); }
 
+        void printStats();
+
     private:
 
         void prepareCollectionCycle();
@@ -172,8 +174,6 @@ namespace lcpp
         void destroyGarbage();
 
         void addRootsToSurvivorSpace();
-
-        void printStats();
 
         void increaseNumCurrentPages();
 

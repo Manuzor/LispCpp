@@ -115,6 +115,10 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("file.close", &lambda::builtin::file::close, Signature::create(1));
     LCPP_AddBuiltin("file.read-string", &lambda::builtin::file::readString, Signature::create(1));
 
+    // Garbage Collector related stuff
+    LCPP_AddBuiltin("gc.collect", &lambda::builtin::gc::collect, Signature::create(0));
+    LCPP_AddBuiltin("gc.print-stats", &lambda::builtin::gc::printStats, Signature::create(0));
+
 }
 
 #undef LCPP_AddGlobalVariable

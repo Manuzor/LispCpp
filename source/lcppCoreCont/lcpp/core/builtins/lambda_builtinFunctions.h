@@ -61,6 +61,12 @@ namespace lcpp
                 Ptr<LispObject> close(StackPtr<LispObject> pCont);
                 Ptr<LispObject> readString(StackPtr<LispObject> pCont);
             }
+
+            namespace gc
+            {
+                Ptr<LispObject> collect(StackPtr<LispObject> pCont);
+                Ptr<LispObject> printStats(StackPtr<LispObject> pCont);
+            }
         }
     }
 }

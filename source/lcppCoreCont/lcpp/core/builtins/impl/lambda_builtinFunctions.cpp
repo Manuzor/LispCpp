@@ -392,6 +392,18 @@ namespace lcpp
                 LCPP_cont_return(pCont, pString);
             }
 
+            Ptr<LispObject> gc::collect(StackPtr<LispObject> pCont)
+            {
+                cont::getRuntimeState(pCont)->getGarabgeCollector()->collect(0);
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> gc::printStats(StackPtr<LispObject> pCont)
+            {
+                cont::getRuntimeState(pCont)->getGarabgeCollector()->printStats();
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
         }
     }
 }
