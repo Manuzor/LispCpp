@@ -2,6 +2,7 @@
 #include "lcpp/core/memory/garbageCollectionCommon.h"
 #include "lcpp/core/memory/stackPtr.h"
 #include "lcpp/core/memory/fixedMemory.h"
+#include "lcpp/core/typeSystem/type.h"
 
 namespace lcpp
 {
@@ -126,7 +127,10 @@ namespace lcpp
         void clear();
 
         template<typename T>
-        Ptr<T> createStatic(Ptr<const MetaInfo> pMetaInfo);
+        T* createStatic(Ptr<const MetaInfo> pMetaInfo);
+
+        template<typename T>
+        void destroyStatic(T* pObject);
 
         template<typename T>
         Ptr<T> create(Ptr<const MetaInfo> pMetaInfo);
@@ -198,6 +202,8 @@ namespace lcpp
         byte_t* m_ScanPointer;
         bool m_bGrowBeforeNextCollection;
         ezUInt32 m_uiNumCollectionPreventions;
+
+        std::size_t m_collectionStats[Type::ENUM_COUNT];
     };
 
     namespace detail

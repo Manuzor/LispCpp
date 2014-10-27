@@ -7,6 +7,12 @@
 #include "lcpp/core/typeSystem/metaInfo.h"
 #include "lcpp/core/typeSystem/types/string.h"
 
+
+EZ_ON_GLOBAL_EVENT(LCPP_GLOBAL_EVENT_SHUTDOWN)
+{
+    lcpp::getGarbageCollector()->destroyStatic(LCPP_pVoid.get());
+}
+
 namespace lcpp
 {
     namespace void_

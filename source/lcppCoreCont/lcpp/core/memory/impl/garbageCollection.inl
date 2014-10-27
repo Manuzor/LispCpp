@@ -54,7 +54,7 @@ namespace lcpp
 
     template<typename T>
     EZ_FORCE_INLINE
-    Ptr<T> GarbageCollector::createStatic(Ptr<const MetaInfo> pMetaInfo)
+    T* GarbageCollector::createStatic(Ptr<const MetaInfo> pMetaInfo)
     {
         LCPP_LogBlock("GarbageCollector::createStatic");
 
@@ -63,6 +63,13 @@ namespace lcpp
         pInstance->setMetaInfo(pMetaInfo);
 
         return pInstance;
+    }
+
+    template<typename T>
+    EZ_FORCE_INLINE
+    void GarbageCollector::destroyStatic(T* pObject)
+    {
+        EZ_DELETE(m_pAllocator.get(), pObject);
     }
 
     template<typename T>

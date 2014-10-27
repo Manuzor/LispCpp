@@ -204,19 +204,21 @@ namespace lcpp
             {
                 LCPP_SyntaxBuiltinFunction_CommonBody;
 
-                auto pEvalResult = pStack->get(-1);
                 pStack->pop();
 
                 const auto maxIndex = pStack->size();
                 auto& index = cont::getUserData(pCont);
 
-                if (index >= maxIndex)
-                {
-                    LCPP_cont_return(pCont, pEvalResult);
-                }
-
                 auto pToEval = pStack->get(ezInt32(index));
                 ++index;
+
+                if (index == maxIndex)
+                {
+                    pStack->clear();
+                    pStack->push(pEnv);
+                    pStack->push(pToEval);
+                    LCPP_cont_tailCall(pCont, &eval::evaluate);
+                }
 
                 LCPP_cont_call(pCont, &eval::evaluate, pEnv, pToEval);
             }

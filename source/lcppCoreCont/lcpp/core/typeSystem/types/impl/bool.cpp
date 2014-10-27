@@ -8,6 +8,12 @@
 
 #include "lcpp/core/typeSystem/types/string.h"
 
+EZ_ON_GLOBAL_EVENT(LCPP_GLOBAL_EVENT_SHUTDOWN)
+{
+    lcpp::getGarbageCollector()->destroyStatic(LCPP_pTrue.get());
+    lcpp::getGarbageCollector()->destroyStatic(LCPP_pFalse.get());
+}
+
 namespace lcpp
 {
     namespace

@@ -22,6 +22,9 @@
 #include "lcpp/core/exceptions/invalidInputException.h"
 #include "lcpp/core/typeSystem/types/cons.h"
 #include "lcpp/core/exceptions/runtimeException.h"
+#include "lcpp/core/builtins/syntax_builtinFunctions.h"
+#include "lcpp/core/typeSystem/types/lambda_userDefined.h"
+#include "lcpp/core/typeSystem/types/lambda_builtin.h"
 
 namespace lcpp
 {
@@ -401,6 +404,59 @@ namespace lcpp
             Ptr<LispObject> gc::printStats(StackPtr<LispObject> pCont)
             {
                 cont::getRuntimeState(pCont)->getGarabgeCollector()->printStats();
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            static void printFunctionPointerFriendlyName(ezUInt32 counter, cont::Function_t pFunction)
+            {
+                if(pFunction == &eval::evaluate)
+                {
+                    ezLog::Dev("%u: Function eval::evaluate", counter);
+                }
+                else if(pFunction == &lambda::builtin::call)
+                {
+                    ezLog::Dev("%u: lambda::builtin::call", counter);
+                }
+                else if(pFunction == &syntax::builtin::detail::begin_helper)
+                {
+                    ezLog::Dev("%u: syntax::builtin::detail::begin_helper", counter);
+                }
+                else if(pFunction == &lambda::userDefined::detail::call_evalBody)
+                {
+                    ezLog::Dev("%u: lambda::userDefined::detail::call_evalBody", counter);
+                }
+                else if(pFunction == &cont::breakTrampoline)
+                {
+                    ezLog::Dev("%u: cont::breakTrampoline", counter);
+                }
+                else
+                {
+                    ezLog::Dev("%u: Function @ 0x%016llX", counter, reinterpret_cast<ezUInt64>(pFunction));
+                }
+            }
+
+            Ptr<LispObject> printContChain(StackPtr<LispObject> pCont)
+            {
+                auto pCurrentCont = cont::getParent(pCont);
+                ezUInt32 counter = 0;
+
+                ezLog::Dev("Current continuation chain:");
+                while(!isNil(pCurrentCont))
+                {
+                    printFunctionPointerFriendlyName(counter++, cont::getFunction(pCurrentCont));
+                    pCurrentCont = cont::getParent(pCurrentCont);
+                }
+
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> dumpMemoryLeaks(StackPtr<LispObject> pCont)
+            {
+                auto it = ezMemoryTracker::GetIterator();
+                while(it.IsValid())
+                {
+                    it.Stats();
+                }
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 

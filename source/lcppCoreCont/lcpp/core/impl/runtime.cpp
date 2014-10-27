@@ -90,4 +90,5 @@ lcpp::LispRuntimeState::shutdown()
 
     // TODO Once we have a per-runtime garbage collector system running, uncomment the following line.
     //m_pGC->clear();
+    m_pGC->collect(0);
 }

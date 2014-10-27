@@ -17,18 +17,29 @@
 #define VerboseDebugMessage Debug
 #endif
 
+static lcpp::InsanceTable<lcpp::symbol::String>* getLcppSymbolInstanceTable()
+{
+    static auto symbolTable = lcpp::InsanceTable<lcpp::symbol::String>(&lcpp::symbol::createNew);
+    return &symbolTable;
+}
+
+EZ_ON_GLOBAL_EVENT(LCPP_GLOBAL_EVENT_SHUTDOWN)
+{
+    using namespace lcpp::symbol;
+    auto pTable = getLcppSymbolInstanceTable()->getTable();
+    auto pGC = lcpp::getGarbageCollector();
+    for (auto it = pTable.GetIterator(); it.IsValid(); ++it)
+    {
+        auto pSymbol = it.Value();
+        pSymbol->getData<lcpp::symbol::Data>().m_string.~String();
+        pGC->destroyStatic(pSymbol);
+    }
+}
+
 namespace lcpp
 {
     namespace symbol
     {
-        static void destroy(CollectableBase* pCollectable)
-        {
-            auto pSymbol = static_cast<LispObject*>(pCollectable);
-            typeCheck(pSymbol, Type::Symbol);
-
-            pSymbol->getData<Data>().m_string.~String();
-        }
-
         static bool isEqual(Ptr<LispObject> pLhs, Ptr<LispObject> pRhs)
         {
             typeCheck(pLhs, Type::Symbol);
@@ -42,8 +53,6 @@ namespace lcpp
                 auto meta = MetaInfo();
                 meta.setType(Type::Symbol);
                 meta.setPrettyName("symbol");
-                meta.addProperty(MetaProperty(MetaProperty::Builtin::DestructorFunction,
-                                              static_cast<DestructorFunction_t>(&destroy)));
                 meta.addProperty(MetaProperty(MetaProperty::Builtin::IsEqualFunction, static_cast<IsEqualFunction_t>(&isEqual)));
 
                 return meta;
@@ -56,9 +65,7 @@ namespace lcpp
         {
             LCPP_LogBlock("symbol::create");
 
-            static auto symbolTable = InsanceTable<String>(&createNew);
-
-            return symbolTable.get(value);
+            return getLcppSymbolInstanceTable()->get(value);
         }
 
         Ptr<LispObject> createNew(const String& value)

@@ -5,8 +5,9 @@ ezAllocatorBase* lcpp::defaultAllocator()
 {
     static NonTrackingHeapAllocator allocator("lcpp/NonTrackingHeapAllocator");
     static ElectricFenceAllocator ef(&allocator);
+    static ezAllocator<ezMemoryPolicies::ezHeapAllocation, ezMemoryTrackingFlags::Default> trackingAllocator("lcpp/TrackingHeapAllocator");
 
-    return &ef;
+    return &trackingAllocator;
 }
 
 lcpp::ElectricFenceAllocator::ElectricFenceAllocator(ezAllocatorBase* pInternalContainerAllocator) :

@@ -19,7 +19,7 @@ namespace lcpp
 
             GarbageCollector::CInfo cinfo;
             cinfo.m_uiNumInitialPages = 1;
-            cinfo.m_uiMaxPagesPerPool = 131072; // 1 GiB
+            cinfo.m_uiMaxPagesPerPool = 16384;//131072; // 1 GiB
             cinfo.m_pParentAllocator = defaultAllocator();
 
             instance.initialize(cinfo);
@@ -59,6 +59,8 @@ namespace lcpp
         m_ScanPointer = nullptr;
         m_uiCurrentGeneration = 0;
         m_bGrowBeforeNextCollection = false;
+
+        memset(m_collectionStats, 0, sizeof(m_collectionStats));
     }
 
     void GarbageCollector::clear()
@@ -89,6 +91,9 @@ namespace lcpp
         EZ_ASSERT(!isCollecting(), "We are already collecting!");
 
         ++m_uiCurrentGeneration;
+
+        // Reset stats.
+        memset(m_collectionStats, 0, sizeof(m_collectionStats));
 
 #if EZ_ENABLED(LCPP_GC_AlwaysCreateNewSurvivor)
         if(m_bGrowBeforeNextCollection)
@@ -184,6 +189,14 @@ namespace lcpp
         }
 
         EZ_ASSERT(m_pEdenSpace->getEntireMemorySize() >= m_pSurvivorSpace->getEntireMemorySize(), "");
+
+        ezLog::Dev("Collection stats:");
+        for(int i = 0; i < Type::ENUM_COUNT; ++i)
+        {
+            if(m_collectionStats[i] == 0)
+                continue;
+            ezLog::Dev("  %s: %u survived", Type((Type::Enum)i).toString(), m_collectionStats[i]);
+        }
     }
 
     void GarbageCollector::addRootsToSurvivorSpace()
@@ -289,6 +302,9 @@ namespace lcpp
 
         pSurvivor->m_state = GarbageState::Forwarded;
         pSurvivor->m_pForwardPointer = pResult;
+
+        // Add to statistics
+        m_collectionStats[pResult->m_pMetaInfo->getType().getId()]++;
 
         return pResult;
     }

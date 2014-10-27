@@ -13,13 +13,14 @@
 		)
     )
     (define (helper primes cur i)
+        ;(gc.collect)
         (if (= num i)
             ;then
             primes
             ;else
             (if (isPrime primes cur)
                 ;then
-                (helper
+                  (helper
 					(cons cur primes)
 					(+ cur 1)
 					(+ i 1))

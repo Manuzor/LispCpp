@@ -50,7 +50,7 @@ namespace lcpp
 
             auto pInstance = pGarbageCollector->createStatic<LispObjectProxy>(pMetaInfo);
 
-            return pInstance.cast<LispObject>();
+            return static_cast<LispObject*>(pInstance);
         }
 
     }

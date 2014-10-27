@@ -175,18 +175,10 @@ namespace lcpp
 
                 auto pBody = getBody(pLambda);
 
-                cont::setFunction(pCont, &call_finalize);
-                LCPP_cont_call(pCont, &eval::evaluate, pEnv, pBody);
-            }
-
-            Ptr<LispObject> detail::call_finalize(StackPtr<LispObject> pCont)
-            {
-                typeCheck(pCont, Type::Continuation);
-
-                auto pStack = cont::getStack(pCont);
-                auto pState = cont::getRuntimeState(pCont);
-
-                LCPP_cont_return(pCont, pStack->get(-1));
+                pStack->clear();
+                pStack->push(pEnv);
+                pStack->push(pBody);
+                LCPP_cont_tailCall(pCont, &eval::evaluate);
             }
 
             Ptr<LispObject> getName(Ptr<LispObject> pLambda)

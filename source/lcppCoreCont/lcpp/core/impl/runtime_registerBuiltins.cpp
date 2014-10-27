@@ -107,9 +107,6 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("eqv?", &lambda::builtin::eqv, Signature::create(2));
     LCPP_AddBuiltin("pair?", &lambda::builtin::isPair, Signature::create(1));
 
-    //LCPP_AddBuiltin("set-recursion-limit", &lambda::builtin::recursionLimit, Signature::create(1));
-    //LCPP_AddBuiltin("get-recursion-limit", &lambda::builtin::recursionLimit, Signature::create(0));
-
     LCPP_AddBuiltin("file.open", &lambda::builtin::file::open, Signature::create(1, 2));
     LCPP_AddBuiltin("file.is-open", &lambda::builtin::file::isOpen, Signature::create(1));
     LCPP_AddBuiltin("file.close", &lambda::builtin::file::close, Signature::create(1));
@@ -118,6 +115,9 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     // Garbage Collector related stuff
     LCPP_AddBuiltin("gc.collect", &lambda::builtin::gc::collect, Signature::create(0));
     LCPP_AddBuiltin("gc.print-stats", &lambda::builtin::gc::printStats, Signature::create(0));
+
+    LCPP_AddBuiltin("print-cont-chain", &lambda::builtin::printContChain, Signature::create(0));
+    LCPP_AddBuiltin("dump-memory-leaks", &lambda::builtin::dumpMemoryLeaks, Signature::create(0));
 
 }
 

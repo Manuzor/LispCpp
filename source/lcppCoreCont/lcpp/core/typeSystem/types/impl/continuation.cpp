@@ -65,7 +65,7 @@ namespace lcpp
             return &meta;
         }
 
-        static Ptr<LispObject> breakTrampoline(StackPtr<LispObject>)
+        Ptr<LispObject> breakTrampoline(StackPtr<LispObject>)
         {
             return LCPP_pNil;
         }

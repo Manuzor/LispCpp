@@ -31,7 +31,6 @@ namespace lcpp
             {
                 Ptr<LispObject> call_updateEnv(StackPtr<LispObject> pCont);
                 Ptr<LispObject> call_evalBody(StackPtr<LispObject> pCont);
-                Ptr<LispObject> call_finalize(StackPtr<LispObject> pCont);
             }
         }
     }

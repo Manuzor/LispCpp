@@ -18,6 +18,8 @@ namespace lcpp
 
         Ptr<LispObject> get(const T_Key& key);
 
+        ezHashTable<T_Key, LispObject*>& getTable() { return m_table; }
+
     private:
 
         createNew_t m_pFunctor_createNew;

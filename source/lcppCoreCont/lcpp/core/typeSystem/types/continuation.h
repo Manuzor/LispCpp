@@ -12,6 +12,8 @@ namespace lcpp
     {
         LCPP_API_CORE_CONT Ptr<const MetaInfo> getMetaInfo();
 
+        LCPP_API_CORE_CONT Ptr<LispObject> breakTrampoline(StackPtr<LispObject>);
+
         LCPP_API_CORE_CONT Ptr<LispObject> createTopLevel(Ptr<LispRuntimeState> pRuntimeState);
         LCPP_API_CORE_CONT Ptr<LispObject> create(StackPtr<LispObject> pParent, Function_t pFunction);
 

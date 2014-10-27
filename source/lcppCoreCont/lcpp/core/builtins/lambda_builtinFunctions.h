@@ -67,6 +67,9 @@ namespace lcpp
                 Ptr<LispObject> collect(StackPtr<LispObject> pCont);
                 Ptr<LispObject> printStats(StackPtr<LispObject> pCont);
             }
+            
+            Ptr<LispObject> printContChain(StackPtr<LispObject> pCont);
+            Ptr<LispObject> dumpMemoryLeaks(StackPtr<LispObject> pCont);
         }
     }
 }
