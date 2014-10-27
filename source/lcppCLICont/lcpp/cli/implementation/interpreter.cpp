@@ -27,16 +27,31 @@
 #include "lcpp/core/exceptions/fileException.h"
 
 static bool g_debugBreakOnException = false;
+static lcpp::LispRuntimeState* g_pRunTime = nullptr;
 
 EZ_ON_GLOBAL_EVENT(ThrowException)
 {
     auto pException = (lcpp::exceptions::ExceptionBase*)param0.Get<void*>();
     auto szMessage = pException->what();
-    return;
 }
 
 namespace lcpp
 {
+#if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
+    static BOOL ConsoleCtrlHandler(DWORD dwControlType)
+    {
+        switch(dwControlType)
+        {
+        case CTRL_C_EVENT:
+            if(g_pRunTime)
+                g_pRunTime->setBreakExecution(true);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+#endif
+
     Interpreter::Interpreter() :
         m_state(),
         m_pState(&m_state),
@@ -54,6 +69,7 @@ namespace lcpp
     void Interpreter::initialize()
     {
         m_pState->initialize();
+        g_pRunTime = m_pState.get();
 
         ezFileSystem::RegisterDataDirectoryFactory(ezDataDirectory::FolderType::Factory);
 
@@ -101,10 +117,27 @@ namespace lcpp
         }
 
         m_userPrompt.Clear();
+
+#if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
+        {
+            // Register the console Ctrl handler.
+            auto bSuccess = SetConsoleCtrlHandler((PHANDLER_ROUTINE) ConsoleCtrlHandler, TRUE);
+            if(bSuccess == FALSE)
+            {
+                ezLog::Info("Failed to register console Ctrl handler.");
+            }
+        }
+#endif
     }
 
     void Interpreter::shutdown()
     {
+        g_pRunTime = nullptr;
+#if EZ_ENABLED(EZ_PLATFORM_WINDOWS)
+        // Remove the console Ctrl handler.
+        SetConsoleCtrlHandler((PHANDLER_ROUTINE) ConsoleCtrlHandler, FALSE);
+#endif
+
         m_userPrompt.Clear();
 
         m_pState->shutdown();
@@ -117,8 +150,6 @@ namespace lcpp
         std::ios_base::sync_with_stdio(false);
 
         ezDeque<Ptr<LispObject>> results(lcpp::defaultAllocator());
-
-        std::string inputBuffer("");
 
         ezUInt32 currentLine(0);
 
@@ -148,6 +179,11 @@ namespace lcpp
                     }
                 };
                 auto uiNumReadLines = readUserInput(results);
+                if(m_in.eof())
+                {
+                    lineBreak(outputStream);
+                    continue;
+                }
                 currentLine += uiNumReadLines - 1;
 
                 while(!results.IsEmpty())
@@ -318,7 +354,9 @@ namespace lcpp
         {
             try
             {
+                m_in.clear(); // Clear flags
                 std::getline(m_in, inputBuffer);
+                if(m_in.eof()) { return 1; }
                 m_readerBuffer.AppendFormat("%s", inputBuffer.c_str());
                 pInputString = str::create(m_readerBuffer.GetIteratorFront());
                 pStream = stream::create(pInputString);

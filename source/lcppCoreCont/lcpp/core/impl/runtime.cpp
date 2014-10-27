@@ -21,7 +21,8 @@ lcpp::GarbageCollector* g_pGC(nullptr);
 lcpp::LispRuntimeState::LispRuntimeState() :
     m_stats(),
     m_baseDirectory("."),
-    m_userDirectory(".")
+    m_userDirectory("."),
+    m_bBreakExecution(false)
 {
 }
 

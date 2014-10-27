@@ -51,6 +51,9 @@ namespace lcpp
         void setUserDirectory(const char* szName);
         const char* getUserDirectory() const;
 
+        bool getBreakExecution() const { return m_bBreakExecution; }
+        void setBreakExecution(bool value) { m_bBreakExecution = value; }
+
     private:
 
         ezAllocatorBase* m_pAllocator;
@@ -64,6 +67,8 @@ namespace lcpp
 
         ezString m_baseDirectory;
         ezString m_userDirectory;
+
+        bool m_bBreakExecution;
 
     private:
 

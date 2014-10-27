@@ -10,6 +10,7 @@
 
 #include "lcpp/core/runtime.h"
 #include "lcpp/core/typeSystem/types/string.h"
+#include "lcpp/core/exceptions/runtimeException.h"
 
 namespace lcpp
 {
@@ -106,6 +107,8 @@ namespace lcpp
             if(isNil(pCont)) { return; }
 
             typeCheck(pCont, Type::Continuation);
+            auto pState = getRuntimeState(pCont);
+            pState->setBreakExecution(false);
 
             while(true)
             {
@@ -116,6 +119,11 @@ namespace lcpp
                 pCont = (*pFunction)(pCont);
 
                 if(isNil(pCont)) { break; }
+                if(pState->getBreakExecution())
+                {
+                    pState->setBreakExecution(false);
+                    LCPP_THROW(exceptions::Runtime("Execution was aborted."));
+                }
 
                 typeCheck(pCont, Type::Continuation);
             }
