@@ -3,22 +3,19 @@
 
 \subsubsection*{Declaration}
 \begin{lstlisting}
-(file.read-string file-object)
+(file.read-string filename)
 \end{lstlisting}
 
 \subsubsection*{Parameters}
 \begin{description}
-	\item[file-object] The opened file object to read from.
+	\item[filename] The name of the file to read the content from. Must be of type string.
 \end{description}
 
 \subsubsection*{Description}
-Reads the content of the given file as a string and returns that.
+Reads the content of the given file as a string and returns that. This procedure will take care of opening and closing the file properly, even in case of an error.
 
 \subsubsection*{Examples}
 \begin{lstlisting}
 ; Yields the file content as a string object
-(file.read-string (file.open "my-file.txt"))
-; NOTE: It is bad practice to read file contents like this
-;       because the file handle will be lost and cannot
-;       be closed again.
+(file.read-string "my-file.txt")
 \end{lstlisting}

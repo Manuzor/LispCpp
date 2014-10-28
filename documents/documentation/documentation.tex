@@ -32,7 +32,6 @@
 \newcommand{\false}{\lstinline|\#f|}
 \newcommand{\true}{\lstinline|\#t|}
 \newcommand{\lisp}{Lisp}
-\newcommand{\recursionLimit}{1024}
 
 % Title Page
 \title{LispCpp\\
@@ -79,8 +78,6 @@
 \subsection{Continuations}
 \label{continuations}
 	LispCpp uses continuation passing in the reader, evaluator, and printer parts of the implementation. This makes it easy to support tail-call optimization and a stack size that is only limited by the installed main memory of the host computer.
-
-	Another feature regarding continuations is the support for the "call with current continuation". Check the built-in \lstinline|call/cc| in \ref{builtins/callcc} for more details.
 
 \subsection{Numbers}
 \label{numbers}
@@ -185,7 +182,7 @@
 	\input{builtins/eq}
 	\input{builtins/eqv}
 	\input{builtins/pairq}
-	\input{builtins/callcc}
+	%\input{builtins/callcc}
 	\input{builtins/file.open}
 	\input{builtins/file.is-open}
 	\input{builtins/file.close}
