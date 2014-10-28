@@ -113,7 +113,7 @@ void lcpp::LispRuntimeState::registerBuiltIns()
     LCPP_AddBuiltin("file.read-string", &lambda::builtin::file::readString, Signature::create(1));
 
     // Garbage Collector related stuff
-    LCPP_AddBuiltin("gc.collect", &lambda::builtin::gc::collect, Signature::create(0));
+    LCPP_AddBuiltin("gc.collect", &lambda::builtin::gc::collect, Signature::create(0, 1));
     LCPP_AddBuiltin("gc.print-stats", &lambda::builtin::gc::printStats, Signature::create(0));
 
     LCPP_AddBuiltin("print-cont-chain", &lambda::builtin::printContChain, Signature::create(0));

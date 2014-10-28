@@ -172,3 +172,9 @@ namespace lcpp
 }
 
 #include "lcpp/core/memory/impl/fixedMemory.inl"
+
+#if EZ_ENABLED(LCPP_GC_UseVirtualAlloc)
+#include "lcpp/core/memory/impl/fixedMemory_VirtualAlloc.inl"
+#elif EZ_ENABLED(LCPP_GC_UseDefaultAlloc)
+#include "lcpp/core/memory/impl/fixedMemory_DefaultAllocator.inl"
+#endif

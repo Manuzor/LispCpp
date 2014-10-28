@@ -25,6 +25,7 @@
 #include "lcpp/core/builtins/syntax_builtinFunctions.h"
 #include "lcpp/core/typeSystem/types/lambda_userDefined.h"
 #include "lcpp/core/typeSystem/types/lambda_builtin.h"
+#include "lcpp/core/typeSystem/types/environment.h"
 
 namespace lcpp
 {
@@ -397,7 +398,13 @@ namespace lcpp
 
             Ptr<LispObject> gc::collect(StackPtr<LispObject> pCont)
             {
-                cont::getRuntimeState(pCont)->getGarabgeCollector()->collect(0);
+                auto pStack = cont::getStack(pCont);
+                std::size_t uiNumBytesToFree = 0;
+                if (pStack->size() > 1)
+                {
+                    uiNumBytesToFree = (size_t)number::getInteger(pStack->get(1));
+                }
+                cont::getRuntimeState(pCont)->getGarabgeCollector()->collect(uiNumBytesToFree);
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
@@ -453,6 +460,12 @@ namespace lcpp
             Ptr<LispObject> dumpMemoryLeaks(StackPtr<LispObject> pCont)
             {
                 ezMemoryTracker::DumpMemoryLeaks();
+                LCPP_cont_return(pCont, LCPP_pVoid);
+            }
+
+            Ptr<LispObject> printEnvStats(StackPtr<LispObject> pCont)
+            {
+                ezLog::Dev("Env stats: %u created, %u destroyed.", env::g_uiCreateCount, env::g_uiDestroyCount);
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 

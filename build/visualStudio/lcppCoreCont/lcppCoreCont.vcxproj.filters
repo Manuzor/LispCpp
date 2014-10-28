@@ -478,10 +478,16 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\containers\impl\array.inl">
       <Filter>lcpp\core\containers\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl">
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.inl">
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory_DefaultAllocator.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory_VirtualAlloc.inl">
+      <Filter>lcpp\core\memory\impl</Filter>
+    </None>
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl">
       <Filter>lcpp\core\memory\impl</Filter>
     </None>
   </ItemGroup>

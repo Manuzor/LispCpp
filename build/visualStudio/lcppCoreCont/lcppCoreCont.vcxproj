@@ -147,8 +147,10 @@
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\runtime.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\sourceCursor.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\impl\syntaxCheckResult.inl" />
-    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory_DefaultAllocator.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\garbageCollection.inl" />
+    <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\fixedMemory_VirtualAlloc.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\memory\impl\stackPtr.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attribute.inl" />
     <None Include="..\..\..\source\lcppCoreCont\lcpp\core\typeSystem\impl\attributeCheck.inl" />

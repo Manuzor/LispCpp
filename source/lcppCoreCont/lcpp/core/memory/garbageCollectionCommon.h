@@ -17,3 +17,14 @@ namespace lcpp
 
 /// Will never free allocated memory but leave it alive and (hopefully) protected.
 #define LCPP_GC_KeepAllocatedMemory EZ_OFF
+
+
+// Choose how to allocate gc memory
+//////////////////////////////////////////////////////////////////////////
+
+#define LCPP_GC_UseVirtualAlloc EZ_OFF
+#define LCPP_GC_UseDefaultAlloc EZ_ON
+
+#if EZ_IS_NOT_EXCLUSIVE(LCPP_GC_UseVirtualAlloc, LCPP_GC_UseDefaultAlloc)
+#error Must specify exactly one of LCPP_GC_UseVirtualAlloc and LCPP_GC_UseDefaultAlloc
+#endif
