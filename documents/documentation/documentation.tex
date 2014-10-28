@@ -140,6 +140,8 @@
 \label{usage/repl}
 	The interactive REPL accepts multi-line input. This feature can be triggered by opening a parenthesis and hitting Return or Enter. The REPL basically waits for the parenthesis to be balanced. If a syntax error is produced, such as \lstinline|())|, the REPL will issue an error, informing the user of the line and column it expected something else than was given. The interpreter is also counting the number of lines the user gives as input and displays this number to the left of the prompt character such as \lstinline|128>| when 128 lines were punched in.
 
+	The REPL supports canceling the current operation using Ctrl-C, e.g. when you are in an infinite loop just hold down Ctrl and press C to return to the user prompt.
+
 \subsection{Known Issues}
 \label{usage/issues}
 	Currently, LispCpp has a significant memory leak that was neither fixed nor found so far. The garbage collector appears to be working properly and is only letting those objects survive that are really supposed to, but the operating systems resource manager shows, that the LispCpp process is taking up more memory than it should. Any automatic leak detection algorithms that were used (ezMemoryTracker) were not able to detect anything. This bug is effectively making it impossible to do heavy computations, even with tail-call optimization, such as computing prime numbers.
@@ -191,5 +193,7 @@
 	\input{builtins/file.is-open}
 	\input{builtins/file.close}
 	\input{builtins/file.read-string}
+	\input{builtins/gc.collect}
+	\input{builtins/gc.print-stats}
 
 \end{document}

@@ -327,17 +327,18 @@ namespace lcpp
 
     void GarbageCollector::printStats()
     {
+        ezLog::Dev("Generation %u", m_uiCurrentGeneration);
         ezLog::Dev("Growing threshold: %f%%", m_fGrowingThreshold * 100);
         ezLog::Dev("Max Memory Per Pool: %u KiB (%u Pages)", m_uiMaxNumPages * GarbageCollectorPageSize / 1024, m_uiMaxNumPages);
-        ezLog::Dev("Survivor: %u Pages => %u KiB / %u KiB | %.2f%% full",
-                   m_pSurvivorSpace->getEntireMemorySize() / GarbageCollectorPageSize,
+        ezLog::Dev("Survivor: %u KiB / %u KiB (%u Pages) | %.2f%% full",
                    m_pSurvivorSpace->getAllocatedMemorySize() / 1024,
                    m_pSurvivorSpace->getEntireMemorySize() / 1024,
+                   m_pSurvivorSpace->getEntireMemorySize() / GarbageCollectorPageSize,
                    m_pSurvivorSpace->getPercentageFilled() * 100);
-        ezLog::Dev("Eden:     %u Pages => %u KiB / %u KiB | %.2f%% full",
-                   m_pEdenSpace->getEntireMemorySize() / GarbageCollectorPageSize,
+        ezLog::Dev("Eden:     %u KiB / %u KiB (%u Pages) | %.2f%% full",
                    m_pEdenSpace->getAllocatedMemorySize() / 1024,
                    m_pEdenSpace->getEntireMemorySize() / 1024,
+                   m_pEdenSpace->getEntireMemorySize() / GarbageCollectorPageSize,
                    m_pEdenSpace->getPercentageFilled() * 100);
     }
 

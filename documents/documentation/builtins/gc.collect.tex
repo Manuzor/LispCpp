@@ -1,0 +1,22 @@
+\subsection{Procedure 'gc.collect'}
+\label{builtins/gc.collect}
+
+\subsubsection*{Declaration}
+\begin{lstlisting}
+(gc.collect [min-bytes-to-free])
+\end{lstlisting}
+
+\subsubsection*{Parameters}
+\begin{description}
+	\item[min-bytes-to-free] The number of bytes the garbage collector should try to make room for. Must be an integer type object.
+\end{description}
+
+\subsubsection*{Description}
+Triggers a garbage collection cycle.
+
+\subsubsection*{Examples}
+\begin{lstlisting}
+(gc.collect) ; Regular collection cycle.
+(gc.collect 1024) ; Tries to make room for at least 1024 bytes.
+(gc.collect -1) ; Will allocate as much memory as possible.
+\end{lstlisting}

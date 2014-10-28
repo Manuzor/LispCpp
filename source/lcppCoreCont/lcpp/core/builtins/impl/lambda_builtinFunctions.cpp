@@ -463,12 +463,6 @@ namespace lcpp
                 LCPP_cont_return(pCont, LCPP_pVoid);
             }
 
-            Ptr<LispObject> printEnvStats(StackPtr<LispObject> pCont)
-            {
-                ezLog::Dev("Env stats: %u created, %u destroyed.", env::g_uiCreateCount, env::g_uiDestroyCount);
-                LCPP_cont_return(pCont, LCPP_pVoid);
-            }
-
         }
     }
 }
